@@ -9,6 +9,8 @@ import org.bukkit.event.entity.EntityDamageEvent;
  */
 public abstract class SpellManager {
 
+    public abstract Spell<? extends Spell.SpellArgument> getSpell(String name);
+
     public abstract void shutdown();
 
 
