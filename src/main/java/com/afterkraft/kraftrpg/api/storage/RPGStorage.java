@@ -5,17 +5,15 @@ import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
-import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
 import com.afterkraft.storage.api.CommonStorage;
 
 import com.afterkraft.kraftrpg.api.RPGPlugin;
-import com.afterkraft.kraftrpg.api.entity.RPGMonster;
-import com.afterkraft.kraftrpg.api.entity.RPGPlayer;
+import com.afterkraft.kraftrpg.api.entity.Champion;
 
 /**
- * Author: gabizou
+ * @author gabizou
  */
 public abstract class RPGStorage implements CommonStorage {
 
@@ -31,9 +29,9 @@ public abstract class RPGStorage implements CommonStorage {
 
     //--- KraftRPG Specific methods that must be implemented
 
-    public abstract boolean loadRPGPlayer(final Player player);
+    public abstract Champion loadChampion(final Player player);
 
-    public abstract boolean saveRPGPlayer(final RPGPlayer player);
+    public abstract boolean saveChampion(final Champion player, boolean now);
 
 
     //--- CommonStorage methods that don't need to be implemented
@@ -75,7 +73,5 @@ public abstract class RPGStorage implements CommonStorage {
     }
 
     @Override
-    public void savePlayer(Player player) {
-
-    }
+    public abstract void savePlayer(Player player);
 }

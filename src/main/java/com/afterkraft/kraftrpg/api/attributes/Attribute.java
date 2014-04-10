@@ -1,7 +1,7 @@
 package com.afterkraft.kraftrpg.api.attributes;
 
 /**
- * Author: gabizou
+ * @author gabizou
  */
 public class Attribute {
 }

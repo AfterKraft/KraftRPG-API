@@ -1,68 +1,49 @@
 package com.afterkraft.kraftrpg.api.spells;
 
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.event.entity.EntityDamageEvent;
+import java.util.Collection;
+
+import com.afterkraft.kraftrpg.api.Manager;
 
 /**
- * Author: gabizou
+ * @author gabizou
  */
-public abstract class SpellManager {
+public interface SpellManager extends Manager {
 
-    public abstract Spell<? extends Spell.SpellArgument> getSpell(String name);
+    /**
+     * Adds a spell to the spell mapping
+     *
+     * @param spell
+     */
+    public void addSpell(Spell<? extends SpellArgument> spell);
 
-    public abstract void shutdown();
+    /**
+     * Returns a spell from it's name
+     * If the spell is not in the spell mapping it will attempt to load it from file
+     *
+     * @param name
+     * @return
+     */
+    public Spell<? extends SpellArgument> getSpell(String name);
 
+    public boolean loadOutsourcedSpell(String name);
+    /**
+     * Returns a collection of all spells loaded in the spell manager
+     *
+     * @return
+     */
+    public Collection<Spell<? extends SpellArgument>> getSpells();
+    /**
+     * Checks if a spell has already been loaded
+     *
+     * @param name
+     * @return
+     */
+    public boolean isLoaded(String name);
 
-    public abstract void knockback(Spell spell, LivingEntity target, LivingEntity attacker, double damage);
-
-    public final boolean damageEntity(Spell spell, LivingEntity target, LivingEntity attacker, double damage) {
-        return damageEntity(spell, target, attacker, damage,
-                spell.isType(SpellType.ABILITY_PROPERTY_AIR) || spell.isType(SpellType.ABILITY_PROPERTY_PHYSICAL) ?
-                        EntityDamageEvent.DamageCause.ENTITY_ATTACK : EntityDamageEvent.DamageCause.MAGIC);
-    }
-
-    public final boolean damageEntity(Spell spell, LivingEntity target, LivingEntity attacker, double damage,
-                                      EntityDamageEvent.DamageCause cause) {
-        return damageEntity(spell, target, attacker, damage, cause, true);
-    }
-
-    public abstract boolean damageEntity(Spell spell,LivingEntity target, LivingEntity attacker, double damage,
-                                         EntityDamageEvent.DamageCause cause, boolean knockback);
-
-    protected static String getSoundName(EntityType type) {
-        switch(type) {
-            case BLAZE:
-                return "mob.blaze.death";
-            case CHICKEN:
-                return "mob.chickenhurt";
-            case CREEPER:
-                return "mob.creeperdeath";
-            case MAGMA_CUBE:
-            case SLIME:
-                return "mob.slime";
-            case SKELETON:
-                return "mob.skeletonhurt";
-            case IRON_GOLEM:
-                return "mob.irongolem.death";
-            case GHAST:
-                return "mob.ghast.death";
-            case PIG:
-                return "mob.pigdeath";
-            case OCELOT:
-                return "mob.cat.hitt";
-            case SHEEP:
-                return "mob.sheep";
-            case SPIDER:
-                return "mob.spiderdeath";
-            case WOLF:
-                return "mob.wolf.death";
-            case ZOMBIE:
-                return "mob.zombiedeath";
-            default:
-                return "damage.hurtflesh";
-        }
-    }
-
-    protected abstract float getSoundStrength(Object entity);
+    /**
+     * Removes a spell from the spell mapping
+     *
+     * @param spell
+     */
+    public void removeSpell(Spell<? extends SpellArgument> spell);
 }

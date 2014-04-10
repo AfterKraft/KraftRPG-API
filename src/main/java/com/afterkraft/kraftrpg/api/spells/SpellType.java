@@ -1,7 +1,7 @@
 package com.afterkraft.kraftrpg.api.spells;
 
 /**
- * Author: gabizou
+ * @author gabizou
  */
 public enum SpellType {
 

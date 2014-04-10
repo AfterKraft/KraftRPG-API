@@ -4,23 +4,29 @@ import java.util.logging.Level;
 
 import org.bukkit.plugin.Plugin;
 
-import com.afterkraft.kraftrpg.api.entity.RPGEntity;
-import com.afterkraft.kraftrpg.api.entity.RPGEntityManager;
-import com.afterkraft.kraftrpg.api.entity.RPGMonster;
-import com.afterkraft.kraftrpg.api.entity.RPGPlayer;
-import com.afterkraft.kraftrpg.api.entity.effects.RPGEffect;
+import com.afterkraft.kraftrpg.api.entity.EntityManager;
+import com.afterkraft.kraftrpg.api.spells.SpellConfigManager;
 import com.afterkraft.kraftrpg.api.spells.SpellManager;
+import com.afterkraft.kraftrpg.api.storage.StorageManager;
+import com.afterkraft.kraftrpg.api.util.ConfigManager;
+import com.afterkraft.kraftrpg.api.util.DamageManager;
 
 /**
- * Author: gabizou
+ * @author gabizou
  */
 public interface RPGPlugin extends Plugin {
 
-    public Class<? extends RPGEffect> getEffectClass();
+    public SpellConfigManager getSpellConfigManager();
 
-    public Class<? extends RPGEntityManager> getEntityManagerClass();
+    public EntityManager getEntityManager();
 
-    public Class<? extends SpellManager> getSpellManagerClass();
+    public StorageManager getStorageManager();
+
+    public ConfigManager getConfigurationManager();
+
+    public DamageManager getDamageManager();
+
+    public SpellManager getSpellManager();
 
     public void log(Level level, String msg);
 

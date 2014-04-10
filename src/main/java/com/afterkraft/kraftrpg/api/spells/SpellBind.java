@@ -6,9 +6,9 @@ package com.afterkraft.kraftrpg.api.spells;
 public class SpellBind {
 
     private final String spellName;
-    private final Spell.SpellArgument arguments;
+    private final SpellArgument arguments;
 
-    public SpellBind(String spellName, Spell.SpellArgument argument) {
+    public SpellBind(String spellName, SpellArgument argument) {
         this.spellName = spellName;
         this.arguments = argument;
     }
@@ -17,7 +17,7 @@ public class SpellBind {
         return this.spellName;
     }
 
-    public Spell.SpellArgument getSpellArgument() {
+    public SpellArgument getSpellArgument() {
         return this.arguments;
     }
 }

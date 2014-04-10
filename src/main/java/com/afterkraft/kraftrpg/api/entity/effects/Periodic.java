@@ -1,16 +1,15 @@
 package com.afterkraft.kraftrpg.api.entity.effects;
 
-
-import com.afterkraft.kraftrpg.api.entity.RPGEntity;
-import com.afterkraft.kraftrpg.api.entity.RPGMonster;
-import com.afterkraft.kraftrpg.api.entity.RPGPlayer;
+import com.afterkraft.kraftrpg.api.entity.Champion;
+import com.afterkraft.kraftrpg.api.entity.IEntity;
+import com.afterkraft.kraftrpg.api.entity.Monster;
 
 public interface Periodic {
 
     /**
      * Returns the last time the effect ticked
      * 
-     * @return the time in milliseconds this RPGEffect was last ticked
+     * @return the time in milliseconds this effect was last ticked
      */
     public long getLastTickTime();
 
@@ -28,23 +27,23 @@ public interface Periodic {
 
     /**
      * Ticks this effect on the specified entity.
-     * This should be implemented via tickMonster or tickPlayer.
+     * This should be implemented via tickMonster or tickChampion.
      * 
      * @param entity  - The entity this effect is being applied to.
      */
-    public void tick(RPGEntity entity);
+    public void tick(IEntity entity);
     
     /**
      * Ticks the effect on the specified RPGMonster
      * 
      * @param monster - Monster this effect is being applied to
      */
-    public void tickMonster(RPGMonster monster);
+    public void tickMonster(Monster monster);
 
     /**
      * Ticks the effect on the specified RPGMonster
      * 
      * @param player - Player this effect is being applied to
      */
-    public void tickPlayer(RPGPlayer player);
+    public void tickChampion(Champion player);
 }

@@ -1,6 +1,7 @@
 package com.afterkraft.kraftrpg.api.handler;
 
 import java.util.Set;
+import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -12,14 +13,17 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.util.Vector;
 
+import com.afterkraft.kraftrpg.api.entity.Monster;
+
 /**
- * Author: gabizou
+ * @author gabizou
  */
 public abstract class CraftBukkitHandler {
 
     private static CraftBukkitHandler activeInterface;
+    protected static ServerType serverType;
 
-    public static final CraftBukkitHandler getInterface() {
+    public static CraftBukkitHandler getInterface() {
         if(activeInterface == null) {
             //Get minecraft version
             String packageName = Bukkit.getServer().getClass().getPackage().getName();
@@ -27,10 +31,18 @@ public abstract class CraftBukkitHandler {
             if (version.equals("craftbukkit")) {
                 version = "pre";
             }
+            final String serverString = Bukkit.getServer().getVersion().split("-")[1].toLowerCase();
+            if (serverString.equalsIgnoreCase("craftbukkit")) {
+                serverType = ServerType.BUKKIT;
+            } else if (serverString.equalsIgnoreCase("spigot")) {
+                serverType = ServerType.SPIGOT;
+            } else if (serverString.equalsIgnoreCase("tweakkit")) {
+                serverType = ServerType.TWEAKKIT;
+            }
             try {
                 final Class<?> clazz = Class.forName("com.afterkraft.kraftrpg.compat.v_" + version + ".RPGHandler");
                 if (CraftBukkitHandler.class.isAssignableFrom(clazz)) {
-                    activeInterface = (CraftBukkitHandler) clazz.getConstructor().newInstance();
+                    activeInterface = (CraftBukkitHandler) clazz.getConstructor(ServerType.class).newInstance(serverType);
                 }
             } catch (final Exception e) {
                 e.printStackTrace();
@@ -38,6 +50,15 @@ public abstract class CraftBukkitHandler {
         }
         return activeInterface;
     }
+
+    public CraftBukkitHandler(ServerType type) {
+        serverType = type;
+    }
+
+    //NMS methods required by Entities
+    public abstract EntityAttributeModifier getEntityAttribute(UUID uuid, String name);
+    public abstract double loadOrCreate(EntityAttribute attribute, LivingEntity entity, double value);
+    public abstract double loadOrCreateAttribute(Monster monster, LivingEntity entity, EntityAttribute.EntityAttributeType type, double value);
 
     //NMS methods required by listeners
     public abstract double getPostArmorDamage(LivingEntity defender, double damage);
@@ -55,7 +76,7 @@ public abstract class CraftBukkitHandler {
     public abstract void removeFakePotionEffectPackets(Set<PotionEffect> effects, Player player);
 
     //Bukkit specific NMS Requirements to fulfill deficiencies in API
-    public abstract void bukkit_setArrowDamage(Arrow arrow, double damage);
+    public abstract void setArrowDamage(Arrow arrow, double damage);
 
     //Utility functions
     protected abstract float getSoundStrength(LivingEntity entity);
@@ -95,4 +116,10 @@ public abstract class CraftBukkitHandler {
     }
 
     public abstract void playClientEffect(Player player, Location startLocation, String particle, Vector offset, float speed, int count, boolean sendToAll);
+
+    public static enum ServerType {
+        BUKKIT,
+        SPIGOT,
+        TWEAKKIT
+    }
 }

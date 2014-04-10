@@ -1,9 +1,9 @@
 package com.afterkraft.kraftrpg.api.entity.effects;
 
 /**
- * Author: gabizou
+ * @author gabizou
  */
-public enum RPGEffectType {
+public enum EffectType {
 
     AIR,
     AREA_OF_EFFECT,
