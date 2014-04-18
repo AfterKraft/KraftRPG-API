@@ -1,4 +1,4 @@
-package com.afterkraft.kraftrpg.api.events.entity;
+package com.afterkraft.kraftrpg.api.events;
 
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
@@ -16,7 +16,7 @@ public class ChampionEvent extends Event {
         this.player = player;
     }
 
-    public final Champion getPlayer() {
+    public final Champion getChampion() {
         return this.player;
     }
 

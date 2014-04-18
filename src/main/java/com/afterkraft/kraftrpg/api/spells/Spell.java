@@ -65,8 +65,8 @@ public abstract class Spell<T extends SpellArgument> implements ISpell<T> {
         this.spellTypes.addAll(Arrays.asList(types));
     }
 
-    //-- Utility Methods
-    public final void knockback( LivingEntity target, LivingEntity attacker, double damage) {
+    // -- Utility Methods
+    public final void knockback(LivingEntity target, LivingEntity attacker, double damage) {
         CraftBukkitHandler.getInterface().knockBack(target, attacker, damage);
     }
 

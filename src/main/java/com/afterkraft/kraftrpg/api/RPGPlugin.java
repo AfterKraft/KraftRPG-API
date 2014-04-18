@@ -5,6 +5,7 @@ import java.util.logging.Level;
 import org.bukkit.plugin.Plugin;
 
 import com.afterkraft.kraftrpg.api.entity.EntityManager;
+import com.afterkraft.kraftrpg.api.entity.roles.RoleManager;
 import com.afterkraft.kraftrpg.api.spells.SpellConfigManager;
 import com.afterkraft.kraftrpg.api.spells.SpellManager;
 import com.afterkraft.kraftrpg.api.storage.StorageManager;
@@ -27,6 +28,8 @@ public interface RPGPlugin extends Plugin {
     public DamageManager getDamageManager();
 
     public SpellManager getSpellManager();
+
+    public RoleManager getRoleManager();
 
     public void log(Level level, String msg);
 

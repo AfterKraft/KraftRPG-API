@@ -1,6 +1,7 @@
 package com.afterkraft.kraftrpg.api.entity.effects;
 
 import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 import com.afterkraft.kraftrpg.api.entity.Champion;
 import com.afterkraft.kraftrpg.api.entity.IEntity;
@@ -13,6 +14,11 @@ import com.afterkraft.kraftrpg.api.spells.SpellArgument;
  */
 public interface Effect {
 
+    /**
+     * Returns the associated {@link com.afterkraft.kraftrpg.api.spells.Spell} that created this effect.
+     *
+     * @return the Spell that created this effect
+     */
     public Spell<? extends SpellArgument> getSpell();
 
     /**
@@ -21,17 +27,47 @@ public interface Effect {
      */
     public String getName();
 
+    /**
+     * Check if this Effect is of a certain EffectType
+     *
+     * @param queryType the type of effect to query
+     * @return true if this Effect is of the queried EffectType
+     */
     public boolean isType(EffectType queryType);
 
+    /**
+     * Check if this Effect is persistent. A Persistent effect will never expire until the Effect is removed.
+     *
+     * @return true if this Effect is persistent
+     */
     public boolean isPersistent();
 
+    /**
+     * Set this effect to be a persisting effect. Persistent effects will never expire until removed by a Spell or
+     * plugin.
+     *
+     * @param persistent set this Effect to be persistent.
+     */
     public void setPersistent(boolean persistent);
 
-    public void addPotionEffect(int id, int duration, int strength, boolean faked);
-
+    /**
+     * Add a Bukkit {@link org.bukkit.potion.PotionEffect} to this Effect
+     * @param pEffect the PotionEffect to add to this Effect
+     * @param faked whether this PotionEffect will produce ambient visual effects on application
+     */
     public void addPotionEffect(PotionEffect pEffect, boolean faked);
 
-    public void addMobEffect(int id, int duration, int strength, boolean faked);
+    /**
+     * Add a custom Minecraft Server MobEffect to this Effect. WARNING: This method has different implementations
+     * depending on the server version. Please use {@link #addPotionEffect(org.bukkit.potion.PotionEffect, boolean)}
+     * in it's stead.
+     *
+     * @param type the PotionEffectType to add (Used for finding the MobEffect id
+     * @param duration the custom duration of the Effect
+     * @param strength the level of the Effect
+     * @param faked whether this Effect will produce ambient visual effects if applied to a LivingEntity
+     */
+    public void addMobEffect(PotionEffectType type, int duration, int strength, boolean faked);
 
     // ----
     // Application Methods

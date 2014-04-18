@@ -1,24 +1,25 @@
-package com.afterkraft.kraftrpg.api.events.entity;
+package com.afterkraft.kraftrpg.api.events.entity.champion;
 
 import org.bukkit.event.HandlerList;
 
 import com.afterkraft.kraftrpg.api.entity.Champion;
 import com.afterkraft.kraftrpg.api.entity.roles.Role;
+import com.afterkraft.kraftrpg.api.events.RoleEvent;
 
 /**
  * @author gabizou
  */
-public class ChampionLevelChangeEvent extends ChampionRoleEvent {
+public class RoleLevelChangeEvent extends RoleEvent {
 
     private final int fromLevel;
     private final int toLevel;
     private final boolean isMastering;
 
-    public ChampionLevelChangeEvent(Champion player, Role rpgRole, int from, int to) {
+    public RoleLevelChangeEvent(Champion player, Role rpgRole, int from, int to) {
         this(player, rpgRole, from, to, false);
     }
 
-    public ChampionLevelChangeEvent(Champion player, Role rpgRole, int from, int to, boolean isMastering) {
+    public RoleLevelChangeEvent(Champion player, Role rpgRole, int from, int to, boolean isMastering) {
         super(player, rpgRole);
         this.fromLevel = from;
         this.toLevel = to;

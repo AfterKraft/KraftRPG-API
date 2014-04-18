@@ -38,8 +38,8 @@ public enum AttributeType {
     }
 
     public static AttributeType matchAttribute(final String name) {
-        Validate.notNull(name, "Attribute Name cannot be null");
-        AttributeType result = null;
+        Validate.notNull(name, "IAttribute Name cannot be null");
+        AttributeType result = BY_NAME.get(name.toUpperCase());
 
         if (result == null) {
             String filtered = name.toUpperCase();

@@ -10,10 +10,23 @@ import com.afterkraft.kraftrpg.api.spells.SpellArgument;
  */
 public interface Role {
 
-    public RoleState getState();
+    /**
+     * Get the type of Role this is.
+     * @return the {@link com.afterkraft.kraftrpg.api.entity.roles.RoleType}
+     */
+    public RoleType getType();
 
+    /**
+     * Return the configured name for this Role
+     * @return the name for this role
+     */
     public String getName();
 
+    /**
+     * Check if this Role has the given Spell
+     * @param spell
+     * @return
+     */
     public boolean hasSpell(Spell<? extends SpellArgument> spell);
 
     public boolean hasSpell(String name);

@@ -3,7 +3,7 @@ package com.afterkraft.kraftrpg.api.entity.roles;
 /**
  * @author gabizou
  */
-public enum RoleState {
+public enum RoleType {
 
     PRIMARY,
     SECONDARY,

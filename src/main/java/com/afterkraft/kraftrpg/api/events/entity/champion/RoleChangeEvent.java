@@ -1,25 +1,26 @@
-package com.afterkraft.kraftrpg.api.events.entity;
+package com.afterkraft.kraftrpg.api.events.entity.champion;
 
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.HandlerList;
 
 import com.afterkraft.kraftrpg.api.entity.Champion;
 import com.afterkraft.kraftrpg.api.entity.roles.Role;
+import com.afterkraft.kraftrpg.api.events.RoleEvent;
 
 /**
  * @author gabizou
  */
-public class ChampionRoleChangeEvent extends ChampionRoleEvent implements Cancellable {
+public class RoleChangeEvent extends RoleEvent implements Cancellable {
 
     private final Role toRPGRole;
     private final boolean canCancel;
     private boolean cancelled;
 
-    public ChampionRoleChangeEvent(Champion player, Role fromRPGClass, Role toRPGRole) {
+    public RoleChangeEvent(Champion player, Role fromRPGClass, Role toRPGRole) {
         this(player, fromRPGClass, toRPGRole, true);
     }
 
-    public ChampionRoleChangeEvent(Champion player, Role fromRPGClass, Role toRPGRole, boolean canCancel) {
+    public RoleChangeEvent(Champion player, Role fromRPGClass, Role toRPGRole, boolean canCancel) {
         super(player, fromRPGClass);
         this.toRPGRole = toRPGRole;
         this.canCancel = canCancel;
