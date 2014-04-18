@@ -5,32 +5,33 @@ import org.bukkit.event.Cancellable;
 import com.afterkraft.kraftrpg.api.entity.Champion;
 import com.afterkraft.kraftrpg.api.entity.roles.Role;
 import com.afterkraft.kraftrpg.api.events.RoleEvent;
+import com.afterkraft.kraftrpg.api.util.FixedPoint;
 
 /**
  * @author gabizou
  */
 public class ExperienceChangeEvent extends RoleEvent implements Cancellable {
 
-    private final double from;
-    private double to;
+    private final FixedPoint original;
+    private FixedPoint change;
     private boolean cancelled = false;
 
-    public ExperienceChangeEvent(Champion player, Role role, double from, double to) {
+    public ExperienceChangeEvent(Champion player, Role role, FixedPoint original, FixedPoint change) {
         super(player, role);
-        this.from = from;
-        this.to = to;
+        this.original = original;
+        this.change = change;
     }
 
-    public double getFromExperience() {
-        return this.from;
+    public FixedPoint getFromExperience() {
+        return this.original;
     }
 
-    public double getToExperience() {
-        return this.to;
+    public FixedPoint getChange() {
+        return this.change;
     }
 
-    public void setToExperience(double experience) {
-        this.to = experience;
+    public void setChange(FixedPoint experience) {
+        this.change = experience;
     }
 
     @Override

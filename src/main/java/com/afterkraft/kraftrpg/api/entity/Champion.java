@@ -7,6 +7,7 @@ import org.bukkit.entity.Player;
 import com.afterkraft.kraftrpg.api.entity.roles.Role;
 import com.afterkraft.kraftrpg.api.spells.Spell;
 import com.afterkraft.kraftrpg.api.spells.SpellArgument;
+import com.afterkraft.kraftrpg.api.util.FixedPoint;
 
 /**
  * @author gabizou
@@ -89,12 +90,17 @@ public interface Champion extends IEntity {
     /**
      * Fetches the current experience of the given Role.
      * <p>
-     * If this Champion has no experience in the given Role, this will return 0
+     * If this Champion has no experience in the given Role, this will return a FixedPoint with value 0
      * @param role to check the current experience of
+     * @return the FixedPoint value of the designated role.
+     */
+    public FixedPoint getExperience(Role role);
+
+    /**
+     *
+     * @param spell
      * @return
      */
-    public double getExperience(Role role);
-
     public boolean canPrimaryUseSpell(Spell<? extends SpellArgument> spell);
 
     public boolean canSecondaryUseSpell(Spell<? extends SpellArgument> spell);

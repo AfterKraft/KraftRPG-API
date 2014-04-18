@@ -35,6 +35,6 @@ public class ManaChangeEvent extends ChampionEvent {
         SPELL_USAGE,
         SPELL_RESULT,
         MANA_REGAIN,
-        OTHER
+        EXTERNAL
     }
 }

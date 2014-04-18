@@ -1,5 +1,8 @@
 package com.afterkraft.kraftrpg.api.util;
 
+/**
+ * Represents a fixed point value for percision values such as Experience and cooldowns=
+ */
 public class FixedPoint {
 
     private static final int FRAC_SIZE = 16;

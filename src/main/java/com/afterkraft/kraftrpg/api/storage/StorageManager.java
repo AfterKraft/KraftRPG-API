@@ -7,5 +7,9 @@ import com.afterkraft.kraftrpg.api.Manager;
  */
 public interface StorageManager extends Manager {
 
+    /**
+     * Return the currently configured Storage for RPGPlugin.
+     * @return
+     */
     public RPGStorage getStorage();
 }
