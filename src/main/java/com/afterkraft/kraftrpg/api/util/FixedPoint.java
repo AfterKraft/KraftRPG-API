@@ -3,7 +3,7 @@ package com.afterkraft.kraftrpg.api.util;
 /**
  * Represents a fixed point value for percision values such as Experience and cooldowns=
  */
-public class FixedPoint {
+public final class FixedPoint {
 
     private static final int FRAC_SIZE = 16;
     private static final int ONE = 1 << FRAC_SIZE;
@@ -11,7 +11,7 @@ public class FixedPoint {
 
     private static final double twoPowNegSize = Math.pow(2, -FRAC_SIZE);
 
-    public long val;
+    private long val;
 
     public FixedPoint() {
 
@@ -103,6 +103,10 @@ public class FixedPoint {
 
     public double asDouble() {
         return (double)val * twoPowNegSize;
+    }
+
+    public long getByteValue() {
+        return this.val;
     }
 
     public static long toFixed(double val) {

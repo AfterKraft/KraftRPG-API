@@ -2,7 +2,7 @@ package com.afterkraft.kraftrpg.api.entity.roles;
 
 import org.bukkit.Material;
 
-import com.afterkraft.kraftrpg.api.spells.Spell;
+import com.afterkraft.kraftrpg.api.spells.ISpell;
 import com.afterkraft.kraftrpg.api.spells.SpellArgument;
 
 /**
@@ -27,7 +27,7 @@ public interface Role {
      * @param spell
      * @return
      */
-    public boolean hasSpell(Spell<? extends SpellArgument> spell);
+    public boolean hasSpell(ISpell<? extends SpellArgument> spell);
 
     public boolean hasSpell(String name);
 

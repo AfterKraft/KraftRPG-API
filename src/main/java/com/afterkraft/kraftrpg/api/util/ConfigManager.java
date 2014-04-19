@@ -3,7 +3,8 @@ package com.afterkraft.kraftrpg.api.util;
 import java.io.File;
 
 /**
- * @author gabizou
+ * A generalized manager for configuration files used by all other
+ * Managers
  */
 public interface ConfigManager {
 

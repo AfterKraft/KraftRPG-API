@@ -1,25 +1,22 @@
 package com.afterkraft.kraftrpg.api.storage;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.UUID;
-
 import org.bukkit.entity.Player;
-
-import com.afterkraft.storage.api.CommonStorage;
 
 import com.afterkraft.kraftrpg.api.RPGPlugin;
 import com.afterkraft.kraftrpg.api.entity.Champion;
 
 /**
- * @author gabizou
+ * Represents a storage implementation to save various things such as Champions
+ * and more. This can be implemented by third parties to provide support for
+ * other Storage APIs, though loaded dynamically like {@link com.afterkraft.kraftrpg.api.spells.ISpell}s.
+ * <p>
+ * RPGStorages should maintain an active cache system so as to reduce the need to save all data Champion
+ * data at once.
  */
-public abstract class RPGStorage implements CommonStorage {
+public abstract class RPGStorage {
 
     protected final RPGPlugin plugin;
     private final String name;
-    private List<UUID> playersNotToSave = new ArrayList<UUID>();
 
     public RPGStorage(final RPGPlugin plugin, final String name) {
         this.plugin = plugin;
@@ -27,51 +24,28 @@ public abstract class RPGStorage implements CommonStorage {
 
     }
 
-    //--- KraftRPG Specific methods that must be implemented
-
-    public abstract Champion loadChampion(final Player player);
-
-    public abstract boolean saveChampion(final Champion player, boolean now);
-
-
-    //--- CommonStorage methods that don't need to be implemented
-
-    @Override
-    public final String getName() {
+    public String getName() {
         return this.name;
     }
 
-    @Override
-    public void addPlayerNotToSave(Player player) {
-        if (player == null) {
-            return;
-        }
-        playersNotToSave.add(player.getUniqueId());
-    }
+    /**
+     * Load the Champion data if there is any. This should check with the database
+     * whether the given Player does indeed have information available, if not,
+     * this will return null.
+     * @param player the requested Player data
+     * @return the loaded Champion instance if data exists, else returns null
+     */
+    public abstract Champion loadChampion(final Player player);
 
-    @Override
-    public boolean isPlayerNotToSave(Player player) {
-        return player != null && playersNotToSave.contains(player.getUniqueId());
-    }
+    /**
+     * Saves the given {@link com.afterkraft.kraftrpg.api.entity.Champion} data. If saveAll is true, all of the given
+     * Champion's data will be saved. If not, only the necessary differences will be saved. This
+     * is important to know when changing a Champion's active {@link com.afterkraft.kraftrpg.api.entity.roles.Role}s.
+     * @param champion the provided Champion that we should save data for
+     * @param saveAll whether to save all available Champion data for the provided Champion
+     * @param now whether to save the Champion data on method call or place the Champion data into queue for later saving
+     * @return true if the save was successful
+     */
+    public abstract boolean saveChampion(final Champion champion, boolean saveAll, boolean now);
 
-    @Override
-    public void removePlayerNotToSave(Player player) {
-        if (player == null) {
-            return;
-        }
-        playersNotToSave.remove(player.getUniqueId());
-    }
-
-    @Override
-    public List<UUID> getPlayerNotToSave() {
-        return Collections.unmodifiableList(playersNotToSave);
-    }
-
-    @Override
-    public Priority getPriority() {
-        return Priority.HIGH;
-    }
-
-    @Override
-    public abstract void savePlayer(Player player);
 }

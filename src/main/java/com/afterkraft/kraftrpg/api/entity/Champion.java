@@ -5,7 +5,7 @@ import java.util.Set;
 import org.bukkit.entity.Player;
 
 import com.afterkraft.kraftrpg.api.entity.roles.Role;
-import com.afterkraft.kraftrpg.api.spells.Spell;
+import com.afterkraft.kraftrpg.api.spells.ISpell;
 import com.afterkraft.kraftrpg.api.spells.SpellArgument;
 import com.afterkraft.kraftrpg.api.util.FixedPoint;
 
@@ -101,9 +101,9 @@ public interface Champion extends IEntity {
      * @param spell
      * @return
      */
-    public boolean canPrimaryUseSpell(Spell<? extends SpellArgument> spell);
+    public boolean canPrimaryUseSpell(ISpell<? extends SpellArgument> spell);
 
-    public boolean canSecondaryUseSpell(Spell<? extends SpellArgument> spell);
+    public boolean canSecondaryUseSpell(ISpell<? extends SpellArgument> spell);
 
     public double recalculateMaxHealth();
 }

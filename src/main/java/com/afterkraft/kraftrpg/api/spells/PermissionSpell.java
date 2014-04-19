@@ -60,7 +60,7 @@ public class PermissionSpell<T extends SpellArgument> extends Spell<T> implement
     }
 
     @Override
-    public boolean addSpellTarget(Entity entity, Champion player) {
+    public boolean addSpellTarget(Entity entity, Champion champion) {
         return true;
     }
 }

@@ -10,13 +10,13 @@ import com.afterkraft.kraftrpg.api.entity.IEntity;
 public final class SpellUseObject<T extends SpellArgument> {
 
     private final WeakReference<IEntity> entity;
-    private final WeakReference<Spell<T>> spell;
+    private final WeakReference<ISpell<T>> spell;
     private final WeakReference<T> argument;
 
 
-    public SpellUseObject(IEntity entity, Spell<T> spell, T argument) {
+    public SpellUseObject(IEntity entity, ISpell<T> spell, T argument) {
         this.entity = new WeakReference<IEntity>(entity);
-        this.spell = new WeakReference<Spell<T>>(spell);
+        this.spell = new WeakReference<ISpell<T>>(spell);
         this.argument = new WeakReference<T>(argument);
     }
 
@@ -24,7 +24,7 @@ public final class SpellUseObject<T extends SpellArgument> {
         return this.entity.get();
     }
 
-    public Spell<T> getSpell() {
+    public ISpell<T> getSpell() {
         return this.spell.get();
     }
 

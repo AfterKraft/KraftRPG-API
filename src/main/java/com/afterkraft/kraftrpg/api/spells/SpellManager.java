@@ -2,7 +2,10 @@ package com.afterkraft.kraftrpg.api.spells;
 
 import java.util.Collection;
 
+import org.bukkit.entity.Entity;
+
 import com.afterkraft.kraftrpg.api.Manager;
+import com.afterkraft.kraftrpg.api.entity.IEntity;
 
 /**
  * @author gabizou
@@ -14,7 +17,7 @@ public interface SpellManager extends Manager {
      *
      * @param spell
      */
-    public void addSpell(Spell<? extends SpellArgument> spell);
+    public void addSpell(ISpell<? extends SpellArgument> spell);
 
     /**
      * Returns a spell from it's name
@@ -23,7 +26,7 @@ public interface SpellManager extends Manager {
      * @param name
      * @return
      */
-    public Spell<? extends SpellArgument> getSpell(String name);
+    public ISpell<? extends SpellArgument> getSpell(String name);
 
     public boolean loadOutsourcedSpell(String name);
     /**
@@ -31,7 +34,7 @@ public interface SpellManager extends Manager {
      *
      * @return
      */
-    public Collection<Spell<? extends SpellArgument>> getSpells();
+    public Collection<ISpell<? extends SpellArgument>> getSpells();
     /**
      * Checks if a spell has already been loaded
      *
@@ -45,5 +48,11 @@ public interface SpellManager extends Manager {
      *
      * @param spell
      */
-    public void removeSpell(Spell<? extends SpellArgument> spell);
+    public void removeSpell(ISpell<? extends SpellArgument> spell);
+
+    public void addSpellTarget(Entity o, IEntity character, Spell<? extends SpellArgument> skill);
+
+    public SpellUseObject<? extends SpellArgument> getSpellTargetInfo(Entity o);
+
+    public boolean isSpellTarget(Entity o);
 }

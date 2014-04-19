@@ -4,7 +4,7 @@ import org.bukkit.event.HandlerList;
 
 import com.afterkraft.kraftrpg.api.entity.Champion;
 import com.afterkraft.kraftrpg.api.events.ChampionEvent;
-import com.afterkraft.kraftrpg.api.spells.Spell;
+import com.afterkraft.kraftrpg.api.spells.ISpell;
 import com.afterkraft.kraftrpg.api.spells.SpellArgument;
 
 /**
@@ -12,14 +12,14 @@ import com.afterkraft.kraftrpg.api.spells.SpellArgument;
  */
 public class CooldownExpireEvent extends ChampionEvent {
 
-    private final Spell<? extends SpellArgument> spell;
+    private final ISpell<? extends SpellArgument> spell;
 
-    public CooldownExpireEvent(Champion champion, Spell<? extends SpellArgument> spell) {
+    public CooldownExpireEvent(Champion champion, ISpell<? extends SpellArgument> spell) {
         super(champion);
         this.spell = spell;
     }
 
-    public Spell<? extends SpellArgument> getSpell() {
+    public ISpell<? extends SpellArgument> getSpell() {
         return this.spell;
     }
 

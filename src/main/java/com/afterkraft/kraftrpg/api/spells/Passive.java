@@ -5,7 +5,8 @@ import com.afterkraft.kraftrpg.api.entity.IEntity;
 import com.afterkraft.kraftrpg.api.entity.Monster;
 
 /**
- * @author gabizou
+ * Represents a passive spell that can not be activated by command or bind.
+ * The recommended use of implementation is {@link com.afterkraft.kraftrpg.api.spells.PassiveSpell}
  */
 public interface Passive {
 

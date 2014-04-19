@@ -5,8 +5,8 @@ import org.bukkit.potion.PotionEffectType;
 
 import com.afterkraft.kraftrpg.api.entity.Champion;
 import com.afterkraft.kraftrpg.api.entity.IEntity;
+import com.afterkraft.kraftrpg.api.spells.ISpell;
 import com.afterkraft.kraftrpg.api.entity.Monster;
-import com.afterkraft.kraftrpg.api.spells.Spell;
 import com.afterkraft.kraftrpg.api.spells.SpellArgument;
 
 /**
@@ -15,11 +15,11 @@ import com.afterkraft.kraftrpg.api.spells.SpellArgument;
 public interface Effect {
 
     /**
-     * Returns the associated {@link com.afterkraft.kraftrpg.api.spells.Spell} that created this effect.
+     * Returns the associated {@link com.afterkraft.kraftrpg.api.spells.ISpell} that created this effect.
      *
      * @return the Spell that created this effect
      */
-    public Spell<? extends SpellArgument> getSpell();
+    public ISpell<? extends SpellArgument> getSpell();
 
     /**
      * Returns this individual Effect's name. (Should be as unique and recognizable as possible).
