@@ -17,7 +17,7 @@ public interface SpellManager extends Manager {
      *
      * @param spell
      */
-    public void addSpell(ISpell<? extends SpellArgument> spell);
+    public void addSpell(ISpell spell);
 
     /**
      * Returns a spell from it's name
@@ -26,7 +26,7 @@ public interface SpellManager extends Manager {
      * @param name
      * @return
      */
-    public ISpell<? extends SpellArgument> getSpell(String name);
+    public ISpell getSpell(String name);
 
     public boolean loadOutsourcedSpell(String name);
     /**
@@ -34,7 +34,7 @@ public interface SpellManager extends Manager {
      *
      * @return
      */
-    public Collection<ISpell<? extends SpellArgument>> getSpells();
+    public Collection<ISpell> getSpells();
     /**
      * Checks if a spell has already been loaded
      *
@@ -48,9 +48,9 @@ public interface SpellManager extends Manager {
      *
      * @param spell
      */
-    public void removeSpell(ISpell<? extends SpellArgument> spell);
+    public void removeSpell(ISpell spell);
 
-    public void addSpellTarget(Entity o, IEntity character, Spell<? extends SpellArgument> skill);
+    public void addSpellTarget(Entity o, IEntity character, ISpell skill);
 
     public SpellUseObject<? extends SpellArgument> getSpellTargetInfo(Entity o);
 

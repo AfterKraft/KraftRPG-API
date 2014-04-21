@@ -12,7 +12,7 @@ public abstract class TargettedSpellArgument extends SpellArgument {
     /**
      * This is known to be the last known username of the targetted entity
      */
-    protected String playerName;
+    protected String entityName;
 
     /**
      * This is the uuid for the targetted entity
@@ -36,7 +36,7 @@ public abstract class TargettedSpellArgument extends SpellArgument {
      * @param name
      */
     void setTargetName(String name) {
-        this.playerName = name;
+        this.entityName = name;
     }
 
     /**
@@ -44,7 +44,7 @@ public abstract class TargettedSpellArgument extends SpellArgument {
      * @return the last known name of the targetted entity
      */
     public String getTargetName() {
-        return this.playerName;
+        return this.entityName;
     }
 
     /**

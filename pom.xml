@@ -52,8 +52,8 @@
 
     <repositories>
         <repository>
-            <id>heroes-repo</id>
-            <url>http://nexus.theyeticave.net/content/groups/herocraft/</url>
+            <id>afterkraft</id>
+            <url>http://nexus.afterkraft.com/content/groups/public/</url>
         </repository>
     </repositories>
 
@@ -115,6 +115,17 @@
         <system>Jenkins</system>
         <url>ci.afterkraft.com</url>
     </ciManagement>
+
+    <distributionManagement>
+        <repository>
+            <id>afterkraft</id>
+            <url>http://nexus.afterkraft.com/content/repositories/releases/</url>
+        </repository>
+        <snapshotRepository>
+            <id>afterkraft</id>
+            <url>http://nexus.afterkraft.com/content/repositories/snapshots/</url>
+        </snapshotRepository>
+    </distributionManagement>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

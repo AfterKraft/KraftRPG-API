@@ -101,9 +101,9 @@ public interface Champion extends IEntity {
      * @param spell
      * @return
      */
-    public boolean canPrimaryUseSpell(ISpell<? extends SpellArgument> spell);
+    public boolean canPrimaryUseSpell(ISpell spell);
 
-    public boolean canSecondaryUseSpell(ISpell<? extends SpellArgument> spell);
+    public boolean canSecondaryUseSpell(ISpell spell);
 
     public double recalculateMaxHealth();
 }

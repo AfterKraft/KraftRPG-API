@@ -4,9 +4,9 @@ import com.afterkraft.kraftrpg.api.RPGPlugin;
 import com.afterkraft.kraftrpg.api.entity.effects.EffectType;
 
 /**
- * @author gabizou
+ * Default implementation of a Spell with the Passive interface
  */
-public abstract class PassiveSpell<T extends SpellArgument> extends Spell<T> implements Passive {
+public abstract class PassiveSpell extends Spell implements Passive {
 
     private String applyText = null;
     private String unapplyText = null;
@@ -14,6 +14,5 @@ public abstract class PassiveSpell<T extends SpellArgument> extends Spell<T> imp
 
     public PassiveSpell(RPGPlugin plugin, String name) {
         super(plugin, name);
-        setUsage("Passive Spell!");
     }
 }

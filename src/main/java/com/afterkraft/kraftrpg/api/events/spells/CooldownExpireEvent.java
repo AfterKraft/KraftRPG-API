@@ -12,14 +12,14 @@ import com.afterkraft.kraftrpg.api.spells.SpellArgument;
  */
 public class CooldownExpireEvent extends ChampionEvent {
 
-    private final ISpell<? extends SpellArgument> spell;
+    private final ISpell spell;
 
-    public CooldownExpireEvent(Champion champion, ISpell<? extends SpellArgument> spell) {
+    public CooldownExpireEvent(Champion champion, ISpell spell) {
         super(champion);
         this.spell = spell;
     }
 
-    public ISpell<? extends SpellArgument> getSpell() {
+    public ISpell getSpell() {
         return this.spell;
     }
 

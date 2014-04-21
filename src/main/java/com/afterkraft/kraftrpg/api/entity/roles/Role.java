@@ -27,7 +27,7 @@ public interface Role {
      * @param spell
      * @return
      */
-    public boolean hasSpell(ISpell<? extends SpellArgument> spell);
+    public boolean hasSpell(ISpell spell);
 
     public boolean hasSpell(String name);
 

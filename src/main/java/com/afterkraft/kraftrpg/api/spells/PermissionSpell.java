@@ -16,7 +16,7 @@ import com.afterkraft.kraftrpg.api.entity.Champion;
  * PermissionSpell can apply Permissions with both true and false
  * @author gabizou
  */
-public class PermissionSpell<T extends SpellArgument> extends Spell<T> implements Permissible {
+public class PermissionSpell extends Spell implements Permissible {
 
     private Map<String, Boolean> permissions;
     private Permission permission;
@@ -47,16 +47,6 @@ public class PermissionSpell<T extends SpellArgument> extends Spell<T> implement
     @Override
     public void tryLearning(Champion player) {
 
-    }
-
-    @Override
-    public T parse(Champion player, String[] args) {
-        return null;
-    }
-
-    @Override
-    public boolean useSpell(Champion player, T argument) {
-        return true;
     }
 
     @Override

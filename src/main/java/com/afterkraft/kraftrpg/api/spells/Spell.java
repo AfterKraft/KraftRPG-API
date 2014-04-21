@@ -17,14 +17,13 @@ import com.afterkraft.kraftrpg.api.handler.CraftBukkitHandler;
 /**
  * Represents an intended implementation of ISpell.
  */
-public abstract class Spell<T extends SpellArgument> implements ISpell<T> {
+public abstract class Spell implements ISpell {
 
     public final RPGPlugin plugin;
     private final Configuration defaultConfig = new MemoryConfiguration();
     private final Set<SpellType> spellTypes = EnumSet.noneOf(SpellType.class);
     private final String name;
     private String description = "";
-    private String usage = "";
     private boolean isEnabled = false;
 
     public Spell(RPGPlugin plugin, String name) {
@@ -57,34 +56,32 @@ public abstract class Spell<T extends SpellArgument> implements ISpell<T> {
         }
     }
 
+    @Override
     public final String getPermissionNode() {
         return "kraftrpg.spell." + this.getName();
     }
 
+    @Override
     public final String getName() {
         return this.name;
     }
 
+    @Override
     public final Configuration getDefaultConfig() {
         return this.defaultConfig;
     }
 
-    public final String getUsage() {
-        return this.usage;
-    }
-
-    public final void setUsage(String usage) {
-        this.usage = usage;
-    }
-
+    @Override
     public final String getDescription() {
         return this.description;
     }
 
+    @Override
     public final void setDescription(String description) {
         this.description = description;
     }
 
+    @Override
     public final boolean isType(SpellType type) {
         return this.spellTypes.contains(type);
     }

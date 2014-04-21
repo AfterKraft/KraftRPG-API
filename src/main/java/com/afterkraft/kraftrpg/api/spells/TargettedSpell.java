@@ -7,9 +7,11 @@ import com.afterkraft.kraftrpg.api.RPGPlugin;
  * do
  *
  */
-public abstract class TargettedSpell<T extends TargettedSpellArgument> extends Spell<T> {
+public abstract class TargettedSpell<T extends TargettedSpellArgument> extends ActiveSpell<T> implements Targetted<T> {
 
     public TargettedSpell(RPGPlugin plugin, String name) {
         super(plugin, name);
     }
+
+
 }

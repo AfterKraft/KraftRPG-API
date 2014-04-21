@@ -5,9 +5,9 @@ import java.util.Map;
 import com.afterkraft.kraftrpg.api.entity.Champion;
 
 /**
- * @author gabizou
+ * Represents a Permissive Spell
  */
-public interface Permissible {
+public interface Permissible extends ISpell {
 
     public void setPermissions(Map<String, Boolean> permissions);
 

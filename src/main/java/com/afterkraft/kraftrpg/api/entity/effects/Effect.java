@@ -19,7 +19,7 @@ public interface Effect {
      *
      * @return the Spell that created this effect
      */
-    public ISpell<? extends SpellArgument> getSpell();
+    public ISpell getSpell();
 
     /**
      * Returns this individual Effect's name. (Should be as unique and recognizable as possible).
