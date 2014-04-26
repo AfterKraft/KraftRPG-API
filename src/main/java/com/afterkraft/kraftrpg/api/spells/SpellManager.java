@@ -7,6 +7,7 @@ import org.bukkit.entity.Entity;
 import com.afterkraft.kraftrpg.api.Manager;
 import com.afterkraft.kraftrpg.api.entity.Champion;
 import com.afterkraft.kraftrpg.api.entity.IEntity;
+import com.afterkraft.kraftrpg.api.entity.SpellCaster;
 
 /**
  * @author gabizou
@@ -53,26 +54,23 @@ public interface SpellManager extends Manager {
     public void removeSpell(ISpell spell);
 
     /**
-     * Check if the {@link com.afterkraft.kraftrpg.api.entity.Champion} has an actively {@link com.afterkraft.kraftrpg.api.spells.Delayed} Spell.
+     * Check if the {@link com.afterkraft.kraftrpg.api.entity.SpellCaster} has an actively {@link com.afterkraft.kraftrpg.api.spells.Delayed} Spell.
      *
-     * @param champion the champion in question
+     * @param caster the caster in question
      * @return
      */
-    public boolean isChampionDelayed(Champion champion);
+    public boolean isCasterDelayed(SpellCaster caster);
 
     /**
      *
-     * @param champion
-     * @param <T>
+     * @param caster
      * @return
      */
-    public <T extends SpellArgument> Delayed<T> getDelayedSpell(Champion champion);
+    public Delayed<? extends SpellArgument> getDelayedSpell(SpellCaster caster);
 
-    public <T extends SpellArgument> boolean setDelayedSpell(Delayed<T> delayed);
+    public void setCompletedSpell(SpellCaster caster);
 
-    public void setCompletedSpell(Champion champion);
-
-    public void addSpellTarget(Entity o, IEntity character, ISpell skill);
+    public void addSpellTarget(Entity o, SpellCaster caster, ISpell skill);
 
     public SpellUseObject<? extends SpellArgument> getSpellTargetInfo(Entity o);
 

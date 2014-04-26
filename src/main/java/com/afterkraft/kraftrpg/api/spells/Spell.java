@@ -13,8 +13,8 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 
 import com.afterkraft.kraftrpg.api.RPGPlugin;
-import com.afterkraft.kraftrpg.api.entity.Champion;
 import com.afterkraft.kraftrpg.api.entity.IEntity;
+import com.afterkraft.kraftrpg.api.entity.SpellCaster;
 import com.afterkraft.kraftrpg.api.entity.roles.ExperienceType;
 import com.afterkraft.kraftrpg.api.handler.CraftBukkitHandler;
 import com.afterkraft.kraftrpg.api.util.FixedPoint;
@@ -100,11 +100,11 @@ public abstract class Spell implements ISpell {
     }
 
     @Override
-    public boolean addSpellTarget(Entity entity, Champion champion) {
-        if (entity == null || champion == null || !champion.isEntityValid()) {
+    public boolean addSpellTarget(Entity entity, SpellCaster caster) {
+        if (entity == null || caster == null || (caster instanceof IEntity && !((IEntity) caster).isEntityValid())) {
             return false;
         }
-        plugin.getSpellManager().addSpellTarget(entity, champion, this);
+        plugin.getSpellManager().addSpellTarget(entity, caster, this);
         return true;
     }
 
@@ -144,9 +144,9 @@ public abstract class Spell implements ISpell {
     }
 
     @Override
-    public void awardExperience(Champion champion) {
-        if (champion.canGainExperience(ExperienceType.SPELL)) {
-            champion.gainExperience(new FixedPoint(plugin.getSpellConfigManager().getUseSetting(champion, this, SpellSetting.EXP, 0, false)), ExperienceType.SPELL, champion.getPlayer().getLocation());
+    public void awardExperience(SpellCaster caster) {
+        if (caster.canGainExperience(ExperienceType.SPELL)) {
+            caster.gainExperience(new FixedPoint(plugin.getSpellConfigManager().getUseSetting(caster, this, SpellSetting.EXP, 0, false)), ExperienceType.SPELL, caster.getLocation());
         }
     }
 }

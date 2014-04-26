@@ -8,6 +8,7 @@ import org.bukkit.configuration.ConfigurationSection;
 
 import com.afterkraft.kraftrpg.api.Manager;
 import com.afterkraft.kraftrpg.api.entity.Champion;
+import com.afterkraft.kraftrpg.api.entity.SpellCaster;
 import com.afterkraft.kraftrpg.api.entity.roles.Role;
 
 /**
@@ -55,27 +56,27 @@ public interface SpellConfigManager extends Manager {
 
     public Set<String> getSettingKeys(Role hc, ISpell spell, String setting);
 
-    public Set<String> getUseSettingKeys(Champion champion, ISpell spell, String setting);
+    public Set<String> getUseSettingKeys(SpellCaster caster, ISpell spell, String setting);
 
-    public List<String> getUseSettingKeys(Champion champion, ISpell spell);
+    public List<String> getUseSettingKeys(SpellCaster caster, ISpell spell);
 
-    public int getLevel(Champion champion, ISpell spell, int def);
+    public int getLevel(SpellCaster caster, ISpell spell, int def);
 
-    public int getUseSetting(Champion champion, ISpell spell, SpellSetting setting, int def, boolean lower);
+    public int getUseSetting(SpellCaster caster, ISpell spell, SpellSetting setting, int def, boolean lower);
 
-    public String getUseSetting(Champion champion, ISpell spell, SpellSetting setting, String def);
+    public String getUseSetting(SpellCaster caster, ISpell spell, SpellSetting setting, String def);
 
-    public double getUseSetting(Champion champion, ISpell spell, SpellSetting setting, double def, boolean lower);
+    public double getUseSetting(SpellCaster caster, ISpell spell, SpellSetting setting, double def, boolean lower);
 
-    public boolean getUseSetting(Champion champion, ISpell spell, SpellSetting setting, boolean def);
+    public boolean getUseSetting(SpellCaster caster, ISpell spell, SpellSetting setting, boolean def);
 
-    public int getUseSetting(Champion champion, ISpell spell, String setting, int def, boolean lower);
+    public int getUseSetting(SpellCaster caster, ISpell spell, String setting, int def, boolean lower);
 
-    public double getUseSetting(Champion champion, ISpell spell, String setting, double def, boolean lower);
+    public double getUseSetting(SpellCaster caster, ISpell spell, String setting, double def, boolean lower);
 
-    public boolean getUseSetting(Champion champion, ISpell spell, String setting, boolean def);
+    public boolean getUseSetting(SpellCaster caster, ISpell spell, String setting, boolean def);
 
-    public String getUseSetting(Champion champion, ISpell spell, String setting, String def);
+    public String getUseSetting(SpellCaster caster, ISpell spell, String setting, String def);
 
-    public List<String> getUseSetting(Champion champion, ISpell spell, String setting, List<String> def);
+    public List<String> getUseSetting(SpellCaster caster, ISpell spell, String setting, List<String> def);
 }

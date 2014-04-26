@@ -1,6 +1,7 @@
 package com.afterkraft.kraftrpg.api.spells;
 
 import com.afterkraft.kraftrpg.api.entity.IEntity;
+import com.afterkraft.kraftrpg.api.entity.SpellCaster;
 
 /**
  * @author gabizou
@@ -9,15 +10,15 @@ public class DelayedSpell<T extends SpellArgument> implements Delayed<T> {
 
     private final T argument;
     private final long startTime;
-    private final IEntity user;
+    private final SpellCaster user;
     private final Active<T> spell;
     private final long warmup;
 
-    public DelayedSpell(Active<T> spell, T args, IEntity user, long startTime, long warmup) {
+    public DelayedSpell(Active<T> spell, T args, SpellCaster caster, long startTime, long warmup) {
         this.argument = args;
         this.startTime = startTime;
         this.spell = spell;
-        this.user = user;
+        this.user = caster;
         this.warmup = warmup;
     }
 
@@ -42,7 +43,7 @@ public class DelayedSpell<T extends SpellArgument> implements Delayed<T> {
     }
 
     @Override
-    public IEntity getCaster() {
+    public SpellCaster getCaster() {
         return this.user;
     }
 }

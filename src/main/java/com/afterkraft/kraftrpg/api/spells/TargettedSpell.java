@@ -17,8 +17,9 @@ import org.bukkit.util.Vector;
 
 import com.afterkraft.kraftrpg.api.RPGPlugin;
 import com.afterkraft.kraftrpg.api.entity.Champion;
+import com.afterkraft.kraftrpg.api.entity.IEntity;
+import com.afterkraft.kraftrpg.api.entity.SpellCaster;
 import com.afterkraft.kraftrpg.api.entity.effects.EffectType;
-import com.afterkraft.kraftrpg.api.entity.roles.Role;
 import com.afterkraft.kraftrpg.api.events.spells.SpellCastEvent;
 import com.afterkraft.kraftrpg.api.util.SpellRequirement;
 import com.afterkraft.kraftrpg.api.util.Utilities;
@@ -35,24 +36,24 @@ public abstract class TargettedSpell<T extends TargettedSpellArgument> extends A
     }
 
     @Override
-    public SpellCastResult canCast(final Champion champion, final T argument, boolean forced) {
+    public SpellCastResult canCast(final SpellCaster caster, final T argument, boolean forced) {
         final String name = this.getName();
-        if (champion == null) {
+        if (caster == null) {
             return null;
         }
 
-        if (champion.getPlayer().getHealth() <= 0 || champion.getPlayer().isDead()) {
+        if (caster.isDead()) {
             return SpellCastResult.DEAD;
         }
 
         if (!forced) {
-            if (!champion.canPrimaryUseSpell(this) || !champion.canSecondaryUseSpell(this) || !champion.canAdditionalsUseSpell(this)) {
+            if (!caster.canPrimaryUseSpell(this) || !caster.canSecondaryUseSpell(this) || !caster.canAdditionalUseSpell(this)) {
                 return SpellCastResult.NOT_DEFINED_IN_ACTIVE_ROLES;
-            } else if (champion.doesPrimaryRestrictSpell(this) || champion.doesSecondaryRestrictSpell(this)) {
+            } else if (caster.doesPrimaryRestrictSpell(this) || caster.doesSecondaryRestrictSpell(this)) {
                 return SpellCastResult.RESTRICTED_IN_ROLES;
             }
-            final int level = plugin.getSpellConfigManager().getUseSetting(champion, this, SpellSetting.LEVEL, 1, true);
-            int champLevel = champion.getHighestSpellLevel(this);
+            final int level = plugin.getSpellConfigManager().getUseSetting(caster, this, SpellSetting.LEVEL, 1, true);
+            int champLevel = caster.getHighestSpellLevel(this);
             if (champLevel != 0 && champLevel < level) {
                 return SpellCastResult.LOW_LEVEL;
             }
@@ -61,52 +62,52 @@ public abstract class TargettedSpell<T extends TargettedSpellArgument> extends A
             }
 
             long time = System.currentTimeMillis();
-            final long global = champion.getGlobalCooldown();
-            if (!plugin.getSpellManager().isChampionDelayed(champion)) {
+            final long global = caster.getGlobalCooldown();
+            if (!plugin.getSpellManager().isCasterDelayed(caster)) {
                 if (time < global) {
                     return SpellCastResult.ON_GLOBAL_COOLDOWN;
                 }
             }
 
-            int cooldown = plugin.getSpellConfigManager().getUseSetting(champion, this, SpellSetting.COOLDOWN, 0, true);
+            int cooldown = plugin.getSpellConfigManager().getUseSetting(caster, this, SpellSetting.COOLDOWN, 0, true);
             if (cooldown > 0) {
-                final Long expiry = champion.getCooldown(name);
+                final Long expiry = caster.getCooldown(name);
                 if ((expiry != null) && (time < expiry)) {
                     return SpellCastResult.ON_COOLDOWN;
                 }
             }
 
-            final int delay = plugin.getSpellConfigManager().getUseSetting(champion, this, SpellSetting.DELAY, 0, true);
+            final int delay = plugin.getSpellConfigManager().getUseSetting(caster, this, SpellSetting.DELAY, 0, true);
 
             if (!isType(SpellType.UNINTERRUPTIBLE)) {
-                if (champion.isInCombat() && plugin.getSpellConfigManager().getUseSetting(champion, this, SpellSetting.NO_COMBAT_USE, false)) {
+                if (caster.isInCombat() && plugin.getSpellConfigManager().getUseSetting(caster, this, SpellSetting.NO_COMBAT_USE, false)) {
                     if (delay > 0) {
-                        final Delayed dSpell = plugin.getSpellManager().getDelayedSpell(champion);
+                        final Delayed dSpell = caster.getDelayedSpell();
                         if ((dSpell != null) && dSpell.getActiveSpell().equals(this)) {
-                            champion.cancelDelayedSpell(true);
+                            caster.cancelDelayedSpell(true);
                         }
                     }
                     return SpellCastResult.NO_COMBAT;
                 }
             }
 
-            int manaCost = plugin.getSpellConfigManager().getUseSetting(champion, this, SpellSetting.MANA, 0, true);
-            final double manaReduce = plugin.getSpellConfigManager().getUseSetting(champion, this, SpellSetting.MANA_REDUCE_PER_LEVEL, 0.0, false) * champLevel;
+            int manaCost = plugin.getSpellConfigManager().getUseSetting(caster, this, SpellSetting.MANA, 0, true);
+            final double manaReduce = plugin.getSpellConfigManager().getUseSetting(caster, this, SpellSetting.MANA_REDUCE_PER_LEVEL, 0.0, false) * champLevel;
             manaCost -= (int) manaReduce;
 
             // Reagent stuff
-            SpellRequirement spellRequirement = getSpellRequirement(champion);
+            SpellRequirement spellRequirement = getSpellRequirement(caster);
 
-            double healthCost = plugin.getSpellConfigManager().getUseSetting(champion, this, SpellSetting.HEALTH_COST, 0, true);
+            double healthCost = plugin.getSpellConfigManager().getUseSetting(caster, this, SpellSetting.HEALTH_COST, 0, true);
 
-            final SpellCastEvent skillEvent = new SpellCastEvent(champion, this, manaCost, healthCost, spellRequirement);
+            final SpellCastEvent skillEvent = new SpellCastEvent(caster, this, manaCost, healthCost, spellRequirement);
             plugin.getServer().getPluginManager().callEvent(skillEvent);
             if (skillEvent.isCancelled()) {
                 return SpellCastResult.CANCELLED;
             }
 
             boolean cancelDelayedSpellOnFailure = false;
-            Delayed<T> dSpell =  plugin.getSpellManager().getDelayedSpell(champion);
+            Delayed dSpell = caster.getDelayedSpell();
             if ((dSpell != null) && dSpell.getActiveSpell().equals(this)) {
                 cancelDelayedSpellOnFailure = true;
             }
@@ -116,64 +117,64 @@ public abstract class TargettedSpell<T extends TargettedSpellArgument> extends A
             }
 
             manaCost = skillEvent.getManaCost();
-            if (manaCost > champion.getMana()) {
+            if (manaCost > caster.getMana()) {
                 if (cancelDelayedSpellOnFailure)
-                    champion.cancelDelayedSpell(true);
+                    caster.cancelDelayedSpell(true);
                 return SpellCastResult.LOW_MANA;
             }
 
             healthCost = skillEvent.getHealthCost();
-            if ((healthCost > 0) && (champion.getPlayer().getHealth() <= healthCost)) {
+            if ((healthCost > 0) && (caster.getHealth() <= healthCost)) {
                 if (cancelDelayedSpellOnFailure)
-                    champion.cancelDelayedSpell(true);
+                    caster.cancelDelayedSpell(true);
                 return SpellCastResult.LOW_HEALTH;
             }
 
             spellRequirement = skillEvent.getRequirement();
-            if ((spellRequirement != null) && !hasSpellRequirement(spellRequirement, champion)) {
+            if ((spellRequirement != null) && !hasSpellRequirement(spellRequirement, caster)) {
                 if (cancelDelayedSpellOnFailure)
-                    champion.cancelDelayedSpell(true);
+                    caster.cancelDelayedSpell(true);
                 return SpellCastResult.MISSING_REAGENT;
             }
 
-            LivingEntity target = getTarget(champion, 50, argument);
+            LivingEntity target = getTarget(caster, 50, argument);
             if (target == null) {
                 return SpellCastResult.INVALID_TARGET;
             }
-            DelayedTargetedSpell<T> dTSpell;
+            DelayedTarget dTSpell;
 
             int globalCD = plugin.getProperties().getDefaultGlobalCooldown();
-            dTSpell = new DelayedTargetedSpell<T>(this, argument, champion, target, System.currentTimeMillis(), delay);
-            if ((delay > 0) && !plugin.getSpellManager().isChampionDelayed(champion)) {
-                if (plugin.getSpellManager().setDelayedSpell(dSpell)) {
-                    onWarmUp(champion);
+            dTSpell = new DelayedTargetedSpell<T>(this, argument, caster, target, System.currentTimeMillis(), delay);
+            if ((delay > 0) && !plugin.getSpellManager().isCasterDelayed(caster)) {
+                if (caster.setDelayedSpell(dSpell)) {
+                    onWarmUp(caster);
 
                     if (cooldown < globalCD) {
                         if (cooldown < globalCD) {
                             if (cooldown < 500)
                                 cooldown = 500;
                         }
-                        champion.setCooldown("global", cooldown + time);
+                        caster.setCooldown("global", cooldown + time);
                     } else {
-                        champion.setCooldown("global", globalCD + time);
+                        caster.setCooldown("global", globalCD + time);
                     }
 
                     return SpellCastResult.NORMAL;
                 } else {
                     return SpellCastResult.FAIL;
                 }
-            } else if (plugin.getSpellManager().isChampionDelayed(champion)) {
-                dTSpell = (DelayedTargetedSpell<T>) plugin.getSpellManager().getDelayedSpell(champion);
+            } else if (plugin.getSpellManager().isCasterDelayed(caster)) {
+                dTSpell = (DelayedTarget) caster.getDelayedSpell();
 
                 if (dSpell.getActiveSpell().equals(this)) {
                     if (!dSpell.isReady()) {
                         return SpellCastResult.ON_WARMUP;
                     } else {
                         if (!isType(SpellType.ABILITY_PROPERTY_SONG)) {
-                            champion.removeEffect(champion.getEffect("Casting"));
+                            caster.removeEffect(caster.getEffect("Casting"));
                         }
 
-                        plugin.getSpellManager().setCompletedSpell(champion);
+                        plugin.getSpellManager().setCompletedSpell(caster);
                     }
                 } else {
                     return SpellCastResult.FAIL;
@@ -181,12 +182,12 @@ public abstract class TargettedSpell<T extends TargettedSpellArgument> extends A
             }
 
             SpellCastResult skillResult;
-            skillResult = this.useDelayed(champion, dTSpell, argument);
+            skillResult = this.useDelayed(caster, dTSpell, argument);
 
             if (skillResult == SpellCastResult.NORMAL) {
                 time = System.currentTimeMillis();
                 if (cooldown > 0) {
-                    champion.setCooldown(name, time + cooldown);
+                    caster.setCooldown(name, time + cooldown);
                 }
 
                 if (globalCD > 0) {
@@ -195,27 +196,27 @@ public abstract class TargettedSpell<T extends TargettedSpellArgument> extends A
                             if (cooldown < 100)
                                 cooldown = 100;
 
-                            champion.setGlobalCooldown(cooldown + time);
+                            caster.setGlobalCooldown(cooldown + time);
                         } else
-                            champion.setGlobalCooldown(globalCD + time);
+                            caster.setGlobalCooldown(globalCD + time);
                     }
                 }
 
                 if (grantsExperienceOnCast()) {
-                    this.awardExperience(champion);
+                    this.awardExperience(caster);
                 }
 
                 if (manaCost > 0) {
-                    champion.setMana(champion.getMana() - manaCost);
+                    caster.setMana(caster.getMana() - manaCost);
                 }
 
                 if (healthCost > 0) {
-                    champion.getPlayer().setHealth(champion.getPlayer().getHealth() - healthCost);
+                    caster.setHealth(caster.getHealth() - healthCost);
                 }
 
                 if (spellRequirement != null) {
-                    champion.removeSpellRequirement(spellRequirement);
-                    champion.getPlayer().updateInventory();
+                    caster.removeSpellRequirement(spellRequirement);
+                    caster.updateInventory();
                 }
 
             }
@@ -226,104 +227,105 @@ public abstract class TargettedSpell<T extends TargettedSpellArgument> extends A
 
     }
 
-    private LivingEntity getTarget(Champion champion, int maxDistance, T args) {
-        final Player player = champion.getPlayer();
-        LivingEntity target = null;
-        if (args.getRawArguments().size() > 0) {
-            target = plugin.getServer().getPlayer(args.getTargetUniqueID());
+    private LivingEntity getTarget(SpellCaster caster, int maxDistance, T args) {
+        if (caster instanceof IEntity) {
+            final IEntity ientity = (IEntity) caster;
+            final LivingEntity lentity = ientity.getEntity();
+            LivingEntity target = null;
+            if (args.getRawArguments().size() > 0) {
+                target = plugin.getServer().getPlayer(args.getTargetUniqueID());
+
+                if (target == null) {
+                    return null;
+                }
+
+                if (!lentity.equals(target)) {
+                    if (!target.getLocation().getWorld().equals(lentity.getLocation().getWorld())) {
+                        return null;
+                    }
+
+                    int distanceSquared = maxDistance * maxDistance;
+                    if (lentity.getLocation().distanceSquared(target.getLocation()) > distanceSquared) {
+                        return null;
+                    }
+
+                    if (!inLineOfSight(lentity, target)) {
+                        return null;
+                    }
+                }
+
+                if (target.isDead() || target.getHealth() == 0) {
+                    return null;
+                }
+            }
 
             if (target == null) {
-                return null;
-            }
-
-            if (!player.equals(target)) {
-                if (!target.getLocation().getWorld().equals(player.getLocation().getWorld())) {
-                    return null;
-                }
-
-                int distanceSquared = maxDistance * maxDistance;
-                if (player.getLocation().distanceSquared(target.getLocation()) > distanceSquared) {
-                    return null;
-                }
-
-                if (!inLineOfSight(player, (Player) target)) {
-                    return null;
-                }
-            }
-
-            if (target.isDead() || target.getHealth() == 0) {
-                return null;
-            }
-        }
-
-        if (target == null) {
-            target = getPlayerTarget(player, maxDistance);
-            if (isType(SpellType.HEALING) || isType(SpellType.BUFFING)) {
-                if ((target instanceof Player) && champion.hasParty() && champion.getParty().hasMember((Player) target)) {
-                    return target;
-                }
-                else if (target instanceof Player) {
-                    return null;
-                }
-                else {
-                    target = null;
-                }
-            }
-        }
-
-        if (target == null || player.equals(target)) {
-            if (isType(SpellType.AGGRESSIVE) || isType(SpellType.NO_SELF_TARGETTING)) {
-                return null;
-            }
-            target = player;
-        }
-
-        if (!player.equals(target)) {
-            if (champion.hasEffectType(EffectType.BLIND)) {
-                return null;
-            }
-
-            if (target != null && (target instanceof Player)) {
-                final Champion targettedChamp = plugin.getEntityManager().getChampion((Player) target);
-                if (targettedChamp.hasEffectType(EffectType.UNTARGETABLE)) {
-                    return null;
-                }
-            }
-        }
-
-        if (isType(SpellType.AGGRESSIVE)) {
-            if (player.equals(target) || champion.hasEffectType(EffectType.INVULNERABILITY) || !damageCheck(champion, target)) {
-                return null;
-            }
-        }
-
-        if (isType(SpellType.MULTI_GRESSIVE)) {
-            boolean bypassDamageCheck = false;
-            if (champion.hasParty()) {
-                if (target instanceof Player) {
-                    Champion targettedChampion = plugin.getEntityManager().getChampion((Player) target);
-                    if (champion.getParty().hasMember(targettedChampion)) {
-                        bypassDamageCheck = true;
+                target = getPlayerTarget(lentity, maxDistance);
+                if (isType(SpellType.HEALING) || isType(SpellType.BUFFING)) {
+                    if ((target instanceof Player) && caster.hasParty() && caster.getParty().hasMember((Player) target)) {
+                        return target;
+                    } else if (target instanceof Player) {
+                        return null;
+                    } else {
+                        target = null;
                     }
                 }
             }
-            else if (player.equals(target)) {
-                bypassDamageCheck = true;
+
+            if (target == null || lentity.equals(target)) {
+                if (isType(SpellType.AGGRESSIVE) || isType(SpellType.NO_SELF_TARGETTING)) {
+                    return null;
+                }
+                target = lentity;
             }
 
-            if (!bypassDamageCheck) {
-                if (champion.hasEffectType(EffectType.INVULNERABILITY)) {
+            if (!lentity.equals(target)) {
+                if (caster.hasEffectType(EffectType.BLIND)) {
                     return null;
                 }
-                else if (!damageCheck(champion, target)) {
+
+                if (target != null && (target instanceof Player)) {
+                    final Champion targettedChamp = plugin.getEntityManager().getChampion((Player) target);
+                    if (targettedChamp.hasEffectType(EffectType.UNTARGETABLE)) {
+                        return null;
+                    }
+                }
+            }
+
+            if (isType(SpellType.AGGRESSIVE)) {
+                if (lentity.equals(target) || caster.hasEffectType(EffectType.INVULNERABILITY) || !damageCheck(ientity, target)) {
                     return null;
                 }
             }
+
+            if (isType(SpellType.MULTI_GRESSIVE)) {
+                boolean bypassDamageCheck = false;
+                if (caster.hasParty()) {
+                    if (target instanceof Player) {
+                        Champion targettedChampion = plugin.getEntityManager().getChampion((Player) target);
+                        if (caster.getParty().hasMember(targettedChampion)) {
+                            bypassDamageCheck = true;
+                        }
+                    }
+                } else if (lentity.equals(target)) {
+                    bypassDamageCheck = true;
+                }
+
+                if (!bypassDamageCheck) {
+                    if (caster.hasEffectType(EffectType.INVULNERABILITY)) {
+                        return null;
+                    } else if (!damageCheck(ientity, target)) {
+                        return null;
+                    }
+                }
+            }
+            return target;
+        } else {
+            return null;
         }
-        return target;
     }
 
-    public static boolean inLineOfSight(Player a, Player b) {
+    public static boolean inLineOfSight(LivingEntity a, LivingEntity b) {
         if (a.equals(b)) {
             return true;
         }
@@ -352,13 +354,13 @@ public abstract class TargettedSpell<T extends TargettedSpellArgument> extends A
     }
 
     @SuppressWarnings("deprecation")
-    public static LivingEntity getPlayerTarget(Player player, int maxDistance) {
-        if (player.getLocation().getBlockY() > player.getLocation().getWorld().getMaxHeight()) {
+    public static LivingEntity getPlayerTarget(LivingEntity lentity, int maxDistance) {
+        if (lentity.getLocation().getBlockY() > lentity.getLocation().getWorld().getMaxHeight()) {
             return null;
         }
         List<Block> lineOfSight;
         try {
-            lineOfSight = player.getLineOfSight(Utilities.getTransparentBlockIDs(), maxDistance);
+            lineOfSight = lentity.getLineOfSight(Utilities.getTransparentBlockIDs(), maxDistance);
         }
         catch (final IllegalStateException e) {
             return null;
@@ -370,7 +372,7 @@ public abstract class TargettedSpell<T extends TargettedSpellArgument> extends A
             locations.add(block.getLocation());
             locations.add(block.getRelative(BlockFace.DOWN).getLocation());
         }
-        final List<Entity> nearbyEntities = player.getNearbyEntities(maxDistance, maxDistance, maxDistance);
+        final List<Entity> nearbyEntities = lentity.getNearbyEntities(maxDistance, maxDistance, maxDistance);
         for (final Entity entity : nearbyEntities) {
             if ((entity instanceof LivingEntity) && !entity.isDead() && !(((LivingEntity) entity).getHealth() == 0)) {
                 if (locations.contains(entity.getLocation().getBlock().getLocation())) {

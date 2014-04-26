@@ -7,6 +7,7 @@ import org.bukkit.event.entity.EntityDamageEvent;
 
 import com.afterkraft.kraftrpg.api.entity.Champion;
 import com.afterkraft.kraftrpg.api.entity.IEntity;
+import com.afterkraft.kraftrpg.api.entity.SpellCaster;
 
 /**
  * Represents a usable Spell for KraftRPG.
@@ -59,10 +60,10 @@ public interface ISpell {
     /**
      * Adds an Entity as a spell target.
      * @param entity to add as a target
-     * @param champion the Champion using the Spell
+     * @param caster casting this spell
      * @return true if successful
      */
-    public boolean addSpellTarget(Entity entity, Champion champion);
+    public boolean addSpellTarget(Entity entity, SpellCaster caster);
 
     /**
      * Check if this ISpell is of the requested {@link SpellType}
@@ -132,5 +133,5 @@ public interface ISpell {
      */
     public boolean damageCheck(IEntity attacker, LivingEntity defending);
 
-    public void awardExperience(Champion champion);
+    public void awardExperience(SpellCaster caster);
 }

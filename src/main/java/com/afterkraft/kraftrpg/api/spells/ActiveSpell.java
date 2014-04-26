@@ -1,8 +1,9 @@
 package com.afterkraft.kraftrpg.api.spells;
 
+import org.bukkit.entity.LivingEntity;
+
 import com.afterkraft.kraftrpg.api.RPGPlugin;
-import com.afterkraft.kraftrpg.api.entity.Champion;
-import com.afterkraft.kraftrpg.api.entity.roles.Role;
+import com.afterkraft.kraftrpg.api.entity.SpellCaster;
 import com.afterkraft.kraftrpg.api.events.spells.SpellCastEvent;
 import com.afterkraft.kraftrpg.api.util.SpellRequirement;
 
@@ -28,29 +29,29 @@ public abstract class ActiveSpell<T extends SpellArgument> extends Spell impleme
     }
 
     @Override
-    public void onWarmUp(Champion champion) {
+    public void onWarmUp(SpellCaster caster) {
 
     }
 
     @Override
-    public SpellCastResult canCast(final Champion champion, final T argument, boolean forced) {
+    public SpellCastResult canCast(final SpellCaster caster, final T argument, boolean forced) {
         final String name = this.getName();
-        if (champion == null) {
+        if (caster == null) {
             return null;
         }
 
-        if (champion.getPlayer().getHealth() <= 0 || champion.getPlayer().isDead()) {
+        if (caster.isDead()) {
             return SpellCastResult.DEAD;
         }
 
         if (!forced) {
-            if (!champion.canPrimaryUseSpell(this) || !champion.canSecondaryUseSpell(this) || !champion.canAdditionalsUseSpell(this)) {
+            if (!caster.canPrimaryUseSpell(this) || !caster.canSecondaryUseSpell(this) || !caster.canAdditionalUseSpell(this)) {
                 return SpellCastResult.NOT_DEFINED_IN_ACTIVE_ROLES;
-            } else if (champion.doesPrimaryRestrictSpell(this) || champion.doesSecondaryRestrictSpell(this)) {
+            } else if (caster.doesPrimaryRestrictSpell(this) || caster.doesSecondaryRestrictSpell(this)) {
                 return SpellCastResult.RESTRICTED_IN_ROLES;
             }
-            final int level = plugin.getSpellConfigManager().getUseSetting(champion, this, SpellSetting.LEVEL, 1, true);
-            int champLevel = champion.getHighestSpellLevel(this);
+            final int level = plugin.getSpellConfigManager().getUseSetting(caster, this, SpellSetting.LEVEL, 1, true);
+            int champLevel = caster.getHighestSpellLevel(this);
             if (champLevel != 0 && champLevel < level) {
                 return SpellCastResult.LOW_LEVEL;
             }
@@ -59,110 +60,111 @@ public abstract class ActiveSpell<T extends SpellArgument> extends Spell impleme
             }
 
             long time = System.currentTimeMillis();
-            final long global = champion.getGlobalCooldown();
-            if (!plugin.getSpellManager().isChampionDelayed(champion)) {
+            final long global = caster.getGlobalCooldown();
+            if (!plugin.getSpellManager().isCasterDelayed(caster)) {
                 if (time < global) {
                     return SpellCastResult.ON_GLOBAL_COOLDOWN;
                 }
             }
 
-            int cooldown = plugin.getSpellConfigManager().getUseSetting(champion, this, SpellSetting.COOLDOWN, 0, true);
+            int cooldown = plugin.getSpellConfigManager().getUseSetting(caster, this, SpellSetting.COOLDOWN, 0, true);
             if (cooldown > 0) {
-                final Long expiry = champion.getCooldown(name);
+                final Long expiry = caster.getCooldown(name);
                 if ((expiry != null) && (time < expiry)) {
                     return SpellCastResult.ON_COOLDOWN;
                 }
             }
 
-            final int delay = plugin.getSpellConfigManager().getUseSetting(champion, this, SpellSetting.DELAY, 0, true);
+            final int delay = plugin.getSpellConfigManager().getUseSetting(caster, this, SpellSetting.DELAY, 0, true);
 
             if (!isType(SpellType.UNINTERRUPTIBLE)) {
-                if (champion.isInCombat() && plugin.getSpellConfigManager().getUseSetting(champion, this, SpellSetting.NO_COMBAT_USE, false)) {
+                if (caster.isInCombat() && plugin.getSpellConfigManager().getUseSetting(caster, this, SpellSetting.NO_COMBAT_USE, false)) {
                     if (delay > 0) {
-                        final Delayed dSpell = plugin.getSpellManager().getDelayedSpell(champion);
+                        final Delayed dSpell = caster.getDelayedSpell();
                         if ((dSpell != null) && dSpell.getActiveSpell().equals(this)) {
-                            champion.cancelDelayedSpell(true);
+                            caster.cancelDelayedSpell(true);
                         }
                     }
                     return SpellCastResult.NO_COMBAT;
                 }
             }
 
-            int manaCost = plugin.getSpellConfigManager().getUseSetting(champion, this, SpellSetting.MANA, 0, true);
-            final double manaReduce = plugin.getSpellConfigManager().getUseSetting(champion, this, SpellSetting.MANA_REDUCE_PER_LEVEL, 0.0, false) * champLevel;
+            int manaCost = plugin.getSpellConfigManager().getUseSetting(caster, this, SpellSetting.MANA, 0, true);
+            final double manaReduce = plugin.getSpellConfigManager().getUseSetting(caster, this, SpellSetting.MANA_REDUCE_PER_LEVEL, 0.0, false) * champLevel;
             manaCost -= (int) manaReduce;
 
-            SpellRequirement spellRequirement = getSpellRequirement(champion);
+            SpellRequirement spellRequirement = getSpellRequirement(caster);
 
-            double healthCost = plugin.getSpellConfigManager().getUseSetting(champion, this, SpellSetting.HEALTH_COST, 0, true);
+            double healthCost = plugin.getSpellConfigManager().getUseSetting(caster, this, SpellSetting.HEALTH_COST, 0, true);
 
-            final SpellCastEvent skillEvent = new SpellCastEvent(champion, this, manaCost, healthCost, spellRequirement);
+            final SpellCastEvent skillEvent = new SpellCastEvent(caster, this, manaCost, healthCost, spellRequirement);
             plugin.getServer().getPluginManager().callEvent(skillEvent);
             if (skillEvent.isCancelled()) {
                 return SpellCastResult.CANCELLED;
             }
 
             boolean cancelDelayedSpellOnFailure = false;
-            Delayed<T> dSpell = plugin.getSpellManager().getDelayedSpell(champion);
+            Delayed dSpell = caster.getDelayedSpell();
             if ((dSpell != null) && dSpell.getActiveSpell().equals(this)) {
                 cancelDelayedSpellOnFailure = true;
             }
 
             manaCost = skillEvent.getManaCost();
-            if (manaCost > champion.getMana()) {
+            if (manaCost > caster.getMana()) {
                 if (cancelDelayedSpellOnFailure)
-                    champion.cancelDelayedSpell(true);
+                    caster.cancelDelayedSpell(true);
                 return SpellCastResult.LOW_MANA;
             }
 
             healthCost = skillEvent.getHealthCost();
-            if ((healthCost > 0) && (champion.getPlayer().getHealth() <= healthCost)) {
+            if (caster instanceof LivingEntity)
+            if ((healthCost > 0) && (caster.getHealth() <= healthCost)) {
                 if (cancelDelayedSpellOnFailure)
-                    champion.cancelDelayedSpell(true);
+                    caster.cancelDelayedSpell(true);
                 return SpellCastResult.LOW_HEALTH;
             }
 
             spellRequirement = skillEvent.getRequirement();
-            if ((spellRequirement != null) && !hasSpellRequirement(spellRequirement, champion)) {
+            if ((spellRequirement != null) && !hasSpellRequirement(spellRequirement, caster)) {
                 if (cancelDelayedSpellOnFailure)
-                    champion.cancelDelayedSpell(true);
+                    caster.cancelDelayedSpell(true);
                 return SpellCastResult.MISSING_REAGENT;
             }
 
 
 
             int globalCD = plugin.getProperties().getDefaultGlobalCooldown();
-            dSpell = new DelayedSpell<T>(this, argument, champion, System.currentTimeMillis(), delay);
-            if ((delay > 0) && !plugin.getSpellManager().isChampionDelayed(champion)) {
-                if (plugin.getSpellManager().setDelayedSpell(dSpell)) {
-                    onWarmUp(champion);
+            dSpell = new DelayedSpell<T>(this, argument, caster, System.currentTimeMillis(), delay);
+            if ((delay > 0) && !plugin.getSpellManager().isCasterDelayed(caster)) {
+                if (caster.setDelayedSpell(dSpell)) {
+                    onWarmUp(caster);
 
                     if (cooldown < globalCD) {
                         if (cooldown < globalCD) {
                             if (cooldown < 500)
                                 cooldown = 500;
                         }
-                        champion.setCooldown("global", cooldown + time);
+                        caster.setCooldown("global", cooldown + time);
                     } else {
-                        champion.setCooldown("global", globalCD + time);
+                        caster.setCooldown("global", globalCD + time);
                     }
 
                     return SpellCastResult.NORMAL;
                 } else {
                     return SpellCastResult.FAIL;
                 }
-            } else if (plugin.getSpellManager().isChampionDelayed(champion)) {
-                dSpell = plugin.getSpellManager().getDelayedSpell(champion);
+            } else if (plugin.getSpellManager().isCasterDelayed(caster)) {
+                dSpell = caster.getDelayedSpell();
 
                 if (dSpell.getActiveSpell().equals(this)) {
                     if (!dSpell.isReady()) {
                         return SpellCastResult.ON_WARMUP;
                     } else {
                         if (!isType(SpellType.ABILITY_PROPERTY_SONG)) {
-                            champion.removeEffect(champion.getEffect("Casting"));
+                            caster.removeEffect(caster.getEffect("Casting"));
                         }
 
-                        plugin.getSpellManager().setCompletedSpell(champion);
+                        plugin.getSpellManager().setCompletedSpell(caster);
                     }
                 } else {
                     return SpellCastResult.FAIL;
@@ -170,12 +172,12 @@ public abstract class ActiveSpell<T extends SpellArgument> extends Spell impleme
             }
 
             SpellCastResult skillResult;
-            skillResult = useSpell(champion, argument);
+            skillResult = useSpell(caster, argument);
 
             if (skillResult == SpellCastResult.NORMAL) {
                 time = System.currentTimeMillis();
                 if (cooldown > 0) {
-                    champion.setCooldown(name, time + cooldown);
+                    caster.setCooldown(name, time + cooldown);
                 }
 
                 if (globalCD > 0) {
@@ -184,30 +186,30 @@ public abstract class ActiveSpell<T extends SpellArgument> extends Spell impleme
                             if (cooldown < 100)
                                 cooldown = 100;
 
-                            champion.setGlobalCooldown(cooldown + time);
+                            caster.setGlobalCooldown(cooldown + time);
                         } else
-                            champion.setGlobalCooldown(globalCD + time);
+                            caster.setGlobalCooldown(globalCD + time);
                     }
                 }
 
                 // Award XP for skill usage
                 if (grantsExperienceOnCast()) {
-                    this.awardExperience(champion);
+                    this.awardExperience(caster);
                 }
 
                 // Deduct mana
                 if (manaCost > 0) {
-                    champion.setMana(champion.getMana() - manaCost);
+                    caster.setMana(caster.getMana() - manaCost);
                 }
 
                 // Deduct health
                 if (healthCost > 0) {
-                    champion.getPlayer().setHealth(champion.getPlayer().getHealth() - healthCost);
+                    caster.setHealth(caster.getHealth() - healthCost);
                 }
 
                 if (spellRequirement != null) {
-                    champion.removeSpellRequirement(spellRequirement);
-                    champion.getPlayer().updateInventory();
+                    caster.removeSpellRequirement(spellRequirement);
+                    caster.updateInventory();
                 }
 
             }

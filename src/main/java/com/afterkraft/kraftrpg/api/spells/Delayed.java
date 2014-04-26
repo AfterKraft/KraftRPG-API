@@ -1,6 +1,6 @@
 package com.afterkraft.kraftrpg.api.spells;
 
-import com.afterkraft.kraftrpg.api.entity.IEntity;
+import com.afterkraft.kraftrpg.api.entity.SpellCaster;
 
 /**
  * @author gabizou
@@ -15,6 +15,6 @@ public interface Delayed<T extends SpellArgument> {
 
     public Active<T> getActiveSpell();
 
-    public IEntity getCaster();
+    public SpellCaster getCaster();
 
 }

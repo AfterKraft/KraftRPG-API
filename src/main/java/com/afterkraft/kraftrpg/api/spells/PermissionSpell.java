@@ -7,6 +7,7 @@ import org.bukkit.permissions.Permission;
 
 import com.afterkraft.kraftrpg.api.RPGPlugin;
 import com.afterkraft.kraftrpg.api.entity.Champion;
+import com.afterkraft.kraftrpg.api.entity.SpellCaster;
 
 /**
  * PermissionSpell allows setting any other Plugin's permission to become a
@@ -50,7 +51,12 @@ public class PermissionSpell extends Spell implements Permissible {
     }
 
     @Override
-    public boolean addSpellTarget(Entity entity, Champion champion) {
+    public boolean addSpellTarget(Entity entity, SpellCaster caster) {
         return true;
+    }
+
+    @Override
+    public boolean isInMessageRange(Champion broadcaster, Champion receiver) {
+        return false;
     }
 }
