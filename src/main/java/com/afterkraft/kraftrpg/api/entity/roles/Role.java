@@ -3,7 +3,6 @@ package com.afterkraft.kraftrpg.api.entity.roles;
 import org.bukkit.Material;
 
 import com.afterkraft.kraftrpg.api.spells.ISpell;
-import com.afterkraft.kraftrpg.api.spells.SpellArgument;
 
 /**
  * @author gabizou

@@ -4,15 +4,20 @@ import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.Set;
 
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.Configuration;
 import org.bukkit.configuration.MemoryConfiguration;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 
 import com.afterkraft.kraftrpg.api.RPGPlugin;
 import com.afterkraft.kraftrpg.api.entity.Champion;
+import com.afterkraft.kraftrpg.api.entity.IEntity;
+import com.afterkraft.kraftrpg.api.entity.roles.ExperienceType;
 import com.afterkraft.kraftrpg.api.handler.CraftBukkitHandler;
+import com.afterkraft.kraftrpg.api.util.FixedPoint;
 
 /**
  * Represents an intended implementation of ISpell.
@@ -124,5 +129,24 @@ public abstract class Spell implements ISpell {
     @Override
     public final boolean damageEntity(LivingEntity target, LivingEntity attacker, double damage, EntityDamageEvent.DamageCause cause, boolean knockback) {
         return CraftBukkitHandler.getInterface().damageEntity(target, attacker, damage, cause, knockback);
+    }
+
+    @Override
+    public boolean damageCheck(IEntity attacking, LivingEntity defenderLE) {
+        if (attacking.getEntity().equals(defenderLE)) {
+            return false;
+        }
+
+        EntityDamageByEntityEvent damageEntityEvent = new EntityDamageByEntityEvent(attacking.getEntity(), defenderLE, EntityDamageEvent.DamageCause.CUSTOM, 0D);
+        Bukkit.getServer().getPluginManager().callEvent(damageEntityEvent);
+
+        return damageEntityEvent.isCancelled();
+    }
+
+    @Override
+    public void awardExperience(Champion champion) {
+        if (champion.canGainExperience(ExperienceType.SPELL)) {
+            champion.gainExperience(new FixedPoint(plugin.getSpellConfigManager().getUseSetting(champion, this, SpellSetting.EXP, 0, false)), ExperienceType.SPELL, champion.getPlayer().getLocation());
+        }
     }
 }

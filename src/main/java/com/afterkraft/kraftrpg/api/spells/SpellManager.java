@@ -5,6 +5,7 @@ import java.util.Collection;
 import org.bukkit.entity.Entity;
 
 import com.afterkraft.kraftrpg.api.Manager;
+import com.afterkraft.kraftrpg.api.entity.Champion;
 import com.afterkraft.kraftrpg.api.entity.IEntity;
 
 /**
@@ -35,6 +36,7 @@ public interface SpellManager extends Manager {
      * @return
      */
     public Collection<ISpell> getSpells();
+
     /**
      * Checks if a spell has already been loaded
      *
@@ -49,6 +51,26 @@ public interface SpellManager extends Manager {
      * @param spell
      */
     public void removeSpell(ISpell spell);
+
+    /**
+     * Check if the {@link com.afterkraft.kraftrpg.api.entity.Champion} has an actively {@link com.afterkraft.kraftrpg.api.spells.Delayed} Spell.
+     *
+     * @param champion the champion in question
+     * @return
+     */
+    public boolean isChampionDelayed(Champion champion);
+
+    /**
+     *
+     * @param champion
+     * @param <T>
+     * @return
+     */
+    public <T extends SpellArgument> Delayed<T> getDelayedSpell(Champion champion);
+
+    public <T extends SpellArgument> boolean setDelayedSpell(Delayed<T> delayed);
+
+    public void setCompletedSpell(Champion champion);
 
     public void addSpellTarget(Entity o, IEntity character, ISpell skill);
 

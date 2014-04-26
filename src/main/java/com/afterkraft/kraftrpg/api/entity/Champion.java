@@ -2,12 +2,15 @@ package com.afterkraft.kraftrpg.api.entity;
 
 import java.util.Set;
 
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
+import com.afterkraft.kraftrpg.api.entity.party.Party;
+import com.afterkraft.kraftrpg.api.entity.roles.ExperienceType;
 import com.afterkraft.kraftrpg.api.entity.roles.Role;
 import com.afterkraft.kraftrpg.api.spells.ISpell;
-import com.afterkraft.kraftrpg.api.spells.SpellArgument;
 import com.afterkraft.kraftrpg.api.util.FixedPoint;
+import com.afterkraft.kraftrpg.api.util.SpellRequirement;
 
 /**
  * @author gabizou
@@ -88,6 +91,13 @@ public interface Champion extends IEntity {
     public int getLevel(Role role);
 
     /**
+     * Fetch the highest level of all active {@link com.afterkraft.kraftrpg.api.entity.roles.Role}s of the designated {@link com.afterkraft.kraftrpg.api.spells.ISpell}.
+     * @param spell the spell in question
+     * @return the highest level, if none, 0.
+     */
+    public int getHighestSpellLevel(ISpell spell);
+
+    /**
      * Fetches the current experience of the given Role.
      * <p>
      * If this Champion has no experience in the given Role, this will return a FixedPoint with value 0
@@ -96,6 +106,41 @@ public interface Champion extends IEntity {
      */
     public FixedPoint getExperience(Role role);
 
+    public boolean canGainExperience(ExperienceType type);
+
+    public FixedPoint gainExperience(FixedPoint exp, ExperienceType type, Location location);
+
+    /**
+     * Get the key'ed cooldown. Used by Spells to mark individual cooldowns
+     * @param key
+     * @return
+     */
+    public Long getCooldown(String key);
+
+    /**
+     * Get the global cooldown
+     * @return the global cooldown if not 0
+     */
+    public long getGlobalCooldown();
+
+    public void setCooldown(String key, long duration);
+
+    public void setGlobalCooldown(long duration);
+
+    /**
+     *
+     * @param spell
+     * @return
+     */
+    public boolean canUseSpell(ISpell spell);
+
+    /**
+     *
+     * @param spell
+     * @return
+     */
+    public boolean isSpellRestricted(ISpell spell);
+
     /**
      *
      * @param spell
@@ -103,7 +148,92 @@ public interface Champion extends IEntity {
      */
     public boolean canPrimaryUseSpell(ISpell spell);
 
+    /**
+     *
+     * @param spell
+     * @return
+     */
+    public boolean doesPrimaryRestrictSpell(ISpell spell);
+
+    /**
+     *
+     * @param spell
+     * @return
+     */
     public boolean canSecondaryUseSpell(ISpell spell);
 
+    /**
+     *
+     * @param spell
+     * @return
+     */
+    public boolean doesSecondaryRestrictSpell(ISpell spell);
+
+    /**
+     *
+     * @param spell
+     * @return
+     */
+    public boolean canAdditionalsUseSpell(ISpell spell);
+
+    /**
+     *
+     * @param spell
+     * @return
+     */
+    public boolean doesAdditionalRestrictSpell(ISpell spell);
+
+    /**
+     *
+     * @return
+     */
+    public ISpell getDelayedSpell();
+
+    /**
+     *
+     * @param spell
+     * @return
+     */
+    public boolean setDelayedSpell(ISpell spell);
+
+    /**
+     *
+     * @param forced whether to force cancellation of the delayed spell
+     * @return true if the delayed spell was cancelled
+     */
+    public boolean cancelDelayedSpell(boolean forced);
+
+    /**
+     *
+     * @return the newly recalculated max health
+     */
     public double recalculateMaxHealth();
+
+    public int getMana();
+
+    public void setMana(int mana);
+
+    public void removeSpellRequirement(SpellRequirement spellRequirement);
+
+    /**
+     *
+     * @return true if this Champion is marked in combat
+     */
+    public boolean isInCombat();
+
+    /**
+     *
+     */
+    public void enterCombat();
+
+    /**
+     *
+     * @param reason the designated reason for leaving combat
+     */
+    public void leaveCombat(LeaveCombatReason reason);
+
+
+    public boolean hasParty();
+
+    public Party getParty();
 }

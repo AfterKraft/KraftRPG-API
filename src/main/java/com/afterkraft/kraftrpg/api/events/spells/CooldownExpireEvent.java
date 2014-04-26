@@ -3,9 +3,8 @@ package com.afterkraft.kraftrpg.api.events.spells;
 import org.bukkit.event.HandlerList;
 
 import com.afterkraft.kraftrpg.api.entity.Champion;
-import com.afterkraft.kraftrpg.api.events.ChampionEvent;
+import com.afterkraft.kraftrpg.api.events.entity.champion.ChampionEvent;
 import com.afterkraft.kraftrpg.api.spells.ISpell;
-import com.afterkraft.kraftrpg.api.spells.SpellArgument;
 
 /**
  * @author gabizou

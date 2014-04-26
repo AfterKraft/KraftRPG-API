@@ -10,7 +10,6 @@ import org.bukkit.entity.Player;
 import com.afterkraft.storage.api.CommonStorage;
 
 import com.afterkraft.kraftrpg.api.RPGPlugin;
-import com.afterkraft.kraftrpg.api.entity.Champion;
 
 /**
  * A generic storage that has implementations specific to KraftStorage API.

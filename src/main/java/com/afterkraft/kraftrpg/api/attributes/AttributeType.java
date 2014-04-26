@@ -6,13 +6,24 @@ import com.google.common.collect.Maps;
 import org.apache.commons.lang.Validate;
 
 /**
- * @author gabizou
+ * Attributes are defined through configurations and different attributes
+ * have different effects. AttributeTypes are defined by the configurations
+ * and {@link com.afterkraft.kraftrpg.api.spells.Spell}s can use the various
+ * attribute types to define final damage, reagent requirements, cooldowns
+ * and even immunity to some effects.
  */
 public enum AttributeType {
-    STRENGHT("Strength"),
-    DEXTERITY("Dexterity"),
-    INTELLIGENCE("Intelligence"),
-    VITALITY("Vitality");
+
+    MANA_COST_REDUCTION("Mana Cost Reduction"),
+    MANA_COST_INCREASE("Mana Cost Increase"),
+    HEALTH_COST_INCREASE("Health Cost Increase"),
+    HEALTH_COST_REDUCTION("Health Cost Reduction"),
+    SPELL_DAMAGE_INCREASE("Spell Damage Increase"),
+    SPELL_DAMAGE_REDUCTION("Spell Damage Reduction"),
+    SPELL_COOLDOWN_REDUCTION("Spell Cooldown Reduction"),
+    SPELL_COOLDOWN_INCRASE("Spell Cooldown Increase"),
+    SPELL_BUFF_INCREASE("Spell Buff Increase"),
+    SPELL_BUFF_REDUCTION("Spell Buff Reduction");
 
     private final String name;
     private AttributeType(String name) {
@@ -33,11 +44,11 @@ public enum AttributeType {
         }
     }
 
-    public static AttributeType getAttribute(final String name) {
+    public static AttributeType getAttributeType(final String name) {
         return BY_NAME.get(name);
     }
 
-    public static AttributeType matchAttribute(final String name) {
+    public static AttributeType matchAttributeType(final String name) {
         Validate.notNull(name, "IAttribute Name cannot be null");
         AttributeType result = BY_NAME.get(name.toUpperCase());
 

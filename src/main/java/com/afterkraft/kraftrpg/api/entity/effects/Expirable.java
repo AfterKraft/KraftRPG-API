@@ -1,6 +1,16 @@
 package com.afterkraft.kraftrpg.api.entity.effects;
 
-public interface Expirable extends Effect {
+import com.afterkraft.kraftrpg.api.entity.Champion;
+
+public interface Expirable extends IEffect {
+
+    public String getApplyText();
+
+    public void setApplyText(String text);
+
+    public String getExpireText();
+
+    public void setExpireText(String text);
 
     /**
      * Fetch the duration of this Expirable Effect.
@@ -31,4 +41,12 @@ public interface Expirable extends Effect {
      * time to the current System time.
      */
     public void expire();
+
+    /**
+     * Get the {@link com.afterkraft.kraftrpg.api.entity.Champion} applying this expirable effect.
+     * @return
+     */
+    public Champion getApplier();
+
+    public void setApplier(Champion player);
 }

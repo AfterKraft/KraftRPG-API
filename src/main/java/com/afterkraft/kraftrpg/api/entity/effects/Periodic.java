@@ -4,7 +4,7 @@ import com.afterkraft.kraftrpg.api.entity.Champion;
 import com.afterkraft.kraftrpg.api.entity.IEntity;
 import com.afterkraft.kraftrpg.api.entity.Monster;
 
-public interface Periodic extends Effect {
+public interface Periodic extends IEffect {
 
     /**
      * Returns the last time the effect ticked

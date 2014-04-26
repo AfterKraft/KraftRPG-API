@@ -5,16 +5,16 @@ import com.afterkraft.kraftrpg.api.entity.IEntity;
 /**
  * @author gabizou
  */
-public interface ManagedEffect {
+public interface Managed {
 
     /**
-     * Return the instance of the {@link com.afterkraft.kraftrpg.api.entity.effects.Effect}
+     * Return the instance of the {@link IEffect}
      * @return the Effect
      */
-    public Effect getEffect();
+    public IEffect getEffect();
 
     /**
-     * Return the IEntity attached to this ManagedEffect
+     * Return the IEntity attached to this Managed
      * @return the IEntity
      */
     public IEntity getEntity();

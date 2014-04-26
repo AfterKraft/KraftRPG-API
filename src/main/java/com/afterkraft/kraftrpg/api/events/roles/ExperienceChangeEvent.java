@@ -1,10 +1,9 @@
-package com.afterkraft.kraftrpg.api.events.entity.champion;
+package com.afterkraft.kraftrpg.api.events.roles;
 
 import org.bukkit.event.Cancellable;
 
 import com.afterkraft.kraftrpg.api.entity.Champion;
 import com.afterkraft.kraftrpg.api.entity.roles.Role;
-import com.afterkraft.kraftrpg.api.events.RoleEvent;
 import com.afterkraft.kraftrpg.api.util.FixedPoint;
 
 /**

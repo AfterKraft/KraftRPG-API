@@ -1,10 +1,10 @@
-package com.afterkraft.kraftrpg.api.events;
+package com.afterkraft.kraftrpg.api.events.roles;
 
 import org.bukkit.event.HandlerList;
 
 import com.afterkraft.kraftrpg.api.entity.Champion;
 import com.afterkraft.kraftrpg.api.entity.roles.Role;
-import com.afterkraft.kraftrpg.api.events.ChampionEvent;
+import com.afterkraft.kraftrpg.api.events.entity.champion.ChampionEvent;
 
 /**
  * @author gabizou

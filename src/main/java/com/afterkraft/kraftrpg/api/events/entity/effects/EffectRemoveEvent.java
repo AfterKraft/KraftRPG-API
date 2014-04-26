@@ -5,7 +5,7 @@ import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
 import com.afterkraft.kraftrpg.api.entity.IEntity;
-import com.afterkraft.kraftrpg.api.entity.effects.Effect;
+import com.afterkraft.kraftrpg.api.entity.effects.IEffect;
 
 /**
  * @author gabizou
@@ -14,15 +14,15 @@ public class EffectRemoveEvent extends Event implements Cancellable {
 
     private boolean isCancelled = false;
     private final IEntity entity;
-    private Effect effect;
+    private IEffect IEffect;
 
-    public EffectRemoveEvent(IEntity entity, Effect effect) {
+    public EffectRemoveEvent(IEntity entity, IEffect IEffect) {
         this.entity = entity;
-        this.effect = effect;
+        this.IEffect = IEffect;
     }
 
-    public Effect getEffect() {
-        return this.effect;
+    public IEffect getEffect() {
+        return this.IEffect;
     }
 
     public IEntity getEntity() {

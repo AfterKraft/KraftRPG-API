@@ -5,12 +5,14 @@ import java.util.logging.Level;
 import org.bukkit.plugin.Plugin;
 
 import com.afterkraft.kraftrpg.api.entity.EntityManager;
+import com.afterkraft.kraftrpg.api.entity.party.PartyManager;
 import com.afterkraft.kraftrpg.api.entity.roles.RoleManager;
 import com.afterkraft.kraftrpg.api.spells.SpellConfigManager;
 import com.afterkraft.kraftrpg.api.spells.SpellManager;
 import com.afterkraft.kraftrpg.api.storage.StorageManager;
 import com.afterkraft.kraftrpg.api.util.ConfigManager;
 import com.afterkraft.kraftrpg.api.util.DamageManager;
+import com.afterkraft.kraftrpg.api.util.Properties;
 
 /**
  * @author gabizou
@@ -30,6 +32,10 @@ public interface RPGPlugin extends Plugin {
     public SpellManager getSpellManager();
 
     public RoleManager getRoleManager();
+
+    public PartyManager getPartyManager();
+
+    public Properties getProperties();
 
     public void log(Level level, String msg);
 

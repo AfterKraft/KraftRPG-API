@@ -1,6 +1,7 @@
 package com.afterkraft.kraftrpg.api.spells;
 
 import com.afterkraft.kraftrpg.api.entity.Champion;
+import com.afterkraft.kraftrpg.api.util.SpellRequirement;
 
 /**
  * Represents a Spell that only has results on activation through command or binding.
@@ -47,6 +48,20 @@ public interface Active<T extends SpellArgument> extends ISpell {
      */
     public T parse(Champion champion, String[] args);
 
+    /**
+     * Performs checks that this spell can be casted by this {@link com.afterkraft.kraftrpg.api.entity.Champion}
+     *
+     * It is not required to override this method unless customized checks need to be performed on top of
+     * the current checks.
+     *
+     * It is possible to force the champion to cast this spell with the forced argument to ignore any
+     * {@link com.afterkraft.kraftrpg.api.entity.roles.Role#hasSpell(ISpell)} checks within.
+     * @param champion the Champion attempting to cast this spell
+     * @param argument the parsed argument dictated from this spell.
+     * @param forced whether to force the champion to cast this spell.
+     * @return the SpellCastResult whether it is allowed, denied, or lack of resources required, etc.
+     */
+    public SpellCastResult canCast(Champion champion, T argument, boolean forced);
 
     /**
      * Cast this spell according to this spell's defined SpellArgument. This can
@@ -56,8 +71,33 @@ public interface Active<T extends SpellArgument> extends ISpell {
      *            - The Champion to cast this spell
      * @param argument
      *            - The SpellArgument to use this spell with
-     * @return true if Spell usage was successfull
+     * @return the SpellCastResult for using the spell with the given argument.
      */
-    public boolean useSpell(Champion champion, T argument);
+    public SpellCastResult useSpell(Champion champion, T argument);
+
+    /**
+     * Return the calculated SpellRequirement for the queried {@link com.afterkraft.kraftrpg.api.entity.Champion}.
+     * This can be overriden to use different requirements dependent on various things, such as
+     * Attributes, the experience level of the Champion, and other things.
+     * @param champion the Champion to check
+     * @return a new SpellRequirement for the queried champion
+     */
+    public SpellRequirement getSpellRequirement(Champion champion);
+
+    /**
+     * Check if the designated Champion has the provided SpellRequirement. This is NOT
+     * asych safe as the player's inventory is being reviewed.
+     * @param requirement
+     * @param champion
+     * @return
+     */
+    public boolean hasSpellRequirement(SpellRequirement requirement, Champion champion);
+
+    /**
+     * Check if using this Spell grants the {@link com.afterkraft.kraftrpg.api.entity.Champion} experience on
+     * spell casts.
+     * @return
+     */
+    public boolean grantsExperienceOnCast();
 
 }

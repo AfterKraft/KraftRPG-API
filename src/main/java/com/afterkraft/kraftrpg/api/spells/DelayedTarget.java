@@ -2,12 +2,10 @@ package com.afterkraft.kraftrpg.api.spells;
 
 import org.bukkit.entity.LivingEntity;
 
-import com.afterkraft.kraftrpg.api.entity.Champion;
-
 /**
  * @author gabizou
  */
-public enum SpellResult {
+public interface DelayedTarget<T extends SpellArgument> extends Delayed<T> {
 
-
+    public LivingEntity getTarget();
 }

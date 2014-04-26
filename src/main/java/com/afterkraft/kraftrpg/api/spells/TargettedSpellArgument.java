@@ -12,12 +12,12 @@ public abstract class TargettedSpellArgument extends SpellArgument {
     /**
      * This is known to be the last known username of the targetted entity
      */
-    protected String entityName;
+    private String entityName;
 
     /**
      * This is the uuid for the targetted entity
      */
-    protected UUID entityID;
+    private UUID entityID;
 
     protected TargettedSpellArgument(String[] args) {
         super(args);
@@ -27,7 +27,7 @@ public abstract class TargettedSpellArgument extends SpellArgument {
      * Set the targetted entity's UUID
      * @param uuid
      */
-    void setTargetUniqueID(UUID uuid) {
+    protected void setTargetUniqueID(UUID uuid) {
         this.entityID = uuid;
     }
 
@@ -35,7 +35,7 @@ public abstract class TargettedSpellArgument extends SpellArgument {
      * Set the targetted entity's username
      * @param name
      */
-    void setTargetName(String name) {
+    protected void setTargetName(String name) {
         this.entityName = name;
     }
 

@@ -1,23 +1,24 @@
-package com.afterkraft.kraftrpg.api.events;
+package com.afterkraft.kraftrpg.api.events.entity;
 
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
-import com.afterkraft.kraftrpg.api.entity.Champion;
+import com.afterkraft.kraftrpg.api.entity.IEntity;
 
 /**
  * @author gabizou
  */
-public class ChampionEvent extends Event {
-    protected static final HandlerList handlers = new HandlerList();
-    private final Champion player;
+public class IEntityEvent extends Event {
 
-    public ChampionEvent(Champion player) {
-        this.player = player;
+    protected static final HandlerList handlers = new HandlerList();
+    private final IEntity entity;
+
+    public IEntityEvent(IEntity entity) {
+        this.entity = entity;
     }
 
-    public final Champion getChampion() {
-        return this.player;
+    public IEntity getEntity() {
+        return this.entity;
     }
 
     public static HandlerList getHandlerList() {

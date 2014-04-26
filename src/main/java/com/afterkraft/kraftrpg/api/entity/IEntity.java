@@ -4,8 +4,8 @@ import java.util.Set;
 
 import org.bukkit.entity.LivingEntity;
 
-import com.afterkraft.kraftrpg.api.entity.effects.Effect;
 import com.afterkraft.kraftrpg.api.entity.effects.EffectType;
+import com.afterkraft.kraftrpg.api.entity.effects.IEffect;
 
 /**
  * Represents a living entity in KraftRPG. This is the base entity for KraftRPG.
@@ -52,34 +52,34 @@ public interface IEntity {
     public boolean setEntity(LivingEntity entity);
 
     /**
-     * Returns (if available) the named {@link com.afterkraft.kraftrpg.api.entity.effects.Effect}
+     * Returns (if available) the named {@link com.afterkraft.kraftrpg.api.entity.effects.IEffect}
      *
      * @param name the name of the desired Effect
      * @return the named Effect if not null
      */
-    public Effect getEffect(String name);
+    public IEffect getEffect(String name);
 
     /**
      * Returns an unmodifiable set of Effects this Champion has active.
      *
      * @return an unmodifiable set of Effects this Champion has active.
      */
-    public Set<Effect> getEffects();
+    public Set<IEffect> getEffects();
 
     /**
      * Adds the given Effect to this Champion. Added Effects will be applied on the next tick so as to avoid
      *
-     * @param effect
+     * @param IEffect
      */
-    public void addEffect(Effect effect);
+    public void addEffect(IEffect IEffect);
 
     public boolean hasEffect(String name);
 
     public boolean hasEffectType(EffectType type);
 
-    public void removeEffect(Effect effect);
+    public void removeEffect(IEffect IEffect);
 
-    public void manualRemoveEffect(Effect effect);
+    public void manualRemoveEffect(IEffect IEffect);
 
     public void clearEffects();
 
@@ -88,6 +88,8 @@ public interface IEntity {
     public boolean addMaxHealth(String key, double value);
 
     public boolean removeMaxHealth(String key);
+
+    public void heal(double amount);
 
     public void clearHealthBonuses();
 

@@ -6,6 +6,7 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.entity.EntityDamageEvent;
 
 import com.afterkraft.kraftrpg.api.entity.Champion;
+import com.afterkraft.kraftrpg.api.entity.IEntity;
 
 /**
  * Represents a usable Spell for KraftRPG.
@@ -115,4 +116,21 @@ public interface ISpell {
      */
     public boolean damageEntity(LivingEntity target, LivingEntity attacker, double damage, EntityDamageEvent.DamageCause cause, boolean knockback);
 
+    /**
+     *
+     * @param broadcaster
+     * @param receiver
+     * @return
+     */
+    public boolean isInMessageRange(Champion broadcaster, Champion receiver);
+
+    /**
+     *
+     * @param attacker
+     * @param defending
+     * @return
+     */
+    public boolean damageCheck(IEntity attacker, LivingEntity defending);
+
+    public void awardExperience(Champion champion);
 }

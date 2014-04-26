@@ -16,6 +16,8 @@ public interface Targetted<T extends TargettedSpellArgument> extends Active<T> {
      * @param argument
      * @return
      */
-    public SpellResult use(Champion champion, LivingEntity entity, T argument);
+    public SpellCastResult use(Champion champion, LivingEntity entity, T argument);
+
+    public SpellCastResult useDelayed(Champion champion, DelayedTargetedSpell<T> spell, T args);
 
 }

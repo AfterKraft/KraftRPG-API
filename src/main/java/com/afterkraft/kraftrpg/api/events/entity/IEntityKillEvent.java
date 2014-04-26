@@ -1,7 +1,6 @@
 package com.afterkraft.kraftrpg.api.events.entity;
 
 import com.afterkraft.kraftrpg.api.entity.IEntity;
-import com.afterkraft.kraftrpg.api.events.IEntityEvent;
 
 /**
  * @author gabizou

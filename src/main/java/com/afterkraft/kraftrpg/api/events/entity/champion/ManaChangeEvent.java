@@ -1,7 +1,6 @@
 package com.afterkraft.kraftrpg.api.events.entity.champion;
 
 import com.afterkraft.kraftrpg.api.entity.Champion;
-import com.afterkraft.kraftrpg.api.events.ChampionEvent;
 
 /**
  * @author gabizou
