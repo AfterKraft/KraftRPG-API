@@ -111,26 +111,29 @@ public abstract class ActiveSpell<T extends SpellArgument> extends Spell impleme
 
             manaCost = skillEvent.getManaCost();
             if (manaCost > caster.getMana()) {
-                if (cancelDelayedSpellOnFailure)
+                if (cancelDelayedSpellOnFailure) {
                     caster.cancelDelayedSpell(true);
+                }
                 return SpellCastResult.LOW_MANA;
             }
 
             healthCost = skillEvent.getHealthCost();
-            if (caster instanceof LivingEntity)
-            if ((healthCost > 0) && (caster.getHealth() <= healthCost)) {
-                if (cancelDelayedSpellOnFailure)
-                    caster.cancelDelayedSpell(true);
-                return SpellCastResult.LOW_HEALTH;
+            if (caster instanceof LivingEntity) {
+                if ((healthCost > 0) && (caster.getHealth() <= healthCost)) {
+                    if (cancelDelayedSpellOnFailure) {
+                        caster.cancelDelayedSpell(true);
+                    }
+                    return SpellCastResult.LOW_HEALTH;
+                }
             }
 
             spellRequirement = skillEvent.getRequirement();
             if ((spellRequirement != null) && !hasSpellRequirement(spellRequirement, caster)) {
-                if (cancelDelayedSpellOnFailure)
+                if (cancelDelayedSpellOnFailure) {
                     caster.cancelDelayedSpell(true);
+                }
                 return SpellCastResult.MISSING_REAGENT;
             }
-
 
 
             int globalCD = plugin.getProperties().getDefaultGlobalCooldown();
@@ -141,8 +144,9 @@ public abstract class ActiveSpell<T extends SpellArgument> extends Spell impleme
 
                     if (cooldown < globalCD) {
                         if (cooldown < globalCD) {
-                            if (cooldown < 500)
+                            if (cooldown < 500) {
                                 cooldown = 500;
+                            }
                         }
                         caster.setCooldown("global", cooldown + time);
                     } else {
@@ -183,12 +187,14 @@ public abstract class ActiveSpell<T extends SpellArgument> extends Spell impleme
                 if (globalCD > 0) {
                     if (!(dSpell instanceof DelayedSpell)) {
                         if (cooldown < globalCD) {
-                            if (cooldown < 100)
+                            if (cooldown < 100) {
                                 cooldown = 100;
+                            }
 
                             caster.setGlobalCooldown(cooldown + time);
-                        } else
+                        } else {
                             caster.setGlobalCooldown(globalCD + time);
+                        }
                     }
                 }
 

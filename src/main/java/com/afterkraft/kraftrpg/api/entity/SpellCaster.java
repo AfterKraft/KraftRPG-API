@@ -8,7 +8,8 @@ import com.afterkraft.kraftrpg.api.spells.SpellArgument;
 import com.afterkraft.kraftrpg.api.util.SpellRequirement;
 
 /**
- * @author gabizou
+ * SpellCaster is the core interface that {@link com.afterkraft.kraftrpg.api.spells.ISpell}s
+ * use when casting and calcu
  */
 public interface SpellCaster extends Mage, Insentient, PartyMember {
 
@@ -20,6 +21,7 @@ public interface SpellCaster extends Mage, Insentient, PartyMember {
 
     /**
      * Get the key'ed cooldown. Used by Spells to mark individual cooldowns
+     *
      * @param key
      * @return
      */
@@ -27,79 +29,73 @@ public interface SpellCaster extends Mage, Insentient, PartyMember {
 
     /**
      * Get the global cooldown
+     *
      * @return the global cooldown if not 0
      */
     public long getGlobalCooldown();
 
-    public void setCooldown(String key, long duration);
-
     public void setGlobalCooldown(long duration);
 
+    public void setCooldown(String key, long duration);
+
     /**
-     * Fetch the highest level of all active {@link com.afterkraft.kraftrpg.api.entity.roles.Role}s of the designated {@link com.afterkraft.kraftrpg.api.spells.ISpell}.
+     * Fetch the highest level of all active {@link com.afterkraft.kraftrpg.api.entity.roles.Role}s
+     * of the designated {@link com.afterkraft.kraftrpg.api.spells.ISpell}.
+     *
      * @param spell the spell in question
      * @return the highest level, if none, 0.
      */
     public int getHighestSpellLevel(ISpell spell);
 
     /**
-     *
      * @param spell
      * @return
      */
     public boolean canUseSpell(ISpell spell);
 
     /**
-     *
      * @param spell
      * @return
      */
     public boolean isSpellRestricted(ISpell spell);
 
     /**
-     *
      * @param spell
      * @return
      */
     public boolean canPrimaryUseSpell(ISpell spell);
 
     /**
-     *
      * @param spell
      * @return
      */
     public boolean doesPrimaryRestrictSpell(ISpell spell);
 
     /**
-     *
      * @param spell
      * @return
      */
     public boolean canSecondaryUseSpell(ISpell spell);
 
     /**
-     *
      * @param spell
      * @return
      */
     public boolean doesSecondaryRestrictSpell(ISpell spell);
 
     /**
-     *
      * @param spell
      * @return
      */
     public boolean canAdditionalUseSpell(ISpell spell);
 
     /**
-     *
      * @param spell
      * @return
      */
     public boolean doesAdditionalRestrictSpell(ISpell spell);
 
     /**
-     *
      * @return
      */
     public Delayed<? extends SpellArgument> getDelayedSpell();
@@ -107,14 +103,12 @@ public interface SpellCaster extends Mage, Insentient, PartyMember {
     public <T extends SpellArgument> boolean setDelayedSpell(Delayed<T> delayedSpell);
 
     /**
-     *
      * @param spell
      * @return
      */
     public boolean setDelayedSpell(ISpell spell);
 
     /**
-     *
      * @param forced whether to force cancellation of the delayed spell
      * @return true if the delayed spell was cancelled
      */

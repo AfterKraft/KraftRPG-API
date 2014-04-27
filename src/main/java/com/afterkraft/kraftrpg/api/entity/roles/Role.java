@@ -11,18 +11,21 @@ public interface Role {
 
     /**
      * Get the type of Role this is.
+     *
      * @return the {@link com.afterkraft.kraftrpg.api.entity.roles.RoleType}
      */
     public RoleType getType();
 
     /**
      * Return the configured name for this Role
+     *
      * @return the name for this role
      */
     public String getName();
 
     /**
      * Check if this Role has the given Spell
+     *
      * @param spell
      * @return
      */

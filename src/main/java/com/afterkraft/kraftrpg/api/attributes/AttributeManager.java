@@ -8,5 +8,4 @@ import com.afterkraft.kraftrpg.api.Manager;
 public interface AttributeManager extends Manager {
 
 
-
 }

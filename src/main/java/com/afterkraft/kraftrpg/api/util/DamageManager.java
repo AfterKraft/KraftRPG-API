@@ -10,38 +10,46 @@ import org.bukkit.entity.Snowball;
 import org.bukkit.inventory.ItemStack;
 
 import com.afterkraft.kraftrpg.api.Manager;
-import com.afterkraft.kraftrpg.api.entity.Champion;
 import com.afterkraft.kraftrpg.api.entity.Monster;
+import com.afterkraft.kraftrpg.api.entity.SpellCaster;
 
 /**
- * The generalized manager for calculating and fetching damages for entities
- * and items alike.
+ * The generalized manager for calculating and fetching damages for entities and
+ * items alike.
  */
 public interface DamageManager extends Manager {
 
     /**
-     * Attempts to calculate the highest damage given for the given ItemStack. This will
-     * check all active {@link com.afterkraft.kraftrpg.api.entity.roles.Role}s that the given
-     * {@link com.afterkraft.kraftrpg.api.entity.Champion} may have.
-     * <p>
-     * If the Champion has no active Roles or the resulting damage is negative, 0 will be returned
-     * @param champion the champion to query for Roles
+     * Attempts to calculate the highest damage given for the given ItemStack.
+     * This will check all active {@link com.afterkraft.kraftrpg.api.entity.roles.Role}s
+     * that the given {@link com.afterkraft.kraftrpg.api.entity.SpellCaster} may
+     * have.
+     * <p/>
+     * If the SpellCaster has no active Roles or the resulting damage is
+     * negative, 0 will be returned
+     *
+     * @param caster the spellcaster to query for Roles
      * @param item the Item to query for the damage
-     * @return the highest possible damage for the item from any active Roles, if not 0
+     * @return the highest possible damage for the item from any active Roles,
+     * if not 0
      */
-    public double getHighestItemDamage(Champion champion, ItemStack item);
+    public double getHighestItemDamage(SpellCaster caster, ItemStack item);
 
     /**
      * Gets the default damage for the given EntityType.
+     *
      * @param type of Entity we are querying
-     * @return the damage from the default configuration for the given EntityType
+     * @return the damage from the default configuration for the given
+     * EntityType
      */
     public double getEntityDamage(EntityType type);
 
     /**
-     * Attempts to calculate various possible modifications to the default damage for the given Monster
-     * depending on various things like location, base damage, whether it was spawned from a
-     * Mob Spawner and possibly other things varying by the implementation.
+     * Attempts to calculate various possible modifications to the default
+     * damage for the given Monster depending on various things like location,
+     * base damage, whether it was spawned from a Mob Spawner and possibly other
+     * things varying by the implementation.
+     *
      * @param monster the Monster to query
      * @param location the spawn location of the Monster
      * @param baseDamage the default base damage of the Monster
@@ -52,6 +60,7 @@ public interface DamageManager extends Manager {
 
     /**
      * Load defaults for the default damages from the given Configuration
+     *
      * @param config repsective for this manager
      */
     public void load(Configuration config);

@@ -1,6 +1,7 @@
 package com.afterkraft.kraftrpg.api.events.entity.champion;
 
 import com.afterkraft.kraftrpg.api.entity.Champion;
+import com.afterkraft.kraftrpg.api.entity.IEntity;
 import com.afterkraft.kraftrpg.api.events.entity.EntityRegainHealthEvent;
 import com.afterkraft.kraftrpg.api.spells.ISpell;
 
@@ -14,7 +15,7 @@ public class ChampionRegainHealthEvent extends EntityRegainHealthEvent {
         super(beneficiary, healAmount, spell);
     }
 
-    public ChampionRegainHealthEvent(Champion beneficiary, double healAmount, ISpell spell, Champion healer) {
+    public ChampionRegainHealthEvent(Champion beneficiary, double healAmount, ISpell spell, IEntity healer) {
         super(beneficiary, healAmount, spell, healer);
     }
 

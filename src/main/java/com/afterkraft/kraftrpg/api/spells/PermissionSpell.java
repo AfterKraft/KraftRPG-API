@@ -13,8 +13,9 @@ import com.afterkraft.kraftrpg.api.entity.SpellCaster;
  * PermissionSpell allows setting any other Plugin's permission to become a
  * Spell through permission restrictions. A PermissionSpell does not allow any
  * type of SpellArguments and it will always return true on Spell use.
- *
+ * <p/>
  * PermissionSpell can apply Permissions with both true and false
+ *
  * @author gabizou
  */
 public class PermissionSpell extends Spell implements Permissible {
@@ -32,6 +33,10 @@ public class PermissionSpell extends Spell implements Permissible {
     @Override
     public void shutdown() { }
 
+    @Override
+    public boolean isInMessageRange(Champion broadcaster, Champion receiver) {
+        return false;
+    }
 
     @Override
     public void setPermissions(Map<String, Boolean> permissions) {
@@ -53,10 +58,5 @@ public class PermissionSpell extends Spell implements Permissible {
     @Override
     public boolean addSpellTarget(Entity entity, SpellCaster caster) {
         return true;
-    }
-
-    @Override
-    public boolean isInMessageRange(Champion broadcaster, Champion receiver) {
-        return false;
     }
 }

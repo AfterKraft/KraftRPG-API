@@ -12,8 +12,8 @@ import com.afterkraft.kraftrpg.api.entity.effects.IEffect;
  */
 public class EffectRemoveEvent extends Event implements Cancellable {
 
-    private boolean isCancelled = false;
     private final IEntity entity;
+    private boolean isCancelled = false;
     private IEffect IEffect;
 
     public EffectRemoveEvent(IEntity entity, IEffect IEffect) {

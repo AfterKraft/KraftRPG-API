@@ -6,11 +6,11 @@ import com.google.common.collect.Maps;
 import org.apache.commons.lang.Validate;
 
 /**
- * Attributes are defined through configurations and different attributes
- * have different effects. AttributeTypes are defined by the configurations
- * and {@link com.afterkraft.kraftrpg.api.spells.Spell}s can use the various
- * attribute types to define final damage, reagent requirements, cooldowns
- * and even immunity to some effects.
+ * Attributes are defined through configurations and different attributes have
+ * different effects. AttributeTypes are defined by the configurations and
+ * {@link com.afterkraft.kraftrpg.api.spells.Spell}s can use the various
+ * attribute types to define final damage, reagent requirements, cooldowns and
+ * even immunity to some effects.
  */
 public enum AttributeType {
 
@@ -24,17 +24,6 @@ public enum AttributeType {
     SPELL_COOLDOWN_INCRASE("Spell Cooldown Increase"),
     SPELL_BUFF_INCREASE("Spell Buff Increase"),
     SPELL_BUFF_REDUCTION("Spell Buff Reduction");
-
-    private final String name;
-    private AttributeType(String name) {
-        this.name = name;
-    }
-
-    @Override
-    public final String toString() {
-        return this.name;
-    }
-
     private final static Map<String, AttributeType> BY_NAME = Maps.newHashMap();
 
     static {
@@ -42,6 +31,12 @@ public enum AttributeType {
             BY_NAME.put(attribute.toString(), attribute);
             BY_NAME.put(attribute.toString().subSequence(0, 3).toString(), attribute);
         }
+    }
+
+    private final String name;
+
+    private AttributeType(String name) {
+        this.name = name;
     }
 
     public static AttributeType getAttributeType(final String name) {
@@ -58,5 +53,10 @@ public enum AttributeType {
             result = BY_NAME.get(filtered);
         }
         return result;
+    }
+
+    @Override
+    public final String toString() {
+        return this.name;
     }
 }

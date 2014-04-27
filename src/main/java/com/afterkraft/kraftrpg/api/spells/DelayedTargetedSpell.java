@@ -7,7 +7,7 @@ import com.afterkraft.kraftrpg.api.entity.SpellCaster;
 /**
  * @author gabizou
  */
-public class DelayedTargetedSpell<T extends TargettedSpellArgument> extends DelayedSpell<T> implements DelayedTarget<T> {
+public class DelayedTargetedSpell<T extends TargetedSpellArgument> extends DelayedSpell<T> implements DelayedTarget<T> {
 
     private LivingEntity target;
 

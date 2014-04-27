@@ -17,12 +17,12 @@ public class IEntityEvent extends Event {
         this.entity = entity;
     }
 
-    public IEntity getEntity() {
-        return this.entity;
-    }
-
     public static HandlerList getHandlerList() {
         return handlers;
+    }
+
+    public IEntity getEntity() {
+        return this.entity;
     }
 
     @Override

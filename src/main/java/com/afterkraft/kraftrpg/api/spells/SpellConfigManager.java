@@ -7,7 +7,6 @@ import org.bukkit.configuration.Configuration;
 import org.bukkit.configuration.ConfigurationSection;
 
 import com.afterkraft.kraftrpg.api.Manager;
-import com.afterkraft.kraftrpg.api.entity.Champion;
 import com.afterkraft.kraftrpg.api.entity.SpellCaster;
 import com.afterkraft.kraftrpg.api.entity.roles.Role;
 

@@ -16,9 +16,6 @@
 package com.afterkraft.kraftrpg.api.entity.effects;
 
 import com.afterkraft.kraftrpg.api.RPGPlugin;
-import com.afterkraft.kraftrpg.api.entity.Champion;
-import com.afterkraft.kraftrpg.api.entity.IEntity;
-import com.afterkraft.kraftrpg.api.entity.Monster;
 import com.afterkraft.kraftrpg.api.spells.Spell;
 
 /**
@@ -54,19 +51,4 @@ public abstract class PeriodicEffect extends Effect implements Periodic {
         return false;
     }
 
-    @Override
-    public void tick(IEntity entity) {
-        this.lastTickTime = System.currentTimeMillis();
-        if (entity instanceof Champion) {
-            this.tickChampion((Champion) entity);
-        } else if (entity instanceof Monster) {
-            this.tickMonster((Monster) entity);
-        }
-    }
-
-    @Override
-    public void tickMonster(Monster monster) { }
-
-    @Override
-    public void tickChampion(Champion player) { }
 }

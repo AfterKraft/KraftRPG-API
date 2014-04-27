@@ -1,10 +1,8 @@
 package com.afterkraft.kraftrpg.api.util;
 
 import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-
-import net.milkbowl.vault.item.Items;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.bukkit.inventory.ItemStack;
 
@@ -13,81 +11,45 @@ import org.bukkit.inventory.ItemStack;
  */
 public class SpellRequirement {
 
-    private Map<String, ItemStack> items = new HashMap<String, ItemStack>();
+    private Set<ItemStack> items = new HashSet<ItemStack>();
 
     public SpellRequirement() { }
 
     public SpellRequirement(ItemStack... items) {
         for (ItemStack item : items) {
             if (item != null) {
-                String itemName;
-                if (item.getItemMeta().hasDisplayName()) {
-                    itemName = item.getItemMeta().getDisplayName();
-                }
-                else {
-                    itemName = Items.itemByStack(item).getName();
-                }
-                if (this.items.containsKey(itemName))
-                this.items.put(itemName, item.clone());
+                this.items.add(item.clone());
             }
         }
     }
 
-    public Map<String, ItemStack> getItems() {
-        return Collections.unmodifiableMap(this.items);
+    public Set<ItemStack> getItems() {
+        return Collections.unmodifiableSet(this.items);
     }
 
     /**
-     * Check if this SpellRequirement contains a specific Item. This
-     * checks the item's label or custom lore name if applicable.
+     * Add the desired ItemStack to this requirement
      *
-     * SpellRerquirement is, by nature, lore and enchantment independent for matching.
+     * @param item to be added
+     * @param force whether to overwrite the existing item if it exists
+     * @return true if the item did not exist already, false if the item exists
+     * and was not forced to be overwritten
+     */
+    public boolean addItem(ItemStack item, boolean force) {
+        return item != null && (force || !hasItem(item)) && this.items.add(item);
+    }
+
+    /**
+     * Check if this SpellRequirement contains a specific Item. This checks the
+     * item's label or custom lore name if applicable.
+     * <p/>
+     * SpellRerquirement is, by nature, lore and enchantment independent for
+     * matching.
+     *
      * @param item
      * @return
      */
     public boolean hasItem(ItemStack item) {
-        String itemName;
-        if (item.getItemMeta().hasDisplayName()) {
-            itemName = item.getItemMeta().getDisplayName();
-        }
-        else {
-            itemName = Items.itemByStack(item).getName();
-        }
-        return this.items.containsKey(itemName);
+        return this.items.contains(item);
     }
-
-    /**
-     * Check if this SpellRequirement
-     * @param item
-     * @return
-     */
-    public boolean hasExactItem(ItemStack item) {
-        String itemName;
-        if (item.getItemMeta().hasDisplayName()) {
-            itemName = item.getItemMeta().getDisplayName();
-        }
-        else {
-            itemName = Items.itemByStack(item).getName();
-        }
-        ItemStack mapItem = this.items.get(itemName);
-        return mapItem != null && item.equals(mapItem);
-    }
-
-    public boolean addItem(ItemStack item) {
-        if (item == null || !hasExactItem(item)) {
-            return false;
-        }
-        String itemName;
-        if (item.getItemMeta().hasDisplayName()) {
-            itemName = item.getItemMeta().getDisplayName();
-        }
-        else {
-            itemName = Items.itemByStack(item).getName();
-        }
-        this.items.put(itemName, item);
-        return true;
-
-    }
-
-
 }

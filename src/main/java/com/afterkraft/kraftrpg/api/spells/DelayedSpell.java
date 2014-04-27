@@ -1,6 +1,5 @@
 package com.afterkraft.kraftrpg.api.spells;
 
-import com.afterkraft.kraftrpg.api.entity.IEntity;
 import com.afterkraft.kraftrpg.api.entity.SpellCaster;
 
 /**

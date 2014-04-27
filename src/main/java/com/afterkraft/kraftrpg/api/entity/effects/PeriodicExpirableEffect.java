@@ -17,8 +17,6 @@ package com.afterkraft.kraftrpg.api.entity.effects;
 
 import com.afterkraft.kraftrpg.api.RPGPlugin;
 import com.afterkraft.kraftrpg.api.entity.Champion;
-import com.afterkraft.kraftrpg.api.entity.IEntity;
-import com.afterkraft.kraftrpg.api.entity.Monster;
 import com.afterkraft.kraftrpg.api.spells.Spell;
 
 /**
@@ -62,15 +60,5 @@ public abstract class PeriodicExpirableEffect extends ExpirableEffect implements
     @Override
     public boolean isReady() {
         return System.currentTimeMillis() >= (this.lastTickTime + this.period);
-    }
-
-    @Override
-    public void tick(IEntity character) {
-        this.lastTickTime = System.currentTimeMillis();
-        if (character instanceof Champion) {
-            this.tickChampion((Champion) character);
-        } else if (character instanceof Monster) {
-            this.tickMonster((Monster) character);
-        }
     }
 }

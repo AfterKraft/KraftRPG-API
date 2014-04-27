@@ -20,11 +20,15 @@ import com.afterkraft.kraftrpg.api.entity.Monster;
  */
 public abstract class CraftBukkitHandler {
 
-    private static CraftBukkitHandler activeInterface;
     protected static ServerType serverType;
+    private static CraftBukkitHandler activeInterface;
+
+    public CraftBukkitHandler(ServerType type) {
+        serverType = type;
+    }
 
     public static CraftBukkitHandler getInterface() {
-        if(activeInterface == null) {
+        if (activeInterface == null) {
             //Get minecraft version
             String packageName = Bukkit.getServer().getClass().getPackage().getName();
             String version = packageName.substring(packageName.lastIndexOf('.') + 1);
@@ -51,38 +55,8 @@ public abstract class CraftBukkitHandler {
         return activeInterface;
     }
 
-    public CraftBukkitHandler(ServerType type) {
-        serverType = type;
-    }
-
-    //NMS methods required by Entities
-    public abstract EntityAttributeModifier getEntityAttribute(UUID uuid, String name);
-    public abstract double loadOrCreate(EntityAttribute attribute, LivingEntity entity, double value);
-    public abstract double loadOrCreateAttribute(Monster monster, LivingEntity entity, EntityAttribute.EntityAttributeType type, double value);
-
-    //NMS methods required by listeners
-    public abstract double getPostArmorDamage(LivingEntity defender, double damage);
-    public abstract void setPlayerExpZero(Player player);
-
-    //NMS methods required by skills
-    public abstract boolean damageEntity(LivingEntity target, LivingEntity attacker, double damage, EntityDamageEvent.DamageCause cause, boolean knockback);
-    public abstract void knockBack(LivingEntity target, LivingEntity attacker, double damage);
-    public abstract void refreshLastPlayerDamageTime(LivingEntity entity);
-
-    //NMS methods required by effects
-    public abstract void sendFakePotionEffectPacket(PotionEffect effect, Player player);
-    public abstract void sendFakePotionEffectPackets(Set<PotionEffect> effects, Player player);
-    public abstract void removeFakePotionEffectPacket(PotionEffect effect, Player player);
-    public abstract void removeFakePotionEffectPackets(Set<PotionEffect> effects, Player player);
-
-    //Bukkit specific NMS Requirements to fulfill deficiencies in API
-    public abstract void setArrowDamage(Arrow arrow, double damage);
-
-    //Utility functions
-    protected abstract float getSoundStrength(LivingEntity entity);
-
     protected static String getSoundName(EntityType type) {
-        switch(type) {
+        switch (type) {
             case BLAZE:
                 return "mob.blaze.death";
             case CHICKEN:
@@ -114,6 +88,40 @@ public abstract class CraftBukkitHandler {
                 return "damage.hurtflesh";
         }
     }
+
+    //NMS methods required by Entities
+    public abstract EntityAttributeModifier getEntityAttribute(UUID uuid, String name);
+
+    public abstract double loadOrCreate(EntityAttribute attribute, LivingEntity entity, double value);
+
+    public abstract double loadOrCreateAttribute(Monster monster, LivingEntity entity, EntityAttribute.EntityAttributeType type, double value);
+
+    //NMS methods required by listeners
+    public abstract double getPostArmorDamage(LivingEntity defender, double damage);
+
+    public abstract void setPlayerExpZero(Player player);
+
+    //NMS methods required by skills
+    public abstract boolean damageEntity(LivingEntity target, LivingEntity attacker, double damage, EntityDamageEvent.DamageCause cause, boolean knockback);
+
+    public abstract void knockBack(LivingEntity target, LivingEntity attacker, double damage);
+
+    public abstract void refreshLastPlayerDamageTime(LivingEntity entity);
+
+    //NMS methods required by effects
+    public abstract void sendFakePotionEffectPacket(PotionEffect effect, Player player);
+
+    public abstract void sendFakePotionEffectPackets(Set<PotionEffect> effects, Player player);
+
+    public abstract void removeFakePotionEffectPacket(PotionEffect effect, Player player);
+
+    public abstract void removeFakePotionEffectPackets(Set<PotionEffect> effects, Player player);
+
+    //Bukkit specific NMS Requirements to fulfill deficiencies in API
+    public abstract void setArrowDamage(Arrow arrow, double damage);
+
+    //Utility functions
+    protected abstract float getSoundStrength(LivingEntity entity);
 
     public abstract void playClientEffect(Player player, Location startLocation, String particle, Vector offset, float speed, int count, boolean sendToAll);
 

@@ -18,13 +18,12 @@ public class CooldownExpireEvent extends ChampionEvent {
         this.spell = spell;
     }
 
-    public ISpell getSpell() {
-        return this.spell;
-    }
-
-
     public static HandlerList getHandlerList() {
         return handlers;
+    }
+
+    public ISpell getSpell() {
+        return this.spell;
     }
 
 }

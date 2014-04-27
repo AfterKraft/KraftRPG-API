@@ -13,8 +13,8 @@ public class EntityAttribute {
     private EntityAttributeModifier balanceModifier;
 
     public EntityAttribute(String name, EntityAttributeType type) {
-        valueModifier = CraftBukkitHandler.getInterface().getEntityAttribute(UUID.nameUUIDFromBytes(new byte[]{8, 0, 3, type.getId()}), name);
-        balanceModifier = CraftBukkitHandler.getInterface().getEntityAttribute(UUID.nameUUIDFromBytes(new byte[] {8, 1, 3, type.getId()}), name + "$NEG");
+        valueModifier = CraftBukkitHandler.getInterface().getEntityAttribute(UUID.nameUUIDFromBytes(new byte[]{ 8, 0, 3, type.getId() }), name);
+        balanceModifier = CraftBukkitHandler.getInterface().getEntityAttribute(UUID.nameUUIDFromBytes(new byte[]{ 8, 1, 3, type.getId() }), name + "$NEG");
     }
 
     public double getValue() {

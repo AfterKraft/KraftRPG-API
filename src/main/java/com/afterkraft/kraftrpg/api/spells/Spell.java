@@ -38,6 +38,7 @@ public abstract class Spell implements ISpell {
 
     /**
      * Return whether this Spell is enabled or not
+     *
      * @return whether this spell is enabled
      */
     public final boolean isEnabled() {
@@ -87,19 +88,6 @@ public abstract class Spell implements ISpell {
     }
 
     @Override
-    public final boolean isType(SpellType type) {
-        return this.spellTypes.contains(type);
-    }
-
-    /**
-     * Set this Spell's spell types.
-     * @param types the SpellTypes to set
-     */
-    protected final void setSpellTypes(SpellType... types) {
-        this.spellTypes.addAll(Arrays.asList(types));
-    }
-
-    @Override
     public boolean addSpellTarget(Entity entity, SpellCaster caster) {
         if (entity == null || caster == null || (caster instanceof IEntity && !((IEntity) caster).isEntityValid())) {
             return false;
@@ -109,16 +97,18 @@ public abstract class Spell implements ISpell {
     }
 
     @Override
+    public final boolean isType(SpellType type) {
+        return this.spellTypes.contains(type);
+    }
+
+    @Override
     public final void knockback(LivingEntity target, LivingEntity attacker, double damage) {
         CraftBukkitHandler.getInterface().knockBack(target, attacker, damage);
     }
 
     @Override
     public final boolean damageEntity(LivingEntity target, LivingEntity attacker, double damage) {
-        return this.damageEntity(target, attacker, damage,
-                this.isType(SpellType.ABILITY_PROPERTY_AIR) || this.isType(SpellType.ABILITY_PROPERTY_PHYSICAL) ?
-                        EntityDamageEvent.DamageCause.ENTITY_ATTACK : EntityDamageEvent.DamageCause.MAGIC
-        );
+        return this.damageEntity(target, attacker, damage, this.isType(SpellType.ABILITY_PROPERTY_AIR) || this.isType(SpellType.ABILITY_PROPERTY_PHYSICAL) ? EntityDamageEvent.DamageCause.ENTITY_ATTACK : EntityDamageEvent.DamageCause.MAGIC);
     }
 
     @Override
@@ -148,5 +138,14 @@ public abstract class Spell implements ISpell {
         if (caster.canGainExperience(ExperienceType.SPELL)) {
             caster.gainExperience(new FixedPoint(plugin.getSpellConfigManager().getUseSetting(caster, this, SpellSetting.EXP, 0, false)), ExperienceType.SPELL, caster.getLocation());
         }
+    }
+
+    /**
+     * Set this Spell's spell types.
+     *
+     * @param types the SpellTypes to set
+     */
+    protected final void setSpellTypes(SpellType... types) {
+        this.spellTypes.addAll(Arrays.asList(types));
     }
 }

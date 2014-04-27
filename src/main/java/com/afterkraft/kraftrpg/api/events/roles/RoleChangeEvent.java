@@ -26,16 +26,16 @@ public class RoleChangeEvent extends RoleEvent implements Cancellable {
         this.cancelled = false;
     }
 
+    public static HandlerList getHandlerList() {
+        return handlers;
+    }
+
     public Role getToRPGRole() {
         return this.toRPGRole;
     }
 
     public Role getFromRPGRole() {
         return this.getRPGRole();
-    }
-
-    public static HandlerList getHandlerList() {
-        return handlers;
     }
 
     @Override

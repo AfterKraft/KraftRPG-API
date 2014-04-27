@@ -2,6 +2,9 @@ package com.afterkraft.kraftrpg.api.entity;
 
 import java.util.Set;
 
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
+
 import com.afterkraft.kraftrpg.api.entity.effects.EffectType;
 import com.afterkraft.kraftrpg.api.entity.effects.IEffect;
 
@@ -36,17 +39,32 @@ public interface Mage {
     public Set<IEffect> getEffects();
 
     /**
-     * Adds the given Effect to this Champion. Added Effects will be applied on the next tick so as to avoid
+     * Adds the given Effect to this Mage. Added Effects will be applied on the
+     * next tick so as to avoid
      *
      * @param IEffect
      */
     public void addEffect(IEffect IEffect);
+
+    /**
+     * Add the {@link org.bukkit.potion.PotionEffect} to this Mage.
+     *
+     * @param potion the effect to be applied
+     */
+    public void addPotionEffect(PotionEffect potion);
 
     public boolean hasEffect(String name);
 
     public boolean hasEffectType(EffectType type);
 
     public void removeEffect(IEffect IEffect);
+
+    /**
+     * Remove the {@link org.bukkit.potion.PotionEffectType} from this Mage.
+     *
+     * @param type of PotionEffect to remove
+     */
+    public void removePotionEffect(PotionEffectType type);
 
     public void manualRemoveEffect(IEffect IEffect);
 
@@ -55,8 +73,7 @@ public interface Mage {
     public void manualClearEffects();
 
     /**
-     *
-     * @return true if this Champion is marked in combat
+     * @return true if this Mage is marked in combat
      */
     public boolean isInCombat();
 
@@ -66,7 +83,6 @@ public interface Mage {
     public void enterCombat(EnterCombatReason reason);
 
     /**
-     *
      * @param reason the designated reason for leaving combat
      */
     public void leaveCombat(LeaveCombatReason reason);

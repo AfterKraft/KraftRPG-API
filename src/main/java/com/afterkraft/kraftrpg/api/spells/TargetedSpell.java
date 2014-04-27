@@ -25,13 +25,12 @@ import com.afterkraft.kraftrpg.api.util.SpellRequirement;
 import com.afterkraft.kraftrpg.api.util.Utilities;
 
 /**
- * A spell that requires a {@link org.bukkit.entity.LivingEntity} as a target. Targetted spells
- * do
- *
+ * A spell that requires a {@link org.bukkit.entity.LivingEntity} as a target.
+ * Targeted spells do
  */
-public abstract class TargettedSpell<T extends TargettedSpellArgument> extends ActiveSpell<T> implements Targetted<T> {
+public abstract class TargetedSpell<T extends TargetedSpellArgument> extends ActiveSpell<T> implements Targeted<T> {
 
-    public TargettedSpell(RPGPlugin plugin, String name) {
+    public TargetedSpell(RPGPlugin plugin, String name) {
         super(plugin, name);
     }
 
@@ -118,22 +117,25 @@ public abstract class TargettedSpell<T extends TargettedSpellArgument> extends A
 
             manaCost = skillEvent.getManaCost();
             if (manaCost > caster.getMana()) {
-                if (cancelDelayedSpellOnFailure)
+                if (cancelDelayedSpellOnFailure) {
                     caster.cancelDelayedSpell(true);
+                }
                 return SpellCastResult.LOW_MANA;
             }
 
             healthCost = skillEvent.getHealthCost();
             if ((healthCost > 0) && (caster.getHealth() <= healthCost)) {
-                if (cancelDelayedSpellOnFailure)
+                if (cancelDelayedSpellOnFailure) {
                     caster.cancelDelayedSpell(true);
+                }
                 return SpellCastResult.LOW_HEALTH;
             }
 
             spellRequirement = skillEvent.getRequirement();
             if ((spellRequirement != null) && !hasSpellRequirement(spellRequirement, caster)) {
-                if (cancelDelayedSpellOnFailure)
+                if (cancelDelayedSpellOnFailure) {
                     caster.cancelDelayedSpell(true);
+                }
                 return SpellCastResult.MISSING_REAGENT;
             }
 
@@ -141,7 +143,7 @@ public abstract class TargettedSpell<T extends TargettedSpellArgument> extends A
             if (target == null) {
                 return SpellCastResult.INVALID_TARGET;
             }
-            DelayedTarget dTSpell;
+            DelayedTarget<T> dTSpell;
 
             int globalCD = plugin.getProperties().getDefaultGlobalCooldown();
             dTSpell = new DelayedTargetedSpell<T>(this, argument, caster, target, System.currentTimeMillis(), delay);
@@ -151,8 +153,9 @@ public abstract class TargettedSpell<T extends TargettedSpellArgument> extends A
 
                     if (cooldown < globalCD) {
                         if (cooldown < globalCD) {
-                            if (cooldown < 500)
+                            if (cooldown < 500) {
                                 cooldown = 500;
+                            }
                         }
                         caster.setCooldown("global", cooldown + time);
                     } else {
@@ -164,7 +167,7 @@ public abstract class TargettedSpell<T extends TargettedSpellArgument> extends A
                     return SpellCastResult.FAIL;
                 }
             } else if (plugin.getSpellManager().isCasterDelayed(caster)) {
-                dTSpell = (DelayedTarget) caster.getDelayedSpell();
+                dTSpell = (DelayedTarget<T>) caster.getDelayedSpell();
 
                 if (dSpell.getActiveSpell().equals(this)) {
                     if (!dSpell.isReady()) {
@@ -193,12 +196,14 @@ public abstract class TargettedSpell<T extends TargettedSpellArgument> extends A
                 if (globalCD > 0) {
                     if (!(dTSpell instanceof DelayedSpell)) {
                         if (cooldown < globalCD) {
-                            if (cooldown < 100)
+                            if (cooldown < 100) {
                                 cooldown = 100;
+                            }
 
                             caster.setGlobalCooldown(cooldown + time);
-                        } else
+                        } else {
                             caster.setGlobalCooldown(globalCD + time);
+                        }
                     }
                 }
 
@@ -346,8 +351,7 @@ public abstract class TargettedSpell<T extends TargettedSpellArgument> extends A
                     return false;
                 }
             }
-        }
-        catch (final Exception e) {
+        } catch (final Exception e) {
             return false;
         }
         return true;
@@ -361,8 +365,7 @@ public abstract class TargettedSpell<T extends TargettedSpellArgument> extends A
         List<Block> lineOfSight;
         try {
             lineOfSight = lentity.getLineOfSight(Utilities.getTransparentBlockIDs(), maxDistance);
-        }
-        catch (final IllegalStateException e) {
+        } catch (final IllegalStateException e) {
             return null;
         }
 

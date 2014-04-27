@@ -2,7 +2,8 @@ package com.afterkraft.kraftrpg.api.entity.effects;
 
 import com.afterkraft.kraftrpg.api.RPGPlugin;
 import com.afterkraft.kraftrpg.api.entity.Champion;
-import com.afterkraft.kraftrpg.api.entity.Monster;
+import com.afterkraft.kraftrpg.api.entity.IEntity;
+import com.afterkraft.kraftrpg.api.entity.Mage;
 import com.afterkraft.kraftrpg.api.events.entity.EntityRegainHealthEvent;
 import com.afterkraft.kraftrpg.api.events.entity.champion.ChampionRegainHealthEvent;
 import com.afterkraft.kraftrpg.api.spells.Spell;
@@ -17,14 +18,6 @@ public class PeriodicHealingEffect extends PeriodicExpirableEffect implements He
         this(spell, null, applier, name, period, duration, tickHealth, null, null);
     }
 
-    public PeriodicHealingEffect(Spell spell, Champion applier, String name, long period, long duration, double tickHealth, String applyText, String expireText) {
-        this(spell, null, applier, name, period, duration, tickHealth, applyText, expireText);
-    }
-
-    public PeriodicHealingEffect(Spell spell, RPGPlugin plugin, Champion applier, String name, long period, long duration, double tickHealth) {
-        this(spell, plugin, applier, name, period, duration, tickHealth, null, null);
-    }
-
     public PeriodicHealingEffect(Spell spell, RPGPlugin plugin, Champion applier, String name, long period, long duration, double tickHealth, String applyText, String expireText) {
         super(spell, plugin, applier, name, period, duration);
 
@@ -33,6 +26,15 @@ public class PeriodicHealingEffect extends PeriodicExpirableEffect implements He
 
         this.tickHealth = tickHealth;
     }
+
+    public PeriodicHealingEffect(Spell spell, Champion applier, String name, long period, long duration, double tickHealth, String applyText, String expireText) {
+        this(spell, null, applier, name, period, duration, tickHealth, applyText, expireText);
+    }
+
+    public PeriodicHealingEffect(Spell spell, RPGPlugin plugin, Champion applier, String name, long period, long duration, double tickHealth) {
+        this(spell, plugin, applier, name, period, duration, tickHealth, null, null);
+    }
+
     @Override
     public double getTickHealth() {
         return tickHealth;
@@ -44,30 +46,25 @@ public class PeriodicHealingEffect extends PeriodicExpirableEffect implements He
     }
 
     @Override
-    public void tickMonster(Monster monster) {
-        if (monster.getEntity() == null || plugin.getEntityManager().getEntity(getApplier().getPlayer()) == null) {
-            return;
-        }
-        Champion applyHero = plugin.getEntityManager().getChampion(getApplier().getPlayer());
-        final EntityRegainHealthEvent hrhEvent = new EntityRegainHealthEvent(monster, tickHealth, spell, applyHero);
-        plugin.getServer().getPluginManager().callEvent(hrhEvent);
-        if (hrhEvent.isCancelled()) {
-            return;
-        }
-        monster.heal(hrhEvent.getAmount());
-    }
+    public void tick(Mage mage) {
+        if ((mage instanceof IEntity) && (getApplier() instanceof IEntity)) {
+            IEntity entity = (IEntity) mage;
+            IEntity healer = (IEntity) getApplier();
+            if (!entity.isEntityValid() || !healer.isEntityValid()) {
+                return;
+            }
+            EntityRegainHealthEvent event;
+            if (entity instanceof Champion) {
+                event = new ChampionRegainHealthEvent((Champion) entity, tickHealth, spell, healer);
 
-    @Override
-    public void tickChampion(Champion champion) {
-        if (champion.getPlayer() == null || plugin.getEntityManager().getChampion(getApplier().getPlayer()) == null) {
-            return;
+            } else {
+                event = new EntityRegainHealthEvent(entity, tickHealth, spell, healer);
+            }
+            plugin.getServer().getPluginManager().callEvent(event);
+            if (event.isCancelled()) {
+                return;
+            }
+            entity.heal(event.getAmount());
         }
-        Champion applyHero = plugin.getEntityManager().getChampion(getApplier().getPlayer());
-        final ChampionRegainHealthEvent hrhEvent = new ChampionRegainHealthEvent(champion, tickHealth, spell, applyHero);
-        plugin.getServer().getPluginManager().callEvent(hrhEvent);
-        if (hrhEvent.isCancelled()) {
-            return;
-        }
-        champion.heal(hrhEvent.getAmount());
     }
 }

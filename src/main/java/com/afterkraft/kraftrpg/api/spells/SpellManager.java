@@ -5,8 +5,6 @@ import java.util.Collection;
 import org.bukkit.entity.Entity;
 
 import com.afterkraft.kraftrpg.api.Manager;
-import com.afterkraft.kraftrpg.api.entity.Champion;
-import com.afterkraft.kraftrpg.api.entity.IEntity;
 import com.afterkraft.kraftrpg.api.entity.SpellCaster;
 
 /**
@@ -22,8 +20,8 @@ public interface SpellManager extends Manager {
     public void addSpell(ISpell spell);
 
     /**
-     * Returns a spell from it's name
-     * If the spell is not in the spell mapping it will attempt to load it from file
+     * Returns a spell from it's name If the spell is not in the spell mapping
+     * it will attempt to load it from file
      *
      * @param name
      * @return
@@ -31,6 +29,7 @@ public interface SpellManager extends Manager {
     public ISpell getSpell(String name);
 
     public boolean loadOutsourcedSpell(String name);
+
     /**
      * Returns a collection of all spells loaded in the spell manager
      *
@@ -54,7 +53,8 @@ public interface SpellManager extends Manager {
     public void removeSpell(ISpell spell);
 
     /**
-     * Check if the {@link com.afterkraft.kraftrpg.api.entity.SpellCaster} has an actively {@link com.afterkraft.kraftrpg.api.spells.Delayed} Spell.
+     * Check if the {@link com.afterkraft.kraftrpg.api.entity.SpellCaster} has
+     * an actively {@link com.afterkraft.kraftrpg.api.spells.Delayed} Spell.
      *
      * @param caster the caster in question
      * @return
@@ -62,7 +62,6 @@ public interface SpellManager extends Manager {
     public boolean isCasterDelayed(SpellCaster caster);
 
     /**
-     *
      * @param caster
      * @return
      */

@@ -4,7 +4,6 @@ import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
-import com.afterkraft.kraftrpg.api.entity.IEntity;
 import com.afterkraft.kraftrpg.api.entity.SpellCaster;
 import com.afterkraft.kraftrpg.api.spells.ISpell;
 import com.afterkraft.kraftrpg.api.util.SpellRequirement;

@@ -15,16 +15,16 @@ public class ChampionEvent extends IEntityEvent {
         super(player);
     }
 
-    @Override
-    public final Champion getEntity() {
-        return (Champion) super.getEntity();
+    public static HandlerList getHandlerList() {
+        return handlers;
     }
 
     public final Champion getChampion() {
         return this.getEntity();
     }
 
-    public static HandlerList getHandlerList() {
-        return handlers;
+    @Override
+    public final Champion getEntity() {
+        return (Champion) super.getEntity();
     }
 }

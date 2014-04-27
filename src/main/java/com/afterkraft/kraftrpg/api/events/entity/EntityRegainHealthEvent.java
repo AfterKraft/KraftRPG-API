@@ -10,9 +10,9 @@ import com.afterkraft.kraftrpg.api.spells.ISpell;
  */
 public class EntityRegainHealthEvent extends IEntityEvent implements Cancellable {
 
-    private double amount;
     private final IEntity healer;
     private final ISpell spell;
+    private double amount;
     private boolean cancelled = false;
 
     public EntityRegainHealthEvent(IEntity beneficiary, double healAmount, ISpell spell) {

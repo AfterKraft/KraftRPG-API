@@ -14,6 +14,8 @@ public interface EntityManager extends Manager {
 
     public IEntity getEntity(LivingEntity entity);
 
+    public IEntity getEntity(SpellCaster spellCaster);
+
     public Champion getChampion(Player player);
 
     public Monster getMonster(LivingEntity entity);

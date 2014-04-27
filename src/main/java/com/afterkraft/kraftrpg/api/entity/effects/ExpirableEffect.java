@@ -16,8 +16,8 @@
 package com.afterkraft.kraftrpg.api.entity.effects;
 
 import com.afterkraft.kraftrpg.api.RPGPlugin;
-import com.afterkraft.kraftrpg.api.entity.Champion;
-import com.afterkraft.kraftrpg.api.entity.Monster;
+import com.afterkraft.kraftrpg.api.entity.Mage;
+import com.afterkraft.kraftrpg.api.entity.SpellCaster;
 import com.afterkraft.kraftrpg.api.spells.Spell;
 
 /**
@@ -25,25 +25,17 @@ import com.afterkraft.kraftrpg.api.spells.Spell;
  */
 public class ExpirableEffect extends Effect implements Expirable {
 
-    protected Champion applier;
     private final long duration;
+    protected SpellCaster applier;
     private String expireText;
     private String applyText;
     private long expireTime;
 
-    public ExpirableEffect(Spell spell, Champion applier,  String name, long duration) {
+    public ExpirableEffect(Spell spell, SpellCaster applier, String name, long duration) {
         this(spell, spell.plugin, applier, name, duration, null, null);
     }
 
-    public ExpirableEffect(Spell spell, Champion applier, String name, long duration, String applyText, String expireText) {
-        this(spell, spell.plugin, applier, name, duration, applyText, expireText);
-    }
-
-    public ExpirableEffect(Spell spell, RPGPlugin plugin, Champion applier, String name, long duration) {
-        this(spell, plugin, applier, name, duration, null, null);
-    }
-
-    public ExpirableEffect(Spell skill, RPGPlugin plugin, Champion applier, String name, long duration, String applyText, String expireText) {
+    public ExpirableEffect(Spell skill, RPGPlugin plugin, SpellCaster applier, String name, long duration, String applyText, String expireText) {
         super(plugin, skill, name);
         this.duration = duration;
         this.applier = applier;
@@ -51,21 +43,23 @@ public class ExpirableEffect extends Effect implements Expirable {
         this.applyText = applyText;
     }
 
-    @Override
-    public void applyToMonster(Monster monster) {
-        super.applyToMonster(monster);
-        this.expireTime = this.applyTime + this.duration;
+    public ExpirableEffect(Spell spell, SpellCaster applier, String name, long duration, String applyText, String expireText) {
+        this(spell, spell.plugin, applier, name, duration, applyText, expireText);
     }
 
-    @Override
-    public void applyToPlayer(Champion champion) {
-        super.applyToPlayer(champion);
-        this.expireTime = this.applyTime + this.duration;
+    public ExpirableEffect(Spell spell, RPGPlugin plugin, SpellCaster applier, String name, long duration) {
+        this(spell, plugin, applier, name, duration, null, null);
     }
 
     @Override
     public long getApplyTime() {
         return this.applyTime;
+    }
+
+    @Override
+    public void apply(Mage mage) {
+        super.apply(mage);
+        this.expireTime = this.applyTime + this.duration;
     }
 
     @Override
@@ -114,12 +108,12 @@ public class ExpirableEffect extends Effect implements Expirable {
     }
 
     @Override
-    public Champion getApplier() {
+    public SpellCaster getApplier() {
         return this.applier;
     }
 
     @Override
-    public void setApplier(Champion champion) {
+    public void setApplier(SpellCaster champion) {
         this.applier = champion;
     }
 

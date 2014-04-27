@@ -6,12 +6,15 @@ import com.afterkraft.kraftrpg.api.entity.Champion;
 import com.afterkraft.kraftrpg.api.entity.SpellCaster;
 
 /**
- * Represents an Active Spell that requires a {@link org.bukkit.entity.LivingEntity} as a target.
+ * Represents an Active Spell that requires a {@link org.bukkit.entity.LivingEntity}
+ * as a target.
  */
-public interface Targetted<T extends TargettedSpellArgument> extends Active<T> {
+public interface Targeted<T extends TargetedSpellArgument> extends Active<T> {
 
     /**
-     * Primary designated method to use this spell on the targetted LivingEntity
+     * Primary designated method to use this spell on the targetted
+     * LivingEntity
+     *
      * @param champion
      * @param entity
      * @param argument

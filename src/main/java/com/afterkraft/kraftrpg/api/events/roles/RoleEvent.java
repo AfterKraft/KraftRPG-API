@@ -18,11 +18,11 @@ public class RoleEvent extends ChampionEvent {
         this.rpgRole = rpgRole;
     }
 
-    public final Role getRPGRole() {
-        return this.rpgRole;
-    }
-
     public static HandlerList getHandlerList() {
         return handlers;
+    }
+
+    public final Role getRPGRole() {
+        return this.rpgRole;
     }
 }

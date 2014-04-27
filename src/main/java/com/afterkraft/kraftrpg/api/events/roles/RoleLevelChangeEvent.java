@@ -25,6 +25,10 @@ public class RoleLevelChangeEvent extends RoleEvent {
         this.isMastering = true;
     }
 
+    public static HandlerList getHandlerList() {
+        return handlers;
+    }
+
     public int getFromLevel() {
         return this.fromLevel;
     }
@@ -35,9 +39,5 @@ public class RoleLevelChangeEvent extends RoleEvent {
 
     public boolean isMastering() {
         return this.isMastering;
-    }
-
-    public static HandlerList getHandlerList() {
-        return handlers;
     }
 }

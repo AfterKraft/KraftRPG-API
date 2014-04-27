@@ -1,7 +1,8 @@
 package com.afterkraft.kraftrpg.api.util;
 
 /**
- * Represents a fixed point value for percision values such as Experience and cooldowns=
+ * Represents a fixed point value for percision values such as Experience and
+ * cooldowns=
  */
 public final class FixedPoint {
 
@@ -21,8 +22,12 @@ public final class FixedPoint {
         val = toFixed(init);
     }
 
+    public static long toFixed(double val) {
+        return Math.round(val * ONE);
+    }
+
     public FixedPoint(int init) {
-        val = (long)init << FRAC_SIZE;
+        val = (long) init << FRAC_SIZE;
     }
 
     public FixedPoint(long init, boolean isFixedAlready) {
@@ -49,12 +54,24 @@ public final class FixedPoint {
         this.val /= val;
     }
 
+    public void add(FixedPoint val) {
+        add(val.val);
+    }
+
     public void add(long fixedVal) {
         this.val += fixedVal;
     }
 
+    public void sub(FixedPoint val) {
+        sub(val.val);
+    }
+
     public void sub(long fixedVal) {
         this.val -= fixedVal;
+    }
+
+    public void mult(FixedPoint val) {
+        mult(val.val);
     }
 
     public void mult(long fixedVal) {
@@ -63,26 +80,14 @@ public final class FixedPoint {
         val = (t >> FRAC_SIZE);
     }
 
+    public void div(FixedPoint val) {
+        div(val.val);
+    }
+
     public void div(long fixedVal) {
         long t = val << FRAC_SIZE;
         t += (fixedVal >> 1);
         val = t / fixedVal;
-    }
-
-    public void add(FixedPoint val) {
-        add(val.val);
-    }
-
-    public void sub(FixedPoint val) {
-        sub(val.val);
-    }
-
-    public void mult(FixedPoint val) {
-        mult(val.val);
-    }
-
-    public void div(FixedPoint val) {
-        div(val.val);
     }
 
     public void add(double val) {
@@ -102,15 +107,11 @@ public final class FixedPoint {
     }
 
     public double asDouble() {
-        return (double)val * twoPowNegSize;
+        return (double) val * twoPowNegSize;
     }
 
     public long getByteValue() {
         return this.val;
-    }
-
-    public static long toFixed(double val) {
-        return Math.round(val * ONE);
     }
 
     @Override
@@ -120,13 +121,14 @@ public final class FixedPoint {
 
     /**
      * Converts to string with custom rounding
+     *
      * @param maxDecimalPlaces maximum decimal places to display
      * @return String representation of the number
      */
     public String toString(int maxDecimalPlaces) {
         boolean neg = Long.signum(val) == -1;
         long disp = val * (neg ? -1 : 1);
-        int pow10 = (int)Math.pow(10, maxDecimalPlaces);
+        int pow10 = (int) Math.pow(10, maxDecimalPlaces);
         //Round
         disp += (0x8000 / pow10);
 
