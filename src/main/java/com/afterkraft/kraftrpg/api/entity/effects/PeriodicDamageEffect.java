@@ -20,7 +20,7 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import com.afterkraft.kraftrpg.api.RPGPlugin;
 import com.afterkraft.kraftrpg.api.entity.Champion;
 import com.afterkraft.kraftrpg.api.entity.IEntity;
-import com.afterkraft.kraftrpg.api.entity.Mage;
+import com.afterkraft.kraftrpg.api.entity.Insentient;
 import com.afterkraft.kraftrpg.api.entity.SkillCaster;
 import com.afterkraft.kraftrpg.api.skills.Skill;
 import com.afterkraft.kraftrpg.api.skills.SkillType;
@@ -84,16 +84,16 @@ public class PeriodicDamageEffect extends PeriodicExpirableEffect implements Dam
     }
 
     @Override
-    public void tick(Mage mage) {
-        if (mage instanceof IEntity && ((IEntity) mage).isEntityValid() && (getApplier() instanceof IEntity) && ((IEntity) getApplier()).isEntityValid()) {
-            final IEntity entity = (IEntity) mage;
+    public void tick(Insentient being) {
+        if (being instanceof IEntity && ((IEntity) being).isEntityValid() && (getApplier() instanceof IEntity) && ((IEntity) getApplier()).isEntityValid()) {
+            final IEntity entity = (IEntity) being;
             final IEntity damager = (IEntity) getApplier();
 
             if (!skill.damageCheck(damager, entity.getEntity())) {
                 return;
             }
-            if (mage instanceof SkillCaster) {
-                SkillCaster caster = (SkillCaster) mage;
+            if (being instanceof SkillCaster) {
+                SkillCaster caster = (SkillCaster) being;
                 skill.addSkillTarget(entity.getEntity(), caster);
                 skill.damageEntity(entity.getEntity(), damager.getEntity(), tickDamage, skill.isType(SkillType.ABILITY_PROPERTY_PHYSICAL) ? EntityDamageEvent.DamageCause.ENTITY_ATTACK : EntityDamageEvent.DamageCause.MAGIC, knockback);
             }

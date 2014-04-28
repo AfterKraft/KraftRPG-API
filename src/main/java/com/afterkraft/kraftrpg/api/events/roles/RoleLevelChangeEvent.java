@@ -17,7 +17,7 @@ package com.afterkraft.kraftrpg.api.events.roles;
 
 import org.bukkit.event.HandlerList;
 
-import com.afterkraft.kraftrpg.api.entity.Insentient;
+import com.afterkraft.kraftrpg.api.entity.Sentient;
 import com.afterkraft.kraftrpg.api.entity.roles.Role;
 
 
@@ -27,11 +27,11 @@ public class RoleLevelChangeEvent extends RoleEvent {
     private final int toLevel;
     private final boolean isMastering;
 
-    public RoleLevelChangeEvent(Insentient being, Role rpgRole, int from, int to) {
+    public RoleLevelChangeEvent(Sentient being, Role rpgRole, int from, int to) {
         this(being, rpgRole, from, to, false);
     }
 
-    public RoleLevelChangeEvent(Insentient being, Role rpgRole, int from, int to, boolean isMastering) {
+    public RoleLevelChangeEvent(Sentient being, Role rpgRole, int from, int to, boolean isMastering) {
         super(being, rpgRole);
         this.fromLevel = from;
         this.toLevel = to;

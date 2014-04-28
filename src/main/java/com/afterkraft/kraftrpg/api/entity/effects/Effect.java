@@ -23,7 +23,7 @@ import java.util.Set;
 import org.bukkit.potion.PotionEffect;
 
 import com.afterkraft.kraftrpg.api.RPGPlugin;
-import com.afterkraft.kraftrpg.api.entity.Mage;
+import com.afterkraft.kraftrpg.api.entity.Insentient;
 import com.afterkraft.kraftrpg.api.skills.Skill;
 
 /**
@@ -98,17 +98,17 @@ public abstract class Effect implements IEffect {
     }
 
     @Override
-    public void apply(Mage mage) {
+    public void apply(Insentient being) {
         this.applyTime = System.currentTimeMillis();
         if (!potionEffects.isEmpty()) {
             for (final PotionEffect pEffect : potionEffects) {
-                mage.addPotionEffect(pEffect);
+                being.addPotionEffect(pEffect);
             }
         }
     }
 
     @Override
-    public void remove(Mage mage) {
+    public void remove(Insentient mage) {
         if (!potionEffects.isEmpty()) {
             for (final PotionEffect pEffect : potionEffects) {
                 mage.removePotionEffect(pEffect.getType());

@@ -21,8 +21,8 @@ import org.bukkit.entity.LivingEntity;
 
 import com.afterkraft.kraftrpg.api.entity.Champion;
 import com.afterkraft.kraftrpg.api.entity.EnterCombatReason;
+import com.afterkraft.kraftrpg.api.entity.Insentient;
 import com.afterkraft.kraftrpg.api.entity.LeaveCombatReason;
-import com.afterkraft.kraftrpg.api.entity.Mage;
 
 
 public interface Combat extends IEffect {
@@ -35,11 +35,11 @@ public interface Combat extends IEffect {
 
     public void leaveCombatWith(Champion champion, LivingEntity target, LeaveCombatReason reason);
 
-    public void leaveCombatFromDeath(Mage mage);
+    public void leaveCombatFromDeath(Insentient being);
 
-    public void leaveCombatFromLogout(Mage mage);
+    public void leaveCombatFromLogout(Insentient being);
 
-    public void leaveCombatFromSuicide(Mage mage);
+    public void leaveCombatFromSuicide(Insentient being);
 
     public long getTimeLeft();
 

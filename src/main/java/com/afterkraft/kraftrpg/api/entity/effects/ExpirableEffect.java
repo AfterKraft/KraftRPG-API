@@ -16,7 +16,7 @@
 package com.afterkraft.kraftrpg.api.entity.effects;
 
 import com.afterkraft.kraftrpg.api.RPGPlugin;
-import com.afterkraft.kraftrpg.api.entity.Mage;
+import com.afterkraft.kraftrpg.api.entity.Insentient;
 import com.afterkraft.kraftrpg.api.entity.SkillCaster;
 import com.afterkraft.kraftrpg.api.skills.Skill;
 
@@ -55,8 +55,8 @@ public class ExpirableEffect extends Effect implements Expirable {
     }
 
     @Override
-    public void apply(Mage mage) {
-        super.apply(mage);
+    public void apply(Insentient being) {
+        super.apply(being);
         this.expireTime = this.applyTime + this.duration;
     }
 

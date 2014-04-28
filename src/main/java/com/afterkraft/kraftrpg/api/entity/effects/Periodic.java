@@ -15,7 +15,7 @@
  */
 package com.afterkraft.kraftrpg.api.entity.effects;
 
-import com.afterkraft.kraftrpg.api.entity.Mage;
+import com.afterkraft.kraftrpg.api.entity.Insentient;
 
 public interface Periodic extends IEffect {
 
@@ -39,11 +39,10 @@ public interface Periodic extends IEffect {
     public boolean isReady();
 
     /**
-     * Ticks this effect on the specified entity. This should be implemented via
-     * tickMonster or tickChampion.
+     * Ticks this effect on the specified entity.
      *
-     * @param mage - The entity this effect is being applied to.
+     * @param being - The being this effect is being applied to.
      */
-    public void tick(Mage mage);
+    public void tick(Insentient being);
 
 }

@@ -1,116 +1,93 @@
-/*
- * Copyright 2014 Gabriel Harris-Rouquette
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http:www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package com.afterkraft.kraftrpg.api.entity;
 
 import java.util.Set;
 
-import org.bukkit.Location;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
-import com.afterkraft.kraftrpg.api.entity.roles.ExperienceType;
-import com.afterkraft.kraftrpg.api.entity.roles.Role;
-import com.afterkraft.kraftrpg.api.util.FixedPoint;
-
+import com.afterkraft.kraftrpg.api.entity.effects.EffectType;
+import com.afterkraft.kraftrpg.api.entity.effects.IEffect;
 
 public interface Insentient {
 
-    /**
-     * Fetches the current experience of the given Role.
-     * <p/>
-     * If this Champion has no experience in the given Role, this will return a
-     * FixedPoint with value 0
-     *
-     * @param role to check the current experience of
-     * @return the FixedPoint value of the designated role.
-     */
-    public FixedPoint getExperience(Role role);
+    public int getMana();
 
-    public boolean canGainExperience(ExperienceType type);
+    public void setMana(int mana);
 
-    public FixedPoint gainExperience(FixedPoint exp, ExperienceType type, Location location);
+    public double getHealth();
 
-    /**
-     * Get the currently active Primary {@link Role} that this Champion has
-     *
-     * @return the current primary role this Champion has activated
-     */
-    public Role getPrimaryRole();
+    public void setHealth(double health);
+
+    public void updateInventory();
+
+    public ItemStack getItemInHand();
+
+    public Inventory getInventory();
 
     /**
-     * Get the currently active Secondary {@link Role} that this Champion has
+     * Returns (if available) the named {@link com.afterkraft.kraftrpg.api.entity.effects.IEffect}
      *
-     * @return the current secondary role this Champion has activated
+     * @param name the name of the desired Effect
+     * @return the named Effect if not null
      */
-    public Role getSecondaryRole();
+    public IEffect getEffect(String name);
 
     /**
-     * Set the current {@link com.afterkraft.kraftrpg.api.entity.roles.RoleType#PRIMARY}
-     * {@link Role}. The {@link com.afterkraft.kraftrpg.api.entity.roles.RoleType}
-     * is checked prior to setting. A Champion may only have one Primary active
-     * role at any given time.
+     * Returns an unmodifiable set of Effects this Champion has active.
      *
-     * @param role the Primary role to set this Champion's primary role to
+     * @return an unmodifiable set of Effects this Champion has active.
      */
-    public boolean setPrimaryRole(Role role);
+    public Set<IEffect> getEffects();
 
     /**
-     * Set the current {@link com.afterkraft.kraftrpg.api.entity.roles.RoleType#SECONDARY}
-     * {@link Role}. The {@link com.afterkraft.kraftrpg.api.entity.roles.RoleType}
-     * is checked prior to setting. A Champion may only have one Secondary
-     * active role at any given time.
+     * Adds the given Effect to this Insentient being. Added Effects will be
+     * applied on the next tick so as to avoid
      *
-     * @param role the Secondary role to set this Champion's secondary role to
-     * @return true if the set was successful
+     * @param IEffect
      */
-    public boolean setSecondaryRole(Role role);
+    public void addEffect(IEffect IEffect);
 
     /**
-     * Get a Set of {@link Role}s that are marked as {@link
-     * com.afterkraft.kraftrpg.api.entity.roles.RoleType#ADDITIONAL} that are
-     * active on this Champion.
+     * Add the {@link org.bukkit.potion.PotionEffect} to this Insentient being.
      *
-     * @return an unmodifiable set of additional Roles this Champion has
-     * activated
+     * @param potion the effect to be applied
      */
-    public Set<Role> getAdditionalRoles();
+    public void addPotionEffect(PotionEffect potion);
+
+    public boolean hasEffect(String name);
+
+    public boolean hasEffectType(EffectType type);
+
+    public void removeEffect(IEffect IEffect);
 
     /**
-     * Attempts to add the given {@link Role} provided that the {@link
-     * com.afterkraft.kraftrpg.api.entity.roles.RoleType} is ADDITIONAL.
+     * Remove the {@link org.bukkit.potion.PotionEffectType} from this
+     * Insentient.
      *
-     * @param role the additional role to add to this Champion
-     * @return true if the role was added successfully
+     * @param type of PotionEffect to remove
      */
-    public boolean addAdditionalRole(Role role);
+    public void removePotionEffect(PotionEffectType type);
+
+    public void manualRemoveEffect(IEffect IEffect);
+
+    public void clearEffects();
+
+    public void manualClearEffects();
 
     /**
-     * Attempts to remove the given {@link Role} provided that the {@link
-     * com.afterkraft.kraftrpg.api.entity.roles.RoleType} is ADDITIONAL.
-     *
-     * @param role the additional role to remove from this Champion
-     * @return true if the role was removed successfully
+     * @return true if this Insentient is marked in combat
      */
-    public boolean removeAdditionalRole(Role role);
+    public boolean isInCombat();
 
     /**
-     * Fetches the current calculated level of the designated Role. If the Role
-     * is not leveled by this Champion, the level will return 0
      *
-     * @param role to get the current level
-     * @return the current calculated level of this Role if not 0
      */
-    public int getLevel(Role role);
+    public void enterCombat(EnterCombatReason reason);
 
+    /**
+     * @param reason the designated reason for leaving combat
+     */
+    public void leaveCombat(LeaveCombatReason reason);
 }

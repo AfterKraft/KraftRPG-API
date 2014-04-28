@@ -18,7 +18,7 @@ package com.afterkraft.kraftrpg.api.entity.effects;
 import com.afterkraft.kraftrpg.api.RPGPlugin;
 import com.afterkraft.kraftrpg.api.entity.Champion;
 import com.afterkraft.kraftrpg.api.entity.IEntity;
-import com.afterkraft.kraftrpg.api.entity.Mage;
+import com.afterkraft.kraftrpg.api.entity.Insentient;
 import com.afterkraft.kraftrpg.api.events.entity.EntityRegainHealthEvent;
 import com.afterkraft.kraftrpg.api.events.entity.champion.ChampionRegainHealthEvent;
 import com.afterkraft.kraftrpg.api.skills.Skill;
@@ -59,9 +59,9 @@ public class PeriodicHealingEffect extends PeriodicExpirableEffect implements He
     }
 
     @Override
-    public void tick(Mage mage) {
-        if ((mage instanceof IEntity) && (getApplier() instanceof IEntity)) {
-            IEntity entity = (IEntity) mage;
+    public void tick(Insentient being) {
+        if ((being instanceof IEntity) && (getApplier() instanceof IEntity)) {
+            IEntity entity = (IEntity) being;
             IEntity healer = (IEntity) getApplier();
             if (!entity.isEntityValid() || !healer.isEntityValid()) {
                 return;

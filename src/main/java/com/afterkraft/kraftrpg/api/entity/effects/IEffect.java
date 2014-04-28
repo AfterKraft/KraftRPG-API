@@ -17,7 +17,7 @@ package com.afterkraft.kraftrpg.api.entity.effects;
 
 import org.bukkit.potion.PotionEffect;
 
-import com.afterkraft.kraftrpg.api.entity.Mage;
+import com.afterkraft.kraftrpg.api.entity.Insentient;
 import com.afterkraft.kraftrpg.api.skills.ISkill;
 
 
@@ -81,17 +81,17 @@ public interface IEffect {
 
     /**
      * Attempts to apply this effect to the provided {@link
-     * com.afterkraft.kraftrpg.api.entity.Mage}.
+     * com.afterkraft.kraftrpg.api.entity.Insentient}.
      *
-     * @param mage this effect is being applied on to.
+     * @param being this effect is being applied on to.
      */
-    public void apply(Mage mage);
+    public void apply(Insentient being);
 
     /**
-     * Attempts to remove this effect from the given IEntity
+     * Attempts to remove this effect from the given Insentient being
      * <p/>
      *
-     * @param entity this effect is being removed by.
+     * @param being this effect is being removed by.
      */
-    public void remove(Mage entity);
+    public void remove(Insentient being);
 }

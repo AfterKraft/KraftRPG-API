@@ -19,18 +19,18 @@ import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
-import com.afterkraft.kraftrpg.api.entity.Mage;
+import com.afterkraft.kraftrpg.api.entity.Insentient;
 import com.afterkraft.kraftrpg.api.entity.effects.IEffect;
 
 
 public class EffectRemoveEvent extends Event implements Cancellable {
 
-    private final Mage entity;
+    private final Insentient being;
     private boolean isCancelled = false;
     private IEffect IEffect;
 
-    public EffectRemoveEvent(Mage entity, IEffect IEffect) {
-        this.entity = entity;
+    public EffectRemoveEvent(Insentient being, IEffect IEffect) {
+        this.being = being;
         this.IEffect = IEffect;
     }
 
@@ -38,8 +38,8 @@ public class EffectRemoveEvent extends Event implements Cancellable {
         return this.IEffect;
     }
 
-    public Mage getMage() {
-        return this.entity;
+    public Insentient getInsentientBeing() {
+        return this.being;
     }
 
     @Override

@@ -18,7 +18,7 @@ package com.afterkraft.kraftrpg.api.events.roles;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
-import com.afterkraft.kraftrpg.api.entity.Insentient;
+import com.afterkraft.kraftrpg.api.entity.Sentient;
 import com.afterkraft.kraftrpg.api.entity.roles.Role;
 
 
@@ -26,11 +26,11 @@ public class RoleEvent extends Event {
 
     protected static final HandlerList handlers = new HandlerList();
     private final Role rpgRole;
-    private final Insentient being;
+    private final Sentient being;
 
-    public RoleEvent(Insentient insentient, Role rpgRole) {
+    public RoleEvent(Sentient being, Role rpgRole) {
         this.rpgRole = rpgRole;
-        this.being = insentient;
+        this.being = being;
     }
 
     public static HandlerList getHandlerList() {
@@ -41,7 +41,7 @@ public class RoleEvent extends Event {
         return this.rpgRole;
     }
 
-    public final Insentient getInsentientBeing() {
+    public final Sentient getSentientBeing() {
         return this.being;
     }
 

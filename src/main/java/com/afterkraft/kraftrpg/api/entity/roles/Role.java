@@ -20,6 +20,10 @@ import org.bukkit.Material;
 import com.afterkraft.kraftrpg.api.skills.ISkill;
 
 
+/**
+ * A Role represents a tree like structure for granting Skills and other bonuses
+ * to {@link com.afterkraft.kraftrpg.api.entity.Sentient} beings.
+ */
 public interface Role {
 
     /**

@@ -16,8 +16,6 @@
 package com.afterkraft.kraftrpg.api.entity;
 
 import org.bukkit.Location;
-import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
 
 import com.afterkraft.kraftrpg.api.skills.ISkill;
 import com.afterkraft.kraftrpg.api.skills.SkillArgument;
@@ -30,11 +28,7 @@ import com.afterkraft.kraftrpg.api.util.SkillRequirement;
  * from TileEntities to blocks. Custom skillCasters can be interfaced with this
  * way.
  */
-public interface SkillCaster extends Mage, Insentient, PartyMember {
-
-    public ItemStack getItemInHand();
-
-    public Inventory getInventory();
+public interface SkillCaster extends Sentient, PartyMember {
 
     public void removeSkillRequirement(SkillRequirement skillRequirement);
 
