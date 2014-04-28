@@ -1,3 +1,18 @@
+/*
+ * Copyright 2014 Gabriel Harris-Rouquette
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http:www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.afterkraft.kraftrpg.api.attributes;
 
 import java.util.Map;
@@ -8,7 +23,7 @@ import org.apache.commons.lang.Validate;
 /**
  * Attributes are defined through configurations and different attributes have
  * different effects. AttributeTypes are defined by the configurations and
- * {@link com.afterkraft.kraftrpg.api.spells.Spell}s can use the various
+ * {@link com.afterkraft.kraftrpg.api.skills.Skill}s can use the various
  * attribute types to define final damage, reagent requirements, cooldowns and
  * even immunity to some effects.
  */
@@ -18,12 +33,12 @@ public enum AttributeType {
     MANA_COST_INCREASE("Mana Cost Increase"),
     HEALTH_COST_INCREASE("Health Cost Increase"),
     HEALTH_COST_REDUCTION("Health Cost Reduction"),
-    SPELL_DAMAGE_INCREASE("Spell Damage Increase"),
-    SPELL_DAMAGE_REDUCTION("Spell Damage Reduction"),
-    SPELL_COOLDOWN_REDUCTION("Spell Cooldown Reduction"),
-    SPELL_COOLDOWN_INCRASE("Spell Cooldown Increase"),
-    SPELL_BUFF_INCREASE("Spell Buff Increase"),
-    SPELL_BUFF_REDUCTION("Spell Buff Reduction");
+    SKILL_DAMAGE_INCREASE("Skill Damage Increase"),
+    SKILL_DAMAGE_REDUCTION("Skill Damage Reduction"),
+    SKILL_COOLDOWN_REDUCTION("Skill Cooldown Reduction"),
+    SKILL_COOLDOWN_INCRASE("Skill Cooldown Increase"),
+    SKILL_BUFF_INCREASE("Skill Buff Increase"),
+    SKILL_BUFF_REDUCTION("Skill Buff Reduction");
     private final static Map<String, AttributeType> BY_NAME = Maps.newHashMap();
 
     static {

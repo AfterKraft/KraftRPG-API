@@ -1,22 +1,35 @@
+/*
+ * Copyright 2014 Gabriel Harris-Rouquette
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http:www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.afterkraft.kraftrpg.api.events.entity.champion;
 
 import com.afterkraft.kraftrpg.api.entity.Champion;
 import com.afterkraft.kraftrpg.api.entity.IEntity;
 import com.afterkraft.kraftrpg.api.events.entity.EntityRegainHealthEvent;
-import com.afterkraft.kraftrpg.api.spells.ISpell;
+import com.afterkraft.kraftrpg.api.skills.ISkill;
 
-/**
- * @author gabizou
- */
+
 public class ChampionRegainHealthEvent extends EntityRegainHealthEvent {
 
 
-    public ChampionRegainHealthEvent(Champion beneficiary, double healAmount, ISpell spell) {
-        super(beneficiary, healAmount, spell);
+    public ChampionRegainHealthEvent(Champion beneficiary, double healAmount, ISkill skill) {
+        super(beneficiary, healAmount, skill);
     }
 
-    public ChampionRegainHealthEvent(Champion beneficiary, double healAmount, ISpell spell, IEntity healer) {
-        super(beneficiary, healAmount, spell, healer);
+    public ChampionRegainHealthEvent(Champion beneficiary, double healAmount, ISkill skill, IEntity healer) {
+        super(beneficiary, healAmount, skill, healer);
     }
 
     public Champion getChampion() {

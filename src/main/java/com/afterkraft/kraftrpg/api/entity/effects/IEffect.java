@@ -1,22 +1,35 @@
+/*
+ * Copyright 2014 Gabriel Harris-Rouquette
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http:www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.afterkraft.kraftrpg.api.entity.effects;
 
 import org.bukkit.potion.PotionEffect;
 
 import com.afterkraft.kraftrpg.api.entity.Mage;
-import com.afterkraft.kraftrpg.api.spells.ISpell;
+import com.afterkraft.kraftrpg.api.skills.ISkill;
 
-/**
- * @author gabizou
- */
+
 public interface IEffect {
 
     /**
-     * Returns the associated {@link com.afterkraft.kraftrpg.api.spells.ISpell}
+     * Returns the associated {@link com.afterkraft.kraftrpg.api.skills.ISkill}
      * that created this effect.
      *
-     * @return the Spell that created this effect
+     * @return the Skill that created this effect
      */
-    public ISpell getSpell();
+    public ISkill getSkill();
 
     /**
      * Returns this individual Effect's name. (Should be as unique and
@@ -44,7 +57,7 @@ public interface IEffect {
 
     /**
      * Set this effect to be a persisting effect. Persistent effects will never
-     * expire until removed by a Spell or plugin.
+     * expire until removed by a Skill or plugin.
      *
      * @param persistent set this Effect to be persistent.
      */

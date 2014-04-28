@@ -7,7 +7,7 @@
  *
  *      http:www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed change in writing, software
+ * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
@@ -17,25 +17,23 @@ package com.afterkraft.kraftrpg.api.entity.effects;
 
 import com.afterkraft.kraftrpg.api.RPGPlugin;
 import com.afterkraft.kraftrpg.api.entity.Mage;
-import com.afterkraft.kraftrpg.api.entity.SpellCaster;
-import com.afterkraft.kraftrpg.api.spells.Spell;
+import com.afterkraft.kraftrpg.api.entity.SkillCaster;
+import com.afterkraft.kraftrpg.api.skills.Skill;
 
-/**
- * @author gabizou
- */
+
 public class ExpirableEffect extends Effect implements Expirable {
 
     private final long duration;
-    protected SpellCaster applier;
+    protected SkillCaster applier;
     private String expireText;
     private String applyText;
     private long expireTime;
 
-    public ExpirableEffect(Spell spell, SpellCaster applier, String name, long duration) {
-        this(spell, spell.plugin, applier, name, duration, null, null);
+    public ExpirableEffect(Skill skill, SkillCaster applier, String name, long duration) {
+        this(skill, skill.plugin, applier, name, duration, null, null);
     }
 
-    public ExpirableEffect(Spell skill, RPGPlugin plugin, SpellCaster applier, String name, long duration, String applyText, String expireText) {
+    public ExpirableEffect(Skill skill, RPGPlugin plugin, SkillCaster applier, String name, long duration, String applyText, String expireText) {
         super(plugin, skill, name);
         this.duration = duration;
         this.applier = applier;
@@ -43,12 +41,12 @@ public class ExpirableEffect extends Effect implements Expirable {
         this.applyText = applyText;
     }
 
-    public ExpirableEffect(Spell spell, SpellCaster applier, String name, long duration, String applyText, String expireText) {
-        this(spell, spell.plugin, applier, name, duration, applyText, expireText);
+    public ExpirableEffect(Skill skill, SkillCaster applier, String name, long duration, String applyText, String expireText) {
+        this(skill, skill.plugin, applier, name, duration, applyText, expireText);
     }
 
-    public ExpirableEffect(Spell spell, RPGPlugin plugin, SpellCaster applier, String name, long duration) {
-        this(spell, plugin, applier, name, duration, null, null);
+    public ExpirableEffect(Skill skill, RPGPlugin plugin, SkillCaster applier, String name, long duration) {
+        this(skill, plugin, applier, name, duration, null, null);
     }
 
     @Override
@@ -108,12 +106,12 @@ public class ExpirableEffect extends Effect implements Expirable {
     }
 
     @Override
-    public SpellCaster getApplier() {
+    public SkillCaster getApplier() {
         return this.applier;
     }
 
     @Override
-    public void setApplier(SpellCaster champion) {
+    public void setApplier(SkillCaster champion) {
         this.applier = champion;
     }
 

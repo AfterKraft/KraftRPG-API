@@ -7,7 +7,7 @@
  *
  *      http:www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed change in writing, software
+ * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
@@ -24,7 +24,7 @@ import org.bukkit.potion.PotionEffect;
 
 import com.afterkraft.kraftrpg.api.RPGPlugin;
 import com.afterkraft.kraftrpg.api.entity.Mage;
-import com.afterkraft.kraftrpg.api.spells.Spell;
+import com.afterkraft.kraftrpg.api.skills.Skill;
 
 /**
  * Standard implementation of an {@link com.afterkraft.kraftrpg.api.entity.effects.IEffect}.
@@ -34,22 +34,22 @@ public abstract class Effect implements IEffect {
     public final Set<EffectType> types = EnumSet.noneOf(EffectType.class);
     protected final String name;
     protected final RPGPlugin plugin;
-    protected final Spell spell;
+    protected final Skill skill;
     private final Set<PotionEffect> potionEffects = new HashSet<PotionEffect>();
     protected long applyTime;
     private boolean persistent = false;
 
-    public Effect(Spell spell, String name) {
-        this(spell == null ? null : spell.plugin, spell, name);
+    public Effect(Skill skill, String name) {
+        this(skill == null ? null : skill.plugin, skill, name);
     }
 
-    public Effect(RPGPlugin plugin, Spell spell, String name, EffectType... types) {
+    public Effect(RPGPlugin plugin, Skill skill, String name, EffectType... types) {
         this.name = name;
-        this.spell = spell;
+        this.skill = skill;
         if (plugin != null) {
             this.plugin = plugin;
         } else {
-            this.plugin = spell.plugin;
+            this.plugin = skill.plugin;
         }
 
         if (types != null) {
@@ -57,13 +57,13 @@ public abstract class Effect implements IEffect {
         }
     }
 
-    public Effect(Spell spell, String name, EffectType... types) {
-        this(spell.plugin, spell, name, types);
+    public Effect(Skill skill, String name, EffectType... types) {
+        this(skill.plugin, skill, name, types);
     }
 
     @Override
-    public final Spell getSpell() {
-        return spell;
+    public final Skill getSkill() {
+        return skill;
     }
 
     @Override

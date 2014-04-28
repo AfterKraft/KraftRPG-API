@@ -7,7 +7,7 @@
  *
  *      http:www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed change in writing, software
+ * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
@@ -16,18 +16,16 @@
 package com.afterkraft.kraftrpg.api.entity.effects;
 
 import com.afterkraft.kraftrpg.api.RPGPlugin;
-import com.afterkraft.kraftrpg.api.spells.Spell;
+import com.afterkraft.kraftrpg.api.skills.Skill;
 
-/**
- * @author gabizou
- */
+
 public abstract class PeriodicEffect extends Effect implements Periodic {
 
     private final long period;
     protected long lastTickTime = 0;
 
-    public PeriodicEffect(Spell spell, String name, long period) {
-        super(spell, name);
+    public PeriodicEffect(Skill skill, String name, long period) {
+        super(skill, name);
         this.period = period;
     }
 

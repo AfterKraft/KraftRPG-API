@@ -7,7 +7,7 @@
  *
  *      http:www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed change in writing, software
+ * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
@@ -17,33 +17,31 @@ package com.afterkraft.kraftrpg.api.entity.effects;
 
 import com.afterkraft.kraftrpg.api.RPGPlugin;
 import com.afterkraft.kraftrpg.api.entity.Champion;
-import com.afterkraft.kraftrpg.api.spells.Spell;
+import com.afterkraft.kraftrpg.api.skills.Skill;
 
-/**
- * @author gabizou
- */
+
 public abstract class PeriodicExpirableEffect extends ExpirableEffect implements Periodic {
 
     private final long period;
     protected long lastTickTime = 0;
 
-    public PeriodicExpirableEffect(Spell spell, Champion applier, String name, long period, long duration) {
-        super(spell, applier, name, duration);
+    public PeriodicExpirableEffect(Skill skill, Champion applier, String name, long period, long duration) {
+        super(skill, applier, name, duration);
         this.period = period;
     }
 
-    public PeriodicExpirableEffect(Spell spell, RPGPlugin plugin, Champion applier, String name, long period, long duration) {
-        super(spell, plugin, applier, name, duration);
+    public PeriodicExpirableEffect(Skill skill, RPGPlugin plugin, Champion applier, String name, long period, long duration) {
+        super(skill, plugin, applier, name, duration);
         this.period = period;
     }
 
-    public PeriodicExpirableEffect(Spell spell, Champion applier, String name, long period, long duration, String applyText, String expireText) {
-        super(spell, applier, name, duration, applyText, expireText);
+    public PeriodicExpirableEffect(Skill skill, Champion applier, String name, long period, long duration, String applyText, String expireText) {
+        super(skill, applier, name, duration, applyText, expireText);
         this.period = period;
     }
 
-    public PeriodicExpirableEffect(Spell spell, RPGPlugin plugin, Champion applier, String name, long period, long duration, String applyText, String expireText) {
-        super(spell, plugin, applier, name, duration, applyText, expireText);
+    public PeriodicExpirableEffect(Skill skill, RPGPlugin plugin, Champion applier, String name, long period, long duration, String applyText, String expireText) {
+        super(skill, plugin, applier, name, duration, applyText, expireText);
         this.period = period;
     }
 

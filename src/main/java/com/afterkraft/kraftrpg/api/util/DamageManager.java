@@ -1,3 +1,18 @@
+/*
+ * Copyright 2014 Gabriel Harris-Rouquette
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http:www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.afterkraft.kraftrpg.api.util;
 
 import org.bukkit.Location;
@@ -11,7 +26,7 @@ import org.bukkit.inventory.ItemStack;
 
 import com.afterkraft.kraftrpg.api.Manager;
 import com.afterkraft.kraftrpg.api.entity.Monster;
-import com.afterkraft.kraftrpg.api.entity.SpellCaster;
+import com.afterkraft.kraftrpg.api.entity.SkillCaster;
 
 /**
  * The generalized manager for calculating and fetching damages for entities and
@@ -22,18 +37,18 @@ public interface DamageManager extends Manager {
     /**
      * Attempts to calculate the highest damage given for the given ItemStack.
      * This will check all active {@link com.afterkraft.kraftrpg.api.entity.roles.Role}s
-     * that the given {@link com.afterkraft.kraftrpg.api.entity.SpellCaster} may
+     * that the given {@link com.afterkraft.kraftrpg.api.entity.SkillCaster} may
      * have.
      * <p/>
-     * If the SpellCaster has no active Roles or the resulting damage is
+     * If the SkillCaster has no active Roles or the resulting damage is
      * negative, 0 will be returned
      *
-     * @param caster the spellcaster to query for Roles
+     * @param caster the SkillCaster to query for Roles
      * @param item the Item to query for the damage
      * @return the highest possible damage for the item from any active Roles,
      * if not 0
      */
-    public double getHighestItemDamage(SpellCaster caster, ItemStack item);
+    public double getHighestItemDamage(SkillCaster caster, ItemStack item);
 
     /**
      * Gets the default damage for the given EntityType.

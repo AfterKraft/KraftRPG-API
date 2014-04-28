@@ -1,0 +1,166 @@
+/*
+ * Copyright 2014 Gabriel Harris-Rouquette
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http:www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package com.afterkraft.kraftrpg.api.skills;
+
+import java.util.Arrays;
+import java.util.EnumSet;
+import java.util.Set;
+
+import org.bukkit.Bukkit;
+import org.bukkit.configuration.Configuration;
+import org.bukkit.configuration.MemoryConfiguration;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
+
+import com.afterkraft.kraftrpg.api.RPGPlugin;
+import com.afterkraft.kraftrpg.api.entity.IEntity;
+import com.afterkraft.kraftrpg.api.entity.SkillCaster;
+import com.afterkraft.kraftrpg.api.entity.roles.ExperienceType;
+import com.afterkraft.kraftrpg.api.handler.CraftBukkitHandler;
+import com.afterkraft.kraftrpg.api.util.FixedPoint;
+
+/**
+ * Represents an intended implementation of ISkill.
+ */
+public abstract class Skill implements ISkill {
+
+    public final RPGPlugin plugin;
+    private final Configuration defaultConfig = new MemoryConfiguration();
+    private final Set<SkillType> skillTypes = EnumSet.noneOf(SkillType.class);
+    private final String name;
+    private String description = "";
+    private boolean isEnabled = false;
+
+    public Skill(RPGPlugin plugin, String name) {
+        this.plugin = plugin;
+        this.name = name;
+    }
+
+    /**
+     * Return whether this Skill is enabled or not
+     *
+     * @return whether this skill is enabled
+     */
+    public final boolean isEnabled() {
+        return this.isEnabled;
+    }
+
+    /**
+     * Sets the enabled state of this Skill
+     *
+     * @param enabled whether or not to set this skill as enabled or not
+     */
+    public final void setEnabled(final boolean enabled) {
+        if (isEnabled != enabled) {
+            isEnabled = enabled;
+
+            if (isEnabled) {
+                initialize();
+            } else {
+                shutdown();
+            }
+        }
+    }
+
+    @Override
+    public final String getPermissionNode() {
+        return "kraftrpg.skill." + this.getName();
+    }
+
+    @Override
+    public final String getName() {
+        return this.name;
+    }
+
+    @Override
+    public final Configuration getDefaultConfig() {
+        return this.defaultConfig;
+    }
+
+    @Override
+    public final String getDescription() {
+        return this.description;
+    }
+
+    @Override
+    public final void setDescription(String description) {
+        this.description = description;
+    }
+
+    @Override
+    public boolean addSkillTarget(Entity entity, SkillCaster caster) {
+        if (entity == null || caster == null || (caster instanceof IEntity && !((IEntity) caster).isEntityValid())) {
+            return false;
+        }
+        plugin.getSkillManager().addSkillTarget(entity, caster, this);
+        return true;
+    }
+
+    @Override
+    public final boolean isType(SkillType type) {
+        return this.skillTypes.contains(type);
+    }
+
+    @Override
+    public final void knockback(LivingEntity target, LivingEntity attacker, double damage) {
+        CraftBukkitHandler.getInterface().knockBack(target, attacker, damage);
+    }
+
+    @Override
+    public final boolean damageEntity(LivingEntity target, LivingEntity attacker, double damage) {
+        return this.damageEntity(target, attacker, damage, this.isType(SkillType.ABILITY_PROPERTY_AIR) || this.isType(SkillType.ABILITY_PROPERTY_PHYSICAL) ? EntityDamageEvent.DamageCause.ENTITY_ATTACK : EntityDamageEvent.DamageCause.MAGIC);
+    }
+
+    @Override
+    public final boolean damageEntity(LivingEntity target, LivingEntity attacker, double damage, EntityDamageEvent.DamageCause cause) {
+        return this.damageEntity(target, attacker, damage, cause, true);
+    }
+
+    @Override
+    public final boolean damageEntity(LivingEntity target, LivingEntity attacker, double damage, EntityDamageEvent.DamageCause cause, boolean knockback) {
+        return CraftBukkitHandler.getInterface().damageEntity(target, attacker, damage, cause, knockback);
+    }
+
+    @Override
+    public boolean damageCheck(IEntity attacking, LivingEntity defenderLE) {
+        if (attacking.getEntity().equals(defenderLE)) {
+            return false;
+        }
+
+        EntityDamageByEntityEvent damageEntityEvent = new EntityDamageByEntityEvent(attacking.getEntity(), defenderLE, EntityDamageEvent.DamageCause.CUSTOM, 0D);
+        Bukkit.getServer().getPluginManager().callEvent(damageEntityEvent);
+
+        return damageEntityEvent.isCancelled();
+    }
+
+    @Override
+    public void awardExperience(SkillCaster caster) {
+        if (caster.canGainExperience(ExperienceType.SKILL)) {
+            caster.gainExperience(new FixedPoint(plugin.getSkillConfigManager().getUseSetting(caster, this, SkillSetting.EXP, 0, false)), ExperienceType.SKILL, caster.getLocation());
+        }
+    }
+
+    /**
+     * Set this Skill's skill types.
+     *
+     * @param types the SkillTypes to set
+     */
+    protected final void setSkillTypes(SkillType... types) {
+        this.skillTypes.addAll(Arrays.asList(types));
+    }
+}
