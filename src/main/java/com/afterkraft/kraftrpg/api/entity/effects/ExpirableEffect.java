@@ -15,6 +15,9 @@
  */
 package com.afterkraft.kraftrpg.api.entity.effects;
 
+import java.util.concurrent.Delayed;
+import java.util.concurrent.TimeUnit;
+
 import com.afterkraft.kraftrpg.api.RPGPlugin;
 import com.afterkraft.kraftrpg.api.entity.Insentient;
 import com.afterkraft.kraftrpg.api.entity.SkillCaster;
@@ -115,4 +118,14 @@ public class ExpirableEffect extends Effect implements Expirable {
         this.applier = champion;
     }
 
+    @Override
+    public int compareTo(Delayed other) {
+        long d = (getDelay(TimeUnit.MILLISECONDS) - other.getDelay(TimeUnit.MILLISECONDS));
+        return ((d == 0) ? 0 : ((d < 0) ? -1 : 1));
+    }
+
+    @Override
+    public long getDelay(TimeUnit unit) {
+        return unit.convert(expireTime - System.currentTimeMillis(), TimeUnit.MILLISECONDS);
+    }
 }

@@ -17,6 +17,7 @@ package com.afterkraft.kraftrpg.api.entity;
 
 import org.bukkit.Location;
 
+import com.afterkraft.kraftrpg.api.entity.roles.Role;
 import com.afterkraft.kraftrpg.api.skills.ISkill;
 import com.afterkraft.kraftrpg.api.skills.SkillArgument;
 import com.afterkraft.kraftrpg.api.skills.Stalled;
@@ -105,6 +106,13 @@ public interface SkillCaster extends Sentient, PartyMember {
      * @return
      */
     public boolean canAdditionalUseSkill(ISkill skill);
+
+    /**
+     * @param role
+     * @param skill
+     * @return
+     */
+    public boolean canSpecificAdditionalUseSkill(Role role, ISkill skill);
 
     /**
      * @param skill

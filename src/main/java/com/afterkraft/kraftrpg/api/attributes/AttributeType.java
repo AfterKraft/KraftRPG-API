@@ -29,16 +29,16 @@ import org.apache.commons.lang.Validate;
  */
 public enum AttributeType {
 
-    MANA_COST_REDUCTION("Mana Cost Reduction"),
-    MANA_COST_INCREASE("Mana Cost Increase"),
-    HEALTH_COST_INCREASE("Health Cost Increase"),
-    HEALTH_COST_REDUCTION("Health Cost Reduction"),
-    SKILL_DAMAGE_INCREASE("Skill Damage Increase"),
-    SKILL_DAMAGE_REDUCTION("Skill Damage Reduction"),
-    SKILL_COOLDOWN_REDUCTION("Skill Cooldown Reduction"),
-    SKILL_COOLDOWN_INCRASE("Skill Cooldown Increase"),
-    SKILL_BUFF_INCREASE("Skill Buff Increase"),
-    SKILL_BUFF_REDUCTION("Skill Buff Reduction");
+    MANA_COST_REDUCTION("Mana Cost Reduction", "mana-cost-reduction"),
+    MANA_COST_INCREASE("Mana Cost Increase", "mana-cost-increase"),
+    HEALTH_COST_INCREASE("Health Cost Increase", "health-cost-increase"),
+    HEALTH_COST_REDUCTION("Health Cost Reduction", "health-cost-reduction"),
+    SKILL_DAMAGE_INCREASE("Skill Damage Increase", "skill-damage-increase"),
+    SKILL_DAMAGE_REDUCTION("Skill Damage Reduction", "skill-damage-reduction"),
+    SKILL_COOLDOWN_REDUCTION("Skill Cooldown Reduction", "skill-cooldown-reduction"),
+    SKILL_COOLDOWN_INCRASE("Skill Cooldown Increase", "skill-cooldown-increase"),
+    SKILL_BUFF_INCREASE("Skill Buff Increase", "skill-buff-increase"),
+    SKILL_BUFF_REDUCTION("Skill Buff Reduction", "skill-buff-reduction");
     private final static Map<String, AttributeType> BY_NAME = Maps.newHashMap();
 
     static {
@@ -49,9 +49,11 @@ public enum AttributeType {
     }
 
     private final String name;
+    private final String config;
 
-    private AttributeType(String name) {
+    private AttributeType(String name, String config) {
         this.name = name;
+        this.config = config;
     }
 
     public static AttributeType getAttributeType(final String name) {

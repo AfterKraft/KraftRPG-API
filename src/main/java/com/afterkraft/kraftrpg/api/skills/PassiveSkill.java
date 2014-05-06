@@ -16,12 +16,14 @@
 package com.afterkraft.kraftrpg.api.skills;
 
 import com.afterkraft.kraftrpg.api.RPGPlugin;
+import com.afterkraft.kraftrpg.api.entity.Champion;
+import com.afterkraft.kraftrpg.api.entity.Sentient;
 import com.afterkraft.kraftrpg.api.entity.effects.EffectType;
 
 /**
  * Default implementation of a Skill with the Passive interface
  */
-public abstract class PassiveSkill extends Skill implements Passive {
+public class PassiveSkill extends Skill implements Passive {
 
     private String applyText = null;
     private String unapplyText = null;
@@ -29,5 +31,25 @@ public abstract class PassiveSkill extends Skill implements Passive {
 
     public PassiveSkill(RPGPlugin plugin, String name) {
         super(plugin, name);
+    }
+
+    @Override
+    public void tryApplying(Sentient caster) {
+
+    }
+
+    @Override
+    public void initialize() {
+
+    }
+
+    @Override
+    public void shutdown() {
+
+    }
+
+    @Override
+    public boolean isInMessageRange(Champion broadcaster, Champion receiver) {
+        return false;
     }
 }

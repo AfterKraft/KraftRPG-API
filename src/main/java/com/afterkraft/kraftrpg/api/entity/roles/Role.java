@@ -15,6 +15,9 @@
  */
 package com.afterkraft.kraftrpg.api.entity.roles;
 
+import java.util.Map;
+import java.util.Set;
+
 import org.bukkit.Material;
 
 import com.afterkraft.kraftrpg.api.skills.ISkill;
@@ -49,6 +52,38 @@ public interface Role {
     public boolean hasSkill(ISkill skill);
 
     public boolean hasSkill(String name);
+
+    public boolean addSkill(ISkill skill);
+
+    /**
+     * Removes the skill
+     *
+     * @param skill
+     */
+    public void removeSkill(ISkill skill);
+
+    /**
+     * Check if the given skill has a prerequisite skill dependency in this
+     * Role
+     *
+     * @param skill the skill in question
+     * @return
+     */
+    public boolean hasPrerequisite(ISkill skill);
+
+    public boolean hasPrerequisite(String name);
+
+    public Set<ISkill> getSkillDependency(ISkill skill);
+
+    public Set<ISkill> getSkillDependency(String name);
+
+    public Map<ISkill, Set<ISkill>> getSkillDependencies();
+
+    public boolean addSkillDependency(ISkill skill, ISkill dependency);
+
+    public void removeSkillDependency(ISkill skill, ISkill dependency);
+
+    public void removeSkillDependency(ISkill skill);
 
     public double getItemDamage(Material type);
 

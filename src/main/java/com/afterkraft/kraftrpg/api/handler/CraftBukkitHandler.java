@@ -33,10 +33,10 @@ import com.afterkraft.kraftrpg.api.entity.Monster;
 
 public abstract class CraftBukkitHandler {
 
-    protected static ServerType serverType;
+    public static ServerType serverType;
     private static CraftBukkitHandler activeInterface;
 
-    public CraftBukkitHandler(ServerType type) {
+    protected CraftBukkitHandler(ServerType type) {
         serverType = type;
     }
 

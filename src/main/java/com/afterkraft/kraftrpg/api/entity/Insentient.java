@@ -17,6 +17,7 @@ package com.afterkraft.kraftrpg.api.entity;
 
 import java.util.Set;
 
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
@@ -75,7 +76,7 @@ public interface Insentient {
 
     public boolean hasEffectType(EffectType type);
 
-    public void removeEffect(IEffect IEffect);
+    public void removeEffect(IEffect effect);
 
     /**
      * Remove the {@link org.bukkit.potion.PotionEffectType} from this
@@ -85,7 +86,7 @@ public interface Insentient {
      */
     public void removePotionEffect(PotionEffectType type);
 
-    public void manualRemoveEffect(IEffect IEffect);
+    public void manualRemoveEffect(IEffect effect);
 
     public void clearEffects();
 
@@ -101,8 +102,12 @@ public interface Insentient {
      */
     public void enterCombat(EnterCombatReason reason);
 
+    public void enterCombatWith(LivingEntity target, EnterCombatReason reason);
+
     /**
      * @param reason the designated reason for leaving combat
      */
     public void leaveCombat(LeaveCombatReason reason);
+
+    public void leaveCombatWith(LivingEntity target, LeaveCombatReason reason);
 }

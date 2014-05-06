@@ -17,7 +17,7 @@ package com.afterkraft.kraftrpg.api.entity.effects;
 
 import com.afterkraft.kraftrpg.api.entity.SkillCaster;
 
-public interface Expirable extends IEffect {
+public interface Expirable extends IEffect, Timed {
 
     /**
      * Get the message that should be sent to players when this effect is

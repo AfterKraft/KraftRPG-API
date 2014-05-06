@@ -19,4 +19,6 @@ package com.afterkraft.kraftrpg.api.util;
 public interface Properties {
 
     public int getDefaultGlobalCooldown();
+
+    public int getCombatTime();
 }

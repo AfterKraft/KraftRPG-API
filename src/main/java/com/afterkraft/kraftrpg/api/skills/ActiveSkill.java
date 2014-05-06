@@ -65,6 +65,7 @@ public abstract class ActiveSkill<T extends SkillArgument> extends Skill impleme
             } else if (caster.doesPrimaryRestrictSkill(this) || caster.doesSecondaryRestrictSkill(this)) {
                 return SkillCastResult.RESTRICTED_IN_ROLES;
             }
+            // TODO Change this up to use the specific Role level
             final int level = plugin.getSkillConfigManager().getUseSetting(caster, this, SkillSetting.LEVEL, 1, true);
             int champLevel = caster.getHighestSkillLevel(this);
             if (champLevel != 0 && champLevel < level) {

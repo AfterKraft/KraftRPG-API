@@ -15,10 +15,12 @@
  */
 package com.afterkraft.kraftrpg.api.entity.effects;
 
-import com.afterkraft.kraftrpg.api.entity.IEntity;
+import java.util.concurrent.Delayed;
+
+import com.afterkraft.kraftrpg.api.entity.Insentient;
 
 
-public interface Managed {
+public interface Managed extends Delayed {
 
     /**
      * Return the instance of the {@link IEffect}
@@ -32,5 +34,5 @@ public interface Managed {
      *
      * @return the IEntity
      */
-    public IEntity getEntity();
+    public Insentient getSentientBeing();
 }

@@ -20,6 +20,7 @@ import java.util.logging.Level;
 import org.bukkit.plugin.Plugin;
 
 import com.afterkraft.kraftrpg.api.entity.EntityManager;
+import com.afterkraft.kraftrpg.api.entity.effects.EffectManager;
 import com.afterkraft.kraftrpg.api.entity.party.PartyManager;
 import com.afterkraft.kraftrpg.api.entity.roles.RoleManager;
 import com.afterkraft.kraftrpg.api.skills.SkillConfigManager;
@@ -35,6 +36,8 @@ public interface RPGPlugin extends Plugin {
     public SkillConfigManager getSkillConfigManager();
 
     public EntityManager getEntityManager();
+
+    public EffectManager getEffectManager();
 
     public StorageManager getStorageManager();
 

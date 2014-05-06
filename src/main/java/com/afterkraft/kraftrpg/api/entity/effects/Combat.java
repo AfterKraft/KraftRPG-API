@@ -19,7 +19,6 @@ import java.util.WeakHashMap;
 
 import org.bukkit.entity.LivingEntity;
 
-import com.afterkraft.kraftrpg.api.entity.Champion;
 import com.afterkraft.kraftrpg.api.entity.EnterCombatReason;
 import com.afterkraft.kraftrpg.api.entity.Insentient;
 import com.afterkraft.kraftrpg.api.entity.LeaveCombatReason;
@@ -33,7 +32,7 @@ public interface Combat extends IEffect {
 
     public void enterCombatWith(LivingEntity target, EnterCombatReason reason);
 
-    public void leaveCombatWith(Champion champion, LivingEntity target, LeaveCombatReason reason);
+    public void leaveCombatWith(Insentient being, LivingEntity target, LeaveCombatReason reason);
 
     public void leaveCombatFromDeath(Insentient being);
 

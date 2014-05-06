@@ -17,7 +17,7 @@ package com.afterkraft.kraftrpg.api.entity.effects;
 
 import com.afterkraft.kraftrpg.api.entity.Insentient;
 
-public interface Periodic extends IEffect {
+public interface Periodic extends IEffect, Timed {
 
     /**
      * Returns the last time the effect ticked

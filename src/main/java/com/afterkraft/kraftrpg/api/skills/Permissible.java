@@ -17,7 +17,7 @@ package com.afterkraft.kraftrpg.api.skills;
 
 import java.util.Map;
 
-import com.afterkraft.kraftrpg.api.entity.Champion;
+import com.afterkraft.kraftrpg.api.entity.Sentient;
 
 /**
  * Represents a Permissive Skill
@@ -26,5 +26,5 @@ public interface Permissible extends ISkill {
 
     public void setPermissions(Map<String, Boolean> permissions);
 
-    public void tryLearning(Champion player);
+    public void tryLearning(Sentient being);
 }

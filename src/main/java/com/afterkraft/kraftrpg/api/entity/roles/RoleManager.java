@@ -39,4 +39,12 @@ public interface RoleManager extends Manager {
     public Map<String, Role> getRoles();
 
     public Map<String, Role> getRolesByType(RoleType type);
+
+    public void queueRoleRefresh(Role role, RoleRefreshReason reason);
+
+    public enum RoleRefreshReason {
+        SKILL_REMOVAL,
+        SKILL_ADDITION,
+        RELOAD
+    }
 }

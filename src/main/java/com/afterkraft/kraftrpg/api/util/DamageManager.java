@@ -21,7 +21,9 @@ import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Egg;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Snowball;
+import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.inventory.ItemStack;
 
 import com.afterkraft.kraftrpg.api.Manager;
@@ -71,7 +73,11 @@ public interface DamageManager extends Manager {
      * @param fromSpawner whether the Monster originated from a Spawner
      * @return the calculated customized damage for the Monster
      */
-    public double getModifiedEntityDamage(final Monster monster, final Location location, final double baseDamage, final boolean fromSpawner);
+    public double getModifiedEntityDamage(final Monster monster, final Location location, final double baseDamage, final CreatureSpawnEvent.SpawnReason fromSpawner);
+
+    public double getDefaultEntityHealth(final LivingEntity entity);
+
+    public double getModifiedEntityHealth(final LivingEntity entity);
 
     /**
      * Load defaults for the default damages from the given Configuration

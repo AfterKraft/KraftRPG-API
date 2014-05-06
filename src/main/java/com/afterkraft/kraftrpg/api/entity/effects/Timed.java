@@ -13,22 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.afterkraft.kraftrpg.api.entity;
+package com.afterkraft.kraftrpg.api.entity.effects;
 
-import org.bukkit.Location;
+import java.util.concurrent.Delayed;
 
-import com.afterkraft.kraftrpg.api.util.FixedPoint;
-
-
-public interface Monster extends IEntity, Insentient {
-
-    public Location getSpawnLocation();
-
-    public double getBaseDamage();
-
-    public double getModifiedDamage();
-
-    public void setModifiedDamage(double damage);
-
-    public void setExperience(FixedPoint experience);
-}
+public interface Timed extends Delayed {}

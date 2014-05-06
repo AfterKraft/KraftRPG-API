@@ -22,6 +22,7 @@ import org.bukkit.permissions.Permission;
 
 import com.afterkraft.kraftrpg.api.RPGPlugin;
 import com.afterkraft.kraftrpg.api.entity.Champion;
+import com.afterkraft.kraftrpg.api.entity.Sentient;
 import com.afterkraft.kraftrpg.api.entity.SkillCaster;
 
 /**
@@ -66,7 +67,7 @@ public class PermissionSkill extends Skill implements Permissible {
     }
 
     @Override
-    public void tryLearning(Champion player) {
+    public void tryLearning(Sentient being) {
 
     }
 

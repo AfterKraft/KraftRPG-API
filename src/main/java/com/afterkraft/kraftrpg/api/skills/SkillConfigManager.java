@@ -22,6 +22,7 @@ import org.bukkit.configuration.Configuration;
 import org.bukkit.configuration.ConfigurationSection;
 
 import com.afterkraft.kraftrpg.api.Manager;
+import com.afterkraft.kraftrpg.api.entity.Sentient;
 import com.afterkraft.kraftrpg.api.entity.SkillCaster;
 import com.afterkraft.kraftrpg.api.entity.roles.Role;
 
@@ -54,25 +55,25 @@ public interface SkillConfigManager extends Manager {
 
     public Set<String> getRawKeys(ISkill skill, String setting);
 
-    public Object getSetting(Role hc, ISkill skill, String setting);
+    public Object getSetting(Role role, ISkill skill, String setting);
 
-    public int getSetting(Role hc, ISkill skill, String setting, int def);
+    public int getSetting(Role role, ISkill skill, String setting, int def);
 
-    public double getSetting(Role hc, ISkill skill, String setting, double def);
+    public double getSetting(Role role, ISkill skill, String setting, double def);
 
-    public String getSetting(Role hc, ISkill skill, String setting, String def);
+    public String getSetting(Role role, ISkill skill, String setting, String def);
 
-    public Boolean getSetting(Role hc, ISkill skill, String setting, boolean def);
+    public Boolean getSetting(Role role, ISkill skill, String setting, boolean def);
 
-    public List<String> getSetting(Role hc, ISkill skill, String setting, List<String> def);
+    public List<String> getSetting(Role role, ISkill skill, String setting, List<String> def);
 
-    public Set<String> getSettingKeys(Role hc, ISkill skill, String setting);
+    public Set<String> getSettingKeys(Role role, ISkill skill, String setting);
 
     public Set<String> getUseSettingKeys(SkillCaster caster, ISkill skill, String setting);
 
     public List<String> getUseSettingKeys(SkillCaster caster, ISkill skill);
 
-    public int getLevel(SkillCaster caster, ISkill skill, int def);
+    public int getLevel(Sentient being, ISkill skill, int def);
 
     public int getUseSetting(SkillCaster caster, ISkill skill, SkillSetting setting, int def, boolean lower);
 

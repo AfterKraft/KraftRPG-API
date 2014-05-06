@@ -13,22 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.afterkraft.kraftrpg.api.entity;
+package com.afterkraft.kraftrpg.api.entity.effects;
 
-import org.bukkit.Location;
+import com.afterkraft.kraftrpg.api.Manager;
+import com.afterkraft.kraftrpg.api.entity.Insentient;
 
-import com.afterkraft.kraftrpg.api.util.FixedPoint;
+public interface EffectManager extends Manager {
 
+    public void manageEffect(Insentient being, Timed effect);
 
-public interface Monster extends IEntity, Insentient {
-
-    public Location getSpawnLocation();
-
-    public double getBaseDamage();
-
-    public double getModifiedDamage();
-
-    public void setModifiedDamage(double damage);
-
-    public void setExperience(FixedPoint experience);
+    public void queueRemoval(Insentient being, Timed effect);
 }
