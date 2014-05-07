@@ -16,6 +16,7 @@
 package com.afterkraft.kraftrpg.api.entity;
 
 import org.bukkit.Location;
+import org.bukkit.event.entity.CreatureSpawnEvent;
 
 import com.afterkraft.kraftrpg.api.util.FixedPoint;
 
@@ -30,5 +31,9 @@ public interface Monster extends IEntity, Insentient {
 
     public void setModifiedDamage(double damage);
 
+    public FixedPoint getExperience();
+
     public void setExperience(FixedPoint experience);
+
+    public CreatureSpawnEvent.SpawnReason getSpawnReason();
 }

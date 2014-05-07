@@ -16,9 +16,14 @@
 package com.afterkraft.kraftrpg.api.util;
 
 
+import org.bukkit.Location;
+import org.bukkit.entity.LivingEntity;
+
 public interface Properties {
 
     public int getDefaultGlobalCooldown();
 
     public int getCombatTime();
+
+    public FixedPoint getMonsterExperience(LivingEntity entity, Location spawnPoint);
 }

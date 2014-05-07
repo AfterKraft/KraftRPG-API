@@ -21,18 +21,28 @@ import java.util.UUID;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Arrow;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.util.Vector;
 
 import com.afterkraft.kraftrpg.api.RPGPlugin;
 import com.afterkraft.kraftrpg.api.entity.Monster;
+import com.afterkraft.kraftrpg.api.util.FixedPoint;
 
 
 public abstract class CraftBukkitHandler {
+
+    protected final static String DAMAGE_STRING = "Damage";
+    protected final static String EXPERIENCE_STRING = "Experience";
+    protected final static String SPAWNX_STRING = "SpawnX";
+    protected final static String SPAWNY_STRING = "SpawnY";
+    protected final static String SPAWNZ_STRING = "SpawnZ";
+    protected final static String SPAWNREASON_STRING = "SpawnReason";
 
     public static ServerType serverType;
     private static CraftBukkitHandler activeInterface;
@@ -109,9 +119,17 @@ public abstract class CraftBukkitHandler {
     //NMS methods required by Entities
     public abstract EntityAttributeModifier getEntityAttribute(UUID uuid, String name);
 
-    public abstract double loadOrCreate(EntityAttribute attribute, LivingEntity entity, double value);
+    public abstract Location getSpawnLocation(LivingEntity entity);
 
-    public abstract double loadOrCreateAttribute(Monster monster, LivingEntity entity, EntityAttribute.EntityAttributeType type, double value);
+    public abstract CreatureSpawnEvent.SpawnReason getSpawnReason(LivingEntity entity);
+
+    public abstract FixedPoint getMonsterExperience(LivingEntity entity, FixedPoint value);
+
+    public abstract void setMonsterExperience(LivingEntity entity, FixedPoint experience);
+
+    public abstract double getEntityDamage(LivingEntity entity, double calculated);
+
+    public abstract double loadOrCreateAttribute(LivingEntity entity, EntityAttribute attribute, double value);
 
     //NMS methods required by listeners
     public abstract double getPostArmorDamage(LivingEntity defender, double damage);

@@ -40,7 +40,15 @@ public class EntityAttribute {
     }
 
     public double loadOrCreate(LivingEntity livingEntity, double alternateValue) {
-        return CraftBukkitHandler.getInterface().loadOrCreate(this, livingEntity, alternateValue);
+        return CraftBukkitHandler.getInterface().loadOrCreateAttribute(livingEntity, this, alternateValue);
+    }
+
+    public EntityAttributeModifier getValueModifier() {
+        return valueModifier;
+    }
+
+    public EntityAttributeModifier getBalanceModifier() {
+        return balanceModifier;
     }
 
     public enum EntityAttributeType {
@@ -49,7 +57,7 @@ public class EntityAttribute {
         SPAWNX("SpawnX", (byte) -126),
         SPAWNY("SpawnY", (byte) -125),
         SPAWNZ("SpawnZ", (byte) -124),
-        FROMSPAWNER("FromSpawner", (byte) -123);
+        SPAWNREASON("SpawnReason", (byte) -123);
 
         private String name;
         private byte id;
