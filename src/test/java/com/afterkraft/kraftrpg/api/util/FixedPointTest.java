@@ -133,16 +133,13 @@ public class FixedPointTest {
         assertEquals(++prevRaw, num.rawValue());
         assertEquals(123.456 + ulp + ulp + ulp, num.doubleValue(), ulp / 2);
 
-        // Adding half an ulp either increases or stays the same
-        num.add(ulp / 2);
-        if (num.rawValue() != prevRaw && num.rawValue() != prevRaw + 1) {
-            fail();
-        }
-
-        // Adding a quarter of an ulp stays the same
-        prevRaw = num.rawValue();
-        num.add(ulp / 4);
+        // Adding less than half an ulp stays the same
+        num.add(ulp / 8 * 3);
         assertEquals(prevRaw, num.rawValue());
+
+        // Adding more than half an ulp increases
+        num.add(ulp / 8 * 5);
+        assertEquals(++prevRaw, num.rawValue());
     }
 
     @Test
