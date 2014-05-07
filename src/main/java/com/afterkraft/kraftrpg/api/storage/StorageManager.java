@@ -30,10 +30,17 @@ public interface StorageManager extends Manager {
     public void registerBackend(StorageBackend backend, String... identifiers);
 
     /**
-     * Return the currently configured {@link com.afterkraft.kraftrpg.api.storage.RPGStorage}
+     * Change from the default StorageFrontend to the specified one.
+     *
+     * @param frontend
+     */
+    public void changeFrontend(StorageFrontend frontend);
+
+    /**
+     * Return the currently configured {@link com.afterkraft.kraftrpg.api.storage.StorageFrontend}
      * for RPGPlugin.
      *
      * @return the currently set RPGStorage
      */
-    public RPGStorage getStorage();
+    public StorageFrontend getStorage();
 }

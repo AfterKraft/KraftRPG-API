@@ -3,6 +3,7 @@ package com.afterkraft.kraftrpg.api.storage;
 import java.util.List;
 import java.util.UUID;
 
+import com.afterkraft.kraftrpg.api.PlayerData;
 import com.afterkraft.kraftrpg.api.entity.Champion;
 
 /**
@@ -11,11 +12,39 @@ import com.afterkraft.kraftrpg.api.entity.Champion;
  */
 public interface StorageBackend {
 
+    /**
+     * Attempt to initialize this StorageBackend. If this method does not
+     * return true, or throws an exception, the plugin will be disabled.
+     *
+     * @return true if no errors
+     */
+    public boolean initialize() throws Throwable;
+
+    /**
+     * Delete the data for the given player.
+     *
+     * @param uuid UUID of player to delete
+     * @return true if player existed
+     */
     public boolean removePlayer(UUID uuid);
 
-    public boolean savePlayer(Champion data);
+    /**
+     * Write the data for the given player.
+     *
+     * @param data
+     * @return
+     */
+    public boolean savePlayer(UUID uuid, PlayerData data);
 
-    public Champion loadPlayer(UUID uuid);
+    /**
+     * Load the data for the player with the given UUID. If shouldCreate is
+     * true, this may not return null.
+     *
+     * @param uuid UUID of player to load
+     * @param shouldCreate whether to allocate space for the player if not present
+     * @return Champion with data, or null
+     */
+    public PlayerData loadPlayer(UUID uuid, boolean shouldCreate);
 
     public List<UUID> getAllStoredUsers();
 }

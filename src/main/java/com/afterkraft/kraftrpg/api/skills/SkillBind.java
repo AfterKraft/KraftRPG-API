@@ -15,13 +15,11 @@
  */
 package com.afterkraft.kraftrpg.api.skills;
 
-
-public class SkillBind {
-
+public final class SkillBind {
     private final String skillName;
-    private final SkillArgument arguments;
+    private final String arguments;
 
-    public SkillBind(String skillName, SkillArgument argument) {
+    public SkillBind(String skillName, String argument) {
         this.skillName = skillName;
         this.arguments = argument;
     }
@@ -30,7 +28,7 @@ public class SkillBind {
         return this.skillName;
     }
 
-    public SkillArgument getSkillArgument() {
+    public String getSkillArgument() {
         return this.arguments;
     }
 }

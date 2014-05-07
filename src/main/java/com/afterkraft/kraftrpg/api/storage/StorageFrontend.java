@@ -15,8 +15,10 @@
  */
 package com.afterkraft.kraftrpg.api.storage;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
@@ -24,6 +26,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
+import com.afterkraft.kraftrpg.api.PlayerData;
 import com.afterkraft.kraftrpg.api.RPGPlugin;
 import com.afterkraft.kraftrpg.api.entity.Champion;
 
@@ -36,12 +39,13 @@ import com.afterkraft.kraftrpg.api.entity.Champion;
  * RPGStorages should maintain an active cache system so as to reduce the need
  * to save all data Champion data at once.
  */
-public abstract class RPGStorage {
+public abstract class StorageFrontend {
     protected final RPGPlugin plugin;
     protected final StorageBackend backend;
     protected final Set<Champion> toSave;
+    protected final Set<UUID> ignoredPlayers = new HashSet<UUID>();
 
-    public RPGStorage(RPGPlugin plugin, StorageBackend backend) {
+    public StorageFrontend(RPGPlugin plugin, StorageBackend backend) {
         this.plugin = plugin;
         this.backend = backend;
         toSave = new HashSet<Champion>();
@@ -51,7 +55,7 @@ public abstract class RPGStorage {
      * This constructor skips making a save queue. If you call this
      * constructor, you must override saveChampion().
      */
-    protected RPGStorage(RPGPlugin plugin, StorageBackend backend, BukkitTask runningTask) {
+    protected StorageFrontend(RPGPlugin plugin, StorageBackend backend, BukkitTask runningTask) {
         this.plugin = plugin;
         this.backend = backend;
         toSave = null;
@@ -67,13 +71,10 @@ public abstract class RPGStorage {
      * @param player the requested Player data
      * @return the loaded Champion instance if data exists, else returns null
      */
-    public Champion loadChampion(Player player) {
-        Champion temp = backend.loadPlayer(player.getUniqueId());
-        if (temp == null)
-            return null;
-
-        temp.setPlayer(player);
-        return temp;
+    public Champion loadChampion(Player player, boolean shouldCreate) {
+        PlayerData data = backend.loadPlayer(player.getUniqueId(), shouldCreate);
+        // createChampion(PlayerData, player);
+        return null;
     }
 
     /**
@@ -81,9 +82,28 @@ public abstract class RPGStorage {
      * data at some later point.
      */
     public void saveChampion(Champion champion) {
+        if (ignoredPlayers.contains(champion.getPlayer().getUniqueId())) {
+            return;
+        }
         synchronized (toSave) {
             toSave.add(champion);
         }
+    }
+
+    public void flush() {
+        synchronized (toSave) {
+            for (Champion champion : toSave) {
+                backend.savePlayer(champion.getPlayer().getUniqueId(), champion.getData());
+            }
+        }
+    }
+
+    public void ignorePlayer(UUID uuid) {
+        ignoredPlayers.add(uuid);
+    }
+
+    public void stopIgnoringPlayer(UUID uuid) {
+        ignoredPlayers.remove(uuid);
     }
 
     /**
@@ -96,20 +116,21 @@ public abstract class RPGStorage {
         List<UUID> uuids = from.getAllStoredUsers();
 
         for (UUID uuid : uuids) {
-            backend.savePlayer(from.loadPlayer(uuid));
+            backend.savePlayer(uuid, from.loadPlayer(uuid, false));
         }
     }
 
     public class SavingTask extends BukkitRunnable {
         public void run() {
-            Set<Champion> data;
+            Map<UUID, PlayerData> data = new HashMap<UUID, PlayerData>();
             synchronized (toSave) {
-                data = new HashSet<Champion>(toSave);
-                toSave.clear();
+                for (Champion champion : toSave) {
+                    data.put(champion.getPlayer().getUniqueId(), champion.getDataClone());
+                }
             }
 
-            for (Champion champion : data) {
-                backend.savePlayer(champion);
+            for (Map.Entry<UUID, PlayerData> entry : data.entrySet()) {
+                backend.savePlayer(entry.getKey(), entry.getValue());
             }
         }
     }
