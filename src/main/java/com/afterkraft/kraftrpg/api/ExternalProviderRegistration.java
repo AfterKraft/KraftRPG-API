@@ -51,7 +51,7 @@ public final class ExternalProviderRegistration {
         }
 
         for (String ident : identifiers) {
-            storageBackends.put(ident, storage);
+            storageBackends.put(ident.toLowerCase(), storage);
         }
     }
 
