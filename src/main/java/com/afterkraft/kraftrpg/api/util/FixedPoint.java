@@ -17,28 +17,41 @@ package com.afterkraft.kraftrpg.api.util;
 
 /**
  * Represents a fixed point value for percision values such as Experience and
- * cooldowns=
+ * cooldowns.
  */
-public final class FixedPoint {
+public final class FixedPoint extends Number {
+    private static final long serialVersionUID = -6313518365999400363L;
 
     private static final int FRAC_SIZE = 16;
     private static final int ONE = 1 << FRAC_SIZE;
     private static final int HALF = ONE >> 1;
 
+    // 2 ^ -16
     private static final double twoPowNegSize = Math.pow(2, -FRAC_SIZE);
+
+    public static final double ulp = twoPowNegSize;
+    public static final double MAX_VALUE = (double) (Long.MAX_VALUE >>> FRAC_SIZE);
 
     private long val;
 
     public FixedPoint() {
-
+        val = 0;
     }
 
     public FixedPoint(double init) {
         val = toFixed(init);
     }
 
-    public static long toFixed(double val) {
+    private static long toFixed(double val) {
         return Math.round(val * ONE);
+    }
+
+    private static long toFixed(int val) {
+        return val * ONE;
+    }
+
+    private static long toFixed(long val) {
+        return val * ONE;
     }
 
     public FixedPoint(int init) {
@@ -53,80 +66,96 @@ public final class FixedPoint {
         }
     }
 
-    public void add(int val) {
-        this.val += (val << FRAC_SIZE);
-    }
-
-    public void sub(int val) {
-        this.val -= (val << FRAC_SIZE);
-    }
-
-    public void mult(int val) {
-        this.val *= val;
-    }
-
-    public void div(int val) {
-        this.val /= val;
-    }
-
-    public void add(FixedPoint val) {
-        add(val.val);
-    }
-
-    public void add(long fixedVal) {
+    private void addRaw(long fixedVal) {
         this.val += fixedVal;
     }
 
-    public void sub(FixedPoint val) {
-        sub(val.val);
-    }
-
-    public void sub(long fixedVal) {
-        this.val -= fixedVal;
-    }
-
-    public void mult(FixedPoint val) {
-        mult(val.val);
-    }
-
-    public void mult(long fixedVal) {
-        long t = val * fixedVal;
-        t += HALF;
-        val = (t >> FRAC_SIZE);
-    }
-
-    public void div(FixedPoint val) {
-        div(val.val);
-    }
-
-    public void div(long fixedVal) {
-        long t = val << FRAC_SIZE;
-        t += (fixedVal >> 1);
-        val = t / fixedVal;
+    public void add(int val) {
+        addRaw(toFixed(val));
     }
 
     public void add(double val) {
-        add(toFixed(val));
+        addRaw(toFixed(val));
+    }
+
+    public void add(FixedPoint val) {
+        addRaw(val.val);
+    }
+
+    private void subRaw(long fixedVal) {
+        this.val -= fixedVal;
+    }
+
+    public void sub(int val) {
+        subRaw(toFixed(val));
     }
 
     public void sub(double val) {
         sub(toFixed(val));
     }
 
-    public void mult(double val) {
-        mult(toFixed(val));
+    public void sub(FixedPoint val) {
+        subRaw(val.val);
     }
 
-    public void div(double val) {
-        div(toFixed(val));
+    private void multRaw(long fixedVal) {
+        long t = val * fixedVal;
+        t += HALF;
+        val = (t >> FRAC_SIZE);
     }
 
-    public double asDouble() {
+    public void mult(int factor) {
+        this.val *= factor;
+    }
+
+    public void mult(double factor) {
+        this.val *= factor;
+    }
+
+    public void mult(FixedPoint val) {
+        multRaw(val.val);
+    }
+
+    private void divRaw(long fixedVal) {
+        long t = val << FRAC_SIZE;
+        t += (fixedVal >> 1);
+        val = t / fixedVal;
+    }
+
+    public void div(int param) {
+        this.val /= param;
+    }
+
+    public void div(double param) {
+        this.val /= param;
+    }
+
+    public void div(FixedPoint param) {
+        divRaw(param.val);
+    }
+
+    @Override
+    public double doubleValue() {
         return (double) val * twoPowNegSize;
     }
 
-    public long getByteValue() {
-        return this.val;
+    @Override
+    public float floatValue() {
+        return (float) doubleValue();
+    }
+
+    @Override
+    public int intValue() {
+        return (int) (val >> FRAC_SIZE);
+    }
+
+    @Override
+    public long longValue() {
+        return val >> FRAC_SIZE;
+    }
+
+    public long rawValue() {
+        return val;
     }
 
     @Override
