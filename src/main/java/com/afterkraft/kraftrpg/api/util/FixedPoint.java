@@ -16,8 +16,7 @@
 package com.afterkraft.kraftrpg.api.util;
 
 /**
- * Represents a fixed point value for percision values such as Experience and
- * cooldowns.
+ * Represents a fixed point value for Champion experience.
  */
 public final class FixedPoint extends Number {
     private static final long serialVersionUID = -6313518365999400363L;

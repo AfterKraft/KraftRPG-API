@@ -189,24 +189,19 @@ public class FixedPointTest {
     public void divFixedPoints() {
         FixedPoint num, num2;
 
+        num = new FixedPoint(-5);
+        num.div(-5);
+        assertEquals(1, num.doubleValue(), ulp);
+
+        num = new FixedPoint(5);
+        num.div(num);
+        assertEquals(1, num.doubleValue(), ulp);
+
         num = new FixedPoint(5);
         num2 = new FixedPoint(7);
         num.div(num2);
         assertEquals(5 / 7.0, num.doubleValue(), ulp);
 
-        num2 = new FixedPoint(5);
-        System.out.println(num2.rawValue());
-        num2.div(num2);
-        System.out.println(num2.rawValue());
-        assertEquals(1, num.doubleValue(), ulp);
-
-        num2 = new FixedPoint(-30);
-        num2.div(num);
-        assertEquals(-30 * 7 / 5.0, num.doubleValue(), ulp);
-
-        num = new FixedPoint(5);
-        num.div(7);
-        assertEquals(5 / 7.0, num.doubleValue(), ulp);
         num = new FixedPoint(-30);
         num.div(5 / 7.0);
         assertEquals(-30 * 7 / 5.0, num.doubleValue(), ulp);
