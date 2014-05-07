@@ -15,58 +15,102 @@
  */
 package com.afterkraft.kraftrpg.api.storage;
 
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.UUID;
+
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scheduler.BukkitTask;
 
 import com.afterkraft.kraftrpg.api.RPGPlugin;
 import com.afterkraft.kraftrpg.api.entity.Champion;
 
 /**
- * Represents a storage implementation to save various things such as Champions
- * and more. This can be implemented by third parties to provide support for
- * other Storage APIs, though loaded dynamically like {@link
- * com.afterkraft.kraftrpg.api.skills.ISkill}s.
+ * Represents a storage implementation to save various things such as
+ * Champions and more. This can be implemented by third parties to provide
+ * support for other Storage APIs, though loaded dynamically like
+ * {@link com.afterkraft.kraftrpg.api.skills.ISkill}s.
  * <p/>
  * RPGStorages should maintain an active cache system so as to reduce the need
  * to save all data Champion data at once.
  */
 public abstract class RPGStorage {
-
     protected final RPGPlugin plugin;
-    private final String name;
+    protected final StorageBackend backend;
+    protected final Set<Champion> toSave;
 
-    public RPGStorage(final RPGPlugin plugin, final String name) {
+    public RPGStorage(RPGPlugin plugin, StorageBackend backend) {
         this.plugin = plugin;
-        this.name = name;
-
-    }
-
-    public String getName() {
-        return this.name;
+        this.backend = backend;
+        toSave = new HashSet<Champion>();
     }
 
     /**
-     * Load the Champion data if there is any. This should check with the
-     * database whether the given Player does indeed have information available,
-     * if not, this will return null.
+     * This constructor skips making a save queue. If you call this
+     * constructor, you must override saveChampion().
+     */
+    protected RPGStorage(RPGPlugin plugin, StorageBackend backend, BukkitTask runningTask) {
+        this.plugin = plugin;
+        this.backend = backend;
+        toSave = null;
+    }
+
+    public String getName() {
+        return backend.getClass().getSimpleName();
+    }
+
+    /**
+     * Load the Champion data.
      *
      * @param player the requested Player data
      * @return the loaded Champion instance if data exists, else returns null
      */
-    public abstract Champion loadChampion(final Player player);
+    public Champion loadChampion(Player player) {
+        Champion temp = backend.loadPlayer(player.getUniqueId());
+        if (temp == null)
+            return null;
+
+        temp.setPlayer(player);
+        return temp;
+    }
 
     /**
-     * Saves the given {@link com.afterkraft.kraftrpg.api.entity.Champion} data.
-     * If saveAll is true, all of the given Champion's data will be saved. If
-     * not, only the necessary differences will be saved. This is important to
-     * know when changing a Champion's active {@link com.afterkraft.kraftrpg.api.entity.roles.Role}s.
-     *
-     * @param champion the provided Champion that we should save data for
-     * @param saveAll whether to save all available Champion data for the
-     * provided Champion
-     * @param now whether to save the Champion data on method call or place the
-     * Champion data into queue for later saving
-     * @return true if the save was successful
+     * Saves the given {@link com.afterkraft.kraftrpg.api.entity.Champion}
+     * data at some later point.
      */
-    public abstract boolean saveChampion(final Champion champion, boolean saveAll, boolean now);
+    public void saveChampion(Champion champion) {
+        synchronized (toSave) {
+            toSave.add(champion);
+        }
+    }
 
+    /**
+     * Convert all data from the provided StorageBackend to the one currently
+     * being used.
+     *
+     * @param from StorageBackend to convert from
+     */
+    public void doConversion(StorageBackend from) {
+        List<UUID> uuids = from.getAllStoredUsers();
+
+        for (UUID uuid : uuids) {
+            backend.savePlayer(from.loadPlayer(uuid));
+        }
+    }
+
+    public class SavingTask extends BukkitRunnable {
+        public void run() {
+            Set<Champion> data;
+            synchronized (toSave) {
+                data = new HashSet<Champion>(toSave);
+                toSave.clear();
+            }
+
+            for (Champion champion : data) {
+                backend.savePlayer(champion);
+            }
+        }
+    }
 }

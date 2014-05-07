@@ -21,16 +21,13 @@ import com.afterkraft.kraftrpg.api.Manager;
  * Handles storage implementations
  */
 public interface StorageManager extends Manager {
-
-
     /**
-     * Set the current storage. WARNING: DOING THIS AFTER ALL DATA IS LOADED MAY
-     * LEAD TO DATA LOSS.
+     * Register a new type of StorageBackend.
      *
-     * @param storage the RPGStorage to set as active storage to
-     * @return true if successful in loading the RPGStorage
+     * @param storage the StorageBackend to register
+     * @param identifiers Names that this storage responds to in configuration files
      */
-    public boolean setStorage(RPGStorage storage);
+    public void registerBackend(StorageBackend backend, String... identifiers);
 
     /**
      * Return the currently configured {@link com.afterkraft.kraftrpg.api.storage.RPGStorage}
