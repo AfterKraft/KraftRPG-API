@@ -7,6 +7,7 @@ import java.util.Map;
 
 import com.afterkraft.kraftrpg.api.skills.ISkill;
 import com.afterkraft.kraftrpg.api.storage.StorageBackend;
+import com.afterkraft.kraftrpg.api.storage.StorageFrontendFactory;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 
@@ -14,12 +15,22 @@ public final class ExternalProviderRegistration {
     private static boolean pluginLoaded = false;
 
     private static Map<String, StorageBackend> storageBackends = new HashMap<String, StorageBackend>();
+    private static StorageFrontendFactory storageFrontend = new StorageFrontendFactory.DefaultFactory();
     private static List<ISkill> providedSkills = new ArrayList<ISkill>();
 
-    public static void registerStorageBackend(StorageBackend storage, String... identifiers) {
+    private static void check() {
         if (pluginLoaded) {
             throw new LateRegistrationException("KraftRPG is already loaded. Please do your registrations in onLoad().");
         }
+    }
+
+    public static void overrideStorageFrontend(StorageFrontendFactory newQueueManager) {
+        check();
+        storageFrontend = newQueueManager;
+    }
+
+    public static void registerStorageBackend(StorageBackend storage, String... identifiers) {
+        check();
         if (identifiers.length == 0) {
             throw new IllegalArgumentException("Need to provide a config file identifier");
         }
@@ -30,9 +41,7 @@ public final class ExternalProviderRegistration {
     }
 
     public static void registerSkill(ISkill skill) {
-        if (pluginLoaded) {
-            throw new LateRegistrationException("KraftRPG is already loaded. Please do your registrations in onLoad().");
-        }
+        check();
         providedSkills.add(skill);
     }
 
@@ -51,5 +60,9 @@ public final class ExternalProviderRegistration {
 
     public static Map<String, StorageBackend> getStorageBackendMap() {
         return storageBackends;
+    }
+
+    public static StorageFrontendFactory getStorageFrontendOverride() {
+        return storageFrontend;
     }
 }

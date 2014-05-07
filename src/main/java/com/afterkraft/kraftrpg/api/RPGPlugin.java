@@ -33,6 +33,11 @@ import com.afterkraft.kraftrpg.api.util.Properties;
 
 
 public interface RPGPlugin extends Plugin {
+    /**
+     * Stop the plugin from enabling. This should be used when there is a
+     * fatal configuration error.
+     */
+    public void cancelEnable();
 
     public SkillConfigManager getSkillConfigManager();
 

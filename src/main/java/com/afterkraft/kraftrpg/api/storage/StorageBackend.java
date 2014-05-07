@@ -3,8 +3,6 @@ package com.afterkraft.kraftrpg.api.storage;
 import java.util.List;
 import java.util.UUID;
 
-import com.afterkraft.kraftrpg.api.entity.Champion;
-
 /**
  * A backend for storage of player data. All methods in this class may be
  * assumed to take a long time, and should be called on threads.
@@ -18,6 +16,8 @@ public interface StorageBackend {
      * @return true if no errors
      */
     public boolean initialize() throws Throwable;
+
+    public void shutdown();
 
     /**
      * Delete the data for the given player.
@@ -40,10 +40,16 @@ public interface StorageBackend {
      * true, this may not return null.
      *
      * @param uuid UUID of player to load
-     * @param shouldCreate whether to allocate space for the player if not present
+     * @param shouldCreate whether to allocate space for the player if not
+     *            present
      * @return Champion with data, or null
      */
     public PlayerData loadPlayer(UUID uuid, boolean shouldCreate);
 
+    /**
+     * Return a list of every UUID with data.
+     *
+     * @return
+     */
     public List<UUID> getAllStoredUsers();
 }

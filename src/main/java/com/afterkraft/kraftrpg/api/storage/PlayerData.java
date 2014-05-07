@@ -14,7 +14,7 @@ import com.afterkraft.kraftrpg.api.util.FixedPoint;
 /**
  * This class is not a stable API.
  */
-public class PlayerData {
+public class PlayerData implements Cloneable {
     /**
      * Main Roles.
      */
@@ -40,4 +40,19 @@ public class PlayerData {
      */
     public final Map<String, Long> cooldowns = new HashMap<String, Long>();
 
+    public PlayerData() {
+    }
+
+    public PlayerData clone() {
+        PlayerData ret = new PlayerData();
+
+        ret.primary = primary;
+        ret.profession = profession;
+        ret.additionalRoles.addAll(additionalRoles);
+        ret.exp.putAll(exp);
+        ret.binds.putAll(binds);
+        ret.cooldowns.putAll(cooldowns);
+
+        return ret;
+    }
 }

@@ -72,8 +72,15 @@ public abstract class StorageFrontend {
      */
     public Champion loadChampion(Player player, boolean shouldCreate) {
         PlayerData data = backend.loadPlayer(player.getUniqueId(), shouldCreate);
-        // createChampion(PlayerData, player);
-        return null;
+        if (data == null) {
+            if (!shouldCreate) {
+                return null;
+            } else {
+                data = new PlayerData();
+            }
+        }
+
+        return plugin.getEntityManager().createChampion(player, data);
     }
 
     /**
@@ -95,6 +102,11 @@ public abstract class StorageFrontend {
                 backend.savePlayer(champion.getPlayer().getUniqueId(), champion.getData());
             }
         }
+    }
+
+    public void shutdown() {
+        flush();
+        backend.shutdown();
     }
 
     public void ignorePlayer(UUID uuid) {
