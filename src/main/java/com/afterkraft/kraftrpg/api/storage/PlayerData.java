@@ -1,4 +1,4 @@
-package com.afterkraft.kraftrpg.api;
+package com.afterkraft.kraftrpg.api.storage;
 
 import java.util.HashMap;
 import java.util.HashSet;

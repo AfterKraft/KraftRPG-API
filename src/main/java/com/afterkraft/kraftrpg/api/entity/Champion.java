@@ -17,7 +17,7 @@ package com.afterkraft.kraftrpg.api.entity;
 
 import org.bukkit.entity.Player;
 
-import com.afterkraft.kraftrpg.api.PlayerData;
+import com.afterkraft.kraftrpg.api.storage.PlayerData;
 
 
 public interface Champion extends IEntity, SkillCaster {

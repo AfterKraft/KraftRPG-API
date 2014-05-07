@@ -3,7 +3,6 @@ package com.afterkraft.kraftrpg.api.storage;
 import java.util.List;
 import java.util.UUID;
 
-import com.afterkraft.kraftrpg.api.PlayerData;
 import com.afterkraft.kraftrpg.api.entity.Champion;
 
 /**
