@@ -28,6 +28,7 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.util.Vector;
 
+import com.afterkraft.kraftrpg.api.RPGPlugin;
 import com.afterkraft.kraftrpg.api.entity.Monster;
 
 
@@ -35,6 +36,7 @@ public abstract class CraftBukkitHandler {
 
     public static ServerType serverType;
     private static CraftBukkitHandler activeInterface;
+    protected RPGPlugin plugin;
 
     protected CraftBukkitHandler(ServerType type) {
         serverType = type;
@@ -102,6 +104,8 @@ public abstract class CraftBukkitHandler {
         }
     }
 
+    public abstract void loadExtraListeners();
+
     //NMS methods required by Entities
     public abstract EntityAttributeModifier getEntityAttribute(UUID uuid, String name);
 
@@ -113,6 +117,8 @@ public abstract class CraftBukkitHandler {
     public abstract double getPostArmorDamage(LivingEntity defender, double damage);
 
     public abstract void setPlayerExpZero(Player player);
+
+    public abstract void modifyArrowDamage(Arrow arrow, double damage);
 
     //NMS methods required by skills
     public abstract boolean damageEntity(LivingEntity target, LivingEntity attacker, double damage, EntityDamageEvent.DamageCause cause, boolean knockback);

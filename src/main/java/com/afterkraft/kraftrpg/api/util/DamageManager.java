@@ -17,6 +17,7 @@ package com.afterkraft.kraftrpg.api.util;
 
 import org.bukkit.Location;
 import org.bukkit.configuration.Configuration;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Egg;
 import org.bukkit.entity.Entity;
@@ -24,9 +25,11 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Snowball;
 import org.bukkit.event.entity.CreatureSpawnEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.inventory.ItemStack;
 
 import com.afterkraft.kraftrpg.api.Manager;
+import com.afterkraft.kraftrpg.api.entity.Champion;
 import com.afterkraft.kraftrpg.api.entity.Monster;
 import com.afterkraft.kraftrpg.api.entity.SkillCaster;
 
@@ -52,6 +55,8 @@ public interface DamageManager extends Manager {
      */
     public double getHighestItemDamage(SkillCaster caster, ItemStack item);
 
+    public double getHighestProjectileDamage(Champion champion, ProjectileType type);
+
     /**
      * Gets the default damage for the given EntityType.
      *
@@ -60,6 +65,10 @@ public interface DamageManager extends Manager {
      * EntityType
      */
     public double getEntityDamage(EntityType type);
+
+    public double getEnvironmentalDamage(EntityDamageEvent.DamageCause cause);
+
+    public double getEnchantmentDamage(Enchantment enchantment);
 
     /**
      * Attempts to calculate various possible modifications to the default
