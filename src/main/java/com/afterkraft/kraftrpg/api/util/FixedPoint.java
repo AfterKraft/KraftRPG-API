@@ -41,18 +41,6 @@ public final class FixedPoint extends Number {
         val = toFixed(init);
     }
 
-    private static long toFixed(double val) {
-        return Math.round(val * ONE);
-    }
-
-    private static long toFixed(int val) {
-        return val * ONE;
-    }
-
-    private static long toFixed(long val) {
-        return val * ONE;
-    }
-
     public FixedPoint(int init) {
         val = (long) init << FRAC_SIZE;
     }
@@ -63,6 +51,18 @@ public final class FixedPoint extends Number {
         } else {
             val = init << FRAC_SIZE;
         }
+    }
+
+    private static long toFixed(double val) {
+        return Math.round(val * ONE);
+    }
+
+    private static long toFixed(int val) {
+        return val * ONE;
+    }
+
+    private static long toFixed(long val) {
+        return val * ONE;
     }
 
     private void addRaw(long fixedVal) {

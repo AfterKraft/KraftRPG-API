@@ -85,6 +85,6 @@ public interface EntityManager extends Manager {
 
     public Monster getMonster(UUID uuid);
 
-    public Champion getChampion(UUID uuid);
+    public Champion getChampion(UUID uuid, boolean ignoreOffline);
 
 }

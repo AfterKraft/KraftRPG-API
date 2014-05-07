@@ -55,6 +55,8 @@ public class PlayerData implements Cloneable {
      */
     public final Map<String, Long> cooldowns = new HashMap<String, Long>();
 
+    public String lastKnownName;
+
     public PlayerData() {
     }
 
@@ -67,6 +69,7 @@ public class PlayerData implements Cloneable {
         ret.exp.putAll(exp);
         ret.binds.putAll(binds);
         ret.cooldowns.putAll(cooldowns);
+        ret.lastKnownName = lastKnownName;
 
         return ret;
     }

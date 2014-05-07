@@ -84,7 +84,8 @@ public interface StorageBackend {
     /**
      * Return a list of every UUID with data.
      *
-     * Assume different thread.
+     * Assume that you're running on a different thread, however you should
+     * still be able to do this fairly quickly.
      *
      * @return every UUID stored
      */
