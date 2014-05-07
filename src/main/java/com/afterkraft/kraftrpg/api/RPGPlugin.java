@@ -26,7 +26,7 @@ import com.afterkraft.kraftrpg.api.entity.roles.RoleManager;
 import com.afterkraft.kraftrpg.api.listeners.ListenerManager;
 import com.afterkraft.kraftrpg.api.skills.SkillConfigManager;
 import com.afterkraft.kraftrpg.api.skills.SkillManager;
-import com.afterkraft.kraftrpg.api.storage.StorageManager;
+import com.afterkraft.kraftrpg.api.storage.StorageFrontend;
 import com.afterkraft.kraftrpg.api.util.ConfigManager;
 import com.afterkraft.kraftrpg.api.util.DamageManager;
 import com.afterkraft.kraftrpg.api.util.Properties;
@@ -45,7 +45,7 @@ public interface RPGPlugin extends Plugin {
 
     public EffectManager getEffectManager();
 
-    public StorageManager getStorageManager();
+    public StorageFrontend getStorage();
 
     public ConfigManager getConfigurationManager();
 
