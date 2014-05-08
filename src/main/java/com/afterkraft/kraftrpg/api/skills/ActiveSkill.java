@@ -25,12 +25,33 @@ import com.afterkraft.kraftrpg.api.util.SkillRequirement;
 /**
  * See {@link Active}.
  */
-public abstract class ActiveSkill<T extends SkillArgument> extends Skill implements Active<T> {
-
+public abstract class ActiveSkill extends Skill implements Active {
     private String usage = "";
+    private SkillArgument[] skillArguments;
 
     public ActiveSkill(RPGPlugin plugin, String name) {
         super(plugin, name);
+    }
+
+    /**
+     * Set the SkillArguments to be used in parsing.
+     *
+     * @param arguments
+     */
+    public void setSkillArguments(SkillArgument... arguments) {
+        skillArguments = arguments;
+    }
+
+    /**
+     * Get a casted SkillArgument. You should know the position of all your
+     * arguments and be able to use this correctly.
+     *
+     * @param index The index into the objects you passed into setSkillArguments
+     * @return a SkillArgument
+     */
+    @SuppressWarnings("unchecked")
+    public <T extends SkillArgument> T getArgument(int index) {
+        return (T) skillArguments[index];
     }
 
     @Override
@@ -38,18 +59,55 @@ public abstract class ActiveSkill<T extends SkillArgument> extends Skill impleme
         return this.usage;
     }
 
-    @Override
-    public final void setUsage(String usage) {
-        this.usage = usage;
-    }
-
+    /**
+     * Subclasses should override this if desired.
+     */
     @Override
     public void onWarmUp(SkillCaster caster) {
 
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public SkillCastResult canCast(final SkillCaster caster, final T argument, boolean forced) {
+    public boolean parse(SkillCaster caster, String[] strings) {
+        int stringIndex = 0, argIndex = 0;
+
+        while (stringIndex < strings.length && argIndex < skillArguments.length) {
+            SkillArgument current = skillArguments[argIndex];
+
+            if (current.matches(caster, strings, stringIndex)) {
+                stringIndex += current.parse(caster, strings, stringIndex);
+                current.present = true;
+            } else {
+                if (current.isOptional()) {
+                    current.present = false;
+                } else {
+                    return false;
+                }
+            }
+
+            argIndex++;
+        }
+
+        while (argIndex < skillArguments.length) {
+            SkillArgument current = skillArguments[argIndex];
+
+            if (current.isOptional()) {
+                current.present = false;
+            } else {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+
+/*
+    @Override
+    public SkillCastResult canCast(SkillCaster caster, String[] args, boolean forced) {
         final String name = this.getName();
         if (caster == null) {
             return null;
@@ -153,26 +211,9 @@ public abstract class ActiveSkill<T extends SkillArgument> extends Skill impleme
 
 
             int globalCD = plugin.getProperties().getDefaultGlobalCooldown();
-            dSkill = new StalledSkill<T>(this, argument, caster, System.currentTimeMillis(), delay);
+            dSkill = (Stalled) new StalledSkill(this, argument, caster, System.currentTimeMillis(), delay);
             if ((delay > 0) && !plugin.getSkillManager().isCasterDelayed(caster)) {
-                if (caster.setStalledSkill(dSkill)) {
-                    onWarmUp(caster);
-
-                    if (cooldown < globalCD) {
-                        if (cooldown < globalCD) {
-                            if (cooldown < 500) {
-                                cooldown = 500;
-                            }
-                        }
-                        caster.setCooldown("global", cooldown + time);
-                    } else {
-                        caster.setCooldown("global", globalCD + time);
-                    }
-
-                    return SkillCastResult.NORMAL;
-                } else {
-                    return SkillCastResult.FAIL;
-                }
+                return SkillCastResult.START_DELAY;
             } else if (plugin.getSkillManager().isCasterDelayed(caster)) {
                 dSkill = caster.getStalledSkill();
 
@@ -180,11 +221,7 @@ public abstract class ActiveSkill<T extends SkillArgument> extends Skill impleme
                     if (!dSkill.isReady()) {
                         return SkillCastResult.ON_WARMUP;
                     } else {
-                        if (!isType(SkillType.ABILITY_PROPERTY_SONG)) {
-                            caster.removeEffect(caster.getEffect("Casting"));
-                        }
-
-                        plugin.getSkillManager().setCompletedSkill(caster);
+                        return SkillCastResult.FAIL;
                     }
                 } else {
                     return SkillCastResult.FAIL;
@@ -241,4 +278,5 @@ public abstract class ActiveSkill<T extends SkillArgument> extends Skill impleme
         }
 
     }
+    */
 }

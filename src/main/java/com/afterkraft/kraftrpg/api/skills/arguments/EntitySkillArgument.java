@@ -13,25 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.afterkraft.kraftrpg.api.skills;
+package com.afterkraft.kraftrpg.api.skills.arguments;
 
-import java.util.concurrent.Delayed;
+public class EntitySkillArgument {
 
-import com.afterkraft.kraftrpg.api.entity.SkillCaster;
-
-
-/**
- * Represents a Skill that is in process of being queued for casting.
- */
-public interface Stalled extends Delayed {
-
-    public boolean isReady();
-
-    public long startTime();
-
-    public String[] getArguments();
-
-    public Active getActiveSkill();
-
-    public SkillCaster getCaster();
 }

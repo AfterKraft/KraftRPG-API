@@ -21,21 +21,21 @@ import java.util.concurrent.TimeUnit;
 import com.afterkraft.kraftrpg.api.entity.SkillCaster;
 
 
-public class StalledSkill<T extends SkillArgument> implements Stalled<T> {
+public class StalledSkill implements Stalled {
 
-    private final T argument;
+    private final String[] argument;
     private final long startTime;
     private final SkillCaster user;
-    private final Active<T> skill;
+    private final Active skill;
     private final long warmup;
     private final long delay;
 
 
-    public StalledSkill(Active<T> skill, T args, SkillCaster caster, long warmup) {
+    public StalledSkill(Active skill, String[] args, SkillCaster caster, long warmup) {
         this(skill, args, caster, System.currentTimeMillis(), warmup);
     }
 
-    public StalledSkill(Active<T> skill, T args, SkillCaster caster, long startTime, long warmup) {
+    public StalledSkill(Active skill, String[] args, SkillCaster caster, long startTime, long warmup) {
         this.argument = args;
         this.startTime = startTime;
         this.skill = skill;
@@ -55,12 +55,12 @@ public class StalledSkill<T extends SkillArgument> implements Stalled<T> {
     }
 
     @Override
-    public T getArgument() {
+    public String[] getArguments() {
         return this.argument;
     }
 
     @Override
-    public Active<T> getActiveSkill() {
+    public Active getActiveSkill() {
         return this.skill;
     }
 

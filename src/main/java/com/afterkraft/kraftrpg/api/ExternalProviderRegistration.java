@@ -15,26 +15,26 @@
  */
 package com.afterkraft.kraftrpg.api;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import com.afterkraft.kraftrpg.api.skills.ISkill;
 import com.afterkraft.kraftrpg.api.storage.StorageBackend;
 import com.afterkraft.kraftrpg.api.storage.StorageFrontendFactory;
-import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 
+
 public final class ExternalProviderRegistration {
-    private static boolean pluginLoaded = false;
+    private static boolean pluginEnabled = false;
+
+    private static RPGPlugin plugin;
 
     private static Map<String, StorageBackend> storageBackends = new HashMap<String, StorageBackend>();
     private static StorageFrontendFactory storageFrontend = new StorageFrontendFactory.DefaultFactory();
-    private static List<ISkill> providedSkills = new ArrayList<ISkill>();
+    private static Map<String, ISkill> providedSkills = new HashMap<String, ISkill>();
 
     private static void check() {
-        if (pluginLoaded) {
+        if (pluginEnabled) {
             throw new LateRegistrationException("KraftRPG is already loaded. Please do your registrations in onLoad().");
         }
     }
@@ -55,21 +55,29 @@ public final class ExternalProviderRegistration {
         }
     }
 
-    public static void registerSkill(ISkill skill) {
+    public static void registerSkill(String skillName, ISkill skill) {
         check();
-        providedSkills.add(skill);
+        providedSkills.put(skillName, skill);
+    }
+
+    public static void pluginLoaded(RPGPlugin p) {
+        plugin = p;
+    }
+
+    public static RPGPlugin getPlugin() {
+        return plugin;
     }
 
     /**
      * You should not call this - KraftRPG will call this once it has loaded.
      */
     public static void finish() {
-        pluginLoaded = true;
-        providedSkills = ImmutableList.copyOf(providedSkills);
+        pluginEnabled = true;
+        providedSkills = ImmutableMap.copyOf(providedSkills);
         storageBackends = ImmutableMap.copyOf(storageBackends);
     }
 
-    public static List<ISkill> getRegisteredSkillList() {
+    public static Map<String, ISkill> getRegisteredSkills() {
         return providedSkills;
     }
 

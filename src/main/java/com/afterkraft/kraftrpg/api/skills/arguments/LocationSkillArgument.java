@@ -13,12 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.afterkraft.kraftrpg.api.skills;
+package com.afterkraft.kraftrpg.api.skills.arguments;
 
-import org.bukkit.entity.LivingEntity;
+public class LocationSkillArgument {
 
-
-public interface StalledTarget<T extends SkillArgument> extends Stalled<T> {
-
-    public LivingEntity getTarget();
 }

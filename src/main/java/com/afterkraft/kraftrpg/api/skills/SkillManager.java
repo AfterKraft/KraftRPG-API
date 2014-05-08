@@ -41,7 +41,7 @@ public interface SkillManager extends Manager {
      */
     public ISkill getSkill(String name);
 
-    public boolean loadOutsourcedSkill(String name);
+    public boolean loadPermissionSkill(String name);
 
     /**
      * Returns a collection of all skills loaded in the skill manager
@@ -78,7 +78,7 @@ public interface SkillManager extends Manager {
      * @param caster
      * @return
      */
-    public Stalled<? extends SkillArgument> getDelayedSkill(SkillCaster caster);
+    public Stalled getDelayedSkill(SkillCaster caster);
 
     public void setCompletedSkill(SkillCaster caster);
 

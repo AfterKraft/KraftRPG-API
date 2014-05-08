@@ -18,13 +18,12 @@ package com.afterkraft.kraftrpg.api.skills;
 import org.bukkit.entity.LivingEntity;
 
 import com.afterkraft.kraftrpg.api.entity.Champion;
-import com.afterkraft.kraftrpg.api.entity.SkillCaster;
 
 /**
  * Represents an Active Skill that requires a {@link org.bukkit.entity.LivingEntity}
  * as a target.
  */
-public interface Targeted<T extends TargetedSkillArgument> extends Active<T> {
+public interface Targeted extends Active {
 
     /**
      * Primary designated method to use this skill on the targetted
@@ -35,8 +34,6 @@ public interface Targeted<T extends TargetedSkillArgument> extends Active<T> {
      * @param argument
      * @return
      */
-    public SkillCastResult use(Champion champion, LivingEntity entity, T argument);
-
-    public SkillCastResult useDelayed(SkillCaster caster, StalledTarget<T> skill, T args);
+    public SkillCastResult use(Champion champion, LivingEntity entity, String[] argument);
 
 }

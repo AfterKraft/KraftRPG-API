@@ -13,24 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.afterkraft.kraftrpg.api.skills;
+package com.afterkraft.kraftrpg.api.skills.arguments;
 
-import org.bukkit.entity.LivingEntity;
+public class PlayerSkillArgument {
 
-import com.afterkraft.kraftrpg.api.entity.SkillCaster;
-
-
-public class StalledTargetedSkill<T extends TargetedSkillArgument> extends StalledSkill<T> implements StalledTarget<T> {
-
-    private LivingEntity target;
-
-    public StalledTargetedSkill(Active<T> skill, T args, SkillCaster caster, LivingEntity target, long startTime, long warmup) {
-        super(skill, args, caster, startTime, warmup);
-        this.target = target;
-    }
-
-    @Override
-    public LivingEntity getTarget() {
-        return target;
-    }
 }
