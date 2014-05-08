@@ -151,7 +151,7 @@ public abstract class Skill implements ISkill {
     @Override
     public void awardExperience(SkillCaster caster) {
         if (caster.canGainExperience(ExperienceType.SKILL)) {
-            caster.gainExperience(new FixedPoint(plugin.getSkillConfigManager().getUseSetting(caster, this, SkillSetting.EXP, 0, false)), ExperienceType.SKILL, caster.getLocation());
+            caster.gainExperience(FixedPoint.valueOf(plugin.getSkillConfigManager().getUseSetting(caster, this, SkillSetting.EXP, 0, false)), ExperienceType.SKILL, caster.getLocation());
         }
     }
 

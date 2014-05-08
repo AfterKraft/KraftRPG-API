@@ -34,23 +34,11 @@ public final class FixedPoint extends Number {
     private long val;
 
     public FixedPoint() {
-        val = 0;
+        this(0);
     }
 
-    public FixedPoint(double init) {
-        val = toFixed(init);
-    }
-
-    public FixedPoint(int init) {
-        val = (long) init << FRAC_SIZE;
-    }
-
-    public FixedPoint(long init, boolean isFixedAlready) {
-        if (isFixedAlready) {
-            val = init;
-        } else {
-            val = init << FRAC_SIZE;
-        }
+    private FixedPoint(long init) {
+        val = init;
     }
 
     private static long toFixed(double param) {
@@ -63,6 +51,22 @@ public final class FixedPoint extends Number {
 
     private static long toFixed(long param) {
         return param * ONE;
+    }
+
+    public static FixedPoint valueOf(int number) {
+        return new FixedPoint(toFixed(number));
+    }
+
+    public static FixedPoint valueOf(long number) {
+        return new FixedPoint(toFixed(number));
+    }
+
+    public static FixedPoint valueOf(double number) {
+        return new FixedPoint(toFixed(number));
+    }
+
+    public static FixedPoint fromRaw(long raw) {
+        return new FixedPoint(raw);
     }
 
     public void addRaw(long fixedVal) {
