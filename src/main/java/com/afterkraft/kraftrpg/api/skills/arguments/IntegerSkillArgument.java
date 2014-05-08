@@ -15,46 +15,30 @@
  */
 package com.afterkraft.kraftrpg.api.skills.arguments;
 
-import java.lang.reflect.Method;
-import java.util.ArrayList;
 import java.util.List;
 
 import com.afterkraft.kraftrpg.api.entity.SkillCaster;
 import com.afterkraft.kraftrpg.api.skills.SkillArgument;
-import com.afterkraft.kraftrpg.api.util.Utilities;
 
+public class IntegerSkillArgument extends SkillArgument {
+    private int value;
+    private String desc = "num";
 
-public class JEnumSkillArgument<T extends Enum<T>> extends SkillArgument {
-    private final T def;
-    private final Class<T> clazz;
-    private final List<String> names;
-    private T choice = null;
-
-    public JEnumSkillArgument(boolean required, Class<T> clazz, T def) throws Exception {
+    public IntegerSkillArgument(boolean required) {
         super(required);
-        this.def = def;
-
-        this.clazz = clazz;
-        Method values = clazz.getDeclaredMethod("values", (Class[]) null);
-        @SuppressWarnings("unchecked")
-        T[] allValues = (T[]) values.invoke(null);
-
-        names = new ArrayList<String>(allValues.length);
-        for (T t : allValues) {
-            String temp = t.toString();
-            names.add(temp);
-            if (!temp.equalsIgnoreCase(t.name())) {
-                names.add(t.name());
-            }
-        }
     }
 
-    public T getChoice() {
-        return choice;
+    public IntegerSkillArgument setDesc(String description) {
+        desc = description;
+        return this;
     }
 
-    public void setChoice(T c) {
-        choice = c;
+    public int getValue() {
+        return value;
+    }
+
+    public void setValue(int val) {
+        value = val;
     }
 
     // --------------------------------------------------------------
@@ -62,9 +46,9 @@ public class JEnumSkillArgument<T extends Enum<T>> extends SkillArgument {
     @Override
     public String getUsageString(boolean optional) {
         if (optional) {
-            return "[" + clazz.getSimpleName().toLowerCase() + "]";
+            return '[' + desc + ']';
         } else {
-            return "<" + clazz.getSimpleName().toLowerCase() + ">";
+            return '<' + desc + '>';
         }
     }
 
@@ -72,9 +56,9 @@ public class JEnumSkillArgument<T extends Enum<T>> extends SkillArgument {
     public int matches(SkillCaster caster, String[] allArgs, int startPosition) {
         String arg = allArgs[startPosition];
         try {
-            Enum.valueOf(clazz, arg);
+            Integer.parseInt(arg);
             return 1;
-        } catch (IllegalArgumentException e) {
+        } catch (NumberFormatException e) {
             return -1;
         }
     }
@@ -83,24 +67,26 @@ public class JEnumSkillArgument<T extends Enum<T>> extends SkillArgument {
     public void parse(SkillCaster caster, String[] allArgs, int startPosition) {
         String arg = allArgs[startPosition];
         try {
-            choice = Enum.valueOf(clazz, arg);
-        } catch (IllegalArgumentException e) {
-            choice = def;
+            value = Integer.parseInt(arg);
+        } catch (NumberFormatException e) {
+            value = -Integer.MAX_VALUE;
         }
     }
 
     @Override
     public void skippedOptional(SkillCaster caster) {
-        choice = def;
+        value = -Integer.MAX_VALUE;
     }
 
     @Override
     public void clean() {
-        choice = def;
+        value = -Integer.MAX_VALUE;
     }
 
     @Override
     public List<String> tabComplete(SkillCaster caster, String[] allArgs, int startPosition) {
-        return Utilities.findMatches(allArgs[startPosition], names);
+        // TODO Auto-generated method stub
+        return null;
     }
+
 }

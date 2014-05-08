@@ -17,6 +17,7 @@ package com.afterkraft.kraftrpg.api.entity;
 
 import java.util.Set;
 
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -41,6 +42,8 @@ public interface Insentient {
     public ItemStack getItemInHand();
 
     public Inventory getInventory();
+
+    public Entity getEntity();
 
     /**
      * Returns (if available) the named {@link com.afterkraft.kraftrpg.api.entity.effects.IEffect}

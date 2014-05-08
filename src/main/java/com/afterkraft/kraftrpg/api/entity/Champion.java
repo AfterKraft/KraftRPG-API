@@ -30,6 +30,9 @@ public interface Champion extends IEntity, SkillCaster {
      */
     public Player getPlayer();
 
+    @Override
+    public Player getEntity();
+
     /**
      * Set the Bukkit {@link Player} object for this Champion. This should
      * automatically call {@link #setEntity(org.bukkit.entity.LivingEntity)}

@@ -18,6 +18,7 @@ package com.afterkraft.kraftrpg.api.entity;
 import java.util.Set;
 
 import org.bukkit.Location;
+import org.bukkit.entity.LivingEntity;
 
 import com.afterkraft.kraftrpg.api.entity.roles.ExperienceType;
 import com.afterkraft.kraftrpg.api.entity.roles.Role;
@@ -25,6 +26,9 @@ import com.afterkraft.kraftrpg.api.util.FixedPoint;
 
 
 public interface Sentient extends Insentient {
+
+    @Override
+    public LivingEntity getEntity();
 
     /**
      * Fetches the current experience of the given Role.

@@ -15,6 +15,107 @@
  */
 package com.afterkraft.kraftrpg.api.skills.arguments;
 
-public class EntitySkillArgument {
+import java.util.List;
 
+import org.bukkit.Location;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
+import org.bukkit.util.Vector;
+
+import com.afterkraft.kraftrpg.api.entity.SkillCaster;
+import com.afterkraft.kraftrpg.api.skills.SkillArgument;
+import com.google.common.base.Predicate;
+
+public class EntitySkillArgument<E extends Entity> extends SkillArgument {
+    protected final double maxDistance;
+    protected final Predicate<E> condition;
+    private final Class<E> clazz;
+
+    protected E matchedEntity = null;
+
+    public EntitySkillArgument(double maxDistance, Class<E> clazz, Predicate<E> condition) {
+        super(true);
+        this.maxDistance = maxDistance;
+        this.condition = condition;
+        this.clazz = clazz;
+    }
+
+    protected EntitySkillArgument(boolean required, double maxDistance, Class<E> clazz, Predicate<E> condition) {
+        super(required);
+        this.maxDistance = maxDistance;
+        this.condition = condition;
+        this.clazz = clazz;
+    }
+
+    public E getMatchedEntity() {
+        return matchedEntity;
+    }
+
+    // --------------------------------------------------------------
+
+    @Override
+    public String getUsageString(boolean optional) {
+        return "";
+    }
+
+    @Override
+    public int matches(SkillCaster caster, String[] allArgs, int startPosition) {
+        return 0;
+    }
+
+    @Override
+    public void parse(SkillCaster caster, String[] allArgs, int startPosition) {
+        List<Entity> nearby = caster.getEntity().getNearbyEntities(maxDistance, maxDistance, maxDistance);
+        LivingEntity actor = caster.getEntity();
+        Location middle = actor.getEyeLocation();
+        Vector direction = middle.getDirection();
+
+        double closestDistance = maxDistance;
+        E closest = null;
+
+        for (Entity entity : nearby) {
+            if (!entity.getClass().isAssignableFrom(clazz)) {
+                continue;
+            }
+            @SuppressWarnings("unchecked") // just checked it
+            E ent = (E) entity;
+
+            // TODO change to middle for livings??
+            Location otherMiddle = entity.getLocation();
+            if (entity instanceof LivingEntity) {
+                otherMiddle = ((LivingEntity) entity).getEyeLocation();
+            }
+            Location diff = otherMiddle.subtract(middle);
+            // Algorithm: Make a triangle
+            double b = diff.toVector().dot(direction);
+            double c = middle.distanceSquared(otherMiddle);
+
+            double a = Math.sqrt(c - b*b);
+            if (a < closestDistance) {
+                if (condition == null || condition.apply(ent)) {
+                    closestDistance = a;
+                    closest = ent;
+                }
+            }
+        }
+
+        if (closestDistance < maxDistance) {
+            matchedEntity = closest;
+        }
+    }
+
+    @Override
+    public void skippedOptional(SkillCaster caster) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void clean() {
+        matchedEntity = null;
+    }
+
+    @Override
+    public List<String> tabComplete(SkillCaster caster, String[] allArgs, int startPosition) {
+        return null;
+    }
 }

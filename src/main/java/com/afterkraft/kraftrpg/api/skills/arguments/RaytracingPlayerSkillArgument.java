@@ -15,89 +15,59 @@
  */
 package com.afterkraft.kraftrpg.api.skills.arguments;
 
-import java.util.Arrays;
 import java.util.List;
 
-import org.apache.commons.lang.ArrayUtils;
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 
 import com.afterkraft.kraftrpg.api.entity.SkillCaster;
-import com.afterkraft.kraftrpg.api.skills.SkillArgument;
 import com.afterkraft.kraftrpg.api.util.Utilities;
+import com.google.common.base.Predicate;
 
-public class SEnumSkillArgument extends SkillArgument {
-    private final String def;
-    private final String[] choices;
-    private final String usage;
+public class RaytracingPlayerSkillArgument extends EntitySkillArgument<Player> {
 
-    private String choice = null;
-
-    public SEnumSkillArgument(boolean required, String def, String... choices) {
-        super(required);
-        this.def = def;
-        this.choices = choices;
-
-        StringBuilder sb = new StringBuilder(!required ? '[' : '<');
-        for (String s : choices) {
-            sb.append(s);
-            sb.append('|');
-        }
-        if (choices.length != 0) {
-            sb.setLength(sb.length() - 1);
-        }
-        sb.append(!required ? ']' : '>');
-        usage = sb.toString();
-    }
-
-    public String getChoice() {
-        return choice;
-    }
-
-    public boolean setChoice(String s) {
-        if (ArrayUtils.contains(choices, s)) {
-            choice = s;
-            return true;
-        }
-        return false;
+    public RaytracingPlayerSkillArgument(double maxDistance, Predicate<Player> condition) {
+        super(false, maxDistance, Player.class, condition);
     }
 
     // --------------------------------------------------------------
 
     @Override
     public String getUsageString(boolean optional) {
-        return usage;
+        return "[player]";
     }
 
     @Override
+    @SuppressWarnings("deprecation")
     public int matches(SkillCaster caster, String[] allArgs, int startPosition) {
         String arg = allArgs[startPosition];
-        if (ArrayUtils.contains(choices, arg)) {
+        Player p = Bukkit.getPlayerExact(arg);
+        if (p != null) {
             return 1;
         }
-        return -1;
+        return 0;
     }
 
     @Override
+    @SuppressWarnings("deprecation")
     public void parse(SkillCaster caster, String[] allArgs, int startPosition) {
         String arg = allArgs[startPosition];
-        if (ArrayUtils.contains(choices, arg)) {
-            choice = arg;
+        Player p = Bukkit.getPlayerExact(arg);
+        if (p != null) {
+            matchedEntity = p;
         } else {
-            choice = def;
+            super.parse(caster, allArgs, startPosition);
         }
     }
 
     @Override
     public void skippedOptional(SkillCaster caster) {
-        choice = def;
-    }
-
-    @Override
-    public void clean() {
-        choice = def;
+        // do raytracing if arg not specified
+        super.parse(caster, null, 0);
     }
 
     @Override
     public List<String> tabComplete(SkillCaster caster, String[] allArgs, int startPosition) {
-        return Utilities.findMatches(allArgs[startPosition], Arrays.asList(choices));
+        return Utilities.matchPlayers(allArgs[startPosition], (Player) caster.getEntity());
     }
 }

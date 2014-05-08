@@ -49,6 +49,15 @@ public abstract class SkillArgument {
     }
 
     /**
+     * Return a string suitable for inclusion in a usage string. No colors,
+     * please.
+     *
+     * @param optional if this SkillArgument isOptional()
+     * @return partial usage string
+     */
+    public abstract String getUsageString(boolean optional);
+
+    /**
      * Check if this SkillArgument is satisfied by the arguments in allArgs
      * starting at index startPosition, and return the width of this
      * SkillArgument. <b>This will be called during both parsing and tab
