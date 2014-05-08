@@ -29,7 +29,7 @@ public final class FixedPoint extends Number {
     private static final double twoPowNegSize = Math.pow(2, -FRAC_SIZE);
 
     public static final double ulp = twoPowNegSize;
-    public static final double MAX_VALUE = (double) (Long.MAX_VALUE >>> FRAC_SIZE);
+    public static final long MAX_VALUE = Long.MAX_VALUE >>> FRAC_SIZE;
 
     private long val;
 
@@ -53,56 +53,56 @@ public final class FixedPoint extends Number {
         }
     }
 
-    private static long toFixed(double val) {
-        return Math.round(val * ONE);
+    private static long toFixed(double param) {
+        return Math.round(param * ONE);
     }
 
-    private static long toFixed(int val) {
-        return val * ONE;
+    private static long toFixed(int param) {
+        return param * ONE;
     }
 
-    private static long toFixed(long val) {
-        return val * ONE;
+    private static long toFixed(long param) {
+        return param * ONE;
     }
 
     public void addRaw(long fixedVal) {
         this.val += fixedVal;
     }
 
-    public void add(int val) {
-        addRaw(toFixed(val));
+    public void add(int param) {
+        addRaw(toFixed(param));
     }
 
-    public void add(long val) {
-        addRaw(toFixed(val));
+    public void add(long param) {
+        addRaw(toFixed(param));
     }
 
-    public void add(double val) {
-        addRaw(toFixed(val));
+    public void add(double param) {
+        addRaw(toFixed(param));
     }
 
-    public void add(FixedPoint val) {
-        addRaw(val.val);
+    public void add(FixedPoint param) {
+        addRaw(param.val);
     }
 
     public void subRaw(long fixedVal) {
         this.val -= fixedVal;
     }
 
-    public void sub(int val) {
-        subRaw(toFixed(val));
+    public void sub(int param) {
+        subRaw(toFixed(param));
     }
 
-    public void sub(long val) {
-        subRaw(toFixed(val));
+    public void sub(long param) {
+        subRaw(toFixed(param));
     }
 
-    public void sub(double val) {
-        sub(toFixed(val));
+    public void sub(double param) {
+        sub(toFixed(param));
     }
 
-    public void sub(FixedPoint val) {
-        subRaw(val.val);
+    public void sub(FixedPoint param) {
+        subRaw(param.val);
     }
 
     public void multRaw(long fixedVal) {
@@ -111,20 +111,20 @@ public final class FixedPoint extends Number {
         val = (t >> FRAC_SIZE);
     }
 
-    public void mult(int factor) {
-        this.val *= factor;
+    public void mult(int param) {
+        this.val *= param;
     }
 
-    public void mult(long factor) {
-        this.val *= factor;
+    public void mult(long param) {
+        this.val *= param;
     }
 
-    public void mult(double factor) {
-        this.val *= factor;
+    public void mult(double param) {
+        this.val *= param;
     }
 
-    public void mult(FixedPoint val) {
-        multRaw(val.val);
+    public void mult(FixedPoint param) {
+        multRaw(param.val);
     }
 
     public void divRaw(long fixedVal) {
@@ -147,6 +147,26 @@ public final class FixedPoint extends Number {
 
     public void div(FixedPoint param) {
         divRaw(param.val);
+    }
+
+    public void setRaw(long fixedVal) {
+        val = fixedVal;
+    }
+
+    public void set(int param) {
+        this.val = toFixed(param);
+    }
+
+    public void set(long param) {
+        this.val = toFixed(param);
+    }
+
+    public void set(double param) {
+        this.val = toFixed(param);
+    }
+
+    public void set(FixedPoint param) {
+        this.val = param.val;
     }
 
     @Override
