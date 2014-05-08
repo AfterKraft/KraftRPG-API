@@ -21,6 +21,7 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
 import com.afterkraft.kraftrpg.api.Manager;
+import com.afterkraft.kraftrpg.api.storage.PlayerData;
 
 
 public interface EntityManager extends Manager {
@@ -35,13 +36,14 @@ public interface EntityManager extends Manager {
     public IEntity getEntity(LivingEntity entity);
 
     /**
-     * Attempts to match the provided {@link com.afterkraft.kraftrpg.api.entity.SkillCaster}
-     * to an existing {@link com.afterkraft.kraftrpg.api.entity.IEntity}. If not
-     * found, and the caster is not a LivingEntity, this will return null.
+     * Attempts to match the provided
+     * {@link com.afterkraft.kraftrpg.api.entity.SkillCaster} to an existing
+     * {@link com.afterkraft.kraftrpg.api.entity.IEntity}. If not found, and
+     * the caster is not a LivingEntity, this will return null.
      *
      * @param caster to get the IEntity of
      * @return the IEntity of the caster or null if the caster is not a
-     * LivingEntity
+     *         LivingEntity
      */
     public IEntity getEntity(SkillCaster caster);
 
@@ -69,12 +71,20 @@ public interface EntityManager extends Manager {
      */
     public boolean isMonsterSetup(LivingEntity entity);
 
-    public boolean addChampion(Champion champion);
+    /**
+     * Create a new Champion instance from the given player and data from the
+     * database.
+     *
+     * @param player Bukkit Player object
+     * @param data PlayerData object
+     * @return Constructed Champion
+     */
+    public Champion createChampion(Player player, PlayerData data);
 
     public boolean addMonster(Monster monster);
 
     public Monster getMonster(UUID uuid);
 
-    public Champion getChampion(UUID uuid);
+    public Champion getChampion(UUID uuid, boolean ignoreOffline);
 
 }

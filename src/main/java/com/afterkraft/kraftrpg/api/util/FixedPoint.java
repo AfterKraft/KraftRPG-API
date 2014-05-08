@@ -16,117 +16,186 @@
 package com.afterkraft.kraftrpg.api.util;
 
 /**
- * Represents a fixed point value for percision values such as Experience and
- * cooldowns=
+ * Represents a fixed point value for Champion experience.
  */
-public final class FixedPoint {
+public final class FixedPoint extends Number {
+    private static final long serialVersionUID = -6313518365999400363L;
 
     private static final int FRAC_SIZE = 16;
     private static final int ONE = 1 << FRAC_SIZE;
     private static final int HALF = ONE >> 1;
+    private static final int MAX_FRAC_VAL = ONE - 1;
 
+    // 2 ^ -16
     private static final double twoPowNegSize = Math.pow(2, -FRAC_SIZE);
+
+    public static final double ulp = twoPowNegSize;
+    public static final long MAX_VALUE = Long.MAX_VALUE >>> FRAC_SIZE;
 
     private long val;
 
     public FixedPoint() {
-
+        this(0);
     }
 
-    public FixedPoint(double init) {
-        val = toFixed(init);
+    private FixedPoint(long init) {
+        val = init;
     }
 
-    public static long toFixed(double val) {
-        return Math.round(val * ONE);
+    private static long toFixed(double param) {
+        return Math.round(param * ONE);
     }
 
-    public FixedPoint(int init) {
-        val = (long) init << FRAC_SIZE;
+    private static long toFixed(int param) {
+        return param * (long) ONE;
     }
 
-    public FixedPoint(long init, boolean isFixedAlready) {
-        if (isFixedAlready) {
-            val = init;
-        } else {
-            val = init << FRAC_SIZE;
-        }
+    private static long toFixed(long param) {
+        return param * ONE;
     }
 
-    public void add(int val) {
-        this.val += (val << FRAC_SIZE);
+    public static FixedPoint valueOf(int number) {
+        return new FixedPoint(toFixed(number));
     }
 
-    public void sub(int val) {
-        this.val -= (val << FRAC_SIZE);
+    public static FixedPoint valueOf(long number) {
+        return new FixedPoint(toFixed(number));
     }
 
-    public void mult(int val) {
-        this.val *= val;
+    public static FixedPoint valueOf(double number) {
+        return new FixedPoint(toFixed(number));
     }
 
-    public void div(int val) {
-        this.val /= val;
+    public static FixedPoint fromRaw(long raw) {
+        return new FixedPoint(raw);
     }
 
-    public void add(FixedPoint val) {
-        add(val.val);
-    }
-
-    public void add(long fixedVal) {
+    public void addRaw(long fixedVal) {
         this.val += fixedVal;
     }
 
-    public void sub(FixedPoint val) {
-        sub(val.val);
+    public void add(int param) {
+        addRaw(toFixed(param));
     }
 
-    public void sub(long fixedVal) {
+    public void add(long param) {
+        addRaw(toFixed(param));
+    }
+
+    public void add(double param) {
+        addRaw(toFixed(param));
+    }
+
+    public void add(FixedPoint param) {
+        addRaw(param.val);
+    }
+
+    public void subRaw(long fixedVal) {
         this.val -= fixedVal;
     }
 
-    public void mult(FixedPoint val) {
-        mult(val.val);
+    public void sub(int param) {
+        subRaw(toFixed(param));
     }
 
-    public void mult(long fixedVal) {
+    public void sub(long param) {
+        subRaw(toFixed(param));
+    }
+
+    public void sub(double param) {
+        sub(toFixed(param));
+    }
+
+    public void sub(FixedPoint param) {
+        subRaw(param.val);
+    }
+
+    public void multRaw(long fixedVal) {
         long t = val * fixedVal;
         t += HALF;
         val = (t >> FRAC_SIZE);
     }
 
-    public void div(FixedPoint val) {
-        div(val.val);
+    public void mult(int param) {
+        this.val *= param;
     }
 
-    public void div(long fixedVal) {
+    public void mult(long param) {
+        this.val *= param;
+    }
+
+    public void mult(double param) {
+        this.val *= param;
+    }
+
+    public void mult(FixedPoint param) {
+        multRaw(param.val);
+    }
+
+    public void divRaw(long fixedVal) {
         long t = val << FRAC_SIZE;
         t += (fixedVal >> 1);
         val = t / fixedVal;
     }
 
-    public void add(double val) {
-        add(toFixed(val));
+    public void div(int param) {
+        this.val /= param;
     }
 
-    public void sub(double val) {
-        sub(toFixed(val));
+    public void div(long param) {
+        this.val /= param;
     }
 
-    public void mult(double val) {
-        mult(toFixed(val));
+    public void div(double param) {
+        this.val /= param;
     }
 
-    public void div(double val) {
-        div(toFixed(val));
+    public void div(FixedPoint param) {
+        divRaw(param.val);
     }
 
-    public double asDouble() {
+    public void setRaw(long fixedVal) {
+        val = fixedVal;
+    }
+
+    public void set(int param) {
+        this.val = toFixed(param);
+    }
+
+    public void set(long param) {
+        this.val = toFixed(param);
+    }
+
+    public void set(double param) {
+        this.val = toFixed(param);
+    }
+
+    public void set(FixedPoint param) {
+        this.val = param.val;
+    }
+
+    @Override
+    public double doubleValue() {
         return (double) val * twoPowNegSize;
     }
 
-    public long getByteValue() {
-        return this.val;
+    @Override
+    public float floatValue() {
+        return (float) doubleValue();
+    }
+
+    @Override
+    public int intValue() {
+        return (int) (val >> FRAC_SIZE);
+    }
+
+    @Override
+    public long longValue() {
+        return val >> FRAC_SIZE;
+    }
+
+    public long rawValue() {
+        return val;
     }
 
     @Override
@@ -141,26 +210,24 @@ public final class FixedPoint {
      * @return String representation of the number
      */
     public String toString(int maxDecimalPlaces) {
-        boolean neg = Long.signum(val) == -1;
-        long disp = val * (neg ? -1 : 1);
+        long disp = Math.abs(val);
         int pow10 = (int) Math.pow(10, maxDecimalPlaces);
         //Round
-        disp += (0x8000 / pow10);
+        disp += (HALF / pow10);
 
-        long decimal = disp & 0xFFFF;
+        long decimal = disp & MAX_FRAC_VAL;
         StringBuilder fracPart = new StringBuilder();
         for (int i = 0; i < maxDecimalPlaces; i++) {
             decimal *= 10;
-            fracPart.append((decimal >> 16));
-            decimal &= 0xFFFF;
+            fracPart.append((decimal >> FRAC_SIZE));
+            decimal &= MAX_FRAC_VAL;
         }
 
         //Remove trailing zeroes
-        String str = (disp >> 16) + "." + fracPart.toString().replaceFirst("0*$", "");
-        if (neg) {
+        String str = (disp >> FRAC_SIZE) + "." + fracPart.toString().replaceFirst("0*$", "");
+        if (val < 0) {
             str = "-" + str;
         }
         return str;
     }
-
 }

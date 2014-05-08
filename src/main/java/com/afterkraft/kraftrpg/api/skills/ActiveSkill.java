@@ -23,7 +23,7 @@ import com.afterkraft.kraftrpg.api.events.skills.SkillCastEvent;
 import com.afterkraft.kraftrpg.api.util.SkillRequirement;
 
 /**
- * {@see Active}
+ * See {@link Active}.
  */
 public abstract class ActiveSkill<T extends SkillArgument> extends Skill implements Active<T> {
 
