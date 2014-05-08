@@ -19,9 +19,9 @@ import org.bukkit.Location;
 
 import com.afterkraft.kraftrpg.api.entity.roles.Role;
 import com.afterkraft.kraftrpg.api.skills.ISkill;
-import com.afterkraft.kraftrpg.api.skills.SkillArgument;
 import com.afterkraft.kraftrpg.api.skills.Stalled;
 import com.afterkraft.kraftrpg.api.util.SkillRequirement;
+
 
 /**
  * SkillCaster is the core interface that {@link com.afterkraft.kraftrpg.api.skills.ISkill}s
@@ -123,9 +123,9 @@ public interface SkillCaster extends Sentient, PartyMember {
     /**
      * @return
      */
-    public Stalled<? extends SkillArgument> getStalledSkill();
+    public Stalled getStalledSkill();
 
-    public <T extends SkillArgument> boolean setStalledSkill(Stalled<T> stalledSkill);
+    public boolean setStalledSkill(Stalled stalledSkill);
 
     /**
      * @param skill

@@ -17,7 +17,7 @@ package com.afterkraft.kraftrpg.api.skills;
 
 import com.afterkraft.kraftrpg.api.RPGPlugin;
 import com.afterkraft.kraftrpg.api.entity.Champion;
-import com.afterkraft.kraftrpg.api.entity.Sentient;
+import com.afterkraft.kraftrpg.api.entity.SkillCaster;
 import com.afterkraft.kraftrpg.api.entity.effects.EffectType;
 
 /**
@@ -34,7 +34,12 @@ public class PassiveSkill extends Skill implements Passive {
     }
 
     @Override
-    public void tryApplying(Sentient caster) {
+    public boolean apply(SkillCaster caster) {
+        return false;
+    }
+
+    @Override
+    public void remove(SkillCaster caster) {
 
     }
 

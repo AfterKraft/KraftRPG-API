@@ -15,6 +15,68 @@
  */
 package com.afterkraft.kraftrpg.api.skills.arguments;
 
-public class JEnumSkillArgument {
+import java.lang.reflect.Method;
+import java.util.List;
 
+import org.apache.commons.lang.ArrayUtils;
+
+import com.afterkraft.kraftrpg.api.entity.SkillCaster;
+import com.afterkraft.kraftrpg.api.skills.SkillArgument;
+
+public class JEnumSkillArgument<T extends Enum<T>> extends SkillArgument {
+    private final T def;
+    private final Class<T> clazz;
+    private final Method values;
+    private T choice = null;
+
+    public JEnumSkillArgument(boolean required, Class<T> clazz, T def) throws NoSuchMethodException, SecurityException {
+        super(required);
+        this.def = def;
+        this.clazz = clazz;
+        values = clazz.getDeclaredMethod("values", (Class[]) null);
+    }
+
+    public T getChoice() {
+        return choice;
+    }
+
+    // --------------------------------------------------------------
+
+    @Override
+    public int matches(SkillCaster caster, String[] allArgs, int startPosition) {
+        String arg = allArgs[startPosition];
+        try {
+            Enum.valueOf(clazz, arg);
+            return 1;
+        } catch (IllegalArgumentException e) {
+            return -1;
+        }
+    }
+
+    @Override
+    public void parse(SkillCaster caster, String[] allArgs, int startPosition) {
+        String arg = allArgs[startPosition];
+        try {
+            choice = Enum.valueOf(clazz, arg);
+        } catch (IllegalArgumentException e) {
+            choice = def;
+        }
+    }
+
+    @Override
+    public void skippedOptional(SkillCaster caster) {
+        choice = def;
+    }
+
+    @Override
+    public void clean() {
+        choice = def;
+    }
+
+    @Override
+    public List<String> tabComplete(SkillCaster caster, String[] allArgs, int startPosition) {
+        T[] allValues;
+
+        return null;
+    }
 }

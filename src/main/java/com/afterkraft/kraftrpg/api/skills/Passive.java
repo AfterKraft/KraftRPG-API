@@ -15,7 +15,7 @@
  */
 package com.afterkraft.kraftrpg.api.skills;
 
-import com.afterkraft.kraftrpg.api.entity.Sentient;
+import com.afterkraft.kraftrpg.api.entity.SkillCaster;
 
 /**
  * Represents a passive skill that can not be activated by command or bind. The
@@ -28,6 +28,9 @@ public interface Passive extends ISkill {
      * com.afterkraft.kraftrpg.api.entity.SkillCaster}
      *
      * @param caster to attempt to apply this passive skill to
+     * @return TODO
      */
-    public void tryApplying(Sentient caster);
+    public boolean apply(SkillCaster caster);
+
+    public void remove(SkillCaster caster);
 }

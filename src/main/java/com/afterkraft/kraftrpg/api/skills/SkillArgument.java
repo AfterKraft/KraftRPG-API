@@ -28,19 +28,19 @@ import com.afterkraft.kraftrpg.api.entity.SkillCaster;
  * the SkillArgument state after a Player login.
  */
 public abstract class SkillArgument {
-    private final boolean optional;
+    private final boolean required;
     protected boolean present;
 
     public SkillArgument() {
         this(false);
     }
 
-    public SkillArgument(boolean optional) {
-        this.optional = optional;
+    public SkillArgument(boolean required) {
+        this.required = required;
     }
 
     public boolean isOptional() {
-        return optional;
+        return !required;
     }
 
     // parsed state
@@ -50,23 +50,40 @@ public abstract class SkillArgument {
 
     /**
      * Check if this SkillArgument is satisfied by the arguments in allArgs
-     * starting at index startPosition.
+     * starting at index startPosition, and return the width of this
+     * SkillArgument. <b>This will be called during both parsing and tab
+     * completion</b>, so make sure to provide a complete implementation.
      *
      * @param allArgs Full arguments array
      * @param startPosition Where your arguments start
-     * @return true if parsing is possible
+     * @return Negative if no match, or number of args consumed if matched
      */
-    public abstract boolean matches(SkillCaster caster, String[] allArgs, int startPosition);
+    public abstract int matches(SkillCaster caster, String[] allArgs, int startPosition);
 
     /**
      * Overwrite your state with that of the provided arguments starting at
-     * index startPosition.
+     * index startPosition. This will never be called unless matches() returns
+     * true.
      *
+     * @param caster caster
      * @param allArgs Full arguments array
      * @param startPosition Where your arguments start
      * @return number of arguments consumed
      */
-    public abstract int parse(SkillCaster caster, String[] allArgs, int startPosition);
+    public abstract void parse(SkillCaster caster, String[] allArgs, int startPosition);
+
+    /**
+     * This method is called instead of parse() when an optional SkillArgument
+     * is skipped (i.e. not matched).
+     *
+     * @param caster caster
+     */
+    public abstract void skippedOptional(SkillCaster caster);
+
+    /**
+     * Erase the parsed state to blank values.
+     */
+    public abstract void clean();
 
     /**
      * Provide tab-completion suggestions for the last item in allArgs. Your

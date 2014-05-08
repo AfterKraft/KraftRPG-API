@@ -21,19 +21,25 @@ import java.util.Set;
 
 import org.bukkit.inventory.ItemStack;
 
+import com.afterkraft.kraftrpg.api.entity.SkillCaster;
 
-public class SkillRequirement {
+
+public class ItemSkillRequirement implements SkillRequirement {
 
     private Set<ItemStack> items = new HashSet<ItemStack>();
 
-    public SkillRequirement() { }
+    public ItemSkillRequirement() { }
 
-    public SkillRequirement(ItemStack... items) {
+    public ItemSkillRequirement(ItemStack... items) {
         for (ItemStack item : items) {
             if (item != null) {
                 this.items.add(item.clone());
             }
         }
+    }
+
+    public boolean isSatisfied(SkillCaster caster) {
+        return true;
     }
 
     public Set<ItemStack> getItems() {
@@ -56,7 +62,7 @@ public class SkillRequirement {
      * Check if this SkillRequirement contains a specific Item. This checks the
      * item's label or custom lore name if applicable.
      * <p/>
-     * {@link com.afterkraft.kraftrpg.api.util.SkillRequirement} is, by nature,
+     * {@link com.afterkraft.kraftrpg.api.util.ItemSkillRequirement} is, by nature,
      * lore and enchantment independent for matching.
      *
      * @param item to check whether it is in this SkillRequirement

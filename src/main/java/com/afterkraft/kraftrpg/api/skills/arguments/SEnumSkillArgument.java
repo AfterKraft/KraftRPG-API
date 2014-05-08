@@ -15,6 +15,63 @@
  */
 package com.afterkraft.kraftrpg.api.skills.arguments;
 
-public class SEnumSkillArgument {
+import java.util.List;
 
+import org.apache.commons.lang.ArrayUtils;
+
+import com.afterkraft.kraftrpg.api.entity.SkillCaster;
+import com.afterkraft.kraftrpg.api.skills.SkillArgument;
+
+public class SEnumSkillArgument extends SkillArgument {
+    private final String def;
+    private final String[] choices;
+
+    private String choice = null;
+
+    public SEnumSkillArgument(boolean required, String def, String... choices) {
+        super(required);
+        this.def = def;
+        this.choices = choices;
+    }
+
+    public String getChoice() {
+        return choice;
+    }
+
+    // --------------------------------------------------------------
+
+    @Override
+    public int matches(SkillCaster caster, String[] allArgs, int startPosition) {
+        String arg = allArgs[startPosition];
+        if (ArrayUtils.contains(choices, arg)) {
+            return 1;
+        }
+        return -1;
+    }
+
+    @Override
+    public void parse(SkillCaster caster, String[] allArgs, int startPosition) {
+        String arg = allArgs[startPosition];
+        if (ArrayUtils.contains(choices, arg)) {
+            choice = arg;
+        } else {
+            choice = def;
+        }
+    }
+
+    @Override
+    public void skippedOptional(SkillCaster caster) {
+        choice = def;
+    }
+
+    @Override
+    public void clean() {
+        choice = def;
+    }
+
+    @Override
+    public List<String> tabComplete(SkillCaster caster, String[] allArgs, int startPosition) {
+        // TODO Auto-generated method stub
+        return null;
+    }
 }

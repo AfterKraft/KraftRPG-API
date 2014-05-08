@@ -40,10 +40,13 @@ import com.afterkraft.kraftrpg.api.util.SkillRequirement;
  * <ol>
  * <li>{@link #canCast(SkillCaster, boolean)}</li>
  * <li>{@link #parse(SkillCaster, String[])}</li>
+ * <li>One of these, or possibly none of them (e.g. if parse returned false,
+ * but possibly other cases):
  * <ul>
  * <li>{@link #onWarmUp(SkillCaster)}</li>
  * <li>{@link #useSkill(SkillCaster)}</li>
  * </ul>
+ * </li>
  * <li>{@link #cleanState(SkillCaster)}</li>
  * </ol>
  */
@@ -127,15 +130,6 @@ public interface Active extends ISkill {
      * @return a new SkillRequirement for the queried champion
      */
     public SkillRequirement getSkillRequirement(SkillCaster caster);
-
-    /**
-     * Check if the designated Champion has the provided SkillRequirement.
-     *
-     * @param requirement
-     * @param caster
-     * @return if requirement met
-     */
-    public boolean hasSkillRequirement(SkillRequirement requirement, SkillCaster caster);
 
     /**
      * Check if using this Skill grants the
