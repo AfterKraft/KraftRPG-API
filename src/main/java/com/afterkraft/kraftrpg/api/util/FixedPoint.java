@@ -24,6 +24,7 @@ public final class FixedPoint extends Number {
     private static final int FRAC_SIZE = 16;
     private static final int ONE = 1 << FRAC_SIZE;
     private static final int HALF = ONE >> 1;
+    private static final int MAX_FRAC_VAL = ONE - 1;
 
     // 2 ^ -16
     private static final double twoPowNegSize = Math.pow(2, -FRAC_SIZE);
@@ -46,7 +47,7 @@ public final class FixedPoint extends Number {
     }
 
     private static long toFixed(int param) {
-        return param * ONE;
+        return param * (long) ONE;
     }
 
     private static long toFixed(long param) {
@@ -209,23 +210,22 @@ public final class FixedPoint extends Number {
      * @return String representation of the number
      */
     public String toString(int maxDecimalPlaces) {
-        boolean neg = Long.signum(val) == -1;
-        long disp = val * (neg ? -1 : 1);
+        long disp = Math.abs(val);
         int pow10 = (int) Math.pow(10, maxDecimalPlaces);
         //Round
-        disp += (0x8000 / pow10);
+        disp += (HALF / pow10);
 
-        long decimal = disp & 0xFFFF;
+        long decimal = disp & MAX_FRAC_VAL;
         StringBuilder fracPart = new StringBuilder();
         for (int i = 0; i < maxDecimalPlaces; i++) {
             decimal *= 10;
-            fracPart.append((decimal >> 16));
-            decimal &= 0xFFFF;
+            fracPart.append((decimal >> FRAC_SIZE));
+            decimal &= MAX_FRAC_VAL;
         }
 
         //Remove trailing zeroes
-        String str = (disp >> 16) + "." + fracPart.toString().replaceFirst("0*$", "");
-        if (neg) {
+        String str = (disp >> FRAC_SIZE) + "." + fracPart.toString().replaceFirst("0*$", "");
+        if (val < 0) {
             str = "-" + str;
         }
         return str;

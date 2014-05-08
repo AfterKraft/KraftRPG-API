@@ -57,7 +57,7 @@ public class FixedPointTest {
 
         double temp = FixedPoint.MAX_VALUE + FixedPoint.ulp;
 
-        // Truncated at max
+        // Test: truncated at max
 
         num = FixedPoint.valueOf(temp);
         // assertEquals(??, num.intValue());
