@@ -65,11 +65,15 @@ public final class FixedPoint extends Number {
         return val * ONE;
     }
 
-    private void addRaw(long fixedVal) {
+    public void addRaw(long fixedVal) {
         this.val += fixedVal;
     }
 
     public void add(int val) {
+        addRaw(toFixed(val));
+    }
+
+    public void add(long val) {
         addRaw(toFixed(val));
     }
 
@@ -81,11 +85,15 @@ public final class FixedPoint extends Number {
         addRaw(val.val);
     }
 
-    private void subRaw(long fixedVal) {
+    public void subRaw(long fixedVal) {
         this.val -= fixedVal;
     }
 
     public void sub(int val) {
+        subRaw(toFixed(val));
+    }
+
+    public void sub(long val) {
         subRaw(toFixed(val));
     }
 
@@ -97,13 +105,17 @@ public final class FixedPoint extends Number {
         subRaw(val.val);
     }
 
-    private void multRaw(long fixedVal) {
+    public void multRaw(long fixedVal) {
         long t = val * fixedVal;
         t += HALF;
         val = (t >> FRAC_SIZE);
     }
 
     public void mult(int factor) {
+        this.val *= factor;
+    }
+
+    public void mult(long factor) {
         this.val *= factor;
     }
 
@@ -115,13 +127,17 @@ public final class FixedPoint extends Number {
         multRaw(val.val);
     }
 
-    private void divRaw(long fixedVal) {
+    public void divRaw(long fixedVal) {
         long t = val << FRAC_SIZE;
         t += (fixedVal >> 1);
         val = t / fixedVal;
     }
 
     public void div(int param) {
+        this.val /= param;
+    }
+
+    public void div(long param) {
         this.val /= param;
     }
 
@@ -190,5 +206,4 @@ public final class FixedPoint extends Number {
         }
         return str;
     }
-
 }
