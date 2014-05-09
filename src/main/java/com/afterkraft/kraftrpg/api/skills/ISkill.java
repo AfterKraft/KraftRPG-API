@@ -32,21 +32,21 @@ public interface ISkill {
 
     /**
      * Returns the generated permission node as a string for this ISkill.
-     * 
+     *
      * @return the string name permission node for this ISkill
      */
     public String getPermissionNode();
 
     /**
      * Return the unique name of this ISkill
-     * 
+     *
      * @return the name of this skill
      */
     public String getName();
 
     /**
      * Returns the default configuration for this skill.
-     * 
+     *
      * @return the defalt configuration for this skill
      */
     public Configuration getDefaultConfig();
@@ -54,14 +54,14 @@ public interface ISkill {
     /**
      * Return the description for this skill. This should be unique for every
      * skill
-     * 
+     *
      * @return the description for this skill
      */
     public String getDescription();
 
     /**
      * Set the description for this skill.
-     * 
+     *
      * @param description the description for this skill
      */
     public void setDescription(String description);
@@ -80,7 +80,7 @@ public interface ISkill {
 
     /**
      * Adds an Entity as a skill target.
-     * 
+     *
      * @param entity to add as a target
      * @param caster casting this skill
      * @return true if successful
@@ -89,64 +89,11 @@ public interface ISkill {
 
     /**
      * Check if this ISkill is of the requested {@link SkillType}
-     * 
+     *
      * @param type the type to check
      * @return true if this skill is of the requested type
      */
     public boolean isType(SkillType type);
-
-    /**
-     * Utility method to knockback the {@link org.bukkit.entity.LivingEntity}
-     * that is targetted from the direction of the attacking LivingEntity
-     * 
-     * @param target the target to knockback
-     * @param attacker the attacker to make seemingly performing the knockback
-     * @param damage the damage to deal from the knockback
-     */
-    public void knockback(LivingEntity target, LivingEntity attacker, double damage);
-
-    /**
-     * Utility method to deal damage to the targetted
-     * {@link org.bukkit.entity.LivingEntity} by the attacker. This will set
-     * the last damage cause and all other relations properly acting as if the
-     * attacker indeed did attack the target.
-     * 
-     * @param target the targetted LivingEntity to deal damage
-     * @param attacker the attacking LivingEntity
-     * @param damage total damage to deal to the target
-     * @return true if successful or if damage was not cancelled
-     */
-    public boolean damageEntity(LivingEntity target, LivingEntity attacker, double damage);
-
-    /**
-     * Utility method to deal damage to the targetted
-     * {@link org.bukkit.entity.LivingEntity} by the attacker. This will set
-     * the last damage cause and all other relations properly acting as if the
-     * attacker indeed did attack the target.
-     * 
-     * @param target the targetted LivingEntity to deal damage
-     * @param attacker the attacking LivingEntity
-     * @param damage total damage to deal to the target
-     * @param cause the actual damage cause to call for reason
-     * @return true if successful or if damage was not cancelled
-     */
-    public boolean damageEntity(LivingEntity target, LivingEntity attacker, double damage, EntityDamageEvent.DamageCause cause);
-
-    /**
-     * Utility method to deal damage to the targetted
-     * {@link org.bukkit.entity.LivingEntity} by the attacker. This will set
-     * the last damage cause and all other relations properly acting as if the
-     * attacker indeed did attack the target.
-     * 
-     * @param target the targetted LivingEntity to deal damage
-     * @param attacker the attacking LivingEntity
-     * @param damage total damage to deal to the target
-     * @param cause the actual damage cause to call for reason
-     * @param knockback if true, knockback the targetted entity away from the
-     *            attacker
-     * @return true if successful or if damage was not cancelled
-     */
-    public boolean damageEntity(LivingEntity target, LivingEntity attacker, double damage, EntityDamageEvent.DamageCause cause, boolean knockback);
 
     /**
      * @param broadcaster

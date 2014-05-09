@@ -117,23 +117,19 @@ public abstract class Skill implements ISkill {
         return this.skillTypes.contains(type);
     }
 
-    @Override
-    public final void knockback(LivingEntity target, LivingEntity attacker, double damage) {
+    public static final void knockback(LivingEntity target, LivingEntity attacker, double damage) {
         CraftBukkitHandler.getInterface().knockBack(target, attacker, damage);
     }
 
-    @Override
-    public final boolean damageEntity(LivingEntity target, LivingEntity attacker, double damage) {
-        return this.damageEntity(target, attacker, damage, this.isType(SkillType.ABILITY_PROPERTY_AIR) || this.isType(SkillType.ABILITY_PROPERTY_PHYSICAL) ? EntityDamageEvent.DamageCause.ENTITY_ATTACK : EntityDamageEvent.DamageCause.MAGIC);
+    public static final boolean damageEntity(ISkill skill, LivingEntity target, LivingEntity attacker, double damage) {
+        return damageEntity(target, attacker, damage, skill.isType(SkillType.ABILITY_PROPERTY_AIR) || skill.isType(SkillType.ABILITY_PROPERTY_PHYSICAL) ? EntityDamageEvent.DamageCause.ENTITY_ATTACK : EntityDamageEvent.DamageCause.MAGIC);
     }
 
-    @Override
-    public final boolean damageEntity(LivingEntity target, LivingEntity attacker, double damage, EntityDamageEvent.DamageCause cause) {
-        return this.damageEntity(target, attacker, damage, cause, true);
+    public static final boolean damageEntity(LivingEntity target, LivingEntity attacker, double damage, EntityDamageEvent.DamageCause cause) {
+        return damageEntity(target, attacker, damage, cause, true);
     }
 
-    @Override
-    public final boolean damageEntity(LivingEntity target, LivingEntity attacker, double damage, EntityDamageEvent.DamageCause cause, boolean knockback) {
+    public static final boolean damageEntity(LivingEntity target, LivingEntity attacker, double damage, EntityDamageEvent.DamageCause cause, boolean knockback) {
         return CraftBukkitHandler.getInterface().damageEntity(target, attacker, damage, cause, knockback);
     }
 
