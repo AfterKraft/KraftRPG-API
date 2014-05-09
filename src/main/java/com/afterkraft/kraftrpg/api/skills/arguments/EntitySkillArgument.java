@@ -17,6 +17,8 @@ package com.afterkraft.kraftrpg.api.skills.arguments;
 
 import java.util.List;
 
+import com.google.common.base.Predicate;
+
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
@@ -24,7 +26,6 @@ import org.bukkit.util.Vector;
 
 import com.afterkraft.kraftrpg.api.entity.SkillCaster;
 import com.afterkraft.kraftrpg.api.skills.SkillArgument;
-import com.google.common.base.Predicate;
 
 public class EntitySkillArgument<E extends Entity> extends SkillArgument {
     protected final double maxDistance;
@@ -77,7 +78,8 @@ public class EntitySkillArgument<E extends Entity> extends SkillArgument {
             if (!entity.getClass().isAssignableFrom(clazz)) {
                 continue;
             }
-            @SuppressWarnings("unchecked") // just checked it
+            @SuppressWarnings("unchecked")
+            // just checked it
             E ent = (E) entity;
 
             // TODO change to middle for livings??
@@ -90,7 +92,7 @@ public class EntitySkillArgument<E extends Entity> extends SkillArgument {
             double b = diff.toVector().dot(direction);
             double c = middle.distanceSquared(otherMiddle);
 
-            double a = Math.sqrt(c - b*b);
+            double a = Math.sqrt(c - b * b);
             if (a < closestDistance) {
                 if (condition == null || condition.apply(ent)) {
                     closestDistance = a;

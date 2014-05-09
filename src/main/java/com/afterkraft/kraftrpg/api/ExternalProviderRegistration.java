@@ -18,10 +18,11 @@ package com.afterkraft.kraftrpg.api;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.google.common.collect.ImmutableMap;
+
 import com.afterkraft.kraftrpg.api.skills.ISkill;
 import com.afterkraft.kraftrpg.api.storage.StorageBackend;
 import com.afterkraft.kraftrpg.api.storage.StorageFrontendFactory;
-import com.google.common.collect.ImmutableMap;
 
 
 public final class ExternalProviderRegistration {
@@ -33,15 +34,15 @@ public final class ExternalProviderRegistration {
     private static StorageFrontendFactory storageFrontend = new StorageFrontendFactory.DefaultFactory();
     private static Map<String, ISkill> providedSkills = new HashMap<String, ISkill>();
 
+    public static void overrideStorageFrontend(StorageFrontendFactory newQueueManager) {
+        check();
+        storageFrontend = newQueueManager;
+    }
+
     private static void check() {
         if (pluginEnabled) {
             throw new LateRegistrationException("KraftRPG is already loaded. Please do your registrations in onLoad().");
         }
-    }
-
-    public static void overrideStorageFrontend(StorageFrontendFactory newQueueManager) {
-        check();
-        storageFrontend = newQueueManager;
     }
 
     public static void registerStorageBackend(StorageBackend storage, String... identifiers) {

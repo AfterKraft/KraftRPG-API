@@ -24,10 +24,10 @@ import com.afterkraft.kraftrpg.api.util.SkillRequirement;
 
 
 /**
- * SkillCaster is the core interface that {@link com.afterkraft.kraftrpg.api.skills.ISkill}s
- * use when casting. skillCasters are not specifically entities and can range
- * from TileEntities to blocks. Custom skillCasters can be interfaced with this
- * way.
+ * SkillCaster is the core interface that
+ * {@link com.afterkraft.kraftrpg.api.skills.ISkill}s use when casting.
+ * skillCasters are not specifically entities and can range from TileEntities
+ * to blocks. Custom skillCasters can be interfaced with this way.
  */
 public interface SkillCaster extends Sentient, PartyMember {
 
@@ -39,15 +39,15 @@ public interface SkillCaster extends Sentient, PartyMember {
 
     /**
      * Get the key'ed cooldown. Used by skills to mark individual cooldowns
-     *
-     * @param key
-     * @return
+     * 
+     * @param key name of the cooldown being checked
+     * @return the time in milliseconds that the cooldown expires
      */
     public Long getCooldown(String key);
 
     /**
      * Get the global cooldown
-     *
+     * 
      * @return the global cooldown if not 0
      */
     public long getGlobalCooldown();
@@ -57,9 +57,10 @@ public interface SkillCaster extends Sentient, PartyMember {
     public void setCooldown(String key, long duration);
 
     /**
-     * Fetch the highest level of all active {@link com.afterkraft.kraftrpg.api.entity.roles.Role}s
-     * of the designated {@link com.afterkraft.kraftrpg.api.skills.ISkill}.
-     *
+     * Fetch the highest level of all active
+     * {@link com.afterkraft.kraftrpg.api.entity.roles.Role}s of the
+     * designated {@link com.afterkraft.kraftrpg.api.skills.ISkill}.
+     * 
      * @param skill the skill in question
      * @return the highest level, if none, 0.
      */

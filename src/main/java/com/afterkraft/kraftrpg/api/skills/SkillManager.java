@@ -27,7 +27,7 @@ public interface SkillManager extends Manager {
 
     /**
      * Adds a skill to the skill mapping
-     *
+     * 
      * @param skill
      */
     public void addSkill(ISkill skill);
@@ -35,7 +35,7 @@ public interface SkillManager extends Manager {
     /**
      * Returns a skill from it's name If the skill is not in the skill mapping
      * it will attempt to load it from file
-     *
+     * 
      * @param name
      * @return
      */
@@ -45,14 +45,14 @@ public interface SkillManager extends Manager {
 
     /**
      * Returns a collection of all skills loaded in the skill manager
-     *
+     * 
      * @return
      */
     public Collection<ISkill> getSkills();
 
     /**
      * Checks if a skill has already been loaded
-     *
+     * 
      * @param name
      * @return
      */
@@ -60,7 +60,7 @@ public interface SkillManager extends Manager {
 
     /**
      * Removes a skill from the skill mapping
-     *
+     * 
      * @param skill
      */
     public void removeSkill(ISkill skill);
@@ -68,7 +68,7 @@ public interface SkillManager extends Manager {
     /**
      * Check if the {@link com.afterkraft.kraftrpg.api.entity.SkillCaster} has
      * an actively {@link Stalled} Skill.
-     *
+     * 
      * @param caster the caster in question
      * @return
      */

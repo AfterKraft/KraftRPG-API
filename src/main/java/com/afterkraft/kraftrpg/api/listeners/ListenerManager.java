@@ -20,15 +20,15 @@ import com.afterkraft.kraftrpg.api.Manager;
 public interface ListenerManager extends Manager {
 
     /**
-     * Adds an AbstractListener to be managed by the plugin. The listener being
-     * added should NOT include events already handled by the implementation,
-     * KraftRPG.
+     * Adds an AbstractListener to be managed by the plugin. The listener
+     * being added should NOT include events already handled by the
+     * implementation, KraftRPG.
      * <p/>
      * The added listener must be able to initialize and shutdown in the event
      * of full plugin reload.
-     *
+     * 
      * @param listener the listener being added to the list of managed
-     * Listeners
+     *            Listeners
      */
     public void addListener(AbstractListener listener);
 

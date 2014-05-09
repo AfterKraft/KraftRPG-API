@@ -28,14 +28,14 @@ public final class SkillBind implements ConfigurationSerializable {
     private final String skillName;
     private final String arguments;
 
+    public SkillBind(Map<String, Object> data) {
+        this(Material.matchMaterial((String) data.get("material")), (String) data.get("skill"), (String) data.get("args"));
+    }
+
     public SkillBind(Material material, String skillName, String argument) {
         this.material = material;
         this.skillName = skillName;
         this.arguments = argument;
-    }
-
-    public SkillBind(Map<String, Object> data) {
-        this(Material.matchMaterial((String) data.get("material")), (String) data.get("skill"), (String) data.get("args"));
     }
 
     public Material getMaterial() {

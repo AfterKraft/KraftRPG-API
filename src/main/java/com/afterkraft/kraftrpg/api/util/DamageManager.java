@@ -34,24 +34,24 @@ import com.afterkraft.kraftrpg.api.entity.Monster;
 import com.afterkraft.kraftrpg.api.entity.SkillCaster;
 
 /**
- * The generalized manager for calculating and fetching damages for entities and
- * items alike.
+ * The generalized manager for calculating and fetching damages for entities
+ * and items alike.
  */
 public interface DamageManager extends Manager {
 
     /**
      * Attempts to calculate the highest damage given for the given ItemStack.
-     * This will check all active {@link com.afterkraft.kraftrpg.api.entity.roles.Role}s
-     * that the given {@link com.afterkraft.kraftrpg.api.entity.SkillCaster} may
-     * have.
+     * This will check all active
+     * {@link com.afterkraft.kraftrpg.api.entity.roles.Role}s that the given
+     * {@link com.afterkraft.kraftrpg.api.entity.SkillCaster} may have.
      * <p/>
      * If the SkillCaster has no active Roles or the resulting damage is
      * negative, 0 will be returned
-     *
+     * 
      * @param caster the SkillCaster to query for Roles
      * @param item the Item to query for the damage
      * @return the highest possible damage for the item from any active Roles,
-     * if not 0
+     *         if not 0
      */
     public double getHighestItemDamage(SkillCaster caster, ItemStack item);
 
@@ -59,10 +59,10 @@ public interface DamageManager extends Manager {
 
     /**
      * Gets the default damage for the given EntityType.
-     *
+     * 
      * @param type of Entity we are querying
      * @return the damage from the default configuration for the given
-     * EntityType
+     *         EntityType
      */
     public double getEntityDamage(EntityType type);
 
@@ -73,9 +73,9 @@ public interface DamageManager extends Manager {
     /**
      * Attempts to calculate various possible modifications to the default
      * damage for the given Monster depending on various things like location,
-     * base damage, whether it was spawned from a Mob Spawner and possibly other
-     * things varying by the implementation.
-     *
+     * base damage, whether it was spawned from a Mob Spawner and possibly
+     * other things varying by the implementation.
+     * 
      * @param monster the Monster to query
      * @param location the spawn location of the Monster
      * @param baseDamage the default base damage of the Monster
@@ -90,7 +90,7 @@ public interface DamageManager extends Manager {
 
     /**
      * Load defaults for the default damages from the given Configuration
-     *
+     * 
      * @param config repsective for this manager
      */
     public void load(Configuration config);

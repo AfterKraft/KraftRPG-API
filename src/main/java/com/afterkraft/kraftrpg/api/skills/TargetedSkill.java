@@ -42,6 +42,7 @@ public abstract class TargetedSkill extends ActiveSkill implements Targeted {
     public TargetedSkill(RPGPlugin plugin, String name) {
         super(plugin, name);
     }
+
     public static boolean inLineOfSight(LivingEntity a, LivingEntity b) {
         if (a.equals(b)) {
             return true;

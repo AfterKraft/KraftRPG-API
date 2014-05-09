@@ -25,26 +25,26 @@ public interface Champion extends IEntity, SkillCaster {
     /**
      * Return the Bukkit {@link Player} object if it is still valid otherwise
      * null
-     *
+     * 
      * @return the bukkit Player object if not null
      */
     public Player getPlayer();
-
-    @Override
-    public Player getEntity();
 
     /**
      * Set the Bukkit {@link Player} object for this Champion. This should
      * automatically call {@link #setEntity(org.bukkit.entity.LivingEntity)}
      * as long as the original UUID matches the new Player's UUID.
-     *
+     * 
      * @param player the Bukkit Player for this Champion to attach to
      */
     public void setPlayer(Player player);
 
+    @Override
+    public Player getEntity();
+
     /**
      * Get the in-use PlayerData object. Changes made to this object are live.
-     *
+     * 
      * @return live PlayerData
      */
     public PlayerData getData();
@@ -52,7 +52,7 @@ public interface Champion extends IEntity, SkillCaster {
     /**
      * Create a snapshot of the current PlayerData. The returned object is
      * thread-safe.
-     *
+     * 
      * @return PlayerData snapshot
      */
     public PlayerData getDataClone();

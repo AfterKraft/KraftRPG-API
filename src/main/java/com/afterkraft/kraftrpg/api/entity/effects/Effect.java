@@ -27,7 +27,8 @@ import com.afterkraft.kraftrpg.api.entity.Insentient;
 import com.afterkraft.kraftrpg.api.skills.Skill;
 
 /**
- * Standard implementation of an {@link com.afterkraft.kraftrpg.api.entity.effects.IEffect}.
+ * Standard implementation of an
+ * {@link com.afterkraft.kraftrpg.api.entity.effects.IEffect}.
  */
 public abstract class Effect implements IEffect {
 

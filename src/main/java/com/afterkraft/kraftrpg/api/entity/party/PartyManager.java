@@ -17,10 +17,11 @@ package com.afterkraft.kraftrpg.api.entity.party;
 
 import com.afterkraft.kraftrpg.api.Manager;
 import com.afterkraft.kraftrpg.api.entity.Champion;
+import com.afterkraft.kraftrpg.api.entity.PartyMember;
 
 
 public interface PartyManager extends Manager {
 
-    public Party createParty(Champion partyLeader, Champion... members);
+    public Party createParty(PartyMember partyLeader, PartyMember... members);
 
 }

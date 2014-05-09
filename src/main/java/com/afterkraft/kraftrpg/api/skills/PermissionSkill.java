@@ -31,7 +31,7 @@ import com.afterkraft.kraftrpg.api.entity.SkillCaster;
  * type of SkillArguments and it will always return true on Skill use.
  * <p/>
  * PermissionSkill can apply Permissions with both true and false
- *
+ * 
  * @author gabizou
  */
 public class PermissionSkill extends Skill implements Permissible {
@@ -44,10 +44,12 @@ public class PermissionSkill extends Skill implements Permissible {
     }
 
     @Override
-    public void initialize() { }
+    public void initialize() {
+    }
 
     @Override
-    public void shutdown() { }
+    public void shutdown() {
+    }
 
     @Override
     public boolean isInMessageRange(Champion broadcaster, Champion receiver) {

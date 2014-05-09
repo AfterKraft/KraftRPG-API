@@ -16,4 +16,6 @@
 package com.afterkraft.kraftrpg.api.attributes;
 
 
-public interface IAttribute {}
+public interface IAttribute {
+
+}

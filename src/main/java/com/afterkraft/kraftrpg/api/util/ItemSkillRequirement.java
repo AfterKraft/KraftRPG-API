@@ -28,7 +28,9 @@ public class ItemSkillRequirement implements SkillRequirement {
 
     private Set<ItemStack> items = new HashSet<ItemStack>();
 
-    public ItemSkillRequirement() { }
+    public ItemSkillRequirement() {
+
+    }
 
     public ItemSkillRequirement(ItemStack... items) {
         for (ItemStack item : items) {
@@ -48,23 +50,23 @@ public class ItemSkillRequirement implements SkillRequirement {
 
     /**
      * Add the desired ItemStack to this requirement
-     *
+     * 
      * @param item to be added
      * @param force whether to overwrite the existing item if it exists
-     * @return true if the item did not exist already, false if the item exists
-     * and was not forced to be overwritten
+     * @return true if the item did not exist already, false if the item
+     *         exists and was not forced to be overwritten
      */
     public boolean addItem(ItemStack item, boolean force) {
         return item != null && (force || !hasItem(item)) && this.items.add(item);
     }
 
     /**
-     * Check if this SkillRequirement contains a specific Item. This checks the
-     * item's label or custom lore name if applicable.
-     * <p/>
-     * {@link com.afterkraft.kraftrpg.api.util.ItemSkillRequirement} is, by nature,
-     * lore and enchantment independent for matching.
-     *
+     * Check if this SkillRequirement contains a specific Item. This checks
+     * the item's label or custom lore name if applicable.
+     * <p>
+     * {@link com.afterkraft.kraftrpg.api.util.ItemSkillRequirement} is, by
+     * nature, lore and enchantment independent for matching.
+     * 
      * @param item to check whether it is in this SkillRequirement
      * @return true if the item is in this requirement
      */

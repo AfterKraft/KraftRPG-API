@@ -21,7 +21,7 @@ public interface Periodic extends IEffect, Timed {
 
     /**
      * Returns the last time the effect ticked
-     *
+     * 
      * @return the time in milliseconds this effect was last ticked
      */
     public long getLastTickTime();
@@ -33,14 +33,14 @@ public interface Periodic extends IEffect, Timed {
 
     /**
      * Returns whether the effect is ready for ticking
-     *
+     * 
      * @return - The ready state of this effect. DO NOT CALL IF THIS IS FALSE
      */
     public boolean isReady();
 
     /**
      * Ticks this effect on the specified entity.
-     *
+     * 
      * @param being - The being this effect is being applied to.
      */
     public void tick(Insentient being);

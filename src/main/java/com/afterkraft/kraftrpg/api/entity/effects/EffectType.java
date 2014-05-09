@@ -48,8 +48,8 @@ public enum EffectType {
     HUNGER,
     ICE,
     IMBUE,
-    INVIS,              // Vanish based invis
-    INVISIBILITY,       // Potion effect based invis
+    INVIS, // Vanish based invis
+    INVISIBILITY, // Potion effect based invis
     INVULNERABILITY,
     ITEM_CREATION,
     ITEM_DESTRUCTION,

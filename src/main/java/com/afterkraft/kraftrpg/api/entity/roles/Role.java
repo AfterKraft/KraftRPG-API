@@ -24,28 +24,28 @@ import com.afterkraft.kraftrpg.api.skills.ISkill;
 
 
 /**
- * A Role represents a tree like structure for granting Skills and other bonuses
- * to {@link com.afterkraft.kraftrpg.api.entity.Sentient} beings.
+ * A Role represents a tree like structure for granting Skills and other
+ * bonuses to {@link com.afterkraft.kraftrpg.api.entity.Sentient} beings.
  */
 public interface Role {
 
     /**
      * Get the type of Role this is.
-     *
+     * 
      * @return the {@link com.afterkraft.kraftrpg.api.entity.roles.RoleType}
      */
     public RoleType getType();
 
     /**
      * Return the configured name for this Role
-     *
+     * 
      * @return the name for this role
      */
     public String getName();
 
     /**
      * Check if this Role has the given Skill
-     *
+     * 
      * @param skill
      * @return
      */
@@ -57,7 +57,7 @@ public interface Role {
 
     /**
      * Removes the skill
-     *
+     * 
      * @param skill
      */
     public void removeSkill(ISkill skill);
@@ -65,7 +65,7 @@ public interface Role {
     /**
      * Check if the given skill has a prerequisite skill dependency in this
      * Role
-     *
+     * 
      * @param skill the skill in question
      * @return
      */

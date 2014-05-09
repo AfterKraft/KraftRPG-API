@@ -24,9 +24,10 @@ import com.afterkraft.kraftrpg.api.skills.ISkill;
 public interface IEffect {
 
     /**
-     * Returns the associated {@link com.afterkraft.kraftrpg.api.skills.ISkill}
-     * that created this effect.
-     *
+     * Returns the associated
+     * {@link com.afterkraft.kraftrpg.api.skills.ISkill} that created this
+     * effect.
+     * 
      * @return the Skill that created this effect
      */
     public ISkill getSkill();
@@ -34,38 +35,38 @@ public interface IEffect {
     /**
      * Returns this individual Effect's name. (Should be as unique and
      * recognizable as possible).
-     *
+     * 
      * @return the name of this effect.
      */
     public String getName();
 
     /**
      * Check if this Effect is of a certain EffectType
-     *
+     * 
      * @param queryType the type of effect to query
      * @return true if this Effect is of the queried EffectType
      */
     public boolean isType(EffectType queryType);
 
     /**
-     * Check if this Effect is persistent. A Persistent effect will never expire
-     * until the Effect is removed.
-     *
+     * Check if this Effect is persistent. A Persistent effect will never
+     * expire until the Effect is removed.
+     * 
      * @return true if this Effect is persistent
      */
     public boolean isPersistent();
 
     /**
-     * Set this effect to be a persisting effect. Persistent effects will never
-     * expire until removed by a Skill or plugin.
-     *
+     * Set this effect to be a persisting effect. Persistent effects will
+     * never expire until removed by a Skill or plugin.
+     * 
      * @param persistent set this Effect to be persistent.
      */
     public void setPersistent(boolean persistent);
 
     /**
      * Add a Bukkit {@link org.bukkit.potion.PotionEffect} to this Effect
-     *
+     * 
      * @param pEffect the PotionEffect to add to this Effect
      */
     public void addPotionEffect(PotionEffect pEffect);
@@ -80,9 +81,9 @@ public interface IEffect {
     public long getApplyTime();
 
     /**
-     * Attempts to apply this effect to the provided {@link
-     * com.afterkraft.kraftrpg.api.entity.Insentient}.
-     *
+     * Attempts to apply this effect to the provided
+     * {@link com.afterkraft.kraftrpg.api.entity.Insentient}.
+     * 
      * @param being this effect is being applied on to.
      */
     public void apply(Insentient being);
@@ -90,7 +91,7 @@ public interface IEffect {
     /**
      * Attempts to remove this effect from the given Insentient being
      * <p/>
-     *
+     * 
      * @param being this effect is being removed by.
      */
     public void remove(Insentient being);

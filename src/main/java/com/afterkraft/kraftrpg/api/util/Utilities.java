@@ -28,10 +28,11 @@ import org.bukkit.util.StringUtil;
 
 public class Utilities {
 
-    private static HashSet<Byte> transparentIds;
-    private static HashSet<Material> transparentBlocks;
     public static Pattern uuidRegex;
     public static Pattern locationRegex;
+
+    private static HashSet<Byte> transparentIds;
+    private static HashSet<Material> transparentBlocks;
 
     static {
         // Use Bukkit's Material#isTransParent()

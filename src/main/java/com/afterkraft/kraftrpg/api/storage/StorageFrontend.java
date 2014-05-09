@@ -31,7 +31,7 @@ import com.afterkraft.kraftrpg.api.entity.Champion;
 
 /**
  * The proxy through which the plugin interacts with the StorageBackend.
- *
+ * 
  * A StorageFrontend handles things like batching of saves and caching of
  * loaded data. It also performs filtering of NPC data, and conversion between
  * two StorageBackends.
@@ -79,17 +79,17 @@ public abstract class StorageFrontend {
 
     /**
      * The name of a StorageFrontend follows the following format:
-     *
+     * 
      * <pre>
      * [frontend-name]/[backend-name]
      * </pre>
-     *
+     * 
      * In the default implementation, the frontend-name is "Default". You
      * should change this if you extend the class.
-     *
+     * 
      * The backend-name is <code>backend.getClass().getSimpleName()</code>.
      * This should remain the same in your implementation.
-     *
+     * 
      * @return name of storage format
      */
     public String getName() {
@@ -98,7 +98,7 @@ public abstract class StorageFrontend {
 
     /**
      * Load the Champion data.
-     *
+     * 
      * @param player the requested Player data
      * @return the loaded Champion instance if data exists, else returns null
      */
@@ -163,6 +163,11 @@ public abstract class StorageFrontend {
         offlineToSave.put(uuid, data);
     }
 
+    public void shutdown() {
+        flush();
+        backend.shutdown();
+    }
+
     public void flush() {
         for (Champion champion : toSave.values()) {
             backend.savePlayer(champion.getPlayer().getUniqueId(), champion.getData());
@@ -172,11 +177,6 @@ public abstract class StorageFrontend {
             backend.savePlayer(entry.getKey(), entry.getValue());
         }
         offlineToSave.clear();
-    }
-
-    public void shutdown() {
-        flush();
-        backend.shutdown();
     }
 
     public void ignorePlayer(UUID uuid) {
@@ -190,7 +190,7 @@ public abstract class StorageFrontend {
     /**
      * Convert all data from the provided StorageBackend to the one currently
      * being used.
-     *
+     * 
      * @param from StorageBackend to convert from
      */
     public void doConversion(StorageBackend from) {

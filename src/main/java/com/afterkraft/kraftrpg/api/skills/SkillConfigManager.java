@@ -41,6 +41,7 @@ public interface SkillConfigManager extends Manager {
 
     // Because bukkit can't handle setting defaults before sections exist
     public void setClassDefaults();
+
     //------------------------//
     // Data retrieval methods //
     //------------------------//

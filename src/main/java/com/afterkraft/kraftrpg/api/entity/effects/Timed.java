@@ -17,4 +17,6 @@ package com.afterkraft.kraftrpg.api.entity.effects;
 
 import java.util.concurrent.Delayed;
 
-public interface Timed extends Delayed {}
+public interface Timed extends Delayed {
+
+}

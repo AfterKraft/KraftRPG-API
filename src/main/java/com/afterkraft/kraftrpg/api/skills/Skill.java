@@ -53,7 +53,7 @@ public abstract class Skill implements ISkill {
 
     /**
      * Return whether this Skill is enabled or not
-     *
+     * 
      * @return whether this skill is enabled
      */
     public final boolean isEnabled() {
@@ -62,7 +62,7 @@ public abstract class Skill implements ISkill {
 
     /**
      * Sets the enabled state of this Skill
-     *
+     * 
      * @param enabled whether or not to set this skill as enabled or not
      */
     public final void setEnabled(final boolean enabled) {
@@ -157,7 +157,7 @@ public abstract class Skill implements ISkill {
 
     /**
      * Set this Skill's skill types.
-     *
+     * 
      * @param types the SkillTypes to set
      */
     protected final void setSkillTypes(SkillType... types) {

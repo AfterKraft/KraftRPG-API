@@ -21,8 +21,7 @@ public enum EntityAttributeType {
     SPAWNX,
     SPAWNY,
     SPAWNZ,
-    SPAWNREASON,
-    ;
+    SPAWNREASON, ;
 
     private String attrName;
     private double minValue, maxValue;

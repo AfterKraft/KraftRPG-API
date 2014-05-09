@@ -29,7 +29,7 @@ public interface EntityManager extends Manager {
     /**
      * Return the {@link com.afterkraft.kraftrpg.api.entity.IEntity} for the
      * designated LivingEntity
-     *
+     * 
      * @param entity
      * @return
      */
@@ -40,7 +40,7 @@ public interface EntityManager extends Manager {
      * {@link com.afterkraft.kraftrpg.api.entity.SkillCaster} to an existing
      * {@link com.afterkraft.kraftrpg.api.entity.IEntity}. If not found, and
      * the caster is not a LivingEntity, this will return null.
-     *
+     * 
      * @param caster to get the IEntity of
      * @return the IEntity of the caster or null if the caster is not a
      *         LivingEntity
@@ -50,7 +50,7 @@ public interface EntityManager extends Manager {
     /**
      * Retrieve the {@link com.afterkraft.kraftrpg.api.entity.Champion} object
      * for this Player.
-     *
+     * 
      * @param player to get the Champion object of.
      * @return the Champion object, or null if the player is not valid
      */
@@ -59,7 +59,7 @@ public interface EntityManager extends Manager {
     /**
      * Retrieve the {@link com.afterkraft.kraftrpg.api.entity.Monster} object
      * for this Player.
-     *
+     * 
      * @param entity to get the Monster object of.
      * @return the Monster object, or null if the entity is not valid
      */
@@ -74,7 +74,7 @@ public interface EntityManager extends Manager {
     /**
      * Create a new Champion instance from the given player and data from the
      * database.
-     *
+     * 
      * @param player Bukkit Player object
      * @param data PlayerData object
      * @return Constructed Champion

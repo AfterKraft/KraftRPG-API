@@ -17,12 +17,13 @@ package com.afterkraft.kraftrpg.api.skills.arguments;
 
 import java.util.List;
 
+import com.google.common.base.Predicate;
+
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import com.afterkraft.kraftrpg.api.entity.SkillCaster;
 import com.afterkraft.kraftrpg.api.util.Utilities;
-import com.google.common.base.Predicate;
 
 public class RaytracingPlayerSkillArgument extends EntitySkillArgument<Player> {
 

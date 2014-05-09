@@ -20,15 +20,15 @@ import org.bukkit.entity.LivingEntity;
 import com.afterkraft.kraftrpg.api.entity.Champion;
 
 /**
- * Represents an Active Skill that requires a {@link org.bukkit.entity.LivingEntity}
- * as a target.
+ * Represents an Active Skill that requires a
+ * {@link org.bukkit.entity.LivingEntity} as a target.
  */
 public interface Targeted extends Active {
 
     /**
      * Primary designated method to use this skill on the targetted
      * LivingEntity
-     *
+     * 
      * @param champion
      * @param entity
      * @param argument

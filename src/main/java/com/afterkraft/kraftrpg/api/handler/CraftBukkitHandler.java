@@ -16,12 +16,10 @@
 package com.afterkraft.kraftrpg.api.handler;
 
 import java.util.Set;
-import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Arrow;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -31,7 +29,6 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.util.Vector;
 
 import com.afterkraft.kraftrpg.api.RPGPlugin;
-import com.afterkraft.kraftrpg.api.entity.Monster;
 import com.afterkraft.kraftrpg.api.util.FixedPoint;
 
 
@@ -83,35 +80,35 @@ public abstract class CraftBukkitHandler {
 
     protected static String getSoundName(EntityType type) {
         switch (type) {
-            case BLAZE:
-                return "mob.blaze.death";
-            case CHICKEN:
-                return "mob.chickenhurt";
-            case CREEPER:
-                return "mob.creeperdeath";
-            case MAGMA_CUBE:
-            case SLIME:
-                return "mob.slime";
-            case SKELETON:
-                return "mob.skeletonhurt";
-            case IRON_GOLEM:
-                return "mob.irongolem.death";
-            case GHAST:
-                return "mob.ghast.death";
-            case PIG:
-                return "mob.pigdeath";
-            case OCELOT:
-                return "mob.cat.hitt";
-            case SHEEP:
-                return "mob.sheep";
-            case SPIDER:
-                return "mob.spiderdeath";
-            case WOLF:
-                return "mob.wolf.death";
-            case ZOMBIE:
-                return "mob.zombiedeath";
-            default:
-                return "damage.hurtflesh";
+        case BLAZE:
+            return "mob.blaze.death";
+        case CHICKEN:
+            return "mob.chickenhurt";
+        case CREEPER:
+            return "mob.creeperdeath";
+        case MAGMA_CUBE:
+        case SLIME:
+            return "mob.slime";
+        case SKELETON:
+            return "mob.skeletonhurt";
+        case IRON_GOLEM:
+            return "mob.irongolem.death";
+        case GHAST:
+            return "mob.ghast.death";
+        case PIG:
+            return "mob.pigdeath";
+        case OCELOT:
+            return "mob.cat.hitt";
+        case SHEEP:
+            return "mob.sheep";
+        case SPIDER:
+            return "mob.spiderdeath";
+        case WOLF:
+            return "mob.wolf.death";
+        case ZOMBIE:
+            return "mob.zombiedeath";
+        default:
+            return "damage.hurtflesh";
         }
     }
 
@@ -130,7 +127,7 @@ public abstract class CraftBukkitHandler {
     /**
      * Check if a given EntityAttributeType is present in the given
      * LivingEntity.
-     *
+     * 
      * @param entity entity to inspect
      * @param type attribute to check
      * @return true if set, false if not
@@ -139,7 +136,7 @@ public abstract class CraftBukkitHandler {
 
     /**
      * Get the value of an EntityAttributeType stored in the given entity.
-     *
+     * 
      * @param entity entity to inspect
      * @param type attribute to check
      * @param defaultValue value to return if not set
@@ -149,7 +146,7 @@ public abstract class CraftBukkitHandler {
 
     /**
      * Set the value of an EntityAttributeType for the given entity.
-     *
+     * 
      * @param entity entity to change
      * @param type attribute to use
      * @param newValue value to set
@@ -161,7 +158,7 @@ public abstract class CraftBukkitHandler {
     /**
      * Gets the stored value of an EntityAttributeType, or sets it to the
      * given value if it wasn't present before.
-     *
+     * 
      * @param entity entity to inspect/change
      * @param type attribute to use
      * @param valueIfEmpty value to set if empty

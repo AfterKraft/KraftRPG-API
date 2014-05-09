@@ -31,30 +31,25 @@ import com.afterkraft.kraftrpg.api.util.FixedPoint;
  */
 public class PlayerData implements Cloneable {
     /**
-     * Main Roles.
-     */
-    public Role primary, profession;
-
-    /**
      * Extra roles - these grant skills, but no hp/mana.
      */
     public final Set<Role> additionalRoles = new HashSet<Role>();
-
     /**
      * Experience data.
      */
     public final Map<Role, FixedPoint> exp = new HashMap<Role, FixedPoint>();
-
     /**
      * Raw bind data.
      */
     public final Map<Material, SkillBind> binds = new HashMap<Material, SkillBind>();
-
     /**
      * Map from cooldown name to expiry time, in UNIX time.
      */
     public final Map<String, Long> cooldowns = new HashMap<String, Long>();
-
+    /**
+     * Main Roles.
+     */
+    public Role primary, profession;
     public String lastKnownName;
 
     public PlayerData() {

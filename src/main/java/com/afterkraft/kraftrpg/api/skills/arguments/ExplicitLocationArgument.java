@@ -18,12 +18,13 @@ package com.afterkraft.kraftrpg.api.skills.arguments;
 import java.util.List;
 import java.util.regex.Matcher;
 
+import com.google.common.collect.ImmutableList;
+
 import org.bukkit.Location;
 
 import com.afterkraft.kraftrpg.api.entity.SkillCaster;
 import com.afterkraft.kraftrpg.api.skills.SkillArgument;
 import com.afterkraft.kraftrpg.api.util.Utilities;
-import com.google.common.collect.ImmutableList;
 
 public class ExplicitLocationArgument extends SkillArgument {
     private static final Location nullLocation = new Location(null, 0, -256, 0);
