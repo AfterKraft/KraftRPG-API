@@ -15,6 +15,8 @@
  */
 package com.afterkraft.kraftrpg.api.skills;
 
+import org.bukkit.configuration.Configuration;
+
 import com.afterkraft.kraftrpg.api.RPGPlugin;
 import com.afterkraft.kraftrpg.api.entity.Champion;
 import com.afterkraft.kraftrpg.api.entity.SkillCaster;
@@ -56,5 +58,11 @@ public class PassiveSkill extends Skill implements Passive {
     @Override
     public boolean isInMessageRange(Champion broadcaster, Champion receiver) {
         return false;
+    }
+
+    @Override
+    public Configuration getDefaultConfig() {
+        // TODO Auto-generated method stub
+        return null;
     }
 }

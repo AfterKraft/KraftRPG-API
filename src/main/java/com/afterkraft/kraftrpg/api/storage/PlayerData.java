@@ -15,6 +15,7 @@
  */
 package com.afterkraft.kraftrpg.api.storage;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -25,6 +26,7 @@ import org.bukkit.Material;
 import com.afterkraft.kraftrpg.api.entity.roles.Role;
 import com.afterkraft.kraftrpg.api.skills.SkillBind;
 import com.afterkraft.kraftrpg.api.util.FixedPoint;
+import com.google.common.collect.ImmutableList;
 
 /**
  * This class is not a stable API.
@@ -67,5 +69,13 @@ public class PlayerData implements Cloneable {
         ret.lastKnownName = lastKnownName;
 
         return ret;
+    }
+
+    private Collection<Role> allRoles;
+    public Collection<Role> allRoles() {
+        if (allRoles != null) return allRoles;
+
+        allRoles = ImmutableList.<Role>builder().add(primary).add(profession).addAll(additionalRoles).build();
+        return allRoles;
     }
 }

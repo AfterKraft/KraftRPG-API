@@ -15,6 +15,8 @@
  */
 package com.afterkraft.kraftrpg.api.entity;
 
+import java.util.Collection;
+
 import org.bukkit.Location;
 
 import com.afterkraft.kraftrpg.api.entity.roles.Role;
@@ -71,6 +73,28 @@ public interface SkillCaster extends Sentient, PartyMember {
      * @return
      */
     public boolean canUseSkill(ISkill skill);
+
+    /**
+     * Get all skills accessible at the current level in all roles.
+     *
+     * @return
+     */
+    public Collection<ISkill> getAvailableSkills();
+
+    /**
+     * Same as {@link #getAvailableSkills()}, except return the names, and
+     * only of {@link com.afterkraft.kraftrpg.api.skills.Active} skills.
+     *
+     * @return names of all skills currently accessible
+     */
+    public Collection<String> getActiveSkillNames();
+
+    /**
+     * Get all skills accessible at the max level in each role.
+     *
+     * @return
+     */
+    public Collection<ISkill> getPossibleSkillsInRoles();
 
     /**
      * @param skill

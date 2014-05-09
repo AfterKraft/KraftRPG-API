@@ -15,12 +15,17 @@
  */
 package com.afterkraft.kraftrpg.api.entity.roles;
 
+import java.util.Collection;
 import java.util.EnumMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.NavigableMap;
+import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
 import org.bukkit.Material;
+import org.bukkit.configuration.ConfigurationSection;
 
 import com.afterkraft.kraftrpg.api.RPGPlugin;
 import com.afterkraft.kraftrpg.api.entity.SkillCaster;
@@ -35,7 +40,7 @@ public class Role {
     protected final RPGPlugin plugin;
     protected final String name;
     protected final RoleType type;
-    private final SortedMap<Integer, ISkill> skills = new TreeMap<Integer, ISkill>();
+    private final TreeMap<RoleSkill, ConfigurationSection> skills = new TreeMap<RoleSkill, ConfigurationSection>();
     private final Map<Material, Double> itemDamages = new EnumMap<Material, Double>(Material.class);
     private final Map<Material, Double> itemDamagePerLevel = new EnumMap<Material, Double>(Material.class);
 
@@ -63,28 +68,47 @@ public class Role {
         return this.name;
     }
 
-    /**
-     * Check if this Role has the given Skill
-     *
-     * @param skill
-     * @return
-     */
-    public boolean hasSkill(ISkill skill) {
-        return skill != null && skills.containsValue(skill);
-    }
-
-    public boolean hasSkill(String name) {
-        ISkill query = plugin.getSkillManager().getSkill(name);
-        return query != null && skills.containsValue(query);
-    }
-
-    public void removeSkill(ISkill skill) {
-        if (skill == null) {
-            return;
+    public ConfigurationSection getSkillConfigIfAvailable(ISkill skill, int level) {
+        NavigableMap<RoleSkill, ConfigurationSection> subMap = skills.headMap(new RoleSkill(skill, level), true);
+        for (RoleSkill rs : subMap.descendingKeySet()) {
+            if (rs.skillEquals(skill)) {
+                return subMap.get(rs);
+            }
         }
-        this.skills.remove(skill);
-        plugin.getRoleManager().queueRoleRefresh(this, RoleManager.RoleRefreshReason.SKILL_REMOVAL);
+        return null;
+    }
 
+    public boolean hasSkillAtLevel(ISkill skill, int level) {
+        return getSkillConfigIfAvailable(skill, level) != null;
+    }
+
+    public boolean hasSkillEver(ISkill skill) {
+        for (RoleSkill rs : skills.keySet()) {
+            if (rs.skillEquals(skill)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public Set<ISkill> getAllSkills() {
+        Set<ISkill> ret = new HashSet<ISkill>();
+
+        for (RoleSkill rs : skills.keySet()) {
+            ret.add(rs.getSkill());
+        }
+
+        return ret;
+    }
+
+    public Set<ISkill> getAllSkillsAtLevel(int level) {
+        NavigableMap<RoleSkill, ConfigurationSection> subMap = skills.headMap(new RoleSkill(null, level), true);
+        Set<ISkill> ret = new HashSet<ISkill>();
+        for (RoleSkill rs : subMap.descendingKeySet()) {
+            ret.add(rs.getSkill());
+        }
+
+        return ret;
     }
 
     public double getItemDamage(Material type) {

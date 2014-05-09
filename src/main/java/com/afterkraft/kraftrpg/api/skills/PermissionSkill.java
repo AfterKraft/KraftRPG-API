@@ -17,6 +17,7 @@ package com.afterkraft.kraftrpg.api.skills;
 
 import java.util.Map;
 
+import org.bukkit.configuration.Configuration;
 import org.bukkit.entity.Entity;
 import org.bukkit.permissions.Permission;
 
@@ -31,16 +32,20 @@ import com.afterkraft.kraftrpg.api.entity.SkillCaster;
  * type of SkillArguments and it will always return true on Skill use.
  * <p/>
  * PermissionSkill can apply Permissions with both true and false
- * 
+ *
  * @author gabizou
  */
 public class PermissionSkill extends Skill implements Permissible {
-
     private Map<String, Boolean> permissions;
     private Permission permission;
 
     public PermissionSkill(RPGPlugin plugin, String name) {
         super(plugin, name);
+    }
+
+    @Override
+    public Configuration getDefaultConfig() {
+        return null;
     }
 
     @Override

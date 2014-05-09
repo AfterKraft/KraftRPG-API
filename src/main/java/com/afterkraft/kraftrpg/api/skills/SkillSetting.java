@@ -17,38 +17,62 @@ package com.afterkraft.kraftrpg.api.skills;
 
 
 public enum SkillSetting {
+    // Level
+    LEVEL("level"),
 
+    // Automatically inspected and applied
+    // - Numbers
+    COOLDOWN("cooldown", true),
+    DELAY("delay", true),
+    MANA_COST("mana-cost", true),
+    HEALTH_COST("health-cost", true),
+    STAMINA_COST("stamina-cost", true),
+    EXP("exp-award", true),
+
+    SKILL_POINT_COST("skill-point-cost"),
+
+    // - Bools
+    NO_COMBAT_USE("no-combat-use"),
+
+    // Applied by the skill - must be declared to show up in auto config!
+    // - Numbers
     AMOUNT("amount"),
+    CHANCE("chance", true),
+    DURATION("duration", true),
+    DAMAGE("damage", true),
+    DAMAGE_TICK("damage-per-tick", true),
+    HEALING("healing", true),
+    HEALING_TICK("healing-per-tick", true),
+    MAX_DISTANCE_CAP("max-distance-cap", false),
+    MAX_DISTANCE("max-distance", true),
+    PERIOD("period", true),
+    RADIUS("radius", true),
+    REAGENT_COST("reagent-cost", true),
+
+    // - Other
+    REAGENT("reagent"),
+
+    /**
+     * The presence of this SkillSetting in your Used Config Nodes declaration
+     * signifies that you need extra data other than the provided variables.
+     */
+    CUSTOM(null),
+
+    /**
+     * The presence of this SkillSetting in your Used Config Nodes declaration
+     * signifies that you need some per-player setting storage.
+     */
+    CUSTOM_PER_CHAMPION(null),
+
+    // Strings
     APPLY_TEXT("apply-text"),
-    CHANCE("chance"),
-    CHANCE_PER_LEVEL("chance-per-level"),
-    COOLDOWN("cooldown"),
-    DAMAGE("damage"),
-    DAMAGE_TICK("tick-damage"),
     DEATH_TEXT("death-text"),
     DELAY_TEXT("delay-text"),
-    DELAY("delay"),
-    DURATION("duration"),
-    DURATION_INCREASE_PER_LEVEL("duration-increase-per-level"),
-    EXP("exp"),
     EXPIRE_TEXT("expire-text"),
-    HEALING("healing"),
-    HEALING_TICK("tick-healing"),
-    HEALTH_COST("health-cost"),
     INTERRUPT_TEXT("interrupt-text"),
-    LEVEL("level"),
-    SKILL_POINT_COST("skill-point-cost"),
-    MANA("mana"),
-    MANA_REDUCE_PER_LEVEL("mana-reduce-per-level"),
-    MAX_DISTANCE("max-distance"),
-    NO_COMBAT_USE("no-combat-use"),
-    PERIOD("period"),
-    RADIUS("radius"),
-    REAGENT_COST("reagent-cost"),
-    REAGENT("reagent"),
-    STAMINA("stamina"),
     UNAPPLY_TEXT("unapply-text"),
     USE_TEXT("use-text"),
+
     // Attribute specific types. We need to match these manually with {@link AttributeType}
     ATTRIBUTE_MANA_COST_REDUCTION("attribute-mana-cost-reduction"),
     ATTRIBUTE_MANA_COST_INCREASE("attribute-mana-cost-increase"),
@@ -62,13 +86,29 @@ public enum SkillSetting {
     ATTRIBUTE_SKILL_BUFF_REDUCTION("attribute-skill-buff-reduction");
 
     private final String node;
+    private final boolean scaled;
 
     SkillSetting(String node) {
+        this(node, false);
+    }
+
+    SkillSetting(String node, boolean scaled) {
         this.node = node;
+        this.scaled = scaled;
     }
 
     public String node() {
         return this.node;
+    }
+
+    public boolean isLevelScaled() {
+        return scaled;
+    }
+
+    public String scalingNode() {
+        if (!scaled) return null;
+
+        return node + "-per-level";
     }
 
     @Override

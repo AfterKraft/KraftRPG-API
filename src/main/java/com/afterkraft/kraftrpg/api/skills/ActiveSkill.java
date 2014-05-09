@@ -43,25 +43,22 @@ public abstract class ActiveSkill extends Skill implements Active {
     }
 
     /**
-     * Set the SkillArguments to be used in parsing.
+     * Set the SkillArguments to be used in parsing, and returned with
+     * {@link #getArgument(int)} and {@link #getSkillArguments()}.
      *
      * @param arguments to set
      */
-    public void setSkillArguments(SkillArgument... arguments) {
+    protected void setSkillArguments(SkillArgument... arguments) {
         skillArguments = arguments;
     }
 
-    /**
-     * Get a casted SkillArgument. You should know the position of all your
-     * arguments and be able to use this correctly.
-     *
-     * @param index The index into the objects you passed into
-     *            setSkillArguments
-     * @return a SkillArgument
-     */
     @SuppressWarnings("unchecked")
     public <T extends SkillArgument> T getArgument(int index) {
         return (T) skillArguments[index];
+    }
+
+    public SkillArgument[] getSkillArguments() {
+        return skillArguments;
     }
 
     @Override
@@ -119,10 +116,10 @@ public abstract class ActiveSkill extends Skill implements Active {
         return true;
     }
 
-    public List<String> tabComplete(SkillCaster caster, String[] strings) {
+    public List<String> tabComplete(SkillCaster caster, String[] strings, int startIndex) {
         parsedCaster = caster;
 
-        int stringIndex = 0, argIndex = 0;
+        int stringIndex = startIndex, argIndex = 0;
         while (stringIndex < strings.length - 1 && argIndex < skillArguments.length) {
             SkillArgument current = skillArguments[argIndex];
 
