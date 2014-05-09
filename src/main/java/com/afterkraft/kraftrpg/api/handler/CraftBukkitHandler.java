@@ -24,6 +24,7 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.CreatureSpawnEvent;
+import org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.util.Vector;
@@ -116,7 +117,7 @@ public abstract class CraftBukkitHandler {
 
     public abstract Location getSpawnLocation(LivingEntity entity);
 
-    public abstract CreatureSpawnEvent.SpawnReason getSpawnReason(LivingEntity entity);
+    public abstract CreatureSpawnEvent.SpawnReason getSpawnReason(LivingEntity entity, SpawnReason provided);
 
     public abstract FixedPoint getMonsterExperience(LivingEntity entity, FixedPoint value);
 
@@ -127,7 +128,7 @@ public abstract class CraftBukkitHandler {
     /**
      * Check if a given EntityAttributeType is present in the given
      * LivingEntity.
-     * 
+     *
      * @param entity entity to inspect
      * @param type attribute to check
      * @return true if set, false if not
@@ -136,7 +137,7 @@ public abstract class CraftBukkitHandler {
 
     /**
      * Get the value of an EntityAttributeType stored in the given entity.
-     * 
+     *
      * @param entity entity to inspect
      * @param type attribute to check
      * @param defaultValue value to return if not set
@@ -146,7 +147,7 @@ public abstract class CraftBukkitHandler {
 
     /**
      * Set the value of an EntityAttributeType for the given entity.
-     * 
+     *
      * @param entity entity to change
      * @param type attribute to use
      * @param newValue value to set
@@ -158,7 +159,7 @@ public abstract class CraftBukkitHandler {
     /**
      * Gets the stored value of an EntityAttributeType, or sets it to the
      * given value if it wasn't present before.
-     * 
+     *
      * @param entity entity to inspect/change
      * @param type attribute to use
      * @param valueIfEmpty value to set if empty

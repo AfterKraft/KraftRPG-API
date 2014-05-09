@@ -18,12 +18,29 @@ package com.afterkraft.kraftrpg.api.entity;
 
 public enum EnterCombatReason {
 
+    /**
+     * The Sentient was hit by a non-Champion Sentient
+     */
     DAMAGED_BY_MOB,
+    /**
+     * The Sentient was hit by a Champion
+     */
     DAMAGED_BY_PLAYER,
+    /**
+     * The Sentient attacked a non-Champion
+     */
     ATTACKED_MOB,
+    /**
+     * The Sentient attacked a Champion
+     */
     ATTACKED_PLAYER,
-    BENEFIT_DEFENDER,
-    BENEFIT_ATTACKER,
-    CUSTOM
-
+    /**
+     * The SkillCaster used a buff on a Sentient already in combat
+     */
+    BUFFED_COMBATANT,
+    /**
+     * A SkillCaster used a buff on a Sentient in combat with this one
+     */
+    BUFFED_COMBANTANT_RECIPROCAL,
+    ;
 }
