@@ -36,6 +36,7 @@ import com.afterkraft.kraftrpg.api.util.FixedPoint;
 
 
 public abstract class CraftBukkitHandler {
+    public static final double UNSET_VALUE = Double.longBitsToDouble(0xcc123);
 
     protected final static String DAMAGE_STRING = "Damage";
     protected final static String EXPERIENCE_STRING = "Experience";
@@ -69,7 +70,7 @@ public abstract class CraftBukkitHandler {
                 serverType = ServerType.TWEAKKIT;
             }
             try {
-                final Class<?> clazz = Class.forName("com.afterkraft.kraftrpg.compat.v_" + version + ".RPGHandler");
+                final Class<?> clazz = Class.forName("com.afterkraft.kraftrpg.compat." + version + ".RPGHandler");
                 if (CraftBukkitHandler.class.isAssignableFrom(clazz)) {
                     activeInterface = (CraftBukkitHandler) clazz.getConstructor(ServerType.class).newInstance(serverType);
                 }
@@ -116,9 +117,6 @@ public abstract class CraftBukkitHandler {
 
     public abstract void loadExtraListeners();
 
-    //NMS methods required by Entities
-    public abstract EntityAttributeModifier getEntityAttribute(UUID uuid, String name);
-
     public abstract Location getSpawnLocation(LivingEntity entity);
 
     public abstract CreatureSpawnEvent.SpawnReason getSpawnReason(LivingEntity entity);
@@ -129,7 +127,47 @@ public abstract class CraftBukkitHandler {
 
     public abstract double getEntityDamage(LivingEntity entity, double calculated);
 
-    public abstract double loadOrCreateAttribute(LivingEntity entity, EntityAttribute attribute, double value);
+    /**
+     * Check if a given EntityAttributeType is present in the given
+     * LivingEntity.
+     *
+     * @param entity entity to inspect
+     * @param type attribute to check
+     * @return true if set, false if not
+     */
+    public abstract boolean isAttributeSet(LivingEntity entity, EntityAttributeType type);
+
+    /**
+     * Get the value of an EntityAttributeType stored in the given entity.
+     *
+     * @param entity entity to inspect
+     * @param type attribute to check
+     * @param defaultValue value to return if not set
+     * @return double set value, or defaultValue if not
+     */
+    public abstract double getAttribute(LivingEntity entity, EntityAttributeType type, double defaultValue);
+
+    /**
+     * Set the value of an EntityAttributeType for the given entity.
+     *
+     * @param entity entity to change
+     * @param type attribute to use
+     * @param newValue value to set
+     * @return previous value, or the special value {@link #UNSET_VALUE} if
+     *         not already set
+     */
+    public abstract double setAttribute(LivingEntity entity, EntityAttributeType type, double newValue);
+
+    /**
+     * Gets the stored value of an EntityAttributeType, or sets it to the
+     * given value if it wasn't present before.
+     *
+     * @param entity entity to inspect/change
+     * @param type attribute to use
+     * @param valueIfEmpty value to set if empty
+     * @return current value
+     */
+    public abstract double getOrSetAttribute(LivingEntity entity, EntityAttributeType type, double valueIfEmpty);
 
     //NMS methods required by listeners
     public abstract double getPostArmorDamage(LivingEntity defender, double damage);
