@@ -129,6 +129,10 @@ public abstract class Skill implements ISkill {
         return damageEntity(target, attacker, damage, cause, true);
     }
 
+    public static final boolean damageEntity(LivingEntity target, SkillCaster attacker, double damage, EntityDamageEvent.DamageCause cause) {
+        return damageEntity(target, attacker.getEntity(), damage, cause, true);
+    }
+
     public static final boolean damageEntity(LivingEntity target, LivingEntity attacker, double damage, EntityDamageEvent.DamageCause cause, boolean knockback) {
         return CraftBukkitHandler.getInterface().damageEntity(target, attacker, damage, cause, knockback);
     }
