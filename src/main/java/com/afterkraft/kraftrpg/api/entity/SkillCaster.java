@@ -39,7 +39,7 @@ public interface SkillCaster extends Sentient, PartyMember {
 
     /**
      * Get the key'ed cooldown. Used by skills to mark individual cooldowns
-     * 
+     *
      * @param key name of the cooldown being checked
      * @return the time in milliseconds that the cooldown expires
      */
@@ -47,7 +47,7 @@ public interface SkillCaster extends Sentient, PartyMember {
 
     /**
      * Get the global cooldown
-     * 
+     *
      * @return the global cooldown if not 0
      */
     public long getGlobalCooldown();
@@ -58,9 +58,9 @@ public interface SkillCaster extends Sentient, PartyMember {
 
     /**
      * Fetch the highest level of all active
-     * {@link com.afterkraft.kraftrpg.api.entity.roles.Role}s of the
+     * {@link com.afterkraft.kraftrpg.api.entity.roles.Role}s that provide the
      * designated {@link com.afterkraft.kraftrpg.api.skills.ISkill}.
-     * 
+     *
      * @param skill the skill in question
      * @return the highest level, if none, 0.
      */

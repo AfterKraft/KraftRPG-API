@@ -15,82 +15,92 @@
  */
 package com.afterkraft.kraftrpg.api.entity.roles;
 
+import java.util.EnumMap;
 import java.util.Map;
-import java.util.Set;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 import org.bukkit.Material;
 
+import com.afterkraft.kraftrpg.api.RPGPlugin;
+import com.afterkraft.kraftrpg.api.entity.SkillCaster;
 import com.afterkraft.kraftrpg.api.skills.ISkill;
 
 
 /**
- * A Role represents a tree like structure for granting Skills and other
- * bonuses to {@link com.afterkraft.kraftrpg.api.entity.Sentient} beings.
+ * A Role is a single node in a tree-like structure for granting Skills and other
+ * bonuses to {@link SkillCaster}s.
  */
-public interface Role {
+public class Role {
+    protected final RPGPlugin plugin;
+    protected final String name;
+    protected final RoleType type;
+    private final SortedMap<Integer, ISkill> skills = new TreeMap<Integer, ISkill>();
+    private final Map<Material, Double> itemDamages = new EnumMap<Material, Double>(Material.class);
+    private final Map<Material, Double> itemDamagePerLevel = new EnumMap<Material, Double>(Material.class);
+
+    public Role(RPGPlugin plugin, String name, RoleType type) {
+        this.plugin = plugin;
+        this.name = name;
+        this.type = type;
+    }
 
     /**
      * Get the type of Role this is.
-     * 
+     *
      * @return the {@link com.afterkraft.kraftrpg.api.entity.roles.RoleType}
      */
-    public RoleType getType();
+    public final RoleType getType() {
+        return this.type;
+    }
 
     /**
      * Return the configured name for this Role
-     * 
+     *
      * @return the name for this role
      */
-    public String getName();
+    public String getName() {
+        return this.name;
+    }
 
     /**
      * Check if this Role has the given Skill
-     * 
+     *
      * @param skill
      * @return
      */
-    public boolean hasSkill(ISkill skill);
+    public boolean hasSkill(ISkill skill) {
+        return skill != null && skills.containsValue(skill);
+    }
 
-    public boolean hasSkill(String name);
+    public boolean hasSkill(String name) {
+        ISkill query = plugin.getSkillManager().getSkill(name);
+        return query != null && skills.containsValue(query);
+    }
 
-    public boolean addSkill(ISkill skill);
+    public void removeSkill(ISkill skill) {
+        if (skill == null) {
+            return;
+        }
+        this.skills.remove(skill);
+        plugin.getRoleManager().queueRoleRefresh(this, RoleManager.RoleRefreshReason.SKILL_REMOVAL);
 
-    /**
-     * Removes the skill
-     * 
-     * @param skill
-     */
-    public void removeSkill(ISkill skill);
+    }
 
-    /**
-     * Check if the given skill has a prerequisite skill dependency in this
-     * Role
-     * 
-     * @param skill the skill in question
-     * @return
-     */
-    public boolean hasPrerequisite(ISkill skill);
+    public double getItemDamage(Material type) {
+        return this.itemDamages.get(type) != null ? this.itemDamages.get(type) : 0.0D;
+    }
 
-    public boolean hasPrerequisite(String name);
+    public void setItemDamage(Material type, double damage) {
+        this.itemDamages.put(type, damage);
+    }
 
-    public Set<ISkill> getSkillDependency(ISkill skill);
+    public double getItemDamagePerLevel(Material type) {
+        return this.itemDamagePerLevel.get(type) != null ? this.itemDamagePerLevel.get(type) : 0.0D;
+    }
 
-    public Set<ISkill> getSkillDependency(String name);
-
-    public Map<ISkill, Set<ISkill>> getSkillDependencies();
-
-    public boolean addSkillDependency(ISkill skill, ISkill dependency);
-
-    public void removeSkillDependency(ISkill skill, ISkill dependency);
-
-    public void removeSkillDependency(ISkill skill);
-
-    public double getItemDamage(Material type);
-
-    public void setItemDamage(Material type, double damage);
-
-    public double getItemDamagePerLevel(Material type);
-
-    public void setItemDamagePerLevel(Material type, double damage);
+    public void setItemDamagePerLevel(Material type, double damage) {
+        this.itemDamagePerLevel.put(type, damage);
+    }
 
 }
