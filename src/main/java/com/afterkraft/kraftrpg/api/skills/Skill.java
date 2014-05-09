@@ -28,6 +28,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 
 import com.afterkraft.kraftrpg.api.RPGPlugin;
+import com.afterkraft.kraftrpg.api.entity.Champion;
 import com.afterkraft.kraftrpg.api.entity.IEntity;
 import com.afterkraft.kraftrpg.api.entity.SkillCaster;
 import com.afterkraft.kraftrpg.api.entity.roles.ExperienceType;
@@ -53,7 +54,7 @@ public abstract class Skill implements ISkill {
 
     /**
      * Return whether this Skill is enabled or not
-     * 
+     *
      * @return whether this skill is enabled
      */
     public final boolean isEnabled() {
@@ -62,7 +63,7 @@ public abstract class Skill implements ISkill {
 
     /**
      * Sets the enabled state of this Skill
-     * 
+     *
      * @param enabled whether or not to set this skill as enabled or not
      */
     public final void setEnabled(final boolean enabled) {
@@ -155,9 +156,14 @@ public abstract class Skill implements ISkill {
         }
     }
 
+    @Override
+    public boolean isInMessageRange(Champion broadcaster, Champion receiver) {
+        return broadcaster.getLocation().distanceSquared(receiver.getLocation()) < (20 * 20);
+    }
+
     /**
      * Set this Skill's skill types.
-     * 
+     *
      * @param types the SkillTypes to set
      */
     protected final void setSkillTypes(SkillType... types) {

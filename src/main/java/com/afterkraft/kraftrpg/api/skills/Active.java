@@ -30,7 +30,7 @@ import com.afterkraft.kraftrpg.api.util.SkillRequirement;
  * <p>
  * The methods {@link #getUsage()},
  * {@link #tabComplete(SkillCaster, String[])} ,
- * {@link #canCast(SkillCaster, boolean)},
+ * {@link #checkCustomRestrictions(SkillCaster, boolean)},
  * {@link #getSkillRequirement(SkillCaster)},
  * {@link #hasSkillRequirement(SkillRequirement, SkillCaster)}, or
  * {@link #grantsExperienceOnCast()} should not rely on parser state.
@@ -38,7 +38,7 @@ import com.afterkraft.kraftrpg.api.util.SkillRequirement;
  * The methods that do rely on parser state shall be called in the following
  * order:
  * <ol>
- * <li>{@link #canCast(SkillCaster, boolean)}</li>
+ * <li>{@link #checkCustomRestrictions(SkillCaster, boolean)}</li>
  * <li>{@link #parse(SkillCaster, String[])}</li>
  * <li>One of these, or possibly none of them (e.g. if parse returned false,
  * but possibly other cases):
@@ -101,7 +101,7 @@ public interface Active extends ISkill {
      * @param forced if the cast is involuntary (e.g. admin action)
      * @return a preliminary SkillCastResult
      */
-    public SkillCastResult canCast(SkillCaster caster, boolean forced);
+    public SkillCastResult checkCustomRestrictions(SkillCaster caster, boolean forced);
 
     /**
      * Apply this skill using the previously parse()ed state.

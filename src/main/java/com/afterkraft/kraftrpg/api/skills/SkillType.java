@@ -17,7 +17,6 @@ package com.afterkraft.kraftrpg.api.skills;
 
 
 public enum SkillType {
-
     ABILITY_PROPERTY_AIR,
     ABILITY_PROPERTY_BLEED,
     ABILITY_PROPERTY_DARK,
