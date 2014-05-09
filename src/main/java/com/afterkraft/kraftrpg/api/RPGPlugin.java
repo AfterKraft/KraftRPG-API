@@ -19,6 +19,7 @@ import java.util.logging.Level;
 
 import org.bukkit.plugin.Plugin;
 
+import com.afterkraft.kraftrpg.api.entity.CombatTracker;
 import com.afterkraft.kraftrpg.api.entity.EntityManager;
 import com.afterkraft.kraftrpg.api.entity.effects.EffectManager;
 import com.afterkraft.kraftrpg.api.entity.party.PartyManager;
@@ -40,6 +41,8 @@ public interface RPGPlugin extends Plugin {
     public void cancelEnable();
 
     public SkillConfigManager getSkillConfigManager();
+
+    public CombatTracker getCombatTracker();
 
     public EntityManager getEntityManager();
 

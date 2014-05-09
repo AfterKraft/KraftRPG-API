@@ -96,23 +96,4 @@ public interface Insentient {
     public void clearEffects();
 
     public void manualClearEffects();
-
-    /**
-     * @return true if this Insentient is marked in combat
-     */
-    public boolean isInCombat();
-
-    /**
-     *
-     */
-    public void enterCombat(EnterCombatReason reason);
-
-    public void enterCombatWith(LivingEntity target, EnterCombatReason reason);
-
-    /**
-     * @param reason the designated reason for leaving combat
-     */
-    public void leaveCombat(LeaveCombatReason reason);
-
-    public void leaveCombatWith(LivingEntity target, LeaveCombatReason reason);
 }
