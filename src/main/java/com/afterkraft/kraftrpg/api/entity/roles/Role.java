@@ -15,13 +15,11 @@
  */
 package com.afterkraft.kraftrpg.api.entity.roles;
 
-import java.util.Collection;
 import java.util.EnumMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.NavigableMap;
 import java.util.Set;
-import java.util.SortedMap;
 import java.util.TreeMap;
 
 import org.bukkit.Material;
@@ -82,13 +80,17 @@ public class Role {
         return getSkillConfigIfAvailable(skill, level) != null;
     }
 
-    public boolean hasSkillEver(ISkill skill) {
+    public int getLevelRequired(ISkill skill) {
         for (RoleSkill rs : skills.keySet()) {
             if (rs.skillEquals(skill)) {
-                return true;
+                return rs.getLevel();
             }
         }
-        return false;
+        return 0;
+    }
+
+    public boolean hasSkillEver(ISkill skill) {
+        return getLevelRequired(skill) != 0;
     }
 
     public Set<ISkill> getAllSkills() {

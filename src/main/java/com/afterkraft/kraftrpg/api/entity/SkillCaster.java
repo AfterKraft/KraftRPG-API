@@ -69,8 +69,11 @@ public interface SkillCaster extends Sentient, PartyMember {
     public int getHighestSkillLevel(ISkill skill);
 
     /**
-     * @param skill
-     * @return
+     * Check if this SkillCaster can use the given skill at their current
+     * level.
+     *
+     * @param skill skill to check
+     * @return true if skill can be used
      */
     public boolean canUseSkill(ISkill skill);
 
@@ -153,16 +156,13 @@ public interface SkillCaster extends Sentient, PartyMember {
     public boolean setStalledSkill(Stalled stalledSkill);
 
     /**
-     * @param skill
-     * @return
+     * Interrupt the current Stalled skill.
+     *
+     * @param enemyAction whether the cancellation is the result of another
+     *            SkillCaster's skill use
+     * @return true if the delayed skill was interrupted
      */
-    public boolean setStalledSkill(ISkill skill);
-
-    /**
-     * @param forced whether to force cancellation of the stalled skill
-     * @return true if the delayed skill was cancelled
-     */
-    public boolean cancelStalledSkill(boolean forced);
+    public boolean cancelStalledSkill(boolean enemyAction);
 
 
 }

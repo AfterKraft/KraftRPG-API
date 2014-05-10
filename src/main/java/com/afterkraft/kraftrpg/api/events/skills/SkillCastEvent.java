@@ -18,10 +18,10 @@ package com.afterkraft.kraftrpg.api.events.skills;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
+import org.bukkit.inventory.ItemStack;
 
 import com.afterkraft.kraftrpg.api.entity.SkillCaster;
 import com.afterkraft.kraftrpg.api.skills.ISkill;
-import com.afterkraft.kraftrpg.api.util.SkillRequirement;
 
 
 public class SkillCastEvent extends Event implements Cancellable {
@@ -30,17 +30,19 @@ public class SkillCastEvent extends Event implements Cancellable {
 
     private final SkillCaster entity;
     private final ISkill skill;
-    private int manaCost;
+    private double manaCost;
     private double healthCost;
-    private SkillRequirement requirement;
+    private double exhaustionCost;
+    private ItemStack reagent;
     private boolean cancelled;
 
-    public SkillCastEvent(SkillCaster caster, ISkill skill, int manaCost, double healthCost, SkillRequirement requirements) {
+    public SkillCastEvent(SkillCaster caster, ISkill skill, double manaCost, double healthCost, double exhaustionCost, ItemStack reagentCost) {
         this.entity = caster;
         this.skill = skill;
         this.manaCost = manaCost;
         this.healthCost = healthCost;
-        this.requirement = requirements;
+        this.exhaustionCost = exhaustionCost;
+        this.reagent = reagentCost;
         this.cancelled = false;
     }
 
@@ -53,11 +55,11 @@ public class SkillCastEvent extends Event implements Cancellable {
         return this.skill;
     }
 
-    public int getManaCost() {
+    public double getManaCost() {
         return this.manaCost;
     }
 
-    public void setManaCost(int manaCost) {
+    public void setManaCost(double manaCost) {
         this.manaCost = manaCost;
     }
 
@@ -69,12 +71,28 @@ public class SkillCastEvent extends Event implements Cancellable {
         this.healthCost = healthCost;
     }
 
-    public SkillRequirement getRequirement() {
-        return requirement;
+    public double getStaminaCostAsExhaustion() {
+        return this.exhaustionCost;
     }
 
-    public void setRequirement(SkillRequirement requirement) {
-        this.requirement = requirement;
+    public double getStaminaCostAsFoodBar() {
+        return this.exhaustionCost / 4;
+    }
+
+    public void setStaminaCostAsExhaustion(double staminaCost) {
+        this.exhaustionCost = staminaCost;
+    }
+
+    public void setStaminaCostAsFoodBar(double staminaCost) {
+        this.exhaustionCost = staminaCost * 4;
+    }
+
+    public ItemStack getItemCost() {
+        return reagent;
+    }
+
+    public void setItemCost(ItemStack item) {
+        reagent = item;
     }
 
     @Override

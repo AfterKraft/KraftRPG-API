@@ -24,15 +24,17 @@ public enum SkillSetting {
     // - Numbers
     COOLDOWN("cooldown", true),
     DELAY("delay", true),
-    MANA_COST("mana-cost", true),
-    HEALTH_COST("health-cost", true),
-    STAMINA_COST("stamina-cost", true),
     EXP("exp-award", true),
-
-    SKILL_POINT_COST("skill-point-cost"),
-
+    HEALTH_COST("health-cost", true),
+    MANA_COST("mana-cost", true),
+    STAMINA_COST("stamina-cost", true),
+    // - ItemStack
+    REAGENT("reagent"),
+    REAGENT_QUANTITY("reagent-amount", true),
     // - Bools
     NO_COMBAT_USE("no-combat-use"),
+    // - Other
+    SKILL_POINT_COST("skill-point-cost"),
 
     // Applied by the skill - must be declared to show up in auto config!
     // - Numbers
@@ -40,17 +42,14 @@ public enum SkillSetting {
     CHANCE("chance", true),
     DURATION("duration", true),
     DAMAGE("damage", true),
-    DAMAGE_TICK("damage-per-tick", true),
+    DAMAGE_RECURRING("damage-per-tick", true),
     HEALING("healing", true),
-    HEALING_TICK("healing-per-tick", true),
-    MAX_DISTANCE_CAP("max-distance-cap", false),
+    HEALING_RECURRING("healing-per-tick", true),
     MAX_DISTANCE("max-distance", true),
-    PERIOD("period", true),
+    MAX_DISTANCE_CAP("max-distance-cap", false),
+    RECURRENCE_PERIOD("period", true),
     RADIUS("radius", true),
-    REAGENT_COST("reagent-cost", true),
-
-    // - Other
-    REAGENT("reagent"),
+    RADIUS_CAP("radius-cap", false),
 
     /**
      * The presence of this SkillSetting in your Used Config Nodes declaration

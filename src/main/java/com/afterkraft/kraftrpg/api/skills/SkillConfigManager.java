@@ -20,6 +20,7 @@ import java.util.Set;
 
 import org.bukkit.configuration.Configuration;
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.inventory.ItemStack;
 
 import com.afterkraft.kraftrpg.api.Manager;
 import com.afterkraft.kraftrpg.api.entity.Sentient;
@@ -68,6 +69,8 @@ public interface SkillConfigManager extends Manager {
 
     public List<String> getSetting(Role role, ISkill skill, String setting, List<String> def);
 
+    public ItemStack getSettingItem(Role role, ISkill skill, String setting, ItemStack def);
+
     public Set<String> getSettingKeys(Role role, ISkill skill, String setting);
 
     public Set<String> getUseSettingKeys(SkillCaster caster, ISkill skill, String setting);
@@ -84,6 +87,8 @@ public interface SkillConfigManager extends Manager {
 
     public boolean getUseSetting(SkillCaster caster, ISkill skill, SkillSetting setting, boolean def);
 
+    public ItemStack getUseSettingItem(SkillCaster caster, ISkill skill, SkillSetting setting, ItemStack def);
+
     public int getUseSetting(SkillCaster caster, ISkill skill, String setting, int def, boolean lower);
 
     public double getUseSetting(SkillCaster caster, ISkill skill, String setting, double def, boolean lower);
@@ -93,4 +98,7 @@ public interface SkillConfigManager extends Manager {
     public String getUseSetting(SkillCaster caster, ISkill skill, String setting, String def);
 
     public List<String> getUseSetting(SkillCaster caster, ISkill skill, String setting, List<String> def);
+
+    public ItemStack getUseSettingItem(SkillCaster caster, ISkill skill, String setting, ItemStack def);
+
 }

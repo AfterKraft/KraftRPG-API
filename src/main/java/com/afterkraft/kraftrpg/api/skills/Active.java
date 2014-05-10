@@ -29,8 +29,7 @@ import com.afterkraft.kraftrpg.api.util.SkillRequirement;
  * Recommended use of this interface is {@link ActiveSkill}.
  * <p>
  * The methods {@link #getUsage()},
- * {@link #tabComplete(SkillCaster, String[])} ,
- * {@link #checkCustomRestrictions(SkillCaster, boolean)},
+ * {@link #tabComplete(SkillCaster, String[])},
  * {@link #getSkillRequirement(SkillCaster)},
  * {@link #hasSkillRequirement(SkillRequirement, SkillCaster)}, or
  * {@link #grantsExperienceOnCast()} should not rely on parser state.
@@ -40,14 +39,11 @@ import com.afterkraft.kraftrpg.api.util.SkillRequirement;
  * <ol>
  * <li>{@link #checkCustomRestrictions(SkillCaster, boolean)}</li>
  * <li>{@link #parse(SkillCaster, String[])}</li>
- * <li>One of these, or possibly none of them (e.g. if parse returned false,
- * but possibly other cases):
- * <ul>
- * <li>{@link #onWarmUp(SkillCaster)}</li>
- * <li>{@link #useSkill(SkillCaster)}</li>
- * </ul>
- * </li>
- * <li>{@link #cleanState(SkillCaster)}</li>
+ * <li>{@link #checkCustomRestrictions(SkillCaster, boolean)}</li>
+ * <li>If checkCustomRestrictions() returns ON_WARMUP, then
+ * {@link #onWarmUp(SkillCaster)}. If it returns NORMAL, then {@link #useSkill(SkillCaster)}.</li>
+ * <li>And finally, even if any throw an exception,
+ * {@link #cleanState(SkillCaster)}.</li>
  * </ol>
  */
 public interface Active extends ISkill {

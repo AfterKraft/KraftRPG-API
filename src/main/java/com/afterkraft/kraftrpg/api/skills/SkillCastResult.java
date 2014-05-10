@@ -18,27 +18,75 @@ package com.afterkraft.kraftrpg.api.skills;
 
 public enum SkillCastResult {
 
+    /**
+     * Generic success. <b>(Success)</b>
+     */
+    NORMAL,
+    /**
+     * The caster is dead.
+     */
     DEAD,
-    NOT_DEFINED_IN_ACTIVE_ROLES,
-    RESTRICTED_IN_ROLES,
-    CANCELLED,
+    /**
+     * The caster can't use this skill.
+     */
+    NOT_AVAILABLE,
+    /**
+     * Can't pay mana cost.
+     */
+    LOW_MANA,
+    /**
+     * Can't pay health cost.
+     */
+    LOW_HEALTH,
+    /**
+     * Can't pay hunger (stamina) cost.
+     */
+    LOW_STAMINA,
+    /**
+     * Can't pay reagent (Item) cost.
+     */
+    MISSING_REAGENT,
+    /**
+     * The skill can't be used in combat, but you're in combat.
+     */
+    NO_COMBAT,
+    // ------
+    // Stalled
+    /**
+     * A Stalled use of the skill was started. <b>(Success)</b>
+     */
+    START_DELAY,
+    /**
+     * The Stalled use of the skill was cancelled.
+     */
+    EVENT_CANCELLED,
+    /**
+     * The skill can't be used due to something about the current Stalled
+     * skill.
+     */
+    STALLING_FAILURE,
+    // ------
+    /**
+     * The Global Cooldown is active.
+     */
+    ON_GLOBAL_COOLDOWN,
+    /**
+     * The skill is on cooldown.
+     */
+    ON_COOLDOWN,
+    ON_WARMUP,
     INVALID_TARGET,
     FAIL,
-    ROLE_RESTRICTED,
-    LOW_MANA,
-    LOW_HEALTH,
-    LOW_LEVEL,
-    LOW_STAMINA,
-    MISSING_REAGENT,
-    NO_COMBAT,
-    NORMAL,
-    ON_GLOBAL_COOLDOWN,
-    ON_COOLDOWN,
     REMOVED_EFFECT,
     SKIP_POST_USAGE,
-    START_DELAY,
-    ON_WARMUP,
-    UNTARGETTABLE_TARGET
-
-
+    UNTARGETTABLE_TARGET,
+    /**
+     * The skill has sent its own message, and the caller should not print
+     * one.
+     */
+    CUSTOM_NO_MESSAGE,
+    /**
+     * The provided arguments do not make sense for the skill.
+     */
+    SYNTAX_ERROR
 }

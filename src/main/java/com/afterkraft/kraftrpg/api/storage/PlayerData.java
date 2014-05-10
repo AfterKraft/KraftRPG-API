@@ -71,11 +71,17 @@ public class PlayerData implements Cloneable {
         return ret;
     }
 
-    private Collection<Role> allRoles;
+    private Collection<Role> allRoles = null;
+
     public Collection<Role> allRoles() {
         if (allRoles != null) return allRoles;
 
-        allRoles = ImmutableList.<Role>builder().add(primary).add(profession).addAll(additionalRoles).build();
+        ImmutableList.Builder<Role> b = ImmutableList.<Role>builder();
+        if (primary != null) b.add(primary);
+        if (profession != null) b.add(profession);
+        b.addAll(additionalRoles);
+        allRoles = b.build();
+
         return allRoles;
     }
 }

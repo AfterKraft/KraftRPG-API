@@ -15,6 +15,7 @@
  */
 package com.afterkraft.kraftrpg.api.entity;
 
+import java.util.Collection;
 import java.util.Set;
 
 import org.bukkit.Location;
@@ -112,6 +113,18 @@ public interface Sentient extends Insentient {
      * @return true if the role was removed successfully
      */
     public boolean removeAdditionalRole(Role role);
+
+    /**
+     * Get a Set of all {@link Role}s active on this Champion.
+     *
+     * The set should be slightly ordered, with primary first, profession
+     * second (if present), followed by all additional roles (additional roles
+     * are in an unspecified order). (This can be accomplished with an
+     * ImmutableSet.)
+     *
+     * @return an unmodifiable, ordered set of all Roles this Champion has
+     */
+    public Collection<Role> getAllRoles();
 
     /**
      * Fetches the current calculated level of the designated Role. If the

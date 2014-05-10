@@ -25,6 +25,7 @@ import com.afterkraft.kraftrpg.api.entity.effects.EffectManager;
 import com.afterkraft.kraftrpg.api.entity.party.PartyManager;
 import com.afterkraft.kraftrpg.api.entity.roles.RoleManager;
 import com.afterkraft.kraftrpg.api.listeners.ListenerManager;
+import com.afterkraft.kraftrpg.api.skills.ISkill;
 import com.afterkraft.kraftrpg.api.skills.SkillConfigManager;
 import com.afterkraft.kraftrpg.api.skills.SkillManager;
 import com.afterkraft.kraftrpg.api.storage.StorageFrontend;
@@ -65,6 +66,8 @@ public interface RPGPlugin extends Plugin {
     public ListenerManager getListenerManager();
 
     public void log(Level level, String msg);
+
+    public void logSkillThrowing(ISkill skill, String action, Throwable thrown, Object extraContext);
 
     public void debugLog(Level level, String msg);
 

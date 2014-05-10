@@ -18,7 +18,6 @@ package com.afterkraft.kraftrpg.api.entity;
 import java.util.Set;
 
 import org.bukkit.Location;
-import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
@@ -26,6 +25,7 @@ import org.bukkit.potion.PotionEffectType;
 
 import com.afterkraft.kraftrpg.api.entity.effects.EffectType;
 import com.afterkraft.kraftrpg.api.entity.effects.IEffect;
+
 
 public interface Insentient {
 
@@ -36,6 +36,10 @@ public interface Insentient {
     public double getHealth();
 
     public void setHealth(double health);
+
+    public float getStamina();
+
+    public void modifyStamina(float staminaDiff);
 
     public void updateInventory();
 
