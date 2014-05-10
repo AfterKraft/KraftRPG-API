@@ -75,10 +75,25 @@ public enum SkillCastResult {
      */
     ON_COOLDOWN,
     ON_WARMUP,
-    INVALID_TARGET,
+    /**
+     * The skill failed.
+     */
     FAIL,
+    /**
+     * XXX what is this
+     */
     REMOVED_EFFECT,
+    /**
+     * XXX what is this
+     */
     SKIP_POST_USAGE,
+    /**
+     * The skill has decided that the provided target is invalid.
+     */
+    INVALID_TARGET,
+    /**
+     * The skill has decided that the caster isn't allowed to target this.
+     */
     UNTARGETTABLE_TARGET,
     /**
      * The skill has sent its own message, and the caller should not print
