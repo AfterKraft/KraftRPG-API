@@ -21,12 +21,13 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import com.google.common.collect.ImmutableList;
+
 import org.bukkit.Material;
 
 import com.afterkraft.kraftrpg.api.entity.roles.Role;
 import com.afterkraft.kraftrpg.api.skills.SkillBind;
 import com.afterkraft.kraftrpg.api.util.FixedPoint;
-import com.google.common.collect.ImmutableList;
 
 /**
  * This class is not a stable API.
@@ -53,6 +54,7 @@ public class PlayerData implements Cloneable {
      */
     public Role primary, profession;
     public String lastKnownName;
+    private Collection<Role> allRoles = null;
 
     public PlayerData() {
     }
@@ -71,12 +73,10 @@ public class PlayerData implements Cloneable {
         return ret;
     }
 
-    private Collection<Role> allRoles = null;
-
     public Collection<Role> allRoles() {
         if (allRoles != null) return allRoles;
 
-        ImmutableList.Builder<Role> b = ImmutableList.<Role>builder();
+        ImmutableList.Builder<Role> b = ImmutableList.<Role> builder();
         if (primary != null) b.add(primary);
         if (profession != null) b.add(profession);
         b.addAll(additionalRoles);

@@ -16,15 +16,12 @@
 package com.afterkraft.kraftrpg.api.skills;
 
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
 import org.bukkit.Bukkit;
-import org.bukkit.configuration.Configuration;
-import org.bukkit.configuration.MemoryConfiguration;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
@@ -56,9 +53,29 @@ public abstract class Skill implements ISkill {
         this.name = name;
     }
 
+    public static void knockback(LivingEntity target, LivingEntity attacker, double damage) {
+        CraftBukkitHandler.getInterface().knockBack(target, attacker, damage);
+    }
+
+    public static boolean damageEntity(ISkill skill, LivingEntity target, LivingEntity attacker, double damage) {
+        return damageEntity(target, attacker, damage, skill.isType(SkillType.ABILITY_PROPERTY_AIR) || skill.isType(SkillType.ABILITY_PROPERTY_PHYSICAL) ? EntityDamageEvent.DamageCause.ENTITY_ATTACK : EntityDamageEvent.DamageCause.MAGIC);
+    }
+
+    public static boolean damageEntity(LivingEntity target, LivingEntity attacker, double damage, EntityDamageEvent.DamageCause cause) {
+        return damageEntity(target, attacker, damage, cause, true);
+    }
+
+    public static boolean damageEntity(LivingEntity target, LivingEntity attacker, double damage, EntityDamageEvent.DamageCause cause, boolean knockback) {
+        return CraftBukkitHandler.getInterface().damageEntity(target, attacker, damage, cause, knockback);
+    }
+
+    public static boolean damageEntity(LivingEntity target, SkillCaster attacker, double damage, EntityDamageEvent.DamageCause cause) {
+        return damageEntity(target, attacker.getEntity(), damage, cause, true);
+    }
+
     /**
      * Return whether this Skill is enabled or not
-     *
+     * 
      * @return whether this skill is enabled
      */
     public final boolean isEnabled() {
@@ -67,7 +84,7 @@ public abstract class Skill implements ISkill {
 
     /**
      * Sets the enabled state of this Skill
-     *
+     * 
      * @param enabled whether or not to set this skill as enabled or not
      */
     public final void setEnabled(final boolean enabled) {
@@ -92,6 +109,10 @@ public abstract class Skill implements ISkill {
         return this.name;
     }
 
+    public EnumSet<SkillSetting> getUsedConfigNodes() {
+        return usedConfigNodes;
+    }
+
     @Override
     public final String getDescription() {
         return this.description;
@@ -100,18 +121,6 @@ public abstract class Skill implements ISkill {
     @Override
     public final void setDescription(String description) {
         this.description = description;
-    }
-
-    public EnumSet<SkillSetting> getUsedConfigNodes() {
-        return usedConfigNodes;
-    }
-
-    public final boolean needsConfiguredCustomData() {
-        return usedConfigNodes.contains(SkillSetting.CUSTOM);
-    }
-
-    public boolean needsCustomDataStorage() {
-        return usedConfigNodes.contains(SkillSetting.CUSTOM_PER_CHAMPION);
     }
 
     @Override
@@ -128,24 +137,9 @@ public abstract class Skill implements ISkill {
         return this.skillTypes.contains(type);
     }
 
-    public static final void knockback(LivingEntity target, LivingEntity attacker, double damage) {
-        CraftBukkitHandler.getInterface().knockBack(target, attacker, damage);
-    }
-
-    public static final boolean damageEntity(ISkill skill, LivingEntity target, LivingEntity attacker, double damage) {
-        return damageEntity(target, attacker, damage, skill.isType(SkillType.ABILITY_PROPERTY_AIR) || skill.isType(SkillType.ABILITY_PROPERTY_PHYSICAL) ? EntityDamageEvent.DamageCause.ENTITY_ATTACK : EntityDamageEvent.DamageCause.MAGIC);
-    }
-
-    public static final boolean damageEntity(LivingEntity target, LivingEntity attacker, double damage, EntityDamageEvent.DamageCause cause) {
-        return damageEntity(target, attacker, damage, cause, true);
-    }
-
-    public static final boolean damageEntity(LivingEntity target, SkillCaster attacker, double damage, EntityDamageEvent.DamageCause cause) {
-        return damageEntity(target, attacker.getEntity(), damage, cause, true);
-    }
-
-    public static final boolean damageEntity(LivingEntity target, LivingEntity attacker, double damage, EntityDamageEvent.DamageCause cause, boolean knockback) {
-        return CraftBukkitHandler.getInterface().damageEntity(target, attacker, damage, cause, knockback);
+    @Override
+    public boolean isInMessageRange(Champion broadcaster, Champion receiver) {
+        return broadcaster.getLocation().distanceSquared(receiver.getLocation()) < (20 * 20);
     }
 
     @Override
@@ -168,13 +162,21 @@ public abstract class Skill implements ISkill {
     }
 
     @Override
-    public boolean isInMessageRange(Champion broadcaster, Champion receiver) {
-        return broadcaster.getLocation().distanceSquared(receiver.getLocation()) < (20 * 20);
+    public boolean equals(ISkill other) {
+        return equals((Object) other);
+    }
+
+    public final boolean needsConfiguredCustomData() {
+        return usedConfigNodes.contains(SkillSetting.CUSTOM);
+    }
+
+    public boolean needsCustomDataStorage() {
+        return usedConfigNodes.contains(SkillSetting.CUSTOM_PER_CHAMPION);
     }
 
     /**
      * Set this Skill's skill types.
-     *
+     * 
      * @param types the SkillTypes to set
      */
     protected final void setSkillTypes(SkillType... types) {
@@ -187,11 +189,6 @@ public abstract class Skill implements ISkill {
         int result = 1;
         result = prime * result + ((name == null) ? 0 : name.hashCode());
         return result;
-    }
-
-    @Override
-    public boolean equals(ISkill other) {
-        return equals((Object) other);
     }
 
     @Override

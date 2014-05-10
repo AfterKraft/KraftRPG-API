@@ -18,6 +18,7 @@ package com.afterkraft.kraftrpg.api.skills;
 import java.util.List;
 
 import com.google.common.collect.ImmutableList;
+
 import com.afterkraft.kraftrpg.api.RPGPlugin;
 import com.afterkraft.kraftrpg.api.entity.SkillCaster;
 import com.afterkraft.kraftrpg.api.util.SkillRequirement;
@@ -43,18 +44,8 @@ public abstract class ActiveSkill extends Skill implements Active {
     }
 
     @Override
-    public SkillCastResult checkCustomRestrictions(SkillCaster caster, boolean forced) {
-        return SkillCastResult.NORMAL;
-    }
-
-    /**
-     * Set the SkillArguments to be used in parsing, and returned with
-     * {@link #getArgument(int)} and {@link #getSkillArguments()}.
-     *
-     * @param arguments to set
-     */
-    protected void setSkillArguments(SkillArgument... arguments) {
-        skillArguments = arguments;
+    public final String getUsage() {
+        return this.usage;
     }
 
     @SuppressWarnings("unchecked")
@@ -66,14 +57,19 @@ public abstract class ActiveSkill extends Skill implements Active {
         return skillArguments;
     }
 
-    @Override
-    public final String getUsage() {
-        return this.usage;
+    /**
+     * Set the SkillArguments to be used in parsing, and returned with
+     * {@link #getArgument(int)} and {@link #getSkillArguments()}.
+     * 
+     * @param arguments to set
+     */
+    protected void setSkillArguments(SkillArgument... arguments) {
+        skillArguments = arguments;
     }
 
     /**
      * {@inheritDoc}
-     *
+     * 
      * As not all skills will want this method, subclasses should override it
      * if desired.
      */
@@ -142,6 +138,11 @@ public abstract class ActiveSkill extends Skill implements Active {
         } else {
             return skillArguments[argIndex].tabComplete(caster, strings, stringIndex);
         }
+    }
+
+    @Override
+    public SkillCastResult checkCustomRestrictions(SkillCaster caster, boolean forced) {
+        return SkillCastResult.NORMAL;
     }
 
     public abstract SkillCastResult useSkill(SkillCaster caster);

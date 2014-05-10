@@ -52,7 +52,7 @@ public interface Insentient {
     /**
      * Returns (if available) the named
      * {@link com.afterkraft.kraftrpg.api.entity.effects.IEffect}
-     *
+     * 
      * @param name the name of the desired Effect
      * @return the named Effect if not null
      */
@@ -60,7 +60,7 @@ public interface Insentient {
 
     /**
      * Returns an unmodifiable set of Effects this Champion has active.
-     *
+     * 
      * @return an unmodifiable set of Effects this Champion has active.
      */
     public Set<IEffect> getEffects();
@@ -68,7 +68,7 @@ public interface Insentient {
     /**
      * Adds the given Effect to this Insentient being. Added Effects will be
      * applied on the next tick so as to avoid
-     *
+     * 
      * @param IEffect
      */
     public void addEffect(IEffect IEffect);
@@ -76,7 +76,7 @@ public interface Insentient {
     /**
      * Add the {@link org.bukkit.potion.PotionEffect} to this Insentient
      * being.
-     *
+     * 
      * @param potion the effect to be applied
      */
     public void addPotionEffect(PotionEffect potion);
@@ -90,7 +90,7 @@ public interface Insentient {
     /**
      * Remove the {@link org.bukkit.potion.PotionEffectType} from this
      * Insentient.
-     *
+     * 
      * @param type of PotionEffect to remove
      */
     public void removePotionEffect(PotionEffectType type);

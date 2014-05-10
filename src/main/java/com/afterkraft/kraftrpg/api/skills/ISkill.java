@@ -33,21 +33,21 @@ public interface ISkill {
 
     /**
      * Returns the generated permission node as a string for this ISkill.
-     *
+     * 
      * @return the string name permission node for this ISkill
      */
     public String getPermissionNode();
 
     /**
      * Return the unique name of this ISkill
-     *
+     * 
      * @return the name of this skill
      */
     public String getName();
 
     /**
      * Returns the default configuration for this skill.
-     *
+     * 
      * @return the defalt configuration for this skill
      */
     public Configuration getDefaultConfig();
@@ -57,14 +57,14 @@ public interface ISkill {
     /**
      * Return the description for this skill. This should be unique for every
      * skill
-     *
+     * 
      * @return the description for this skill
      */
     public String getDescription();
 
     /**
      * Set the description for this skill.
-     *
+     * 
      * @param description the description for this skill
      */
     public void setDescription(String description);
@@ -83,7 +83,7 @@ public interface ISkill {
 
     /**
      * Adds an Entity as a skill target.
-     *
+     * 
      * @param entity to add as a target
      * @param caster casting this skill
      * @return true if successful
@@ -92,23 +92,29 @@ public interface ISkill {
 
     /**
      * Check if this ISkill is of the requested {@link SkillType}
-     *
+     * 
      * @param type the type to check
      * @return true if this skill is of the requested type
      */
     public boolean isType(SkillType type);
 
     /**
-     * @param broadcaster
-     * @param receiver
-     * @return
+     * Checks if the receiving Champion is in meesage range to receive skill
+     * messages
+     * 
+     * @param broadcaster sending the message
+     * @param receiver receiving the message
+     * @return true if the receiver is in range
      */
     public boolean isInMessageRange(Champion broadcaster, Champion receiver);
 
     /**
-     * @param attacker
-     * @param defending
-     * @return
+     * Attempts to damage the defending LivingEntity, this allows for various
+     * protection plugins to cancel damage events.
+     * 
+     * @param attacker attempting to deal the damage
+     * @param defending entity being damaged
+     * @return true if the damage check was successful
      */
     public boolean damageCheck(IEntity attacker, LivingEntity defending);
 
@@ -121,14 +127,14 @@ public interface ISkill {
     /**
      * Return true if you skill wants custom configuration, that is, nodes
      * that are not in SkillSetting.
-     *
+     * 
      * @return custom config needed
      */
     public boolean needsConfiguredCustomData();
 
     /**
      * Return true if your Skill needs data storage for every player.
-     *
+     * 
      * @return data storage needed
      */
     public boolean needsCustomDataStorage();

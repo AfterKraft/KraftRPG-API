@@ -46,16 +46,6 @@ public class PassiveSkill extends Skill implements Passive {
     }
 
     @Override
-    public void initialize() {
-
-    }
-
-    @Override
-    public void shutdown() {
-
-    }
-
-    @Override
     public boolean isInMessageRange(Champion broadcaster, Champion receiver) {
         return false;
     }
@@ -64,5 +54,15 @@ public class PassiveSkill extends Skill implements Passive {
     public Configuration getDefaultConfig() {
         // TODO Auto-generated method stub
         return null;
+    }
+
+    @Override
+    public void initialize() {
+
+    }
+
+    @Override
+    public void shutdown() {
+
     }
 }

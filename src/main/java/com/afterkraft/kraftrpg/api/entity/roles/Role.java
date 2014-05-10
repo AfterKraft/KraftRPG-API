@@ -31,8 +31,8 @@ import com.afterkraft.kraftrpg.api.skills.ISkill;
 
 
 /**
- * A Role is a single node in a tree-like structure for granting Skills and other
- * bonuses to {@link SkillCaster}s.
+ * A Role is a single node in a tree-like structure for granting Skills and
+ * other bonuses to {@link SkillCaster}s.
  */
 public class Role {
     protected final RPGPlugin plugin;
@@ -50,7 +50,7 @@ public class Role {
 
     /**
      * Get the type of Role this is.
-     *
+     * 
      * @return the {@link com.afterkraft.kraftrpg.api.entity.roles.RoleType}
      */
     public final RoleType getType() {
@@ -59,11 +59,15 @@ public class Role {
 
     /**
      * Return the configured name for this Role
-     *
+     * 
      * @return the name for this role
      */
     public String getName() {
         return this.name;
+    }
+
+    public boolean hasSkillAtLevel(ISkill skill, int level) {
+        return getSkillConfigIfAvailable(skill, level) != null;
     }
 
     public ConfigurationSection getSkillConfigIfAvailable(ISkill skill, int level) {
@@ -76,8 +80,8 @@ public class Role {
         return null;
     }
 
-    public boolean hasSkillAtLevel(ISkill skill, int level) {
-        return getSkillConfigIfAvailable(skill, level) != null;
+    public boolean hasSkillEver(ISkill skill) {
+        return getLevelRequired(skill) != 0;
     }
 
     public int getLevelRequired(ISkill skill) {
@@ -87,10 +91,6 @@ public class Role {
             }
         }
         return 0;
-    }
-
-    public boolean hasSkillEver(ISkill skill) {
-        return getLevelRequired(skill) != 0;
     }
 
     public Set<ISkill> getAllSkills() {

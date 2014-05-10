@@ -75,12 +75,12 @@ public class SkillCastEvent extends Event implements Cancellable {
         return this.exhaustionCost;
     }
 
-    public double getStaminaCostAsFoodBar() {
-        return this.exhaustionCost / 4;
-    }
-
     public void setStaminaCostAsExhaustion(double staminaCost) {
         this.exhaustionCost = staminaCost;
+    }
+
+    public double getStaminaCostAsFoodBar() {
+        return this.exhaustionCost / 4;
     }
 
     public void setStaminaCostAsFoodBar(double staminaCost) {

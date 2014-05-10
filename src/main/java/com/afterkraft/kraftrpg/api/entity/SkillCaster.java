@@ -41,7 +41,7 @@ public interface SkillCaster extends Sentient, PartyMember {
 
     /**
      * Get the key'ed cooldown. Used by skills to mark individual cooldowns
-     *
+     * 
      * @param key name of the cooldown being checked
      * @return the time in milliseconds that the cooldown expires
      */
@@ -49,7 +49,7 @@ public interface SkillCaster extends Sentient, PartyMember {
 
     /**
      * Get the global cooldown
-     *
+     * 
      * @return the global cooldown if not 0
      */
     public long getGlobalCooldown();
@@ -62,7 +62,7 @@ public interface SkillCaster extends Sentient, PartyMember {
      * Fetch the highest level of all active
      * {@link com.afterkraft.kraftrpg.api.entity.roles.Role}s that provide the
      * designated {@link com.afterkraft.kraftrpg.api.skills.ISkill}.
-     *
+     * 
      * @param skill the skill in question
      * @return the highest level, if none, 0.
      */
@@ -71,7 +71,7 @@ public interface SkillCaster extends Sentient, PartyMember {
     /**
      * Check if this SkillCaster can use the given skill at their current
      * level.
-     *
+     * 
      * @param skill skill to check
      * @return true if skill can be used
      */
@@ -79,7 +79,7 @@ public interface SkillCaster extends Sentient, PartyMember {
 
     /**
      * Get all skills accessible at the current level in all roles.
-     *
+     * 
      * @return
      */
     public Collection<ISkill> getAvailableSkills();
@@ -87,14 +87,14 @@ public interface SkillCaster extends Sentient, PartyMember {
     /**
      * Same as {@link #getAvailableSkills()}, except return the names, and
      * only of {@link com.afterkraft.kraftrpg.api.skills.Active} skills.
-     *
+     * 
      * @return names of all skills currently accessible
      */
     public Collection<String> getActiveSkillNames();
 
     /**
      * Get all skills accessible at the max level in each role.
-     *
+     * 
      * @return
      */
     public Collection<ISkill> getPossibleSkillsInRoles();
@@ -157,7 +157,7 @@ public interface SkillCaster extends Sentient, PartyMember {
 
     /**
      * Interrupt the current Stalled skill.
-     *
+     * 
      * @param enemyAction whether the cancellation is the result of another
      *            SkillCaster's skill use
      * @return true if the delayed skill was interrupted

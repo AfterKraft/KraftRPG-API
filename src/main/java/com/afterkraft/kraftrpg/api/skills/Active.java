@@ -33,7 +33,7 @@ import com.afterkraft.kraftrpg.api.util.SkillRequirement;
  * {@link #getSkillRequirement(SkillCaster)},
  * {@link #hasSkillRequirement(SkillRequirement, SkillCaster)}, or
  * {@link #grantsExperienceOnCast()} should not rely on parser state.
- *
+ * 
  * The methods that do rely on parser state shall be called in the following
  * order:
  * <ol>
@@ -41,7 +41,8 @@ import com.afterkraft.kraftrpg.api.util.SkillRequirement;
  * <li>{@link #parse(SkillCaster, String[])}</li>
  * <li>{@link #checkCustomRestrictions(SkillCaster, boolean)}</li>
  * <li>If checkCustomRestrictions() returns ON_WARMUP, then
- * {@link #onWarmUp(SkillCaster)}. If it returns NORMAL, then {@link #useSkill(SkillCaster)}.</li>
+ * {@link #onWarmUp(SkillCaster)}. If it returns NORMAL, then
+ * {@link #useSkill(SkillCaster)}.</li>
  * <li>And finally, even if any throw an exception,
  * {@link #cleanState(SkillCaster)}.</li>
  * </ol>
@@ -52,7 +53,7 @@ public interface Active extends ISkill {
      * Returns the instructional usage for this skill, including various
      * accepted arguments handled in
      * {@link #parse(com.afterkraft.kraftrpg.api.entity.SkillCaster, String[])}
-     *
+     * 
      * @return the instructional usage for this skill
      */
     public String getUsage();
@@ -61,7 +62,7 @@ public interface Active extends ISkill {
      * Get the typed SkillArgument at the given index. This method is intended
      * for use by the Skill, as it knows what types its arguments are in
      * advance, and they do not move.
-     *
+     * 
      * @param index - index into the getSkillArguments() array
      * @return a casted SkillArgument
      */
@@ -69,7 +70,7 @@ public interface Active extends ISkill {
 
     /**
      * Get the active array of SkillArguments currently in use.
-     *
+     * 
      * @return array of SkillArguments
      */
     public SkillArgument[] getSkillArguments();
@@ -77,7 +78,7 @@ public interface Active extends ISkill {
     /**
      * Any necessary warmup process for an Active Skill should be done here.
      * This is called after parse() but before useSkill().
-     *
+     * 
      * @param caster caster
      */
     public void onWarmUp(SkillCaster caster);
@@ -88,7 +89,7 @@ public interface Active extends ISkill {
      * {@link #onWarmUp(SkillCaster)} or {@link #useSkill(SkillCaster)} may be
      * called, but {@link #cleanState(SkillCaster)} will <b>always</b> be
      * called before another parse() call.
-     *
+     * 
      * @param caster user of the skill
      * @param args full command arguments
      * @return if parse was successful - that is, the skill can be used with
@@ -99,7 +100,7 @@ public interface Active extends ISkill {
     /**
      * Suggest tab-completions to the given caster based on the given
      * arguments.
-     *
+     * 
      * @param caster caster requesting tab completions
      * @param args partial command arguments
      * @param startIndex index in the array to start looking
@@ -110,7 +111,7 @@ public interface Active extends ISkill {
     /**
      * Without parsed state, check if the given SkillCaster is permitted to
      * cast this skill.
-     *
+     * 
      * @param caster caster casting the skill
      * @param forced if the cast is involuntary (e.g. admin action)
      * @return a preliminary SkillCastResult
@@ -119,7 +120,7 @@ public interface Active extends ISkill {
 
     /**
      * Apply this skill using the previously parse()ed state.
-     *
+     * 
      * @param caster caster of the skill
      * @return final SkillCastResults
      */
@@ -128,7 +129,7 @@ public interface Active extends ISkill {
     /**
      * Clean any parsed state. In particular, any generated objects should be
      * available for garbage collection after this call.
-     *
+     * 
      * @param caster caster, for validation
      */
     public void cleanState(SkillCaster caster);
@@ -139,7 +140,7 @@ public interface Active extends ISkill {
      * overriden to use different requirements dependent on various things,
      * such as Attributes, the experience level of the Champion, and other
      * things.
-     *
+     * 
      * @param caster the Champion to check
      * @return a new SkillRequirement for the queried champion
      */
@@ -149,7 +150,7 @@ public interface Active extends ISkill {
      * Check if using this Skill grants the
      * {@link com.afterkraft.kraftrpg.api.entity.Champion} experience on skill
      * casts.
-     *
+     * 
      * @return if exp is granted
      */
     public boolean grantsExperienceOnCast();

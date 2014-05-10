@@ -23,7 +23,6 @@ import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
 import com.afterkraft.kraftrpg.api.entity.EnterCombatReason;
-import com.afterkraft.kraftrpg.api.entity.Insentient;
 import com.afterkraft.kraftrpg.api.entity.Sentient;
 
 public class EnterCombatEvent extends Event implements Cancellable {
@@ -43,7 +42,7 @@ public class EnterCombatEvent extends Event implements Cancellable {
 
     /**
      * Get the Sentient entering combat in this event.
-     *
+     * 
      * @return sentient entering combat
      */
     public Sentient getBeing() {
@@ -52,7 +51,7 @@ public class EnterCombatEvent extends Event implements Cancellable {
 
     /**
      * Get the Sentient that the primary one is entering combat with.
-     *
+     * 
      * @return sentient
      */
     public Sentient getOtherBeing() {

@@ -20,25 +20,25 @@ public enum SkillType {
     // === Types with code effects ===
     /**
      * Grants a non-health benefit to allies.
-     *
+     * 
      * Causes combat entry.
      */
     BUFFING,
     /**
      * A Damaging skill tends to deal damage.
-     *
+     * 
      * Causes combat entry.
      */
     DAMAGING,
     /**
      * Causes a non-health impediment to enemies.
-     *
+     * 
      * Causes combat entry.
      */
     DEBUFFING,
     /**
      * Cancels a hurt enemy's Stalled skill.
-     *
+     * 
      * Causes combat entry.
      */
     ENEMY_INTERRUPTING,
@@ -49,7 +49,7 @@ public enum SkillType {
     EXCLUSIVE,
     /**
      * A Healing skill tends to increase your health.
-     *
+     * 
      * Causes combat entry if not used on yourself.
      */
     HEALING,

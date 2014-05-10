@@ -32,8 +32,6 @@ import com.afterkraft.kraftrpg.api.entity.SkillCaster;
  * type of SkillArguments and it will always return true on Skill use.
  * <p/>
  * PermissionSkill can apply Permissions with both true and false
- *
- * @author gabizou
  */
 public class PermissionSkill extends Skill implements Permissible {
     private Map<String, Boolean> permissions;
@@ -57,11 +55,6 @@ public class PermissionSkill extends Skill implements Permissible {
     }
 
     @Override
-    public boolean isInMessageRange(Champion broadcaster, Champion receiver) {
-        return false;
-    }
-
-    @Override
     public void setPermissions(Map<String, Boolean> permissions) {
         this.permissions = permissions;
         this.permission = plugin.getServer().getPluginManager().getPermission(this.getName());
@@ -81,5 +74,10 @@ public class PermissionSkill extends Skill implements Permissible {
     @Override
     public boolean addSkillTarget(Entity entity, SkillCaster caster) {
         return true;
+    }
+
+    @Override
+    public boolean isInMessageRange(Champion broadcaster, Champion receiver) {
+        return false;
     }
 }
