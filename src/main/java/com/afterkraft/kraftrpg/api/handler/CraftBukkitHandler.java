@@ -55,13 +55,13 @@ public abstract class CraftBukkitHandler {
 
     public static CraftBukkitHandler getInterface() {
         if (activeInterface == null) {
-            //Get minecraft version
+            // Get minecraft version
             String packageName = Bukkit.getServer().getClass().getPackage().getName();
             String version = packageName.substring(packageName.lastIndexOf('.') + 1);
             if (version.equals("craftbukkit")) {
                 version = "pre";
             }
-            final String serverString = Bukkit.getServer().getVersion().split("-")[1].toLowerCase();
+            String serverString = Bukkit.getServer().getVersion().split("-")[1].toLowerCase();
             if (serverString.equalsIgnoreCase("craftbukkit")) {
                 serverType = ServerType.BUKKIT;
             } else if (serverString.equalsIgnoreCase("spigot")) {
@@ -70,11 +70,13 @@ public abstract class CraftBukkitHandler {
                 serverType = ServerType.TWEAKKIT;
             }
             try {
-                final Class<?> clazz = Class.forName("com.afterkraft.kraftrpg.compat." + version + ".RPGHandler");
+                Class<?> clazz = Class.forName("com.afterkraft.kraftrpg.compat." + version + ".RPGHandler");
                 if (CraftBukkitHandler.class.isAssignableFrom(clazz)) {
                     activeInterface = (CraftBukkitHandler) clazz.getConstructor(ServerType.class).newInstance(serverType);
                 }
-            } catch (final Exception e) {
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
@@ -201,6 +203,8 @@ public abstract class CraftBukkitHandler {
     public abstract void playClientEffect(Player player, Location startLocation, String particle, Vector offset, float speed, int count, boolean sendToAll);
 
     public abstract Conversation getCurrentConversation(Player player);
+
+    public abstract void addNBTAttributes();
 
     public static enum ServerType {
         BUKKIT,
