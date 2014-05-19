@@ -16,33 +16,37 @@
 package com.afterkraft.kraftrpg.api.util;
 
 import java.util.*;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import net.milkbowl.vault.item.ItemInfo;
-import net.milkbowl.vault.item.Items;
-import org.bukkit.ChatColor;
-import org.bukkit.Material;
+import com.google.common.collect.ImmutableSet;
+import org.bukkit.*;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.configuration.serialization.ConfigurationSerialization;
+import org.bukkit.configuration.MemoryConfiguration;
+import org.bukkit.configuration.MemorySection;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.BookMeta;
-import org.bukkit.inventory.meta.EnchantmentStorageMeta;
-import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.*;
+import org.bukkit.potion.Potion;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.StringUtil;
+
+import javax.security.auth.login.Configuration;
 
 
 public class Utilities {
 
-    public static Pattern uuidRegex;
-    public static Pattern locationRegex;
+    public static final Pattern uuidRegex = Pattern.compile("[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}", Pattern.CASE_INSENSITIVE);
+    public static Pattern locationRegex = Pattern.compile("~?-?[0-9]*(\\.[0-9]+)?");
 
     private static HashSet<Byte> transparentIds;
     private static HashSet<Material> transparentBlocks;
 
-    private static Map<String, Enchantment> enchantmentMap;
+    private static Map<String, PotionEffectType> otherPotionEffectNames;
+    private static Set<String> onlyItemKey = ImmutableSet.of("item");
 
     static {
         // Use Bukkit's Material#isTransParent()
@@ -61,16 +65,107 @@ public class Utilities {
             }
         }
 
-        uuidRegex = Pattern.compile("[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}", Pattern.CASE_INSENSITIVE);
-        locationRegex = Pattern.compile("~?-?[0-9]*(\\.[0-9]+)?");
+        otherPotionEffectNames = new HashMap<String, PotionEffectType>();
+        otherPotionEffectNames.put("nausea", PotionEffectType.CONFUSION);
+        otherPotionEffectNames.put("resistance", PotionEffectType.DAMAGE_RESISTANCE);
+        otherPotionEffectNames.put("haste", PotionEffectType.FAST_DIGGING);
+        otherPotionEffectNames.put("instant_damage", PotionEffectType.HARM);
+        otherPotionEffectNames.put("instant_health", PotionEffectType.HEAL);
+        otherPotionEffectNames.put("strength", PotionEffectType.INCREASE_DAMAGE);
+        otherPotionEffectNames.put("jump_boost", PotionEffectType.JUMP);
+        otherPotionEffectNames.put("slowness", PotionEffectType.SLOW);
+        otherPotionEffectNames.put("fatigue", PotionEffectType.SLOW_DIGGING);
+        otherPotionEffectNames.put("mining_fatigue", PotionEffectType.SLOW_DIGGING);
 
-        for (Enchantment ench : Enchantment.values()) {
-            enchantmentMap.put(ench.toString().toUpperCase(), ench);
+    }
+
+    public static Color parseColor(String str) {
+        String[] split = str.split(":");
+        int r, g, b;
+        try {
+            r = Integer.parseInt(split[0]);
+            g = Integer.parseInt(split[1]);
+            b = Integer.parseInt(split[2]);
+            return Color.fromRGB(r, g, b);
+        } catch (NumberFormatException e) {
+            return null;
+        } catch (ArrayIndexOutOfBoundsException e) {
+            return null;
+        } catch (IllegalArgumentException e) {
+            return null;
         }
     }
 
-    public static ItemStack loadItem(ConfigurationSection section) {
+    private static final Pattern timePattern = Pattern.compile("(\\d+)(\\w)");
+    public static PotionEffect loadEffect(Object root) {
+        if (root instanceof PotionEffect) return (PotionEffect) root;
+        if (root instanceof ConfigurationSection) {
+            ConfigurationSection section = (ConfigurationSection) root;
+
+            PotionEffectType type = PotionEffectType.getByName(section.getString("type"));
+            if (type == null) {
+                type = otherPotionEffectNames.get(section.getString("type").toLowerCase());
+            }
+            if (type == null) return null;
+
+            int strength = section.getInt("level", 0);
+
+            int ticks = section.getInt("ticks", -1);
+            if (ticks != -1) {
+                return new PotionEffect(type, ticks, strength);
+            }
+
+            String time = section.getString("time");
+            if (time == null) return null;
+
+            Matcher matcher = timePattern.matcher(time);
+            if (!matcher.matches()) return null;
+
+            int quant = Integer.parseInt(matcher.group(1));
+            char unit = matcher.group(2).charAt(0);
+            switch (unit) {
+                // fallthrough
+                case 'd':
+                    quant *= 24;
+                case 'h':
+                    quant *= 60;
+                case 'm':
+                    quant *= 60;
+                case 's':
+                    quant *= 20;
+                case 't':
+                    break;
+                default:
+                    return null;
+            }
+            return new PotionEffect(type, quant, strength);
+        }
+        return null;
+    }
+
+    @SuppressWarnings("unchecked")
+    public static ItemStack loadItem(Object root) {
+        ConfigurationSection section;
+        if (root == null) return null;
+        if (root instanceof ItemStack) return (ItemStack) root;
+        if (root instanceof ConfigurationSection) {
+            section = (ConfigurationSection) root;
+        } else if (root instanceof Map) {
+            MemoryConfiguration _section = new MemoryConfiguration();
+            _section.addDefaults((Map<String, Object>) root);
+            section = _section;
+        } else {
+            return null;
+        }
+
         ItemStack item = ItemStringInterpreter.valueOf(section.getString("item"));
+        if (item == null) return null;
+
+        // No addtl data? Return now
+        if (section.getKeys(true).equals(onlyItemKey)) {
+            return item;
+        }
+
         ItemMeta meta = item.getItemMeta();
 
         if (section.get("name") != null) {
@@ -86,22 +181,22 @@ public class Utilities {
         }
 
         if (section.getConfigurationSection("enchantments") != null) {
-            ConfigurationSection enchSection = section.getConfigurationSection("enchantments");
-            if (item.getType() == Material.ENCHANTED_BOOK) {
+            ConfigurationSection enchantSection = section.getConfigurationSection("enchantments");
+            if (meta instanceof EnchantmentStorageMeta) {
                 EnchantmentStorageMeta esMeta = (EnchantmentStorageMeta) meta;
-                for (String enchantment : enchSection.getKeys(false)) {
-                    Enchantment ench = enchantmentMap.get(enchantment.toUpperCase());
-                    esMeta.addStoredEnchant(ench, enchSection.getInt(enchantment), true);
+                for (String enchantStr : enchantSection.getKeys(false)) {
+                    Enchantment enchant = Enchantment.getByName(enchantStr);
+                    esMeta.addStoredEnchant(enchant, enchantSection.getInt(enchantStr), true);
                 }
             } else {
-                for (String enchantment : enchSection.getKeys(false)) {
-                    Enchantment ench = enchantmentMap.get(enchantment.toUpperCase());
-                    meta.addEnchant(ench, enchSection.getInt(enchantment), true);
+                for (String enchantStr : enchantSection.getKeys(false)) {
+                    Enchantment enchant = Enchantment.getByName(enchantStr);
+                    meta.addEnchant(enchant, enchantSection.getInt(enchantStr), true);
                 }
             }
         }
 
-        if (item.getType() == Material.WRITTEN_BOOK) {
+        if (meta instanceof BookMeta) {
             if (section.get("pages") != null) {
                 List<String> pages = new ArrayList<String>();
                 for (String page : section.getStringList("pages")) {
@@ -111,9 +206,42 @@ public class Utilities {
             }
         }
 
+        if (meta instanceof LeatherArmorMeta) {
+            Object obj = section.get("color");
+            if (obj instanceof String) {
+                ((LeatherArmorMeta) meta).setColor(parseColor((String) obj));
+            } else if (obj instanceof Color) {
+                ((LeatherArmorMeta) meta).setColor((Color) obj);
+            }
+        }
 
+        if (meta instanceof PotionMeta) {
+            List<?> effects = section.getList("effects");
+            if (effects != null) {
+                for (Object obj : effects) {
+                    PotionEffect effect = loadEffect(obj);
+                    if (effect != null) {
+                        ((PotionMeta) meta).addCustomEffect(effect, true);
+                    }
+                }
+            }
+        }
 
-        return null;
+        if (meta instanceof SkullMeta) {
+            String uuid = section.getString("uuid");
+            if (uuid != null) {
+                try {
+                    UUID u = UUID.fromString(uuid);
+                    OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(u);
+                    // FIXME
+                    ((SkullMeta) meta).setOwner(offlinePlayer.getName());
+                } catch (IllegalArgumentException ignored) {
+                }
+            }
+        }
+
+        item.setItemMeta(meta);
+        return item;
     }
 
     public static HashSet<Byte> getTransparentBlockIDs() {
