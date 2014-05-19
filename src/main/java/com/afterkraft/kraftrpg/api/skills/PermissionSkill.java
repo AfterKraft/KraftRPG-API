@@ -15,6 +15,8 @@
  */
 package com.afterkraft.kraftrpg.api.skills;
 
+import java.util.Collection;
+import java.util.EnumSet;
 import java.util.Map;
 
 import org.bukkit.configuration.Configuration;
@@ -44,6 +46,11 @@ public class PermissionSkill extends Skill implements Permissible {
     @Override
     public Configuration getDefaultConfig() {
         return null;
+    }
+
+    @Override
+    public Collection<SkillSetting> getUsedConfigNodes() {
+        return EnumSet.noneOf(SkillSetting.class);
     }
 
     @Override
