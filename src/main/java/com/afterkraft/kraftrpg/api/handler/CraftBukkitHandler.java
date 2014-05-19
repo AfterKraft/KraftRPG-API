@@ -19,6 +19,8 @@ import java.util.Set;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.conversations.Conversation;
+import org.bukkit.conversations.Prompt;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
@@ -197,6 +199,8 @@ public abstract class CraftBukkitHandler {
     protected abstract float getSoundStrength(LivingEntity entity);
 
     public abstract void playClientEffect(Player player, Location startLocation, String particle, Vector offset, float speed, int count, boolean sendToAll);
+
+    public abstract Conversation getCurrentConversation(Player player);
 
     public static enum ServerType {
         BUKKIT,

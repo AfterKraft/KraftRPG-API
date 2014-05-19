@@ -22,6 +22,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.bukkit.Bukkit;
+import org.bukkit.configuration.Configuration;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
@@ -43,7 +44,6 @@ public abstract class Skill implements ISkill {
     public final RPGPlugin plugin;
     private final Map<SkillSetting, Object> settings = new HashMap<SkillSetting, Object>();
     private final Set<SkillType> skillTypes = EnumSet.noneOf(SkillType.class);
-    private final EnumSet<SkillSetting> usedConfigNodes = EnumSet.noneOf(SkillSetting.class);
     private final String name;
     private String description = "";
     private boolean isEnabled = false;
@@ -109,10 +109,6 @@ public abstract class Skill implements ISkill {
         return this.name;
     }
 
-    public EnumSet<SkillSetting> getUsedConfigNodes() {
-        return usedConfigNodes;
-    }
-
     @Override
     public final String getDescription() {
         return this.description;
@@ -121,6 +117,11 @@ public abstract class Skill implements ISkill {
     @Override
     public final void setDescription(String description) {
         this.description = description;
+    }
+
+    @Override
+    public Configuration getDefaultConfig() {
+        return null;
     }
 
     @Override
@@ -167,11 +168,11 @@ public abstract class Skill implements ISkill {
     }
 
     public final boolean needsConfiguredCustomData() {
-        return usedConfigNodes.contains(SkillSetting.CUSTOM);
+        return getUsedConfigNodes().contains(SkillSetting.CUSTOM);
     }
 
     public boolean needsCustomDataStorage() {
-        return usedConfigNodes.contains(SkillSetting.CUSTOM_PER_CHAMPION);
+        return getUsedConfigNodes().contains(SkillSetting.CUSTOM_PER_CHAMPION);
     }
 
     /**

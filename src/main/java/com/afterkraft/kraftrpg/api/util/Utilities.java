@@ -15,14 +15,22 @@
  */
 package com.afterkraft.kraftrpg.api.util;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 import java.util.regex.Pattern;
 
+import net.milkbowl.vault.item.ItemInfo;
+import net.milkbowl.vault.item.Items;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.serialization.ConfigurationSerialization;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.BookMeta;
+import org.bukkit.inventory.meta.EnchantmentStorageMeta;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.util.StringUtil;
 
 
@@ -33,6 +41,8 @@ public class Utilities {
 
     private static HashSet<Byte> transparentIds;
     private static HashSet<Material> transparentBlocks;
+
+    private static Map<String, Enchantment> enchantmentMap;
 
     static {
         // Use Bukkit's Material#isTransParent()
@@ -53,6 +63,57 @@ public class Utilities {
 
         uuidRegex = Pattern.compile("[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}", Pattern.CASE_INSENSITIVE);
         locationRegex = Pattern.compile("~?-?[0-9]*(\\.[0-9]+)?");
+
+        for (Enchantment ench : Enchantment.values()) {
+            enchantmentMap.put(ench.toString().toUpperCase(), ench);
+        }
+    }
+
+    public static ItemStack loadItem(ConfigurationSection section) {
+        ItemStack item = ItemStringInterpreter.valueOf(section.getString("item"));
+        ItemMeta meta = item.getItemMeta();
+
+        if (section.get("name") != null) {
+            meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', section.getString("name")));
+        }
+
+        if (section.get("lore") != null) {
+            List<String> lore = new ArrayList<String>();
+            for (String str : section.getStringList("lore")) {
+                lore.add(ChatColor.translateAlternateColorCodes('&', str));
+            }
+            meta.setLore(lore);
+        }
+
+        if (section.getConfigurationSection("enchantments") != null) {
+            ConfigurationSection enchSection = section.getConfigurationSection("enchantments");
+            if (item.getType() == Material.ENCHANTED_BOOK) {
+                EnchantmentStorageMeta esMeta = (EnchantmentStorageMeta) meta;
+                for (String enchantment : enchSection.getKeys(false)) {
+                    Enchantment ench = enchantmentMap.get(enchantment.toUpperCase());
+                    esMeta.addStoredEnchant(ench, enchSection.getInt(enchantment), true);
+                }
+            } else {
+                for (String enchantment : enchSection.getKeys(false)) {
+                    Enchantment ench = enchantmentMap.get(enchantment.toUpperCase());
+                    meta.addEnchant(ench, enchSection.getInt(enchantment), true);
+                }
+            }
+        }
+
+        if (item.getType() == Material.WRITTEN_BOOK) {
+            if (section.get("pages") != null) {
+                List<String> pages = new ArrayList<String>();
+                for (String page : section.getStringList("pages")) {
+                    pages.add(ChatColor.translateAlternateColorCodes('&', page));
+                }
+                ((BookMeta) meta).setPages(pages);
+            }
+        }
+
+
+
+        return null;
     }
 
     public static HashSet<Byte> getTransparentBlockIDs() {
@@ -72,7 +133,7 @@ public class Utilities {
         return ret;
     }
 
-    public static List<String> matchPlayers(String partial, Player sender) {
+    public static List<String> matchPlayers(String partial, CommandSender sender) {
         Player senderPlayer = sender instanceof Player ? (Player) sender : null;
 
         ArrayList<String> matchedPlayers = new ArrayList<String>();
