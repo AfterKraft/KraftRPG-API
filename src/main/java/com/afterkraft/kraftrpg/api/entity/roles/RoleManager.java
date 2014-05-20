@@ -46,6 +46,14 @@ public interface RoleManager extends Manager {
 
     public void removeRoleDependency(Role parent, Role child);
 
+    /**
+     * This is a simple check for all registered Roles. This should not be
+     * called often, but it is used when adding role dependencies.
+     * 
+     * @return
+     */
+    public boolean areRoleDependenciesCyclic();
+
     public enum RoleRefreshReason {
         SKILL_REMOVAL,
         SKILL_ADDITION,

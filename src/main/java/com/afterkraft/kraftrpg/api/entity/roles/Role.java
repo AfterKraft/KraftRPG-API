@@ -126,6 +126,9 @@ public class Role {
             return;
         }
         parents.add(newParent);
+        if (plugin.getRoleManager().areRoleDependenciesCyclic()) {
+            parents.remove(newParent);
+        }
     }
 
     public void removeParent(Role parent) {
