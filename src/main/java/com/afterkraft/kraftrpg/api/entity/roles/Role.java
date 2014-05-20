@@ -21,14 +21,15 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import com.afterkraft.kraftrpg.api.skills.SkillSetting;
 import com.google.common.collect.ImmutableSet;
+
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 
 import com.afterkraft.kraftrpg.api.RPGPlugin;
 import com.afterkraft.kraftrpg.api.entity.SkillCaster;
 import com.afterkraft.kraftrpg.api.skills.ISkill;
+import com.afterkraft.kraftrpg.api.skills.SkillSetting;
 
 
 /**
@@ -43,7 +44,7 @@ public class Role {
     private final Map<Material, Double> itemDamages = new EnumMap<Material, Double>(Material.class);
     private final Map<Material, Double> itemDamagePerLevel = new EnumMap<Material, Double>(Material.class);
     private final Set<Role> children = new HashSet<Role>();
-    private Role parent = null;
+    private final Set<Role> parents = new HashSet<Role>();
     private boolean choosable = true;
 
     public Role(RPGPlugin plugin, String name, RoleType type) {
@@ -120,37 +121,47 @@ public class Role {
         return ret;
     }
 
-    public void setParent(Role newParent) {
-        // Validate
-        Role temp = newParent;
-        while (temp != null) {
-            if (temp == this) {
-                throw new IllegalArgumentException("Circular parents");
-            }
-            temp = temp.parent;
+    public void addParent(Role newParent) {
+        if (newParent == null) {
+            return;
         }
-        // Perform
-        if (parent != null) {
-            parent.children.remove(this);
-        }
-        parent = newParent;
-        if (parent != null) {
-            parent.children.add(this);
-        }
+        parents.add(newParent);
     }
 
-    public Role getParent() {
-        return parent;
+    public void removeParent(Role parent) {
+        if (parent == null) {
+            return;
+        }
+        this.parents.remove(parent);
+    }
+
+    public Set<Role> getParents() {
+        return ImmutableSet.copyOf(parents);
+    }
+
+    public void addChild(Role newChild) {
+        if (newChild == null) {
+            return;
+        }
+        parents.add(newChild);
+    }
+
+    public void removeChild(Role child) {
+        if (child == null) {
+            return;
+        }
+        this.parents.remove(child);
     }
 
     public Set<Role> getChildren() {
         return ImmutableSet.copyOf(children);
     }
 
+
     /**
      * Check if this role can by chosen by players. A non-choosable role must
      * be granted through some means other than role tree advancement.
-     *
+     * 
      * @return can be chosen
      */
     public boolean isChoosable() {

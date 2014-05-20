@@ -94,7 +94,7 @@ interface StringInterpreter {
      * Interpret a data string into a Byte suitable for MaterialData.
      * <p>
      * The provided string must first be made all uppercase before calling.
-     *
+     * 
      * @param s provided string
      * @return byte of data
      */

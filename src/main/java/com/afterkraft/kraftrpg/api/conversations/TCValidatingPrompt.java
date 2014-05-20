@@ -31,7 +31,7 @@ public abstract class TCValidatingPrompt implements TabCompletablePrompt {
 
     /**
      * Ensures that the prompt waits for the user to provide input.
-     *
+     * 
      * @param context Context information about the conversation.
      * @return True.
      */
@@ -43,7 +43,7 @@ public abstract class TCValidatingPrompt implements TabCompletablePrompt {
      * Accepts and processes input from the user and validates it. If
      * validation fails, this prompt is returned for re-execution, otherwise
      * the next Prompt in the prompt graph is returned.
-     *
+     * 
      * @param context Context information about the conversation.
      * @param input The input text from the user.
      * @return This prompt or the next Prompt in the prompt graph.

@@ -42,6 +42,10 @@ public interface RoleManager extends Manager {
 
     public void queueRoleRefresh(Role role, RoleRefreshReason reason);
 
+    public boolean addRoleDependency(Role parent, Role child);
+
+    public void removeRoleDependency(Role parent, Role child);
+
     public enum RoleRefreshReason {
         SKILL_REMOVAL,
         SKILL_ADDITION,
