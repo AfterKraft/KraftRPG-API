@@ -204,6 +204,8 @@ public abstract class CraftBukkitHandler {
 
     public abstract Conversation getCurrentConversation(Player player);
 
+    public abstract Prompt getCurrentPrompt(Conversation conversation);
+
     public abstract void addNBTAttributes();
 
     public static enum ServerType {
