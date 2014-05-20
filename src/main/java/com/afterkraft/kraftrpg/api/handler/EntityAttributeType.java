@@ -23,8 +23,7 @@ public enum EntityAttributeType {
     SPAWNX,
     SPAWNY,
     SPAWNZ,
-    SPAWNREASON(0, CreatureSpawnEvent.SpawnReason.values().length),
-    ;
+    SPAWNREASON(0, CreatureSpawnEvent.SpawnReason.values().length), ;
 
     private String attrName;
     private double minValue, maxValue;

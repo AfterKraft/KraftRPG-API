@@ -49,6 +49,16 @@ public class PermissionSkill extends Skill implements Permissible {
     }
 
     @Override
+    public boolean addSkillTarget(Entity entity, SkillCaster caster) {
+        return true;
+    }
+
+    @Override
+    public boolean isInMessageRange(Champion broadcaster, Champion receiver) {
+        return false;
+    }
+
+    @Override
     public Collection<SkillSetting> getUsedConfigNodes() {
         return EnumSet.noneOf(SkillSetting.class);
     }
@@ -76,15 +86,5 @@ public class PermissionSkill extends Skill implements Permissible {
     @Override
     public void tryLearning(Sentient being) {
 
-    }
-
-    @Override
-    public boolean addSkillTarget(Entity entity, SkillCaster caster) {
-        return true;
-    }
-
-    @Override
-    public boolean isInMessageRange(Champion broadcaster, Champion receiver) {
-        return false;
     }
 }

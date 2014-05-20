@@ -25,7 +25,7 @@ public abstract class TCStringPrompt implements TabCompletablePrompt {
 
     /**
      * Ensures that the prompt waits for the user to provide input.
-     *
+     * 
      * @param context Context information about the conversation.
      * @return True.
      */

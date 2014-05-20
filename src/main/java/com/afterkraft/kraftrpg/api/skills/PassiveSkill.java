@@ -46,14 +46,14 @@ public abstract class PassiveSkill extends Skill implements Passive {
     }
 
     @Override
-    public boolean isInMessageRange(Champion broadcaster, Champion receiver) {
-        return false;
-    }
-
-    @Override
     public Configuration getDefaultConfig() {
         // TODO Auto-generated method stub
         return null;
+    }
+
+    @Override
+    public boolean isInMessageRange(Champion broadcaster, Champion receiver) {
+        return false;
     }
 
     @Override

@@ -85,35 +85,35 @@ public abstract class CraftBukkitHandler {
 
     protected static String getSoundName(EntityType type) {
         switch (type) {
-        case BLAZE:
-            return "mob.blaze.death";
-        case CHICKEN:
-            return "mob.chickenhurt";
-        case CREEPER:
-            return "mob.creeperdeath";
-        case MAGMA_CUBE:
-        case SLIME:
-            return "mob.slime";
-        case SKELETON:
-            return "mob.skeletonhurt";
-        case IRON_GOLEM:
-            return "mob.irongolem.death";
-        case GHAST:
-            return "mob.ghast.death";
-        case PIG:
-            return "mob.pigdeath";
-        case OCELOT:
-            return "mob.cat.hitt";
-        case SHEEP:
-            return "mob.sheep";
-        case SPIDER:
-            return "mob.spiderdeath";
-        case WOLF:
-            return "mob.wolf.death";
-        case ZOMBIE:
-            return "mob.zombiedeath";
-        default:
-            return "damage.hurtflesh";
+            case BLAZE:
+                return "mob.blaze.death";
+            case CHICKEN:
+                return "mob.chickenhurt";
+            case CREEPER:
+                return "mob.creeperdeath";
+            case MAGMA_CUBE:
+            case SLIME:
+                return "mob.slime";
+            case SKELETON:
+                return "mob.skeletonhurt";
+            case IRON_GOLEM:
+                return "mob.irongolem.death";
+            case GHAST:
+                return "mob.ghast.death";
+            case PIG:
+                return "mob.pigdeath";
+            case OCELOT:
+                return "mob.cat.hitt";
+            case SHEEP:
+                return "mob.sheep";
+            case SPIDER:
+                return "mob.spiderdeath";
+            case WOLF:
+                return "mob.wolf.death";
+            case ZOMBIE:
+                return "mob.zombiedeath";
+            default:
+                return "damage.hurtflesh";
         }
     }
 

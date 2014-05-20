@@ -25,7 +25,7 @@
                 <targetPath>.</targetPath>
                 <directory>.</directory>
                 <includes>
-                    <include>LICENSE</include>
+                    <include>KRAFTRPG-LICENSE</include>
                 </includes>
             </resource>
             <resource>

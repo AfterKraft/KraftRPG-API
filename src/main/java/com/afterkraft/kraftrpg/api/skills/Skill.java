@@ -110,6 +110,11 @@ public abstract class Skill implements ISkill {
     }
 
     @Override
+    public Configuration getDefaultConfig() {
+        return null;
+    }
+
+    @Override
     public final String getDescription() {
         return this.description;
     }
@@ -117,11 +122,6 @@ public abstract class Skill implements ISkill {
     @Override
     public final void setDescription(String description) {
         this.description = description;
-    }
-
-    @Override
-    public Configuration getDefaultConfig() {
-        return null;
     }
 
     @Override

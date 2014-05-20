@@ -15,13 +15,14 @@
  */
 package com.afterkraft.kraftrpg.api.conversations;
 
-import org.apache.commons.lang.StringUtils;
-import org.bukkit.conversations.ConversationContext;
-import org.bukkit.util.StringUtil;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import org.apache.commons.lang.StringUtils;
+
+import org.bukkit.conversations.ConversationContext;
+import org.bukkit.util.StringUtil;
 
 /**
  * FixedSetPrompt is the base class for any prompt that requires a fixed set
@@ -35,16 +36,17 @@ public abstract class TCFixedSetPrompt extends TCValidatingPrompt {
      * Creates a FixedSetPrompt from a set of strings.
      * <p>
      * foo = new FixedSetPrompt("bar", "cheese", "panda");
-     *
+     * 
      * @param fixedSet A fixed set of strings, one of which the user must
-     *     type.
+     *            type.
      */
     public TCFixedSetPrompt(String... fixedSet) {
         super();
         this.fixedSet = Arrays.asList(fixedSet);
     }
 
-    private TCFixedSetPrompt() {}
+    private TCFixedSetPrompt() {
+    }
 
     @Override
     protected boolean isInputValid(ConversationContext context, String input) {
@@ -61,9 +63,9 @@ public abstract class TCFixedSetPrompt extends TCValidatingPrompt {
     /**
      * Utility function to create a formatted string containing all the
      * options declared in the constructor.
-     *
+     * 
      * @return the options formatted like "[bar, cheese, panda]" if bar,
-     *     cheese, and panda were the options used
+     *         cheese, and panda were the options used
      */
     protected String formatFixedSet() {
         return "[" + StringUtils.join(fixedSet, ", ") + "]";

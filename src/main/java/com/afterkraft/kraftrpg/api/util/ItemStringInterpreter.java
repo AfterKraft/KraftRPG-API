@@ -22,6 +22,7 @@ import java.util.Map;
 import net.milkbowl.vault.item.ItemInfo;
 import net.milkbowl.vault.item.Items;
 import org.apache.commons.lang.Validate;
+
 import org.bukkit.CoalType;
 import org.bukkit.DyeColor;
 import org.bukkit.GrassSpecies;
@@ -31,7 +32,6 @@ import org.bukkit.SkullType;
 import org.bukkit.TreeSpecies;
 import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.material.Coal;
 import org.bukkit.material.Leaves;
 import org.bukkit.material.LongGrass;
@@ -43,6 +43,63 @@ import org.bukkit.material.TexturedMaterial;
 import org.bukkit.material.Tree;
 import org.bukkit.material.WoodenStep;
 import org.bukkit.material.Wool;
+
+enum TEMP_WallType {
+    COBBLESTONE,
+    MOSSY_COBBLESTONE,
+}
+
+enum TEMP_AnvilDamage {
+    UNDAMAGED,
+    SLIGHTLY_DAMAGED,
+    VERY_DAMAGED,
+}
+
+enum TEMP_QuartzType {
+    NORMAL,
+    CHISELED,
+    PILLAR,
+}
+
+// From Step.class - missing new values
+enum TEMP_StepType {
+    STONE,
+    SANDSTONE,
+    WOOD,
+    COBBLESTONE,
+    BRICK,
+    SMOOTH_BRICK,
+    NETHER_BRICK,
+    QUARTZ,
+    SEAMLESS_STONE,
+    SEAMLESS_SANDSTONE,
+    ALTERNATE_WOOD,
+    ALTERNATE_COBBLESTONE,
+    ALTERNATE_BRICK,
+    ALTERNATE_SMOOTH_BRICK,
+    ALTERNATE_NETHER_BRICK,
+    SEAMLESS_QUARTZ,
+}
+
+// From SmoothBrick.class - dumb names
+enum TEMP_StoneBrickType {
+    NORMAL,
+    CRACKED,
+    MOSSY,
+    CIRCLE,
+}
+
+interface StringInterpreter {
+    /**
+     * Interpret a data string into a Byte suitable for MaterialData.
+     * <p>
+     * The provided string must first be made all uppercase before calling.
+     *
+     * @param s provided string
+     * @return byte of data
+     */
+    public byte interpret(String s);
+}
 
 @SuppressWarnings("rawtypes")
 public final class ItemStringInterpreter {
@@ -177,18 +234,6 @@ public final class ItemStringInterpreter {
     }
 }
 
-interface StringInterpreter {
-    /**
-     * Interpret a data string into a Byte suitable for MaterialData.
-     * <p>
-     * The provided string must first be made all uppercase before calling.
-     *
-     * @param s provided string
-     * @return byte of data
-     */
-    public byte interpret(String s);
-}
-
 class TexturedMaterialInterpreter implements StringInterpreter {
     private TexturedMaterial referenceInstance;
 
@@ -219,49 +264,4 @@ class EnumOrdinalMaterialInterpreter implements StringInterpreter {
         }
         return 0;
     }
-}
-
-enum TEMP_WallType {
-    COBBLESTONE,
-    MOSSY_COBBLESTONE,
-}
-
-enum TEMP_AnvilDamage {
-    UNDAMAGED,
-    SLIGHTLY_DAMAGED,
-    VERY_DAMAGED,
-}
-
-enum TEMP_QuartzType {
-    NORMAL,
-    CHISELED,
-    PILLAR,
-}
-
-// From Step.class - missing new values
-enum TEMP_StepType {
-    STONE,
-    SANDSTONE,
-    WOOD,
-    COBBLESTONE,
-    BRICK,
-    SMOOTH_BRICK,
-    NETHER_BRICK,
-    QUARTZ,
-    SEAMLESS_STONE,
-    SEAMLESS_SANDSTONE,
-    ALTERNATE_WOOD,
-    ALTERNATE_COBBLESTONE,
-    ALTERNATE_BRICK,
-    ALTERNATE_SMOOTH_BRICK,
-    ALTERNATE_NETHER_BRICK,
-    SEAMLESS_QUARTZ,
-}
-
-// From SmoothBrick.class - dumb names
-enum TEMP_StoneBrickType {
-    NORMAL,
-    CRACKED,
-    MOSSY,
-    CIRCLE,
 }

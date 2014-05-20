@@ -126,13 +126,13 @@ public class ExplicitLocationArgument extends SkillArgument {
     public List<String> tabComplete(SkillCaster caster, String[] allArgs, int startPosition) {
         int argsProvided = allArgs.length - startPosition;
         switch (argsProvided) {
-        case 0:
-        case 1:
-        case 2:
-        case 3:
-            return ImmutableList.of("~");
-        default:
-            return ImmutableList.of();
+            case 0:
+            case 1:
+            case 2:
+            case 3:
+                return ImmutableList.of("~");
+            default:
+                return ImmutableList.of();
         }
     }
 
