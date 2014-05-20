@@ -16,12 +16,13 @@
 package com.afterkraft.kraftrpg.api.entity.roles;
 
 import java.util.EnumMap;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
-import java.util.NavigableMap;
 import java.util.Set;
-import java.util.TreeMap;
 
+import com.afterkraft.kraftrpg.api.skills.SkillSetting;
+import com.google.common.collect.ImmutableSet;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 
@@ -38,9 +39,12 @@ public class Role {
     protected final RPGPlugin plugin;
     protected final String name;
     protected final RoleType type;
-    private final TreeMap<RoleSkill, ConfigurationSection> skills = new TreeMap<RoleSkill, ConfigurationSection>();
+    private final Map<ISkill, RoleSkill> skills = new HashMap<ISkill, RoleSkill>();
     private final Map<Material, Double> itemDamages = new EnumMap<Material, Double>(Material.class);
     private final Map<Material, Double> itemDamagePerLevel = new EnumMap<Material, Double>(Material.class);
+    private final Set<Role> children = new HashSet<Role>();
+    private Role parent = null;
+    private boolean choosable = true;
 
     public Role(RPGPlugin plugin, String name, RoleType type) {
         this.plugin = plugin;
@@ -66,51 +70,95 @@ public class Role {
         return this.name;
     }
 
+    public void addSkill(ISkill skill, ConfigurationSection config) {
+        if (config.getInt(SkillSetting.LEVEL.node(), -1) == -1) {
+            throw new IllegalArgumentException("Level not specified in configuration");
+        }
+        RoleSkill rs = new RoleSkill(skill, config);
+        skills.put(skill, rs);
+    }
+
     public boolean hasSkillAtLevel(ISkill skill, int level) {
-        return getSkillConfigIfAvailable(skill, level) != null;
+        RoleSkill rs = skills.get(skill);
+
+        return rs != null && rs.getLevel() <= level;
     }
 
     public ConfigurationSection getSkillConfigIfAvailable(ISkill skill, int level) {
-        NavigableMap<RoleSkill, ConfigurationSection> subMap = skills.headMap(new RoleSkill(skill, level), true);
-        for (RoleSkill rs : subMap.descendingKeySet()) {
-            if (rs.skillEquals(skill)) {
-                return subMap.get(rs);
-            }
+        RoleSkill rs = skills.get(skill);
+        if (rs == null) return null;
+
+        if (rs.getLevel() <= level) {
+            return rs.getConfig();
         }
         return null;
     }
 
     public boolean hasSkillEver(ISkill skill) {
-        return getLevelRequired(skill) != 0;
+        return skills.get(skill) != null;
     }
 
     public int getLevelRequired(ISkill skill) {
-        for (RoleSkill rs : skills.keySet()) {
-            if (rs.skillEquals(skill)) {
-                return rs.getLevel();
-            }
+        RoleSkill rs = skills.get(skill);
+        if (rs == null) {
+            return -1;
         }
-        return 0;
+        return rs.getLevel();
     }
 
     public Set<ISkill> getAllSkills() {
-        Set<ISkill> ret = new HashSet<ISkill>();
-
-        for (RoleSkill rs : skills.keySet()) {
-            ret.add(rs.getSkill());
-        }
-
-        return ret;
+        return skills.keySet();
     }
 
     public Set<ISkill> getAllSkillsAtLevel(int level) {
-        NavigableMap<RoleSkill, ConfigurationSection> subMap = skills.headMap(new RoleSkill(null, level), true);
         Set<ISkill> ret = new HashSet<ISkill>();
-        for (RoleSkill rs : subMap.descendingKeySet()) {
-            ret.add(rs.getSkill());
+        for (Map.Entry<ISkill, RoleSkill> entry : skills.entrySet()) {
+            if (entry.getValue().getLevel() <= level) {
+                ret.add(entry.getKey());
+            }
         }
-
         return ret;
+    }
+
+    public void setParent(Role newParent) {
+        // Validate
+        Role temp = newParent;
+        while (temp != null) {
+            if (temp == this) {
+                throw new IllegalArgumentException("Circular parents");
+            }
+            temp = temp.parent;
+        }
+        // Perform
+        if (parent != null) {
+            parent.children.remove(this);
+        }
+        parent = newParent;
+        if (parent != null) {
+            parent.children.add(this);
+        }
+    }
+
+    public Role getParent() {
+        return parent;
+    }
+
+    public Set<Role> getChildren() {
+        return ImmutableSet.copyOf(children);
+    }
+
+    /**
+     * Check if this role can by chosen by players. A non-choosable role must
+     * be granted through some means other than role tree advancement.
+     *
+     * @return can be chosen
+     */
+    public boolean isChoosable() {
+        return choosable;
+    }
+
+    public void setChoosable(boolean canChoose) {
+        choosable = canChoose;
     }
 
     public double getItemDamage(Material type) {

@@ -16,20 +16,21 @@
 package com.afterkraft.kraftrpg.api.entity.roles;
 
 import com.afterkraft.kraftrpg.api.skills.ISkill;
+import com.afterkraft.kraftrpg.api.skills.SkillSetting;
+import org.bukkit.configuration.ConfigurationSection;
 
-public class RoleSkill implements Comparable<RoleSkill> {
+public class RoleSkill {
     private ISkill skill;
-    private int level;
+    private ConfigurationSection section;
 
-    public RoleSkill(ISkill skill, int level) {
+    public RoleSkill(ISkill skill, ConfigurationSection section) {
         this.skill = skill;
-        this.level = level;
+        this.section = section;
     }
 
     public boolean skillEquals(ISkill other) {
-        if (skill == other) return true;
+        return skill == other || skill.equals(other);
 
-        return skill.equals(other);
     }
 
     public ISkill getSkill() {
@@ -37,43 +38,10 @@ public class RoleSkill implements Comparable<RoleSkill> {
     }
 
     public int getLevel() {
-        return level;
+        return section.getInt(SkillSetting.LEVEL.node());
     }
 
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((skill == null) ? 0 : skill.hashCode());
-        result = prime * result + level;
-        return result;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (obj == null) return false;
-        if (getClass() != obj.getClass()) return false;
-        RoleSkill other = (RoleSkill) obj;
-        if (level != other.level) return false;
-        if (skill == null) {
-            if (other.skill != null) return false;
-        } else if (!skill.equals(other.skill)) return false;
-        return true;
-    }
-
-    // this - other
-    @Override
-    public int compareTo(RoleSkill other) {
-        int levelDiff = this.level - other.level;
-        if (levelDiff != 0) return levelDiff;
-
-        // null is always greater
-        if (skill == null) {
-            return 1;
-        } else if (other.skill == null) {
-            return -1;
-        }
-        return skill.getName().compareTo(other.skill.getName());
+    public ConfigurationSection getConfig() {
+        return section;
     }
 }
