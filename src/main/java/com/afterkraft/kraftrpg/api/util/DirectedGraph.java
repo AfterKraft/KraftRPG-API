@@ -19,6 +19,8 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import com.afterkraft.kraftrpg.api.CircularDependencyException;
+
 /**
  * This is a somewhat simple Graph data structure that has directed edges and
  * allows for nodes to be removed without having to specifically loosing all
@@ -75,7 +77,7 @@ public class DirectedGraph<T> {
         vertexes.remove(data);
     }
 
-    public boolean addEdge(T from, T to) {
+    public boolean addEdge(T from, T to) throws CircularDependencyException {
         Vertex<T> vertex = vertexes.get(from);
         if (vertex == null) {
             vertex = new Vertex<T>(from);
@@ -86,8 +88,7 @@ public class DirectedGraph<T> {
         vertex.addEdge(new Vertex<T>(to));
         vertexes.put(from, vertex);
         if (doesCycleExist()) { // We can't allow the creation of a cycle
-            vertex.removeEdge(vertexes.get(to));
-            return false;
+            throw new CircularDependencyException("Could not add " + from.toString() + " as a parent of " + to.toString());
         }
         return true;
     }
@@ -165,7 +166,7 @@ public class DirectedGraph<T> {
          * 
          * @return true is visit has been called
          */
-        public boolean visited() {
+        boolean visited() {
             return mark;
         }
 
@@ -174,7 +175,7 @@ public class DirectedGraph<T> {
          * 
          * @return the mark state
          */
-        public int getMarkState() {
+        int getMarkState() {
             return markState;
         }
 
@@ -183,7 +184,7 @@ public class DirectedGraph<T> {
          * 
          * @param state the state
          */
-        public void setMarkState(int state) {
+        void setMarkState(int state) {
             markState = state;
         }
 
@@ -191,7 +192,7 @@ public class DirectedGraph<T> {
          * Visit the vertex and set the mark flag to true.
          * 
          */
-        public void visit() {
+        void visit() {
             mark();
         }
 
@@ -199,7 +200,7 @@ public class DirectedGraph<T> {
          * Set the vertex mark flag.
          * 
          */
-        public void mark() {
+        void mark() {
             mark = true;
         }
 
@@ -207,7 +208,7 @@ public class DirectedGraph<T> {
          * Clear the visited mark flag.
          * 
          */
-        public void clearMark() {
+        void clearMark() {
             mark = false;
         }
 
