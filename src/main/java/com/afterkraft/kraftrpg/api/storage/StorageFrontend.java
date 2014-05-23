@@ -124,6 +124,7 @@ public abstract class StorageFrontend {
                 data = new PlayerData();
             }
         }
+        data.playerID = player.getUniqueId();
         data.lastKnownName = player.getName();
 
         return plugin.getEntityManager().createChampion(player, data);

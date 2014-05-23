@@ -20,6 +20,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.UUID;
 
 import com.google.common.collect.ImmutableList;
 
@@ -54,6 +55,7 @@ public class PlayerData implements Cloneable {
      */
     public Role primary, profession;
     public String lastKnownName;
+    public UUID playerID;
     private Collection<Role> allRoles = null;
 
     public PlayerData() {
