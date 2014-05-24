@@ -63,7 +63,7 @@ public abstract class StorageFrontend {
         toSave = new HashMap<UUID, Champion>();
         offlineToSave = new HashMap<UUID, PlayerData>();
 
-        new SavingStarterTask().runTaskTimerAsynchronously(plugin, 20 * 60, 20 * 60 * 30);
+        new SavingStarterTask().runTaskTimerAsynchronously(plugin, 20 * 60, 20 * 60);
     }
 
     /**

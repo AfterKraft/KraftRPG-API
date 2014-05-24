@@ -17,11 +17,22 @@ package com.afterkraft.kraftrpg.api.entity;
 
 import com.afterkraft.kraftrpg.api.entity.party.Party;
 
-
+/**
+ * Represents a being that is allowed to join {@link Party}s.
+ */
 public interface PartyMember {
 
+    /**
+     * Check if this being is currently in a party
+     *
+     * @return true if the being is in a party
+     */
     public boolean hasParty();
 
+    /**
+     * Get the currently attached Party for this being.
+     * @return
+     */
     public Party getParty();
 
     public void setParty(Party party);

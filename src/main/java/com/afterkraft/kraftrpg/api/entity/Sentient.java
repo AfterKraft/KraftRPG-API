@@ -19,16 +19,19 @@ import java.util.Collection;
 import java.util.Set;
 
 import org.bukkit.Location;
-import org.bukkit.entity.LivingEntity;
 
 import com.afterkraft.kraftrpg.api.entity.roles.ExperienceType;
 import com.afterkraft.kraftrpg.api.entity.roles.Role;
 import com.afterkraft.kraftrpg.api.util.FixedPoint;
 
-
+/**
+ * Represents a being that is able to obtain experience and advance through
+ * {@link Role}s. A Sentient being can gain experience and have various
+ * effects applied to it. Usually, this type of being is applied to entities
+ * that are to be interacted with but not interfered with in regards to
+ * {@link com.afterkraft.kraftrpg.api.skills.ISkill}.
+ */
 public interface Sentient extends Insentient {
-
-    public LivingEntity getEntity();
 
     /**
      * Fetches the current experience of the given Role.
