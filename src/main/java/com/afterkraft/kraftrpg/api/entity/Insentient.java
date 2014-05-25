@@ -15,6 +15,7 @@
  */
 package com.afterkraft.kraftrpg.api.entity;
 
+import java.util.List;
 import java.util.Set;
 
 import org.bukkit.Location;
@@ -138,7 +139,7 @@ public interface Insentient {
      *     </ul>
      * </code>
      * 
-     * @return The constructed ItemStack array of the armor for this being
+     * @return The unmodifiable ItemStack list of the armor for this being
      */
     public ItemStack[] getArmor();
 
