@@ -127,6 +127,22 @@ public interface Insentient {
     public Inventory getInventory();
 
     /**
+     * Provided as a utility method to get the being's armor. Implementations
+     * may vary, but this should be assured to follow the index representation
+     * provided by the following methods: <code>
+     *     <ul>
+     *         <li>{@link com.afterkraft.kraftrpg.api.handler.CraftBukkitHandler#getArmorIndexHelmet()}</li>
+     *         <li>{@link com.afterkraft.kraftrpg.api.handler.CraftBukkitHandler#getArmorIndexChestPlate()} </li>
+     *         <li>{@link com.afterkraft.kraftrpg.api.handler.CraftBukkitHandler#getArmorIndexLeggings()} </li>
+     *         <li>{@link com.afterkraft.kraftrpg.api.handler.CraftBukkitHandler#getArmorIndexBoots()} </li>
+     *     </ul>
+     * </code>
+     * 
+     * @return The constructed ItemStack array of the armor for this being
+     */
+    public ItemStack[] getArmor();
+
+    /**
      * Return the {@link org.bukkit.Location} of this being.
      * 
      * @return the location of the being.

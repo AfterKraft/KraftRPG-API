@@ -15,6 +15,7 @@
  */
 package com.afterkraft.kraftrpg.api.handler;
 
+import java.util.Map;
 import java.util.Set;
 
 import org.bukkit.Bukkit;
@@ -29,6 +30,7 @@ import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 
 import com.afterkraft.kraftrpg.api.RPGPlugin;
@@ -207,6 +209,16 @@ public abstract class CraftBukkitHandler {
     public abstract Prompt getCurrentPrompt(Conversation conversation);
 
     public abstract void addNBTAttributes();
+
+    public abstract int getArmorIndexHelmet();
+
+    public abstract int getArmorIndexChestPlate();
+
+    public abstract int getArmorIndexLeggings();
+
+    public abstract int getArmorIndexBoots();
+
+    public abstract Map<String, PotionEffectType> getAlternatePotionEffectNames();
 
     public static enum ServerType {
         BUKKIT,

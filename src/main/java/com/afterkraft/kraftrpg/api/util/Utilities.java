@@ -49,6 +49,8 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.StringUtil;
 
+import com.afterkraft.kraftrpg.api.handler.CraftBukkitHandler;
+
 
 public class Utilities {
 
@@ -57,7 +59,6 @@ public class Utilities {
     public static Pattern locationRegex = Pattern.compile("~?-?[0-9]*(\\.[0-9]+)?");
     private static HashSet<Byte> transparentIds;
     private static HashSet<Material> transparentBlocks;
-    private static Map<String, PotionEffectType> otherPotionEffectNames;
     private static Set<String> onlyItemKey = ImmutableSet.of("item");
     static {
         // Use Bukkit's Material#isTransParent()
@@ -75,18 +76,6 @@ public class Utilities {
                 transparentIds.add((byte) mat.getId());
             }
         }
-
-        otherPotionEffectNames = new HashMap<String, PotionEffectType>();
-        otherPotionEffectNames.put("nausea", PotionEffectType.CONFUSION);
-        otherPotionEffectNames.put("resistance", PotionEffectType.DAMAGE_RESISTANCE);
-        otherPotionEffectNames.put("haste", PotionEffectType.FAST_DIGGING);
-        otherPotionEffectNames.put("instant_damage", PotionEffectType.HARM);
-        otherPotionEffectNames.put("instant_health", PotionEffectType.HEAL);
-        otherPotionEffectNames.put("strength", PotionEffectType.INCREASE_DAMAGE);
-        otherPotionEffectNames.put("jump_boost", PotionEffectType.JUMP);
-        otherPotionEffectNames.put("slowness", PotionEffectType.SLOW);
-        otherPotionEffectNames.put("fatigue", PotionEffectType.SLOW_DIGGING);
-        otherPotionEffectNames.put("mining_fatigue", PotionEffectType.SLOW_DIGGING);
 
     }
 
@@ -215,7 +204,7 @@ public class Utilities {
 
             PotionEffectType type = PotionEffectType.getByName(section.getString("type"));
             if (type == null) {
-                type = otherPotionEffectNames.get(section.getString("type").toLowerCase());
+                type = CraftBukkitHandler.getInterface().getAlternatePotionEffectNames().get(section.getString("type").toLowerCase());
             }
             if (type == null) return null;
 
