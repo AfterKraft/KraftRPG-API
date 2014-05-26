@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -151,6 +152,20 @@ public interface Insentient {
     public Location getLocation();
 
     /**
+     * Shortcut method for {@link #getLocation()#getWorld()}
+     *
+     * @return the world of this being.
+     */
+    public World getWorld();
+
+    /**
+     * Check if this being is on solid ground (not flying or jumping) in the air
+     *
+     * @return true if the being is not in the air
+     */
+    public boolean isOnGround();
+
+    /**
      * Returns (if available) the named
      * {@link com.afterkraft.kraftrpg.api.entity.effects.IEffect}
      * 
@@ -253,4 +268,13 @@ public interface Insentient {
      * {@link IEffect#remove(Insentient)}
      */
     public void manualClearEffects();
+
+    /**
+     * Sends a message to this being. A helper method to avoid having to cast
+     * check the being or the entity this being belongs to to send server
+     * messages.
+     *
+     * @param message to be sent
+     */
+    public void sendMessage(String message);
 }
