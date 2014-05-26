@@ -39,7 +39,7 @@ import com.afterkraft.kraftrpg.api.skills.SkillSetting;
 public class Role {
     protected final RPGPlugin plugin;
     protected final String name;
-    protected final RoleType type;
+    private RoleType type;
     private final Map<ISkill, RoleSkill> skills = new HashMap<ISkill, RoleSkill>();
     private final Map<Material, Double> itemDamages = new EnumMap<Material, Double>(Material.class);
     private final Map<Material, Double> itemDamagePerLevel = new EnumMap<Material, Double>(Material.class);
@@ -163,6 +163,15 @@ public class Role {
         return ImmutableSet.copyOf(children);
     }
 
+    public boolean isDefault() {
+        if (type == RoleType.PRIMARY) {
+            return this == plugin.getRoleManager().getDefaultPrimaryRole();
+        } else if (type == RoleType.SECONDARY) {
+            return this == plugin.getRoleManager().getDefaultSecondaryRole();
+        }
+        return false;
+    }
+
     public void setHpMpProperties(double hpAt0, double hpPerLevel, double mpAt0, double mpPerLevel, double mpRegenAt0, double mpRegenPerLevel) {
         this.hpAt0 = hpAt0;
         this.hpPerLevel = hpPerLevel;
@@ -276,5 +285,9 @@ public class Role {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public void setType(RoleType type) {
+        this.type = type;
     }
 }
