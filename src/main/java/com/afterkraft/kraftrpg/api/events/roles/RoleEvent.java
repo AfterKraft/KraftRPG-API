@@ -19,7 +19,7 @@ import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
 import com.afterkraft.kraftrpg.api.entity.Sentient;
-import com.afterkraft.kraftrpg.api.entity.roles.Role;
+import com.afterkraft.kraftrpg.api.roles.Role;
 
 
 public class RoleEvent extends Event {

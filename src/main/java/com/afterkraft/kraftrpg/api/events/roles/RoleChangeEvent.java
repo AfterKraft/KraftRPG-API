@@ -19,7 +19,7 @@ import org.bukkit.event.Cancellable;
 import org.bukkit.event.HandlerList;
 
 import com.afterkraft.kraftrpg.api.entity.Champion;
-import com.afterkraft.kraftrpg.api.entity.roles.Role;
+import com.afterkraft.kraftrpg.api.roles.Role;
 
 
 public class RoleChangeEvent extends RoleEvent implements Cancellable {

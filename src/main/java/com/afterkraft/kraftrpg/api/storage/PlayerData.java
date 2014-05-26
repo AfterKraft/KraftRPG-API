@@ -26,7 +26,7 @@ import com.google.common.collect.ImmutableList;
 
 import org.bukkit.Material;
 
-import com.afterkraft.kraftrpg.api.entity.roles.Role;
+import com.afterkraft.kraftrpg.api.roles.Role;
 import com.afterkraft.kraftrpg.api.skills.SkillBind;
 import com.afterkraft.kraftrpg.api.util.FixedPoint;
 

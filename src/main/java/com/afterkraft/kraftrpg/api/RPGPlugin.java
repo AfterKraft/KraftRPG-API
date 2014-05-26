@@ -23,7 +23,7 @@ import com.afterkraft.kraftrpg.api.entity.CombatTracker;
 import com.afterkraft.kraftrpg.api.entity.EntityManager;
 import com.afterkraft.kraftrpg.api.entity.effects.EffectManager;
 import com.afterkraft.kraftrpg.api.entity.party.PartyManager;
-import com.afterkraft.kraftrpg.api.entity.roles.RoleManager;
+import com.afterkraft.kraftrpg.api.roles.RoleManager;
 import com.afterkraft.kraftrpg.api.listeners.ListenerManager;
 import com.afterkraft.kraftrpg.api.skills.ISkill;
 import com.afterkraft.kraftrpg.api.skills.SkillConfigManager;

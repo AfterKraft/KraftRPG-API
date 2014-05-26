@@ -25,7 +25,7 @@ import org.bukkit.inventory.ItemStack;
 import com.afterkraft.kraftrpg.api.Manager;
 import com.afterkraft.kraftrpg.api.entity.Sentient;
 import com.afterkraft.kraftrpg.api.entity.SkillCaster;
-import com.afterkraft.kraftrpg.api.entity.roles.Role;
+import com.afterkraft.kraftrpg.api.roles.Role;
 
 
 public interface SkillConfigManager extends Manager {

@@ -17,7 +17,7 @@ package com.afterkraft.kraftrpg.api.entity;
 
 import java.util.Collection;
 
-import com.afterkraft.kraftrpg.api.entity.roles.Role;
+import com.afterkraft.kraftrpg.api.roles.Role;
 import com.afterkraft.kraftrpg.api.skills.ISkill;
 import com.afterkraft.kraftrpg.api.skills.Stalled;
 import com.afterkraft.kraftrpg.api.util.SkillRequirement;
@@ -77,7 +77,7 @@ public interface SkillCaster extends Sentient, PartyMember {
 
     /**
      * Fetch the highest level of all active
-     * {@link com.afterkraft.kraftrpg.api.entity.roles.Role}s that provide the
+     * {@link com.afterkraft.kraftrpg.api.roles.Role}s that provide the
      * designated {@link com.afterkraft.kraftrpg.api.skills.ISkill}.
      * 
      * @param skill the skill in question

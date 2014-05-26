@@ -22,7 +22,6 @@ import java.util.Map;
 import java.util.Set;
 
 import org.bukkit.Bukkit;
-import org.bukkit.configuration.Configuration;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.MemoryConfiguration;
 import org.bukkit.entity.Entity;
@@ -34,9 +33,8 @@ import com.afterkraft.kraftrpg.api.RPGPlugin;
 import com.afterkraft.kraftrpg.api.entity.Champion;
 import com.afterkraft.kraftrpg.api.entity.IEntity;
 import com.afterkraft.kraftrpg.api.entity.SkillCaster;
-import com.afterkraft.kraftrpg.api.entity.roles.ExperienceType;
+import com.afterkraft.kraftrpg.api.roles.ExperienceType;
 import com.afterkraft.kraftrpg.api.handler.CraftBukkitHandler;
-import com.afterkraft.kraftrpg.api.util.FixedPoint;
 import org.bukkit.inventory.ItemStack;
 
 /**

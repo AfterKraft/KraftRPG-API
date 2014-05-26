@@ -13,24 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.afterkraft.kraftrpg.api.entity.roles;
+package com.afterkraft.kraftrpg.api.roles;
 
+import com.afterkraft.kraftrpg.api.entity.Champion;
 
-public enum ExperienceType {
-    SKILL,
-    PVE,
-    PVP,
-    MINING,
-    ENCHANTING,
-    FARMING,
-    CRAFTING,
-    LOGGING,
-    DEATH,
-    ADMIN,
-    EXTERNAL,
-    FISHING,
-    QUESTING,
-    BUILDING,
-    SHEARING,
-    TAMING
+public interface RoleRequirement {
+    public boolean satisfied(Champion champion);
+
+    public String getFailureMessage(Champion champion);
 }

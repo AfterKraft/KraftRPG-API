@@ -42,7 +42,7 @@ public interface DamageManager extends Manager {
     /**
      * Attempts to calculate the highest damage given for the given ItemStack.
      * This will check all active
-     * {@link com.afterkraft.kraftrpg.api.entity.roles.Role}s that the given
+     * {@link com.afterkraft.kraftrpg.api.roles.Role}s that the given
      * {@link com.afterkraft.kraftrpg.api.entity.SkillCaster} may have.
      * <p/>
      * If the SkillCaster has no active Roles or the resulting damage is

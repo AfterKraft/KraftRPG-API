@@ -20,8 +20,8 @@ import java.util.Set;
 
 import org.bukkit.Location;
 
-import com.afterkraft.kraftrpg.api.entity.roles.ExperienceType;
-import com.afterkraft.kraftrpg.api.entity.roles.Role;
+import com.afterkraft.kraftrpg.api.roles.ExperienceType;
+import com.afterkraft.kraftrpg.api.roles.Role;
 import com.afterkraft.kraftrpg.api.util.FixedPoint;
 
 /**
@@ -64,9 +64,9 @@ public interface Sentient extends Insentient {
 
     /**
      * Set the current
-     * {@link com.afterkraft.kraftrpg.api.entity.roles.RoleType#PRIMARY}
+     * {@link com.afterkraft.kraftrpg.api.roles.RoleType#PRIMARY}
      * {@link Role}. The
-     * {@link com.afterkraft.kraftrpg.api.entity.roles.RoleType} is checked
+     * {@link com.afterkraft.kraftrpg.api.roles.RoleType} is checked
      * prior to setting. A sentient being may only have one Primary active role at
      * any given time.
      * 
@@ -76,9 +76,9 @@ public interface Sentient extends Insentient {
 
     /**
      * Set the current
-     * {@link com.afterkraft.kraftrpg.api.entity.roles.RoleType#SECONDARY}
+     * {@link com.afterkraft.kraftrpg.api.roles.RoleType#SECONDARY}
      * {@link Role}. The
-     * {@link com.afterkraft.kraftrpg.api.entity.roles.RoleType} is checked
+     * {@link com.afterkraft.kraftrpg.api.roles.RoleType} is checked
      * prior to setting. A sentient being may only have one Secondary active role at
      * any given time.
      * 
@@ -89,7 +89,7 @@ public interface Sentient extends Insentient {
 
     /**
      * Get a Set of {@link Role}s that are marked as
-     * {@link com.afterkraft.kraftrpg.api.entity.roles.RoleType#ADDITIONAL}
+     * {@link com.afterkraft.kraftrpg.api.roles.RoleType#ADDITIONAL}
      * that are active on this sentient being.
      * 
      * @return an unmodifiable set of additional Roles this sentient being has
@@ -99,7 +99,7 @@ public interface Sentient extends Insentient {
 
     /**
      * Attempts to add the given {@link Role} provided that the
-     * {@link com.afterkraft.kraftrpg.api.entity.roles.RoleType} is
+     * {@link com.afterkraft.kraftrpg.api.roles.RoleType} is
      * ADDITIONAL.
      * 
      * @param role the additional role to add to this sentient being
@@ -109,7 +109,7 @@ public interface Sentient extends Insentient {
 
     /**
      * Attempts to remove the given {@link Role} provided that the
-     * {@link com.afterkraft.kraftrpg.api.entity.roles.RoleType} is
+     * {@link com.afterkraft.kraftrpg.api.roles.RoleType} is
      * ADDITIONAL.
      * 
      * @param role the additional role to remove from this sentient being
