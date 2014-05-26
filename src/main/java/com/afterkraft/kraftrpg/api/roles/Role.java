@@ -45,7 +45,10 @@ public class Role {
     private final Map<Material, Double> itemDamagePerLevel = new EnumMap<Material, Double>(Material.class);
     private final Set<Role> children = new HashSet<Role>();
     private final Set<Role> parents = new HashSet<Role>();
+    private int advancementLevel;
     private boolean choosable = true;
+    private String description;
+    private double hpAt0, hpPerLevel, mpAt0, mpPerLevel, mpRegenAt0, mpRegenPerLevel;
 
     public Role(RPGPlugin plugin, String name, RoleType type) {
         this.plugin = plugin;
@@ -125,9 +128,8 @@ public class Role {
         if (newParent == null) {
             return;
         }
-        parents.add(newParent);
-        if (plugin.getRoleManager().areRoleDependenciesCyclic()) {
-            parents.remove(newParent);
+        if (plugin.getRoleManager().addRoleDependency(newParent, this)) {
+            parents.add(newParent);
         }
     }
 
@@ -135,6 +137,7 @@ public class Role {
         if (parent == null) {
             return;
         }
+        plugin.getRoleManager().removeRoleDependency(parent, this);
         this.parents.remove(parent);
     }
 
@@ -160,6 +163,74 @@ public class Role {
         return ImmutableSet.copyOf(children);
     }
 
+    public void setHpMpProperties(double hpAt0, double hpPerLevel, double mpAt0, double mpPerLevel, double mpRegenAt0, double mpRegenPerLevel) {
+        this.hpAt0 = hpAt0;
+        this.hpPerLevel = hpPerLevel;
+        this.mpAt0 = mpAt0;
+        this.mpPerLevel = mpPerLevel;
+        this.mpRegenAt0 = mpRegenAt0;
+        this.mpRegenPerLevel = mpRegenPerLevel;
+    }
+
+    public double getHp(int level) {
+        return hpAt0 + hpPerLevel * level;
+    }
+
+    public int getMp(int level) {
+        return (int) (mpAt0 + mpPerLevel * level);
+    }
+
+    public double getMpRegen(int level) {
+        return mpRegenAt0 + mpRegenPerLevel * level;
+    }
+
+    public double getHpAt0() {
+        return hpAt0;
+    }
+
+    public void setHpAt0(double hpAt0) {
+        this.hpAt0 = hpAt0;
+    }
+
+    public double getHpPerLevel() {
+        return hpPerLevel;
+    }
+
+    public void setHpPerLevel(double hpPerLevel) {
+        this.hpPerLevel = hpPerLevel;
+    }
+
+    public double getMpAt0() {
+        return mpAt0;
+    }
+
+    public void setMpAt0(double mpAt0) {
+        this.mpAt0 = mpAt0;
+    }
+
+    public double getMpPerLevel() {
+        return mpPerLevel;
+    }
+
+    public void setMpPerLevel(double mpPerLevel) {
+        this.mpPerLevel = mpPerLevel;
+    }
+
+    public double getMpRegenAt0() {
+        return mpRegenAt0;
+    }
+
+    public void setMpRegenAt0(double mpRegenAt0) {
+        this.mpRegenAt0 = mpRegenAt0;
+    }
+
+    public double getMpRegenPerLevel() {
+        return mpRegenPerLevel;
+    }
+
+    public void setMpRegenPerLevel(double mpRegenPerLevel) {
+        this.mpRegenPerLevel = mpRegenPerLevel;
+    }
 
     /**
      * Check if this role can by chosen by players. A non-choosable role must
@@ -173,6 +244,14 @@ public class Role {
 
     public void setChoosable(boolean canChoose) {
         choosable = canChoose;
+    }
+
+    public int getAdvancementLevel() {
+        return advancementLevel;
+    }
+
+    public void setAdvancementLevel(int advancementLevel) {
+        this.advancementLevel = advancementLevel;
     }
 
     public double getItemDamage(Material type) {
@@ -191,4 +270,11 @@ public class Role {
         this.itemDamagePerLevel.put(type, damage);
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 }

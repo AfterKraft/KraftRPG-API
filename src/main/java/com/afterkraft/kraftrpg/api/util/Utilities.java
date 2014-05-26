@@ -274,4 +274,8 @@ public class Utilities {
         Collections.sort(matchedPlayers, String.CASE_INSENSITIVE_ORDER);
         return matchedPlayers;
     }
+
+    public static String minMaxString(double at0, double max, ChatColor color) {
+        return String.format("%3$s%1$.1f%4$s-%3$s%2$.1f%5$s", at0, max, color.toString(), ChatColor.WHITE.toString(), ChatColor.RESET.toString());
+    }
 }
