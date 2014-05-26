@@ -16,38 +16,86 @@
 package com.afterkraft.kraftrpg.api.skills;
 
 
+import java.util.EnumSet;
+import java.util.Set;
+
 public enum SkillSetting {
+
     // Level
+    /**
+     * Level required to use the skill.
+     */
     LEVEL("level"),
 
     // Automatically inspected and applied
     // - Numbers
+    /**
+     * Cooldown, in ****s, before the skill can be used a second time.
+     */
     COOLDOWN("cooldown", true),
+    /**
+     * Delay between when the skill is used and when it is cast, in ****s.
+     */
     DELAY("delay", true),
+    /**
+     * Experience awarded after each use of the skill.
+     */
     EXP("exp-award", true),
+    /**
+     * HP deducted for each use of the skill.
+     */
     HEALTH_COST("health-cost", true),
+    /**
+     * MP deducted for each use of the skill.
+     */
     MANA_COST("mana-cost", true),
+    /**
+     * Hunger deducted for each use of the skill.
+     */
     STAMINA_COST("stamina-cost", true),
     // - ItemStack
+    /**
+     * Item deducted for each use of the skill.
+     */
     REAGENT("reagent"),
+    /**
+     * How many items are deducted. This will always be converted to a whole
+     * number before use.
+     */
     REAGENT_QUANTITY("reagent-amount", true),
     // - Bools
+    /**
+     * If true, the skill cannot be used while in combat.
+     */
     NO_COMBAT_USE("no-combat-use"),
     // - Other
+    /**
+     * How many skill points it costs to learn the skill once the level
+     * requirement is met. (TODO)
+     */
     SKILL_POINT_COST("skill-point-cost"),
 
     // Applied by the skill - must be declared to show up in auto config!
     // - Numbers
     AMOUNT("amount"),
+    /**
+     * How likely the skill is to succeed, on a scale of 0-1.
+     */
     CHANCE("chance", true),
     DURATION("duration", true),
     DAMAGE("damage", true),
     DAMAGE_RECURRING("damage-per-tick", true),
     HEALING("healing", true),
     HEALING_RECURRING("healing-per-tick", true),
+    /**
+     * Maximum distance that the skill will search.
+     */
     MAX_DISTANCE("max-distance", true),
     MAX_DISTANCE_CAP("max-distance-cap", false),
     RECURRENCE_PERIOD("period", true),
+    /**
+     * The distance, centered on the player, that the skill affects.
+     */
     RADIUS("radius", true),
     RADIUS_CAP("radius-cap", false),
 
@@ -94,6 +142,12 @@ public enum SkillSetting {
     SkillSetting(String node, boolean scaled) {
         this.node = node;
         this.scaled = scaled;
+    }
+
+    public static Set<SkillSetting> getAutomaticSettings() {
+        return EnumSet.of(LEVEL, COOLDOWN, DELAY, EXP, HEALTH_COST, MANA_COST,
+                STAMINA_COST, REAGENT, REAGENT_QUANTITY, NO_COMBAT_USE,
+                SKILL_POINT_COST);
     }
 
     public String node() {

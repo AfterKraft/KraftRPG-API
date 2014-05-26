@@ -56,9 +56,9 @@ public final class ExternalProviderRegistration {
         }
     }
 
-    public static void registerSkill(String skillName, ISkill skill) {
+    public static void registerSkill(ISkill skill) {
         check();
-        providedSkills.put(skillName, skill);
+        providedSkills.put(skill.getName(), skill);
     }
 
     public static void pluginLoaded(RPGPlugin p) {
