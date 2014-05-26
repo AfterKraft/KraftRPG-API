@@ -23,6 +23,8 @@ import java.util.Set;
 
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.Configuration;
+import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.MemoryConfiguration;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
@@ -35,6 +37,7 @@ import com.afterkraft.kraftrpg.api.entity.SkillCaster;
 import com.afterkraft.kraftrpg.api.entity.roles.ExperienceType;
 import com.afterkraft.kraftrpg.api.handler.CraftBukkitHandler;
 import com.afterkraft.kraftrpg.api.util.FixedPoint;
+import org.bukkit.inventory.ItemStack;
 
 /**
  * Represents an intended implementation of ISkill.
@@ -47,10 +50,61 @@ public abstract class Skill implements ISkill {
     private final String name;
     private String description = "";
     private boolean isEnabled = false;
+    private ConfigurationSection defaultConfig;
 
     public Skill(RPGPlugin plugin, String name) {
         this.plugin = plugin;
         this.name = name;
+    }
+
+    // Configuration Defaults
+
+    public ConfigurationSection getDefaultConfig() {
+        if (defaultConfig == null) {
+            defaultConfig = new MemoryConfiguration();
+        }
+        return defaultConfig;
+    }
+
+    protected void setDefault(SkillSetting node, boolean value) {
+        if (!SkillSetting.BOOLEAN_SETTINGS.contains(node)) {
+            throw new IllegalArgumentException("Attempt to set boolean default of a non-boolean SkillSetting");
+        }
+        ConfigurationSection section = getDefaultConfig();
+        section.set(node.node(), value);
+    }
+
+    protected void setDefault(SkillSetting node, double value) {
+        ConfigurationSection section = getDefaultConfig();
+        section.set(node.node(), value);
+        if (node.scalingNode() != null) {
+            section.set(node.scalingNode(), 0);
+        }
+    }
+
+    protected void setDefault(SkillSetting node, double value, double valuePerLevel) {
+        if (node.scalingNode() == null) {
+            throw new IllegalArgumentException("Attempt to set scaling default of a non-scaling SkillSetting");
+        }
+        ConfigurationSection section = getDefaultConfig();
+        section.set(node.node(), value);
+        section.set(node.scalingNode(), valuePerLevel);
+    }
+
+    protected void setDefault(SkillSetting node, String value) {
+        if (!SkillSetting.STRING_SETTINGS.contains(node)) {
+            throw new IllegalArgumentException("Attempt to set string default of a non-string SkillSetting");
+        }
+        ConfigurationSection section = getDefaultConfig();
+        section.set(node.node(), value);
+    }
+
+    protected void setDefault(SkillSetting node, ItemStack value) {
+        if (node != SkillSetting.REAGENT) {
+            throw new IllegalArgumentException("Attempt to set item default of a non-item SkillSetting");
+        }
+        ConfigurationSection section = getDefaultConfig();
+        section.set(node.node(), value);
     }
 
     public static void knockback(LivingEntity target, LivingEntity attacker, double damage) {
@@ -99,6 +153,18 @@ public abstract class Skill implements ISkill {
         }
     }
 
+    /**
+     * Transform the name of a skill to a normal form. The results of this
+     * method should not be compared with anything other than other results
+     * of this method.
+     *
+     * @param skillName skill.getName() to check
+     * @return normalized name
+     */
+    public static String getNormalizedName(String skillName) {
+        return skillName.toLowerCase().replace("skill", "");
+    }
+
     @Override
     public final String getPermissionNode() {
         return "kraftrpg.skill." + this.getName();
@@ -107,11 +173,6 @@ public abstract class Skill implements ISkill {
     @Override
     public final String getName() {
         return this.name;
-    }
-
-    @Override
-    public Configuration getDefaultConfig() {
-        return null;
     }
 
     @Override
@@ -153,13 +214,6 @@ public abstract class Skill implements ISkill {
         Bukkit.getServer().getPluginManager().callEvent(damageEntityEvent);
 
         return damageEntityEvent.isCancelled();
-    }
-
-    @Override
-    public void awardExperience(SkillCaster caster) {
-        if (caster.canGainExperience(ExperienceType.SKILL)) {
-            caster.gainExperience(FixedPoint.valueOf(plugin.getSkillConfigManager().getUseSetting(caster, this, SkillSetting.EXP, 0, false)), ExperienceType.SKILL, caster.getLocation());
-        }
     }
 
     @Override

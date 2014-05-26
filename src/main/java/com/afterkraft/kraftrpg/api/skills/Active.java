@@ -146,13 +146,4 @@ public interface Active extends ISkill {
      */
     public SkillRequirement getSkillRequirement(SkillCaster caster);
 
-    /**
-     * Check if using this Skill grants the
-     * {@link com.afterkraft.kraftrpg.api.entity.Champion} experience on skill
-     * casts.
-     * 
-     * @return if exp is granted
-     */
-    public boolean grantsExperienceOnCast();
-
 }

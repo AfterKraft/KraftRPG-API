@@ -23,4 +23,35 @@ public interface PartyManager extends Manager {
 
     public Party createParty(PartyMember partyLeader, PartyMember... members);
 
+    /**
+     * Check if two PartyMembers are considered friendly to each other.
+     * <p/>
+     * This method should be symmetrical and reflexive, but not necessarily transitive.
+     * <p/>
+     * If this method returns false, {@link #isEnemy(com.afterkraft.kraftrpg.api.entity.PartyMember,
+     * com.afterkraft.kraftrpg.api.entity.PartyMember)} should not return false.
+     * <p/>
+     * (They may both, however, return true. Consider this a "neutral" state.)
+     *
+     * @param a One PartyMember
+     * @param b Another PartyMember
+     * @return if friendly - e.g., can heal
+     */
+    public boolean isFriendly(PartyMember a, PartyMember b);
+
+    /**
+     * Check if two PartyMembers are considered hostile to each other.
+     * <p/>
+     * This method should be symmetrical and reflexive, but not necessarily transitive.
+     * <p/>
+     * If this method returns false, {@link #isFriendly(com.afterkraft.kraftrpg.api.entity.PartyMember,
+     * com.afterkraft.kraftrpg.api.entity.PartyMember)} should not return false.
+     * <p/>
+     * (They may both, however, return true. Consider this a "neutral" state.)
+     *
+     * @param a One PartyMember
+     * @param b Another PartyMember
+     * @return if hostile - e.g., can hurt
+     */
+    public boolean isEnemy(PartyMember a, PartyMember b);
 }

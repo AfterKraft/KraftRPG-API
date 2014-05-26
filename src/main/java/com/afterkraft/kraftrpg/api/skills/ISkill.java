@@ -18,6 +18,7 @@ package com.afterkraft.kraftrpg.api.skills;
 import java.util.Collection;
 
 import org.bukkit.configuration.Configuration;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 
@@ -50,7 +51,7 @@ public interface ISkill {
      * 
      * @return the defalt configuration for this skill
      */
-    public Configuration getDefaultConfig();
+    public ConfigurationSection getDefaultConfig();
 
     public Collection<SkillSetting> getUsedConfigNodes();
 
@@ -118,24 +119,7 @@ public interface ISkill {
      */
     public boolean damageCheck(IEntity attacker, LivingEntity defending);
 
-    public void awardExperience(SkillCaster caster);
-
     public int hashCode();
 
     public boolean equals(ISkill other);
-
-    /**
-     * Return true if you skill wants custom configuration, that is, nodes
-     * that are not in SkillSetting.
-     * 
-     * @return custom config needed
-     */
-    public boolean needsConfiguredCustomData();
-
-    /**
-     * Return true if your Skill needs data storage for every player.
-     * 
-     * @return data storage needed
-     */
-    public boolean needsCustomDataStorage();
 }

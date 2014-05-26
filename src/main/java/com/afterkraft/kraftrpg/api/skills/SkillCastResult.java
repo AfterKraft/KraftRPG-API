@@ -99,7 +99,7 @@ public enum SkillCastResult {
      * The skill has sent its own message, and the caller should not print
      * one.
      */
-    CUSTOM_NO_MESSAGE,
+    CUSTOM_NO_MESSAGE_FAILURE,
     /**
      * The provided arguments do not make sense for the skill.
      */

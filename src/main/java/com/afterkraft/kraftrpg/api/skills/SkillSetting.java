@@ -21,14 +21,15 @@ import java.util.Set;
 
 public enum SkillSetting {
 
-    // Level
-    /**
-     * Level required to use the skill.
-     */
-    LEVEL("level"),
-
+    /////////////////////////////////////////////////////////////////
     // Automatically inspected and applied
     // - Numbers
+    // (Level)
+    /**
+     * Level required to use the skill. Mandatory. Cannot have a default.
+     */
+    LEVEL("level"),
+    // (Other numbers)
     /**
      * Cooldown, in ****s, before the skill can be used a second time.
      */
@@ -53,6 +54,10 @@ public enum SkillSetting {
      * Hunger deducted for each use of the skill.
      */
     STAMINA_COST("stamina-cost", true),
+    /**
+     * Experience granted for each use of the skill.
+     */
+    EXP_ON_CAST("xp-on-cast", false),
     // - ItemStack
     /**
      * Item deducted for each use of the skill.
@@ -75,6 +80,7 @@ public enum SkillSetting {
      */
     SKILL_POINT_COST("skill-point-cost"),
 
+    /////////////////////////////////////////////////////////////////
     // Applied by the skill - must be declared to show up in auto config!
     // - Numbers
     AMOUNT("amount"),
@@ -119,18 +125,7 @@ public enum SkillSetting {
     INTERRUPT_TEXT("interrupt-text"),
     UNAPPLY_TEXT("unapply-text"),
     USE_TEXT("use-text"),
-
-    // Attribute specific types. We need to match these manually with {@link AttributeType}
-    ATTRIBUTE_MANA_COST_REDUCTION("attribute-mana-cost-reduction"),
-    ATTRIBUTE_MANA_COST_INCREASE("attribute-mana-cost-increase"),
-    ATTRIBUTE_HEALTH_COST_INCREASE("attribute-health-cost-increase"),
-    ATTRIBUTE_HEALTH_COST_REDUCTION("attribute-health-cost-reduction"),
-    ATTRIBUTE_SKILL_DAMAGE_INCREASE("attribute-skill-damage-increase"),
-    ATTRIBUTE_SKILL_DAMAGE_REDUCTION("sattribute-kill-damage-reduction"),
-    ATTRIBUTE_SKILL_COOLDOWN_REDUCTION("attribute-skill-cooldown-reduction"),
-    ATTRIBUTE_SKILL_COOLDOWN_INCRASE("attribute-skill-cooldown-increase"),
-    ATTRIBUTE_SKILL_BUFF_INCREASE("attribute-skill-buff-increase"),
-    ATTRIBUTE_SKILL_BUFF_REDUCTION("attribute-skill-buff-reduction");
+    ;
 
     private final String node;
     private final boolean scaled;
@@ -144,11 +139,15 @@ public enum SkillSetting {
         this.scaled = scaled;
     }
 
-    public static Set<SkillSetting> getAutomaticSettings() {
-        return EnumSet.of(LEVEL, COOLDOWN, DELAY, EXP, HEALTH_COST, MANA_COST,
-                STAMINA_COST, REAGENT, REAGENT_QUANTITY, NO_COMBAT_USE,
-                SKILL_POINT_COST);
-    }
+    public static final Set<SkillSetting> AUTOMATIC_SETTINGS = EnumSet.of(
+            LEVEL, COOLDOWN, DELAY, EXP, HEALTH_COST, MANA_COST, STAMINA_COST,
+            REAGENT, REAGENT_QUANTITY, NO_COMBAT_USE, SKILL_POINT_COST);
+
+    public static final Set<SkillSetting> BOOLEAN_SETTINGS = EnumSet.of(NO_COMBAT_USE);
+
+    public static final Set<SkillSetting> STRING_SETTINGS = EnumSet.of(
+            APPLY_TEXT, DEATH_TEXT, DELAY_TEXT, EXPIRE_TEXT, INTERRUPT_TEXT,
+            UNAPPLY_TEXT, USE_TEXT);
 
     public String node() {
         return this.node;
