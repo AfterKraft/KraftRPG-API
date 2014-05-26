@@ -39,6 +39,10 @@ public class PlayerData implements Cloneable {
      */
     public final Set<Role> additionalRoles = new HashSet<Role>();
     /**
+     * Inactive roles - these have experience numbers, but no benefits.
+     */
+    public final Set<Role> pastRoles = new HashSet<Role>();
+    /**
      * Experience data.
      */
     public final Map<Role, FixedPoint> exp = new HashMap<Role, FixedPoint>();
@@ -56,6 +60,7 @@ public class PlayerData implements Cloneable {
     public Role primary, profession;
     public String lastKnownName;
     public UUID playerID;
+
     private Collection<Role> allRoles = null;
 
     public PlayerData() {
@@ -67,6 +72,7 @@ public class PlayerData implements Cloneable {
         ret.primary = primary;
         ret.profession = profession;
         ret.additionalRoles.addAll(additionalRoles);
+        ret.pastRoles.addAll(pastRoles);
         ret.exp.putAll(exp);
         ret.binds.putAll(binds);
         ret.cooldowns.putAll(cooldowns);
@@ -75,10 +81,16 @@ public class PlayerData implements Cloneable {
         return ret;
     }
 
+    /**
+     * Return a collection of all active roles in the order Primary, Secondary,
+     * Additional. Past roles are excluded.
+     *
+     * @return all active roles
+     */
     public Collection<Role> allRoles() {
         if (allRoles != null) return allRoles;
 
-        ImmutableList.Builder<Role> b = ImmutableList.<Role> builder();
+        ImmutableList.Builder<Role> b = ImmutableList.<Role>builder();
         if (primary != null) b.add(primary);
         if (profession != null) b.add(profession);
         b.addAll(additionalRoles);
