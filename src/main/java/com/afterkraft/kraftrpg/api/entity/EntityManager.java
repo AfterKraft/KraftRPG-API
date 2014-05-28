@@ -71,10 +71,42 @@ public interface EntityManager extends Manager {
      */
     public Champion createChampion(Player player, PlayerData data);
 
+    /**
+     * Add the given monster to be managed by KraftRPG. This is so KraftRPG
+     * can be notified of new entities being added. This can be used for
+     * custom Monsters that are not normally handled by KraftRPG. If the
+     * monster's {@link java.util.UUID} is already present in our mapping then
+     * the monster will not be added.
+     * 
+     * @param monster to add
+     * @return true if the monster was not already in our mappings.
+     */
     public boolean addMonster(Monster monster);
 
+    /**
+     * Return the linked {@link com.afterkraft.kraftrpg.api.entity.Monster} if
+     * the provided UUID is present in our tracked entities mapping.
+     * 
+     * @param uuid of the monster in question
+     * @return the linked Monster object
+     */
     public Monster getMonster(UUID uuid);
 
+    /**
+     * Attempts to load a {@link com.afterkraft.kraftrpg.api.entity.Champion}
+     * with a link to a Player and
+     * {@link com.afterkraft.kraftrpg.api.storage.PlayerData} that allows
+     * interaction with the rest of KraftRPG.
+     * 
+     * When needing data regarding a Player who is offline and the data is not
+     * intended to be modified, ignoreOffline can be used to retrieve the data
+     * for a specific player.
+     * 
+     * @param uuid of the Player in question
+     * @param ignoreOffline whether to load a fake Champion regardless whether
+     *            the linked Player is offline
+     * @return the loaded Champion belonging to the UUID, if not null
+     */
     public Champion getChampion(UUID uuid, boolean ignoreOffline);
 
 }

@@ -17,15 +17,41 @@ package com.afterkraft.kraftrpg.api.entity;
 
 
 public enum LeaveCombatReason {
-
+    /**
+     * Normal death by fall, fire, suffocation etc.
+     */
     DEATH,
+    /**
+     * Death by suicide, defined by the circumstance of the death.
+     */
     SUICIDE,
+    /**
+     * Leaving combat due to an error on the server or KraftRPG
+     */
     ERROR,
+    /**
+     * Due to an expiration of the combat timer with another entity
+     */
     TIMED,
+    /**
+     * When the champion logs off the server
+     */
     LOGOUT,
+    /**
+     * When the champion is kicked from the server
+     */
     KICK,
+    /**
+     * When the target has died
+     */
     TARGET_DEATH,
+    /**
+     * When the target has logged off
+     */
     TARGET_LOGOUT,
+    /**
+     * Customized reason, possibly third party plugins.
+     */
     CUSTOM;
 
 }

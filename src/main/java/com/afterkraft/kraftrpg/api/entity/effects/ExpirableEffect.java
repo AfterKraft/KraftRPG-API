@@ -23,7 +23,11 @@ import com.afterkraft.kraftrpg.api.entity.Insentient;
 import com.afterkraft.kraftrpg.api.entity.SkillCaster;
 import com.afterkraft.kraftrpg.api.skills.Skill;
 
-
+/**
+ * Implementation of an
+ * {@link com.afterkraft.kraftrpg.api.entity.effects.Expirable} based on
+ * {@link com.afterkraft.kraftrpg.api.entity.effects.Effect}
+ */
 public class ExpirableEffect extends Effect implements Expirable {
 
     private final long duration;

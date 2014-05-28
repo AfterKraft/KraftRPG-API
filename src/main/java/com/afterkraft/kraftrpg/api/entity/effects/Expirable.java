@@ -17,6 +17,9 @@ package com.afterkraft.kraftrpg.api.entity.effects;
 
 import com.afterkraft.kraftrpg.api.entity.SkillCaster;
 
+/**
+ * An effect that will expire after a certain amount of time passing by.
+ */
 public interface Expirable extends IEffect, Timed {
 
     /**

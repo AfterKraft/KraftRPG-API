@@ -17,6 +17,11 @@ package com.afterkraft.kraftrpg.api.entity.effects;
 
 import com.afterkraft.kraftrpg.api.entity.Insentient;
 
+/**
+ * Represents an effect that will perform some action on the
+ * {@link com.afterkraft.kraftrpg.api.entity.Insentient} per tick as defined
+ * by {@link #tick(com.afterkraft.kraftrpg.api.entity.Insentient)}
+ */
 public interface Periodic extends IEffect, Timed {
 
     /**

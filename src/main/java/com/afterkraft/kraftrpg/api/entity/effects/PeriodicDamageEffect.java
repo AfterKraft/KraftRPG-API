@@ -18,27 +18,33 @@ package com.afterkraft.kraftrpg.api.entity.effects;
 import org.bukkit.event.entity.EntityDamageEvent;
 
 import com.afterkraft.kraftrpg.api.RPGPlugin;
-import com.afterkraft.kraftrpg.api.entity.Champion;
 import com.afterkraft.kraftrpg.api.entity.Insentient;
 import com.afterkraft.kraftrpg.api.entity.SkillCaster;
 import com.afterkraft.kraftrpg.api.skills.Skill;
 import com.afterkraft.kraftrpg.api.skills.SkillType;
 
-
+/**
+ * Standard implementation of a
+ * {@link com.afterkraft.kraftrpg.api.entity.effects.Periodic} and
+ * {@link com.afterkraft.kraftrpg.api.entity.effects.Damage}. Consider that
+ * this effect will damage the
+ * {@link com.afterkraft.kraftrpg.api.entity.Insentient} being every tick
+ * based on {@link #getTickDamage()}
+ */
 public class PeriodicDamageEffect extends PeriodicExpirableEffect implements Damage {
 
     private final boolean knockback;
     protected double tickDamage;
 
-    public PeriodicDamageEffect(Skill skill, String name, Champion applier, long period, long duration, double tickDamage) {
+    public PeriodicDamageEffect(Skill skill, String name, SkillCaster applier, long period, long duration, double tickDamage) {
         this(skill, name, applier, period, duration, tickDamage, false, null, null);
     }
 
-    public PeriodicDamageEffect(Skill skill, String name, Champion applier, long period, long duration, double tickDamage, boolean knockback, String applyText, String expireText) {
+    public PeriodicDamageEffect(Skill skill, String name, SkillCaster applier, long period, long duration, double tickDamage, boolean knockback, String applyText, String expireText) {
         this(skill, skill.plugin, applier, name, period, duration, tickDamage, knockback, applyText, expireText);
     }
 
-    public PeriodicDamageEffect(Skill skill, RPGPlugin plugin, Champion applier, String name, long period, long duration, double tickDamage, boolean knockback, String applyText, String expireText) {
+    public PeriodicDamageEffect(Skill skill, RPGPlugin plugin, SkillCaster applier, String name, long period, long duration, double tickDamage, boolean knockback, String applyText, String expireText) {
         super(skill, plugin, applier, name, period, duration, applyText, expireText);
 
         types.add(EffectType.HARMFUL);
@@ -47,23 +53,23 @@ public class PeriodicDamageEffect extends PeriodicExpirableEffect implements Dam
         this.knockback = knockback;
     }
 
-    public PeriodicDamageEffect(Skill skill, String name, Champion applier, long period, long duration, double tickDamage, boolean knockback) {
+    public PeriodicDamageEffect(Skill skill, String name, SkillCaster applier, long period, long duration, double tickDamage, boolean knockback) {
         this(skill, name, applier, period, duration, tickDamage, knockback, null, null);
     }
 
-    public PeriodicDamageEffect(Skill skill, String name, Champion applier, long period, long duration, double tickDamage, String applyText, String expireText) {
+    public PeriodicDamageEffect(Skill skill, String name, SkillCaster applier, long period, long duration, double tickDamage, String applyText, String expireText) {
         this(skill, name, applier, period, duration, tickDamage, false, applyText, expireText);
     }
 
-    public PeriodicDamageEffect(Skill skill, RPGPlugin plugin, Champion applier, String name, long period, long duration, double tickDamage) {
+    public PeriodicDamageEffect(Skill skill, RPGPlugin plugin, SkillCaster applier, String name, long period, long duration, double tickDamage) {
         this(skill, plugin, applier, name, period, duration, tickDamage, false, null, null);
     }
 
-    public PeriodicDamageEffect(Skill skill, RPGPlugin plugin, Champion applier, String name, long period, long duration, double tickDamage, boolean knockback) {
+    public PeriodicDamageEffect(Skill skill, RPGPlugin plugin, SkillCaster applier, String name, long period, long duration, double tickDamage, boolean knockback) {
         this(skill, plugin, applier, name, period, duration, tickDamage, knockback, null, null);
     }
 
-    public PeriodicDamageEffect(Skill skill, RPGPlugin plugin, Champion applier, String name, long period, long duration, double tickDamage, String applyText, String expireText) {
+    public PeriodicDamageEffect(Skill skill, RPGPlugin plugin, SkillCaster applier, String name, long period, long duration, double tickDamage, String applyText, String expireText) {
         this(skill, plugin, applier, name, period, duration, tickDamage, false, applyText, expireText);
     }
 
@@ -82,6 +88,13 @@ public class PeriodicDamageEffect extends PeriodicExpirableEffect implements Dam
         return this.knockback;
     }
 
+    /**
+     * {@inheritDoc} This will damage the
+     * {@link com.afterkraft.kraftrpg.api.entity.Insentient} being the
+     * prescribed damage from {@link #getTickDamage()}
+     * 
+     * @param being - The being this effect is being applied to.
+     */
     @Override
     public void tick(Insentient being) {
         if (being.isEntityValid() && (getApplier() != null) && getApplier().isEntityValid()) {

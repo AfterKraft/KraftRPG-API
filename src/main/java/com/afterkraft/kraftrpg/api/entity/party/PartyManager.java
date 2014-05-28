@@ -18,9 +18,23 @@ package com.afterkraft.kraftrpg.api.entity.party;
 import com.afterkraft.kraftrpg.api.Manager;
 import com.afterkraft.kraftrpg.api.entity.PartyMember;
 
-
+/**
+ * A basic manager that which manages
+ * {@link com.afterkraft.kraftrpg.api.entity.party.Party} for various
+ * {@link com.afterkraft.kraftrpg.api.entity.PartyMember}
+ */
 public interface PartyManager extends Manager {
 
+    /**
+     * Creates a new {@link com.afterkraft.kraftrpg.api.entity.party.Party}
+     * with the given {@link com.afterkraft.kraftrpg.api.entity.PartyMember}
+     * leader as the leader and automatically adds the given members to the
+     * party.
+     * 
+     * @param partyLeader leader of the Party
+     * @param members to add to the party after creation
+     * @return the party after members have been added
+     */
     public Party createParty(PartyMember partyLeader, PartyMember... members);
 
     /**

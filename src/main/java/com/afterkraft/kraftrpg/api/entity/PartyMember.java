@@ -36,7 +36,15 @@ public interface PartyMember {
      */
     public Party getParty();
 
+    /**
+     * Set this member's current party.
+     * 
+     * @param party to set
+     */
     public void setParty(Party party);
 
+    /**
+     * Leaves this member's current party.
+     */
     public void leaveParty();
 }

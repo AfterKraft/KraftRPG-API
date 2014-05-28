@@ -227,5 +227,4 @@ public interface SkillCaster extends Sentient, PartyMember {
      */
     public boolean cancelStalledSkill(boolean enemyAction);
 
-
 }

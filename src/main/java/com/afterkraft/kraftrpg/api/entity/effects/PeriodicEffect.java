@@ -18,7 +18,12 @@ package com.afterkraft.kraftrpg.api.entity.effects;
 import com.afterkraft.kraftrpg.api.RPGPlugin;
 import com.afterkraft.kraftrpg.api.skills.Skill;
 
-
+/**
+ * Standard implementation of a
+ * {@link com.afterkraft.kraftrpg.api.entity.effects.Periodic} effect that
+ * performs some operations with
+ * {@link #tick(com.afterkraft.kraftrpg.api.entity.Insentient)}
+ */
 public abstract class PeriodicEffect extends Effect implements Periodic {
 
     private final long period;

@@ -19,7 +19,11 @@ import java.util.concurrent.Delayed;
 
 import com.afterkraft.kraftrpg.api.entity.Insentient;
 
-
+/**
+ * Represents an effect that is being managed by KraftRPG. This is a utility
+ * object used by
+ * {@link com.afterkraft.kraftrpg.api.entity.effects.EffectManager}
+ */
 public interface Managed extends Delayed {
 
     /**

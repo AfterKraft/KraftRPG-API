@@ -64,12 +64,45 @@ public interface Party {
      */
     public boolean addMember(PartyMember member, boolean forced);
 
+    /**
+     * Removes the queried member if it is possible. This should be considered
+     * as throwing an event of
+     * {@link com.afterkraft.kraftrpg.api.events.entity.party.PartyLeaveEvent}
+     * that may be cancelled for various reasons. If the event is cancelled,
+     * the {@link com.afterkraft.kraftrpg.api.entity.PartyMember} is not
+     * removed.
+     * 
+     * @param member to remove
+     */
     public void removeMember(PartyMember member);
 
+    /**
+     * Just like
+     * {@link #removeMember(com.afterkraft.kraftrpg.api.entity.PartyMember)},
+     * except that the PartyLeaveEvent being cancelled will have no effect if
+     * forced is true
+     * 
+     * @param member to remove
+     * @param forced true if the member will be removed without considering
+     *            the PartyLeaveEvent's cancellation
+     */
     public void removeMember(PartyMember member, boolean forced);
 
+    /**
+     * Add an invite to this party for the supplied member. Usually, this will
+     * result in a message to the
+     * {@link com.afterkraft.kraftrpg.api.entity.PartyMember} noting of the
+     * invite taking place.
+     * 
+     * @param member to invite
+     */
     public void addMemberInvite(PartyMember member);
 
+    /**
+     * Removes the invite for the member, if it exists.
+     * 
+     * @param member to un-invite.
+     */
     public void removeMemberInvite(PartyMember member);
 
     public boolean hasMemberInvite(PartyMember member);

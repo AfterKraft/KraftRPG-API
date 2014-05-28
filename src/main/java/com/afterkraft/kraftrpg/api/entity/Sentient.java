@@ -44,8 +44,27 @@ public interface Sentient extends Insentient {
      */
     public FixedPoint getExperience(Role role);
 
+    /**
+     * Check if this being can gain experience of the designated type. This
+     * will check with all active
+     * {@link com.afterkraft.kraftrpg.api.roles.Role}s
+     * 
+     * @param type of experience
+     * @return true if the experience type can be gained
+     */
     public boolean canGainExperience(ExperienceType type);
 
+    /**
+     * Tells this being to gain experience of the determined
+     * {@link com.afterkraft.kraftrpg.api.roles.ExperienceType} It will also
+     * return the final {@link com.afterkraft.kraftrpg.api.util.FixedPoint}
+     * value of experience gained by this method.
+     * 
+     * @param exp to gain
+     * @param type of experience
+     * @param location of experience
+     * @return the final experience gained
+     */
     public FixedPoint gainExperience(FixedPoint exp, ExperienceType type, Location location);
 
     /**

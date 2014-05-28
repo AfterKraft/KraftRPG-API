@@ -19,7 +19,11 @@ import org.bukkit.entity.Player;
 
 import com.afterkraft.kraftrpg.api.storage.PlayerData;
 
-
+/**
+ * {@inheritDoc} Represents a
+ * {@link com.afterkraft.kraftrpg.api.entity.SkillCaster} that is specially
+ * linked to a {@link org.bukkit.entity.Player}.
+ */
 public interface Champion extends SkillCaster {
 
     /**
@@ -42,7 +46,17 @@ public interface Champion extends SkillCaster {
     @Override
     public Player getEntity();
 
-    public void setEntity(Player player);
+    /**
+     * Attempt to reset the linked {@link org.bukkit.entity.Player} in the
+     * event the player is not valid or duplicate players have been detected.
+     * This will NOT allow changing the player when the currently linked
+     * Player is still valid and/or if the {@link java.util.UUID} of the two
+     * differ.
+     * 
+     * @param player to re-link this Champion to
+     * @return true if successful
+     */
+    public boolean setEntity(Player player);
 
     /**
      * Get the in-use PlayerData object. Changes made to this object are live.

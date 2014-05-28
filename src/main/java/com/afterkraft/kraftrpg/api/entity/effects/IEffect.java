@@ -20,7 +20,13 @@ import org.bukkit.potion.PotionEffect;
 import com.afterkraft.kraftrpg.api.entity.Insentient;
 import com.afterkraft.kraftrpg.api.skills.ISkill;
 
-
+/**
+ * The base of KraftPRG's Effect system. An effect can perform various
+ * operations on an {@link com.afterkraft.kraftrpg.api.entity.Insentient}
+ * being. While it is recommended to utilize the
+ * {@link com.afterkraft.kraftrpg.api.entity.effects.IEffect} as the standard
+ * implementation, various other interfaces have different implementations.
+ */
 public interface IEffect {
 
     /**

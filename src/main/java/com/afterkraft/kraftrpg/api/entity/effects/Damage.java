@@ -15,7 +15,10 @@
  */
 package com.afterkraft.kraftrpg.api.entity.effects;
 
-
+/**
+ * A damaging effect that will damage the
+ * {@link com.afterkraft.kraftrpg.api.entity.Insentient} being.
+ */
 public interface Damage extends Periodic {
 
     /**

@@ -18,9 +18,13 @@ package com.afterkraft.kraftrpg.api.entity;
 import org.bukkit.Location;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 
-import com.afterkraft.kraftrpg.api.util.FixedPoint;
-
-
+/**
+ * Represents a customized
+ * {@link com.afterkraft.kraftrpg.api.entity.Insentient} being that has the
+ * ability to deal damage to other
+ * {@link com.afterkraft.kraftrpg.api.entity.Insentient} beings. A monster is
+ * guaranteed to have modified damage.
+ */
 public interface Monster extends Insentient {
 
     public Location getSpawnLocation();
@@ -30,10 +34,6 @@ public interface Monster extends Insentient {
     public double getModifiedDamage();
 
     public void setModifiedDamage(double damage);
-
-    public FixedPoint getExperience();
-
-    public void setExperience(FixedPoint experience);
 
     public CreatureSpawnEvent.SpawnReason getSpawnReason();
 }

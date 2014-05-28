@@ -25,6 +25,7 @@ import org.bukkit.potion.PotionEffectType;
 
 import com.afterkraft.kraftrpg.api.entity.effects.EffectType;
 import com.afterkraft.kraftrpg.api.entity.effects.IEffect;
+import com.afterkraft.kraftrpg.api.util.FixedPoint;
 
 /**
  * Represents an Insentient being that allows retreival of the being's status
@@ -94,12 +95,39 @@ public interface Insentient extends IEntity {
      */
     public boolean addMaxHealth(String key, double value);
 
+    /**
+     * Removes an additional health modifier from the calculations for the
+     * {@link org.bukkit.entity.LivingEntity#getMaxHealth()}. Removing
+     * KraftRPG specific mappings may have unknown side-effects.
+     * 
+     * @param key linking to the additional health bonus for this being
+     * @return true if successful, false if the mapping didn't exist.
+     */
     public boolean removeMaxHealth(String key);
 
+    /**
+     * Forcefully recalculates the total max health the linked
+     * {@link org.bukkit.entity.LivingEntity} should have and applies it. This
+     * will also apply the current percentage of total health the entity has
+     * compared to their current max health.
+     * 
+     * @return the newly recalculated max health
+     */
     public double recalculateMaxHealth();
 
+    /**
+     * Attempts to heal the {@link org.bukkit.entity.LivingEntity} the defined
+     * amount of health. This will not allow healing past the current max
+     * health
+     * 
+     * @param amount to heal
+     */
     public void heal(double amount);
 
+    /**
+     * Clears out all health bonuses to the max health except the necessary
+     * provided by the default implementation of KraftRPG.
+     */
     public void clearHealthBonuses();
 
     /**
@@ -265,6 +293,22 @@ public interface Insentient extends IEntity {
      * {@link IEffect#remove(Insentient)}
      */
     public void manualClearEffects();
+
+    /**
+     * Return the {@link com.afterkraft.kraftrpg.api.util.FixedPoint} this
+     * being should grant as a reward for being killed by a
+     * {@link com.afterkraft.kraftrpg.api.entity.Sentient} being.
+     * 
+     * @return the customized experience to grant to a killer
+     */
+    public FixedPoint getRewardExperience();
+
+    /**
+     * Set the rewarding experience this being will grant to its killer.
+     * 
+     * @param experience to grant
+     */
+    public void setRewardExperience(FixedPoint experience);
 
     /**
      * Sends a message to this being. A helper method to avoid having to cast

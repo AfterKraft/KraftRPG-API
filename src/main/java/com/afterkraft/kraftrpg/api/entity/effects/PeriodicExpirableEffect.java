@@ -16,31 +16,36 @@
 package com.afterkraft.kraftrpg.api.entity.effects;
 
 import com.afterkraft.kraftrpg.api.RPGPlugin;
-import com.afterkraft.kraftrpg.api.entity.Champion;
+import com.afterkraft.kraftrpg.api.entity.SkillCaster;
 import com.afterkraft.kraftrpg.api.skills.Skill;
 
-
+/**
+ * Standard implementation of a
+ * {@link com.afterkraft.kraftrpg.api.entity.effects.Periodic} and
+ * {@link com.afterkraft.kraftrpg.api.entity.effects.Expirable}. This effect
+ * will expire after the designated time by {@link #getExpiry()}
+ */
 public abstract class PeriodicExpirableEffect extends ExpirableEffect implements Periodic {
 
     private final long period;
     protected long lastTickTime = 0;
 
-    public PeriodicExpirableEffect(Skill skill, Champion applier, String name, long period, long duration) {
+    public PeriodicExpirableEffect(Skill skill, SkillCaster applier, String name, long period, long duration) {
         super(skill, applier, name, duration);
         this.period = period;
     }
 
-    public PeriodicExpirableEffect(Skill skill, RPGPlugin plugin, Champion applier, String name, long period, long duration) {
+    public PeriodicExpirableEffect(Skill skill, RPGPlugin plugin, SkillCaster applier, String name, long period, long duration) {
         super(skill, plugin, applier, name, duration);
         this.period = period;
     }
 
-    public PeriodicExpirableEffect(Skill skill, Champion applier, String name, long period, long duration, String applyText, String expireText) {
+    public PeriodicExpirableEffect(Skill skill, SkillCaster applier, String name, long period, long duration, String applyText, String expireText) {
         super(skill, applier, name, duration, applyText, expireText);
         this.period = period;
     }
 
-    public PeriodicExpirableEffect(Skill skill, RPGPlugin plugin, Champion applier, String name, long period, long duration, String applyText, String expireText) {
+    public PeriodicExpirableEffect(Skill skill, RPGPlugin plugin, SkillCaster applier, String name, long period, long duration, String applyText, String expireText) {
         super(skill, plugin, applier, name, duration, applyText, expireText);
         this.period = period;
     }

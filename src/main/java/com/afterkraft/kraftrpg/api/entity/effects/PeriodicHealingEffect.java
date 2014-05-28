@@ -22,12 +22,18 @@ import com.afterkraft.kraftrpg.api.events.entity.InsentientRegainHealthEvent;
 import com.afterkraft.kraftrpg.api.events.entity.champion.ChampionRegainHealthEvent;
 import com.afterkraft.kraftrpg.api.skills.Skill;
 
-
+/**
+ * Standard implementation of a
+ * {@link com.afterkraft.kraftrpg.api.entity.effects.Periodic} and
+ * {@link com.afterkraft.kraftrpg.api.entity.effects.Heal}. Consider that this
+ * effect will heal the {@link com.afterkraft.kraftrpg.api.entity.Insentient}
+ * being every tick based on {@link #getTickHealth()}
+ */
 public class PeriodicHealingEffect extends PeriodicExpirableEffect implements Heal {
     private double tickHealth;
 
     public PeriodicHealingEffect(Skill skill, Champion applier, String name, long period, long duration, double tickHealth) {
-        this(skill, null, applier, name, period, duration, tickHealth, null, null);
+        this(skill, skill.plugin, applier, name, period, duration, tickHealth, "", "");
     }
 
     public PeriodicHealingEffect(Skill skill, RPGPlugin plugin, Champion applier, String name, long period, long duration, double tickHealth, String applyText, String expireText) {
@@ -40,11 +46,11 @@ public class PeriodicHealingEffect extends PeriodicExpirableEffect implements He
     }
 
     public PeriodicHealingEffect(Skill skill, Champion applier, String name, long period, long duration, double tickHealth, String applyText, String expireText) {
-        this(skill, null, applier, name, period, duration, tickHealth, applyText, expireText);
+        this(skill, skill.plugin, applier, name, period, duration, tickHealth, applyText, expireText);
     }
 
     public PeriodicHealingEffect(Skill skill, RPGPlugin plugin, Champion applier, String name, long period, long duration, double tickHealth) {
-        this(skill, plugin, applier, name, period, duration, tickHealth, null, null);
+        this(skill, plugin, applier, name, period, duration, tickHealth, "", "");
     }
 
     @Override
@@ -57,6 +63,13 @@ public class PeriodicHealingEffect extends PeriodicExpirableEffect implements He
         this.tickHealth = tickHealth;
     }
 
+    /**
+     * {@inheritDoc} This will heal the
+     * {@link com.afterkraft.kraftrpg.api.entity.Insentient} being the
+     * prescribed health from {@link #getTickHealth()} ()}
+     * 
+     * @param being - The being this effect is being applied to.
+     */
     @Override
     public void tick(Insentient being) {
         if (!being.isEntityValid() || !getApplier().isEntityValid()) {

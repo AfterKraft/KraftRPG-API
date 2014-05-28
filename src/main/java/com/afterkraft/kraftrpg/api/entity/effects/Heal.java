@@ -15,10 +15,24 @@
  */
 package com.afterkraft.kraftrpg.api.entity.effects;
 
-
+/**
+ * Represents a healing effect that heals the affected
+ * {@link com.afterkraft.kraftrpg.api.entity.Insentient}
+ */
 public interface Heal extends Periodic {
 
+    /**
+     * Return the amount of health being healed to the insentient being this
+     * effect is applied to
+     * 
+     * @return the health to heal per tick
+     */
     public double getTickHealth();
 
+    /**
+     * Set the health to heal per tick
+     * 
+     * @param tickHealth health to heal per tick
+     */
     public void setTickHealth(double tickHealth);
 }
