@@ -31,9 +31,8 @@ import org.bukkit.event.entity.EntityDamageEvent;
 
 import com.afterkraft.kraftrpg.api.RPGPlugin;
 import com.afterkraft.kraftrpg.api.entity.Champion;
-import com.afterkraft.kraftrpg.api.entity.IEntity;
+import com.afterkraft.kraftrpg.api.entity.Insentient;
 import com.afterkraft.kraftrpg.api.entity.SkillCaster;
-import com.afterkraft.kraftrpg.api.roles.ExperienceType;
 import com.afterkraft.kraftrpg.api.handler.CraftBukkitHandler;
 import org.bukkit.inventory.ItemStack;
 
@@ -185,7 +184,7 @@ public abstract class Skill implements ISkill {
 
     @Override
     public boolean addSkillTarget(Entity entity, SkillCaster caster) {
-        if (entity == null || caster == null || (caster instanceof IEntity && !((IEntity) caster).isEntityValid())) {
+        if (entity == null || caster == null || caster.isEntityValid()) {
             return false;
         }
         plugin.getSkillManager().addSkillTarget(entity, caster, this);
@@ -203,7 +202,10 @@ public abstract class Skill implements ISkill {
     }
 
     @Override
-    public boolean damageCheck(IEntity attacking, LivingEntity defenderLE) {
+    public boolean damageCheck(Insentient attacking, LivingEntity defenderLE) {
+        if (attacking == null || attacking.getEntity() == null || defenderLE == null) {
+            return false;
+        }
         if (attacking.getEntity().equals(defenderLE)) {
             return false;
         }

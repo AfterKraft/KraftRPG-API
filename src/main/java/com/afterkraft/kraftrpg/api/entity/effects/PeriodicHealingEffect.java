@@ -17,9 +17,8 @@ package com.afterkraft.kraftrpg.api.entity.effects;
 
 import com.afterkraft.kraftrpg.api.RPGPlugin;
 import com.afterkraft.kraftrpg.api.entity.Champion;
-import com.afterkraft.kraftrpg.api.entity.IEntity;
 import com.afterkraft.kraftrpg.api.entity.Insentient;
-import com.afterkraft.kraftrpg.api.events.entity.EntityRegainHealthEvent;
+import com.afterkraft.kraftrpg.api.events.entity.InsentientRegainHealthEvent;
 import com.afterkraft.kraftrpg.api.events.entity.champion.ChampionRegainHealthEvent;
 import com.afterkraft.kraftrpg.api.skills.Skill;
 
@@ -60,24 +59,20 @@ public class PeriodicHealingEffect extends PeriodicExpirableEffect implements He
 
     @Override
     public void tick(Insentient being) {
-        if ((being instanceof IEntity) && (getApplier() instanceof IEntity)) {
-            IEntity entity = (IEntity) being;
-            IEntity healer = (IEntity) getApplier();
-            if (!entity.isEntityValid() || !healer.isEntityValid()) {
-                return;
-            }
-            EntityRegainHealthEvent event;
-            if (entity instanceof Champion) {
-                event = new ChampionRegainHealthEvent((Champion) entity, tickHealth, skill, healer);
-
-            } else {
-                event = new EntityRegainHealthEvent(entity, tickHealth, skill, healer);
-            }
-            plugin.getServer().getPluginManager().callEvent(event);
-            if (event.isCancelled()) {
-                return;
-            }
-            entity.heal(event.getAmount());
+        if (!being.isEntityValid() || !getApplier().isEntityValid()) {
+            return;
         }
+        InsentientRegainHealthEvent event;
+        if (being instanceof Champion) {
+            event = new ChampionRegainHealthEvent((Champion) being, tickHealth, skill, getApplier());
+
+        } else {
+            event = new InsentientRegainHealthEvent(being, tickHealth, skill, getApplier());
+        }
+        plugin.getServer().getPluginManager().callEvent(event);
+        if (event.isCancelled()) {
+            return;
+        }
+        being.heal(event.getAmount());
     }
 }

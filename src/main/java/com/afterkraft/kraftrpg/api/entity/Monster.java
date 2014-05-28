@@ -21,7 +21,7 @@ import org.bukkit.event.entity.CreatureSpawnEvent;
 import com.afterkraft.kraftrpg.api.util.FixedPoint;
 
 
-public interface Monster extends IEntity, Insentient {
+public interface Monster extends Insentient {
 
     public Location getSpawnLocation();
 

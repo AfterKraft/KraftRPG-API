@@ -17,13 +17,12 @@ package com.afterkraft.kraftrpg.api.skills;
 
 import java.util.Collection;
 
-import org.bukkit.configuration.Configuration;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 
 import com.afterkraft.kraftrpg.api.entity.Champion;
-import com.afterkraft.kraftrpg.api.entity.IEntity;
+import com.afterkraft.kraftrpg.api.entity.Insentient;
 import com.afterkraft.kraftrpg.api.entity.SkillCaster;
 
 /**
@@ -117,7 +116,7 @@ public interface ISkill {
      * @param defending entity being damaged
      * @return true if the damage check was successful
      */
-    public boolean damageCheck(IEntity attacker, LivingEntity defending);
+    public boolean damageCheck(Insentient attacker, LivingEntity defending);
 
     public int hashCode();
 

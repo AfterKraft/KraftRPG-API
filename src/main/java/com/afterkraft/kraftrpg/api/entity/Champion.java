@@ -20,7 +20,7 @@ import org.bukkit.entity.Player;
 import com.afterkraft.kraftrpg.api.storage.PlayerData;
 
 
-public interface Champion extends IEntity, SkillCaster {
+public interface Champion extends SkillCaster {
 
     /**
      * Return the Bukkit {@link Player} object if it is still valid otherwise

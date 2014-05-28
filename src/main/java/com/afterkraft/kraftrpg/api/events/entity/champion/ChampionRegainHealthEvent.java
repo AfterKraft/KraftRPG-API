@@ -16,19 +16,19 @@
 package com.afterkraft.kraftrpg.api.events.entity.champion;
 
 import com.afterkraft.kraftrpg.api.entity.Champion;
-import com.afterkraft.kraftrpg.api.entity.IEntity;
-import com.afterkraft.kraftrpg.api.events.entity.EntityRegainHealthEvent;
+import com.afterkraft.kraftrpg.api.entity.Insentient;
+import com.afterkraft.kraftrpg.api.events.entity.InsentientRegainHealthEvent;
 import com.afterkraft.kraftrpg.api.skills.ISkill;
 
 
-public class ChampionRegainHealthEvent extends EntityRegainHealthEvent {
+public class ChampionRegainHealthEvent extends InsentientRegainHealthEvent {
 
 
     public ChampionRegainHealthEvent(Champion beneficiary, double healAmount, ISkill skill) {
         super(beneficiary, healAmount, skill);
     }
 
-    public ChampionRegainHealthEvent(Champion beneficiary, double healAmount, ISkill skill, IEntity healer) {
+    public ChampionRegainHealthEvent(Champion beneficiary, double healAmount, ISkill skill, Insentient healer) {
         super(beneficiary, healAmount, skill, healer);
     }
 
@@ -36,8 +36,4 @@ public class ChampionRegainHealthEvent extends EntityRegainHealthEvent {
         return (Champion) super.getEntity();
     }
 
-    @Override
-    public Champion getHealer() {
-        return (Champion) super.getHealer();
-    }
 }

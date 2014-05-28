@@ -15,11 +15,8 @@
  */
 package com.afterkraft.kraftrpg.api.entity;
 
-import java.util.List;
 import java.util.Set;
 
-import org.bukkit.Location;
-import org.bukkit.World;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -44,7 +41,7 @@ import com.afterkraft.kraftrpg.api.entity.effects.IEffect;
  * </code> and therefor any common information retrieval should be performed
  * using the supplied methods instead of assuming the LivingEntity methods.
  */
-public interface Insentient {
+public interface Insentient extends IEntity {
 
     /**
      * Attempts to fetch the attached LivingEntity of this Insentient Being,
@@ -83,6 +80,27 @@ public interface Insentient {
      * @param health to which the being should have.
      */
     public void setHealth(double health);
+
+    /**
+     * Add a fixed health bonus that does not get reset when
+     * {@link #recalculateMaxHealth()} is called. The health bonus, unless
+     * provided specifically by KraftRPG, does not survive between reloads,
+     * restarts, relogging and other times when the entity is stored and
+     * loaded back into memory.
+     * 
+     * @param key id based on string to apply the max health
+     * @param value of health to add as the maximum
+     * @return true if successful, if the key did not exist before.
+     */
+    public boolean addMaxHealth(String key, double value);
+
+    public boolean removeMaxHealth(String key);
+
+    public double recalculateMaxHealth();
+
+    public void heal(double amount);
+
+    public void clearHealthBonuses();
 
     /**
      * Check if this being is dead
@@ -143,27 +161,6 @@ public interface Insentient {
      * @return The unmodifiable ItemStack list of the armor for this being
      */
     public ItemStack[] getArmor();
-
-    /**
-     * Return the {@link org.bukkit.Location} of this being.
-     * 
-     * @return the location of the being.
-     */
-    public Location getLocation();
-
-    /**
-     * Shortcut method for {@link #getLocation()#getWorld()}
-     *
-     * @return the world of this being.
-     */
-    public World getWorld();
-
-    /**
-     * Check if this being is on solid ground (not flying or jumping) in the air
-     *
-     * @return true if the being is not in the air
-     */
-    public boolean isOnGround();
 
     /**
      * Returns (if available) the named
@@ -273,7 +270,7 @@ public interface Insentient {
      * Sends a message to this being. A helper method to avoid having to cast
      * check the being or the entity this being belongs to to send server
      * messages.
-     *
+     * 
      * @param message to be sent
      */
     public void sendMessage(String message);

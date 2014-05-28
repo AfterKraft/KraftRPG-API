@@ -17,6 +17,7 @@ package com.afterkraft.kraftrpg.api.entity;
 
 import java.util.UUID;
 
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
@@ -28,24 +29,13 @@ public interface EntityManager extends Manager {
 
     /**
      * Return the {@link com.afterkraft.kraftrpg.api.entity.IEntity} for the
-     * designated LivingEntity
+     * designated Entity. The IEntity is guaranteed to be affected by KraftRPG
+     * if it is not returned by null
      * 
      * @param entity
      * @return
      */
-    public IEntity getEntity(LivingEntity entity);
-
-    /**
-     * Attempts to match the provided
-     * {@link com.afterkraft.kraftrpg.api.entity.SkillCaster} to an existing
-     * {@link com.afterkraft.kraftrpg.api.entity.IEntity}. If not found, and
-     * the caster is not a LivingEntity, this will return null.
-     * 
-     * @param caster to get the IEntity of
-     * @return the IEntity of the caster or null if the caster is not a
-     *         LivingEntity
-     */
-    public IEntity getEntity(SkillCaster caster);
+    public IEntity getEntity(Entity entity);
 
     /**
      * Retrieve the {@link com.afterkraft.kraftrpg.api.entity.Champion} object

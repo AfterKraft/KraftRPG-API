@@ -15,11 +15,16 @@
  */
 package com.afterkraft.kraftrpg.api.entity;
 
+import java.util.UUID;
+
+import org.bukkit.Location;
+import org.bukkit.World;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 
 /**
- * Represents a living entity in KraftRPG. This is the base entity for
- * KraftRPG.
+ * Represents an {@link Entity} linked with KraftRPG. This is the base for all
+ * entities in KraftRPG.
  */
 public interface IEntity {
 
@@ -39,7 +44,7 @@ public interface IEntity {
     public boolean isValid();
 
     /**
-     * Check if the {@link org.bukkit.entity.LivingEntity#isValid()}. This
+     * Check if the {@link org.bukkit.entity.Entity#isValid()}. This
      * also checks if the reference of the entity {@link #isValid()}.
      * 
      * @return true if the LivingEntity is alive and valid
@@ -47,30 +52,49 @@ public interface IEntity {
     public boolean isEntityValid();
 
     /**
-     * Returns the LivingEntity if the LivingEntity {@link #isEntityValid()}.
+     * Returns the Entity if the Entity {@link #isEntityValid()}.
      * 
-     * @return the linked LivingEntity if not null
+     * @return the linked Entity if not null
      */
-    public LivingEntity getEntity();
+    public Entity getEntity();
 
     /**
-     * Reset the linked LivingEntity to the provided
-     * {@link org.bukkit.entity.LivingEntity} if the {@link java.util.UUID}
+     * Reset the linked Entity to the provided
+     * {@link org.bukkit.entity.Entity} if the {@link java.util.UUID}
      * match for the old reference and the provided reference
      * 
-     * @param entity the LivingEntity to re-attach this IEntity to
+     * @param entity the Entity to re-attach this IEntity to
      * @return true if successful, false if UUID did not match
      */
     public boolean setEntity(LivingEntity entity);
 
-    public boolean addMaxHealth(String key, double value);
+    /**
+     * Returns the linked Entity's UUID provided by the server.
+     *
+     * @return the linked UUID to this entity.
+     */
+    public UUID getUniqueID();
 
-    public boolean removeMaxHealth(String key);
+    /**
+     * Return the {@link org.bukkit.Location} of this being.
+     *
+     * @return the location of the being.
+     */
+    public Location getLocation();
 
-    public double recalculateMaxHealth();
+    /**
+     * Shortcut method for {@link #getLocation()#getWorld()}
+     *
+     * @return the world of this being.
+     */
+    public World getWorld();
 
-    public void heal(double amount);
-
-    public void clearHealthBonuses();
+    /**
+     * Check if this being is on solid ground (not flying or jumping) in the
+     * air
+     *
+     * @return true if the being is not in the air
+     */
+    public boolean isOnGround();
 
 }

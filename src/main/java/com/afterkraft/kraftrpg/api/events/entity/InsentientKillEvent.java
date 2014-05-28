@@ -15,25 +15,36 @@
  */
 package com.afterkraft.kraftrpg.api.events.entity;
 
-import com.afterkraft.kraftrpg.api.entity.IEntity;
+import org.bukkit.event.HandlerList;
+
+import com.afterkraft.kraftrpg.api.entity.Insentient;
 
 
-public class IEntityKillEvent extends IEntityEvent {
+public class InsentientKillEvent extends IEntityEvent {
+    private static final HandlerList handlers = new HandlerList();
 
-    private final IEntity victim;
+    private final Insentient victim;
 
-    public IEntityKillEvent(IEntity attacker, IEntity victim) {
+    public InsentientKillEvent(Insentient attacker, Insentient victim) {
         super(attacker);
         this.victim = victim;
     }
 
-    public IEntity getKiller() {
+    public Insentient getKiller() {
         return this.getEntity();
     }
 
-    public IEntity getVictim() {
+    public Insentient getVictim() {
         return this.victim;
     }
 
+    @Override
+    public HandlerList getHandlers() {
+        return handlers;
+    }
+
+    public static HandlerList getHandlerList() {
+        return handlers;
+    }
 
 }

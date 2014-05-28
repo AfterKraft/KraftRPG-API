@@ -18,15 +18,15 @@ package com.afterkraft.kraftrpg.api.events.entity;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
-import com.afterkraft.kraftrpg.api.entity.IEntity;
+import com.afterkraft.kraftrpg.api.entity.Insentient;
 
 
-public class IEntityEvent extends Event {
+public abstract class IEntityEvent extends Event {
 
-    protected static final HandlerList handlers = new HandlerList();
-    private final IEntity entity;
+    private static final HandlerList handlers = new HandlerList();
+    private final Insentient entity;
 
-    public IEntityEvent(IEntity entity) {
+    public IEntityEvent(Insentient entity) {
         this.entity = entity;
     }
 
@@ -34,12 +34,12 @@ public class IEntityEvent extends Event {
         return handlers;
     }
 
-    public IEntity getEntity() {
+    public Insentient getEntity() {
         return this.entity;
     }
 
     @Override
-    public final HandlerList getHandlers() {
+    public HandlerList getHandlers() {
         return handlers;
     }
 }

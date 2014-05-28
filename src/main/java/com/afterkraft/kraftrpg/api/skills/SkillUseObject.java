@@ -17,23 +17,22 @@ package com.afterkraft.kraftrpg.api.skills;
 
 import java.lang.ref.WeakReference;
 
-import com.afterkraft.kraftrpg.api.entity.IEntity;
-
+import com.afterkraft.kraftrpg.api.entity.Insentient;
 
 public final class SkillUseObject<T extends SkillArgument> {
 
-    private final WeakReference<IEntity> entity;
+    private final WeakReference<Insentient> entity;
     private final WeakReference<ISkill> skill;
     private final WeakReference<T> argument;
 
 
-    public SkillUseObject(IEntity entity, ISkill skill, T argument) {
-        this.entity = new WeakReference<IEntity>(entity);
+    public SkillUseObject(Insentient entity, ISkill skill, T argument) {
+        this.entity = new WeakReference<Insentient>(entity);
         this.skill = new WeakReference<ISkill>(skill);
         this.argument = new WeakReference<T>(argument);
     }
 
-    public IEntity getEntity() {
+    public Insentient getEntity() {
         return this.entity.get();
     }
 

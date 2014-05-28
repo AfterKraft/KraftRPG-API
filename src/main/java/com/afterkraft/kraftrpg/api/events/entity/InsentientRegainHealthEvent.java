@@ -17,22 +17,22 @@ package com.afterkraft.kraftrpg.api.events.entity;
 
 import org.bukkit.event.Cancellable;
 
-import com.afterkraft.kraftrpg.api.entity.IEntity;
+import com.afterkraft.kraftrpg.api.entity.Insentient;
 import com.afterkraft.kraftrpg.api.skills.ISkill;
 
 
-public class EntityRegainHealthEvent extends IEntityEvent implements Cancellable {
+public class InsentientRegainHealthEvent extends IEntityEvent implements Cancellable {
 
-    private final IEntity healer;
+    private final Insentient healer;
     private final ISkill skill;
     private double amount;
     private boolean cancelled = false;
 
-    public EntityRegainHealthEvent(IEntity beneficiary, double healAmount, ISkill skill) {
+    public InsentientRegainHealthEvent(Insentient beneficiary, double healAmount, ISkill skill) {
         this(beneficiary, healAmount, skill, null);
     }
 
-    public EntityRegainHealthEvent(IEntity beneficiary, double healAmount, ISkill skill, IEntity healer) {
+    public InsentientRegainHealthEvent(Insentient beneficiary, double healAmount, ISkill skill, Insentient healer) {
         super(beneficiary);
         this.amount = healAmount;
         this.skill = skill;
@@ -51,7 +51,7 @@ public class EntityRegainHealthEvent extends IEntityEvent implements Cancellable
         return this.skill;
     }
 
-    public IEntity getHealer() {
+    public Insentient getHealer() {
         return this.healer;
     }
 
