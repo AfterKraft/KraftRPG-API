@@ -22,11 +22,17 @@ import com.afterkraft.kraftrpg.api.entity.Champion;
 
 public class ChampionCombatEvent extends ChampionEvent {
 
+    private static final HandlerList handlers = new HandlerList();
+
     public ChampionCombatEvent(Champion player) {
         super(player);
     }
 
     public static HandlerList getHandlerList() {
+        return handlers;
+    }
+
+    public HandlerList getHandlers() {
         return handlers;
     }
 }

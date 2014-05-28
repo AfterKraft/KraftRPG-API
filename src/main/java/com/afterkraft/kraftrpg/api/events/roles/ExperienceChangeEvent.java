@@ -16,6 +16,7 @@
 package com.afterkraft.kraftrpg.api.events.roles;
 
 import org.bukkit.event.Cancellable;
+import org.bukkit.event.HandlerList;
 
 import com.afterkraft.kraftrpg.api.entity.Sentient;
 import com.afterkraft.kraftrpg.api.roles.Role;
@@ -24,6 +25,7 @@ import com.afterkraft.kraftrpg.api.util.FixedPoint;
 
 public class ExperienceChangeEvent extends RoleEvent implements Cancellable {
 
+    private static final HandlerList handlers = new HandlerList();
     private final FixedPoint original;
     private FixedPoint change;
     private boolean cancelled = false;
@@ -32,6 +34,10 @@ public class ExperienceChangeEvent extends RoleEvent implements Cancellable {
         super(insentient, role);
         this.original = original;
         this.change = change;
+    }
+
+    public static HandlerList getHandlerList() {
+        return handlers;
     }
 
     public FixedPoint getFromExperience() {
@@ -54,5 +60,9 @@ public class ExperienceChangeEvent extends RoleEvent implements Cancellable {
     @Override
     public void setCancelled(boolean cancel) {
         this.cancelled = cancel;
+    }
+
+    public HandlerList getHandlers() {
+        return handlers;
     }
 }

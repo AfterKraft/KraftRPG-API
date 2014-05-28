@@ -15,11 +15,14 @@
  */
 package com.afterkraft.kraftrpg.api.events.entity.champion;
 
+import org.bukkit.event.HandlerList;
+
 import com.afterkraft.kraftrpg.api.entity.Champion;
 
 
 public class ManaChangeEvent extends ChampionEvent {
 
+    private static final HandlerList handlers = new HandlerList();
     private final int fromMana;
     private final int toMana;
     private final ManaChangeReason reason;
@@ -29,6 +32,10 @@ public class ManaChangeEvent extends ChampionEvent {
         this.fromMana = fromMana;
         this.toMana = toMana;
         this.reason = reason;
+    }
+
+    public static HandlerList getHandlerList() {
+        return handlers;
     }
 
     public int getFromMana() {
@@ -41,6 +48,10 @@ public class ManaChangeEvent extends ChampionEvent {
 
     public ManaChangeReason getReason() {
         return this.reason;
+    }
+
+    public HandlerList getHandlers() {
+        return handlers;
     }
 
     public enum ManaChangeReason {

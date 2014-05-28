@@ -21,13 +21,17 @@ import com.afterkraft.kraftrpg.api.entity.Insentient;
 
 
 public class InsentientKillEvent extends IEntityEvent {
-    private static final HandlerList handlers = new HandlerList();
 
+    private static final HandlerList handlers = new HandlerList();
     private final Insentient victim;
 
     public InsentientKillEvent(Insentient attacker, Insentient victim) {
         super(attacker);
         this.victim = victim;
+    }
+
+    public static HandlerList getHandlerList() {
+        return handlers;
     }
 
     public Insentient getKiller() {
@@ -38,12 +42,7 @@ public class InsentientKillEvent extends IEntityEvent {
         return this.victim;
     }
 
-    @Override
     public HandlerList getHandlers() {
-        return handlers;
-    }
-
-    public static HandlerList getHandlerList() {
         return handlers;
     }
 

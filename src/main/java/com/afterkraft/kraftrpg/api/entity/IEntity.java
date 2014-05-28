@@ -20,7 +20,6 @@ import java.util.UUID;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.LivingEntity;
 
 /**
  * Represents an {@link Entity} linked with KraftRPG. This is the base for all
@@ -44,8 +43,8 @@ public interface IEntity {
     public boolean isValid();
 
     /**
-     * Check if the {@link org.bukkit.entity.Entity#isValid()}. This
-     * also checks if the reference of the entity {@link #isValid()}.
+     * Check if the {@link org.bukkit.entity.Entity#isValid()}. This also
+     * checks if the reference of the entity {@link #isValid()}.
      * 
      * @return true if the LivingEntity is alive and valid
      */
@@ -60,31 +59,31 @@ public interface IEntity {
 
     /**
      * Reset the linked Entity to the provided
-     * {@link org.bukkit.entity.Entity} if the {@link java.util.UUID}
-     * match for the old reference and the provided reference
+     * {@link org.bukkit.entity.Entity} if the {@link java.util.UUID} match
+     * for the old reference and the provided reference
      * 
      * @param entity the Entity to re-attach this IEntity to
      * @return true if successful, false if UUID did not match
      */
-    public boolean setEntity(LivingEntity entity);
+    public boolean setEntity(Entity entity);
 
     /**
      * Returns the linked Entity's UUID provided by the server.
-     *
+     * 
      * @return the linked UUID to this entity.
      */
     public UUID getUniqueID();
 
     /**
      * Return the {@link org.bukkit.Location} of this being.
-     *
+     * 
      * @return the location of the being.
      */
     public Location getLocation();
 
     /**
      * Shortcut method for {@link #getLocation()#getWorld()}
-     *
+     * 
      * @return the world of this being.
      */
     public World getWorld();
@@ -92,7 +91,7 @@ public interface IEntity {
     /**
      * Check if this being is on solid ground (not flying or jumping) in the
      * air
-     *
+     * 
      * @return true if the being is not in the air
      */
     public boolean isOnGround();

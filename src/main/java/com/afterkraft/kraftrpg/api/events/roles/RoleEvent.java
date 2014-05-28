@@ -16,25 +16,18 @@
 package com.afterkraft.kraftrpg.api.events.roles;
 
 import org.bukkit.event.Event;
-import org.bukkit.event.HandlerList;
 
 import com.afterkraft.kraftrpg.api.entity.Sentient;
 import com.afterkraft.kraftrpg.api.roles.Role;
 
 
-public class RoleEvent extends Event {
-
-    protected static final HandlerList handlers = new HandlerList();
+public abstract class RoleEvent extends Event {
     private final Role rpgRole;
     private final Sentient being;
 
     public RoleEvent(Sentient being, Role rpgRole) {
         this.rpgRole = rpgRole;
         this.being = being;
-    }
-
-    public static HandlerList getHandlerList() {
-        return handlers;
     }
 
     public final Role getRole() {
@@ -45,8 +38,4 @@ public class RoleEvent extends Event {
         return this.being;
     }
 
-    @Override
-    public final HandlerList getHandlers() {
-        return handlers;
-    }
 }

@@ -26,8 +26,7 @@ import com.afterkraft.kraftrpg.api.skills.ISkill;
 
 public class SkillCastEvent extends Event implements Cancellable {
 
-    protected static final HandlerList handlers = new HandlerList();
-
+    private static final HandlerList handlers = new HandlerList();
     private final SkillCaster entity;
     private final ISkill skill;
     private double manaCost;
@@ -35,6 +34,7 @@ public class SkillCastEvent extends Event implements Cancellable {
     private double exhaustionCost;
     private ItemStack reagent;
     private boolean cancelled;
+
 
     public SkillCastEvent(SkillCaster caster, ISkill skill, double manaCost, double healthCost, double exhaustionCost, ItemStack reagentCost) {
         this.entity = caster;
@@ -46,6 +46,9 @@ public class SkillCastEvent extends Event implements Cancellable {
         this.cancelled = false;
     }
 
+    public static HandlerList getHandlerList() {
+        return handlers;
+    }
 
     public SkillCaster getCaster() {
         return this.entity;
@@ -105,7 +108,6 @@ public class SkillCastEvent extends Event implements Cancellable {
         this.cancelled = cancel;
     }
 
-    @Override
     public HandlerList getHandlers() {
         return handlers;
     }

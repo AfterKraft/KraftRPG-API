@@ -29,10 +29,8 @@ import com.afterkraft.kraftrpg.api.util.SkillRequirement;
  * Recommended use of this interface is {@link ActiveSkill}.
  * <p>
  * The methods {@link #getUsage()},
- * {@link #tabComplete(SkillCaster, String[])},
- * {@link #getSkillRequirement(SkillCaster)},
- * {@link #hasSkillRequirement(SkillRequirement, SkillCaster)}, or
- * {@link #grantsExperienceOnCast()} should not rely on parser state.
+ * {@link #tabComplete(com.afterkraft.kraftrpg.api.entity.SkillCaster, String[], int)}
+ * , {@link #getSkillRequirement(SkillCaster)}
  * 
  * The methods that do rely on parser state shall be called in the following
  * order:

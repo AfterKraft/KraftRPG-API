@@ -16,6 +16,7 @@
 package com.afterkraft.kraftrpg.api.events.entity;
 
 import org.bukkit.event.Cancellable;
+import org.bukkit.event.HandlerList;
 
 import com.afterkraft.kraftrpg.api.entity.Insentient;
 import com.afterkraft.kraftrpg.api.skills.ISkill;
@@ -23,6 +24,7 @@ import com.afterkraft.kraftrpg.api.skills.ISkill;
 
 public class InsentientRegainHealthEvent extends IEntityEvent implements Cancellable {
 
+    private static final HandlerList handlers = new HandlerList();
     private final Insentient healer;
     private final ISkill skill;
     private double amount;
@@ -37,6 +39,10 @@ public class InsentientRegainHealthEvent extends IEntityEvent implements Cancell
         this.amount = healAmount;
         this.skill = skill;
         this.healer = healer;
+    }
+
+    public static HandlerList getHandlerList() {
+        return handlers;
     }
 
     public double getAmount() {
@@ -65,4 +71,7 @@ public class InsentientRegainHealthEvent extends IEntityEvent implements Cancell
         this.cancelled = cancelled;
     }
 
+    public HandlerList getHandlers() {
+        return handlers;
+    }
 }

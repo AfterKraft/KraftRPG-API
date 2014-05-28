@@ -182,9 +182,9 @@ public interface Insentient extends IEntity {
      * Adds the given Effect to this Insentient being. Added Effects will be
      * applied on the next tick so as to avoid
      * 
-     * @param IEffect
+     * @param effect
      */
-    public void addEffect(IEffect IEffect);
+    public void addEffect(IEffect effect);
 
     /**
      * Add the {@link org.bukkit.potion.PotionEffect} to this Insentient

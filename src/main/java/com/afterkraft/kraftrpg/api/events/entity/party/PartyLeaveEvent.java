@@ -15,12 +15,15 @@
  */
 package com.afterkraft.kraftrpg.api.events.entity.party;
 
+import org.bukkit.event.HandlerList;
+
 import com.afterkraft.kraftrpg.api.entity.PartyMember;
 import com.afterkraft.kraftrpg.api.entity.party.Party;
 
 
 public class PartyLeaveEvent extends PartyEvent {
 
+    private static final HandlerList handlers = new HandlerList();
     private final PartyMember member;
 
     public PartyLeaveEvent(Party party, PartyMember member) {
@@ -28,7 +31,15 @@ public class PartyLeaveEvent extends PartyEvent {
         this.member = member;
     }
 
+    public static HandlerList getHandlerList() {
+        return handlers;
+    }
+
     public PartyMember getMember() {
         return this.member;
+    }
+
+    public HandlerList getHandlers() {
+        return handlers;
     }
 }

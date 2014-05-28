@@ -27,7 +27,7 @@ import com.afterkraft.kraftrpg.api.entity.Sentient;
 
 public class EnterCombatEvent extends Event implements Cancellable {
 
-    protected static final HandlerList handlers = new HandlerList();
+    private static final HandlerList handlers = new HandlerList();
     protected Sentient being, with;
     protected EnterCombatReason reason;
     private WeakHashMap<LivingEntity, EnterCombatReason> combatMap;
@@ -38,6 +38,10 @@ public class EnterCombatEvent extends Event implements Cancellable {
         this.with = with;
         this.combatMap = combatMap;
         this.reason = reason;
+    }
+
+    public static HandlerList getHandlerList() {
+        return handlers;
     }
 
     /**
@@ -67,11 +71,6 @@ public class EnterCombatEvent extends Event implements Cancellable {
     }
 
     @Override
-    public HandlerList getHandlers() {
-        return handlers;
-    }
-
-    @Override
     public boolean isCancelled() {
         return cancelled;
     }
@@ -80,5 +79,9 @@ public class EnterCombatEvent extends Event implements Cancellable {
     public void setCancelled(boolean cancel) {
         this.cancelled = cancel;
 
+    }
+
+    public HandlerList getHandlers() {
+        return handlers;
     }
 }

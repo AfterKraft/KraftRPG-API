@@ -22,7 +22,8 @@ import com.afterkraft.kraftrpg.api.events.entity.IEntityEvent;
 
 
 public class ChampionEvent extends IEntityEvent {
-    protected static final HandlerList handlers = new HandlerList();
+
+    private static final HandlerList handlers = new HandlerList();
 
     public ChampionEvent(Champion player) {
         super(player);
@@ -40,4 +41,9 @@ public class ChampionEvent extends IEntityEvent {
     public final Champion getEntity() {
         return (Champion) super.getEntity();
     }
+
+    public HandlerList getHandlers() {
+        return handlers;
+    }
+
 }

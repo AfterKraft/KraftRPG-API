@@ -23,6 +23,7 @@ import com.afterkraft.kraftrpg.api.roles.Role;
 
 public class RoleLevelChangeEvent extends RoleEvent {
 
+    private static final HandlerList handlers = new HandlerList();
     private final int fromLevel;
     private final int toLevel;
     private final boolean isMastering;
@@ -52,5 +53,9 @@ public class RoleLevelChangeEvent extends RoleEvent {
 
     public boolean isMastering() {
         return this.isMastering;
+    }
+
+    public HandlerList getHandlers() {
+        return handlers;
     }
 }

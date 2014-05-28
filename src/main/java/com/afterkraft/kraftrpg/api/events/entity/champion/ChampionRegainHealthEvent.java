@@ -15,6 +15,8 @@
  */
 package com.afterkraft.kraftrpg.api.events.entity.champion;
 
+import org.bukkit.event.HandlerList;
+
 import com.afterkraft.kraftrpg.api.entity.Champion;
 import com.afterkraft.kraftrpg.api.entity.Insentient;
 import com.afterkraft.kraftrpg.api.events.entity.InsentientRegainHealthEvent;
@@ -24,6 +26,8 @@ import com.afterkraft.kraftrpg.api.skills.ISkill;
 public class ChampionRegainHealthEvent extends InsentientRegainHealthEvent {
 
 
+    private static final HandlerList handlers = new HandlerList();
+
     public ChampionRegainHealthEvent(Champion beneficiary, double healAmount, ISkill skill) {
         super(beneficiary, healAmount, skill);
     }
@@ -32,8 +36,16 @@ public class ChampionRegainHealthEvent extends InsentientRegainHealthEvent {
         super(beneficiary, healAmount, skill, healer);
     }
 
+    public static HandlerList getHandlerList() {
+        return handlers;
+    }
+
     public Champion getChampion() {
         return (Champion) super.getEntity();
+    }
+
+    public HandlerList getHandlers() {
+        return handlers;
     }
 
 }

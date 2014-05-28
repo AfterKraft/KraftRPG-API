@@ -17,18 +17,19 @@ package com.afterkraft.kraftrpg.api.events.skills;
 
 import org.bukkit.event.HandlerList;
 
-import com.afterkraft.kraftrpg.api.entity.Champion;
-import com.afterkraft.kraftrpg.api.events.entity.champion.ChampionEvent;
+import com.afterkraft.kraftrpg.api.entity.SkillCaster;
 import com.afterkraft.kraftrpg.api.skills.ISkill;
 
 
-public class CooldownExpireEvent extends ChampionEvent {
+public class CooldownExpireEvent {
 
+    private static final HandlerList handlers = new HandlerList();
     private final ISkill skill;
+    private final SkillCaster caster;
 
-    public CooldownExpireEvent(Champion champion, ISkill skill) {
-        super(champion);
+    public CooldownExpireEvent(SkillCaster caster, ISkill skill) {
         this.skill = skill;
+        this.caster = caster;
     }
 
     public static HandlerList getHandlerList() {
@@ -37,6 +38,14 @@ public class CooldownExpireEvent extends ChampionEvent {
 
     public ISkill getSkill() {
         return this.skill;
+    }
+
+    public SkillCaster getCaster() {
+        return caster;
+    }
+
+    public HandlerList getHandlers() {
+        return handlers;
     }
 
 }

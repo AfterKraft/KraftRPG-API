@@ -124,9 +124,14 @@ public enum SkillSetting {
     EXPIRE_TEXT("expire-text"),
     INTERRUPT_TEXT("interrupt-text"),
     UNAPPLY_TEXT("unapply-text"),
-    USE_TEXT("use-text"),
-    ;
-
+    USE_TEXT("use-text"), ;
+    public static final Set<SkillSetting> AUTOMATIC_SETTINGS = EnumSet.of(
+            LEVEL, COOLDOWN, DELAY, EXP, HEALTH_COST, MANA_COST, STAMINA_COST,
+            REAGENT, REAGENT_QUANTITY, NO_COMBAT_USE, SKILL_POINT_COST);
+    public static final Set<SkillSetting> BOOLEAN_SETTINGS = EnumSet.of(NO_COMBAT_USE);
+    public static final Set<SkillSetting> STRING_SETTINGS = EnumSet.of(
+            APPLY_TEXT, DEATH_TEXT, DELAY_TEXT, EXPIRE_TEXT, INTERRUPT_TEXT,
+            UNAPPLY_TEXT, USE_TEXT);
     private final String node;
     private final boolean scaled;
 
@@ -138,16 +143,6 @@ public enum SkillSetting {
         this.node = node;
         this.scaled = scaled;
     }
-
-    public static final Set<SkillSetting> AUTOMATIC_SETTINGS = EnumSet.of(
-            LEVEL, COOLDOWN, DELAY, EXP, HEALTH_COST, MANA_COST, STAMINA_COST,
-            REAGENT, REAGENT_QUANTITY, NO_COMBAT_USE, SKILL_POINT_COST);
-
-    public static final Set<SkillSetting> BOOLEAN_SETTINGS = EnumSet.of(NO_COMBAT_USE);
-
-    public static final Set<SkillSetting> STRING_SETTINGS = EnumSet.of(
-            APPLY_TEXT, DEATH_TEXT, DELAY_TEXT, EXPIRE_TEXT, INTERRUPT_TEXT,
-            UNAPPLY_TEXT, USE_TEXT);
 
     public String node() {
         return this.node;

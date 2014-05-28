@@ -82,15 +82,15 @@ public class PlayerData implements Cloneable {
     }
 
     /**
-     * Return a collection of all active roles in the order Primary, Secondary,
-     * Additional. Past roles are excluded.
-     *
+     * Return a collection of all active roles in the order Primary,
+     * Secondary, Additional. Past roles are excluded.
+     * 
      * @return all active roles
      */
     public Collection<Role> allRoles() {
         if (allRoles != null) return allRoles;
 
-        ImmutableList.Builder<Role> b = ImmutableList.<Role>builder();
+        ImmutableList.Builder<Role> b = ImmutableList.<Role> builder();
         if (primary != null) b.add(primary);
         if (profession != null) b.add(profession);
         b.addAll(additionalRoles);

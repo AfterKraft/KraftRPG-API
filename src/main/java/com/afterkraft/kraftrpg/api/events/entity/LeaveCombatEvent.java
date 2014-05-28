@@ -26,9 +26,7 @@ import com.afterkraft.kraftrpg.api.entity.Insentient;
 import com.afterkraft.kraftrpg.api.entity.LeaveCombatReason;
 
 public class LeaveCombatEvent extends Event {
-
-
-    protected static final HandlerList handlers = new HandlerList();
+    private static final HandlerList handlers = new HandlerList();
     private Insentient being;
     private WeakHashMap<LivingEntity, EnterCombatReason> combatMap;
     private LeaveCombatReason reason;
@@ -37,6 +35,10 @@ public class LeaveCombatEvent extends Event {
         this.being = being;
         this.combatMap = combatMap;
         this.reason = reason;
+    }
+
+    public static HandlerList getHandlerList() {
+        return handlers;
     }
 
     public Insentient getBeing() {
@@ -51,7 +53,6 @@ public class LeaveCombatEvent extends Event {
         return reason;
     }
 
-    @Override
     public HandlerList getHandlers() {
         return handlers;
     }

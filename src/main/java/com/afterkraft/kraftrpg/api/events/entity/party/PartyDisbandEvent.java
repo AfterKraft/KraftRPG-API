@@ -15,12 +15,24 @@
  */
 package com.afterkraft.kraftrpg.api.events.entity.party;
 
+import org.bukkit.event.HandlerList;
+
 import com.afterkraft.kraftrpg.api.entity.party.Party;
 
 
 public class PartyDisbandEvent extends PartyEvent {
 
+    private static final HandlerList handlers = new HandlerList();
+
     public PartyDisbandEvent(Party party) {
         super(party);
+    }
+
+    public static HandlerList getHandlerList() {
+        return handlers;
+    }
+
+    public HandlerList getHandlers() {
+        return handlers;
     }
 }

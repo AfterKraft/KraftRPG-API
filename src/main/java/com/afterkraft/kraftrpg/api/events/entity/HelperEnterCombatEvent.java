@@ -18,6 +18,7 @@ package com.afterkraft.kraftrpg.api.events.entity;
 import java.util.WeakHashMap;
 
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.event.HandlerList;
 
 import com.afterkraft.kraftrpg.api.entity.EnterCombatReason;
 import com.afterkraft.kraftrpg.api.entity.Sentient;
@@ -28,15 +29,24 @@ import com.afterkraft.kraftrpg.api.entity.SkillCaster;
  * healing a Sentient already in combat with the 'other'.
  */
 public class HelperEnterCombatEvent extends EnterCombatEvent {
+    private static final HandlerList handlers = new HandlerList();
     private Sentient buffed;
 
     public HelperEnterCombatEvent(SkillCaster being, Sentient buffed, Sentient other, WeakHashMap<LivingEntity, EnterCombatReason> combatMap, EnterCombatReason reason) {
         super(being, other, combatMap, reason);
     }
 
+    public static HandlerList getHandlerList() {
+        return handlers;
+    }
+
     @Override
     public SkillCaster getBeing() {
         return (SkillCaster) being;
+    }
+
+    public HandlerList getHandlers() {
+        return handlers;
     }
 
     public Sentient getBuffedBeing() {

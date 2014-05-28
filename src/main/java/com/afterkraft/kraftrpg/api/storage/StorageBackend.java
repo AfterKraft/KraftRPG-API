@@ -34,7 +34,8 @@ public interface StorageBackend {
      * 
      * (Main thread)
      * 
-     * @throws Throwable anything if an fatal problem occurs - this will halt the plugin
+     * @throws Throwable anything if an fatal problem occurs - this will halt
+     *             the plugin
      */
     public void initialize() throws Throwable;
 

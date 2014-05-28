@@ -16,13 +16,11 @@
 package com.afterkraft.kraftrpg.api.events.entity.party;
 
 import org.bukkit.event.Event;
-import org.bukkit.event.HandlerList;
 
 import com.afterkraft.kraftrpg.api.entity.party.Party;
 
 
-public class PartyEvent extends Event {
-    protected static final HandlerList handlers = new HandlerList();
+public abstract class PartyEvent extends Event {
     private final Party party;
 
     public PartyEvent(Party party) {
@@ -33,8 +31,4 @@ public class PartyEvent extends Event {
         return this.party;
     }
 
-    @Override
-    public HandlerList getHandlers() {
-        return null;
-    }
 }

@@ -24,6 +24,7 @@ import com.afterkraft.kraftrpg.api.roles.Role;
 
 public class RoleChangeEvent extends RoleEvent implements Cancellable {
 
+    private static final HandlerList handlers = new HandlerList();
     private final Role toRPGRole;
     private final boolean canCancel;
     private boolean cancelled;
@@ -40,6 +41,10 @@ public class RoleChangeEvent extends RoleEvent implements Cancellable {
     }
 
     public static HandlerList getHandlerList() {
+        return handlers;
+    }
+
+    public HandlerList getHandlers() {
         return handlers;
     }
 

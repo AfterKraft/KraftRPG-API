@@ -28,13 +28,13 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.inventory.ItemStack;
 
 import com.afterkraft.kraftrpg.api.RPGPlugin;
 import com.afterkraft.kraftrpg.api.entity.Champion;
 import com.afterkraft.kraftrpg.api.entity.Insentient;
 import com.afterkraft.kraftrpg.api.entity.SkillCaster;
 import com.afterkraft.kraftrpg.api.handler.CraftBukkitHandler;
-import org.bukkit.inventory.ItemStack;
 
 /**
  * Represents an intended implementation of ISkill.
@@ -56,11 +56,36 @@ public abstract class Skill implements ISkill {
 
     // Configuration Defaults
 
-    public ConfigurationSection getDefaultConfig() {
-        if (defaultConfig == null) {
-            defaultConfig = new MemoryConfiguration();
-        }
-        return defaultConfig;
+    public static void knockback(LivingEntity target, LivingEntity attacker, double damage) {
+        CraftBukkitHandler.getInterface().knockBack(target, attacker, damage);
+    }
+
+    public static boolean damageEntity(ISkill skill, LivingEntity target, LivingEntity attacker, double damage) {
+        return damageEntity(target, attacker, damage, skill.isType(SkillType.ABILITY_PROPERTY_AIR) || skill.isType(SkillType.ABILITY_PROPERTY_PHYSICAL) ? EntityDamageEvent.DamageCause.ENTITY_ATTACK : EntityDamageEvent.DamageCause.MAGIC);
+    }
+
+    public static boolean damageEntity(LivingEntity target, LivingEntity attacker, double damage, EntityDamageEvent.DamageCause cause) {
+        return damageEntity(target, attacker, damage, cause, true);
+    }
+
+    public static boolean damageEntity(LivingEntity target, LivingEntity attacker, double damage, EntityDamageEvent.DamageCause cause, boolean knockback) {
+        return CraftBukkitHandler.getInterface().damageEntity(target, attacker, damage, cause, knockback);
+    }
+
+    public static boolean damageEntity(LivingEntity target, SkillCaster attacker, double damage, EntityDamageEvent.DamageCause cause) {
+        return damageEntity(target, attacker.getEntity(), damage, cause, true);
+    }
+
+    /**
+     * Transform the name of a skill to a normal form. The results of this
+     * method should not be compared with anything other than other results of
+     * this method.
+     * 
+     * @param skillName skill.getName() to check
+     * @return normalized name
+     */
+    public static String getNormalizedName(String skillName) {
+        return skillName.toLowerCase().replace("skill", "");
     }
 
     protected void setDefault(SkillSetting node, boolean value) {
@@ -104,26 +129,6 @@ public abstract class Skill implements ISkill {
         section.set(node.node(), value);
     }
 
-    public static void knockback(LivingEntity target, LivingEntity attacker, double damage) {
-        CraftBukkitHandler.getInterface().knockBack(target, attacker, damage);
-    }
-
-    public static boolean damageEntity(ISkill skill, LivingEntity target, LivingEntity attacker, double damage) {
-        return damageEntity(target, attacker, damage, skill.isType(SkillType.ABILITY_PROPERTY_AIR) || skill.isType(SkillType.ABILITY_PROPERTY_PHYSICAL) ? EntityDamageEvent.DamageCause.ENTITY_ATTACK : EntityDamageEvent.DamageCause.MAGIC);
-    }
-
-    public static boolean damageEntity(LivingEntity target, LivingEntity attacker, double damage, EntityDamageEvent.DamageCause cause) {
-        return damageEntity(target, attacker, damage, cause, true);
-    }
-
-    public static boolean damageEntity(LivingEntity target, LivingEntity attacker, double damage, EntityDamageEvent.DamageCause cause, boolean knockback) {
-        return CraftBukkitHandler.getInterface().damageEntity(target, attacker, damage, cause, knockback);
-    }
-
-    public static boolean damageEntity(LivingEntity target, SkillCaster attacker, double damage, EntityDamageEvent.DamageCause cause) {
-        return damageEntity(target, attacker.getEntity(), damage, cause, true);
-    }
-
     /**
      * Return whether this Skill is enabled or not
      * 
@@ -150,18 +155,6 @@ public abstract class Skill implements ISkill {
         }
     }
 
-    /**
-     * Transform the name of a skill to a normal form. The results of this
-     * method should not be compared with anything other than other results
-     * of this method.
-     *
-     * @param skillName skill.getName() to check
-     * @return normalized name
-     */
-    public static String getNormalizedName(String skillName) {
-        return skillName.toLowerCase().replace("skill", "");
-    }
-
     @Override
     public final String getPermissionNode() {
         return "kraftrpg.skill." + this.getName();
@@ -170,6 +163,13 @@ public abstract class Skill implements ISkill {
     @Override
     public final String getName() {
         return this.name;
+    }
+
+    public ConfigurationSection getDefaultConfig() {
+        if (defaultConfig == null) {
+            defaultConfig = new MemoryConfiguration();
+        }
+        return defaultConfig;
     }
 
     @Override

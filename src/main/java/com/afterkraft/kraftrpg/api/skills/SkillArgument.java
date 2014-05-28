@@ -77,7 +77,6 @@ public abstract class SkillArgument {
      * @param caster caster
      * @param allArgs Full arguments array
      * @param startPosition Where your arguments start
-     * @return number of arguments consumed
      */
     public abstract void parse(SkillCaster caster, String[] allArgs, int startPosition);
 
@@ -98,6 +97,7 @@ public abstract class SkillArgument {
      * Provide tab-completion suggestions for the last item in allArgs. Your
      * arguments start at startPosition.
      * 
+     * @param caster trying to tab complete
      * @param allArgs Full arguments array
      * @param startPosition Where your arguments start
      * @return completion suggestions for the last item in allArgs

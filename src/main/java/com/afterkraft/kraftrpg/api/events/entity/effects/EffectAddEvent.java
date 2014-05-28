@@ -25,6 +25,7 @@ import com.afterkraft.kraftrpg.api.entity.effects.IEffect;
 
 public class EffectAddEvent extends Event implements Cancellable {
 
+    private static final HandlerList handlers = new HandlerList();
     private final Insentient being;
     private boolean isCancelled = false;
     private IEffect effect;
@@ -32,6 +33,10 @@ public class EffectAddEvent extends Event implements Cancellable {
     public EffectAddEvent(Insentient mage, IEffect effect) {
         this.being = mage;
         this.effect = effect;
+    }
+
+    public static HandlerList getHandlerList() {
+        return handlers;
     }
 
     public IEffect getEffect() {
@@ -43,11 +48,6 @@ public class EffectAddEvent extends Event implements Cancellable {
     }
 
     @Override
-    public HandlerList getHandlers() {
-        return null;
-    }
-
-    @Override
     public boolean isCancelled() {
         return isCancelled;
     }
@@ -55,5 +55,9 @@ public class EffectAddEvent extends Event implements Cancellable {
     @Override
     public void setCancelled(boolean cancel) {
         isCancelled = cancel;
+    }
+
+    public HandlerList getHandlers() {
+        return handlers;
     }
 }

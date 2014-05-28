@@ -32,8 +32,8 @@ public interface Champion extends SkillCaster {
 
     /**
      * Set the Bukkit {@link Player} object for this Champion. This should
-     * automatically call {@link #setEntity(org.bukkit.entity.LivingEntity)}
-     * as long as the original UUID matches the new Player's UUID.
+     * automatically call {@link #setEntity(org.bukkit.entity.Player)} as long
+     * as the original UUID matches the new Player's UUID.
      * 
      * @param player the Bukkit Player for this Champion to attach to
      */
@@ -41,6 +41,8 @@ public interface Champion extends SkillCaster {
 
     @Override
     public Player getEntity();
+
+    public void setEntity(Player player);
 
     /**
      * Get the in-use PlayerData object. Changes made to this object are live.

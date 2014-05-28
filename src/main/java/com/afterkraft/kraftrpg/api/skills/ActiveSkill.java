@@ -72,6 +72,8 @@ public abstract class ActiveSkill extends Skill implements Active {
      * 
      * As not all skills will want this method, subclasses should override it
      * if desired.
+     * 
+     * @param caster
      */
     @Override
     public void onWarmUp(SkillCaster caster) {

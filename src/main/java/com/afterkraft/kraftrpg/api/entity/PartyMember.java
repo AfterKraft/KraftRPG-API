@@ -24,13 +24,14 @@ public interface PartyMember {
 
     /**
      * Check if this being is currently in a party
-     *
+     * 
      * @return true if the being is in a party
      */
     public boolean hasParty();
 
     /**
      * Get the currently attached Party for this being.
+     * 
      * @return
      */
     public Party getParty();
