@@ -40,8 +40,6 @@ public interface RoleManager extends Manager {
 
     public Map<String, Role> getRolesByType(RoleType type);
 
-    public void queueRoleRefresh(Role role, RoleRefreshReason reason);
-
     public boolean addRoleDependency(Role parent, Role child);
 
     public void removeRoleDependency(Role parent, Role child);
@@ -53,10 +51,4 @@ public interface RoleManager extends Manager {
      * @return
      */
     public boolean areRoleDependenciesCyclic();
-
-    public enum RoleRefreshReason {
-        SKILL_REMOVAL,
-        SKILL_ADDITION,
-        RELOAD
-    }
 }

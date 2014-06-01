@@ -27,10 +27,6 @@ import com.afterkraft.kraftrpg.api.entity.effects.EffectType;
  */
 public abstract class PassiveSkill extends Skill implements Passive {
 
-    private String applyText = null;
-    private String unapplyText = null;
-    private EffectType[] effectTypes = null;
-
     public PassiveSkill(RPGPlugin plugin, String name) {
         super(plugin, name);
     }

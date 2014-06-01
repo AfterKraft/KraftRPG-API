@@ -100,18 +100,6 @@ public interface DamageManager extends Manager {
         EGG,
         SNOWBALL;
 
-        public static ProjectileType match(final String name) {
-            if (name.equalsIgnoreCase("arrow")) {
-                return ARROW;
-            } else if (name.equalsIgnoreCase("snowball")) {
-                return SNOWBALL;
-            } else if (name.equalsIgnoreCase("egg")) {
-                return EGG;
-            } else {
-                return null;
-            }
-        }
-
         public static ProjectileType valueOf(Entity entity) {
             if (entity instanceof Arrow) {
                 return ARROW;
