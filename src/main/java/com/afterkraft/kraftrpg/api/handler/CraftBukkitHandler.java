@@ -64,12 +64,18 @@ public abstract class CraftBukkitHandler {
                 version = "pre";
             }
             String serverString = Bukkit.getServer().getVersion().split("-")[1].toLowerCase();
-            if (serverString.equalsIgnoreCase("craftbukkit")) {
+            if (serverString.equalsIgnoreCase("bukkit") || serverString.equalsIgnoreCase("craftbukkit")) {
                 serverType = ServerType.BUKKIT;
             } else if (serverString.equalsIgnoreCase("spigot")) {
                 serverType = ServerType.SPIGOT;
             } else if (serverString.equalsIgnoreCase("tweakkit")) {
                 serverType = ServerType.TWEAKKIT;
+            }
+            if (serverType == null) {
+                Bukkit.getLogger().info("KraftRPG could not detect your server mod type.");
+                Bukkit.getLogger().info("It detected " + serverString + " which isn't known to KraftRPG.");
+                Bukkit.getLogger().info("But don't worry! We're falling back on Bukkit compatibility");
+                serverType = ServerType.BUKKIT;
             }
             try {
                 Class<?> clazz = Class.forName("com.afterkraft.kraftrpg.compat." + version + ".RPGHandler");
