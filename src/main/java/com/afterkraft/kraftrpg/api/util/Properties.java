@@ -23,6 +23,22 @@ public interface Properties {
 
     public int getDefaultGlobalCooldown();
 
+    /**
+     * Return if the {@link com.afterkraft.kraftrpg.api.util.DamageManager}
+     * will calculate varying damages for {@link org.bukkit.entity.EntityType}
+     * and {@link org.bukkit.Material}. If varying damage is enabled, all
+     * damages are varied depending on each
+     * {@link org.bukkit.event.entity.EntityDamageEvent}
+     *
+     * It should be known that varying damages are also further customized by
+     * {@link com.afterkraft.kraftrpg.api.roles.Role}
+     *
+     * @return true if enabled, false otherwise.
+     */
+    public boolean isVaryingDamageEnabled();
+
+    public boolean isStarvingDamageEnabled();
+
     public int getCombatTime();
 
     public FixedPoint getMonsterExperience(LivingEntity entity, Location spawnPoint);

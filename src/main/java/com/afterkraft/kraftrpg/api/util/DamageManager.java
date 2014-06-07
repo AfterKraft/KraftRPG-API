@@ -16,6 +16,7 @@
 package com.afterkraft.kraftrpg.api.util;
 
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.configuration.Configuration;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Arrow;
@@ -58,6 +59,45 @@ public interface DamageManager extends Manager {
     public double getHighestProjectileDamage(Champion champion, ProjectileType type);
 
     /**
+     * Request the default damage for the provided {@link org.bukkit.Material}
+     * and uses the default damage provided if the default damage is not
+     * configured.
+     *
+     * @param type
+     * @param damage
+     * @return
+     */
+    public double getDefaultItemDamage(Material type, double damage);
+
+    /**
+     *
+     * @param type
+     * @return
+     */
+    public double getDefaultItemDamage(Material type);
+
+    /**
+     *
+     * @param type
+     * @param damage
+     */
+    public void setDefaultItemDamage(Material type, double damage);
+
+    /**
+     *
+     * @param type
+     * @return
+     */
+    public boolean doesItemDamageVary(Material type);
+
+    /**
+     *
+     * @param type
+     * @param isVarying
+     */
+    public void setItemDamageVarying(Material type, boolean isVarying);
+
+    /**
      * Gets the default damage for the given EntityType.
      * 
      * @param type of Entity we are querying
@@ -87,6 +127,10 @@ public interface DamageManager extends Manager {
     public double getDefaultEntityHealth(final LivingEntity entity);
 
     public double getModifiedEntityHealth(final LivingEntity entity);
+
+    public boolean doesEntityDealVaryingDamage(EntityType type);
+
+    public void setEntityToDealVaryingDamage(EntityType type, boolean dealsVaryingDamage);
 
     /**
      * Load defaults for the default damages from the given Configuration

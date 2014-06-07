@@ -42,6 +42,7 @@ public class Role {
     private final Map<ISkill, RoleSkill> skills = new HashMap<ISkill, RoleSkill>();
     private final Map<Material, Double> itemDamages = new EnumMap<Material, Double>(Material.class);
     private final Map<Material, Double> itemDamagePerLevel = new EnumMap<Material, Double>(Material.class);
+    private final Map<Material, Boolean> itemVaryingDamage = new EnumMap<Material, Boolean>(Material.class);
     private final Set<Role> children = new HashSet<Role>();
     private final Set<Role> parents = new HashSet<Role>();
     private RoleType type;
@@ -269,11 +270,38 @@ public class Role {
     }
 
     public double getItemDamage(Material type) {
-        return this.itemDamages.get(type) != null ? this.itemDamages.get(type) : 0.0D;
+        return this.itemDamages.containsKey(type) ? this.itemDamages.get(type) : 0.0D;
     }
 
     public void setItemDamage(Material type, double damage) {
-        this.itemDamages.put(type, damage);
+        if (type != null) {
+            this.itemDamages.put(type, damage);
+        }
+    }
+
+    /**
+     * If a Role defines an item to deal varying damage for each attack, the
+     * final damage is not always the same. This checks if a
+     * {@link org.bukkit.Material} type is configured to deal varying damage.
+     * 
+     * @param type to check
+     * @return true if this Role is configured to have varying damage for the item
+     */
+    public boolean doesItemVaryDamage(Material type) {
+        return this.itemVaryingDamage.containsKey(type) ? this.itemVaryingDamage.get(type) : false;
+    }
+
+    /**
+     * Set the {@link org.bukkit.Material} type of item to deal varying damage
+     * or not. Setting this will affect all damage immediately.
+     *
+     * @param type of Material
+     * @param doesVaryingDamage if true, set the item to deal varying damage.
+     */
+    public void setItemVariesDamage(Material type, boolean doesVaryingDamage) {
+        if (type != null) {
+            this.itemVaryingDamage.put(type, doesVaryingDamage);
+        }
     }
 
     public double getItemDamagePerLevel(Material type) {

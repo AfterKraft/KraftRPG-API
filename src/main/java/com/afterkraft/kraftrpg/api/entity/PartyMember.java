@@ -20,7 +20,7 @@ import com.afterkraft.kraftrpg.api.entity.party.Party;
 /**
  * Represents a being that is allowed to join {@link Party}s.
  */
-public interface PartyMember {
+public interface PartyMember extends IEntity {
 
     /**
      * Check if this being is currently in a party

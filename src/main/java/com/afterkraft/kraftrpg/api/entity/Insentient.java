@@ -25,6 +25,7 @@ import org.bukkit.potion.PotionEffectType;
 
 import com.afterkraft.kraftrpg.api.entity.effects.EffectType;
 import com.afterkraft.kraftrpg.api.entity.effects.IEffect;
+import com.afterkraft.kraftrpg.api.listeners.DamageWrapper;
 import com.afterkraft.kraftrpg.api.util.FixedPoint;
 
 /**
@@ -130,12 +131,25 @@ public interface Insentient extends IEntity {
      */
     public void clearHealthBonuses();
 
+
+    public DamageWrapper getDamageWrapper();
+
+    public void setDamageWrapper(DamageWrapper wrapper);
+
     /**
      * Check if this being is dead
      * 
      * @return true if dead
      */
     public boolean isDead();
+
+    /**
+     * A helper method to get the internal no damage ticks
+     * for the represented LivingEntity.
+     *
+     * @return amount of no damage ticks
+     */
+    public int getNoDamageTicks();
 
     /**
      * Assuming this being is affected by stamina, returns the current stamina
