@@ -15,8 +15,6 @@
  */
 package com.afterkraft.kraftrpg.api.listeners;
 
-import java.lang.ref.WeakReference;
-
 import org.bukkit.event.entity.EntityDamageEvent;
 
 import com.afterkraft.kraftrpg.api.entity.SkillCaster;

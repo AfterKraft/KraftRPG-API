@@ -27,7 +27,6 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Snowball;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import com.afterkraft.kraftrpg.api.Manager;
@@ -133,7 +132,7 @@ public interface DamageManager extends Manager {
     /**
      * Calculate the fall reduction for this being considering various sources
      * including armor.
-     *
+     * 
      * @param being
      * @return
      */

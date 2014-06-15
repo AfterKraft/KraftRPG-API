@@ -285,7 +285,8 @@ public class Role {
      * {@link org.bukkit.Material} type is configured to deal varying damage.
      * 
      * @param type to check
-     * @return true if this Role is configured to have varying damage for the item
+     * @return true if this Role is configured to have varying damage for the
+     *         item
      */
     public boolean doesItemVaryDamage(Material type) {
         return this.itemVaryingDamage.containsKey(type) ? this.itemVaryingDamage.get(type) : false;
@@ -294,7 +295,7 @@ public class Role {
     /**
      * Set the {@link org.bukkit.Material} type of item to deal varying damage
      * or not. Setting this will affect all damage immediately.
-     *
+     * 
      * @param type of Material
      * @param doesVaryingDamage if true, set the item to deal varying damage.
      */

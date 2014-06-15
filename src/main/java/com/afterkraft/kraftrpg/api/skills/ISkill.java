@@ -17,7 +17,6 @@ package com.afterkraft.kraftrpg.api.skills;
 
 import java.util.Collection;
 
-import org.bukkit.Location;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;

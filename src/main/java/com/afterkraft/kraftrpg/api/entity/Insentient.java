@@ -81,19 +81,19 @@ public interface Insentient extends IEntity {
     public double getHealth();
 
     /**
+     * Attempts to set the health of the being. If the being is dead, the
+     * health will not be updated.
+     *
+     * @param health to which the being should have.
+     */
+    public void setHealth(double health);
+
+    /**
      * Return the max health for this being.
      *
      * @return maximum health
      */
     public double getMaxHealth();
-
-    /**
-     * Attempts to set the health of the being. If the being is dead, the
-     * health will not be updated.
-     * 
-     * @param health to which the being should have.
-     */
-    public void setHealth(double health);
 
     /**
      * Add a fixed health bonus that does not get reset when
@@ -236,9 +236,11 @@ public interface Insentient extends IEntity {
     public IEffect getEffect(String name);
 
     /**
-     * Returns an unmodifiable set of Effects this Champion has active.
+     * Returns an unmodifiable set of Effects this Insentient being has
+     * active.
      * 
-     * @return an unmodifiable set of Effects this Champion has active.
+     * @return an unmodifiable set of Effects this Insentient being has
+     *         active.
      */
     public Set<IEffect> getEffects();
 
@@ -358,9 +360,10 @@ public interface Insentient extends IEntity {
     /**
      * Check if this insentient is ignoring messages from the specified
      * {@link com.afterkraft.kraftrpg.api.skills.ISkill}
-     *
+     * 
      * @param skill that is possibly being ignored
-     * @return true if this being does not wish to listen to the skill messages
+     * @return true if this being does not wish to listen to the skill
+     *         messages
      */
     public boolean isIgnoringSkill(ISkill skill);
 }

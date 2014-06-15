@@ -28,13 +28,13 @@ public class SkillDamageEvent extends InsentientDamageInsentientEvent {
         super(attacker, defender, cause, defaultDamage, finalDamage, isVaryingEnabled);
     }
 
+    public static HandlerList getHandlerList() {
+        return handlers;
+    }
+
     @Override
     public SkillCaster getAttacker() {
         return (SkillCaster) super.getAttacker();
-    }
-
-    public static HandlerList getHandlerList() {
-        return handlers;
     }
 
     @Override
