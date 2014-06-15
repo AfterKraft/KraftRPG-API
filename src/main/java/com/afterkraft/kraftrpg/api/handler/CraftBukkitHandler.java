@@ -34,6 +34,7 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 
 import com.afterkraft.kraftrpg.api.RPGPlugin;
+import com.afterkraft.kraftrpg.api.entity.Insentient;
 import com.afterkraft.kraftrpg.api.util.FixedPoint;
 
 
@@ -181,6 +182,8 @@ public abstract class CraftBukkitHandler {
 
     //NMS methods required by listeners
     public abstract double getPostArmorDamage(LivingEntity defender, double damage);
+
+    public abstract double getPostArmorDamage(Insentient being, double damage);
 
     public abstract void setPlayerExpZero(Player player);
 

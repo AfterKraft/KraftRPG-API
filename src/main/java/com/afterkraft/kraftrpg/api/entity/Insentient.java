@@ -26,6 +26,7 @@ import org.bukkit.potion.PotionEffectType;
 import com.afterkraft.kraftrpg.api.entity.effects.EffectType;
 import com.afterkraft.kraftrpg.api.entity.effects.IEffect;
 import com.afterkraft.kraftrpg.api.listeners.DamageWrapper;
+import com.afterkraft.kraftrpg.api.skills.ISkill;
 import com.afterkraft.kraftrpg.api.util.FixedPoint;
 
 /**
@@ -68,12 +69,23 @@ public interface Insentient extends IEntity {
      */
     public void setMana(int mana);
 
+    public int getMaxMana();
+
+    public void setMaxMana(int mana);
+
     /**
      * Return the health of the being.
      * 
      * @return health
      */
     public double getHealth();
+
+    /**
+     * Return the max health for this being.
+     *
+     * @return maximum health
+     */
+    public double getMaxHealth();
 
     /**
      * Attempts to set the health of the being. If the being is dead, the
@@ -144,9 +156,9 @@ public interface Insentient extends IEntity {
     public boolean isDead();
 
     /**
-     * A helper method to get the internal no damage ticks
-     * for the represented LivingEntity.
-     *
+     * A helper method to get the internal no damage ticks for the represented
+     * LivingEntity.
+     * 
      * @return amount of no damage ticks
      */
     public int getNoDamageTicks();
@@ -203,6 +215,16 @@ public interface Insentient extends IEntity {
      * @return The unmodifiable ItemStack list of the armor for this being
      */
     public ItemStack[] getArmor();
+
+    /**
+     * Check if this being is capable of equipping the
+     * {@link org.bukkit.inventory.ItemStack}. This is primarily used for
+     * damage listeners and other logic that may be needed throughout KraftRPG
+     * 
+     * @param itemStack to check
+     * @return true if the item is a valid item to equip
+     */
+    public boolean canEquipItem(ItemStack itemStack);
 
     /**
      * Returns (if available) the named
@@ -332,4 +354,13 @@ public interface Insentient extends IEntity {
      * @param message to be sent
      */
     public void sendMessage(String message);
+
+    /**
+     * Check if this insentient is ignoring messages from the specified
+     * {@link com.afterkraft.kraftrpg.api.skills.ISkill}
+     *
+     * @param skill that is possibly being ignored
+     * @return true if this being does not wish to listen to the skill messages
+     */
+    public boolean isIgnoringSkill(ISkill skill);
 }

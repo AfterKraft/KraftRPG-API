@@ -27,12 +27,13 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Snowball;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import com.afterkraft.kraftrpg.api.Manager;
 import com.afterkraft.kraftrpg.api.entity.Champion;
+import com.afterkraft.kraftrpg.api.entity.Insentient;
 import com.afterkraft.kraftrpg.api.entity.Monster;
-import com.afterkraft.kraftrpg.api.entity.SkillCaster;
 
 /**
  * The generalized manager for calculating and fetching damages for entities
@@ -42,19 +43,21 @@ public interface DamageManager extends Manager {
 
     /**
      * Attempts to calculate the highest damage given for the given ItemStack.
-     * This will check all active
-     * {@link com.afterkraft.kraftrpg.api.roles.Role}s that the given
-     * {@link com.afterkraft.kraftrpg.api.entity.SkillCaster} may have.
+     * This will check all possibilities of damage modification if the
+     * Insentient is a {@link com.afterkraft.kraftrpg.api.entity.SkillCaster}
+     * or {@link com.afterkraft.kraftrpg.api.entity.Sentient} to which
+     * {@link com.afterkraft.kraftrpg.api.roles.Role}s will be allowed to
+     * modify the damage dealt from the Item.
      * <p/>
-     * If the SkillCaster has no active Roles or the resulting damage is
-     * negative, 0 will be returned
+     * If the Insentient has no default damages for the Item, the damage
+     * returned will be 0.
      * 
-     * @param caster the SkillCaster to query for Roles
-     * @param item the Item to query for the damage
-     * @return the highest possible damage for the item from any active Roles,
-     *         if not 0
+     * @param being the Insentient to query for damages
+     * @param defaultDamage
+     * @return the highest possible damage for the item from any possible
+     *         modifications
      */
-    public double getHighestItemDamage(SkillCaster caster, ItemStack item);
+    public double getHighestItemDamage(Insentient being, Insentient defender, double defaultDamage);
 
     public double getHighestProjectileDamage(Champion champion, ProjectileType type);
 
@@ -62,7 +65,7 @@ public interface DamageManager extends Manager {
      * Request the default damage for the provided {@link org.bukkit.Material}
      * and uses the default damage provided if the default damage is not
      * configured.
-     *
+     * 
      * @param type
      * @param damage
      * @return
@@ -70,28 +73,28 @@ public interface DamageManager extends Manager {
     public double getDefaultItemDamage(Material type, double damage);
 
     /**
-     *
+     * 
      * @param type
      * @return
      */
     public double getDefaultItemDamage(Material type);
 
     /**
-     *
+     * 
      * @param type
      * @param damage
      */
     public void setDefaultItemDamage(Material type, double damage);
 
     /**
-     *
+     * 
      * @param type
      * @return
      */
     public boolean doesItemDamageVary(Material type);
 
     /**
-     *
+     * 
      * @param type
      * @param isVarying
      */
@@ -108,7 +111,33 @@ public interface DamageManager extends Manager {
 
     public double getEnvironmentalDamage(EntityDamageEvent.DamageCause cause);
 
-    public double getEnchantmentDamage(Enchantment enchantment);
+    public double getEnchantmentDamage(Enchantment enchantment, int enchantmentLevel);
+
+    /**
+     * Utility method to calculate the modified damage from an Enchantment
+     * damage caused by an Armor piece or Weapon. The
+     * {@link com.afterkraft.kraftrpg.api.entity.Insentient} is used to check
+     * for any possible {@link com.afterkraft.kraftrpg.api.roles.Role} damage
+     * modifications necessary.
+     * 
+     * If varying damage is enabled, the damage will already take this into
+     * account.
+     * 
+     * @param being wearing/using the enchanted ItemStack
+     * @param enchantment to calculate for
+     * @param item that is enchanted
+     * @return calculated damage that may be varied if enabled
+     */
+    public double getItemEnchantmentDamage(Insentient being, Enchantment enchantment, ItemStack item);
+
+    /**
+     * Calculate the fall reduction for this being considering various sources
+     * including armor.
+     *
+     * @param being
+     * @return
+     */
+    public double getFallReduction(Insentient being);
 
     /**
      * Attempts to calculate various possible modifications to the default
@@ -131,6 +160,8 @@ public interface DamageManager extends Manager {
     public boolean doesEntityDealVaryingDamage(EntityType type);
 
     public void setEntityToDealVaryingDamage(EntityType type, boolean dealsVaryingDamage);
+
+    public boolean isStandardWeapon(Material material);
 
     /**
      * Load defaults for the default damages from the given Configuration

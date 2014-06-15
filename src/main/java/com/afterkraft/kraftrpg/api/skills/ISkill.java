@@ -17,6 +17,7 @@ package com.afterkraft.kraftrpg.api.skills;
 
 import java.util.Collection;
 
+import org.bukkit.Location;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
@@ -106,7 +107,7 @@ public interface ISkill {
      * @param receiver receiving the message
      * @return true if the receiver is in range
      */
-    public boolean isInMessageRange(Champion broadcaster, Champion receiver);
+    public boolean isInMessageRange(SkillCaster broadcaster, Champion receiver);
 
     /**
      * Attempts to damage the defending LivingEntity, this allows for various

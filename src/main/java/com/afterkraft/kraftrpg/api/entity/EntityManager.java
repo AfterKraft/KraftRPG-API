@@ -99,18 +99,6 @@ public interface EntityManager extends Manager {
     public boolean addEntity(IEntity entity);
 
     /**
-     * Add the given monster to be managed by KraftRPG. This is so KraftRPG
-     * can be notified of new entities being added. This can be used for
-     * custom Monsters that are not normally handled by KraftRPG. If the
-     * monster's {@link java.util.UUID} is already present in our mapping then
-     * the monster will not be added.
-     * 
-     * @param monster to add
-     * @return true if the monster was not already in our mappings.
-     */
-    public boolean addMonster(Monster monster);
-
-    /**
      * Return the linked {@link com.afterkraft.kraftrpg.api.entity.Monster} if
      * the provided UUID is present in our tracked entities mapping.
      * 

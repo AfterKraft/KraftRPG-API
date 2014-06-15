@@ -82,9 +82,11 @@ public interface SkillManager extends Manager {
 
     public void setCompletedSkill(SkillCaster caster);
 
-    public void addSkillTarget(Entity o, SkillCaster caster, ISkill skill);
+    public void addSkillTarget(Entity entity, SkillCaster caster, ISkill skill);
 
-    public SkillUseObject<? extends SkillArgument> getSkillTargetInfo(Entity o);
+    public SkillUseObject getSkillTargetInfo(Entity o);
 
-    public boolean isSkillTarget(Entity o);
+    public boolean isSkillTarget(Entity entity);
+
+    public void removeSkillTarget(Entity entity, SkillCaster caster, ISkill skill);
 }

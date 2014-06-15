@@ -197,7 +197,7 @@ public abstract class Skill implements ISkill {
     }
 
     @Override
-    public boolean isInMessageRange(Champion broadcaster, Champion receiver) {
+    public boolean isInMessageRange(SkillCaster broadcaster, Champion receiver) {
         return broadcaster.getLocation().distanceSquared(receiver.getLocation()) < (20 * 20);
     }
 
