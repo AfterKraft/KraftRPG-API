@@ -26,6 +26,7 @@ import java.util.Set;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 
+import com.afterkraft.kraftrpg.api.entity.party.PartyManager;
 import com.afterkraft.kraftrpg.api.skills.ISkill;
 import com.afterkraft.kraftrpg.api.skills.Skill;
 import com.afterkraft.kraftrpg.api.storage.StorageBackend;
@@ -41,6 +42,7 @@ public final class ExternalProviderRegistration {
     private static StorageFrontendFactory storageFrontend = new StorageFrontendFactory.DefaultFactory();
     private static Set<String> providedSkillNames = new HashSet<String>();
     private static List<ISkill> providedSkills = new ArrayList<ISkill>();
+    private static PartyManager partyManager;
 
     /**
      * Provide a new storage frontend, or revert from another plugin's
@@ -89,6 +91,14 @@ public final class ExternalProviderRegistration {
         for (String ident : identifiers) {
             storageBackends.put(ident.toLowerCase(), storage);
         }
+    }
+
+    public static void registerPartyManager(PartyManager manager) {
+        check();
+        if (manager == null) {
+            throw new IllegalArgumentException("Attempt to register a null PartyManager");
+        }
+        partyManager = manager;
     }
 
     /**
@@ -179,5 +189,9 @@ public final class ExternalProviderRegistration {
 
     public static StorageFrontendFactory getStorageFrontendOverride() {
         return storageFrontend;
+    }
+
+    public static PartyManager getPartyManager() {
+        return partyManager;
     }
 }
