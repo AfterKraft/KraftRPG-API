@@ -16,6 +16,10 @@
 package com.afterkraft.kraftrpg.api.entity.effects;
 
 
+import com.afterkraft.kraftrpg.api.entity.Insentient;
+import com.afterkraft.kraftrpg.api.skills.ISkill;
+import com.afterkraft.kraftrpg.api.skills.SkillType;
+
 public enum EffectType {
 
     AIR,
@@ -75,23 +79,23 @@ public enum EffectType {
     NIGHT_VISION,
     PHYSICAL,
     POISON,
-    RESIST_AIR,
-    RESIST_BLEED,
-    RESIST_DARK,
-    RESIST_DISEASE,
-    RESIST_EARTH,
-    RESIST_FIRE,
-    RESIST_ICE,
-    RESIST_ILLUSION,
-    RESIST_LIGHT,
-    RESIST_LIGHTNING,
-    RESIST_MAGICAL,
-    RESIST_POISON,
-    RESIST_PHYSICAL,
-    RESIST_PROJECTILE,
-    RESIST_SONG,
-    RESIST_WATER,
-    RESIST_VOID,
+    RESIST_AIR(SkillType.ABILITY_PROPERTY_AIR),
+    RESIST_BLEED(SkillType.ABILITY_PROPERTY_BLEED),
+    RESIST_DARK(SkillType.ABILITY_PROPERTY_DARK),
+    RESIST_DISEASE(SkillType.ABILITY_PROPERTY_DISEASE),
+    RESIST_EARTH(SkillType.ABILITY_PROPERTY_EARTH),
+    RESIST_FIRE(SkillType.ABILITY_PROPERTY_FIRE),
+    RESIST_ICE(SkillType.ABILITY_PROPERTY_ICE),
+    RESIST_ILLUSION(SkillType.ABILITY_PROPERTY_ILLUSION),
+    RESIST_LIGHT(SkillType.ABILITY_PROPERTY_LIGHT),
+    RESIST_LIGHTNING(SkillType.ABILITY_PROPERTY_LIGHTNING),
+    RESIST_MAGICAL(SkillType.ABILITY_PROPERTY_MAGICAL),
+    RESIST_POISON(SkillType.ABILITY_PROPERTY_POISON),
+    RESIST_PHYSICAL(SkillType.ABILITY_PROPERTY_PHYSICAL),
+    RESIST_PROJECTILE(SkillType.ABILITY_PROPERTY_PROJECTILE),
+    RESIST_SONG(SkillType.ABILITY_PROPERTY_SONG),
+    RESIST_WATER(SkillType.ABILITY_PROPERTY_WATER),
+    RESIST_VOID(SkillType.ABILITY_PROPERTY_VOID),
     ROOT,
     SAFEFALL,
     SILENCE,
@@ -117,5 +121,19 @@ public enum EffectType {
     WATER_BREATHING,
     WATER,
     WEAKNESS,
-    WITHER
+    WITHER;
+
+    private final SkillType resistance;
+
+    EffectType(SkillType resistance) {
+        this.resistance = resistance;
+    }
+
+    EffectType() {
+        this(null);
+    }
+
+    public boolean isSkillResisted(Insentient being, ISkill skill) {
+        return (this.resistance != null && being.hasEffectType(this) && skill.isType(this.resistance));
+    }
 }
