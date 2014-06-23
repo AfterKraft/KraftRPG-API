@@ -17,6 +17,7 @@ package com.afterkraft.kraftrpg.api.roles;
 
 import java.util.Map;
 
+import com.afterkraft.kraftrpg.api.CircularDependencyException;
 import com.afterkraft.kraftrpg.api.Manager;
 
 
@@ -24,25 +25,34 @@ public interface RoleManager extends Manager {
 
     public Role getDefaultPrimaryRole();
 
-    public boolean setDefaultPrimaryRole(Role role);
+    public boolean setDefaultPrimaryRole(Role role) throws IllegalArgumentException;
 
     public Role getDefaultSecondaryRole();
 
-    public boolean setDefaultSecondaryRole(Role role);
+    public void setDefaultSecondaryRole(Role role) throws IllegalArgumentException;
 
-    public Role getRole(String roleName);
+    public Role getRole(String roleName) throws IllegalArgumentException;
 
-    public boolean addRole(Role role);
+    public boolean addRole(Role role) throws IllegalArgumentException;
 
-    public boolean removeRole(Role role);
+    public boolean removeRole(Role role) throws IllegalArgumentException;
 
     public Map<String, Role> getRoles();
 
-    public Map<String, Role> getRolesByType(RoleType type);
+    public Map<String, Role> getRolesByType(Role.RoleType type) throws IllegalArgumentException;
 
-    public boolean addRoleDependency(Role parent, Role child);
+    /**
+     * Attempts to add a dependency for the two involving roles. This method
+     * is here to
+     * @param parent
+     * @param child
+     * @return
+     * @throws IllegalArgumentException
+     * @throws CircularDependencyException
+     */
+    public boolean addRoleDependency(Role parent, Role child) throws IllegalArgumentException, CircularDependencyException;
 
-    public void removeRoleDependency(Role parent, Role child);
+    public boolean removeRoleDependency(Role parent, Role child) throws IllegalArgumentException;
 
     /**
      * This is a simple check for all registered Roles. This should not be

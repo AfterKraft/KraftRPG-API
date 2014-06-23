@@ -21,15 +21,15 @@ import java.util.Set;
 
 public enum SkillSetting {
 
-    /////////////////////////////////////////////////////////////////
-    // Automatically inspected and applied
-    // - Numbers
-    // (Level)
     /**
      * Level required to use the skill. Mandatory. Cannot have a default.
      */
     LEVEL("level"),
-    // (Other numbers)
+    /**
+     * Depends on another skill being granted. Prevents use of the skill
+     * when the depended skill is not activated. Defaults to none
+     */
+    DEPENDS("depends"),
     /**
      * Cooldown, in ****s, before the skill can be used a second time.
      */
@@ -132,6 +132,7 @@ public enum SkillSetting {
     public static final Set<SkillSetting> STRING_SETTINGS = EnumSet.of(
             APPLY_TEXT, DEATH_TEXT, DELAY_TEXT, EXPIRE_TEXT, INTERRUPT_TEXT,
             UNAPPLY_TEXT, USE_TEXT);
+    public static final Set<SkillSetting> LIST_SETTINGS = EnumSet.of(DEPENDS);
     private final String node;
     private final boolean scaled;
 

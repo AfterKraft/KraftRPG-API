@@ -32,7 +32,7 @@ public interface PartyMember extends IEntity {
     /**
      * Get the currently attached Party for this being.
      * 
-     * @return
+     * @return the party
      */
     public Party getParty();
 

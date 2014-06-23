@@ -29,9 +29,16 @@ public interface Passive extends ISkill {
      * {@link com.afterkraft.kraftrpg.api.entity.SkillCaster}
      * 
      * @param caster to attempt to apply this passive skill to
-     * @return TODO
+     * @return true if successful
      */
     public boolean apply(SkillCaster caster);
 
+    /**
+     * Attempts to remove the passive skill from the given SkillCaster.
+     * It should be noted that all references to the caster should be forgotten
+     * and any update checks should ignore this caster.
+     *
+     * @param caster to unapply this passive skill to
+     */
     public void remove(SkillCaster caster);
 }

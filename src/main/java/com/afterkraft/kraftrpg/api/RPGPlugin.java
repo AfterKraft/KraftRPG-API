@@ -17,6 +17,9 @@ package com.afterkraft.kraftrpg.api;
 
 import java.util.logging.Level;
 
+import net.milkbowl.vault.economy.Economy;
+import net.milkbowl.vault.permission.Permission;
+
 import org.bukkit.plugin.Plugin;
 
 import com.afterkraft.kraftrpg.api.entity.CombatTracker;
@@ -40,6 +43,10 @@ public interface RPGPlugin extends Plugin {
      * fatal configuration error.
      */
     public void cancelEnable();
+
+    public Permission getVaultPermissions();
+
+    public Economy getVaultEconomy();
 
     public SkillConfigManager getSkillConfigManager();
 

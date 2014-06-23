@@ -15,10 +15,8 @@
  */
 package com.afterkraft.kraftrpg.api.roles;
 
-
-public enum RoleType {
-
-    PRIMARY,
-    SECONDARY,
-    ADDITIONAL
+public class RoleSkillConfigurationException extends RuntimeException {
+    public RoleSkillConfigurationException(String message) {
+        super(message);
+    }
 }

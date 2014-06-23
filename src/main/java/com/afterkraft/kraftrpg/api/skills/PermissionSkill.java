@@ -21,6 +21,7 @@ import java.util.Map;
 
 import org.bukkit.configuration.Configuration;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.Player;
 import org.bukkit.permissions.Permission;
 
 import com.afterkraft.kraftrpg.api.RPGPlugin;
@@ -85,6 +86,15 @@ public class PermissionSkill extends Skill implements Permissible {
 
     @Override
     public void tryLearning(Sentient being) {
+        if (being.getEntity() instanceof Player) {
+            plugin.getVaultPermissions().playerAddTransient((Player) being.getEntity(), this.permission.getName());
+        }
+    }
 
+    @Override
+    public void tryUnlearning(Sentient being) {
+        if (being.getEntity() instanceof Player) {
+            plugin.getVaultPermissions().playerRemoveTransient((Player) being.getEntity(), this.permission.getName());
+        }
     }
 }

@@ -69,8 +69,18 @@ public interface Insentient extends IEntity {
      */
     public void setMana(int mana);
 
+    /**
+     * Gets the current max mana
+     *
+     * @return the max mana for this being
+     */
     public int getMaxMana();
 
+    /**
+     * Sets the current maximum mana for this being.
+     *
+     * @param mana as the maximum
+     */
     public void setMaxMana(int mana);
 
     /**
@@ -201,9 +211,9 @@ public interface Insentient extends IEntity {
     public Inventory getInventory();
 
     /**
-     * Provided as a utility method to get the being's armor. Implementations
-     * may vary, but this should be assured to follow the index representation
-     * provided by the following methods: <code>
+     * Provided as a utility method to get a copy of the being's armor.
+     * Implementations may vary, but this should be assured to follow the
+     * index representation provided by the following methods: <code>
      *     <ul>
      *         <li>{@link com.afterkraft.kraftrpg.api.handler.CraftBukkitHandler#getArmorIndexHelmet()}</li>
      *         <li>{@link com.afterkraft.kraftrpg.api.handler.CraftBukkitHandler#getArmorIndexChestPlate()} </li>
@@ -212,9 +222,16 @@ public interface Insentient extends IEntity {
      *     </ul>
      * </code>
      * 
-     * @return The unmodifiable ItemStack list of the armor for this being
+     * @return The copy of the ItemStack list of the armor for this being
      */
     public ItemStack[] getArmor();
+
+    /**
+     * Set the armor piece of the specified armor slot. The item can be null
+     * @param item to set, if not null
+     * @param armorSlot to set
+     */
+    public void setArmor(ItemStack item, int armorSlot);
 
     /**
      * Check if this being is capable of equipping the
@@ -248,7 +265,7 @@ public interface Insentient extends IEntity {
      * Adds the given Effect to this Insentient being. Added Effects will be
      * applied on the next tick so as to avoid
      * 
-     * @param effect
+     * @param effect to apply to this Insentient
      */
     public void addEffect(IEffect effect);
 

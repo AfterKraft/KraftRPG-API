@@ -33,6 +33,15 @@ public interface SkillManager extends Manager {
     public void addSkill(ISkill skill);
 
     /**
+     * Checks if a skill by the skill name exists.
+     *
+     * @param skillName to check
+     * @throws java.lang.IllegalArgumentException if the name is null
+     * @return true if a Skill exists by the name
+     */
+    public boolean hasSkill(String skillName) throws IllegalArgumentException;
+
+    /**
      * Returns a skill from it's name If the skill is not in the skill mapping
      * it will attempt to load it from file
      * 
@@ -41,27 +50,34 @@ public interface SkillManager extends Manager {
      */
     public ISkill getSkill(String name);
 
+    /**
+     * Attempt to load the requested skill name that is to represent a
+     * {@link com.afterkraft.kraftrpg.api.skills.Permissible} skill.
+     *
+     * @param name to create
+     * @return true if successful
+     */
     public boolean loadPermissionSkill(String name);
 
     /**
      * Returns a collection of all skills loaded in the skill manager
      * 
-     * @return
+     * @return a live collection of all loaded skills
      */
     public Collection<ISkill> getSkills();
 
     /**
      * Checks if a skill has already been loaded
      * 
-     * @param name
-     * @return
+     * @param name of the skill
+     * @return true if the skill has been initialized
      */
     public boolean isLoaded(String name);
 
     /**
      * Removes a skill from the skill mapping
      * 
-     * @param skill
+     * @param skill to remove
      */
     public void removeSkill(ISkill skill);
 
@@ -70,7 +86,7 @@ public interface SkillManager extends Manager {
      * an actively {@link Stalled} Skill.
      * 
      * @param caster the caster in question
-     * @return
+     * @return true if the specified caster is in process of casting a Stalled skill
      */
     public boolean isCasterDelayed(SkillCaster caster);
 

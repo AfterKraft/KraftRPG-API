@@ -15,26 +15,31 @@
  */
 package com.afterkraft.kraftrpg.api.roles;
 
+import org.apache.commons.lang.Validate;
+
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.MemoryConfiguration;
 
 import com.afterkraft.kraftrpg.api.skills.ISkill;
 import com.afterkraft.kraftrpg.api.skills.SkillSetting;
 
-public class RoleSkill {
-    private ISkill skill;
-    private ConfigurationSection section;
+public final class RoleSkill {
+    private String skill;
+    private MemoryConfiguration section;
 
-    public RoleSkill(ISkill skill, ConfigurationSection section) {
+    RoleSkill(String skill, ConfigurationSection section) {
         this.skill = skill;
-        this.section = section;
+        this.section = new MemoryConfiguration();
+        this.section.addDefaults(section.getValues(true));
     }
 
     public boolean skillEquals(ISkill other) {
-        return skill == other || skill.equals(other);
+        Validate.notNull(other, "Cannot compare to a null Skill!");
+        return skill.equalsIgnoreCase(other.getName());
 
     }
 
-    public ISkill getSkill() {
+    public String getSkillName() {
         return skill;
     }
 
@@ -43,6 +48,8 @@ public class RoleSkill {
     }
 
     public ConfigurationSection getConfig() {
-        return section;
+        MemoryConfiguration clone = new MemoryConfiguration();
+        clone.addDefaults(section);
+        return clone;
     }
 }
