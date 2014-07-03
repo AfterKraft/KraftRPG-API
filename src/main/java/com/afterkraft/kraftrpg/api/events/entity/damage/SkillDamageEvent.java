@@ -24,8 +24,8 @@ import com.afterkraft.kraftrpg.api.entity.SkillCaster;
 public class SkillDamageEvent extends InsentientDamageInsentientEvent {
     private static final HandlerList handlers = new HandlerList();
 
-    public SkillDamageEvent(SkillCaster attacker, Insentient defender, EntityDamageEvent.DamageCause cause, double defaultDamage, double finalDamage, boolean isVaryingEnabled) {
-        super(attacker, defender, cause, defaultDamage, finalDamage, isVaryingEnabled);
+    public SkillDamageEvent(SkillCaster attacker, Insentient defender, EntityDamageEvent event, double defaultDamage, boolean isVaryingEnabled) {
+        super(attacker, defender, event, defaultDamage, isVaryingEnabled);
     }
 
     public static HandlerList getHandlerList() {

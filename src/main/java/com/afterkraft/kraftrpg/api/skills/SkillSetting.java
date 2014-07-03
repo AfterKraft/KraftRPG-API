@@ -26,8 +26,8 @@ public enum SkillSetting {
      */
     LEVEL("level"),
     /**
-     * Depends on another skill being granted. Prevents use of the skill
-     * when the depended skill is not activated. Defaults to none
+     * Depends on another skill being granted. Prevents use of the skill when
+     * the depended skill is not activated. Defaults to none
      */
     DEPENDS("depends"),
     /**

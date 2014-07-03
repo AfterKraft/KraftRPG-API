@@ -29,6 +29,7 @@ public interface ConfigManager {
      * implementation.
      * 
      * @param config the file to check
+     * 
      */
     public void checkForConfig(File config);
 

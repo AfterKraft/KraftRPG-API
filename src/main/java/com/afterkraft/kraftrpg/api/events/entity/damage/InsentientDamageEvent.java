@@ -45,19 +45,20 @@ import com.afterkraft.kraftrpg.api.events.entity.IEntityEvent;
  */
 public class InsentientDamageEvent extends IEntityEvent implements Cancellable {
     private static final HandlerList handlers = new HandlerList();
+    private final EntityDamageEvent event;
     private final EntityDamageEvent.DamageCause cause;
     private Insentient defender;
-    private double defaultDamage, finalDamage;
+    private double defaultDamage;
     private boolean isVaryingDamageEnabled;
     private boolean cancelled;
 
-    public InsentientDamageEvent(Insentient defender, EntityDamageEvent.DamageCause cause, double defaultDamage, double finalDamage, boolean isVaryingEnabled) {
+    public InsentientDamageEvent(Insentient defender, EntityDamageEvent event, double defaultDamage, boolean isVaryingEnabled) {
         super(defender);
         this.defender = defender;
         this.defaultDamage = defaultDamage;
-        this.finalDamage = finalDamage;
         this.isVaryingDamageEnabled = isVaryingEnabled;
-        this.cause = cause;
+        this.cause = event.getCause();
+        this.event = event;
     }
 
     public static HandlerList getHandlerList() {
@@ -72,6 +73,14 @@ public class InsentientDamageEvent extends IEntityEvent implements Cancellable {
      */
     public Insentient getDefender() {
         return defender;
+    }
+
+    public double getOriginalDamage() {
+        return event.getOriginalDamage(EntityDamageEvent.DamageModifier.BASE);
+    }
+
+    public double getOriginalModifier(EntityDamageEvent.DamageModifier modifier) {
+        return event.getOriginalDamage(modifier);
     }
 
     /**
@@ -92,7 +101,11 @@ public class InsentientDamageEvent extends IEntityEvent implements Cancellable {
      * @return the final damage to be inflicted on the defending Insentient
      */
     public double getFinalDamage() {
-        return finalDamage;
+        return event.getFinalDamage();
+    }
+
+    public double getModifierDamage(EntityDamageEvent.DamageModifier modifier) {
+        return event.getDamage(modifier);
     }
 
     /**
@@ -100,8 +113,12 @@ public class InsentientDamageEvent extends IEntityEvent implements Cancellable {
      * 
      * @param finalDamage to deal to the insentient being.
      */
-    public void setFinalDamage(double finalDamage) {
-        this.finalDamage = finalDamage;
+    public void setDamage(double finalDamage) {
+        event.setDamage(EntityDamageEvent.DamageModifier.BASE, finalDamage);
+    }
+
+    public void setModifier(EntityDamageEvent.DamageModifier modifier, double damage) {
+        event.setDamage(modifier, damage);
     }
 
     /**

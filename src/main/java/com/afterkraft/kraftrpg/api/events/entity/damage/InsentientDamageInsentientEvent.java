@@ -49,8 +49,8 @@ public class InsentientDamageInsentientEvent extends InsentientDamageEvent {
     private static final HandlerList handlers = new HandlerList();
     private final Insentient attacker;
 
-    public InsentientDamageInsentientEvent(Insentient attacker, Insentient defender, EntityDamageEvent.DamageCause cause, double defaultDamage, double finalDamage, boolean isVaryingEnabled) {
-        super(defender, cause, defaultDamage, finalDamage, isVaryingEnabled);
+    public InsentientDamageInsentientEvent(Insentient attacker, Insentient defender, EntityDamageEvent event, double defaultDamage, boolean isVaryingEnabled) {
+        super(defender, event, defaultDamage, isVaryingEnabled);
         this.attacker = attacker;
     }
 

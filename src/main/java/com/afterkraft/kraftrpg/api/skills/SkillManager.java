@@ -34,7 +34,7 @@ public interface SkillManager extends Manager {
 
     /**
      * Checks if a skill by the skill name exists.
-     *
+     * 
      * @param skillName to check
      * @throws java.lang.IllegalArgumentException if the name is null
      * @return true if a Skill exists by the name
@@ -53,7 +53,7 @@ public interface SkillManager extends Manager {
     /**
      * Attempt to load the requested skill name that is to represent a
      * {@link com.afterkraft.kraftrpg.api.skills.Permissible} skill.
-     *
+     * 
      * @param name to create
      * @return true if successful
      */
@@ -86,7 +86,8 @@ public interface SkillManager extends Manager {
      * an actively {@link Stalled} Skill.
      * 
      * @param caster the caster in question
-     * @return true if the specified caster is in process of casting a Stalled skill
+     * @return true if the specified caster is in process of casting a Stalled
+     *         skill
      */
     public boolean isCasterDelayed(SkillCaster caster);
 

@@ -58,6 +58,7 @@ public class PlayerData implements Cloneable {
      * Main Roles.
      */
     public Role primary, profession;
+    public int currentMana;
     public String lastKnownName;
     public UUID playerID;
 
@@ -77,6 +78,7 @@ public class PlayerData implements Cloneable {
         ret.binds.putAll(binds);
         ret.cooldowns.putAll(cooldowns);
         ret.lastKnownName = lastKnownName;
+        ret.currentMana = currentMana;
 
         return ret;
     }

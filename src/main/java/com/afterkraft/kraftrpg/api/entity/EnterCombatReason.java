@@ -41,5 +41,5 @@ public enum EnterCombatReason {
     /**
      * A SkillCaster used a buff on a Sentient in combat with this one
      */
-    BUFFED_COMBATANT_RECIPROCAL;
+    BUFFED_COMBATANT_RECIPROCAL,
 }

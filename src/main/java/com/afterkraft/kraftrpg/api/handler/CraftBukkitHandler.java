@@ -183,7 +183,7 @@ public abstract class CraftBukkitHandler {
     //NMS methods required by listeners
     public abstract double getPostArmorDamage(LivingEntity defender, double damage);
 
-    public abstract double getPostArmorDamage(Insentient being, double damage);
+    public abstract double getPostArmorDamage(Insentient being, EntityDamageEvent event, double damage);
 
     public abstract void setPlayerExpZero(Player player);
 

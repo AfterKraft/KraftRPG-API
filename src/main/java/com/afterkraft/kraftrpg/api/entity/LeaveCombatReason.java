@@ -52,6 +52,6 @@ public enum LeaveCombatReason {
     /**
      * Customized reason, possibly third party plugins.
      */
-    CUSTOM;
+    CUSTOM,
 
 }

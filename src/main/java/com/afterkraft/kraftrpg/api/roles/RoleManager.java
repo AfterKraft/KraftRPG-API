@@ -44,6 +44,7 @@ public interface RoleManager extends Manager {
     /**
      * Attempts to add a dependency for the two involving roles. This method
      * is here to
+     * 
      * @param parent
      * @param child
      * @return

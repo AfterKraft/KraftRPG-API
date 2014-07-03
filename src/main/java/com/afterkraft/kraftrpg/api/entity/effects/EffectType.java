@@ -125,12 +125,12 @@ public enum EffectType {
 
     private final SkillType resistance;
 
-    EffectType(SkillType resistance) {
-        this.resistance = resistance;
-    }
-
     EffectType() {
         this(null);
+    }
+
+    EffectType(SkillType resistance) {
+        this.resistance = resistance;
     }
 
     public boolean isSkillResisted(Insentient being, ISkill skill) {

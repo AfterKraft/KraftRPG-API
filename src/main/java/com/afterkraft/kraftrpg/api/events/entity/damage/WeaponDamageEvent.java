@@ -58,8 +58,8 @@ public class WeaponDamageEvent extends InsentientDamageInsentientEvent {
 
     private ItemStack weapon;
 
-    public WeaponDamageEvent(Insentient attacker, Insentient defender, EntityDamageEvent.DamageCause cause, ItemStack weapon, double defaultDamage, double finalDamage, boolean isVaryingEnabled) {
-        super(attacker, defender, cause, defaultDamage, finalDamage, isVaryingEnabled);
+    public WeaponDamageEvent(Insentient attacker, Insentient defender, EntityDamageEvent event, ItemStack weapon, double defaultDamage, boolean isVaryingEnabled) {
+        super(attacker, defender, event, defaultDamage, isVaryingEnabled);
         this.weapon = weapon;
     }
 
@@ -70,7 +70,7 @@ public class WeaponDamageEvent extends InsentientDamageInsentientEvent {
     /**
      * Get the weapon used to attack the {@link #getDefender()}. It may or may
      * not have customized damage, all of which is already handled by the
-     * {@link com.afterkraft.kraftrpg.api.util.DamageManager#getHighestItemDamage(com.afterkraft.kraftrpg.api.entity.Insentient, double)}
+     * {@link com.afterkraft.kraftrpg.api.util.DamageManager#getHighestItemDamage(com.afterkraft.kraftrpg.api.entity.Insentient, com.afterkraft.kraftrpg.api.entity.Insentient, double)}
      * 
      * @return the Item used to attack the defending Insentient being.
      */

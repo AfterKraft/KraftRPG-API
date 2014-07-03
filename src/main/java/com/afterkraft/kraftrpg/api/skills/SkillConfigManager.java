@@ -36,11 +36,10 @@ public interface SkillConfigManager extends Manager {
 
     public Configuration getClassConfig(String name);
 
-    public void addClassSkillSettings(String className, String skillName, ConfigurationSection section);
+    public void addClassSkillSettings(String roleName, String skillName, ConfigurationSection section);
 
     public void loadSkillDefaults(ISkill skill);
 
-    // Because bukkit can't handle setting defaults before sections exist
     public void setClassDefaults();
 
     //------------------------//

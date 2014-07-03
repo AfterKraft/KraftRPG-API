@@ -71,14 +71,14 @@ public interface Insentient extends IEntity {
 
     /**
      * Gets the current max mana
-     *
+     * 
      * @return the max mana for this being
      */
     public int getMaxMana();
 
     /**
      * Sets the current maximum mana for this being.
-     *
+     * 
      * @param mana as the maximum
      */
     public void setMaxMana(int mana);
@@ -93,14 +93,14 @@ public interface Insentient extends IEntity {
     /**
      * Attempts to set the health of the being. If the being is dead, the
      * health will not be updated.
-     *
+     * 
      * @param health to which the being should have.
      */
     public void setHealth(double health);
 
     /**
      * Return the max health for this being.
-     *
+     * 
      * @return maximum health
      */
     public double getMaxHealth();
@@ -228,6 +228,7 @@ public interface Insentient extends IEntity {
 
     /**
      * Set the armor piece of the specified armor slot. The item can be null
+     * 
      * @param item to set, if not null
      * @param armorSlot to set
      */
