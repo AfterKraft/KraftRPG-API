@@ -18,6 +18,7 @@ package com.afterkraft.kraftrpg.api.events.entity.damage;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 
 import com.afterkraft.kraftrpg.api.entity.Insentient;
 import com.afterkraft.kraftrpg.api.events.entity.IEntityEvent;
@@ -46,7 +47,7 @@ import com.afterkraft.kraftrpg.api.events.entity.IEntityEvent;
 public class InsentientDamageEvent extends IEntityEvent implements Cancellable {
     private static final HandlerList handlers = new HandlerList();
     private final EntityDamageEvent event;
-    private final EntityDamageEvent.DamageCause cause;
+    private final DamageCause cause;
     private Insentient defender;
     private double defaultDamage;
     private boolean isVaryingDamageEnabled;
@@ -140,7 +141,7 @@ public class InsentientDamageEvent extends IEntityEvent implements Cancellable {
      * 
      * @return the damage cause for this event.
      */
-    public EntityDamageEvent.DamageCause getCause() {
+    public DamageCause getCause() {
         return cause;
     }
 

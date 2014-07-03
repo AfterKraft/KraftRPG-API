@@ -16,6 +16,7 @@
 package com.afterkraft.kraftrpg.api.entity.effects;
 
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 
 import com.afterkraft.kraftrpg.api.RPGPlugin;
 import com.afterkraft.kraftrpg.api.entity.Insentient;
@@ -104,7 +105,7 @@ public class PeriodicDamageEffect extends PeriodicExpirableEffect implements Dam
             if (being instanceof SkillCaster) {
                 SkillCaster caster = (SkillCaster) being;
                 skill.addSkillTarget(being.getEntity(), caster);
-                Skill.damageEntity(being.getEntity(), getApplier().getEntity(), tickDamage, skill.isType(SkillType.ABILITY_PROPERTY_PHYSICAL) ? EntityDamageEvent.DamageCause.ENTITY_ATTACK : EntityDamageEvent.DamageCause.MAGIC, knockback);
+                Skill.damageEntity(being.getEntity(), getApplier().getEntity(), tickDamage, skill.isType(SkillType.ABILITY_PROPERTY_PHYSICAL) ? DamageCause.ENTITY_ATTACK : DamageCause.MAGIC, knockback);
             }
         }
     }

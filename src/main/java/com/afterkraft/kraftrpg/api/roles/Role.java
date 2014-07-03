@@ -137,6 +137,47 @@ public final class Role {
         return new Builder(plugin);
     }
 
+    public static Builder copyOf(Role role) {
+        Validate.notNull(role, "Cannot copy a null Role!");
+        Builder builder = new Builder(role.plugin)
+                .setName(role.name)
+                .setAdvancementLevel(role.advancementLevel)
+                .setMaxLevel(role.maxLevel)
+                .setChoosable(role.choosable)
+                .setDescription(role.description)
+                .setHpAt0(role.hpAt0)
+                .setHpPerLevel(role.hpPerLevel)
+                .setMpAt0(role.mpAt0)
+                .setMpRegenAt0(role.mpRegenAt0)
+                .setMpPerLevel(role.mpPerLevel)
+                .setMpRegenPerLevel(role.mpRegenPerLevel)
+                .setManaName(role.manaName)
+                .setType(role.type);
+
+        for (Map.Entry<Material, Double> entry : role.itemDamages.entrySet()) {
+            builder.setItemDamage(entry.getKey(), entry.getValue());
+        }
+        for (Map.Entry<Material, Double> entry : role.itemDamagePerLevel.entrySet()) {
+            builder.setItemDamagePerLevel(entry.getKey(), entry.getValue());
+        }
+        for (Map.Entry<Material, Boolean> entry : role.itemVaryingDamage.entrySet()) {
+            builder.setItemDamageVaries(entry.getKey(), entry.getValue());
+        }
+        for (Map.Entry<String, RoleSkill> entry : role.skills.entrySet()) {
+            builder.addRoleSkill(role.plugin.getSkillManager().getSkill(entry.getKey()), entry.getValue().getConfig());
+        }
+        for (String child : role.children) {
+            builder.addChild(role.plugin.getRoleManager().getRole(child));
+        }
+        for (String parent : role.parents) {
+            builder.addParent(role.plugin.getRoleManager().getRole(parent));
+        }
+        for (ExperienceType type1 : role.allowedExperience) {
+            builder.addExperienceType(type1);
+        }
+        return builder;
+    }
+
     public int getMaxLevel() {
         return maxLevel;
     }
@@ -549,7 +590,7 @@ public final class Role {
      * @return a copy of this Role
      */
     public Role asNewCopy() {
-        return Builder.copyOf(this).build();
+        return copyOf(this).build();
     }
 
     public static enum RoleType {
@@ -604,47 +645,6 @@ public final class Role {
         Builder(RPGPlugin plugin) {
             Validate.notNull(plugin, "Cannot create a Role builder with a null plugin!");
             this.plugin = plugin;
-        }
-
-        public static Builder copyOf(Role role) {
-            Validate.notNull(role, "Cannot copy a null Role!");
-            Builder builder = new Builder(role.plugin)
-                    .setName(role.name)
-                    .setAdvancementLevel(role.advancementLevel)
-                    .setMaxLevel(role.maxLevel)
-                    .setChoosable(role.choosable)
-                    .setDescription(role.description)
-                    .setHpAt0(role.hpAt0)
-                    .setHpPerLevel(role.hpPerLevel)
-                    .setMpAt0(role.mpAt0)
-                    .setMpRegenAt0(role.mpRegenAt0)
-                    .setMpPerLevel(role.mpPerLevel)
-                    .setMpRegenPerLevel(role.mpRegenPerLevel)
-                    .setManaName(role.manaName)
-                    .setType(role.type);
-
-            for (Map.Entry<Material, Double> entry : role.itemDamages.entrySet()) {
-                builder.setItemDamage(entry.getKey(), entry.getValue());
-            }
-            for (Map.Entry<Material, Double> entry : role.itemDamagePerLevel.entrySet()) {
-                builder.setItemDamagePerLevel(entry.getKey(), entry.getValue());
-            }
-            for (Map.Entry<Material, Boolean> entry : role.itemVaryingDamage.entrySet()) {
-                builder.setItemDamageVaries(entry.getKey(), entry.getValue());
-            }
-            for (Map.Entry<String, RoleSkill> entry : role.skills.entrySet()) {
-                builder.addRoleSkill(role.plugin.getSkillManager().getSkill(entry.getKey()), entry.getValue().getConfig());
-            }
-            for (String child : role.children) {
-                builder.addChild(role.plugin.getRoleManager().getRole(child));
-            }
-            for (String parent : role.parents) {
-                builder.addParent(role.plugin.getRoleManager().getRole(parent));
-            }
-            for (ExperienceType type1 : role.allowedExperience) {
-                builder.addExperienceType(type1);
-            }
-            return builder;
         }
 
         /**

@@ -28,6 +28,7 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.inventory.ItemStack;
 
 import com.afterkraft.kraftrpg.api.RPGPlugin;
@@ -61,18 +62,18 @@ public abstract class Skill implements ISkill {
     }
 
     public static boolean damageEntity(ISkill skill, LivingEntity target, LivingEntity attacker, double damage) {
-        return damageEntity(target, attacker, damage, skill.isType(SkillType.ABILITY_PROPERTY_AIR) || skill.isType(SkillType.ABILITY_PROPERTY_PHYSICAL) ? EntityDamageEvent.DamageCause.ENTITY_ATTACK : EntityDamageEvent.DamageCause.MAGIC);
+        return damageEntity(target, attacker, damage, skill.isType(SkillType.ABILITY_PROPERTY_AIR) || skill.isType(SkillType.ABILITY_PROPERTY_PHYSICAL) ? DamageCause.ENTITY_ATTACK : DamageCause.MAGIC);
     }
 
-    public static boolean damageEntity(LivingEntity target, LivingEntity attacker, double damage, EntityDamageEvent.DamageCause cause) {
+    public static boolean damageEntity(LivingEntity target, LivingEntity attacker, double damage, DamageCause cause) {
         return damageEntity(target, attacker, damage, cause, true);
     }
 
-    public static boolean damageEntity(LivingEntity target, LivingEntity attacker, double damage, EntityDamageEvent.DamageCause cause, boolean knockback) {
+    public static boolean damageEntity(LivingEntity target, LivingEntity attacker, double damage, DamageCause cause, boolean knockback) {
         return CraftBukkitHandler.getInterface().damageEntity(target, attacker, damage, cause, knockback);
     }
 
-    public static boolean damageEntity(LivingEntity target, SkillCaster attacker, double damage, EntityDamageEvent.DamageCause cause) {
+    public static boolean damageEntity(LivingEntity target, SkillCaster attacker, double damage, DamageCause cause) {
         return damageEntity(target, attacker.getEntity(), damage, cause, true);
     }
 
@@ -210,7 +211,7 @@ public abstract class Skill implements ISkill {
             return false;
         }
 
-        EntityDamageByEntityEvent damageEntityEvent = new EntityDamageByEntityEvent(attacking.getEntity(), defenderLE, EntityDamageEvent.DamageCause.CUSTOM, 0D);
+        EntityDamageByEntityEvent damageEntityEvent = new EntityDamageByEntityEvent(attacking.getEntity(), defenderLE, DamageCause.CUSTOM, 0D);
         Bukkit.getServer().getPluginManager().callEvent(damageEntityEvent);
 
         return damageEntityEvent.isCancelled();

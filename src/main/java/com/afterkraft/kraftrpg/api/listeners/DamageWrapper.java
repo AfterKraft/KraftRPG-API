@@ -16,6 +16,7 @@
 package com.afterkraft.kraftrpg.api.listeners;
 
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 
 /**
  * This is a simple wrapper for the damage dealt to an entity. It wraps the
@@ -23,19 +24,19 @@ import org.bukkit.event.entity.EntityDamageEvent;
  */
 public class DamageWrapper {
 
-    final EntityDamageEvent.DamageCause originalCause;
+    final DamageCause originalCause;
     final double originalDamage;
     double modifiedDamage;
-    EntityDamageEvent.DamageCause modifiedCause;
+    DamageCause modifiedCause;
 
-    public DamageWrapper(EntityDamageEvent.DamageCause originalCause, double originalDamage, double modifiedDamage, EntityDamageEvent.DamageCause modifiedCause) {
+    public DamageWrapper(DamageCause originalCause, double originalDamage, double modifiedDamage, DamageCause modifiedCause) {
         this.originalCause = originalCause;
         this.originalDamage = originalDamage;
         this.modifiedDamage = modifiedDamage;
         this.modifiedCause = modifiedCause;
     }
 
-    public EntityDamageEvent.DamageCause getOriginalCause() {
+    public DamageCause getOriginalCause() {
         return originalCause;
     }
 
@@ -51,11 +52,11 @@ public class DamageWrapper {
         this.modifiedDamage = modifiedDamage;
     }
 
-    public EntityDamageEvent.DamageCause getModifiedCause() {
+    public DamageCause getModifiedCause() {
         return modifiedCause;
     }
 
-    public void setModifiedCause(EntityDamageEvent.DamageCause modifiedCause) {
+    public void setModifiedCause(DamageCause modifiedCause) {
         this.modifiedCause = modifiedCause;
     }
 }

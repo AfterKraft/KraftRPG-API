@@ -29,6 +29,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
@@ -190,7 +191,7 @@ public abstract class CraftBukkitHandler {
     public abstract void modifyArrowDamage(Arrow arrow, double damage);
 
     //NMS methods required by skills
-    public abstract boolean damageEntity(LivingEntity target, LivingEntity attacker, double damage, EntityDamageEvent.DamageCause cause, boolean knockback);
+    public abstract boolean damageEntity(LivingEntity target, LivingEntity attacker, double damage, DamageCause cause, boolean knockback);
 
     public abstract void knockBack(LivingEntity target, LivingEntity attacker, double damage);
 

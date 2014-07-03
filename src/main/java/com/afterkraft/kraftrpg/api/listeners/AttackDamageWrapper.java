@@ -18,6 +18,7 @@ package com.afterkraft.kraftrpg.api.listeners;
 import java.lang.ref.WeakReference;
 
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.inventory.ItemStack;
 
 import com.afterkraft.kraftrpg.api.entity.Insentient;
@@ -26,7 +27,7 @@ public class AttackDamageWrapper extends DamageWrapper {
     private WeakReference<Insentient> attackingIEntity;
     private ItemStack weaponUsed;
 
-    public AttackDamageWrapper(Insentient attackingIEntity, EntityDamageEvent.DamageCause originalCause, double originalDamage, double modifiedDamage, EntityDamageEvent.DamageCause modifiedCause) {
+    public AttackDamageWrapper(Insentient attackingIEntity, DamageCause originalCause, double originalDamage, double modifiedDamage, DamageCause modifiedCause) {
         super(originalCause, originalDamage, modifiedDamage, modifiedCause);
         this.attackingIEntity = new WeakReference<Insentient>(attackingIEntity);
         this.weaponUsed = attackingIEntity.getItemInHand().clone();

@@ -27,6 +27,7 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Snowball;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.inventory.ItemStack;
 
 import com.afterkraft.kraftrpg.api.Manager;
@@ -108,7 +109,7 @@ public interface DamageManager extends Manager {
      */
     public double getEntityDamage(EntityType type);
 
-    public double getEnvironmentalDamage(EntityDamageEvent.DamageCause cause);
+    public double getEnvironmentalDamage(DamageCause cause);
 
     public double getEnchantmentDamage(Enchantment enchantment, int enchantmentLevel);
 
