@@ -217,11 +217,6 @@ public abstract class Skill implements ISkill {
         return damageEntityEvent.isCancelled();
     }
 
-    @Override
-    public boolean equals(ISkill other) {
-        return equals((Object) other);
-    }
-
     public final boolean needsConfiguredCustomData() {
         return getUsedConfigNodes().contains(SkillSetting.CUSTOM);
     }
@@ -252,6 +247,7 @@ public abstract class Skill implements ISkill {
         if (this == obj) return true;
         if (obj == null) return false;
         if (getClass() != obj.getClass()) return false;
+        if (!(obj instanceof Skill)) return false;
         Skill other = (Skill) obj;
         if (name == null) {
             if (other.name != null) return false;

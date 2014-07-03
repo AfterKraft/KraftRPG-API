@@ -120,5 +120,5 @@ public interface ISkill {
 
     public int hashCode();
 
-    public boolean equals(ISkill other);
+    public boolean equals(Object other);
 }
