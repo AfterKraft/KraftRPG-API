@@ -22,13 +22,16 @@ import java.util.Map;
 import java.util.Set;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.MemoryConfiguration;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
+import org.bukkit.event.entity.EntityDamageEvent.DamageModifier;
 import org.bukkit.inventory.ItemStack;
 
 import com.afterkraft.kraftrpg.api.RPGPlugin;
@@ -210,8 +213,17 @@ public abstract class Skill implements ISkill {
         if (attacking.getEntity().equals(defenderLE)) {
             return false;
         }
+        if (defenderLE instanceof Player && attacking instanceof Champion) {
+            if (!attacking.getWorld().getPVP()) {
+                attacking.sendMessage(ChatColor.RED + "PVP is disabled!");
+                return false;
+            }
+        }
+        // Create the base map for the damage event.
+        Map<DamageModifier, Double> damage = new HashMap<DamageModifier, Double>();
+        damage.put(DamageModifier.BASE, 1D);
 
-        EntityDamageByEntityEvent damageEntityEvent = new EntityDamageByEntityEvent(attacking.getEntity(), defenderLE, DamageCause.CUSTOM, 0D);
+        EntityDamageByEntityEvent damageEntityEvent = new EntityDamageByEntityEvent(attacking.getEntity(), defenderLE, DamageCause.CUSTOM, damage);
         Bukkit.getServer().getPluginManager().callEvent(damageEntityEvent);
 
         return damageEntityEvent.isCancelled();

@@ -18,7 +18,11 @@ package com.afterkraft.kraftrpg.api.entity.party;
 import java.util.List;
 import java.util.UUID;
 
+import org.bukkit.Location;
+
 import com.afterkraft.kraftrpg.api.entity.PartyMember;
+import com.afterkraft.kraftrpg.api.roles.ExperienceType;
+import com.afterkraft.kraftrpg.api.util.FixedPoint;
 
 /**
  * Party is a grouping of
@@ -35,7 +39,7 @@ public interface Party {
      * 
      * @return an unmodifiable list of Champions in this party.
      */
-    public List<PartyMember> getChampions();
+    public List<PartyMember> getMembers();
 
     /**
      * Attempts to add the requested
@@ -118,5 +122,8 @@ public interface Party {
     public List<UUID> getPartyMemberUUIDs();
 
     public void logOffMember(PartyMember member);
+
+
+    public void gainExperience(FixedPoint experience, ExperienceType type, Location location);
 
 }

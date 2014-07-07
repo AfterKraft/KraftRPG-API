@@ -17,6 +17,7 @@ package com.afterkraft.kraftrpg.api.util;
 
 
 import org.bukkit.Location;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 
 public interface Properties {
@@ -45,5 +46,21 @@ public interface Properties {
 
     public int getFoodHealthPerTier();
 
+    public long getCombatPeriod();
+
     public FixedPoint getMonsterExperience(LivingEntity entity, Location spawnPoint);
+
+    public double getExperienceLossMultiplier();
+
+    public double getExperienceLossMultiplierForPVP();
+
+    public FixedPoint getPlayerKillingExperience();
+
+    public boolean hasEntityRewardType(EntityType type);
+
+    public FixedPoint getEntityReward(EntityType type);
+
+    public boolean allowSpawnCamping();
+
+    public double getSpawnCampingMultiplier();
 }

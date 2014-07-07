@@ -20,6 +20,7 @@ import java.util.UUID;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 
 /**
  * Represents an {@link Entity} linked with KraftRPG. This is the base for all
@@ -56,6 +57,13 @@ public interface IEntity {
      * @return the linked Entity if not null
      */
     public Entity getEntity();
+
+    /**
+     * Gets the type of Entity this IEntity is wrapping.
+     *
+     * @return The type of entity this IEntity is wrapping
+     */
+    public EntityType getEntityType();
 
     /**
      * Reset the linked Entity to the provided

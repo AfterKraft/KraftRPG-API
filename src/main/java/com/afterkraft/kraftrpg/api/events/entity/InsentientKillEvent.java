@@ -17,6 +17,7 @@ package com.afterkraft.kraftrpg.api.events.entity;
 
 import org.bukkit.event.HandlerList;
 
+import com.afterkraft.kraftrpg.api.entity.EnterCombatReason;
 import com.afterkraft.kraftrpg.api.entity.Insentient;
 
 
@@ -24,10 +25,12 @@ public class InsentientKillEvent extends IEntityEvent {
 
     private static final HandlerList handlers = new HandlerList();
     private final Insentient victim;
+    private final EnterCombatReason reason;
 
-    public InsentientKillEvent(Insentient attacker, Insentient victim) {
+    public InsentientKillEvent(Insentient attacker, Insentient victim, EnterCombatReason reason) {
         super(attacker);
         this.victim = victim;
+        this.reason = reason;
     }
 
     public static HandlerList getHandlerList() {
@@ -40,6 +43,10 @@ public class InsentientKillEvent extends IEntityEvent {
 
     public Insentient getVictim() {
         return this.victim;
+    }
+
+    public EnterCombatReason getReason() {
+        return reason;
     }
 
     public HandlerList getHandlers() {

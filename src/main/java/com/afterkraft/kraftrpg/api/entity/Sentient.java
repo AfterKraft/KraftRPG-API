@@ -68,6 +68,16 @@ public interface Sentient extends Insentient {
     public FixedPoint gainExperience(FixedPoint exp, ExperienceType type, Location location);
 
     /**
+     * Tells this being to lose the prescribed experience from all
+     * {@link com.afterkraft.kraftrpg.api.roles.Role}s of which if configured,
+     * looses experience on death.
+     * 
+     * @param multiplier percentage of the current level to lose in experience
+     * @param byPVP if true, has some alternate modifications to the total loss
+     */
+    public void loseExperienceFromDeath(double multiplier, boolean byPVP);
+
+    /**
      * Get the currently active Primary {@link Role} that this sentient being
      * has
      * 

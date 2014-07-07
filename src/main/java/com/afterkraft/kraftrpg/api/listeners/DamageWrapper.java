@@ -26,8 +26,8 @@ public class DamageWrapper {
 
     final DamageCause originalCause;
     final double originalDamage;
-    double modifiedDamage;
-    DamageCause modifiedCause;
+    final double modifiedDamage;
+    final DamageCause modifiedCause;
 
     public DamageWrapper(DamageCause originalCause, double originalDamage, double modifiedDamage, DamageCause modifiedCause) {
         this.originalCause = originalCause;
@@ -48,15 +48,8 @@ public class DamageWrapper {
         return modifiedDamage;
     }
 
-    public void setModifiedDamage(double modifiedDamage) {
-        this.modifiedDamage = modifiedDamage;
-    }
-
     public DamageCause getModifiedCause() {
         return modifiedCause;
     }
 
-    public void setModifiedCause(DamageCause modifiedCause) {
-        this.modifiedCause = modifiedCause;
-    }
 }
