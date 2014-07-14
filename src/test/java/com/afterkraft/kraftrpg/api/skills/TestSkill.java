@@ -1,24 +1,15 @@
 package com.afterkraft.kraftrpg.api.skills;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
-import org.junit.BeforeClass;
-
 import com.afterkraft.kraftrpg.api.RPGPlugin;
-import com.afterkraft.kraftrpg.api.RPGTestPlugin;
 import com.afterkraft.kraftrpg.api.entity.SkillCaster;
 
-public class TestActiveSkill extends ActiveSkill {
+public class TestSkill extends ActiveSkill {
 
-    private static RPGPlugin plugin;
-
-    public TestActiveSkill() {
-        super(plugin, "TestActiveSkill");
-    }
-
-    @BeforeClass
-    public static void setup() {
-        plugin = RPGTestPlugin.getInstance();
+    public TestSkill(RPGPlugin plugin) {
+        super(plugin, "TestSkill");
     }
 
     @Override
@@ -28,6 +19,6 @@ public class TestActiveSkill extends ActiveSkill {
 
     @Override
     public Collection<SkillSetting> getUsedConfigNodes() {
-        return null;
+        return new ArrayList<SkillSetting>();
     }
 }

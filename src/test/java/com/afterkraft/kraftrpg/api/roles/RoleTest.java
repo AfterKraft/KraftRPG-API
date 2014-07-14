@@ -1,21 +1,40 @@
 package com.afterkraft.kraftrpg.api.roles;
 
-import org.junit.BeforeClass;
+import java.util.Set;
+
+import com.google.common.collect.ImmutableSet;
+import org.hamcrest.CoreMatchers;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
+
+import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 
 import org.bukkit.Material;
 import org.bukkit.configuration.MemoryConfiguration;
 
 import com.afterkraft.kraftrpg.api.RPGPlugin;
-import com.afterkraft.kraftrpg.api.RPGTestPlugin;
-import com.afterkraft.kraftrpg.api.skills.TestActiveSkill;
+import com.afterkraft.kraftrpg.api.RPGTestCreator;
+import com.afterkraft.kraftrpg.api.skills.ISkill;
+import com.afterkraft.kraftrpg.api.skills.TestSkill;
 
 public class RoleTest {
-    private static RPGPlugin plugin;
+    private RPGPlugin plugin;
+    private RPGTestCreator creator;
+    private ISkill testSkill;
 
-    @BeforeClass
-    public static void setUp() {
-        plugin = RPGTestPlugin.getInstance();
+    @Before
+    public void setUp() {
+        creator = new RPGTestCreator();
+        assertTrue(creator.setup());
+        plugin = creator.getMockPlugin();
+        testSkill = creator.getMockSkill();
+    }
+
+    @After
+    public void cleanUp() {
+        creator.cleanUp();
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -156,7 +175,7 @@ public class RoleTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void testAddSkillNullConfiguration() {
-        Role.builder(plugin).addRoleSkill(new TestActiveSkill(), null);
+        Role.builder(plugin).addRoleSkill(testSkill, null);
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -171,14 +190,39 @@ public class RoleTest {
 
     @Test
     public void testValidAddSkill() {
-        Role.builder(plugin).addRoleSkill(new TestActiveSkill(), new MemoryConfiguration());
+        Role.builder(plugin).addRoleSkill(testSkill, new MemoryConfiguration());
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testAddRestrictedAndSkill() {
         Role.builder(plugin)
-                .addRoleSkill(new TestActiveSkill(), new MemoryConfiguration())
-                .addRestirctedSkill(new TestActiveSkill());
+                .addRoleSkill(testSkill, new MemoryConfiguration())
+                .addRestirctedSkill(testSkill);
+    }
+
+    @Test
+    public void testGetSkill() {
+        Role test = Role.builder(plugin)
+                .setName("TestRole")
+                .setType(Role.RoleType.PRIMARY)
+                .setDescription("A test role for KraftRPG-API Unit Tests.")
+                .setAdvancementLevel(1)
+                .setMaxLevel(1)
+                .setMpAt0(100)
+                .setMpRegenAt0(1)
+                .setMpPerLevel(10)
+                .setMpRegenPerLevel(1)
+                .setHpAt0(100)
+                .setHpPerLevel(10)
+                .setChoosable(true)
+                .setItemDamage(Material.DIAMOND_HOE, 10)
+                .setItemDamagePerLevel(Material.DIAMOND_HOE, 10)
+                .setItemDamageVaries(Material.DIAMOND_HOE, true)
+                .addRoleSkill(testSkill, new MemoryConfiguration())
+                .build();
+        test.getAllSkills();
+        Set<ISkill> skills = ImmutableSet.<ISkill>builder().add(new TestSkill(plugin)).build();
+        assertThat(test.getAllSkills(), CoreMatchers.is(skills));
     }
 
 }

@@ -786,6 +786,8 @@ public final class Role {
         public Builder addRoleSkill(ISkill skill, ConfigurationSection section) {
             Validate.notNull(skill, "Cannot have a null ISkill!");
             Validate.notNull(section, "Cannot have a null ConfigurationSection!");
+            Validate.notNull(skill.getName(), "Cannot have a Skill with a null name!");
+            Validate.isTrue(!skill.getName().isEmpty(), "Cannot have an empty Skill name!");
             Validate.isTrue(section.getInt(SkillSetting.LEVEL.node(), 0) >= 0, "Level not specified in the skill configuration!");
             Validate.isTrue(!restirctedSkills.contains(skill.getName()), "Cannot add a skill that is already restricted!");
             skills.put(skill.getName(), new RoleSkill(skill.getName(), section));
