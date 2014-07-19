@@ -63,4 +63,8 @@ public interface Properties {
     public boolean allowSpawnCamping();
 
     public double getSpawnCampingMultiplier();
+
+    public boolean isMobDamageDistanceModified();
+
+    public String getStorageType();
 }

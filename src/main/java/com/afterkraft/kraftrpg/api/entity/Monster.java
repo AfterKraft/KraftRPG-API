@@ -33,6 +33,13 @@ public interface Monster extends Insentient {
 
     public double getModifiedDamage();
 
+    /**
+     * Set the modified damage this Monster will deal to other Insentient
+     * beings when attacking.
+     *
+     * @param damage To deal when attacking
+     * @throws IllegalArgumentException If the damage is less than zero
+     */
     public void setModifiedDamage(double damage);
 
     public CreatureSpawnEvent.SpawnReason getSpawnReason();

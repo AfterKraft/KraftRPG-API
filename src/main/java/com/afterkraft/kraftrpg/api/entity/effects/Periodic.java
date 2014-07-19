@@ -32,7 +32,7 @@ public interface Periodic extends IEffect, Timed {
     public long getLastTickTime();
 
     /**
-     * @return the duration of this effect.
+     * @return the duration of this effect
      */
     public long getPeriod();
 
@@ -46,7 +46,8 @@ public interface Periodic extends IEffect, Timed {
     /**
      * Ticks this effect on the specified entity.
      * 
-     * @param being - The being this effect is being applied to.
+     * @param being - The being this effect is being applied to
+     * @throws IllegalArgumentException If the being is null
      */
     public void tick(Insentient being);
 

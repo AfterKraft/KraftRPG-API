@@ -22,7 +22,7 @@ import com.afterkraft.kraftrpg.api.skills.Skill;
 /**
  * Standard implementation of a
  * {@link com.afterkraft.kraftrpg.api.entity.effects.Periodic} and
- * {@link com.afterkraft.kraftrpg.api.entity.effects.Expirable}. This effect
+ * {@link Expirable}. This effect
  * will expire after the designated time by {@link #getExpiry()}
  */
 public abstract class PeriodicExpirableEffect extends ExpirableEffect implements Periodic {
@@ -30,23 +30,20 @@ public abstract class PeriodicExpirableEffect extends ExpirableEffect implements
     private final long period;
     protected long lastTickTime = 0;
 
-    public PeriodicExpirableEffect(Skill skill, SkillCaster applier, String name, long period, long duration) {
-        super(skill, applier, name, duration);
-        this.period = period;
+    public PeriodicExpirableEffect(Skill skill, SkillCaster applier, String name, long period, long duration, EffectType... types) {
+        this(skill, skill.plugin, applier, name, period, duration, null, null, types);
     }
 
-    public PeriodicExpirableEffect(Skill skill, RPGPlugin plugin, SkillCaster applier, String name, long period, long duration) {
-        super(skill, plugin, applier, name, duration);
-        this.period = period;
+    public PeriodicExpirableEffect(Skill skill, RPGPlugin plugin, SkillCaster applier, String name, long period, long duration, EffectType... types) {
+        this(skill, plugin, applier, name, period, duration, null, null, types);
     }
 
-    public PeriodicExpirableEffect(Skill skill, SkillCaster applier, String name, long period, long duration, String applyText, String expireText) {
-        super(skill, applier, name, duration, applyText, expireText);
-        this.period = period;
+    public PeriodicExpirableEffect(Skill skill, SkillCaster applier, String name, long period, long duration, String applyText, String expireText, EffectType... types) {
+        this(skill, skill.plugin, applier, name, period, duration, applyText, expireText, types);
     }
 
-    public PeriodicExpirableEffect(Skill skill, RPGPlugin plugin, SkillCaster applier, String name, long period, long duration, String applyText, String expireText) {
-        super(skill, plugin, applier, name, duration, applyText, expireText);
+    public PeriodicExpirableEffect(Skill skill, RPGPlugin plugin, SkillCaster applier, String name, long period, long duration, String applyText, String expireText, EffectType... types) {
+        super(skill, plugin, applier, name, duration, applyText, expireText, types);
         this.period = period;
     }
 

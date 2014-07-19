@@ -15,6 +15,8 @@
  */
 package com.afterkraft.kraftrpg.api.entity.effects;
 
+import org.apache.commons.lang.Validate;
+
 import com.afterkraft.kraftrpg.api.RPGPlugin;
 import com.afterkraft.kraftrpg.api.entity.Champion;
 import com.afterkraft.kraftrpg.api.entity.Insentient;
@@ -32,25 +34,25 @@ import com.afterkraft.kraftrpg.api.skills.Skill;
 public class PeriodicHealingEffect extends PeriodicExpirableEffect implements Heal {
     private double tickHealth;
 
-    public PeriodicHealingEffect(Skill skill, Champion applier, String name, long period, long duration, double tickHealth) {
-        this(skill, skill.plugin, applier, name, period, duration, tickHealth, "", "");
+    public PeriodicHealingEffect(Skill skill, Champion applier, String name, long period, long duration, double tickHealth, EffectType... types) {
+        this(skill, skill.plugin, applier, name, period, duration, tickHealth, "", "", types);
     }
 
-    public PeriodicHealingEffect(Skill skill, RPGPlugin plugin, Champion applier, String name, long period, long duration, double tickHealth, String applyText, String expireText) {
-        super(skill, plugin, applier, name, period, duration);
+    public PeriodicHealingEffect(Skill skill, RPGPlugin plugin, Champion applier, String name, long period, long duration, double tickHealth, String applyText, String expireText, EffectType... types) {
+        super(skill, plugin, applier, name, period, duration, types);
 
-        types.add(EffectType.BENEFICIAL);
-        types.add(EffectType.HEALING);
+        this.types.add(EffectType.BENEFICIAL);
+        this.types.add(EffectType.HEALING);
 
         this.tickHealth = tickHealth;
     }
 
-    public PeriodicHealingEffect(Skill skill, Champion applier, String name, long period, long duration, double tickHealth, String applyText, String expireText) {
-        this(skill, skill.plugin, applier, name, period, duration, tickHealth, applyText, expireText);
+    public PeriodicHealingEffect(Skill skill, Champion applier, String name, long period, long duration, double tickHealth, String applyText, String expireText, EffectType... types) {
+        this(skill, skill.plugin, applier, name, period, duration, tickHealth, applyText, expireText, types);
     }
 
-    public PeriodicHealingEffect(Skill skill, RPGPlugin plugin, Champion applier, String name, long period, long duration, double tickHealth) {
-        this(skill, plugin, applier, name, period, duration, tickHealth, "", "");
+    public PeriodicHealingEffect(Skill skill, RPGPlugin plugin, Champion applier, String name, long period, long duration, double tickHealth, EffectType... types) {
+        this(skill, plugin, applier, name, period, duration, tickHealth, "", "", types);
     }
 
     @Override
@@ -60,6 +62,7 @@ public class PeriodicHealingEffect extends PeriodicExpirableEffect implements He
 
     @Override
     public void setTickHealth(double tickHealth) {
+        Validate.isTrue(tickHealth > 0, "Cannot set a negative/zero health per tick!");
         this.tickHealth = tickHealth;
     }
 
@@ -72,6 +75,7 @@ public class PeriodicHealingEffect extends PeriodicExpirableEffect implements He
      */
     @Override
     public void tick(Insentient being) {
+        Validate.notNull(being, "Cannot tick on a null Insentient being!");
         if (!being.isEntityValid() || !getApplier().isEntityValid()) {
             return;
         }

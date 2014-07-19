@@ -49,8 +49,9 @@ public interface IEffect {
     /**
      * Check if this Effect is of a certain EffectType
      * 
-     * @param queryType the type of effect to query
-     * @return true if this Effect is of the queried EffectType
+     * @param queryType The type of effect to query
+     * @return True if this Effect is of the queried EffectType
+     * @throws IllegalArgumentException If the query type is null
      */
     public boolean isType(EffectType queryType);
 
@@ -73,7 +74,8 @@ public interface IEffect {
     /**
      * Add a Bukkit {@link org.bukkit.potion.PotionEffect} to this Effect
      * 
-     * @param pEffect the PotionEffect to add to this Effect
+     * @param pEffect The PotionEffect to add to this Effect
+     * @throws IllegalArgumentException If the potion effect is null
      */
     public void addPotionEffect(PotionEffect pEffect);
 
@@ -91,14 +93,15 @@ public interface IEffect {
      * {@link com.afterkraft.kraftrpg.api.entity.Insentient}.
      * 
      * @param being this effect is being applied on to.
+     * @throws IllegalArgumentException If the being is null or invalid
      */
     public void apply(Insentient being);
 
     /**
      * Attempts to remove this effect from the given Insentient being
-     * <p/>
-     * 
+     *
      * @param being this effect is being removed by.
+     * @throws IllegalArgumentException If the being is null or invalid
      */
     public void remove(Insentient being);
 }

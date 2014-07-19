@@ -41,6 +41,7 @@ public interface Sentient extends Insentient {
      * 
      * @param role to check the current experience of
      * @return the FixedPoint value of the designated role.
+     * @throws IllegalArgumentException If the role is null
      */
     public FixedPoint getExperience(Role role);
 
@@ -51,6 +52,7 @@ public interface Sentient extends Insentient {
      * 
      * @param type of experience
      * @return true if the experience type can be gained
+     * @throws IllegalArgumentException If the type is null
      */
     public boolean canGainExperience(ExperienceType type);
 
@@ -64,6 +66,9 @@ public interface Sentient extends Insentient {
      * @param type of experience
      * @param location of experience
      * @return the final experience gained
+     * @throws IllegalArgumentException If the experience is null
+     * @throws IllegalArgumentException If the type is null
+     * @throws IllegalArgumentException If the location is null
      */
     public FixedPoint gainExperience(FixedPoint exp, ExperienceType type, Location location);
 
@@ -74,6 +79,7 @@ public interface Sentient extends Insentient {
      * 
      * @param multiplier percentage of the current level to lose in experience
      * @param byPVP if true, has some alternate modifications to the total loss
+     * @throws IllegalArgumentException If the multiplier is negative
      */
     public void loseExperienceFromDeath(double multiplier, boolean byPVP);
 
@@ -103,6 +109,7 @@ public interface Sentient extends Insentient {
      * 
      * @param role the Primary role to set this sentient being's primary role
      *            to
+     * @throws IllegalArgumentException If the role is not of the Primary type
      */
     public boolean setPrimaryRole(Role role);
 
@@ -117,6 +124,8 @@ public interface Sentient extends Insentient {
      * @param role the Secondary role to set this sentient being's secondary
      *            role to
      * @return true if the set was successful
+     * @throws IllegalArgumentException If the role is not of the Secondary
+     *            type
      */
     public boolean setSecondaryRole(Role role);
 
@@ -136,6 +145,9 @@ public interface Sentient extends Insentient {
      * 
      * @param role the additional role to add to this sentient being
      * @return true if the role was added successfully
+     * @throws IllegalArgumentException If the role is null
+     * @throws IllegalArgumentException If the role is not of the type
+     *         Additional
      */
     public boolean addAdditionalRole(Role role);
 
@@ -145,6 +157,7 @@ public interface Sentient extends Insentient {
      * 
      * @param role the additional role to remove from this sentient being
      * @return true if the role was removed successfully
+     * @throws IllegalArgumentException If the role is null
      */
     public boolean removeAdditionalRole(Role role);
 
@@ -166,6 +179,7 @@ public interface Sentient extends Insentient {
      * 
      * @param role to get the current level
      * @return the current calculated level of this Role if not 0
+     * @throws IllegalArgumentException If the role is null
      */
     public int getLevel(Role role);
 }

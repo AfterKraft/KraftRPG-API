@@ -15,6 +15,8 @@
  */
 package com.afterkraft.kraftrpg.api.events.entity;
 
+import org.apache.commons.lang.Validate;
+
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
@@ -27,6 +29,7 @@ public abstract class IEntityEvent extends Event {
     private final Insentient entity;
 
     public IEntityEvent(Insentient entity) {
+        Validate.notNull(entity, "Cannot create an event for a null Insentient being!");
         this.entity = entity;
     }
 

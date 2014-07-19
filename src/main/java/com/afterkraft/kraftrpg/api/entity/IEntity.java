@@ -72,6 +72,7 @@ public interface IEntity {
      * 
      * @param entity the Entity to re-attach this IEntity to
      * @return true if successful, false if UUID did not match
+     * @throws IllegalArgumentException If the entity is null
      */
     public boolean setEntity(Entity entity);
 

@@ -50,6 +50,7 @@ public interface Party {
      * @param member being added to this party.
      * @return true if successful, false if the Champion could not be added
      *         for any reason
+     * @throws IllegalArgumentException If the member is null
      */
     public boolean addMember(PartyMember member);
 
@@ -65,6 +66,7 @@ public interface Party {
      * @param forced if true, ignore any existing parties the Champion is part
      *            of and re-assign the Champion to this party.
      * @return true if successful, false if the Champion could not be added
+     * @throws IllegalArgumentException If the member is null
      */
     public boolean addMember(PartyMember member, boolean forced);
 
@@ -77,6 +79,7 @@ public interface Party {
      * removed.
      * 
      * @param member to remove
+     * @throws IllegalArgumentException if the member is null
      */
     public void removeMember(PartyMember member);
 
@@ -89,6 +92,7 @@ public interface Party {
      * @param member to remove
      * @param forced true if the member will be removed without considering
      *            the PartyLeaveEvent's cancellation
+     * @throws IllegalArgumentException If the member is null
      */
     public void removeMember(PartyMember member, boolean forced);
 
@@ -99,6 +103,7 @@ public interface Party {
      * invite taking place.
      * 
      * @param member to invite
+     * @throws IllegalArgumentException If the member is null
      */
     public void addMemberInvite(PartyMember member);
 
@@ -106,24 +111,61 @@ public interface Party {
      * Removes the invite for the member, if it exists.
      * 
      * @param member to un-invite.
+     * @throws IllegalArgumentException If the member is null
      */
     public void removeMemberInvite(PartyMember member);
 
+    /**
+     *
+     * @param member
+     * @return
+     * @throws IllegalArgumentException If the member is null
+     */
     public boolean hasMemberInvite(PartyMember member);
 
     public int size();
 
+    /**
+     *
+     * @param message
+     * @param announce
+     */
     public void messageParty(String message, boolean announce);
 
+    /**
+     *
+     * @return
+     */
     public boolean emptyParty();
 
+    /**
+     *
+     * @param member
+     * @return
+     */
     public boolean hasMember(PartyMember member);
 
+    /**
+     *
+     * @return
+     */
     public List<UUID> getPartyMemberUUIDs();
 
+    /**
+     *
+     * @param member
+     */
     public void logOffMember(PartyMember member);
 
-
+    /**
+     *
+     * @param experience
+     * @param type
+     * @param location
+     * @throws IllegalArgumentException If the expiernece is null
+     * @throws IllegalARgumentException If the type is null
+     * @throws IllegalArgumentException If the Location is null
+     */
     public void gainExperience(FixedPoint experience, ExperienceType type, Location location);
 
 }

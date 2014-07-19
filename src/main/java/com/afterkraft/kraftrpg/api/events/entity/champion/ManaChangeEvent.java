@@ -15,6 +15,8 @@
  */
 package com.afterkraft.kraftrpg.api.events.entity.champion;
 
+import org.apache.commons.lang.Validate;
+
 import org.bukkit.event.HandlerList;
 
 import com.afterkraft.kraftrpg.api.entity.Champion;
@@ -29,6 +31,7 @@ public class ManaChangeEvent extends ChampionEvent {
 
     public ManaChangeEvent(Champion player, int fromMana, int toMana, ManaChangeReason reason) {
         super(player);
+        Validate.notNull(reason, "Cannot create an event with a null ManaChangeReason!");
         this.fromMana = fromMana;
         this.toMana = toMana;
         this.reason = reason;

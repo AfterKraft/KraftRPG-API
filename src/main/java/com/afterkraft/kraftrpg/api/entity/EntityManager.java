@@ -34,6 +34,7 @@ public interface EntityManager extends Manager {
      * 
      * @param entity
      * @return
+     * @throws IllegalArgumentException If the entity is null or invalid
      */
     public IEntity getEntity(Entity entity);
 
@@ -43,6 +44,7 @@ public interface EntityManager extends Manager {
      * 
      * @param player to get the Champion object of.
      * @return the Champion object, or null if the player is not valid
+     * @throws IllegalArgumentException If the player is null or invalid
      */
     public Champion getChampion(Player player);
 
@@ -51,7 +53,8 @@ public interface EntityManager extends Manager {
      * for this Player.
      * 
      * @param entity to get the Monster object of.
-     * @return the Monster object, or null if the entity is not valid
+     * @return the Monster object
+     * @throws IllegalArgumentException If the entity is null or invalid
      */
     public Monster getMonster(LivingEntity entity);
 
@@ -65,6 +68,7 @@ public interface EntityManager extends Manager {
      * @param entity to check
      * @return true if the entity's UUID is already added to the managed
      *         entities
+     * @throws IllegalArgumentException If the entity is null or invalid
      */
     public boolean isEntityManaged(Entity entity);
 
@@ -75,6 +79,8 @@ public interface EntityManager extends Manager {
      * @param player Bukkit Player object
      * @param data PlayerData object
      * @return Constructed Champion
+     * @throws IllegalArgumentException If the player is null
+     * @throws IllegalArgumentException If the data is null
      */
     public Champion createChampion(Player player, PlayerData data);
 
@@ -95,6 +101,8 @@ public interface EntityManager extends Manager {
      * @param entity to be managed by KraftRPG
      * @return true if the entity's {@link java.util.UUID} did not exist and
      *         adding the entity was successful.
+     * @throws IllegalArgumentException If the entity is null
+     * @throws IllegalArgumentException If the entity is not valid
      */
     public boolean addEntity(IEntity entity);
 
@@ -104,6 +112,7 @@ public interface EntityManager extends Manager {
      * 
      * @param uuid of the monster in question
      * @return the linked Monster object
+     * @throws IllegalArgumentException if the UUID is null
      */
     public Monster getMonster(UUID uuid);
 
@@ -121,6 +130,7 @@ public interface EntityManager extends Manager {
      * @param ignoreOffline whether to load a fake Champion regardless whether
      *            the linked Player is offline
      * @return the loaded Champion belonging to the UUID, if not null
+     * @throws IllegalArgumentException If the uuid is null
      */
     public Champion getChampion(UUID uuid, boolean ignoreOffline);
 

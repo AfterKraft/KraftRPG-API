@@ -66,6 +66,7 @@ public interface Insentient extends IEntity {
      * Set the total mana of the being.
      * 
      * @param mana this being should have.
+     * @throws IllegalArgumentException If the mana is negative
      */
     public void setMana(int mana);
 
@@ -80,6 +81,8 @@ public interface Insentient extends IEntity {
      * Sets the current maximum mana for this being.
      * 
      * @param mana as the maximum
+     * @throws IllegalArgumentException If the new max mana is negative or
+     *      zero
      */
     public void setMaxMana(int mana);
 
@@ -95,6 +98,7 @@ public interface Insentient extends IEntity {
      * health will not be updated.
      * 
      * @param health to which the being should have.
+     * @throws IllegalArgumentException If health is negative
      */
     public void setHealth(double health);
 
@@ -115,6 +119,7 @@ public interface Insentient extends IEntity {
      * @param key id based on string to apply the max health
      * @param value of health to add as the maximum
      * @return true if successful, if the key did not exist before.
+     * @throws IllegalArgumentException If the key is null or empty
      */
     public boolean addMaxHealth(String key, double value);
 
@@ -125,6 +130,7 @@ public interface Insentient extends IEntity {
      * 
      * @param key linking to the additional health bonus for this being
      * @return true if successful, false if the mapping didn't exist.
+     * @throws IllegalArgumentException If the key is null
      */
     public boolean removeMaxHealth(String key);
 
@@ -267,6 +273,7 @@ public interface Insentient extends IEntity {
      * applied on the next tick so as to avoid
      * 
      * @param effect to apply to this Insentient
+     * @throws IllegalArgumentException If the effect is null
      */
     public void addEffect(IEffect effect);
 
@@ -279,6 +286,7 @@ public interface Insentient extends IEntity {
      * multiple sources.
      * 
      * @param potion the effect to be applied
+     * @throws IllegalArgumentException If the potion effect is null
      */
     public void addPotionEffect(PotionEffect potion);
 
@@ -291,6 +299,7 @@ public interface Insentient extends IEntity {
      * multiple sources.
      * 
      * @param type of PotionEffect to remove
+     * @throws IllegalArgumentException If the potioneffect type is null
      */
     public void removePotionEffect(PotionEffectType type);
 
@@ -299,6 +308,7 @@ public interface Insentient extends IEntity {
      * 
      * @param type to check
      * @return true if the being has the queried type of potion effect
+     * @throws IllegalArgumentException If the potion effect type is null
      */
     public boolean hasPotionEffect(PotionEffectType type);
 
@@ -309,6 +319,7 @@ public interface Insentient extends IEntity {
      * 
      * @param name of the effect
      * @return true if there is an active effect by the queried name
+     * @throws IllegalArgumentException If the name is null or empty
      */
     public boolean hasEffect(String name);
 
@@ -318,6 +329,7 @@ public interface Insentient extends IEntity {
      * 
      * @param type of effect
      * @return true if this being has effect of the queried type
+     * @throws IllegalArgumentException If the type is null
      */
     public boolean hasEffectType(EffectType type);
 
@@ -327,6 +339,7 @@ public interface Insentient extends IEntity {
      * actions accordingly.
      * 
      * @param effect to be removed.
+     * @throws IllegalArgumentException If the effect is null
      */
     public void removeEffect(IEffect effect);
 
@@ -336,6 +349,7 @@ public interface Insentient extends IEntity {
      * {@link org.bukkit.potion.PotionEffect}s on the being.
      * 
      * @param effect being removed.
+     * @throws IllegalArgumentException If the effect is null
      */
     public void manualRemoveEffect(IEffect effect);
 

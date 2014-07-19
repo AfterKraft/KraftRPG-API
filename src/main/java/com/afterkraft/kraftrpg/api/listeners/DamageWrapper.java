@@ -15,7 +15,6 @@
  */
 package com.afterkraft.kraftrpg.api.listeners;
 
-import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 
 /**

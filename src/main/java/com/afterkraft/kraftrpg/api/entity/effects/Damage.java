@@ -32,6 +32,7 @@ public interface Damage extends Periodic {
      * Set the damage per tick for this effect.
      * 
      * @param tickDamage for this effect.
+     * @throws IllegalArgumentException If the damage is negative or zero
      */
     public void setTickDamage(double tickDamage);
 

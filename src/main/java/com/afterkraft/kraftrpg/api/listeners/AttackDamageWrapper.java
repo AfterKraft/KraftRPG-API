@@ -17,7 +17,6 @@ package com.afterkraft.kraftrpg.api.listeners;
 
 import java.lang.ref.WeakReference;
 
-import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.inventory.ItemStack;
 

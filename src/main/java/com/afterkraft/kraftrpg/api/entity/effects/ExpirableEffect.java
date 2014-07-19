@@ -18,6 +18,8 @@ package com.afterkraft.kraftrpg.api.entity.effects;
 import java.util.concurrent.Delayed;
 import java.util.concurrent.TimeUnit;
 
+import org.apache.commons.lang.Validate;
+
 import com.afterkraft.kraftrpg.api.RPGPlugin;
 import com.afterkraft.kraftrpg.api.entity.Insentient;
 import com.afterkraft.kraftrpg.api.entity.SkillCaster;
@@ -25,7 +27,7 @@ import com.afterkraft.kraftrpg.api.skills.Skill;
 
 /**
  * Implementation of an
- * {@link com.afterkraft.kraftrpg.api.entity.effects.Expirable} based on
+ * {@link Expirable} based on
  * {@link com.afterkraft.kraftrpg.api.entity.effects.Effect}
  */
 public class ExpirableEffect extends Effect implements Expirable {
@@ -36,24 +38,26 @@ public class ExpirableEffect extends Effect implements Expirable {
     private String applyText;
     private long expireTime;
 
-    public ExpirableEffect(Skill skill, SkillCaster applier, String name, long duration) {
-        this(skill, skill.plugin, applier, name, duration, null, null);
+    public ExpirableEffect(Skill skill, SkillCaster applier, String name, long duration, EffectType... types) {
+        this(skill, skill.plugin, applier, name, duration, null, null, types);
     }
 
-    public ExpirableEffect(Skill skill, RPGPlugin plugin, SkillCaster applier, String name, long duration, String applyText, String expireText) {
-        super(plugin, skill, name);
+    public ExpirableEffect(Skill skill, RPGPlugin plugin, SkillCaster applier, String name, long duration, String applyText, String expireText, EffectType... types) {
+        super(plugin, skill, name, types);
+        Validate.notNull(applier, "Cannot create an ExpirableEffect with a null applier!");
+        Validate.isTrue(duration > 0, "Cannot have a negative Effect duration!");
         this.duration = duration;
         this.applier = applier;
         this.expireText = expireText;
         this.applyText = applyText;
     }
 
-    public ExpirableEffect(Skill skill, SkillCaster applier, String name, long duration, String applyText, String expireText) {
-        this(skill, skill.plugin, applier, name, duration, applyText, expireText);
+    public ExpirableEffect(Skill skill, SkillCaster applier, String name, long duration, String applyText, String expireText, EffectType... types) {
+        this(skill, skill.plugin, applier, name, duration, applyText, expireText, types);
     }
 
-    public ExpirableEffect(Skill skill, RPGPlugin plugin, SkillCaster applier, String name, long duration) {
-        this(skill, plugin, applier, name, duration, null, null);
+    public ExpirableEffect(Skill skill, RPGPlugin plugin, SkillCaster applier, String name, long duration, EffectType... types) {
+        this(skill, plugin, applier, name, duration, null, null, types);
     }
 
     @Override
@@ -119,6 +123,7 @@ public class ExpirableEffect extends Effect implements Expirable {
 
     @Override
     public void setApplier(SkillCaster champion) {
+        Validate.notNull(champion, "Cannot set a null caster as the applier for an Effect!");
         this.applier = champion;
     }
 

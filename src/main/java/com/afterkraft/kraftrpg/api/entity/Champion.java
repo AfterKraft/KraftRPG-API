@@ -40,6 +40,8 @@ public interface Champion extends SkillCaster {
      * as the original UUID matches the new Player's UUID.
      * 
      * @param player the Bukkit Player for this Champion to attach to
+     * @throws IllegalArgumentException If the player is null
+     * @throws IllegalArgumentException If the player is not of the same UUID
      */
     public void setPlayer(Player player);
 
@@ -55,6 +57,8 @@ public interface Champion extends SkillCaster {
      * 
      * @param player to re-link this Champion to
      * @return true if successful
+     * @throws IllegalArgumentException If the player is null
+     * @throws IllegalArgumentException If the player is not of the same UUID
      */
     public boolean setEntity(Player player);
 

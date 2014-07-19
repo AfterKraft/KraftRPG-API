@@ -20,6 +20,8 @@ import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.apache.commons.lang.Validate;
+
 import org.bukkit.potion.PotionEffect;
 
 import com.afterkraft.kraftrpg.api.RPGPlugin;
@@ -41,17 +43,17 @@ public abstract class Effect implements IEffect {
     private boolean persistent = false;
 
     public Effect(Skill skill, String name) {
-        this(skill == null ? null : skill.plugin, skill, name);
+        this(skill.plugin, skill, name);
     }
 
     public Effect(RPGPlugin plugin, Skill skill, String name, EffectType... types) {
+        Validate.notNull(plugin, "Cannot create an effect with a null RPGPlugin!");
+        Validate.notNull(skill, "Cannot create an effect with a null Skill!");
+        Validate.notNull(name, "Cannot create an effect with a null name!");
+        Validate.isTrue(!name.isEmpty(), "Cannot create an effect with an empty name!");
         this.name = name;
         this.skill = skill;
-        if (plugin != null) {
-            this.plugin = plugin;
-        } else {
-            this.plugin = skill.plugin;
-        }
+        this.plugin = plugin;
 
         if (types != null) {
             this.types.addAll(Arrays.asList(types));
@@ -74,6 +76,7 @@ public abstract class Effect implements IEffect {
 
     @Override
     public boolean isType(EffectType queryType) {
+        Validate.notNull(queryType, "Cannot check a null EffectType!");
         return types.contains(queryType);
     }
 
@@ -89,8 +92,8 @@ public abstract class Effect implements IEffect {
 
     @Override
     public void addPotionEffect(PotionEffect pEffect) {
+        Validate.notNull(pEffect, "Cannot add a null PotionEffect!");
         potionEffects.add(pEffect);
-
     }
 
     @Override
@@ -100,6 +103,7 @@ public abstract class Effect implements IEffect {
 
     @Override
     public void apply(Insentient being) {
+        Validate.notNull(being, "Cannot apply an effect to a null Insentient being!");
         this.applyTime = System.currentTimeMillis();
         if (!potionEffects.isEmpty()) {
             for (final PotionEffect pEffect : potionEffects) {
@@ -109,10 +113,11 @@ public abstract class Effect implements IEffect {
     }
 
     @Override
-    public void remove(Insentient mage) {
+    public void remove(Insentient being) {
+        Validate.notNull(being, "Cannot remove an effect to a null Insentient being!");
         if (!potionEffects.isEmpty()) {
             for (final PotionEffect pEffect : potionEffects) {
-                mage.removePotionEffect(pEffect.getType());
+                being.removePotionEffect(pEffect.getType());
             }
         }
     }

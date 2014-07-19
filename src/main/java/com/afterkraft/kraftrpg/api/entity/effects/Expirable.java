@@ -93,5 +93,11 @@ public interface Expirable extends IEffect, Timed {
      */
     public SkillCaster getApplier();
 
+    /**
+     * Sets the applier of this expirable effect.
+     *
+     * @param caster The caster applying this effect.
+     * @throws IllegalArgumentException If the caster is null
+     */
     public void setApplier(SkillCaster caster);
 }

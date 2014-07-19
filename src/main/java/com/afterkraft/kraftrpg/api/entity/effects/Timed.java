@@ -22,15 +22,15 @@ import java.util.concurrent.Delayed;
  * {@link java.util.concurrent.Delayed} It should be noted that the API
  * provides the following to implement Timed:
  * <ul>
- * <li>{@link com.afterkraft.kraftrpg.api.entity.effects.Expirable}</li>
+ * <li>{@link Expirable}</li>
  * <li>{@link com.afterkraft.kraftrpg.api.entity.effects.Periodic}</li>
  * </ul>
  * and from the default implementations:
  * <ul>
- * <li>{@link com.afterkraft.kraftrpg.api.entity.effects.ExpirableEffect}</li>
+ * <li>{@link ExpirableEffect}</li>
  * <li>{@link com.afterkraft.kraftrpg.api.entity.effects.PeriodicEffect}</li>
  * <li>
- * {@link com.afterkraft.kraftrpg.api.entity.effects.PeriodicExpirableEffect}</li>
+ * {@link PeriodicExpirableEffect}</li>
  * <li>{@link com.afterkraft.kraftrpg.api.entity.effects.PeriodicDamageEffect}
  * </li>
  * <li>

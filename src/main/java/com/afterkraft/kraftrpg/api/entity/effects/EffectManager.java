@@ -37,6 +37,8 @@ public interface EffectManager extends Manager {
      * 
      * @param being to apply the timed effect on
      * @param effect to apply
+     * @throws IllegalArgumentException If the being is null
+     * @throws IllegalArgumentException If the effect is null
      */
     public void manageEffect(Insentient being, Timed effect);
 
@@ -44,6 +46,8 @@ public interface EffectManager extends Manager {
      * 
      * @param being
      * @param effect
+     * @throws IllegalArgumentException If the being is null
+     * @throws IllegalArgumentException If the effect is null
      */
     public void queueRemoval(Insentient being, Timed effect);
 }

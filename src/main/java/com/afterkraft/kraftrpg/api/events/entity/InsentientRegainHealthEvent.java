@@ -15,6 +15,8 @@
  */
 package com.afterkraft.kraftrpg.api.events.entity;
 
+import org.apache.commons.lang.Validate;
+
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.HandlerList;
 
@@ -36,6 +38,7 @@ public class InsentientRegainHealthEvent extends IEntityEvent implements Cancell
 
     public InsentientRegainHealthEvent(Insentient beneficiary, double healAmount, ISkill skill, Insentient healer) {
         super(beneficiary);
+        Validate.notNull(skill, "Cannot create an event with a null Skill!");
         this.amount = healAmount;
         this.skill = skill;
         this.healer = healer;
