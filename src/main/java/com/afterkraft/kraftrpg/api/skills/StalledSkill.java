@@ -77,6 +77,6 @@ public class StalledSkill implements Stalled {
 
     @Override
     public long getDelay(TimeUnit unit) {
-        return unit.convert(delay - System.currentTimeMillis(), TimeUnit.MILLISECONDS);
+        return unit.convert(this.delay - System.currentTimeMillis(), TimeUnit.MILLISECONDS);
     }
 }

@@ -57,7 +57,7 @@ public class PeriodicHealingEffect extends PeriodicExpirableEffect implements He
 
     @Override
     public double getTickHealth() {
-        return tickHealth;
+        return this.tickHealth;
     }
 
     @Override
@@ -81,12 +81,12 @@ public class PeriodicHealingEffect extends PeriodicExpirableEffect implements He
         }
         InsentientRegainHealthEvent event;
         if (being instanceof Champion) {
-            event = new ChampionRegainHealthEvent((Champion) being, tickHealth, skill, getApplier());
+            event = new ChampionRegainHealthEvent((Champion) being, this.tickHealth, this.skill, getApplier());
 
         } else {
-            event = new InsentientRegainHealthEvent(being, tickHealth, skill, getApplier());
+            event = new InsentientRegainHealthEvent(being, this.tickHealth, this.skill, getApplier());
         }
-        plugin.getServer().getPluginManager().callEvent(event);
+        this.plugin.getServer().getPluginManager().callEvent(event);
         if (event.isCancelled()) {
             return;
         }

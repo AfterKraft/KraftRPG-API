@@ -23,12 +23,12 @@ import org.bukkit.event.HandlerList;
 import com.afterkraft.kraftrpg.api.entity.Insentient;
 
 
-public abstract class IEntityEvent extends Event {
+public abstract class InsentientEvent extends Event {
 
     private static final HandlerList handlers = new HandlerList();
     private final Insentient entity;
 
-    public IEntityEvent(Insentient entity) {
+    protected InsentientEvent(Insentient entity) {
         Validate.notNull(entity, "Cannot create an event for a null Insentient being!");
         this.entity = entity;
     }

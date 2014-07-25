@@ -57,11 +57,11 @@ public abstract class StorageFrontend {
      */
     protected final Set<UUID> ignoredPlayers = new HashSet<UUID>();
 
-    public StorageFrontend(RPGPlugin plugin, StorageBackend backend) {
+    protected StorageFrontend(RPGPlugin plugin, StorageBackend backend) {
         this.plugin = plugin;
         this.backend = backend;
-        toSave = new HashMap<UUID, Champion>();
-        offlineToSave = new HashMap<UUID, PlayerData>();
+        this.toSave = new HashMap<UUID, Champion>();
+        this.offlineToSave = new HashMap<UUID, PlayerData>();
 
         new SavingStarterTask().runTaskTimerAsynchronously(plugin, 20 * 60, 20 * 60);
     }
@@ -73,8 +73,8 @@ public abstract class StorageFrontend {
     protected StorageFrontend(RPGPlugin plugin, StorageBackend backend, boolean ignored) {
         this.plugin = plugin;
         this.backend = backend;
-        toSave = null;
-        offlineToSave = null;
+        this.toSave = null;
+        this.offlineToSave = null;
     }
 
     /**
@@ -106,17 +106,17 @@ public abstract class StorageFrontend {
         UUID uuid = player.getUniqueId();
 
         // Check the saving queue for this player
-        if (offlineToSave.containsKey(uuid)) {
-            PlayerData data = offlineToSave.get(uuid);
-            return plugin.getEntityManager().createChampion(player, data);
+        if (this.offlineToSave.containsKey(uuid)) {
+            PlayerData data = this.offlineToSave.get(uuid);
+            return this.plugin.getEntityManager().createChampion(player, data);
         }
-        if (toSave.containsKey(uuid)) {
-            Champion ret = toSave.get(uuid);
+        if (this.toSave.containsKey(uuid)) {
+            Champion ret = this.toSave.get(uuid);
             ret.setPlayer(player);
             return ret;
         }
 
-        PlayerData data = backend.loadPlayer(uuid, shouldCreate);
+        PlayerData data = this.backend.loadPlayer(uuid, shouldCreate);
         if (data == null) {
             if (!shouldCreate) {
                 return null;
@@ -127,7 +127,7 @@ public abstract class StorageFrontend {
         data.playerID = player.getUniqueId();
         data.lastKnownName = player.getName();
 
-        return plugin.getEntityManager().createChampion(player, data);
+        return this.plugin.getEntityManager().createChampion(player, data);
     }
 
     /**
@@ -135,57 +135,57 @@ public abstract class StorageFrontend {
      * data at some later point.
      */
     public void saveChampion(Champion champion) {
-        if (ignoredPlayers.contains(champion.getPlayer().getUniqueId())) {
+        if (this.ignoredPlayers.contains(champion.getPlayer().getUniqueId())) {
             return;
         }
 
-        toSave.put(champion.getPlayer().getUniqueId(), champion);
+        this.toSave.put(champion.getPlayer().getUniqueId(), champion);
     }
 
     public PlayerData loadOfflineChampion(UUID uuid) {
-        if (offlineToSave.containsKey(uuid)) {
-            return offlineToSave.get(uuid);
-        } else if (toSave.containsKey(uuid)) {
-            return toSave.get(uuid).getData();
+        if (this.offlineToSave.containsKey(uuid)) {
+            return this.offlineToSave.get(uuid);
+        } else if (this.toSave.containsKey(uuid)) {
+            return this.toSave.get(uuid).getData();
         } else if (Bukkit.getPlayer(uuid) != null) {
-            Champion champ = plugin.getEntityManager().getChampion(uuid, true);
+            Champion champ = this.plugin.getEntityManager().getChampion(uuid, true);
             if (champ != null) {
                 return champ.getData();
             }
         }
-        return backend.loadPlayer(uuid, false);
+        return this.backend.loadPlayer(uuid, false);
     }
 
     public void saveOfflineChampion(UUID uuid, PlayerData data) {
-        if (toSave.containsKey(uuid)) {
+        if (this.toSave.containsKey(uuid)) {
             // XXX This is bad!
         }
 
-        offlineToSave.put(uuid, data);
+        this.offlineToSave.put(uuid, data);
     }
 
     public void shutdown() {
         flush();
-        backend.shutdown();
+        this.backend.shutdown();
     }
 
     public void flush() {
-        for (Champion champion : toSave.values()) {
-            backend.savePlayer(champion.getPlayer().getUniqueId(), champion.getData());
+        for (Champion champion : this.toSave.values()) {
+            this.backend.savePlayer(champion.getPlayer().getUniqueId(), champion.getData());
         }
-        toSave.clear();
-        for (Map.Entry<UUID, PlayerData> entry : offlineToSave.entrySet()) {
-            backend.savePlayer(entry.getKey(), entry.getValue());
+        this.toSave.clear();
+        for (Map.Entry<UUID, PlayerData> entry : this.offlineToSave.entrySet()) {
+            this.backend.savePlayer(entry.getKey(), entry.getValue());
         }
-        offlineToSave.clear();
+        this.offlineToSave.clear();
     }
 
     public void ignorePlayer(UUID uuid) {
-        ignoredPlayers.add(uuid);
+        this.ignoredPlayers.add(uuid);
     }
 
     public void stopIgnoringPlayer(UUID uuid) {
-        ignoredPlayers.remove(uuid);
+        this.ignoredPlayers.remove(uuid);
     }
 
     /**
@@ -204,17 +204,18 @@ public abstract class StorageFrontend {
 
     protected class SavingStarterTask extends BukkitRunnable {
         // Main thread, just like everything else
+        @Override
         public void run() {
             Map<UUID, PlayerData> data = new HashMap<UUID, PlayerData>();
 
-            data.putAll(offlineToSave);
-            for (Map.Entry<UUID, Champion> entry : toSave.entrySet()) {
+            data.putAll(StorageFrontend.this.offlineToSave);
+            for (Map.Entry<UUID, Champion> entry : StorageFrontend.this.toSave.entrySet()) {
                 data.put(entry.getKey(), entry.getValue().getDataClone());
             }
-            toSave.clear();
-            offlineToSave.clear();
+            StorageFrontend.this.toSave.clear();
+            StorageFrontend.this.offlineToSave.clear();
 
-            Bukkit.getScheduler().runTaskAsynchronously(plugin, new SavingWorker(data));
+            Bukkit.getScheduler().runTaskAsynchronously(StorageFrontend.this.plugin, new SavingWorker(data));
         }
     }
 
@@ -226,9 +227,10 @@ public abstract class StorageFrontend {
         }
 
         // ASYNC
+        @Override
         public void run() {
-            for (Map.Entry<UUID, PlayerData> entry : data.entrySet()) {
-                backend.savePlayer(entry.getKey(), entry.getValue());
+            for (Map.Entry<UUID, PlayerData> entry : this.data.entrySet()) {
+                StorageFrontend.this.backend.savePlayer(entry.getKey(), entry.getValue());
             }
         }
     }

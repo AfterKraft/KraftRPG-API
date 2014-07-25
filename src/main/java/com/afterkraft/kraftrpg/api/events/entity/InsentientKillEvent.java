@@ -21,7 +21,7 @@ import com.afterkraft.kraftrpg.api.entity.EnterCombatReason;
 import com.afterkraft.kraftrpg.api.entity.Insentient;
 
 
-public class InsentientKillEvent extends IEntityEvent {
+public class InsentientKillEvent extends InsentientEvent {
 
     private static final HandlerList handlers = new HandlerList();
     private final Insentient victim;

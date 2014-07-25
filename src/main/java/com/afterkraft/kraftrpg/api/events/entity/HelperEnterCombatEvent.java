@@ -42,7 +42,7 @@ public class HelperEnterCombatEvent extends EnterCombatEvent {
 
     @Override
     public SkillCaster getBeing() {
-        return (SkillCaster) being;
+        return (SkillCaster) this.being;
     }
 
     public HandlerList getHandlers() {
@@ -50,6 +50,6 @@ public class HelperEnterCombatEvent extends EnterCombatEvent {
     }
 
     public Sentient getBuffedBeing() {
-        return buffed;
+        return this.buffed;
     }
 }

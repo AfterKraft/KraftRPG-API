@@ -35,6 +35,6 @@ public class SkillDamageWrapper extends AttackDamageWrapper {
     }
 
     public ISkill getSkillUsed() {
-        return skillUsed;
+        return this.skillUsed;
     }
 }

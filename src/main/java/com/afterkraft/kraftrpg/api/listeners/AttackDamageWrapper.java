@@ -33,10 +33,10 @@ public class AttackDamageWrapper extends DamageWrapper {
     }
 
     public Insentient getAttackingIEntity() {
-        return attackingIEntity.get();
+        return this.attackingIEntity.get();
     }
 
     public ItemStack getWeaponUsed() {
-        return weaponUsed.clone();
+        return this.weaponUsed.clone();
     }
 }

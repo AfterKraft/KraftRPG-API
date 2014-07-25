@@ -39,22 +39,22 @@ public class JEnumSkillArgument<T extends Enum<T>> extends SkillArgument {
         @SuppressWarnings("unchecked")
         T[] allValues = (T[]) values.invoke(null);
 
-        names = new ArrayList<String>(allValues.length);
+        this.names = new ArrayList<String>(allValues.length);
         for (T t : allValues) {
             String temp = t.toString();
-            names.add(temp);
+            this.names.add(temp);
             if (!temp.equalsIgnoreCase(t.name())) {
-                names.add(t.name());
+                this.names.add(t.name());
             }
         }
     }
 
     public T getChoice() {
-        return choice;
+        return this.choice;
     }
 
     public void setChoice(T c) {
-        choice = c;
+        this.choice = c;
     }
 
     // --------------------------------------------------------------
@@ -62,9 +62,9 @@ public class JEnumSkillArgument<T extends Enum<T>> extends SkillArgument {
     @Override
     public String getUsageString(boolean optional) {
         if (optional) {
-            return "[" + clazz.getSimpleName().toLowerCase() + "]";
+            return "[" + this.clazz.getSimpleName().toLowerCase() + "]";
         } else {
-            return "<" + clazz.getSimpleName().toLowerCase() + ">";
+            return "<" + this.clazz.getSimpleName().toLowerCase() + ">";
         }
     }
 
@@ -72,7 +72,7 @@ public class JEnumSkillArgument<T extends Enum<T>> extends SkillArgument {
     public int matches(SkillCaster caster, String[] allArgs, int startPosition) {
         String arg = allArgs[startPosition];
         try {
-            Enum.valueOf(clazz, arg);
+            Enum.valueOf(this.clazz, arg);
             return 1;
         } catch (IllegalArgumentException e) {
             return -1;
@@ -83,24 +83,24 @@ public class JEnumSkillArgument<T extends Enum<T>> extends SkillArgument {
     public void parse(SkillCaster caster, String[] allArgs, int startPosition) {
         String arg = allArgs[startPosition];
         try {
-            choice = Enum.valueOf(clazz, arg);
+            this.choice = Enum.valueOf(this.clazz, arg);
         } catch (IllegalArgumentException e) {
-            choice = def;
+            this.choice = this.def;
         }
     }
 
     @Override
     public void skippedOptional(SkillCaster caster) {
-        choice = def;
+        this.choice = this.def;
     }
 
     @Override
     public void clean() {
-        choice = def;
+        this.choice = this.def;
     }
 
     @Override
     public List<String> tabComplete(SkillCaster caster, String[] allArgs, int startPosition) {
-        return Utilities.findMatches(allArgs[startPosition], names);
+        return Utilities.findMatches(allArgs[startPosition], this.names);
     }
 }

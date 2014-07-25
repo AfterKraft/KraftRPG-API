@@ -133,7 +133,7 @@ public final class ExternalProviderRegistration {
      * @throws LateRegistrationException if called after KraftRPG has been
      *             loaded
      */
-    public static boolean overriddeSkill(ISkill skill) {
+    public static boolean overrideSkill(ISkill skill) {
         check();
 
         String name = Skill.getNormalizedName(skill.getName());

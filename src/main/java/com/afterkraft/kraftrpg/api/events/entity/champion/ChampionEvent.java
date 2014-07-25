@@ -18,14 +18,14 @@ package com.afterkraft.kraftrpg.api.events.entity.champion;
 import org.bukkit.event.HandlerList;
 
 import com.afterkraft.kraftrpg.api.entity.Champion;
-import com.afterkraft.kraftrpg.api.events.entity.IEntityEvent;
+import com.afterkraft.kraftrpg.api.events.entity.InsentientEvent;
 
 
-public class ChampionEvent extends IEntityEvent {
+public abstract class ChampionEvent extends InsentientEvent {
 
     private static final HandlerList handlers = new HandlerList();
 
-    public ChampionEvent(Champion player) {
+    protected ChampionEvent(Champion player) {
         super(player);
     }
 
@@ -42,6 +42,7 @@ public class ChampionEvent extends IEntityEvent {
         return (Champion) super.getEntity();
     }
 
+    @Override
     public HandlerList getHandlers() {
         return handlers;
     }

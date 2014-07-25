@@ -39,7 +39,7 @@ public final class SkillBind implements ConfigurationSerializable {
     }
 
     public Material getMaterial() {
-        return material;
+        return this.material;
     }
 
     public String getSkillName() {
@@ -53,9 +53,9 @@ public final class SkillBind implements ConfigurationSerializable {
     @Override
     public Map<String, Object> serialize() {
         HashMap<String, Object> ret = new HashMap<String, Object>();
-        ret.put("material", material.name());
-        ret.put("skill", skillName);
-        ret.put("args", arguments);
+        ret.put("material", this.material.name());
+        ret.put("skill", this.skillName);
+        ret.put("args", this.arguments);
         return ret;
     }
 }

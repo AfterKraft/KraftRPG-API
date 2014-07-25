@@ -24,7 +24,7 @@ import com.afterkraft.kraftrpg.api.entity.Insentient;
 import com.afterkraft.kraftrpg.api.skills.ISkill;
 
 
-public class InsentientRegainHealthEvent extends IEntityEvent implements Cancellable {
+public class InsentientRegainHealthEvent extends InsentientEvent implements Cancellable {
 
     private static final HandlerList handlers = new HandlerList();
     private final Insentient healer;

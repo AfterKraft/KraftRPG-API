@@ -35,11 +35,11 @@ public class ExplicitLocationArgument extends SkillArgument {
     }
 
     public Location getLocation() {
-        return location;
+        return this.location;
     }
 
     public void setLocation(Location loc) {
-        location = loc;
+        this.location = loc;
     }
 
     // --------------------------------------------------------------
@@ -56,8 +56,8 @@ public class ExplicitLocationArgument extends SkillArgument {
     @Override
     public int matches(SkillCaster caster, String[] allArgs, int startPosition) {
         String firstArg = allArgs[startPosition];
-        if (firstArg == "$") {
-            location = caster.getLocation();
+        if (firstArg.equalsIgnoreCase("$")) {
+            this.location = caster.getLocation();
             return 1;
         }
         if (allArgs.length - startPosition < 3) {
@@ -76,12 +76,12 @@ public class ExplicitLocationArgument extends SkillArgument {
     @Override
     public void parse(SkillCaster caster, String[] allArgs, int startPosition) {
         String firstArg = allArgs[startPosition];
-        if (firstArg == "$") {
-            location = caster.getLocation();
+        if (firstArg.equalsIgnoreCase("$")) {
+            this.location = caster.getLocation();
             return;
         }
 
-        location = caster.getLocation().clone();
+        this.location = caster.getLocation().clone();
 
         double diffX = 0, diffY = 0, diffZ = 0;
         String curArg = allArgs[startPosition];
@@ -90,7 +90,7 @@ public class ExplicitLocationArgument extends SkillArgument {
             String number = curArg.substring(1);
             diffX = tryParseNum(number);
         } else {
-            location.setX(tryParseNum(curArg));
+            this.location.setX(tryParseNum(curArg));
         }
 
         curArg = allArgs[startPosition + 1];
@@ -98,7 +98,7 @@ public class ExplicitLocationArgument extends SkillArgument {
             String number = curArg.substring(1);
             diffY = tryParseNum(number);
         } else {
-            location.setY(tryParseNum(curArg));
+            this.location.setY(tryParseNum(curArg));
         }
 
         curArg = allArgs[startPosition + 2];
@@ -106,20 +106,20 @@ public class ExplicitLocationArgument extends SkillArgument {
             String number = curArg.substring(1);
             diffZ = tryParseNum(number);
         } else {
-            location.setZ(tryParseNum(curArg));
+            this.location.setZ(tryParseNum(curArg));
         }
 
-        location.add(diffX, diffY, diffZ);
+        this.location.add(diffX, diffY, diffZ);
     }
 
     @Override
     public void skippedOptional(SkillCaster caster) {
-        location = nullLocation.clone();
+        this.location = nullLocation.clone();
     }
 
     @Override
     public void clean() {
-        location = nullLocation;
+        this.location = nullLocation;
     }
 
     @Override

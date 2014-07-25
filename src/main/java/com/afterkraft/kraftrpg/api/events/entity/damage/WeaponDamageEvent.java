@@ -75,7 +75,7 @@ public class WeaponDamageEvent extends InsentientDamageInsentientEvent {
      * @return the Item used to attack the defending Insentient being.
      */
     public ItemStack getWeaponUsed() {
-        return weapon;
+        return this.weapon;
     }
 
     @Override

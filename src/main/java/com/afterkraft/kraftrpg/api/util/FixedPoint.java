@@ -39,7 +39,7 @@ public final class FixedPoint extends Number {
     }
 
     private FixedPoint(long init) {
-        val = init;
+        this.val = init;
     }
 
     public static FixedPoint valueOf(int number) {
@@ -127,9 +127,9 @@ public final class FixedPoint extends Number {
     }
 
     public void multRaw(long fixedVal) {
-        long t = val * fixedVal;
+        long t = this.val * fixedVal;
         t += HALF;
-        val = (t >> FRAC_SIZE);
+        this.val = (t >> FRAC_SIZE);
     }
 
     public void div(int param) {
@@ -149,13 +149,13 @@ public final class FixedPoint extends Number {
     }
 
     public void divRaw(long fixedVal) {
-        long t = val << FRAC_SIZE;
+        long t = this.val << FRAC_SIZE;
         t += (fixedVal >> 1);
-        val = t / fixedVal;
+        this.val = t / fixedVal;
     }
 
     public void setRaw(long fixedVal) {
-        val = fixedVal;
+        this.val = fixedVal;
     }
 
     public void set(int param) {
@@ -176,12 +176,12 @@ public final class FixedPoint extends Number {
 
     @Override
     public int intValue() {
-        return (int) (val >> FRAC_SIZE);
+        return (int) (this.val >> FRAC_SIZE);
     }
 
     @Override
     public long longValue() {
-        return val >> FRAC_SIZE;
+        return this.val >> FRAC_SIZE;
     }
 
     @Override
@@ -191,11 +191,11 @@ public final class FixedPoint extends Number {
 
     @Override
     public double doubleValue() {
-        return (double) val * twoPowNegSize;
+        return (double) this.val * twoPowNegSize;
     }
 
     public long rawValue() {
-        return val;
+        return this.val;
     }
 
     @Override
@@ -210,7 +210,7 @@ public final class FixedPoint extends Number {
      * @return String representation of the number
      */
     public String toString(int maxDecimalPlaces) {
-        long disp = Math.abs(val);
+        long disp = Math.abs(this.val);
         int pow10 = (int) Math.pow(10, maxDecimalPlaces);
         //Round
         disp += (HALF / pow10);
@@ -225,7 +225,7 @@ public final class FixedPoint extends Number {
 
         //Remove trailing zeroes
         String str = (disp >> FRAC_SIZE) + "." + fracPart.toString().replaceFirst("0*$", "");
-        if (val < 0) {
+        if (this.val < 0) {
             str = "-" + str;
         }
         return str;

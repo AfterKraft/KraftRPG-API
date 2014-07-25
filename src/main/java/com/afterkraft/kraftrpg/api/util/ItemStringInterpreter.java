@@ -145,6 +145,7 @@ public final class ItemStringInterpreter {
 
         // Workaround: Dye.class does not accept DyeColor in constructor
         workarounds.put(Material.INK_SACK, new StringInterpreter() {
+            @SuppressWarnings("deprecation")
             @Override
             public byte interpret(String s) {
                 return DyeColor.valueOf(s).getDyeData();
@@ -152,6 +153,7 @@ public final class ItemStringInterpreter {
         });
         // These both should use Wool.class but don't
         StringInterpreter woolHandler = new StringInterpreter() {
+            @SuppressWarnings("deprecation")
             @Override
             public byte interpret(String s) {
                 return DyeColor.valueOf(s).getWoolData();
@@ -163,6 +165,7 @@ public final class ItemStringInterpreter {
         workarounds.put(Material.CARPET, woolHandler);
     }
 
+    @SuppressWarnings("deprecation")
     public static ItemStack valueOf(String itemString) throws IllegalArgumentException {
         itemString = itemString.toUpperCase();
 
@@ -216,6 +219,7 @@ public final class ItemStringInterpreter {
         return null;
     }
 
+    @SuppressWarnings("deprecation")
     private static Material getMaterial(String s) {
         Material m = null;
         try {
@@ -238,13 +242,14 @@ class TexturedMaterialInterpreter implements StringInterpreter {
     private TexturedMaterial referenceInstance;
 
     public TexturedMaterialInterpreter(TexturedMaterial instance) {
-        referenceInstance = instance;
+        this.referenceInstance = instance;
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public byte interpret(String s) {
-        referenceInstance.setMaterial(Material.valueOf(s));
-        return referenceInstance.getData();
+        this.referenceInstance.setMaterial(Material.valueOf(s));
+        return this.referenceInstance.getData();
     }
 }
 
@@ -257,7 +262,7 @@ class EnumOrdinalMaterialInterpreter implements StringInterpreter {
 
     @Override
     public byte interpret(String s) {
-        for (Enum<?> e : values) {
+        for (Enum<?> e : this.values) {
             if (s.equalsIgnoreCase(e.toString())) {
                 return (byte) e.ordinal();
             }

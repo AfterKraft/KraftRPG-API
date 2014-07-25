@@ -21,7 +21,7 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 
 import com.afterkraft.kraftrpg.api.entity.Insentient;
-import com.afterkraft.kraftrpg.api.events.entity.IEntityEvent;
+import com.afterkraft.kraftrpg.api.events.entity.InsentientEvent;
 
 /**
  * A traditional catch all damage event to be handled by KraftRPG for any
@@ -44,7 +44,7 @@ import com.afterkraft.kraftrpg.api.events.entity.IEntityEvent;
  * {@link com.afterkraft.kraftrpg.api.entity.EntityManager#addEntity(com.afterkraft.kraftrpg.api.entity.IEntity)}
  * that may not be considered {@link org.bukkit.entity.LivingEntity}.
  */
-public class InsentientDamageEvent extends IEntityEvent implements Cancellable {
+public class InsentientDamageEvent extends InsentientEvent implements Cancellable {
     private static final HandlerList handlers = new HandlerList();
     private final EntityDamageEvent event;
     private final DamageCause cause;
@@ -73,15 +73,15 @@ public class InsentientDamageEvent extends IEntityEvent implements Cancellable {
      * @return the defending Insentient being
      */
     public Insentient getDefender() {
-        return defender;
+        return this.defender;
     }
 
     public double getOriginalDamage() {
-        return event.getOriginalDamage(EntityDamageEvent.DamageModifier.BASE);
+        return this.event.getOriginalDamage(EntityDamageEvent.DamageModifier.BASE);
     }
 
     public double getOriginalModifier(EntityDamageEvent.DamageModifier modifier) {
-        return event.getOriginalDamage(modifier);
+        return this.event.getOriginalDamage(modifier);
     }
 
     /**
@@ -91,7 +91,7 @@ public class InsentientDamageEvent extends IEntityEvent implements Cancellable {
      * @return the default calculated damage
      */
     public double getDefaultDamage() {
-        return defaultDamage;
+        return this.defaultDamage;
     }
 
     /**
@@ -102,11 +102,11 @@ public class InsentientDamageEvent extends IEntityEvent implements Cancellable {
      * @return the final damage to be inflicted on the defending Insentient
      */
     public double getFinalDamage() {
-        return event.getFinalDamage();
+        return this.event.getFinalDamage();
     }
 
     public double getModifierDamage(EntityDamageEvent.DamageModifier modifier) {
-        return event.getDamage(modifier);
+        return this.event.getDamage(modifier);
     }
 
     /**
@@ -115,11 +115,11 @@ public class InsentientDamageEvent extends IEntityEvent implements Cancellable {
      * @param finalDamage to deal to the insentient being.
      */
     public void setDamage(double finalDamage) {
-        event.setDamage(EntityDamageEvent.DamageModifier.BASE, finalDamage);
+        this.event.setDamage(EntityDamageEvent.DamageModifier.BASE, finalDamage);
     }
 
     public void setModifier(EntityDamageEvent.DamageModifier modifier, double damage) {
-        event.setDamage(modifier, damage);
+        this.event.setDamage(modifier, damage);
     }
 
     /**
@@ -130,7 +130,7 @@ public class InsentientDamageEvent extends IEntityEvent implements Cancellable {
      * @return true if KraftRPG was configured to have varied damage
      */
     public boolean isVaryingDamageEnabled() {
-        return isVaryingDamageEnabled;
+        return this.isVaryingDamageEnabled;
     }
 
     /**
@@ -142,7 +142,7 @@ public class InsentientDamageEvent extends IEntityEvent implements Cancellable {
      * @return the damage cause for this event.
      */
     public DamageCause getCause() {
-        return cause;
+        return this.cause;
     }
 
     @Override
@@ -152,11 +152,11 @@ public class InsentientDamageEvent extends IEntityEvent implements Cancellable {
 
     @Override
     public boolean isCancelled() {
-        return cancelled;
+        return this.cancelled;
     }
 
     @Override
     public void setCancelled(boolean cancel) {
-        cancelled = cancel;
+        this.cancelled = cancel;
     }
 }

@@ -32,6 +32,7 @@ public class ChampionCombatEvent extends ChampionEvent {
         return handlers;
     }
 
+    @Override
     public HandlerList getHandlers() {
         return handlers;
     }

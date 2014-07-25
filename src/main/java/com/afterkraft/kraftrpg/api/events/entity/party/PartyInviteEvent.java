@@ -33,7 +33,7 @@ public class PartyInviteEvent extends PartyEvent implements Cancellable {
         super(party);
         this.invitee = invitee;
         this.inviter = inviter;
-        cancelled = false;
+        this.cancelled = false;
     }
 
     public static HandlerList getHandlerList() {
@@ -41,16 +41,16 @@ public class PartyInviteEvent extends PartyEvent implements Cancellable {
     }
 
     public PartyMember getInviter() {
-        return inviter;
+        return this.inviter;
     }
 
     public PartyMember getInvitee() {
-        return invitee;
+        return this.invitee;
     }
 
     @Override
     public boolean isCancelled() {
-        return cancelled;
+        return this.cancelled;
     }
 
     @Override
@@ -58,6 +58,7 @@ public class PartyInviteEvent extends PartyEvent implements Cancellable {
         this.cancelled = cancel;
     }
 
+    @Override
     public HandlerList getHandlers() {
         return handlers;
     }

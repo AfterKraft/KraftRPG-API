@@ -62,6 +62,7 @@ public class ExperienceChangeEvent extends RoleEvent implements Cancellable {
         this.cancelled = cancel;
     }
 
+    @Override
     public HandlerList getHandlers() {
         return handlers;
     }

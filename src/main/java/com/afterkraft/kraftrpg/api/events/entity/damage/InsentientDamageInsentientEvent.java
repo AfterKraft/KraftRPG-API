@@ -69,7 +69,7 @@ public class InsentientDamageInsentientEvent extends InsentientDamageEvent {
      * @return the attacking Insentient being
      */
     public Insentient getAttacker() {
-        return attacker;
+        return this.attacker;
     }
 
     @Override

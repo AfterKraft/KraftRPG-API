@@ -49,14 +49,15 @@ public class EffectRemoveEvent extends Event implements Cancellable {
 
     @Override
     public boolean isCancelled() {
-        return isCancelled;
+        return this.isCancelled;
     }
 
     @Override
     public void setCancelled(boolean cancel) {
-        isCancelled = cancel;
+        this.isCancelled = cancel;
     }
 
+    @Override
     public HandlerList getHandlers() {
         return handlers;
     }

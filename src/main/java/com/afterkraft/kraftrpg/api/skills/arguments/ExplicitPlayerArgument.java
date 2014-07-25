@@ -34,7 +34,7 @@ public class ExplicitPlayerArgument extends SkillArgument {
     }
 
     public Player getMatchedPlayer() {
-        return matchedPlayer;
+        return this.matchedPlayer;
     }
 
     // --------------------------------------------------------------
@@ -42,7 +42,7 @@ public class ExplicitPlayerArgument extends SkillArgument {
     @Override
     public String getUsageString(boolean optional) {
         if (optional) {
-            if (defaultYou) {
+            if (this.defaultYou) {
                 return "[player=you]";
             }
             return "[player]";
@@ -65,21 +65,21 @@ public class ExplicitPlayerArgument extends SkillArgument {
     @Override
     @SuppressWarnings("deprecation")
     public void parse(SkillCaster caster, String[] allArgs, int startPosition) {
-        matchedPlayer = Bukkit.getPlayerExact(allArgs[startPosition]);
+        this.matchedPlayer = Bukkit.getPlayerExact(allArgs[startPosition]);
     }
 
     @Override
     public void skippedOptional(SkillCaster caster) {
-        if (defaultYou) {
-            matchedPlayer = (Player) caster.getEntity();
+        if (this.defaultYou) {
+            this.matchedPlayer = (Player) caster.getEntity();
         } else {
-            matchedPlayer = null;
+            this.matchedPlayer = null;
         }
     }
 
     @Override
     public void clean() {
-        matchedPlayer = null;
+        this.matchedPlayer = null;
     }
 
     @Override

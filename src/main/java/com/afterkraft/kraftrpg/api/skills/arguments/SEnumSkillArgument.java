@@ -45,16 +45,16 @@ public class SEnumSkillArgument extends SkillArgument {
             sb.setLength(sb.length() - 1);
         }
         sb.append(!required ? ']' : '>');
-        usage = sb.toString();
+        this.usage = sb.toString();
     }
 
     public String getChoice() {
-        return choice;
+        return this.choice;
     }
 
     public boolean setChoice(String s) {
-        if (ArrayUtils.contains(choices, s)) {
-            choice = s;
+        if (ArrayUtils.contains(this.choices, s)) {
+            this.choice = s;
             return true;
         }
         return false;
@@ -64,13 +64,13 @@ public class SEnumSkillArgument extends SkillArgument {
 
     @Override
     public String getUsageString(boolean optional) {
-        return usage;
+        return this.usage;
     }
 
     @Override
     public int matches(SkillCaster caster, String[] allArgs, int startPosition) {
         String arg = allArgs[startPosition];
-        if (ArrayUtils.contains(choices, arg)) {
+        if (ArrayUtils.contains(this.choices, arg)) {
             return 1;
         }
         return -1;
@@ -79,25 +79,25 @@ public class SEnumSkillArgument extends SkillArgument {
     @Override
     public void parse(SkillCaster caster, String[] allArgs, int startPosition) {
         String arg = allArgs[startPosition];
-        if (ArrayUtils.contains(choices, arg)) {
-            choice = arg;
+        if (ArrayUtils.contains(this.choices, arg)) {
+            this.choice = arg;
         } else {
-            choice = def;
+            this.choice = this.def;
         }
     }
 
     @Override
     public void skippedOptional(SkillCaster caster) {
-        choice = def;
+        this.choice = this.def;
     }
 
     @Override
     public void clean() {
-        choice = def;
+        this.choice = this.def;
     }
 
     @Override
     public List<String> tabComplete(SkillCaster caster, String[] allArgs, int startPosition) {
-        return Utilities.findMatches(allArgs[startPosition], Arrays.asList(choices));
+        return Utilities.findMatches(allArgs[startPosition], Arrays.asList(this.choices));
     }
 }

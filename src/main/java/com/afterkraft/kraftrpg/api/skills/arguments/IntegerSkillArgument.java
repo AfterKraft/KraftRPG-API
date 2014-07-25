@@ -29,16 +29,16 @@ public class IntegerSkillArgument extends SkillArgument {
     }
 
     public IntegerSkillArgument setDesc(String description) {
-        desc = description;
+        this.desc = description;
         return this;
     }
 
     public int getValue() {
-        return value;
+        return this.value;
     }
 
     public void setValue(int val) {
-        value = val;
+        this.value = val;
     }
 
     // --------------------------------------------------------------
@@ -46,9 +46,9 @@ public class IntegerSkillArgument extends SkillArgument {
     @Override
     public String getUsageString(boolean optional) {
         if (optional) {
-            return '[' + desc + ']';
+            return '[' + this.desc + ']';
         } else {
-            return '<' + desc + '>';
+            return '<' + this.desc + '>';
         }
     }
 
@@ -67,20 +67,20 @@ public class IntegerSkillArgument extends SkillArgument {
     public void parse(SkillCaster caster, String[] allArgs, int startPosition) {
         String arg = allArgs[startPosition];
         try {
-            value = Integer.parseInt(arg);
+            this.value = Integer.parseInt(arg);
         } catch (NumberFormatException e) {
-            value = -Integer.MAX_VALUE;
+            this.value = -Integer.MAX_VALUE;
         }
     }
 
     @Override
     public void skippedOptional(SkillCaster caster) {
-        value = -Integer.MAX_VALUE;
+        this.value = -Integer.MAX_VALUE;
     }
 
     @Override
     public void clean() {
-        value = -Integer.MAX_VALUE;
+        this.value = -Integer.MAX_VALUE;
     }
 
     @Override

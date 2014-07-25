@@ -49,7 +49,7 @@ public class EntitySkillArgument<E extends Entity> extends SkillArgument {
     }
 
     public E getMatchedEntity() {
-        return matchedEntity;
+        return this.matchedEntity;
     }
 
     // --------------------------------------------------------------
@@ -66,16 +66,16 @@ public class EntitySkillArgument<E extends Entity> extends SkillArgument {
 
     @Override
     public void parse(SkillCaster caster, String[] allArgs, int startPosition) {
-        List<Entity> nearby = caster.getEntity().getNearbyEntities(maxDistance, maxDistance, maxDistance);
+        List<Entity> nearby = caster.getEntity().getNearbyEntities(this.maxDistance, this.maxDistance, this.maxDistance);
         LivingEntity actor = caster.getEntity();
         Location middle = actor.getEyeLocation();
         Vector direction = middle.getDirection();
 
-        double closestDistance = maxDistance;
+        double closestDistance = this.maxDistance;
         E closest = null;
 
         for (Entity entity : nearby) {
-            if (!entity.getClass().isAssignableFrom(clazz)) {
+            if (!entity.getClass().isAssignableFrom(this.clazz)) {
                 continue;
             }
             @SuppressWarnings("unchecked")
@@ -94,15 +94,15 @@ public class EntitySkillArgument<E extends Entity> extends SkillArgument {
 
             double a = Math.sqrt(c - b * b);
             if (a < closestDistance) {
-                if (condition == null || condition.apply(ent)) {
+                if (this.condition == null || this.condition.apply(ent)) {
                     closestDistance = a;
                     closest = ent;
                 }
             }
         }
 
-        if (closestDistance < maxDistance) {
-            matchedEntity = closest;
+        if (closestDistance < this.maxDistance) {
+            this.matchedEntity = closest;
         }
     }
 
@@ -113,7 +113,7 @@ public class EntitySkillArgument<E extends Entity> extends SkillArgument {
 
     @Override
     public void clean() {
-        matchedEntity = null;
+        this.matchedEntity = null;
     }
 
     @Override

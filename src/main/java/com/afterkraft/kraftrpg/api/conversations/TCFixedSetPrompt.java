@@ -50,13 +50,13 @@ public abstract class TCFixedSetPrompt extends TCValidatingPrompt {
 
     @Override
     protected boolean isInputValid(ConversationContext context, String input) {
-        return fixedSet.contains(input);
+        return this.fixedSet.contains(input);
     }
 
     @Override
     public List<String> onTabComplete(ConversationContext context, String fullMessage, String lastToken) {
         List<String> matches = new ArrayList<String>();
-        StringUtil.copyPartialMatches(fullMessage, matches, fixedSet);
+        StringUtil.copyPartialMatches(fullMessage, matches, this.fixedSet);
         return matches;
     }
 
@@ -68,6 +68,6 @@ public abstract class TCFixedSetPrompt extends TCValidatingPrompt {
      *         cheese, and panda were the options used
      */
     protected String formatFixedSet() {
-        return "[" + StringUtils.join(fixedSet, ", ") + "]";
+        return "[" + StringUtils.join(this.fixedSet, ", ") + "]";
     }
 }

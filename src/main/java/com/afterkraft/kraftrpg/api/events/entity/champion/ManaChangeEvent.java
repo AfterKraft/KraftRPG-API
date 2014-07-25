@@ -19,19 +19,21 @@ import org.apache.commons.lang.Validate;
 
 import org.bukkit.event.HandlerList;
 
-import com.afterkraft.kraftrpg.api.entity.Champion;
+import com.afterkraft.kraftrpg.api.entity.Insentient;
+import com.afterkraft.kraftrpg.api.events.entity.InsentientEvent;
 
 
-public class ManaChangeEvent extends ChampionEvent {
+public class ManaChangeEvent extends InsentientEvent {
 
     private static final HandlerList handlers = new HandlerList();
     private final int fromMana;
     private final int toMana;
     private final ManaChangeReason reason;
 
-    public ManaChangeEvent(Champion player, int fromMana, int toMana, ManaChangeReason reason) {
-        super(player);
+    public ManaChangeEvent(Insentient being, int fromMana, int toMana, ManaChangeReason reason) {
+        super(being);
         Validate.notNull(reason, "Cannot create an event with a null ManaChangeReason!");
+        Validate.isTrue(toMana >= 0, "Cannot handle a Mana event where the mana is less than zero!");
         this.fromMana = fromMana;
         this.toMana = toMana;
         this.reason = reason;
@@ -53,14 +55,28 @@ public class ManaChangeEvent extends ChampionEvent {
         return this.reason;
     }
 
+    @Override
     public HandlerList getHandlers() {
         return handlers;
     }
 
     public enum ManaChangeReason {
+        /**
+         * Mana is being changed due to casting a skill. The associated
+         * Insentient being may be a {@link com.afterkraft.kraftrpg.api.entity.SkillCaster}
+         */
         SKILL_USAGE,
+        /**
+         * Mana is being changed due to the result of a skill.
+         */
         SKILL_RESULT,
+        /**
+         * Mana is being changed due to the natural mana regeneration of KraftRPG
+         */
         MANA_REGAIN,
+        /**
+         * An external source is modifying mana.
+         */
         EXTERNAL
     }
 }

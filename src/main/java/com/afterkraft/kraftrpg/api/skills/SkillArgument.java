@@ -31,21 +31,21 @@ public abstract class SkillArgument {
     private final boolean required;
     protected boolean present;
 
-    public SkillArgument() {
+    protected SkillArgument() {
         this(false);
     }
 
-    public SkillArgument(boolean required) {
+    protected SkillArgument(boolean required) {
         this.required = required;
     }
 
     public boolean isOptional() {
-        return !required;
+        return !this.required;
     }
 
     // parsed state
     public boolean isPresent() {
-        return present;
+        return this.present;
     }
 
     /**

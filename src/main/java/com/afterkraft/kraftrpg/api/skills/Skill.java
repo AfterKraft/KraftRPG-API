@@ -52,7 +52,7 @@ public abstract class Skill implements ISkill {
     private boolean isEnabled = false;
     private ConfigurationSection defaultConfig;
 
-    public Skill(RPGPlugin plugin, String name) {
+    protected Skill(RPGPlugin plugin, String name) {
         this.plugin = plugin;
         this.name = name;
     }
@@ -147,10 +147,10 @@ public abstract class Skill implements ISkill {
      * @param enabled whether or not to set this skill as enabled or not
      */
     public final void setEnabled(final boolean enabled) {
-        if (isEnabled != enabled) {
-            isEnabled = enabled;
+        if (this.isEnabled != enabled) {
+            this.isEnabled = enabled;
 
-            if (isEnabled) {
+            if (this.isEnabled) {
                 initialize();
             } else {
                 shutdown();
@@ -168,11 +168,12 @@ public abstract class Skill implements ISkill {
         return this.name;
     }
 
+    @Override
     public ConfigurationSection getDefaultConfig() {
-        if (defaultConfig == null) {
-            defaultConfig = new MemoryConfiguration();
+        if (this.defaultConfig == null) {
+            this.defaultConfig = new MemoryConfiguration();
         }
-        return defaultConfig;
+        return this.defaultConfig;
     }
 
     @Override
@@ -190,7 +191,7 @@ public abstract class Skill implements ISkill {
         if (entity == null || caster == null || caster.isEntityValid()) {
             return false;
         }
-        plugin.getSkillManager().addSkillTarget(entity, caster, this);
+        this.plugin.getSkillManager().addSkillTarget(entity, caster, this);
         return true;
     }
 
@@ -249,7 +250,7 @@ public abstract class Skill implements ISkill {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((name == null) ? 0 : name.hashCode());
+        result = prime * result + ((this.name == null) ? 0 : this.name.hashCode());
         return result;
     }
 
@@ -260,9 +261,9 @@ public abstract class Skill implements ISkill {
         if (getClass() != obj.getClass()) return false;
         if (!(obj instanceof Skill)) return false;
         Skill other = (Skill) obj;
-        if (name == null) {
+        if (this.name == null) {
             if (other.name != null) return false;
-        } else if (!name.equals(other.name)) return false;
+        } else if (!this.name.equals(other.name)) return false;
         return true;
     }
 }

@@ -76,7 +76,7 @@ public class PeriodicDamageEffect extends PeriodicExpirableEffect implements Dam
 
     @Override
     public double getTickDamage() {
-        return tickDamage;
+        return this.tickDamage;
     }
 
     @Override
@@ -101,13 +101,13 @@ public class PeriodicDamageEffect extends PeriodicExpirableEffect implements Dam
     public void tick(Insentient being) {
         Validate.notNull(being, "Cannot tick on a null Insentient being!");
         if (being.isEntityValid() && (getApplier() != null) && getApplier().isEntityValid()) {
-            if (!skill.damageCheck(being, getApplier().getEntity())) {
+            if (!this.skill.damageCheck(being, getApplier().getEntity())) {
                 return;
             }
             if (being instanceof SkillCaster) {
                 SkillCaster caster = (SkillCaster) being;
-                skill.addSkillTarget(being.getEntity(), caster);
-                Skill.damageEntity(being.getEntity(), getApplier().getEntity(), tickDamage, skill.isType(SkillType.ABILITY_PROPERTY_PHYSICAL) ? DamageCause.ENTITY_ATTACK : DamageCause.MAGIC, knockback);
+                this.skill.addSkillTarget(being.getEntity(), caster);
+                Skill.damageEntity(being.getEntity(), getApplier().getEntity(), this.tickDamage, this.skill.isType(SkillType.ABILITY_PROPERTY_PHYSICAL) ? DamageCause.ENTITY_ATTACK : DamageCause.MAGIC, this.knockback);
             }
         }
     }

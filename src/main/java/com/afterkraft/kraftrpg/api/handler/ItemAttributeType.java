@@ -23,10 +23,10 @@ public enum ItemAttributeType {
     private String attrName;
 
     private ItemAttributeType() {
-        attrName = "kraftrpg." + name();
+        this.attrName = "kraftrpg." + name();
     }
 
     public String getAttributeName() {
-        return attrName;
+        return this.attrName;
     }
 }

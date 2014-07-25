@@ -45,14 +45,14 @@ public enum EntityAttributeType {
     }
 
     public double getMin() {
-        return minValue;
+        return this.minValue;
     }
 
     public double getMax() {
-        return maxValue;
+        return this.maxValue;
     }
 
     public String getIdentifier() {
-        return attrName;
+        return this.attrName;
     }
 }

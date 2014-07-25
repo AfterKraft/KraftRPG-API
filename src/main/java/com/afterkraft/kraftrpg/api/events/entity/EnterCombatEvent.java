@@ -50,7 +50,7 @@ public class EnterCombatEvent extends Event implements Cancellable {
      * @return sentient entering combat
      */
     public Sentient getBeing() {
-        return being;
+        return this.being;
     }
 
     /**
@@ -59,20 +59,20 @@ public class EnterCombatEvent extends Event implements Cancellable {
      * @return sentient
      */
     public Sentient getOtherBeing() {
-        return with;
+        return this.with;
     }
 
     public WeakHashMap<LivingEntity, EnterCombatReason> getCombatMap() {
-        return combatMap;
+        return this.combatMap;
     }
 
     public EnterCombatReason getReason() {
-        return reason;
+        return this.reason;
     }
 
     @Override
     public boolean isCancelled() {
-        return cancelled;
+        return this.cancelled;
     }
 
     @Override
@@ -81,6 +81,7 @@ public class EnterCombatEvent extends Event implements Cancellable {
 
     }
 
+    @Override
     public HandlerList getHandlers() {
         return handlers;
     }

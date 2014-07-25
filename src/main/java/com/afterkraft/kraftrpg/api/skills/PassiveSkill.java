@@ -26,7 +26,7 @@ import com.afterkraft.kraftrpg.api.entity.SkillCaster;
  */
 public abstract class PassiveSkill extends Skill implements Passive {
 
-    public PassiveSkill(RPGPlugin plugin, String name) {
+    protected PassiveSkill(RPGPlugin plugin, String name) {
         super(plugin, name);
     }
 

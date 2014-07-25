@@ -32,7 +32,7 @@ public abstract class AbstractListener implements Listener, Manager {
 
     @Override
     public void initialize() {
-        plugin.getServer().getPluginManager().registerEvents(this, plugin);
+        this.plugin.getServer().getPluginManager().registerEvents(this, this.plugin);
     }
 
     @Override

@@ -31,7 +31,7 @@ public abstract class ActiveSkill extends Skill implements Active {
     private SkillArgument[] skillArguments;
     private SkillCaster parsedCaster;
 
-    public ActiveSkill(RPGPlugin plugin, String name) {
+    protected ActiveSkill(RPGPlugin plugin, String name) {
         super(plugin, name);
     }
 
@@ -49,12 +49,14 @@ public abstract class ActiveSkill extends Skill implements Active {
     }
 
     @SuppressWarnings("unchecked")
+    @Override
     public <T extends SkillArgument> T getArgument(int index) {
-        return (T) skillArguments[index];
+        return (T) this.skillArguments[index];
     }
 
+    @Override
     public SkillArgument[] getSkillArguments() {
-        return skillArguments;
+        return this.skillArguments;
     }
 
     /**
@@ -64,7 +66,7 @@ public abstract class ActiveSkill extends Skill implements Active {
      * @param arguments to set
      */
     protected void setSkillArguments(SkillArgument... arguments) {
-        skillArguments = arguments;
+        this.skillArguments = arguments;
     }
 
     /**
@@ -84,11 +86,11 @@ public abstract class ActiveSkill extends Skill implements Active {
      */
     @Override
     public boolean parse(SkillCaster caster, String[] strings) {
-        parsedCaster = caster;
+        this.parsedCaster = caster;
         int stringIndex = 0, argIndex = 0;
 
-        while (stringIndex < strings.length && argIndex < skillArguments.length) {
-            SkillArgument current = skillArguments[argIndex];
+        while (stringIndex < strings.length && argIndex < this.skillArguments.length) {
+            SkillArgument current = this.skillArguments[argIndex];
 
             int width = current.matches(caster, strings, stringIndex);
             if (width >= 0) {
@@ -106,8 +108,8 @@ public abstract class ActiveSkill extends Skill implements Active {
             argIndex++;
         }
 
-        while (argIndex < skillArguments.length) {
-            SkillArgument current = skillArguments[argIndex];
+        while (argIndex < this.skillArguments.length) {
+            SkillArgument current = this.skillArguments[argIndex];
 
             if (current.isOptional()) {
                 current.present = false;
@@ -119,12 +121,13 @@ public abstract class ActiveSkill extends Skill implements Active {
         return true;
     }
 
+    @Override
     public List<String> tabComplete(SkillCaster caster, String[] strings, int startIndex) {
-        parsedCaster = caster;
+        this.parsedCaster = caster;
 
         int stringIndex = startIndex, argIndex = 0;
-        while (stringIndex < strings.length - 1 && argIndex < skillArguments.length) {
-            SkillArgument current = skillArguments[argIndex];
+        while (stringIndex < strings.length - 1 && argIndex < this.skillArguments.length) {
+            SkillArgument current = this.skillArguments[argIndex];
 
             int width = current.matches(caster, strings, stringIndex);
             if (width >= 0) {
@@ -135,10 +138,10 @@ public abstract class ActiveSkill extends Skill implements Active {
             }
         }
 
-        if (argIndex == skillArguments.length) {
+        if (argIndex == this.skillArguments.length) {
             return ImmutableList.of();
         } else {
-            return skillArguments[argIndex].tabComplete(caster, strings, stringIndex);
+            return this.skillArguments[argIndex].tabComplete(caster, strings, stringIndex);
         }
     }
 
@@ -147,13 +150,11 @@ public abstract class ActiveSkill extends Skill implements Active {
         return SkillCastResult.NORMAL;
     }
 
-    public abstract SkillCastResult useSkill(SkillCaster caster);
-
     @Override
     public void cleanState(SkillCaster caster) {
-        assert caster == parsedCaster;
+        assert caster == this.parsedCaster;
 
-        for (SkillArgument arg : skillArguments) {
+        for (SkillArgument arg : this.skillArguments) {
             arg.clean();
         }
     }

@@ -28,7 +28,7 @@ import com.afterkraft.kraftrpg.api.Manager;
 public interface CombatTracker extends Manager {
 
     /**
-     * Get a map of all current combatants with the targetted Insentient.
+     * Get a map of all current combatants with the targeted Insentient.
      * The map is unmodifiable and can not be added to or removed from.
      *
      * @param target in combat

@@ -67,18 +67,19 @@ public class PlayerData implements Cloneable {
     public PlayerData() {
     }
 
+    @Override
     public PlayerData clone() {
         PlayerData ret = new PlayerData();
 
-        ret.primary = primary;
-        ret.profession = profession;
-        ret.additionalRoles.addAll(additionalRoles);
-        ret.pastRoles.addAll(pastRoles);
-        ret.exp.putAll(exp);
-        ret.binds.putAll(binds);
-        ret.cooldowns.putAll(cooldowns);
-        ret.lastKnownName = lastKnownName;
-        ret.currentMana = currentMana;
+        ret.primary = this.primary;
+        ret.profession = this.profession;
+        ret.additionalRoles.addAll(this.additionalRoles);
+        ret.pastRoles.addAll(this.pastRoles);
+        ret.exp.putAll(this.exp);
+        ret.binds.putAll(this.binds);
+        ret.cooldowns.putAll(this.cooldowns);
+        ret.lastKnownName = this.lastKnownName;
+        ret.currentMana = this.currentMana;
 
         return ret;
     }
@@ -90,14 +91,14 @@ public class PlayerData implements Cloneable {
      * @return all active roles
      */
     public Collection<Role> allRoles() {
-        if (allRoles != null) return allRoles;
+        if (this.allRoles != null) return this.allRoles;
 
         ImmutableList.Builder<Role> b = ImmutableList.builder();
-        if (primary != null) b.add(primary);
-        if (profession != null) b.add(profession);
-        b.addAll(additionalRoles);
-        allRoles = b.build();
+        if (this.primary != null) b.add(this.primary);
+        if (this.profession != null) b.add(this.profession);
+        b.addAll(this.additionalRoles);
+        this.allRoles = b.build();
 
-        return allRoles;
+        return this.allRoles;
     }
 }

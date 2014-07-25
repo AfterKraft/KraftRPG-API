@@ -55,6 +55,7 @@ public class RoleLevelChangeEvent extends RoleEvent {
         return this.isMastering;
     }
 
+    @Override
     public HandlerList getHandlers() {
         return handlers;
     }

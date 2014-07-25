@@ -135,6 +135,6 @@ public class ExpirableEffect extends Effect implements Expirable {
 
     @Override
     public long getDelay(TimeUnit unit) {
-        return unit.convert(expireTime - System.currentTimeMillis(), TimeUnit.MILLISECONDS);
+        return unit.convert(this.expireTime - System.currentTimeMillis(), TimeUnit.MILLISECONDS);
     }
 }

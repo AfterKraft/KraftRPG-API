@@ -35,21 +35,21 @@ public final class RoleSkill {
 
     public boolean skillEquals(ISkill other) {
         Validate.notNull(other, "Cannot compare to a null Skill!");
-        return skill.equalsIgnoreCase(other.getName());
+        return this.skill.equalsIgnoreCase(other.getName());
 
     }
 
     public String getSkillName() {
-        return skill;
+        return this.skill;
     }
 
     public int getLevel() {
-        return section.getInt(SkillSetting.LEVEL.node());
+        return this.section.getInt(SkillSetting.LEVEL.node());
     }
 
     public ConfigurationSection getConfig() {
         MemoryConfiguration clone = new MemoryConfiguration();
-        clone.addDefaults(section);
+        clone.addDefaults(this.section);
         return clone;
     }
 }

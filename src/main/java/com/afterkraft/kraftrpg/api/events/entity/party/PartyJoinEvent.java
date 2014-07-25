@@ -39,6 +39,7 @@ public class PartyJoinEvent extends PartyEvent {
         return this.member;
     }
 
+    @Override
     public HandlerList getHandlers() {
         return handlers;
     }

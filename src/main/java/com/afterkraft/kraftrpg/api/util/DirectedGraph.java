@@ -49,18 +49,18 @@ public class DirectedGraph<T> {
     protected final LinkedHashMap<T, Vertex<T>> vertexes;
 
     public DirectedGraph() {
-        vertexes = new LinkedHashMap<T, Vertex<T>>();
+        this.vertexes = new LinkedHashMap<T, Vertex<T>>();
     }
 
     public void addVertex(T data) {
-        vertexes.put(data, new Vertex<T>(data));
+        this.vertexes.put(data, new Vertex<T>(data));
     }
 
     public void removeVertex(T data) {
         if (data == null) {
             return;
         }
-        Vertex<T> vertex = vertexes.get(data);
+        Vertex<T> vertex = this.vertexes.get(data);
         for (Map.Entry<Vertex<T>, Edge<T>> entry : vertex.fromNodes.entrySet()) {
             Vertex<T> parent = entry.getKey();
             parent.toNodes.remove(vertex);
@@ -74,19 +74,19 @@ public class DirectedGraph<T> {
             Vertex<T> child = entry.getKey();
             child.toNodes.remove(vertex);
         }
-        vertexes.remove(data);
+        this.vertexes.remove(data);
     }
 
     public boolean addEdge(T from, T to) throws CircularDependencyException {
-        Vertex<T> vertex = vertexes.get(from);
+        Vertex<T> vertex = this.vertexes.get(from);
         if (vertex == null) {
             vertex = new Vertex<T>(from);
         }
-        if (!vertexes.containsKey(to)) {
-            vertexes.put(to, new Vertex<T>(to));
+        if (!this.vertexes.containsKey(to)) {
+            this.vertexes.put(to, new Vertex<T>(to));
         }
         vertex.addEdge(new Vertex<T>(to));
-        vertexes.put(from, vertex);
+        this.vertexes.put(from, vertex);
         if (doesCycleExist()) { // We can't allow the creation of a cycle
             throw new CircularDependencyException("Could not add " + from.toString() + " as a parent of " + to.toString());
         }
@@ -94,23 +94,23 @@ public class DirectedGraph<T> {
     }
 
     public void removeEdge(T from, T to) {
-        if (vertexes.get(from) == null || vertexes.get(to) == null) {
+        if (this.vertexes.get(from) == null || this.vertexes.get(to) == null) {
             return;
         }
-        Vertex<T> vertex = vertexes.get(from);
-        vertex.removeEdge(vertexes.get(to));
-        vertexes.put(from, vertex);
+        Vertex<T> vertex = this.vertexes.get(from);
+        vertex.removeEdge(this.vertexes.get(to));
+        this.vertexes.put(from, vertex);
     }
 
     public boolean doesCycleExist() {
         ArrayList<Edge<T>> cycleEdges = new ArrayList<Edge<T>>();
         // Mark all verticies as white
-        for (Map.Entry<T, Vertex<T>> entry : vertexes.entrySet()) {
+        for (Map.Entry<T, Vertex<T>> entry : this.vertexes.entrySet()) {
             Vertex<T> v = entry.getValue();
             v.setMarkState(VISIT_COLOR_WHITE);
         }
         // Then search for the cycles
-        for (Map.Entry<T, Vertex<T>> entry : vertexes.entrySet()) {
+        for (Map.Entry<T, Vertex<T>> entry : this.vertexes.entrySet()) {
             Vertex<T> v = entry.getValue();
             visit(v, cycleEdges);
         }
@@ -144,19 +144,19 @@ public class DirectedGraph<T> {
         Vertex(T data) {
             this.data = data;
             this.name = data.toString();
-            fromNodes = new LinkedHashMap<Vertex<T>, Edge<T>>();
-            toNodes = new LinkedHashMap<Vertex<T>, Edge<T>>();
+            this.fromNodes = new LinkedHashMap<Vertex<T>, Edge<T>>();
+            this.toNodes = new LinkedHashMap<Vertex<T>, Edge<T>>();
         }
 
         public Vertex<T> addEdge(Vertex<T> vertex) {
             Edge<T> edge = new Edge<T>(this, vertex);
-            toNodes.put(vertex, edge);
+            this.toNodes.put(vertex, edge);
             vertex.fromNodes.put(this, edge);
             return this;
         }
 
         public Vertex removeEdge(Vertex<T> vertex) {
-            toNodes.remove(vertex);
+            this.toNodes.remove(vertex);
             vertex.fromNodes.remove(this);
             return this;
         }
@@ -167,7 +167,7 @@ public class DirectedGraph<T> {
          * @return true is visit has been called
          */
         boolean visited() {
-            return mark;
+            return this.mark;
         }
 
         /**
@@ -176,7 +176,7 @@ public class DirectedGraph<T> {
          * @return the mark state
          */
         int getMarkState() {
-            return markState;
+            return this.markState;
         }
 
         /**
@@ -185,7 +185,7 @@ public class DirectedGraph<T> {
          * @param state the state
          */
         void setMarkState(int state) {
-            markState = state;
+            this.markState = state;
         }
 
         /**
@@ -201,7 +201,7 @@ public class DirectedGraph<T> {
          * 
          */
         void mark() {
-            mark = true;
+            this.mark = true;
         }
 
         /**
@@ -209,7 +209,7 @@ public class DirectedGraph<T> {
          * 
          */
         void clearMark() {
-            mark = false;
+            this.mark = false;
         }
 
         @Override
@@ -218,7 +218,7 @@ public class DirectedGraph<T> {
         }
 
         public String toString() {
-            return name;
+            return this.name;
         }
 
     }
@@ -232,7 +232,7 @@ public class DirectedGraph<T> {
         }
 
         public String toString() {
-            return from.toString() + " ==> " + to.toString();
+            return this.from.toString() + " ==> " + this.to.toString();
         }
     }
 

@@ -38,11 +38,11 @@ public class RPGTestCreator {
     public static final File serverDirectory = new File("bin/test/server");
 
     public RPGPlugin getMockPlugin() {
-        return mockPlugin;
+        return this.mockPlugin;
     }
 
     public ISkill getMockSkill() {
-        return mockSkill;
+        return this.mockSkill;
     }
 
     public boolean setup() {
@@ -61,35 +61,35 @@ public class RPGTestCreator {
             PluginDescriptionFile descriptionFile = new PluginDescriptionFile("TestRPG", "1.0.0", "com.afterkraft.kraftrpg.api.RPGTestCreator");
 
             // Set up mockPlugin prep
-            mockPlugin = createNiceMock(RPGPlugin.class);
-            expect(mockPlugin.getDataFolder()).andStubReturn(pluginDirectory);
-            expect(mockPlugin.getName()).andStubReturn("TestRPG");
-            expect(mockPlugin.getServer()).andStubReturn(mockServer);
-            expect(mockPlugin.getDescription()).andStubReturn(descriptionFile);
+            this.mockPlugin = createNiceMock(RPGPlugin.class);
+            expect(this.mockPlugin.getDataFolder()).andStubReturn(pluginDirectory);
+            expect(this.mockPlugin.getName()).andStubReturn("TestRPG");
+            expect(this.mockPlugin.getServer()).andStubReturn(mockServer);
+            expect(this.mockPlugin.getDescription()).andStubReturn(descriptionFile);
 
             // Create test skill
-            mockSkill = new TestSkill(mockPlugin);
+            this.mockSkill = new TestSkill(this.mockPlugin);
 
             // Set up mockSkillManager
             SkillManager mockSkillManager = createNiceMock(SkillManager.class);
-            expect(mockSkillManager.getSkill("TestSkill")).andReturn(mockSkill).times(3);
-            expect(mockSkillManager.getSkills()).andStubReturn(ImmutableList.<ISkill>builder().add(mockSkill).build());
+            expect(mockSkillManager.getSkill("TestSkill")).andReturn(this.mockSkill).times(3);
+            expect(mockSkillManager.getSkills()).andStubReturn(ImmutableList.<ISkill>builder().add(this.mockSkill).build());
             expect(mockSkillManager.hasSkill("TestSkill")).andStubReturn(true);
 
             // Finalize mockSkillManager
             replay(mockSkillManager);
 
             // Tell the mockPlugin to return the now ready mockSkillManager
-            expect(mockPlugin.getSkillManager()).andReturn(mockSkillManager).times(4);
+            expect(this.mockPlugin.getSkillManager()).andReturn(mockSkillManager).times(4);
 
 
-            Plugin[] plugins = new Plugin[] { mockPlugin };
+            Plugin[] plugins = new Plugin[] { this.mockPlugin };
 
             // Set up mockPluginManager
             PluginManager mockPluginManager = createNiceMock(PluginManager.class);
             expect(mockPluginManager.getPlugins()).andStubReturn(plugins);
-            expect(mockPluginManager.getPlugin("KraftRPG")).andStubReturn(mockPlugin);
-            expect(mockPluginManager.getPlugin("TestRPG")).andStubReturn(mockPlugin);
+            expect(mockPluginManager.getPlugin("KraftRPG")).andStubReturn(this.mockPlugin);
+            expect(mockPluginManager.getPlugin("TestRPG")).andStubReturn(this.mockPlugin);
             expect(mockPluginManager.getPermission(anyString())).andStubReturn(null);
 
             // Finalize mockPluginManager
@@ -102,17 +102,17 @@ public class RPGTestCreator {
             replay(mockServer);
 
             // Set the return for server
-            expect(mockPlugin.getServer()).andReturn(mockServer).times(1);
+            expect(this.mockPlugin.getServer()).andReturn(mockServer).times(1);
 
             // Finalize mockPlugin
-            replay(mockPlugin);
+            replay(this.mockPlugin);
 
             // API call for the server
             Bukkit.setServer(mockServer);
 
             // Just the little checks
-            assertThat(mockPlugin.getSkillManager() != null, is(true));
-            assertThat(mockPlugin.getSkillManager().getSkill("TestSkill"), is(mockSkill));
+            assertThat(this.mockPlugin.getSkillManager() != null, is(true));
+            assertThat(this.mockPlugin.getSkillManager().getSkill("TestSkill"), is(this.mockSkill));
 
             return true;
         } catch (Exception e) {

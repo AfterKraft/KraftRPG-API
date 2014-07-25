@@ -21,13 +21,13 @@ import org.bukkit.event.HandlerList;
 import org.bukkit.inventory.ItemStack;
 
 import com.afterkraft.kraftrpg.api.entity.SkillCaster;
+import com.afterkraft.kraftrpg.api.events.entity.InsentientEvent;
 import com.afterkraft.kraftrpg.api.skills.ISkill;
 
 
-public class SkillCastEvent extends Event implements Cancellable {
+public class SkillCastEvent extends InsentientEvent implements Cancellable {
 
     private static final HandlerList handlers = new HandlerList();
-    private final SkillCaster entity;
     private final ISkill skill;
     private double manaCost;
     private double healthCost;
@@ -37,7 +37,7 @@ public class SkillCastEvent extends Event implements Cancellable {
 
 
     public SkillCastEvent(SkillCaster caster, ISkill skill, double manaCost, double healthCost, double exhaustionCost, ItemStack reagentCost) {
-        this.entity = caster;
+        super(caster);
         this.skill = skill;
         this.manaCost = manaCost;
         this.healthCost = healthCost;
@@ -51,7 +51,7 @@ public class SkillCastEvent extends Event implements Cancellable {
     }
 
     public SkillCaster getCaster() {
-        return this.entity;
+        return (SkillCaster) this.getEntity();
     }
 
     public ISkill getSkill() {
@@ -91,11 +91,11 @@ public class SkillCastEvent extends Event implements Cancellable {
     }
 
     public ItemStack getItemCost() {
-        return reagent;
+        return this.reagent;
     }
 
     public void setItemCost(ItemStack item) {
-        reagent = item;
+        this.reagent = item;
     }
 
     @Override
@@ -108,6 +108,7 @@ public class SkillCastEvent extends Event implements Cancellable {
         this.cancelled = cancel;
     }
 
+    @Override
     public HandlerList getHandlers() {
         return handlers;
     }

@@ -18,18 +18,18 @@ package com.afterkraft.kraftrpg.api.events.skills;
 import org.bukkit.event.HandlerList;
 
 import com.afterkraft.kraftrpg.api.entity.SkillCaster;
+import com.afterkraft.kraftrpg.api.events.entity.InsentientEvent;
 import com.afterkraft.kraftrpg.api.skills.ISkill;
 
 
-public class CooldownExpireEvent {
+public class CooldownExpireEvent extends InsentientEvent {
 
     private static final HandlerList handlers = new HandlerList();
     private final ISkill skill;
-    private final SkillCaster caster;
 
     public CooldownExpireEvent(SkillCaster caster, ISkill skill) {
+        super(caster);
         this.skill = skill;
-        this.caster = caster;
     }
 
     public static HandlerList getHandlerList() {
@@ -41,9 +41,10 @@ public class CooldownExpireEvent {
     }
 
     public SkillCaster getCaster() {
-        return caster;
+        return (SkillCaster) this.getEntity();
     }
 
+    @Override
     public HandlerList getHandlers() {
         return handlers;
     }

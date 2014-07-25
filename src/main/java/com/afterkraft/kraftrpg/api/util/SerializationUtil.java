@@ -40,6 +40,7 @@ public class SerializationUtil {
         return ret;
     }
 
+    @SuppressWarnings("unchecked")
     public static Object fullyDeserializeInternal(Object o) {
         if (o instanceof Map) {
             Map<?, ?> inner = (Map<?, ?>) o;

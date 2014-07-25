@@ -75,26 +75,26 @@ public class PermissionSkill extends Skill implements Permissible {
     @Override
     public void setPermissions(Map<String, Boolean> permissions) {
         this.permissions = permissions;
-        this.permission = plugin.getServer().getPluginManager().getPermission(this.getName());
+        this.permission = this.plugin.getServer().getPluginManager().getPermission(this.getName());
         if (this.permission != null) {
-            plugin.getServer().getPluginManager().removePermission(this.permission);
+            this.plugin.getServer().getPluginManager().removePermission(this.permission);
         }
 
         this.permission = new Permission(getName(), "PermissionSkill " + getName(), this.permissions);
-        plugin.getServer().getPluginManager().addPermission(this.permission);
+        this.plugin.getServer().getPluginManager().addPermission(this.permission);
     }
 
     @Override
     public void tryLearning(Sentient being) {
         if (being.getEntity() instanceof Player) {
-            plugin.getVaultPermissions().playerAddTransient((Player) being.getEntity(), this.permission.getName());
+            this.plugin.getVaultPermissions().playerAddTransient((Player) being.getEntity(), this.permission.getName());
         }
     }
 
     @Override
     public void tryUnlearning(Sentient being) {
         if (being.getEntity() instanceof Player) {
-            plugin.getVaultPermissions().playerRemoveTransient((Player) being.getEntity(), this.permission.getName());
+            this.plugin.getVaultPermissions().playerRemoveTransient((Player) being.getEntity(), this.permission.getName());
         }
     }
 }

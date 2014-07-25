@@ -35,6 +35,7 @@ public abstract class TCValidatingPrompt implements TabCompletablePrompt {
      * @param context Context information about the conversation.
      * @return True.
      */
+    @Override
     public boolean blocksForInput(ConversationContext context) {
         return true;
     }
@@ -48,6 +49,7 @@ public abstract class TCValidatingPrompt implements TabCompletablePrompt {
      * @param input The input text from the user.
      * @return This prompt or the next Prompt in the prompt graph.
      */
+    @Override
     public Prompt acceptInput(ConversationContext context, String input) {
         if (isInputValid(context, input)) {
             return acceptValidatedInput(context, input);

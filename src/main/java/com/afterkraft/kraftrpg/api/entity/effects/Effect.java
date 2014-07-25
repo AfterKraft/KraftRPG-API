@@ -66,23 +66,23 @@ public abstract class Effect implements IEffect {
 
     @Override
     public final Skill getSkill() {
-        return skill;
+        return this.skill;
     }
 
     @Override
     public final String getName() {
-        return name;
+        return this.name;
     }
 
     @Override
     public boolean isType(EffectType queryType) {
         Validate.notNull(queryType, "Cannot check a null EffectType!");
-        return types.contains(queryType);
+        return this.types.contains(queryType);
     }
 
     @Override
     public boolean isPersistent() {
-        return persistent;
+        return this.persistent;
     }
 
     @Override
@@ -93,20 +93,20 @@ public abstract class Effect implements IEffect {
     @Override
     public void addPotionEffect(PotionEffect pEffect) {
         Validate.notNull(pEffect, "Cannot add a null PotionEffect!");
-        potionEffects.add(pEffect);
+        this.potionEffects.add(pEffect);
     }
 
     @Override
     public long getApplyTime() {
-        return applyTime;
+        return this.applyTime;
     }
 
     @Override
     public void apply(Insentient being) {
         Validate.notNull(being, "Cannot apply an effect to a null Insentient being!");
         this.applyTime = System.currentTimeMillis();
-        if (!potionEffects.isEmpty()) {
-            for (final PotionEffect pEffect : potionEffects) {
+        if (!this.potionEffects.isEmpty()) {
+            for (final PotionEffect pEffect : this.potionEffects) {
                 being.addPotionEffect(pEffect);
             }
         }
@@ -115,8 +115,8 @@ public abstract class Effect implements IEffect {
     @Override
     public void remove(Insentient being) {
         Validate.notNull(being, "Cannot remove an effect to a null Insentient being!");
-        if (!potionEffects.isEmpty()) {
-            for (final PotionEffect pEffect : potionEffects) {
+        if (!this.potionEffects.isEmpty()) {
+            for (final PotionEffect pEffect : this.potionEffects) {
                 being.removePotionEffect(pEffect.getType());
             }
         }
@@ -124,7 +124,7 @@ public abstract class Effect implements IEffect {
 
     @Override
     public int hashCode() {
-        return name.hashCode();
+        return this.name.hashCode();
     }
 
     @Override
@@ -139,11 +139,11 @@ public abstract class Effect implements IEffect {
             return false;
         }
         final Effect other = (Effect) obj;
-        if (name == null) {
+        if (this.name == null) {
             if (other.name != null) {
                 return false;
             }
-        } else if (!name.equals(other.name)) {
+        } else if (!this.name.equals(other.name)) {
             return false;
         }
         return true;

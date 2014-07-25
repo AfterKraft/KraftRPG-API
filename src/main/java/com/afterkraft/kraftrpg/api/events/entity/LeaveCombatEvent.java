@@ -42,17 +42,18 @@ public class LeaveCombatEvent extends Event {
     }
 
     public Insentient getBeing() {
-        return being;
+        return this.being;
     }
 
     public WeakHashMap<LivingEntity, EnterCombatReason> getCombatMap() {
-        return combatMap;
+        return this.combatMap;
     }
 
     public LeaveCombatReason getReason() {
-        return reason;
+        return this.reason;
     }
 
+    @Override
     public HandlerList getHandlers() {
         return handlers;
     }

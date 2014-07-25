@@ -44,6 +44,7 @@ public class ChampionRegainHealthEvent extends InsentientRegainHealthEvent {
         return (Champion) super.getEntity();
     }
 
+    @Override
     public HandlerList getHandlers() {
         return handlers;
     }

@@ -40,6 +40,8 @@ public class ItemSkillRequirement implements SkillRequirement {
         }
     }
 
+
+    @Override
     public boolean isSatisfied(SkillCaster caster) {
         return true;
     }
