@@ -13,30 +13,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.afterkraft.kraftrpg.api.entity.effects;
+package com.afterkraft.kraftrpg.api.effects.common;
 
-import java.util.concurrent.Delayed;
-
-import com.afterkraft.kraftrpg.api.entity.Insentient;
+import com.afterkraft.kraftrpg.api.effects.Periodic;
 
 /**
- * Represents an effect that is being managed by KraftRPG. This is a utility
- * object used by
- * {@link com.afterkraft.kraftrpg.api.entity.effects.EffectManager}
+ * Represents a healing effect that heals the affected
+ * {@link com.afterkraft.kraftrpg.api.entity.Insentient}
  */
-public interface Managed extends Delayed {
+public interface Healing extends Periodic {
 
     /**
-     * Return the instance of the {@link IEffect}
+     * Return the amount of health being healed to the insentient being this
+     * effect is applied to
      * 
-     * @return the Effect
+     * @return the health to heal per tick
      */
-    public IEffect getEffect();
+    public double getTickHealth();
 
     /**
-     * Return the IEntity attached to this Managed
+     * Set the health to heal per tick
      * 
-     * @return the IEntity
+     * @param tickHealth health to heal per tick
+     * @throws IllegalArgumentException If the health is negative
      */
-    public Insentient getSentientBeing();
+    public void setTickHealth(double tickHealth);
 }

@@ -44,6 +44,7 @@ public class RoleChangeEvent extends RoleEvent implements Cancellable {
         return handlers;
     }
 
+    @Override
     public HandlerList getHandlers() {
         return handlers;
     }

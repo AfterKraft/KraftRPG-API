@@ -15,27 +15,30 @@
  */
 package com.afterkraft.kraftrpg.api.events.roles;
 
-import org.bukkit.event.Event;
-
 import com.afterkraft.kraftrpg.api.entity.Sentient;
+import com.afterkraft.kraftrpg.api.events.entity.InsentientEvent;
 import com.afterkraft.kraftrpg.api.roles.Role;
 
 
-public abstract class RoleEvent extends Event {
+public abstract class RoleEvent extends InsentientEvent {
     private final Role rpgRole;
-    private final Sentient being;
 
-    public RoleEvent(Sentient being, Role rpgRole) {
+    protected RoleEvent(Sentient being, Role rpgRole) {
+        super(being);
         this.rpgRole = rpgRole;
-        this.being = being;
     }
 
     public final Role getRole() {
         return this.rpgRole;
     }
 
+    @Override
+    public Sentient getEntity() {
+        return (Sentient) super.getEntity();
+    }
+
     public final Sentient getSentientBeing() {
-        return this.being;
+        return (Sentient) this.getEntity();
     }
 
 }

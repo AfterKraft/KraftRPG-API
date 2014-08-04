@@ -52,6 +52,11 @@ public interface ISkill {
      */
     public ConfigurationSection getDefaultConfig();
 
+    /**
+     * Gets an immutable collection of the {@link SkillSetting}s used by this
+     * Skill. This should be absolute
+     * @return
+     */
     public Collection<SkillSetting> getUsedConfigNodes();
 
     /**
@@ -107,16 +112,6 @@ public interface ISkill {
      * @return true if the receiver is in range
      */
     public boolean isInMessageRange(SkillCaster broadcaster, Champion receiver);
-
-    /**
-     * Attempts to damage the defending LivingEntity, this allows for various
-     * protection plugins to cancel damage events.
-     * 
-     * @param attacker attempting to deal the damage
-     * @param defending entity being damaged
-     * @return true if the damage check was successful
-     */
-    public boolean damageCheck(Insentient attacker, LivingEntity defending);
 
     public int hashCode();
 

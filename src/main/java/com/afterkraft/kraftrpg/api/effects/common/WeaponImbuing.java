@@ -13,27 +13,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.afterkraft.kraftrpg.api.entity.effects;
+package com.afterkraft.kraftrpg.api.effects.common;
 
-/**
- * Represents a healing effect that heals the affected
- * {@link com.afterkraft.kraftrpg.api.entity.Insentient}
- */
-public interface Heal extends Periodic {
+import org.bukkit.inventory.ItemStack;
 
-    /**
-     * Return the amount of health being healed to the insentient being this
-     * effect is applied to
-     * 
-     * @return the health to heal per tick
-     */
-    public double getTickHealth();
+import com.afterkraft.kraftrpg.api.entity.Insentient;
+
+public interface WeaponImbuing extends Imbuing {
 
     /**
-     * Set the health to heal per tick
-     * 
-     * @param tickHealth health to heal per tick
-     * @throws IllegalArgumentException If the health is negative
+     * Apply the effect to the ItemStack
+     *
+     * @param itemStack
+     * @return
      */
-    public void setTickHealth(double tickHealth);
+    public boolean applyToWeapon(ItemStack itemStack);
+
+    /**
+     * A
+     * @param victim
+     * @param attacker
+     * @param weapon
+     */
+    public void onEntityHit(Insentient victim, Insentient attacker, ItemStack weapon);
+
+    public int getHitsLeft();
 }

@@ -13,43 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.afterkraft.kraftrpg.api.entity.effects;
+package com.afterkraft.kraftrpg.api.effects;
 
-import com.afterkraft.kraftrpg.api.entity.SkillCaster;
+import com.afterkraft.kraftrpg.api.entity.Insentient;
 
 /**
  * An effect that will expire after a certain amount of time passing by.
  */
 public interface Expirable extends IEffect, Timed {
-
-    /**
-     * Get the message that should be sent to players when this effect is
-     * applied
-     * 
-     * @return the message when this effect is applied
-     */
-    public String getApplyText();
-
-    /**
-     * Set the message that is sent to players when this effect is applied
-     * 
-     * @param text that will show up when this effect is applied
-     */
-    public void setApplyText(String text);
-
-    /**
-     * Get the message that should be sent to players when this effect expires
-     * 
-     * @return the message when this effect expires
-     */
-    public String getExpireText();
-
-    /**
-     * Set the message that is sent to players when this effect expires
-     * 
-     * @param text that will show up when this effect expires
-     */
-    public void setExpireText(String text);
 
     /**
      * Fetch the duration of this Expirable Effect.
@@ -91,13 +62,6 @@ public interface Expirable extends IEffect, Timed {
      * 
      * @return the SkillCaster applying this effect
      */
-    public SkillCaster getApplier();
+    public Insentient getApplier();
 
-    /**
-     * Sets the applier of this expirable effect.
-     *
-     * @param caster The caster applying this effect.
-     * @throws IllegalArgumentException If the caster is null
-     */
-    public void setApplier(SkillCaster caster);
 }

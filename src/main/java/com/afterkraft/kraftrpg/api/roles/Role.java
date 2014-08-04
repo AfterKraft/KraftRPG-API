@@ -525,6 +525,18 @@ public final class Role {
         return this.description;
     }
 
+    /**
+     * Checks if this Role can gain experience from the provided type
+     *
+     * @param type The type of experience to check
+     * @return True if the type of experience can be gained
+     * @throws IllegalArgumentException If the type is null
+     */
+    public boolean canGainExperience(ExperienceType type) {
+        Validate.notNull(type, "Cannot check a null ExperienceType!");
+        return this.allowedExperience.contains(type);
+    }
+
     @Override
     public int hashCode() {
         final int PRIME = 31;

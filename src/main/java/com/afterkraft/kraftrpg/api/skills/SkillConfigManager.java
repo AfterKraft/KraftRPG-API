@@ -30,74 +30,211 @@ import com.afterkraft.kraftrpg.api.roles.Role;
 
 public interface SkillConfigManager extends Manager {
 
+    /**
+     * Attempts to reload all skill settings. This will cause all linked
+     * {@link Role}s to be reconfigured with any updated skill settings.
+     */
     public void reload();
 
+    /**
+     * Saves the current skill settings from memory to file.
+     */
     public void saveSkillConfig();
 
-    public Configuration getClassConfig(String name);
+    public Configuration getRoleSkillConfig(String name);
 
-    public void addClassSkillSettings(String roleName, String skillName, ConfigurationSection section);
+    public void addRoleSkillSettings(String roleName, String skillName, ConfigurationSection section);
 
     public void loadSkillDefaults(ISkill skill);
 
-    public void setClassDefaults();
+    /**
+     * Applies a customized skill configuration for the specified skill and
+     * skill caster. The provided configuration section should be completely
+     * filled with the correct defaults the skill may call on. Uses for this
+     * method include applying custom skill settings when an ItemStack is
+     * granting a specific skill use.
+     *
+     * @param skill   The skill to set the custom defaults for
+     * @param caster  The caster to use these defaults
+     * @param section The section of skill settings for the caster's next skill
+     *                use
+     * @throws IllegalArgumentException If the skill is null
+     * @throws IllegalArgumentException If the caster is null
+     * @throws IllegalArgumentException If the section is null or empty
+     */
+    public void addTemporarySkillConfigurations(ISkill skill, SkillCaster caster, ConfigurationSection section);
 
-    //------------------------//
-    // Data retrieval methods //
-    //------------------------//
+    /**
+     * Clears all custom skill settings after use. This is used for cleaning up
+     * the provided skill defaults for a caster's use.
+     *
+     * @param caster
+     */
+    public void clearTemporarySkillConfigurations(SkillCaster caster);
 
-    public String getRaw(ISkill skill, String setting, String def);
+    /**
+     * Gets the global {@link ISkill} setting defined by the String setting.
+     *
+     * @param skill   The skill to get the settings of
+     * @param setting The node to use
+     * @return The Boolean value found at the configured node
+     * @throws IllegalArgumentException If the skill is null
+     * @throws IllegalArgumentException If the setting is null
+     * @throws IllegalStateException    If the setting was not configured with a
+     *                                  default
+     */
+    public String getRawString(ISkill skill, String setting);
 
-    public String getRaw(ISkill skill, SkillSetting setting, String def);
+    /**
+     * Gets the global {@link ISkill} setting defined by the {@link SkillSetting} setting.
+     *
+     * @param skill   The skill to get the settings of
+     * @param setting The node to use
+     * @return The Boolean value found at the configured node
+     * @throws IllegalArgumentException If the skill is null
+     * @throws IllegalArgumentException If the setting is null
+     * @throws IllegalStateException    If the setting was not configured with a
+     *                                  default
+     */
+    public String getRawString(ISkill skill, SkillSetting setting);
 
-    public Boolean getRaw(ISkill skill, SkillSetting setting, boolean def);
+    /**
+     * Gets the global {@link ISkill} setting defined by the {@link SkillSetting} setting.
+     *
+     * @param skill   The skill to get the settings of
+     * @param setting The node to use
+     * @return The Boolean value found at the configured node
+     * @throws IllegalArgumentException If the skill is null
+     * @throws IllegalArgumentException If the setting is null
+     * @throws IllegalStateException    If the setting was not configured with a
+     *                                  default
+     */
+    public Boolean getRawBoolean(ISkill skill, SkillSetting setting);
 
-    public Boolean getRaw(ISkill skill, String setting, boolean def);
+    /**
+     * Gets the global {@link ISkill} setting defined by the String setting.
+     *
+     * @param skill   The skill to get the settings of
+     * @param setting The node to use
+     * @return The Boolean value found at the configured node
+     * @throws IllegalArgumentException If the skill is null
+     * @throws IllegalArgumentException If the setting is null
+     * @throws IllegalStateException    If the setting was not configured with a
+     *                                  default
+     */
+    public Boolean getRawBoolean(ISkill skill, String setting);
 
+    /**
+     * Gets the global {@link ISkill}'s setting keys.
+     *
+     * @param skill   The skill to get the settings of
+     * @param setting The node to use
+     * @return The Boolean value found at the configured node
+     * @throws IllegalArgumentException If the skill is null
+     * @throws IllegalArgumentException If the setting is null
+     * @throws IllegalStateException    If the setting was not configured with a
+     *                                  default
+     */
     public Set<String> getRawKeys(ISkill skill, String setting);
+
+    /**
+     * Checks if the queried skill has a default for the desired {@link SkillSetting}
+     *
+     * @param skill   The skill to check the default configurations of
+     * @param setting The setting node to check if it is configured
+     * @return True if the setting for the skill has been set in the default
+     * configurations
+     * @throws IllegalArgumentException If the skill is null
+     * @throws IllegalArgumentException If the setting is null
+     */
+    public boolean isSettingConfigured(ISkill skill, SkillSetting setting);
+
+    /**
+     * Checks if the queried skill has a default for the desired {@link SkillSetting}
+     *
+     * @param skill   The skill to check the default configurations of
+     * @param setting The setting node to check if it is configured
+     * @return True if the setting for the skill has been set in the default
+     * configurations
+     * @throws IllegalArgumentException If the skill is null
+     * @throws IllegalArgumentException If the setting is null
+     */
+    public boolean isSettingConfigured(ISkill skill, String setting);
+
+    public Object getSetting(Role role, ISkill skill, SkillSetting setting);
 
     public Object getSetting(Role role, ISkill skill, String setting);
 
-    public int getSetting(Role role, ISkill skill, String setting, int def);
+    public int getIntSetting(Role role, ISkill skill, SkillSetting setting);
 
-    public double getSetting(Role role, ISkill skill, String setting, double def);
+    public int getIntSetting(Role role, ISkill skill, String setting);
 
-    public String getSetting(Role role, ISkill skill, String setting, String def);
+    public double getDoubleSetting(Role role, ISkill skill, SkillSetting setting);
 
-    public Boolean getSetting(Role role, ISkill skill, String setting, boolean def);
+    public double getDoubleSetting(Role role, ISkill skill, String setting);
 
-    public List<String> getSetting(Role role, ISkill skill, String setting, List<String> def);
+    public String getStringSetting(Role role, ISkill skill, SkillSetting setting);
 
-    public ItemStack getSettingItem(Role role, ISkill skill, String setting, ItemStack def);
+    public String getStringSetting(Role role, ISkill skill, String setting);
+
+    public Boolean getBooleanSetting(Role role, ISkill skill, SkillSetting setting);
+
+    public Boolean getBooleanSetting(Role role, ISkill skill, String setting);
+
+    public List<String> getStringListSetting(Role role, ISkill skill, SkillSetting setting);
+
+    public List<String> getStringListSetting(Role role, ISkill skill, String setting);
+
+    public ItemStack getItemStackSetting(Role role, ISkill skill, SkillSetting setting);
+
+    public ItemStack getItemStackSetting(Role role, ISkill skill, String setting);
+
+    public Set<String> getRootKeys(Role role, ISkill skill);
 
     public Set<String> getSettingKeys(Role role, ISkill skill, String setting);
+
+    public Set<String> getSettingKeys(Role role, ISkill skill, SkillSetting setting);
+
+    public Set<String> getUseSettingKeys(SkillCaster caster, ISkill skill, SkillSetting setting);
 
     public Set<String> getUseSettingKeys(SkillCaster caster, ISkill skill, String setting);
 
     public List<String> getUseSettingKeys(SkillCaster caster, ISkill skill);
 
-    public int getLevel(Sentient being, ISkill skill, int def);
+    public int getLevel(Sentient being, ISkill skill);
 
-    public int getUseSetting(SkillCaster caster, ISkill skill, SkillSetting setting, int def, boolean lower);
+    public int getLevel(Sentient being, ISkill skill, int defaultSetting);
 
-    public String getUseSetting(SkillCaster caster, ISkill skill, SkillSetting setting, String def);
+    public Object getUsedSetting(SkillCaster caster, ISkill skill, SkillSetting setting);
 
-    public double getUseSetting(SkillCaster caster, ISkill skill, SkillSetting setting, double def, boolean lower);
+    public Object getUsedSetting(SkillCaster caster, ISkill skill, String setting);
 
-    public boolean getUseSetting(SkillCaster caster, ISkill skill, SkillSetting setting, boolean def);
+    public int getUsedIntSetting(SkillCaster caster, ISkill skill, SkillSetting setting);
 
-    public ItemStack getUseSettingItem(SkillCaster caster, ISkill skill, SkillSetting setting, ItemStack def);
+    public int getUsedIntSetting(SkillCaster caster, ISkill skill, String setting);
 
-    public int getUseSetting(SkillCaster caster, ISkill skill, String setting, int def, boolean lower);
+    public double getUsedDoubleSetting(SkillCaster caster, ISkill skill, SkillSetting setting);
 
-    public double getUseSetting(SkillCaster caster, ISkill skill, String setting, double def, boolean lower);
+    public double getUsedDoubleSetting(SkillCaster caster, ISkill skill, String setting);
 
-    public boolean getUseSetting(SkillCaster caster, ISkill skill, String setting, boolean def);
+    public boolean getUsedBooleanSetting(SkillCaster caster, ISkill skill, SkillSetting setting);
 
-    public String getUseSetting(SkillCaster caster, ISkill skill, String setting, String def);
+    public boolean getUsedBooleanSetting(SkillCaster caster, ISkill skill, String setting);
 
-    public List<String> getUseSetting(SkillCaster caster, ISkill skill, String setting, List<String> def);
+    public String getUsedStringSetting(SkillCaster caster, ISkill skill, SkillSetting setting);
 
-    public ItemStack getUseSettingItem(SkillCaster caster, ISkill skill, String setting, ItemStack def);
+    public String getUsedStringSetting(SkillCaster caster, ISkill skill, String setting);
+
+    public List<?> getUsedListSetting(SkillCaster caster, ISkill skill, SkillSetting setting);
+
+    public List<?> getUsedListSetting(SkillCaster caster, ISkill skill, String setting);
+
+    public List<String> getUsedStringListSetting(SkillCaster caster, ISkill skill, SkillSetting setting);
+
+    public List<String> getUsedStringListSetting(SkillCaster caster, ISkill skill, String setting);
+
+    public ItemStack getUsedItemStackSetting(SkillCaster caster, ISkill skill, SkillSetting setting);
+
+    public ItemStack getUsedItemStackSetting(SkillCaster caster, ISkill skill, String setting);
 
 }

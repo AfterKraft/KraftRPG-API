@@ -13,11 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.afterkraft.kraftrpg.api.skills;
+package com.afterkraft.kraftrpg.api.skills.common;
 
 import java.util.Collection;
-import java.util.EnumSet;
+import java.util.HashSet;
 import java.util.Map;
+
+import com.google.common.collect.ImmutableMap;
+import org.apache.commons.lang.Validate;
 
 import org.bukkit.configuration.Configuration;
 import org.bukkit.entity.Entity;
@@ -28,6 +31,9 @@ import com.afterkraft.kraftrpg.api.RPGPlugin;
 import com.afterkraft.kraftrpg.api.entity.Champion;
 import com.afterkraft.kraftrpg.api.entity.Sentient;
 import com.afterkraft.kraftrpg.api.entity.SkillCaster;
+import com.afterkraft.kraftrpg.api.skills.Skill;
+import com.afterkraft.kraftrpg.api.skills.SkillSetting;
+import com.afterkraft.kraftrpg.api.skills.common.Permissible;
 
 /**
  * PermissionSkill allows setting any other Plugin's permission to become a
@@ -36,7 +42,7 @@ import com.afterkraft.kraftrpg.api.entity.SkillCaster;
  * <p/>
  * PermissionSkill can apply Permissions with both true and false
  */
-public class PermissionSkill extends Skill implements Permissible {
+public final class PermissionSkill extends Skill implements Permissible {
     private Map<String, Boolean> permissions;
     private Permission permission;
 
@@ -61,7 +67,7 @@ public class PermissionSkill extends Skill implements Permissible {
 
     @Override
     public Collection<SkillSetting> getUsedConfigNodes() {
-        return EnumSet.noneOf(SkillSetting.class);
+        return new HashSet<SkillSetting>();
     }
 
     @Override
@@ -74,6 +80,7 @@ public class PermissionSkill extends Skill implements Permissible {
 
     @Override
     public void setPermissions(Map<String, Boolean> permissions) {
+        Validate.notNull(permissions, "Cannot set the permissions to a null mapping!");
         this.permissions = permissions;
         this.permission = this.plugin.getServer().getPluginManager().getPermission(this.getName());
         if (this.permission != null) {
@@ -85,7 +92,13 @@ public class PermissionSkill extends Skill implements Permissible {
     }
 
     @Override
+    public Map<String, Boolean> getPermissions() {
+        return ImmutableMap.copyOf(this.permissions);
+    }
+
+    @Override
     public void tryLearning(Sentient being) {
+        Validate.notNull(being, "Cannot tell a null Sentient being to learn a skill!");
         if (being.getEntity() instanceof Player) {
             this.plugin.getVaultPermissions().playerAddTransient((Player) being.getEntity(), this.permission.getName());
         }
@@ -93,6 +106,7 @@ public class PermissionSkill extends Skill implements Permissible {
 
     @Override
     public void tryUnlearning(Sentient being) {
+        Validate.notNull(being, "Cannot tell a null Sentient being to unlearn a skill!");
         if (being.getEntity() instanceof Player) {
             this.plugin.getVaultPermissions().playerRemoveTransient((Player) being.getEntity(), this.permission.getName());
         }

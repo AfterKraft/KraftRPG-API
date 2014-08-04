@@ -71,17 +71,17 @@ public class FixedPointTest {
 
         num = FixedPoint.valueOf(5);
         num2 = FixedPoint.valueOf(7);
-        num.add(num2);
+        num = num.add(num2);
         assertEquals(12, num.doubleValue(), exact);
 
         num2 = FixedPoint.valueOf(-30);
-        num.add(num2);
+        num = num.add(num2);
         assertEquals(-18, num.doubleValue(), exact);
 
         num = FixedPoint.valueOf(5);
-        num.add(7);
+        num = num.add(7);
         assertEquals(12, num.doubleValue(), exact);
-        num.add(-30);
+        num = num.add(-30);
         assertEquals(-18, num.doubleValue(), exact);
     }
 
@@ -92,24 +92,24 @@ public class FixedPointTest {
         // Adding doubles
         num = FixedPoint.valueOf(2.125);
 
-        num.add(3D);
+        num = num.add(3D);
         assertEquals(5.125, num.doubleValue(), ulp);
-        num.add(0.1);
+        num = num.add(0.1);
         assertEquals(5.225, num.doubleValue(), ulp);
-        num.add(0.1);
+        num = num.add(0.1);
         assertEquals(5.325, num.doubleValue(), ulp);
-        num.add(0.1);
+        num = num.add(0.1);
         assertEquals(5.425, num.doubleValue(), ulp2);
-        num.add(0.1);
+        num = num.add(0.1);
         assertEquals(5.525, num.doubleValue(), ulp2);
-        num.add(0.1);
+        num = num.add(0.1);
         assertEquals(5.625, num.doubleValue(), ulp2);
 
-        num.add(30.3);
+        num = num.add(30.3);
         assertEquals(35.925, num.doubleValue(), ulp * 3);
 
         num2 = FixedPoint.valueOf(16777216f);
-        num.add(num2);
+        num = num.add(num2);
         assertEquals(16777216 + 35.925, num.doubleValue(), ulp * 3);
     }
 
@@ -120,24 +120,24 @@ public class FixedPointTest {
         // Adding an ulp changes the Raw by one
         long prevRaw = num.rawValue();
 
-        num.add(ulp);
+        num = num.add(ulp);
         assertEquals(++prevRaw, num.rawValue());
         assertEquals(123.456 + ulp, num.doubleValue(), ulp / 2);
 
-        num.add(ulp);
+        num = num.add(ulp);
         assertEquals(++prevRaw, num.rawValue());
         assertEquals(123.456 + ulp + ulp, num.doubleValue(), ulp / 2);
 
-        num.add(ulp);
+        num = num.add(ulp);
         assertEquals(++prevRaw, num.rawValue());
         assertEquals(123.456 + ulp + ulp + ulp, num.doubleValue(), ulp / 2);
 
         // Adding less than half an ulp stays the same
-        num.add(ulp / 8 * 3);
+        num = num.add(ulp / 8 * 3);
         assertEquals(prevRaw, num.rawValue());
 
         // Adding more than half an ulp increases
-        num.add(ulp / 8 * 5);
+        num = num.add(ulp / 8 * 5);
         assertEquals(++prevRaw, num.rawValue());
     }
 
@@ -147,17 +147,17 @@ public class FixedPointTest {
 
         num = FixedPoint.valueOf(5);
         num2 = FixedPoint.valueOf(7);
-        num.sub(num2);
+        num = num.sub(num2);
         assertEquals(-2, num.doubleValue(), exact);
 
         num2 = FixedPoint.valueOf(-30);
-        num.sub(num2);
+        num = num.sub(num2);
         assertEquals(28, num.doubleValue(), exact);
 
         num = FixedPoint.valueOf(5);
-        num.sub(7);
+        num = num.sub(7);
         assertEquals(-2, num.doubleValue(), exact);
-        num.sub(-30);
+        num = num.sub(-30);
         assertEquals(28, num.doubleValue(), exact);
     }
 
@@ -167,17 +167,17 @@ public class FixedPointTest {
 
         num = FixedPoint.valueOf(5);
         num2 = FixedPoint.valueOf(7);
-        num.mult(num2);
+        num = num.mult(num2);
         assertEquals(35, num.doubleValue(), exact);
 
         num2 = FixedPoint.valueOf(-30);
-        num.mult(num2);
+        num = num.mult(num2);
         assertEquals(-1050, num.doubleValue(), exact);
 
         num = FixedPoint.valueOf(5);
-        num.mult(7);
+        num = num.mult(7);
         assertEquals(35, num.doubleValue(), exact);
-        num.mult(-30);
+        num = num.mult(-30);
         assertEquals(-1050, num.doubleValue(), exact);
     }
 
@@ -186,20 +186,20 @@ public class FixedPointTest {
         FixedPoint num, num2;
 
         num = FixedPoint.valueOf(-5);
-        num.div(-5);
+        num = num.div(-5);
         assertEquals(1, num.doubleValue(), ulp);
 
         num = FixedPoint.valueOf(5);
-        num.div(num);
+        num = num.div(num);
         assertEquals(1, num.doubleValue(), ulp);
 
         num = FixedPoint.valueOf(5);
         num2 = FixedPoint.valueOf(7);
-        num.div(num2);
+        num = num.div(num2);
         assertEquals(5 / 7.0, num.doubleValue(), ulp);
 
         num = FixedPoint.valueOf(-30);
-        num.div(5 / 7.0);
+        num = num.mult(7.0).div(5);
         assertEquals(-30 * 7 / 5.0, num.doubleValue(), ulp);
     }
 }

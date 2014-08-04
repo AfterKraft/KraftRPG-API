@@ -13,14 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.afterkraft.kraftrpg.api.skills;
+package com.afterkraft.kraftrpg.api.skills.common;
 
 import java.util.Map;
 
 import com.afterkraft.kraftrpg.api.entity.Sentient;
+import com.afterkraft.kraftrpg.api.skills.ISkill;
 
 /**
- * Represents a Permissive Skill
+ * Represents a bundle of permisson nodes that are granted as though they are
+ * skills. This has uses for granting/denying permissions from external
+ * plugins.
  */
 public interface Permissible extends ISkill {
 
@@ -30,6 +33,14 @@ public interface Permissible extends ISkill {
      * @param permissions to apply
      */
     public void setPermissions(Map<String, Boolean> permissions);
+
+    /**
+     * Gets a copy of the current permissions attached to this permissible
+     * skill.
+     *
+     * @return A copy of the permission mappings
+     */
+    public Map<String, Boolean> getPermissions();
 
     /**
      * Try to learn this permission skill's permission node along with any

@@ -13,9 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.afterkraft.kraftrpg.api.entity.effects;
+package com.afterkraft.kraftrpg.api.effects;
 
 import java.util.concurrent.Delayed;
+
+import com.afterkraft.kraftrpg.api.effects.common.DamagingEffect;
+import com.afterkraft.kraftrpg.api.effects.common.HealingEffect;
 
 /**
  * A utility interface to deal with effects that implement
@@ -23,18 +26,15 @@ import java.util.concurrent.Delayed;
  * provides the following to implement Timed:
  * <ul>
  * <li>{@link Expirable}</li>
- * <li>{@link com.afterkraft.kraftrpg.api.entity.effects.Periodic}</li>
+ * <li>{@link Periodic}</li>
  * </ul>
  * and from the default implementations:
  * <ul>
  * <li>{@link ExpirableEffect}</li>
- * <li>{@link com.afterkraft.kraftrpg.api.entity.effects.PeriodicEffect}</li>
- * <li>
- * {@link PeriodicExpirableEffect}</li>
- * <li>{@link com.afterkraft.kraftrpg.api.entity.effects.PeriodicDamageEffect}
- * </li>
- * <li>
- * {@link com.afterkraft.kraftrpg.api.entity.effects.PeriodicHealingEffect}</li>
+ * <li>{@link PeriodicEffect}</li>
+ * <li>{@link PeriodicExpirableEffect}</li>
+ * <li>{@link DamagingEffect}</li>
+ * <li>{@link HealingEffect}</li>
  * </ul>
  */
 public interface Timed extends Delayed {

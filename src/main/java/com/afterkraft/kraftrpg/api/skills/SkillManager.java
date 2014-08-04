@@ -21,6 +21,7 @@ import org.bukkit.entity.Entity;
 
 import com.afterkraft.kraftrpg.api.Manager;
 import com.afterkraft.kraftrpg.api.entity.SkillCaster;
+import com.afterkraft.kraftrpg.api.skills.common.Permissible;
 
 
 public interface SkillManager extends Manager {
@@ -39,7 +40,7 @@ public interface SkillManager extends Manager {
      * @throws java.lang.IllegalArgumentException if the name is null
      * @return true if a Skill exists by the name
      */
-    public boolean hasSkill(String skillName) throws IllegalArgumentException;
+    public boolean hasSkill(String skillName);
 
     /**
      * Returns a skill from it's name If the skill is not in the skill mapping
@@ -52,7 +53,7 @@ public interface SkillManager extends Manager {
 
     /**
      * Attempt to load the requested skill name that is to represent a
-     * {@link com.afterkraft.kraftrpg.api.skills.Permissible} skill.
+     * {@link Permissible} skill.
      * 
      * @param name to create
      * @return true if successful

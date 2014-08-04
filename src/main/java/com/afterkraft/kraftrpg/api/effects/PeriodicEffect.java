@@ -13,14 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.afterkraft.kraftrpg.api.entity.effects;
+package com.afterkraft.kraftrpg.api.effects;
 
-import com.afterkraft.kraftrpg.api.RPGPlugin;
 import com.afterkraft.kraftrpg.api.skills.Skill;
 
 /**
  * Standard implementation of a
- * {@link com.afterkraft.kraftrpg.api.entity.effects.Periodic} effect that
+ * {@link com.afterkraft.kraftrpg.api.effects.Periodic} effect that
  * performs some operations with
  * {@link #tick(com.afterkraft.kraftrpg.api.entity.Insentient)}
  */
@@ -29,13 +28,8 @@ public abstract class PeriodicEffect extends Effect implements Periodic {
     private final long period;
     protected long lastTickTime = 0;
 
-    public PeriodicEffect(Skill skill, String name, long period) {
+    protected PeriodicEffect(Skill skill, String name, long period) {
         super(skill, name);
-        this.period = period;
-    }
-
-    public PeriodicEffect(RPGPlugin plugin, String name, long period) {
-        super(plugin, null, name);
         this.period = period;
     }
 

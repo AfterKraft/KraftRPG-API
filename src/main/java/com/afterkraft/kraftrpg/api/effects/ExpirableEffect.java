@@ -13,82 +13,51 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.afterkraft.kraftrpg.api.entity.effects;
+package com.afterkraft.kraftrpg.api.effects;
 
+import java.util.Collection;
+import java.util.Set;
 import java.util.concurrent.Delayed;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.lang.Validate;
 
-import com.afterkraft.kraftrpg.api.RPGPlugin;
+import org.bukkit.potion.PotionEffect;
+
 import com.afterkraft.kraftrpg.api.entity.Insentient;
-import com.afterkraft.kraftrpg.api.entity.SkillCaster;
 import com.afterkraft.kraftrpg.api.skills.Skill;
 
 /**
  * Implementation of an
  * {@link Expirable} based on
- * {@link com.afterkraft.kraftrpg.api.entity.effects.Effect}
+ * {@link com.afterkraft.kraftrpg.api.effects.Effect}
  */
 public class ExpirableEffect extends Effect implements Expirable {
 
     private final long duration;
-    protected SkillCaster applier;
-    private String expireText;
-    private String applyText;
+    protected final Insentient applier;
     private long expireTime;
 
-    public ExpirableEffect(Skill skill, SkillCaster applier, String name, long duration, EffectType... types) {
-        this(skill, skill.plugin, applier, name, duration, null, null, types);
+    public ExpirableEffect(Skill skill, Insentient applier, String name, long duration, Collection<EffectType> types) {
+        this(skill, applier, name, duration, null, null, types);
     }
 
-    public ExpirableEffect(Skill skill, RPGPlugin plugin, SkillCaster applier, String name, long duration, String applyText, String expireText, EffectType... types) {
-        super(plugin, skill, name, types);
+    public ExpirableEffect(Skill skill, Insentient applier, String name, long duration, String applyText, String expireText, Collection<EffectType> types) {
+        this(skill, applier, name, null, false, types, applyText, expireText, duration);
+    }
+
+    public ExpirableEffect(Skill skill, Insentient applier, String name, Set<PotionEffect> potionEffects, boolean persistent, Collection<EffectType> types, String applyText, String expireText, long duration) {
+        super(skill, name, potionEffects, persistent, types, applyText, expireText);
         Validate.notNull(applier, "Cannot create an ExpirableEffect with a null applier!");
         Validate.isTrue(duration > 0, "Cannot have a negative Effect duration!");
-        this.duration = duration;
         this.applier = applier;
-        this.expireText = expireText;
-        this.applyText = applyText;
-    }
-
-    public ExpirableEffect(Skill skill, SkillCaster applier, String name, long duration, String applyText, String expireText, EffectType... types) {
-        this(skill, skill.plugin, applier, name, duration, applyText, expireText, types);
-    }
-
-    public ExpirableEffect(Skill skill, RPGPlugin plugin, SkillCaster applier, String name, long duration, EffectType... types) {
-        this(skill, plugin, applier, name, duration, null, null, types);
-    }
-
-    @Override
-    public long getApplyTime() {
-        return this.applyTime;
+        this.duration = duration;
     }
 
     @Override
     public void apply(Insentient being) {
         super.apply(being);
         this.expireTime = this.applyTime + this.duration;
-    }
-
-    @Override
-    public String getApplyText() {
-        return this.applyText;
-    }
-
-    @Override
-    public void setApplyText(String text) {
-        this.applyText = text;
-    }
-
-    @Override
-    public String getExpireText() {
-        return this.expireText;
-    }
-
-    @Override
-    public void setExpireText(String text) {
-        this.expireText = text;
     }
 
     @Override
@@ -117,14 +86,8 @@ public class ExpirableEffect extends Effect implements Expirable {
     }
 
     @Override
-    public SkillCaster getApplier() {
+    public Insentient getApplier() {
         return this.applier;
-    }
-
-    @Override
-    public void setApplier(SkillCaster champion) {
-        Validate.notNull(champion, "Cannot set a null caster as the applier for an Effect!");
-        this.applier = champion;
     }
 
     @Override

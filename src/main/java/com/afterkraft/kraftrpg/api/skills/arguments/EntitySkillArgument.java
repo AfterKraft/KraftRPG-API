@@ -34,11 +34,12 @@ public class EntitySkillArgument<E extends Entity> extends SkillArgument {
 
     protected E matchedEntity = null;
 
+    public EntitySkillArgument(double maxDistance, Class<E> clazz) {
+        this(maxDistance, clazz, null);
+    }
+
     public EntitySkillArgument(double maxDistance, Class<E> clazz, Predicate<E> condition) {
-        super(true);
-        this.maxDistance = maxDistance;
-        this.condition = condition;
-        this.clazz = clazz;
+        this(true, maxDistance, clazz, condition);
     }
 
     protected EntitySkillArgument(boolean required, double maxDistance, Class<E> clazz, Predicate<E> condition) {
@@ -80,7 +81,7 @@ public class EntitySkillArgument<E extends Entity> extends SkillArgument {
             }
             @SuppressWarnings("unchecked")
             // just checked it
-            E ent = (E) entity;
+                    E ent = (E) entity;
 
             // TODO change to middle for livings??
             Location otherMiddle = entity.getLocation();

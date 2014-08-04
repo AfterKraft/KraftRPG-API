@@ -23,8 +23,12 @@ import java.util.ListIterator;
 import java.util.Map;
 import java.util.Set;
 
+import com.google.common.base.Function;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import org.apache.commons.lang.Validate;
+
+import org.bukkit.event.entity.EntityDamageEvent.DamageModifier;
 
 import com.afterkraft.kraftrpg.api.entity.party.PartyManager;
 import com.afterkraft.kraftrpg.api.skills.ISkill;
@@ -39,6 +43,7 @@ public final class ExternalProviderRegistration {
     private static RPGPlugin plugin;
 
     private static Map<String, StorageBackend> storageBackends = new HashMap<String, StorageBackend>();
+    private static Map<DamageModifier, Function<? super Double, Double>> modifiers = new HashMap<DamageModifier, Function<? super Double, Double>>();
     private static StorageFrontendFactory storageFrontend = new StorageFrontendFactory.DefaultFactory();
     private static Set<String> providedSkillNames = new HashSet<String>();
     private static List<ISkill> providedSkills = new ArrayList<ISkill>();
@@ -65,6 +70,12 @@ public final class ExternalProviderRegistration {
         if (pluginEnabled) {
             throw new LateRegistrationException("KraftRPG is already loaded and enabled. Please do your registrations in onLoad().");
         }
+    }
+
+    public static <T extends Function<? super Double, Double>> void registerDamageModifierFunction(DamageModifier modifier, T function) {
+        check();
+        Validate.notNull(modifier, "Cannot register a null modifier");
+        modifiers.put(modifier, function);
     }
 
     /**
@@ -95,9 +106,7 @@ public final class ExternalProviderRegistration {
 
     public static void registerPartyManager(PartyManager manager) {
         check();
-        if (manager == null) {
-            throw new IllegalArgumentException("Attempt to register a null PartyManager");
-        }
+        Validate.notNull(manager, "Attempt to register a null PartyManager");
         partyManager = manager;
     }
 
@@ -177,6 +186,7 @@ public final class ExternalProviderRegistration {
         pluginEnabled = true;
         providedSkills = ImmutableList.copyOf(providedSkills);
         storageBackends = ImmutableMap.copyOf(storageBackends);
+        modifiers = ImmutableMap.copyOf(modifiers);
     }
 
     public static List<ISkill> getRegisteredSkills() {

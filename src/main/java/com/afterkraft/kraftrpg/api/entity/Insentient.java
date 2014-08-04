@@ -23,8 +23,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-import com.afterkraft.kraftrpg.api.entity.effects.EffectType;
-import com.afterkraft.kraftrpg.api.entity.effects.IEffect;
+import com.afterkraft.kraftrpg.api.effects.EffectType;
+import com.afterkraft.kraftrpg.api.effects.IEffect;
 import com.afterkraft.kraftrpg.api.listeners.DamageWrapper;
 import com.afterkraft.kraftrpg.api.skills.ISkill;
 import com.afterkraft.kraftrpg.api.util.FixedPoint;
@@ -32,7 +32,7 @@ import com.afterkraft.kraftrpg.api.util.FixedPoint;
 /**
  * Represents an Insentient being that allows retreival of the being's status
  * and handles the basic
- * {@link com.afterkraft.kraftrpg.api.entity.effects.IEffect}.
+ * {@link com.afterkraft.kraftrpg.api.effects.IEffect}.
  * 
  * It is important to note that an Insentient, and it's subclasses, may not
  * always be attached to a {@link org.bukkit.entity.LivingEntity}. This is why
@@ -53,6 +53,7 @@ public interface Insentient extends IEntity {
      * @return the attached LivingEntity, if there is no LivingEntity, then
      *         null.
      */
+    @Override
     public LivingEntity getEntity();
 
     /**
@@ -252,7 +253,7 @@ public interface Insentient extends IEntity {
 
     /**
      * Returns (if available) the named
-     * {@link com.afterkraft.kraftrpg.api.entity.effects.IEffect}
+     * {@link com.afterkraft.kraftrpg.api.effects.IEffect}
      * 
      * @param name the name of the desired Effect
      * @return the named Effect if not null
@@ -314,7 +315,7 @@ public interface Insentient extends IEntity {
 
     /**
      * Check if this Insentient being has an
-     * {@link com.afterkraft.kraftrpg.api.entity.effects.IEffect} with the
+     * {@link com.afterkraft.kraftrpg.api.effects.IEffect} with the
      * given name.
      * 
      * @param name of the effect
@@ -325,7 +326,7 @@ public interface Insentient extends IEntity {
 
     /**
      * Check if this being has an effect of the given
-     * {@link com.afterkraft.kraftrpg.api.entity.effects.EffectType}.
+     * {@link com.afterkraft.kraftrpg.api.effects.EffectType}.
      * 
      * @param type of effect
      * @return true if this being has effect of the queried type
@@ -388,6 +389,8 @@ public interface Insentient extends IEntity {
      * @param message to be sent
      */
     public void sendMessage(String message);
+
+    public void sendMessage(String message, Object... args);
 
     /**
      * Check if this insentient is ignoring messages from the specified

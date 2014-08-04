@@ -50,8 +50,6 @@ public enum SkillCastResult {
      * The skill can't be used in combat, but you're in combat.
      */
     NO_COMBAT,
-    // ------
-    // Stalled
     /**
      * A Stalled use of the skill was started. <b>(Success)</b>
      */
@@ -65,7 +63,6 @@ public enum SkillCastResult {
      * skill.
      */
     STALLING_FAILURE,
-    // ------
     /**
      * The Global Cooldown is active.
      */
@@ -74,6 +71,9 @@ public enum SkillCastResult {
      * The skill is on cooldown.
      */
     ON_COOLDOWN,
+    /**
+     * The skill is warming up before casting.
+     */
     ON_WARMUP,
     /**
      * The skill failed.
@@ -94,7 +94,7 @@ public enum SkillCastResult {
     /**
      * The skill has decided that the caster isn't allowed to target this.
      */
-    UNTARGETTABLE_TARGET,
+    UNTARGETABLE_TARGET,
     /**
      * The skill has sent its own message, and the caller should not print
      * one.

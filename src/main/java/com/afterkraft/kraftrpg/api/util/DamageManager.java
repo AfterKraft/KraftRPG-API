@@ -21,16 +21,21 @@ import org.bukkit.configuration.Configuration;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Egg;
+import org.bukkit.entity.EnderPearl;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Fireball;
+import org.bukkit.entity.LargeFireball;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.SmallFireball;
 import org.bukkit.entity.Snowball;
+import org.bukkit.entity.ThrownExpBottle;
+import org.bukkit.entity.WitherSkull;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.inventory.ItemStack;
 
 import com.afterkraft.kraftrpg.api.Manager;
-import com.afterkraft.kraftrpg.api.entity.Champion;
 import com.afterkraft.kraftrpg.api.entity.Insentient;
 import com.afterkraft.kraftrpg.api.entity.Monster;
 
@@ -58,7 +63,7 @@ public interface DamageManager extends Manager {
      */
     public double getHighestItemDamage(Insentient being, Insentient defender, double defaultDamage);
 
-    public double getHighestProjectileDamage(Champion champion, ProjectileType type);
+    public double getHighestProjectileDamage(Insentient champion, ProjectileType type);
 
     /**
      * Request the default damage for the provided {@link org.bukkit.Material}
@@ -172,7 +177,12 @@ public interface DamageManager extends Manager {
     public enum ProjectileType {
         ARROW,
         EGG,
-        SNOWBALL;
+        SNOWBALL,
+        SMALL_FIREBALL,
+        LARGE_FIREBALL,
+        ENDERPEARL,
+        WITHER_SKULL,
+        THROWN_EXP_BOTTLE;
 
         public static ProjectileType valueOf(Entity entity) {
             if (entity instanceof Arrow) {
@@ -181,6 +191,16 @@ public interface DamageManager extends Manager {
                 return SNOWBALL;
             } else if (entity instanceof Egg) {
                 return EGG;
+            } else if (entity instanceof LargeFireball) {
+                return LARGE_FIREBALL;
+            } else if (entity instanceof WitherSkull) {
+                return WITHER_SKULL;
+            } else if (entity instanceof SmallFireball) {
+                return SMALL_FIREBALL;
+            } else if (entity instanceof EnderPearl) {
+                return ENDERPEARL;
+            } else if (entity instanceof ThrownExpBottle) {
+                return THROWN_EXP_BOTTLE;
             } else {
                 return null;
             }

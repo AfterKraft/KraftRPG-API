@@ -15,6 +15,7 @@
  */
 package com.afterkraft.kraftrpg.api.entity;
 
+import java.util.List;
 import java.util.UUID;
 
 import org.bukkit.Location;
@@ -34,6 +35,13 @@ public interface IEntity {
      * @return the Bukkit name of this Entity
      */
     public String getName();
+
+    /**
+     * Get the cleansed name for this Entity. It may be a customized name.
+     *
+     * @return The customized display name for this Entity
+     */
+    public String getDisplayName();
 
     /**
      * Check if the attached {@link org.bukkit.entity.LivingEntity} is still
@@ -89,6 +97,17 @@ public interface IEntity {
      * @return the location of the being.
      */
     public Location getLocation();
+
+    /**
+     * Gets a list of entities within a bounding box centered around this
+     * IEntity.
+     *
+     * @param x Half the size of the box along the x axis
+     * @param y Half the size of the box along the y axis
+     * @param z Half the size of the box along the z axis
+     * @return The List of entities nearby
+     */
+    public List<Entity> getNearbyEntities(double x, double y, double z);
 
     /**
      * Shortcut method for {@link #getLocation()#getWorld()}

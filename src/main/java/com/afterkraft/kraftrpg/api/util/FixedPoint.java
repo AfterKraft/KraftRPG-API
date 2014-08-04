@@ -18,7 +18,7 @@ package com.afterkraft.kraftrpg.api.util;
 /**
  * Represents a fixed point value for Champion experience.
  */
-public final class FixedPoint extends Number {
+public final class FixedPoint extends Number implements Cloneable {
     private static final long serialVersionUID = -6313518365999400363L;
 
     private static final int FRAC_SIZE = 16;
@@ -38,12 +38,21 @@ public final class FixedPoint extends Number {
         this(0);
     }
 
+    @Override
+    public FixedPoint clone() {
+        try {
+            return (FixedPoint) super.clone();
+        } catch (CloneNotSupportedException e) {
+            return null;
+        }
+    }
+
     private FixedPoint(long init) {
         this.val = init;
     }
 
     public static FixedPoint valueOf(int number) {
-        return new FixedPoint(toFixed(number));
+        return fromRaw(toFixed(number));
     }
 
     private static long toFixed(int param) {
@@ -51,7 +60,7 @@ public final class FixedPoint extends Number {
     }
 
     public static FixedPoint valueOf(long number) {
-        return new FixedPoint(toFixed(number));
+        return fromRaw(toFixed(number));
     }
 
     private static long toFixed(long param) {
@@ -59,7 +68,7 @@ public final class FixedPoint extends Number {
     }
 
     public static FixedPoint valueOf(double number) {
-        return new FixedPoint(toFixed(number));
+        return fromRaw(toFixed(number));
     }
 
     private static long toFixed(double param) {
@@ -70,108 +79,108 @@ public final class FixedPoint extends Number {
         return new FixedPoint(raw);
     }
 
-    public void add(int param) {
-        addRaw(toFixed(param));
+    public FixedPoint add(int param) {
+        return addRaw(toFixed(param));
     }
 
-    public void addRaw(long fixedVal) {
-        this.val += fixedVal;
+    public FixedPoint addRaw(long fixedVal) {
+        return fromRaw(this.val + fixedVal);
     }
 
-    public void add(long param) {
-        addRaw(toFixed(param));
+    public FixedPoint add(long param) {
+        return addRaw(toFixed(param));
     }
 
-    public void add(double param) {
-        addRaw(toFixed(param));
+    public FixedPoint add(double param) {
+        return addRaw(toFixed(param));
     }
 
-    public void add(FixedPoint param) {
-        addRaw(param.val);
+    public FixedPoint add(FixedPoint param) {
+        return addRaw(param.val);
     }
 
-    public void sub(int param) {
-        subRaw(toFixed(param));
+    public FixedPoint sub(int param) {
+        return subRaw(toFixed(param));
     }
 
-    public void subRaw(long fixedVal) {
-        this.val -= fixedVal;
+    public FixedPoint subRaw(long fixedVal) {
+        return fromRaw(this.val - fixedVal);
     }
 
-    public void sub(double param) {
-        sub(toFixed(param));
+    public FixedPoint sub(double param) {
+        return sub(toFixed(param));
     }
 
-    public void sub(long param) {
-        subRaw(toFixed(param));
+    public FixedPoint sub(long param) {
+        return subRaw(toFixed(param));
     }
 
-    public void sub(FixedPoint param) {
-        subRaw(param.val);
+    public FixedPoint sub(FixedPoint param) {
+         return subRaw(param.val);
     }
 
-    public void mult(int param) {
-        this.val *= param;
+    public FixedPoint mult(int param) {
+        return fromRaw(this.val * param);
     }
 
-    public void mult(long param) {
-        this.val *= param;
+    public FixedPoint mult(long param) {
+        return fromRaw(this.val * param);
     }
 
-    public void mult(double param) {
-        this.val *= param;
+    public FixedPoint mult(double param) {
+        return multRaw(toFixed(param));
     }
 
-    public void mult(FixedPoint param) {
-        multRaw(param.val);
+    public FixedPoint mult(FixedPoint param) {
+        return multRaw(param.val);
     }
 
-    public void multRaw(long fixedVal) {
+    public FixedPoint multRaw(long fixedVal) {
         long t = this.val * fixedVal;
         t += HALF;
-        this.val = (t >> FRAC_SIZE);
+        return fromRaw(t >> FRAC_SIZE);
     }
 
-    public void div(int param) {
-        this.val /= param;
+    public FixedPoint div(int param) {
+        return fromRaw(this.val / param);
     }
 
-    public void div(long param) {
-        this.val /= param;
+    public FixedPoint div(long param) {
+        return fromRaw(this.val / param);
     }
 
-    public void div(double param) {
-        this.val /= param;
+    public FixedPoint div(double param) {
+        return divRaw(toFixed(param));
     }
 
-    public void div(FixedPoint param) {
-        divRaw(param.val);
+    public FixedPoint div(FixedPoint param) {
+        return divRaw(param.val);
     }
 
-    public void divRaw(long fixedVal) {
+    public FixedPoint divRaw(long fixedVal) {
         long t = this.val << FRAC_SIZE;
         t += (fixedVal >> 1);
-        this.val = t / fixedVal;
+        return fromRaw(t / fixedVal);
     }
 
-    public void setRaw(long fixedVal) {
-        this.val = fixedVal;
+    public FixedPoint setRaw(long fixedVal) {
+        return fromRaw(fixedVal);
     }
 
-    public void set(int param) {
-        this.val = toFixed(param);
+    public FixedPoint set(int param) {
+        return fromRaw(toFixed(param));
     }
 
-    public void set(long param) {
-        this.val = toFixed(param);
+    public FixedPoint set(long param) {
+        return fromRaw(toFixed(param));
     }
 
-    public void set(double param) {
-        this.val = toFixed(param);
+    public FixedPoint set(double param) {
+        return fromRaw(toFixed(param));
     }
 
-    public void set(FixedPoint param) {
-        this.val = param.val;
+    public FixedPoint set(FixedPoint param) {
+        return fromRaw(param.val);
     }
 
     @Override

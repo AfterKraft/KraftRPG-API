@@ -15,6 +15,7 @@
  */
 package com.afterkraft.kraftrpg.api.events.roles;
 
+import org.bukkit.Location;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.HandlerList;
 
@@ -26,18 +27,25 @@ import com.afterkraft.kraftrpg.api.util.FixedPoint;
 public class ExperienceChangeEvent extends RoleEvent implements Cancellable {
 
     private static final HandlerList handlers = new HandlerList();
+    private final Location location;
     private final FixedPoint original;
     private FixedPoint change;
     private boolean cancelled = false;
 
-    public ExperienceChangeEvent(Sentient insentient, Role role, FixedPoint original, FixedPoint change) {
+    public ExperienceChangeEvent(Sentient insentient, Location location, Role role, FixedPoint original, FixedPoint change) {
         super(insentient, role);
+        this.location = location;
+
         this.original = original;
         this.change = change;
     }
 
     public static HandlerList getHandlerList() {
         return handlers;
+    }
+
+    public Location getLocation() {
+        return this.location;
     }
 
     public FixedPoint getFromExperience() {
@@ -49,7 +57,11 @@ public class ExperienceChangeEvent extends RoleEvent implements Cancellable {
     }
 
     public void setChange(FixedPoint experience) {
-        this.change = experience;
+        this.change = experience.clone();
+    }
+
+    public FixedPoint getFinalExperience() {
+        return this.original.add(this.change);
     }
 
     @Override

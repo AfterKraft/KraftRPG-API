@@ -17,7 +17,6 @@ package com.afterkraft.kraftrpg.api.skills;
 
 
 public enum SkillType {
-    // === Types with code effects ===
     /**
      * Grants a non-health benefit to allies.
      * 

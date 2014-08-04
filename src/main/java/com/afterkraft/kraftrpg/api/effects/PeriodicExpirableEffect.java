@@ -13,15 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.afterkraft.kraftrpg.api.entity.effects;
+package com.afterkraft.kraftrpg.api.effects;
 
-import com.afterkraft.kraftrpg.api.RPGPlugin;
-import com.afterkraft.kraftrpg.api.entity.SkillCaster;
+import java.util.Collection;
+import java.util.Set;
+
+import org.bukkit.potion.PotionEffect;
+
+import com.afterkraft.kraftrpg.api.entity.Insentient;
 import com.afterkraft.kraftrpg.api.skills.Skill;
 
 /**
  * Standard implementation of a
- * {@link com.afterkraft.kraftrpg.api.entity.effects.Periodic} and
+ * {@link com.afterkraft.kraftrpg.api.effects.Periodic} and
  * {@link Expirable}. This effect
  * will expire after the designated time by {@link #getExpiry()}
  */
@@ -30,20 +34,18 @@ public abstract class PeriodicExpirableEffect extends ExpirableEffect implements
     private final long period;
     protected long lastTickTime = 0;
 
-    public PeriodicExpirableEffect(Skill skill, SkillCaster applier, String name, long period, long duration, EffectType... types) {
-        this(skill, skill.plugin, applier, name, period, duration, null, null, types);
+    protected PeriodicExpirableEffect(Skill skill, Insentient applier, String name, long duration, Collection<EffectType> types, long period) {
+        super(skill, applier, name, duration, types);
+        this.period = period;
     }
 
-    public PeriodicExpirableEffect(Skill skill, RPGPlugin plugin, SkillCaster applier, String name, long period, long duration, EffectType... types) {
-        this(skill, plugin, applier, name, period, duration, null, null, types);
+    protected PeriodicExpirableEffect(Skill skill, Insentient applier, String name, long duration, String applyText, String expireText, Collection<EffectType> types, long period) {
+        super(skill, applier, name, duration, applyText, expireText, types);
+        this.period = period;
     }
 
-    public PeriodicExpirableEffect(Skill skill, SkillCaster applier, String name, long period, long duration, String applyText, String expireText, EffectType... types) {
-        this(skill, skill.plugin, applier, name, period, duration, applyText, expireText, types);
-    }
-
-    public PeriodicExpirableEffect(Skill skill, RPGPlugin plugin, SkillCaster applier, String name, long period, long duration, String applyText, String expireText, EffectType... types) {
-        super(skill, plugin, applier, name, duration, applyText, expireText, types);
+    protected PeriodicExpirableEffect(Skill skill, Insentient applier, String name, Set<PotionEffect> potionEffects, boolean persistent, Collection<EffectType> types, String applyText, String expireText, long duration, long period) {
+        super(skill, applier, name, potionEffects, persistent, types, applyText, expireText, duration);
         this.period = period;
     }
 

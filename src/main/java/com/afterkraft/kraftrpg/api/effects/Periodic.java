@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.afterkraft.kraftrpg.api.entity.effects;
+package com.afterkraft.kraftrpg.api.effects;
 
 import com.afterkraft.kraftrpg.api.entity.Insentient;
 
@@ -22,7 +22,7 @@ import com.afterkraft.kraftrpg.api.entity.Insentient;
  * {@link com.afterkraft.kraftrpg.api.entity.Insentient} per tick as defined
  * by {@link #tick(com.afterkraft.kraftrpg.api.entity.Insentient)}
  */
-public interface Periodic extends IEffect, Timed {
+public interface  Periodic extends IEffect, Timed {
 
     /**
      * Returns the last time the effect ticked
