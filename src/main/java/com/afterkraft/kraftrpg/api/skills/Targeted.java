@@ -19,7 +19,7 @@ import org.bukkit.entity.Entity;
 
 import com.afterkraft.kraftrpg.api.entity.SkillCaster;
 
-public interface Targeted<E extends Entity> extends Active {
+public interface Targeted extends Active {
 
 
     /**
@@ -30,5 +30,5 @@ public interface Targeted<E extends Entity> extends Active {
      * @param target The found target for this targeted skill
      * @return final SkillCastResults
      */
-    public SkillCastResult useSkill(SkillCaster caster, E target);
+    public SkillCastResult useSkill(SkillCaster caster, Entity target);
 }

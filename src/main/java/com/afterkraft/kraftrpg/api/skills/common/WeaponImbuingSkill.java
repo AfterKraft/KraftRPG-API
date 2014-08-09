@@ -17,7 +17,6 @@ package com.afterkraft.kraftrpg.api.skills.common;
 
 import com.afterkraft.kraftrpg.api.RPGPlugin;
 import com.afterkraft.kraftrpg.api.effects.common.Imbuing;
-import com.afterkraft.kraftrpg.api.effects.common.ProjectileShotEffect;
 import com.afterkraft.kraftrpg.api.effects.common.WeaponImbuingEffect;
 import com.afterkraft.kraftrpg.api.entity.SkillCaster;
 import com.afterkraft.kraftrpg.api.skills.ActiveSkill;
@@ -28,10 +27,10 @@ import com.afterkraft.kraftrpg.api.skills.SkillCastResult;
  * {@link WeaponImbuingEffect}. This is a common Skill that is intended
  * to be extended and override the following:
  * <ul>
- *     <li>{@link #addImbueEffect(SkillCaster, int)}</li>
+ * <li>{@link #addImbueEffect(SkillCaster, int)}</li>
  * </ul>
  * Extended skills do not need to override {@link #useSkill(SkillCaster)}
- *
+ * <p/>
  * The purpose of this skill is to simplify applying a customized {@link Imbuing}
  * effect on a weapon and handle the various uses cases of events and such.
  */

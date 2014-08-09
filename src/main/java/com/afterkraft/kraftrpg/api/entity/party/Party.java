@@ -36,7 +36,7 @@ public interface Party {
 
     /**
      * Return an unmodifiable list of Champions within this Party.
-     * 
+     *
      * @return an unmodifiable list of Champions in this party.
      */
     public List<PartyMember> getMembers();
@@ -46,10 +46,10 @@ public interface Party {
      * {@link com.afterkraft.kraftrpg.api.entity.Champion}. This will check if
      * the Champion is not already in a party, and if they are, the Champion's
      * party will not be changed.
-     * 
+     *
      * @param member being added to this party.
      * @return true if successful, false if the Champion could not be added
-     *         for any reason
+     * for any reason
      * @throws IllegalArgumentException If the member is null
      */
     public boolean addMember(PartyMember member);
@@ -61,10 +61,10 @@ public interface Party {
      * Champion will be added to this party. If not, the same behavior of
      * {@link #addMember(com.afterkraft.kraftrpg.api.entity.PartyMember)} will
      * take place.
-     * 
+     *
      * @param member being added to this party.
      * @param forced if true, ignore any existing parties the Champion is part
-     *            of and re-assign the Champion to this party.
+     *               of and re-assign the Champion to this party.
      * @return true if successful, false if the Champion could not be added
      * @throws IllegalArgumentException If the member is null
      */
@@ -77,7 +77,7 @@ public interface Party {
      * that may be cancelled for various reasons. If the event is cancelled,
      * the {@link com.afterkraft.kraftrpg.api.entity.PartyMember} is not
      * removed.
-     * 
+     *
      * @param member to remove
      * @throws IllegalArgumentException if the member is null
      */
@@ -88,10 +88,10 @@ public interface Party {
      * {@link #removeMember(com.afterkraft.kraftrpg.api.entity.PartyMember)},
      * except that the PartyLeaveEvent being cancelled will have no effect if
      * forced is true
-     * 
+     *
      * @param member to remove
      * @param forced true if the member will be removed without considering
-     *            the PartyLeaveEvent's cancellation
+     *               the PartyLeaveEvent's cancellation
      * @throws IllegalArgumentException If the member is null
      */
     public void removeMember(PartyMember member, boolean forced);
@@ -101,7 +101,7 @@ public interface Party {
      * result in a message to the
      * {@link com.afterkraft.kraftrpg.api.entity.PartyMember} noting of the
      * invite taking place.
-     * 
+     *
      * @param member to invite
      * @throws IllegalArgumentException If the member is null
      */
@@ -109,14 +109,13 @@ public interface Party {
 
     /**
      * Removes the invite for the member, if it exists.
-     * 
+     *
      * @param member to un-invite.
      * @throws IllegalArgumentException If the member is null
      */
     public void removeMemberInvite(PartyMember member);
 
     /**
-     *
      * @param member
      * @return
      * @throws IllegalArgumentException If the member is null
@@ -126,44 +125,38 @@ public interface Party {
     public int size();
 
     /**
-     *
      * @param message
      * @param announce
      */
     public void messageParty(String message, boolean announce);
 
     /**
-     *
      * @return
      */
     public boolean emptyParty();
 
     /**
-     *
      * @param member
      * @return
      */
     public boolean hasMember(PartyMember member);
 
     /**
-     *
      * @return
      */
     public List<UUID> getPartyMemberUUIDs();
 
     /**
-     *
      * @param member
      */
     public void logOffMember(PartyMember member);
 
     /**
-     *
      * @param experience
      * @param type
      * @param location
      * @throws IllegalArgumentException If the expiernece is null
-     * @throws IllegalARgumentException If the type is null
+     * @throws IllegalArgumentException If the type is null
      * @throws IllegalArgumentException If the Location is null
      */
     public void gainExperience(FixedPoint experience, ExperienceType type, Location location);

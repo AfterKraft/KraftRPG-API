@@ -39,7 +39,7 @@ public interface CombatTracker extends Manager {
 
     /**
      * Adds the target to be in combat with the attacker.
-     * 
+     *
      * @param target
      * @param attacker
      * @param reason
@@ -53,10 +53,10 @@ public interface CombatTracker extends Manager {
      * Performs the leave combat operation on the target by the attacker.
      * Depending on the reason, the attacker may be granted some buffs or
      * something.
-     * 
-     * @param target leaving combat
+     *
+     * @param target   leaving combat
      * @param attacker that was in combat with the target
-     * @param reason for leaving combat
+     * @param reason   for leaving combat
      * @throws IllegalArgumentException if the target is null
      * @throws IllegalArgumentException if the attacker is null
      * @throws IllegalArgumentException if the reason is null
@@ -76,21 +76,21 @@ public interface CombatTracker extends Manager {
 
     /**
      * Check if the being is in combat with any entity for any reason.
-     * 
+     *
      * @param being to check
      * @return true if the being is in combat with any other attacker for any
-     *         reason
+     * reason
      * @throws IllegalArgumentException if the being is null
      */
     public boolean isInCombat(Insentient being);
 
     /**
      * Check directly if the target is in combat with the potentialAttacker.
-     * 
-     * @param target to check
+     *
+     * @param target            to check
      * @param potentialAttacker that might be in combat
      * @return true if the target is still in combat with the
-     *         potentialAttacker
+     * potentialAttacker
      * @throws IllegalArgumentException if the target is null
      * @throws IllegalArgumentException if the potentialAttacker is null
      */

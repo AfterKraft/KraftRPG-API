@@ -38,15 +38,6 @@ public final class FixedPoint extends Number implements Cloneable {
         this(0);
     }
 
-    @Override
-    public FixedPoint clone() {
-        try {
-            return (FixedPoint) super.clone();
-        } catch (CloneNotSupportedException e) {
-            return null;
-        }
-    }
-
     private FixedPoint(long init) {
         this.val = init;
     }
@@ -77,6 +68,15 @@ public final class FixedPoint extends Number implements Cloneable {
 
     public static FixedPoint fromRaw(long raw) {
         return new FixedPoint(raw);
+    }
+
+    @Override
+    public FixedPoint clone() {
+        try {
+            return (FixedPoint) super.clone();
+        } catch (CloneNotSupportedException e) {
+            return null;
+        }
     }
 
     public FixedPoint add(int param) {
@@ -116,7 +116,7 @@ public final class FixedPoint extends Number implements Cloneable {
     }
 
     public FixedPoint sub(FixedPoint param) {
-         return subRaw(param.val);
+        return subRaw(param.val);
     }
 
     public FixedPoint mult(int param) {
@@ -214,7 +214,7 @@ public final class FixedPoint extends Number implements Cloneable {
 
     /**
      * Converts to string with custom rounding
-     * 
+     *
      * @param maxDecimalPlaces maximum decimal places to display
      * @return String representation of the number
      */

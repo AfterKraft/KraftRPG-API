@@ -62,7 +62,7 @@ public abstract class ActiveSkill extends Skill implements Active {
     /**
      * Set the SkillArguments to be used in parsing, and returned with
      * {@link #getArgument(int)} and {@link #getSkillArguments()}.
-     * 
+     *
      * @param arguments to set
      */
     protected void setSkillArguments(SkillArgument... arguments) {
@@ -71,10 +71,10 @@ public abstract class ActiveSkill extends Skill implements Active {
 
     /**
      * {@inheritDoc}
-     * 
+     * <p/>
      * As not all skills will want this method, subclasses should override it
      * if desired.
-     * 
+     *
      * @param caster
      */
     @Override

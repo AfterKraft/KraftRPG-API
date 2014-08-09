@@ -24,7 +24,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import org.apache.commons.lang.Validate;
 
@@ -102,7 +101,7 @@ public abstract class Skill implements ISkill {
      * Attempts to damage the defending LivingEntity, this allows for various
      * protection plugins to cancel damage events.
      *
-     * @param attacking attempting to deal the damage
+     * @param attacking  attempting to deal the damage
      * @param defenderLE entity being damaged
      * @return true if the damage check was successful
      */
@@ -135,7 +134,7 @@ public abstract class Skill implements ISkill {
      * This is useful for not having to override {@link #getDefaultConfig()}
      * and {@link #getUsedConfigNodes()}
      *
-     * @param node The skill setting node
+     * @param node  The skill setting node
      * @param value The value to set the setting at
      * @throws IllegalArgumentException If the setting is null
      */
@@ -156,7 +155,7 @@ public abstract class Skill implements ISkill {
      * This is useful for not having to override {@link #getDefaultConfig()}
      * and {@link #getUsedConfigNodes()}
      *
-     * @param node The skill setting node
+     * @param node  The skill setting node
      * @param value The value to set the setting at
      * @throws IllegalArgumentException If the setting is null
      */
@@ -174,7 +173,7 @@ public abstract class Skill implements ISkill {
      * This is useful for not having to override {@link #getDefaultConfig()}
      * and {@link #getUsedConfigNodes()}
      *
-     * @param node The skill setting node
+     * @param node  The skill setting node
      * @param value The value to set the setting at
      * @throws IllegalArgumentException If the setting is null
      */
@@ -194,7 +193,7 @@ public abstract class Skill implements ISkill {
      * This is useful for not having to override {@link #getDefaultConfig()}
      * and {@link #getUsedConfigNodes()}
      *
-     * @param node The skill setting node
+     * @param node  The skill setting node
      * @param value The value to set the setting at
      * @throws IllegalArgumentException If the setting is null
      */
@@ -211,7 +210,7 @@ public abstract class Skill implements ISkill {
      * This is useful for not having to override {@link #getDefaultConfig()}
      * and {@link #getUsedConfigNodes()}
      *
-     * @param node The skill setting node
+     * @param node  The skill setting node
      * @param value The value to set the setting at
      * @throws IllegalArgumentException If the setting is null
      */
@@ -231,7 +230,7 @@ public abstract class Skill implements ISkill {
      * This is useful for not having to override {@link #getDefaultConfig()}
      * and {@link #getUsedConfigNodes()}
      *
-     * @param node The skill setting node
+     * @param node  The skill setting node
      * @param value The value to set the setting at
      * @throws IllegalArgumentException If the setting is null
      */
@@ -248,7 +247,7 @@ public abstract class Skill implements ISkill {
      * This is useful for not having to override {@link #getDefaultConfig()}
      * and {@link #getUsedConfigNodes()}
      *
-     * @param node The skill setting node
+     * @param node  The skill setting node
      * @param value The value to set the setting at
      * @throws IllegalArgumentException If the setting is null
      */
@@ -269,7 +268,7 @@ public abstract class Skill implements ISkill {
      * This is useful for not having to override {@link #getDefaultConfig()}
      * and {@link #getUsedConfigNodes()}
      *
-     * @param node The skill setting node
+     * @param node  The skill setting node
      * @param value The value to set the setting at
      * @throws IllegalArgumentException If the setting is null
      */
@@ -288,7 +287,7 @@ public abstract class Skill implements ISkill {
      * This is useful for not having to override {@link #getDefaultConfig()}
      * and {@link #getUsedConfigNodes()}
      *
-     * @param node The skill setting node
+     * @param node  The skill setting node
      * @param value The value to set the setting at
      * @throws IllegalArgumentException If the setting is null
      */
@@ -309,7 +308,7 @@ public abstract class Skill implements ISkill {
      * This is useful for not having to override {@link #getDefaultConfig()}
      * and {@link #getUsedConfigNodes()}
      *
-     * @param node The skill setting node
+     * @param node  The skill setting node
      * @param value The value to set the setting at
      * @throws IllegalArgumentException If the setting is null
      */
@@ -322,14 +321,13 @@ public abstract class Skill implements ISkill {
     }
 
 
-
     /**
      * Sets a boolean default setting for this skill. This automatically
      * registers the provided SkillSetting node to the used settings.
      * This is useful for not having to override {@link #getDefaultConfig()}
      * and {@link #getUsedConfigNodes()}
      *
-     * @param node The skill setting node
+     * @param node  The skill setting node
      * @param value The value to set the setting at
      * @throws IllegalArgumentException If the setting is null
      */
@@ -350,7 +348,7 @@ public abstract class Skill implements ISkill {
      * This is useful for not having to override {@link #getDefaultConfig()}
      * and {@link #getUsedConfigNodes()}
      *
-     * @param node The skill setting node
+     * @param node  The skill setting node
      * @param value The value to set the setting at
      * @throws IllegalArgumentException If the setting is null
      */
@@ -368,7 +366,7 @@ public abstract class Skill implements ISkill {
      * This is useful for not having to override {@link #getDefaultConfig()}
      * and {@link #getUsedConfigNodes()}
      *
-     * @param node The skill setting node
+     * @param node  The skill setting node
      * @param value The value to set the setting at
      * @throws IllegalArgumentException If the setting is null
      */
@@ -389,7 +387,7 @@ public abstract class Skill implements ISkill {
      * This is useful for not having to override {@link #getDefaultConfig()}
      * and {@link #getUsedConfigNodes()}
      *
-     * @param node The skill setting node
+     * @param node  The skill setting node
      * @param value The value to set the setting at
      * @throws IllegalArgumentException If the setting is null
      */

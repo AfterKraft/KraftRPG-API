@@ -27,7 +27,7 @@ import com.afterkraft.kraftrpg.api.entity.Insentient;
  * with the Insentient in the event there is an Insentient being damaged for
  * any reason (including instances of CommandBlocks or
  * {@link org.bukkit.entity.Entity}).
- * 
+ * <p/>
  * This is the KraftRPG counterpart to
  * {@link org.bukkit.event.entity.EntityDamageByEntityEvent} after special
  * handling and calculations being made on the damage being dealt. It is
@@ -36,11 +36,11 @@ import com.afterkraft.kraftrpg.api.entity.Insentient;
  * entity. It is also guaranteed the {@link #getAttacker()} is not null, but
  * it is also not guaranteed that the linked
  * {@link org.bukkit.entity.LivingEntity} is not a real entity.
- * 
+ * <p/>
  * Therefore the methods provided from
  * {@link com.afterkraft.kraftrpg.api.entity.Insentient} should be the only
  * ones considered "safe" to use.
- * 
+ * <p/>
  * This is written due to the possibility of customizing entities through
  * {@link com.afterkraft.kraftrpg.api.entity.EntityManager#addEntity(com.afterkraft.kraftrpg.api.entity.IEntity)}
  * that may not be considered {@link org.bukkit.entity.LivingEntity}.
@@ -65,7 +65,7 @@ public class InsentientDamageInsentientEvent extends InsentientDamageEvent {
      * {@link org.bukkit.entity.LivingEntity} and therefor must consider to
      * use only the methods provided from
      * {@link com.afterkraft.kraftrpg.api.entity.Insentient}
-     * 
+     *
      * @return the attacking Insentient being
      */
     public Insentient getAttacker() {

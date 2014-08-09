@@ -30,7 +30,7 @@ import com.afterkraft.kraftrpg.api.events.entity.InsentientEvent;
  * handled with the Insentient in the event there is an Insentient being
  * damaged for any reason (including instances of CommandBlocks or
  * {@link org.bukkit.entity.Entity}).
- * 
+ * <p/>
  * This is the KraftRPG counterpart to
  * {@link org.bukkit.event.entity.EntityDamageEvent} after special handling
  * and calculations being made on the damage being dealt. It is guaranteed
@@ -39,7 +39,7 @@ import com.afterkraft.kraftrpg.api.events.entity.InsentientEvent;
  * Therefore the methods provided from
  * {@link com.afterkraft.kraftrpg.api.entity.Insentient} should be the only
  * ones considered "safe" to use.
- * 
+ * <p/>
  * This is written due to the possibility of customizing entities through
  * {@link com.afterkraft.kraftrpg.api.entity.EntityManager#addEntity(com.afterkraft.kraftrpg.api.entity.IEntity)}
  * that may not be considered {@link org.bukkit.entity.LivingEntity}.
@@ -69,7 +69,7 @@ public class InsentientDamageEvent extends InsentientEvent implements Cancellabl
     /**
      * Get the defending {@link com.afterkraft.kraftrpg.api.entity.Insentient}
      * that is being damaged.
-     * 
+     *
      * @return the defending Insentient being
      */
     public Insentient getDefender() {
@@ -87,7 +87,7 @@ public class InsentientDamageEvent extends InsentientEvent implements Cancellabl
     /**
      * Get the default damage (unmodified) of this event as calculated by the
      * {@link com.afterkraft.kraftrpg.api.util.DamageManager}
-     * 
+     *
      * @return the default calculated damage
      */
     public double getDefaultDamage() {
@@ -98,7 +98,7 @@ public class InsentientDamageEvent extends InsentientEvent implements Cancellabl
      * Get the final damage after other listeners have handled this event.
      * This is usually to handle for specific customizations depending on the
      * {@link org.bukkit.event.entity.EntityDamageEvent.DamageCause}
-     * 
+     *
      * @return the final damage to be inflicted on the defending Insentient
      */
     public double getFinalDamage() {
@@ -111,7 +111,7 @@ public class InsentientDamageEvent extends InsentientEvent implements Cancellabl
 
     /**
      * Set the final damage to deal on the defending Insentient being.
-     * 
+     *
      * @param finalDamage to deal to the insentient being.
      */
     public void setDamage(double finalDamage) {
@@ -126,7 +126,7 @@ public class InsentientDamageEvent extends InsentientEvent implements Cancellabl
      * Check if this damage was varied, if true, the default damage from
      * {@link #getDefaultDamage()} is that calculated varied damage. If not,
      * the damage is a precise number.
-     * 
+     *
      * @return true if KraftRPG was configured to have varied damage
      */
     public boolean isVaryingDamageEnabled() {
@@ -138,7 +138,7 @@ public class InsentientDamageEvent extends InsentientEvent implements Cancellabl
      * {@link org.bukkit.event.entity.EntityDamageEvent} and further processed
      * from KraftRPG in the event a
      * {@link com.afterkraft.kraftrpg.api.skills.ISkill} dealt damage.
-     * 
+     *
      * @return the damage cause for this event.
      */
     public DamageCause getCause() {

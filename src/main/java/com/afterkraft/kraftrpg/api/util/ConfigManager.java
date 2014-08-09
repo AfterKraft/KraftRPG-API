@@ -27,9 +27,8 @@ public interface ConfigManager {
      * SkillConfigManager and more. This will check if the file exists, if it
      * does not, it will be pulled from the defaults provided by the
      * implementation.
-     * 
+     *
      * @param config the file to check
-     * 
      */
     public void checkForConfig(File config);
 

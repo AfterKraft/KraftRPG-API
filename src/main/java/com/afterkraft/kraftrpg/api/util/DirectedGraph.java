@@ -26,24 +26,30 @@ import com.afterkraft.kraftrpg.api.CircularDependencyException;
  * allows for nodes to be removed without having to specifically loosing all
  * the children nodes of the given node. Performance is gained by utilizing
  * LinkedHashMaps as iterations are performed in virtually all operations.
- * 
+ * <p/>
  * This type of graph does not allow for cycles and actively checks for cycles
  * when
  * <ul>
  * <li>{@link #addEdge(Object, Object)}</li>
  * <li>{@link #doesCycleExist()}</li>
  * </ul>
- * 
+ *
  * @param <T>
  */
 public class DirectedGraph<T> {
-    /** Color used to mark unvisited nodes */
+    /**
+     * Color used to mark unvisited nodes
+     */
     public static final int VISIT_COLOR_WHITE = 1;
 
-    /** Color used to mark nodes as they are first visited in DFS order */
+    /**
+     * Color used to mark nodes as they are first visited in DFS order
+     */
     public static final int VISIT_COLOR_GREY = 2;
 
-    /** Color used to mark nodes after descendants are completely visited */
+    /**
+     * Color used to mark nodes after descendants are completely visited
+     */
     public static final int VISIT_COLOR_BLACK = 3;
 
     protected final LinkedHashMap<T, Vertex<T>> vertexes;
@@ -163,7 +169,7 @@ public class DirectedGraph<T> {
 
         /**
          * Has this vertex been marked during a visit
-         * 
+         *
          * @return true is visit has been called
          */
         boolean visited() {
@@ -172,7 +178,7 @@ public class DirectedGraph<T> {
 
         /**
          * Get the mark state value.
-         * 
+         *
          * @return the mark state
          */
         int getMarkState() {
@@ -181,7 +187,7 @@ public class DirectedGraph<T> {
 
         /**
          * Set the mark state to state.
-         * 
+         *
          * @param state the state
          */
         void setMarkState(int state) {
@@ -190,7 +196,6 @@ public class DirectedGraph<T> {
 
         /**
          * Visit the vertex and set the mark flag to true.
-         * 
          */
         void visit() {
             mark();
@@ -198,7 +203,6 @@ public class DirectedGraph<T> {
 
         /**
          * Set the vertex mark flag.
-         * 
          */
         void mark() {
             this.mark = true;
@@ -206,7 +210,6 @@ public class DirectedGraph<T> {
 
         /**
          * Clear the visited mark flag.
-         * 
          */
         void clearMark() {
             this.mark = false;

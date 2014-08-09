@@ -24,7 +24,7 @@ import com.afterkraft.kraftrpg.api.skills.Active;
  * a {@link com.afterkraft.kraftrpg.api.effects.common.Imbuing} effect on skill use.
  * It has a default implementation with the following common abstract skills:
  * <ul>
- *     <li>{@link ArrowSkill}</li>
+ * <li>{@link ArrowSkill}</li>
  * </ul>
  */
 public interface ImbuingSkill extends Active {
@@ -33,7 +33,7 @@ public interface ImbuingSkill extends Active {
      * Abstract callback method by all implementations to apply an {@link Imbuing}
      * effect according to the provided SkillCaster.
      *
-     * @param caster The caster using this skill.
+     * @param caster  The caster using this skill.
      * @param maxUses The configured max uses for the Imbued effect.
      */
     public void addImbueEffect(SkillCaster caster, int maxUses);

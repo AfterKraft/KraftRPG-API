@@ -31,7 +31,7 @@ public interface IEntity {
 
     /**
      * Get the Bukkit name of this Entity
-     * 
+     *
      * @return the Bukkit name of this Entity
      */
     public String getName();
@@ -46,7 +46,7 @@ public interface IEntity {
     /**
      * Check if the attached {@link org.bukkit.entity.LivingEntity} is still
      * valid and not null
-     * 
+     *
      * @return true if the LivingEntity is not null
      */
     public boolean isValid();
@@ -54,14 +54,14 @@ public interface IEntity {
     /**
      * Check if the {@link org.bukkit.entity.Entity#isValid()}. This also
      * checks if the reference of the entity {@link #isValid()}.
-     * 
+     *
      * @return true if the LivingEntity is alive and valid
      */
     public boolean isEntityValid();
 
     /**
      * Returns the Entity if the Entity {@link #isEntityValid()}.
-     * 
+     *
      * @return the linked Entity if not null
      */
     public Entity getEntity();
@@ -77,7 +77,7 @@ public interface IEntity {
      * Reset the linked Entity to the provided
      * {@link org.bukkit.entity.Entity} if the {@link java.util.UUID} match
      * for the old reference and the provided reference
-     * 
+     *
      * @param entity the Entity to re-attach this IEntity to
      * @return true if successful, false if UUID did not match
      * @throws IllegalArgumentException If the entity is null
@@ -86,14 +86,14 @@ public interface IEntity {
 
     /**
      * Returns the linked Entity's UUID provided by the server.
-     * 
+     *
      * @return the linked UUID to this entity.
      */
     public UUID getUniqueID();
 
     /**
      * Return the {@link org.bukkit.Location} of this being.
-     * 
+     *
      * @return the location of the being.
      */
     public Location getLocation();
@@ -111,7 +111,7 @@ public interface IEntity {
 
     /**
      * Shortcut method for {@link #getLocation()#getWorld()}
-     * 
+     *
      * @return the world of this being.
      */
     public World getWorld();
@@ -119,7 +119,7 @@ public interface IEntity {
     /**
      * Check if this being is on solid ground (not flying or jumping) in the
      * air
-     * 
+     *
      * @return true if the being is not in the air
      */
     public boolean isOnGround();

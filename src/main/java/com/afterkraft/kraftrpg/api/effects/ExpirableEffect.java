@@ -34,8 +34,8 @@ import com.afterkraft.kraftrpg.api.skills.Skill;
  */
 public class ExpirableEffect extends Effect implements Expirable {
 
-    private final long duration;
     protected final Insentient applier;
+    private final long duration;
     private long expireTime;
 
     public ExpirableEffect(Skill skill, Insentient applier, String name, long duration, Collection<EffectType> types) {

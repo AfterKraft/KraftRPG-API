@@ -22,9 +22,9 @@ import org.bukkit.Location;
 import org.bukkit.entity.Projectile;
 import org.bukkit.potion.PotionEffect;
 
+import com.afterkraft.kraftrpg.api.effects.EffectType;
 import com.afterkraft.kraftrpg.api.entity.Insentient;
 import com.afterkraft.kraftrpg.api.entity.SkillCaster;
-import com.afterkraft.kraftrpg.api.effects.EffectType;
 import com.afterkraft.kraftrpg.api.skills.Skill;
 
 public class ProjectileShotEffect extends ImbuingEffect implements ProjectileShot {

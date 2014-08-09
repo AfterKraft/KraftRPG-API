@@ -20,10 +20,10 @@ import java.util.Set;
 
 import org.bukkit.potion.PotionEffect;
 
-import com.afterkraft.kraftrpg.api.entity.Insentient;
 import com.afterkraft.kraftrpg.api.effects.Effect;
 import com.afterkraft.kraftrpg.api.effects.EffectType;
 import com.afterkraft.kraftrpg.api.effects.IEffect;
+import com.afterkraft.kraftrpg.api.entity.Insentient;
 import com.afterkraft.kraftrpg.api.skills.Skill;
 
 public class ImbuingEffect extends Effect implements Imbuing {

@@ -22,9 +22,9 @@ import net.milkbowl.vault.permission.Permission;
 
 import org.bukkit.plugin.Plugin;
 
+import com.afterkraft.kraftrpg.api.effects.EffectManager;
 import com.afterkraft.kraftrpg.api.entity.CombatTracker;
 import com.afterkraft.kraftrpg.api.entity.EntityManager;
-import com.afterkraft.kraftrpg.api.effects.EffectManager;
 import com.afterkraft.kraftrpg.api.entity.party.PartyManager;
 import com.afterkraft.kraftrpg.api.listeners.ListenerManager;
 import com.afterkraft.kraftrpg.api.roles.RoleManager;

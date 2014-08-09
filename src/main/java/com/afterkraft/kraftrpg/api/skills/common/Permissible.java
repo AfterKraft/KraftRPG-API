@@ -28,13 +28,6 @@ import com.afterkraft.kraftrpg.api.skills.ISkill;
 public interface Permissible extends ISkill {
 
     /**
-     * Set this permission skill to apply the specified permission mapping.
-     * 
-     * @param permissions to apply
-     */
-    public void setPermissions(Map<String, Boolean> permissions);
-
-    /**
      * Gets a copy of the current permissions attached to this permissible
      * skill.
      *
@@ -43,9 +36,16 @@ public interface Permissible extends ISkill {
     public Map<String, Boolean> getPermissions();
 
     /**
+     * Set this permission skill to apply the specified permission mapping.
+     *
+     * @param permissions to apply
+     */
+    public void setPermissions(Map<String, Boolean> permissions);
+
+    /**
      * Try to learn this permission skill's permission node along with any
      * other permissions related to this Permissible skill.
-     * 
+     *
      * @param being to learn this skill
      */
     public void tryLearning(Sentient being);
@@ -53,7 +53,7 @@ public interface Permissible extends ISkill {
     /**
      * Try to unlearn this permission skill's permission node along with any
      * other permissions related to this Permissible skill.
-     * 
+     *
      * @param being to unlearn
      */
     public void tryUnlearning(Sentient being);

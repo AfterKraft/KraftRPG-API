@@ -26,9 +26,9 @@ public interface ListenerManager extends Manager {
      * <p/>
      * The added listener must be able to initialize and shutdown in the event
      * of full plugin reload.
-     * 
+     *
      * @param listener the listener being added to the list of managed
-     *            Listeners
+     *                 Listeners
      */
     public void addListener(AbstractListener listener);
 

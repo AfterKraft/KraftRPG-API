@@ -41,9 +41,9 @@ public class Effect implements IEffect {
     private final String name;
     private final Set<PotionEffect> potionEffects;
     private final boolean persistent;
-    protected long applyTime;
     private final String applyText;
     private final String expireText;
+    protected long applyTime;
 
     public Effect(Skill skill, String name) {
         this(skill, name, null, false, null);

@@ -52,10 +52,10 @@ public final class ExternalProviderRegistration {
     /**
      * Provide a new storage frontend, or revert from another plugin's
      * override to the default.
-     * 
+     *
      * @param newQueueManager custom StorageFrontend, or null for default
      * @throws LateRegistrationException if called after KraftRPG has been
-     *             loaded
+     *                                   loaded
      */
     public static void overrideStorageFrontend(StorageFrontendFactory newQueueManager) {
         check();
@@ -81,14 +81,14 @@ public final class ExternalProviderRegistration {
     /**
      * Register a new available StorageBackend with the given configuration
      * identifiers.
-     * 
-     * @param storage Uninitialized StorageBackend instance
+     *
+     * @param storage     Uninitialized StorageBackend instance
      * @param identifiers Names it can be referenced by in config files and
-     *            commands
+     *                    commands
      * @throws LateRegistrationException if called after KraftRPG has been
-     *             loaded
-     * @throws IllegalArgumentException if no identifiers were provided; if
-     *             storage is null
+     *                                   loaded
+     * @throws IllegalArgumentException  if no identifiers were provided; if
+     *                                   storage is null
      */
     public static void registerStorageBackend(StorageBackend storage, String... identifiers) {
         check();
@@ -112,11 +112,11 @@ public final class ExternalProviderRegistration {
 
     /**
      * Register a new skill for KraftRPG to use.
-     * 
+     *
      * @param skill Skill to register
      * @return True if the skill does not have a duplicate name
      * @throws LateRegistrationException if called after KraftRPG has been
-     *             loaded
+     *                                   loaded
      */
     public static boolean registerSkill(ISkill skill) {
         check();
@@ -135,12 +135,12 @@ public final class ExternalProviderRegistration {
      * Override a previous skill registration with the given skill.
      * <p/>
      * This method will always succeed.
-     * 
+     *
      * @param skill Skill to register
      * @return True if there was a previous registration to override (NOT a
-     *         success indicator - can generally be ignored)
+     * success indicator - can generally be ignored)
      * @throws LateRegistrationException if called after KraftRPG has been
-     *             loaded
+     *                                   loaded
      */
     public static boolean overrideSkill(ISkill skill) {
         check();
@@ -167,7 +167,7 @@ public final class ExternalProviderRegistration {
     /**
      * Store the RPGPlugin, for use in checks. KraftRPG will call this in its
      * onLoad() method.
-     * 
+     *
      * @param p plugin
      */
     public static void pluginLoaded(RPGPlugin p) {

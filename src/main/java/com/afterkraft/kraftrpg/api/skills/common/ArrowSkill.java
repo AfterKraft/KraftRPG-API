@@ -26,7 +26,7 @@ import com.afterkraft.kraftrpg.api.skills.SkillCastResult;
  * {@link ProjectileShotEffect}. This is a common ArrowSkill that is intended
  * to be extended and override the following:
  * <ul>
- *     <li>{@link #addImbueEffect(SkillCaster, int)}</li>
+ * <li>{@link #addImbueEffect(SkillCaster, int)}</li>
  * </ul>
  * Extended skills do not need to override {@link #useSkill(SkillCaster)}
  */

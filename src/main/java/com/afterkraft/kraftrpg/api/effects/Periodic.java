@@ -22,11 +22,11 @@ import com.afterkraft.kraftrpg.api.entity.Insentient;
  * {@link com.afterkraft.kraftrpg.api.entity.Insentient} per tick as defined
  * by {@link #tick(com.afterkraft.kraftrpg.api.entity.Insentient)}
  */
-public interface  Periodic extends IEffect, Timed {
+public interface Periodic extends IEffect, Timed {
 
     /**
      * Returns the last time the effect ticked
-     * 
+     *
      * @return the time in milliseconds this effect was last ticked
      */
     public long getLastTickTime();
@@ -38,14 +38,14 @@ public interface  Periodic extends IEffect, Timed {
 
     /**
      * Returns whether the effect is ready for ticking
-     * 
+     *
      * @return - The ready state of this effect. DO NOT CALL IF THIS IS FALSE
      */
     public boolean isReady();
 
     /**
      * Ticks this effect on the specified entity.
-     * 
+     *
      * @param being - The being this effect is being applied to
      * @throws IllegalArgumentException If the being is null
      */

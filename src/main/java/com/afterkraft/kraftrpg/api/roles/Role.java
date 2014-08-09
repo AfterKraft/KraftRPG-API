@@ -40,7 +40,7 @@ import com.afterkraft.kraftrpg.api.skills.SkillSetting;
  * {@link com.afterkraft.kraftrpg.api.skills.ISkill}s are granted for use to
  * {@link com.afterkraft.kraftrpg.api.entity.SkillCaster}s and experience is
  * gained by {@link com.afterkraft.kraftrpg.api.entity.Sentient}s.
- * 
+ * <p/>
  * To construct a Role, use the linked
  * {@link com.afterkraft.kraftrpg.api.roles.Role.Builder}
  */
@@ -65,6 +65,7 @@ public final class Role {
     private final double hpAt0, hpPerLevel;
     private final int mpAt0, mpPerLevel, mpRegenAt0,
             mpRegenPerLevel;
+
     private Role(Builder builder) {
         this.plugin = builder.plugin;
         this.name = builder.name;
@@ -184,7 +185,7 @@ public final class Role {
 
     /**
      * Get the type of Role this is.
-     * 
+     *
      * @return the {@link com.afterkraft.kraftrpg.api.roles.Role.RoleType}
      */
     public final RoleType getType() {
@@ -193,7 +194,7 @@ public final class Role {
 
     /**
      * Return the configured name for this Role
-     * 
+     *
      * @return the name for this role
      */
     public String getName() {
@@ -203,7 +204,7 @@ public final class Role {
     /**
      * Check if the specified skill is granted at the specified level, if not
      * before the level.
-     * 
+     *
      * @param skill to query
      * @param level to check
      * @return true if the skill is granted at the level or before
@@ -220,18 +221,18 @@ public final class Role {
      * Return a copy of the skill configuration for the specified skill at the
      * desired level, if the skill is granted at the specified level or
      * before.
-     * 
+     *
      * @param skill to get the configuration of
      * @param level to check if the skill is granted at that level
      * @return a copy of the configuration section
-     * @throws IllegalArgumentException if the skill is null
-     * @throws com.afterkraft.kraftrpg.api.roles.RoleSkillConfigurationException
-     *             if there is an error in the Role configuration
+     * @throws IllegalArgumentException                                          if the skill is null
+     * @throws com.afterkraft.kraftrpg.api.roles.RoleSkillConfigurationException if there is an error in the Role configuration
      */
     public ConfigurationSection getSkillConfigIfAvailable(ISkill skill, int level) {
         if (hasSkill(skill)) {
             RoleSkill rs = this.skills.get(skill.getName());
-            if (rs == null) throw new RoleSkillConfigurationException("There is a null RoleSkill in " + this.name + "'s Configuration! Please fix your configuration!");
+            if (rs == null)
+                throw new RoleSkillConfigurationException("There is a null RoleSkill in " + this.name + "'s Configuration! Please fix your configuration!");
             if (rs.getLevel() <= level) {
                 MemoryConfiguration section = new MemoryConfiguration();
                 section.addDefaults(rs.getConfig().getValues(true));
@@ -244,7 +245,7 @@ public final class Role {
     /**
      * Checks if this role has the defined
      * {@link com.afterkraft.kraftrpg.api.skills.ISkill} at any level
-     * 
+     *
      * @param skill to check
      * @return true if the skill is defined
      * @throws IllegalArgumentException if the skill is null
@@ -261,13 +262,12 @@ public final class Role {
 
     /**
      * Returns the level required for gaining the specified ISkill.
-     * 
+     *
      * @param skill to check
      * @return the level at which the skill is granted
-     * @throws IllegalArgumentException if the skill is null
-     * @throws com.afterkraft.kraftrpg.api.roles.RoleSkillConfigurationException
-     *             if the skill does not have a skill configuration for the
-     *             level required
+     * @throws IllegalArgumentException                                          if the skill is null
+     * @throws com.afterkraft.kraftrpg.api.roles.RoleSkillConfigurationException if the skill does not have a skill configuration for the
+     *                                                                           level required
      */
     public int getLevelRequired(ISkill skill) {
         Validate.notNull(skill, "Cannot check a null ISkill!");
@@ -280,7 +280,7 @@ public final class Role {
 
     /**
      * Creates an immutable set of all defined skills for this Role.
-     * 
+     *
      * @return an immutable set of all defined skills
      */
     public Set<ISkill> getAllSkills() {
@@ -295,7 +295,7 @@ public final class Role {
      * Gets an immutable set of
      * {@link com.afterkraft.kraftrpg.api.skills.ISkill}s that are granted
      * below or at the specified level
-     * 
+     *
      * @param level at which the skills have been granted
      * @return the skills granted up to the specified level.
      * @throws IllegalArgumentException if the level is negative
@@ -314,7 +314,7 @@ public final class Role {
     /**
      * Creates an immutable set of Roles that are defined as this Role's
      * parents
-     * 
+     *
      * @return an immutable set of roles that are this role's parents
      */
     public Set<Role> getParents() {
@@ -328,7 +328,7 @@ public final class Role {
     /**
      * Creates an immutable set of Roles that are defined as this Role's
      * children
-     * 
+     *
      * @return an immutable set of roles that are this role's children
      */
     public Set<Role> getChildren() {
@@ -342,7 +342,7 @@ public final class Role {
     /**
      * Check if this Role is defined as the default Role as configured in
      * KraftRPG.
-     * 
+     *
      * @return true if this role is the default role
      */
     public boolean isDefault() {
@@ -356,7 +356,7 @@ public final class Role {
 
     /**
      * Gets the max health at the specified level
-     * 
+     *
      * @param level specified
      * @return the max health at the specified level
      * @throws IllegalArgumentException if the level is less than 0
@@ -368,7 +368,7 @@ public final class Role {
 
     /**
      * Gets the max mana at the specified level
-     * 
+     *
      * @param level specified
      * @return the max mana at the specified level
      * @throws IllegalArgumentException if the level is less than 0
@@ -380,7 +380,7 @@ public final class Role {
 
     /**
      * Gets the max health at the specified level
-     * 
+     *
      * @param level specified
      * @return the max health at the specified level
      * @throws IllegalArgumentException if the level is less than 0
@@ -392,7 +392,7 @@ public final class Role {
 
     /**
      * Gets the customized (if not default) name of mana for this role.
-     * 
+     *
      * @return the customized name of Mana
      */
     public String getManaName() {
@@ -401,7 +401,7 @@ public final class Role {
 
     /**
      * Gets the maximum health at level 0.
-     * 
+     *
      * @return the maximum health at level 0.
      */
     public double getMaxHealthAtZero() {
@@ -410,7 +410,7 @@ public final class Role {
 
     /**
      * Gets the maximum health increase per level.
-     * 
+     *
      * @return the maximum health increase per level
      */
     public double getHeatlhIncreasePerLevel() {
@@ -419,7 +419,7 @@ public final class Role {
 
     /**
      * Gets the maximum mana at level 0.
-     * 
+     *
      * @return the maximum mana at level 0
      */
     public double getMaxManaAtZero() {
@@ -428,7 +428,7 @@ public final class Role {
 
     /**
      * Gets the maximum mana increase per level.
-     * 
+     *
      * @return the maximum mana increase per level
      */
     public double getManaIncreasePerLevel() {
@@ -437,7 +437,7 @@ public final class Role {
 
     /**
      * Gets the mana regeneration at level 0.
-     * 
+     *
      * @return the mana regeneration at level 0
      */
     public double getManaRegenAtZero() {
@@ -446,7 +446,7 @@ public final class Role {
 
     /**
      * Gets the mana regeneration increase per level.
-     * 
+     *
      * @return the mana regeneration increase per level
      */
     public double getManaRegenIncreasePerLevel() {
@@ -457,7 +457,7 @@ public final class Role {
     /**
      * Check if this role can by chosen by players. A non-choosable role must
      * be granted through some means other than role tree advancement.
-     * 
+     *
      * @return can be chosen
      */
     public boolean isChoosable() {
@@ -467,9 +467,9 @@ public final class Role {
     /**
      * Gets the level at which this Role is considered eligible for
      * advancement.
-     * 
+     *
      * @return the level that this role is eligible for advancement to a child
-     *         role
+     * role
      */
     public int getAdvancementLevel() {
         return this.advancementLevel;
@@ -478,7 +478,7 @@ public final class Role {
     /**
      * Gets the flat damage for the specified {@link org.bukkit.Material}. If
      * the damage is not configured, the default damage is 0.
-     * 
+     *
      * @param type to check
      * @return the damage for the perscribed material, if not 0
      * @throws IllegalArgumentException if the type is null
@@ -492,10 +492,10 @@ public final class Role {
      * If a Role defines an item to deal varying damage for each attack, the
      * final damage is not always the same. This checks if a
      * {@link org.bukkit.Material} type is configured to deal varying damage.
-     * 
+     *
      * @param type to check
      * @return true if this Role is configured to have varying damage for the
-     *         item
+     * item
      * @throws IllegalArgumentException if the type is null
      */
     public boolean doesItemVaryDamage(Material type) {
@@ -506,7 +506,7 @@ public final class Role {
     /**
      * Gets the damage to add to the base damage for the specified Material
      * per level. If the damage increase is not defined, it will default to 0.
-     * 
+     *
      * @param type of item to get the damage increase per level of
      * @return the damage increase per level if not 0
      * @throws IllegalArgumentException if the type is null
@@ -518,7 +518,7 @@ public final class Role {
 
     /**
      * Gets the description of this role.
-     * 
+     *
      * @return the description of this role
      */
     public String getDescription() {
@@ -598,7 +598,7 @@ public final class Role {
 
     /**
      * Creates a copy of this current role with all settings.
-     * 
+     *
      * @return a copy of this Role
      */
     public Role asNewCopy() {
@@ -661,7 +661,7 @@ public final class Role {
 
         /**
          * Set the specified RoleType
-         * 
+         *
          * @param type of Role
          * @return this builder for chaining
          * @throws IllegalArgumentException if the role type is null
@@ -675,7 +675,7 @@ public final class Role {
         /**
          * Set the visible mana name for the role. This name is used to
          * describe to players their current count of the "mana" resource.
-         * 
+         *
          * @param manaName customized name of Mana
          * @return This builder, for chaining
          * @throws IllegalArgumentException if the name is null or empty
@@ -768,8 +768,8 @@ public final class Role {
         /**
          * Set the {@link org.bukkit.Material} type of item to deal varying
          * damage or not. Setting this will affect all damage immediately.
-         * 
-         * @param type of Material
+         *
+         * @param type           of Material
          * @param doesDamageVary if true, set the item to deal varying damage.
          */
         public Builder setItemDamageVaries(Material type, boolean doesDamageVary) {
@@ -784,16 +784,16 @@ public final class Role {
          * granted at with the specified ConfigurationSection that dictates
          * the level requirements, reagents, skill dependencies amongst other
          * things
-         * 
-         * @param skill to define
+         *
+         * @param skill   to define
          * @param section defining the settings for the skill being added to
-         *            this Role
+         *                this Role
          * @throws IllegalArgumentException if the skill is null
          * @throws IllegalArgumentException if the section is null
          * @throws IllegalArgumentException if the skill level node is not
-         *             defined correctly
+         *                                  defined correctly
          * @throws IllegalArgumentException if the skill is listed in the
-         *             restricted skills
+         *                                  restricted skills
          */
         public Builder addRoleSkill(ISkill skill, ConfigurationSection section) {
             Validate.notNull(skill, "Cannot have a null ISkill!");
@@ -809,7 +809,7 @@ public final class Role {
         /**
          * Add a Role as a child to this role. This will not affect the child
          * role being parented.
-         * 
+         *
          * @param child The child being added to this role
          * @return This builder for chaining
          * @throws IllegalArgumentException if the child is null
@@ -891,13 +891,14 @@ public final class Role {
          * <p></p>
          * The requirements are:
          * <ul>
-         *     <li>A name</li>
-         *     <li>A description</li>
-         *     <li>A max level</li>
-         *     <li>Minimum health at level 0</li>
-         *     <li>Health gains per level is not 0</li>
-         *     <li>Mana per level is not 0</li>
+         * <li>A name</li>
+         * <li>A description</li>
+         * <li>A max level</li>
+         * <li>Minimum health at level 0</li>
+         * <li>Health gains per level is not 0</li>
+         * <li>Mana per level is not 0</li>
          * </ul>
+         *
          * @return A newly constructed Role that can not be changed.
          * @throws IllegalStateException If the description is null
          * @throws IllegalStateException If the name is null
@@ -949,6 +950,7 @@ public final class Role {
          * Removes a skill from the restricted list. Skills in the restricted
          * list are uncastable while a {@link com.afterkraft.kraftrpg.api.entity.SkillCaster}
          * has this role active.
+         *
          * @param skill The skill to un-restrict
          * @return This builder for chaining
          * @throws IllegalArgumentException If the skill is null

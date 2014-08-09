@@ -33,7 +33,6 @@ import com.afterkraft.kraftrpg.api.entity.Sentient;
 import com.afterkraft.kraftrpg.api.entity.SkillCaster;
 import com.afterkraft.kraftrpg.api.skills.Skill;
 import com.afterkraft.kraftrpg.api.skills.SkillSetting;
-import com.afterkraft.kraftrpg.api.skills.common.Permissible;
 
 /**
  * PermissionSkill allows setting any other Plugin's permission to become a
@@ -79,6 +78,11 @@ public final class PermissionSkill extends Skill implements Permissible {
     }
 
     @Override
+    public Map<String, Boolean> getPermissions() {
+        return ImmutableMap.copyOf(this.permissions);
+    }
+
+    @Override
     public void setPermissions(Map<String, Boolean> permissions) {
         Validate.notNull(permissions, "Cannot set the permissions to a null mapping!");
         this.permissions = permissions;
@@ -89,11 +93,6 @@ public final class PermissionSkill extends Skill implements Permissible {
 
         this.permission = new Permission(getName(), "PermissionSkill " + getName(), this.permissions);
         this.plugin.getServer().getPluginManager().addPermission(this.permission);
-    }
-
-    @Override
-    public Map<String, Boolean> getPermissions() {
-        return ImmutableMap.copyOf(this.permissions);
     }
 
     @Override

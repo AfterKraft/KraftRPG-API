@@ -26,14 +26,14 @@ public interface Healing extends Periodic {
     /**
      * Return the amount of health being healed to the insentient being this
      * effect is applied to
-     * 
+     *
      * @return the health to heal per tick
      */
     public double getTickHealth();
 
     /**
      * Set the health to heal per tick
-     * 
+     *
      * @param tickHealth health to heal per tick
      * @throws IllegalArgumentException If the health is negative
      */

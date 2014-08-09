@@ -41,7 +41,7 @@ public interface ProjectileShot extends Imbuing {
      * ground or another Entity.
      *
      * @param projectile The projectile that is landing
-     * @param location The location of the projectile's landing point
+     * @param location   The location of the projectile's landing point
      */
     public void onProjectileLand(Projectile projectile, Location location);
 
@@ -51,7 +51,7 @@ public interface ProjectileShot extends Imbuing {
      * projectile should add a new {@link com.afterkraft.kraftrpg.api.effects.IEffect}.
      *
      * @param projectile The projectile that is damaging the victim
-     * @param victim The victim being damaged
+     * @param victim     The victim being damaged
      */
     public void onProjectileDamage(Projectile projectile, Insentient victim);
 }

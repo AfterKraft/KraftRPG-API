@@ -30,9 +30,9 @@ public interface PartyManager extends Manager {
      * with the given {@link com.afterkraft.kraftrpg.api.entity.PartyMember}
      * leader as the leader and automatically adds the given members to the
      * party.
-     * 
+     *
      * @param partyLeader leader of the Party
-     * @param members to add to the party after creation
+     * @param members     to add to the party after creation
      * @return the party after members have been added
      * @throws IllegalArgumentException If the leader is null
      */
@@ -49,7 +49,7 @@ public interface PartyManager extends Manager {
      * should not return false.
      * <p/>
      * (They may both, however, return true. Consider this a "neutral" state.)
-     * 
+     *
      * @param a One PartyMember
      * @param b Another PartyMember
      * @return if friendly - e.g., can heal
@@ -68,7 +68,7 @@ public interface PartyManager extends Manager {
      * should not return false.
      * <p/>
      * (They may both, however, return true. Consider this a "neutral" state.)
-     * 
+     *
      * @param a One PartyMember
      * @param b Another PartyMember
      * @return if hostile - e.g., can hurt

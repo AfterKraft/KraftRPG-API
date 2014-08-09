@@ -31,7 +31,7 @@ import com.afterkraft.kraftrpg.api.entity.Champion;
 
 /**
  * The proxy through which the plugin interacts with the StorageBackend.
- * 
+ * <p/>
  * A StorageFrontend handles things like batching of saves and caching of
  * loaded data. It also performs filtering of NPC data, and conversion between
  * two StorageBackends.
@@ -79,17 +79,17 @@ public abstract class StorageFrontend {
 
     /**
      * The name of a StorageFrontend follows the following format:
-     * 
+     * <p/>
      * <pre>
      * [frontend-name]/[backend-name]
      * </pre>
-     * 
+     * <p/>
      * In the default implementation, the frontend-name is "Default". You
      * should change this if you extend the class.
-     * 
+     * <p/>
      * The backend-name is <code>backend.getClass().getSimpleName()</code>.
      * This should remain the same in your implementation.
-     * 
+     *
      * @return name of storage format
      */
     public String getName() {
@@ -98,7 +98,7 @@ public abstract class StorageFrontend {
 
     /**
      * Load the Champion data.
-     * 
+     *
      * @param player the requested Player data
      * @return the loaded Champion instance if data exists, else returns null
      */
@@ -191,7 +191,7 @@ public abstract class StorageFrontend {
     /**
      * Convert all data from the provided StorageBackend to the one currently
      * being used.
-     * 
+     *
      * @param from StorageBackend to convert from
      */
     public void doConversion(StorageBackend from) {

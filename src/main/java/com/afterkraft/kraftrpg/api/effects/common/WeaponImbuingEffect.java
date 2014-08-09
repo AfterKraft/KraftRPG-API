@@ -21,8 +21,8 @@ import java.util.Set;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 
-import com.afterkraft.kraftrpg.api.entity.Insentient;
 import com.afterkraft.kraftrpg.api.effects.EffectType;
+import com.afterkraft.kraftrpg.api.entity.Insentient;
 import com.afterkraft.kraftrpg.api.skills.Skill;
 
 public class WeaponImbuingEffect extends ImbuingEffect implements WeaponImbuing {

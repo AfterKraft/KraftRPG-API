@@ -87,7 +87,7 @@ public class PlayerData implements Cloneable {
     /**
      * Return a collection of all active roles in the order Primary,
      * Secondary, Additional. Past roles are excluded.
-     * 
+     *
      * @return all active roles
      */
     public Collection<Role> allRoles() {

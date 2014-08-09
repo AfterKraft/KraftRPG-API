@@ -21,7 +21,7 @@ import org.bukkit.entity.Entity;
 import com.afterkraft.kraftrpg.api.RPGPlugin;
 import com.afterkraft.kraftrpg.api.entity.SkillCaster;
 
-public abstract class TargetedSkill<E extends Entity> extends ActiveSkill implements Targeted<E> {
+public abstract class TargetedSkill extends ActiveSkill implements Targeted {
 
     protected TargetedSkill(RPGPlugin plugin, String name) {
         super(plugin, name);

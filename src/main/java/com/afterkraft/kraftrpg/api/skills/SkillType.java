@@ -19,25 +19,25 @@ package com.afterkraft.kraftrpg.api.skills;
 public enum SkillType {
     /**
      * Grants a non-health benefit to allies.
-     * 
+     * <p/>
      * Causes combat entry.
      */
     BUFFING,
     /**
      * A Damaging skill tends to deal damage.
-     * 
+     * <p/>
      * Causes combat entry.
      */
     DAMAGING,
     /**
      * Causes a non-health impediment to enemies.
-     * 
+     * <p/>
      * Causes combat entry.
      */
     DEBUFFING,
     /**
      * Cancels a hurt enemy's Stalled skill.
-     * 
+     * <p/>
      * Causes combat entry.
      */
     ENEMY_INTERRUPTING,
@@ -48,7 +48,7 @@ public enum SkillType {
     EXCLUSIVE,
     /**
      * A Healing skill tends to increase your health.
-     * 
+     * <p/>
      * Causes combat entry if not used on yourself.
      */
     HEALING,

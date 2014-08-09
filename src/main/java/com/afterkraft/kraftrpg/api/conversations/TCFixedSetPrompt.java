@@ -34,11 +34,11 @@ public abstract class TCFixedSetPrompt extends TCValidatingPrompt {
 
     /**
      * Creates a FixedSetPrompt from a set of strings.
-     * <p>
+     * <p/>
      * foo = new FixedSetPrompt("bar", "cheese", "panda");
-     * 
+     *
      * @param fixedSet A fixed set of strings, one of which the user must
-     *            type.
+     *                 type.
      */
     public TCFixedSetPrompt(String... fixedSet) {
         super();
@@ -63,9 +63,9 @@ public abstract class TCFixedSetPrompt extends TCValidatingPrompt {
     /**
      * Utility function to create a formatted string containing all the
      * options declared in the constructor.
-     * 
+     *
      * @return the options formatted like "[bar, cheese, panda]" if bar,
-     *         cheese, and panda were the options used
+     * cheese, and panda were the options used
      */
     protected String formatFixedSet() {
         return "[" + StringUtils.join(this.fixedSet, ", ") + "]";

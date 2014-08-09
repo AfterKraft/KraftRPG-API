@@ -15,8 +15,8 @@
  */
 package com.afterkraft.kraftrpg.api.effects.common;
 
-import com.afterkraft.kraftrpg.api.entity.Insentient;
 import com.afterkraft.kraftrpg.api.effects.IEffect;
+import com.afterkraft.kraftrpg.api.entity.Insentient;
 
 /**
  * A singleton stateful effect.

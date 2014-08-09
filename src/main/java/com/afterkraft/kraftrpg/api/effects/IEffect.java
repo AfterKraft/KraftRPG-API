@@ -35,7 +35,7 @@ public interface IEffect {
      * Returns the associated
      * {@link com.afterkraft.kraftrpg.api.skills.ISkill} that created this
      * effect.
-     * 
+     *
      * @return the Skill that created this effect
      */
     public ISkill getSkill();
@@ -43,14 +43,14 @@ public interface IEffect {
     /**
      * Returns this individual Effect's name. (Should be as unique and
      * recognizable as possible).
-     * 
+     *
      * @return the name of this effect.
      */
     public String getName();
 
     /**
      * Check if this Effect is of a certain EffectType
-     * 
+     *
      * @param queryType The type of effect to query
      * @return True if this Effect is of the queried EffectType
      * @throws IllegalArgumentException If the query type is null
@@ -68,7 +68,7 @@ public interface IEffect {
     /**
      * Check if this Effect is persistent. A Persistent effect will never
      * expire until the Effect is removed.
-     * 
+     *
      * @return true if this Effect is persistent
      */
     public boolean isPersistent();
@@ -81,7 +81,7 @@ public interface IEffect {
     /**
      * Attempts to apply this effect to the provided
      * {@link com.afterkraft.kraftrpg.api.entity.Insentient}.
-     * 
+     *
      * @param being this effect is being applied on to.
      * @throws IllegalArgumentException If the being is null or invalid
      */

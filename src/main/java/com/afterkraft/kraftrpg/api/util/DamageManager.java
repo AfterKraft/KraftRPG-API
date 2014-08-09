@@ -24,7 +24,6 @@ import org.bukkit.entity.Egg;
 import org.bukkit.entity.EnderPearl;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Fireball;
 import org.bukkit.entity.LargeFireball;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.SmallFireball;
@@ -55,11 +54,11 @@ public interface DamageManager extends Manager {
      * <p/>
      * If the Insentient has no default damages for the Item, the damage
      * returned will be 0.
-     * 
-     * @param being the Insentient to query for damages
+     *
+     * @param being         the Insentient to query for damages
      * @param defaultDamage
      * @return the highest possible damage for the item from any possible
-     *         modifications
+     * modifications
      */
     public double getHighestItemDamage(Insentient being, Insentient defender, double defaultDamage);
 
@@ -69,7 +68,7 @@ public interface DamageManager extends Manager {
      * Request the default damage for the provided {@link org.bukkit.Material}
      * and uses the default damage provided if the default damage is not
      * configured.
-     * 
+     *
      * @param type
      * @param damage
      * @return
@@ -77,28 +76,24 @@ public interface DamageManager extends Manager {
     public double getDefaultItemDamage(Material type, double damage);
 
     /**
-     * 
      * @param type
      * @return
      */
     public double getDefaultItemDamage(Material type);
 
     /**
-     * 
      * @param type
      * @param damage
      */
     public void setDefaultItemDamage(Material type, double damage);
 
     /**
-     * 
      * @param type
      * @return
      */
     public boolean doesItemDamageVary(Material type);
 
     /**
-     * 
      * @param type
      * @param isVarying
      */
@@ -106,10 +101,10 @@ public interface DamageManager extends Manager {
 
     /**
      * Gets the default damage for the given EntityType.
-     * 
+     *
      * @param type of Entity we are querying
      * @return the damage from the default configuration for the given
-     *         EntityType
+     * EntityType
      */
     public double getEntityDamage(EntityType type);
 
@@ -123,13 +118,13 @@ public interface DamageManager extends Manager {
      * {@link com.afterkraft.kraftrpg.api.entity.Insentient} is used to check
      * for any possible {@link com.afterkraft.kraftrpg.api.roles.Role} damage
      * modifications necessary.
-     * 
+     * <p/>
      * If varying damage is enabled, the damage will already take this into
      * account.
-     * 
-     * @param being wearing/using the enchanted ItemStack
+     *
+     * @param being       wearing/using the enchanted ItemStack
      * @param enchantment to calculate for
-     * @param item that is enchanted
+     * @param item        that is enchanted
      * @return calculated damage that may be varied if enabled
      */
     public double getItemEnchantmentDamage(Insentient being, Enchantment enchantment, ItemStack item);
@@ -137,7 +132,7 @@ public interface DamageManager extends Manager {
     /**
      * Calculate the fall reduction for this being considering various sources
      * including armor.
-     * 
+     *
      * @param being
      * @return
      */
@@ -148,10 +143,10 @@ public interface DamageManager extends Manager {
      * damage for the given Monster depending on various things like location,
      * base damage, whether it was spawned from a Mob Spawner and possibly
      * other things varying by the implementation.
-     * 
-     * @param monster the Monster to query
-     * @param location the spawn location of the Monster
-     * @param baseDamage the default base damage of the Monster
+     *
+     * @param monster     the Monster to query
+     * @param location    the spawn location of the Monster
+     * @param baseDamage  the default base damage of the Monster
      * @param fromSpawner whether the Monster originated from a Spawner
      * @return the calculated customized damage for the Monster
      */
@@ -169,7 +164,7 @@ public interface DamageManager extends Manager {
 
     /**
      * Load defaults for the default damages from the given Configuration
-     * 
+     *
      * @param config repsective for this manager
      */
     public void load(Configuration config);

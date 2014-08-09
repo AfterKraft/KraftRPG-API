@@ -44,7 +44,7 @@ public interface RoleManager extends Manager {
     /**
      * Attempts to add a dependency for the two involving roles. This method
      * is here to
-     * 
+     *
      * @param parent
      * @param child
      * @return
@@ -58,7 +58,7 @@ public interface RoleManager extends Manager {
     /**
      * This is a simple check for all registered Roles. This should not be
      * called often, but it is used when adding role dependencies.
-     * 
+     *
      * @return
      */
     public boolean areRoleDependenciesCyclic();

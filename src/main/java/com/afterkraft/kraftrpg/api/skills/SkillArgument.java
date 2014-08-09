@@ -51,7 +51,7 @@ public abstract class SkillArgument {
     /**
      * Return a string suitable for inclusion in a usage string. No colors,
      * please.
-     * 
+     *
      * @param optional if this SkillArgument isOptional()
      * @return partial usage string
      */
@@ -62,8 +62,8 @@ public abstract class SkillArgument {
      * starting at index startPosition, and return the width of this
      * SkillArgument. <b>This will be called during both parsing and tab
      * completion</b>, so make sure to provide a complete implementation.
-     * 
-     * @param allArgs Full arguments array
+     *
+     * @param allArgs       Full arguments array
      * @param startPosition Where your arguments start
      * @return Negative if no match, or number of args consumed if matched
      */
@@ -73,9 +73,9 @@ public abstract class SkillArgument {
      * Overwrite your state with that of the provided arguments starting at
      * index startPosition. This will never be called unless matches() returns
      * true.
-     * 
-     * @param caster caster
-     * @param allArgs Full arguments array
+     *
+     * @param caster        caster
+     * @param allArgs       Full arguments array
      * @param startPosition Where your arguments start
      */
     public abstract void parse(SkillCaster caster, String[] allArgs, int startPosition);
@@ -83,7 +83,7 @@ public abstract class SkillArgument {
     /**
      * This method is called instead of parse() when an optional SkillArgument
      * is skipped (i.e. not matched).
-     * 
+     *
      * @param caster caster
      */
     public abstract void skippedOptional(SkillCaster caster);
@@ -96,9 +96,9 @@ public abstract class SkillArgument {
     /**
      * Provide tab-completion suggestions for the last item in allArgs. Your
      * arguments start at startPosition.
-     * 
-     * @param caster trying to tab complete
-     * @param allArgs Full arguments array
+     *
+     * @param caster        trying to tab complete
+     * @param allArgs       Full arguments array
      * @param startPosition Where your arguments start
      * @return completion suggestions for the last item in allArgs
      */

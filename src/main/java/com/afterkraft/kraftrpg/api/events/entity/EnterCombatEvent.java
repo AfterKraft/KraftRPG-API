@@ -46,7 +46,7 @@ public class EnterCombatEvent extends Event implements Cancellable {
 
     /**
      * Get the Sentient entering combat in this event.
-     * 
+     *
      * @return sentient entering combat
      */
     public Sentient getBeing() {
@@ -55,7 +55,7 @@ public class EnterCombatEvent extends Event implements Cancellable {
 
     /**
      * Get the Sentient that the primary one is entering combat with.
-     * 
+     *
      * @return sentient
      */
     public Sentient getOtherBeing() {

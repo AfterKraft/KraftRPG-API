@@ -31,16 +31,16 @@ public class ProjectileDamageEvent extends WeaponDamageEvent {
         this.projectile = projectile;
     }
 
+    public static HandlerList getHandlerList() {
+        return handlers;
+    }
+
     public final Projectile getProjectile() {
         return this.projectile;
     }
 
     @Override
     public HandlerList getHandlers() {
-        return handlers;
-    }
-
-    public static HandlerList getHandlerList() {
         return handlers;
     }
 }

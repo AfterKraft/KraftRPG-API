@@ -92,7 +92,7 @@ public class DamagingEffect extends PeriodicExpirableEffect implements Damaging 
      * {@inheritDoc} This will damage the
      * {@link com.afterkraft.kraftrpg.api.entity.Insentient} being the
      * prescribed damage from {@link #getTickDamage()}
-     * 
+     *
      * @param being - The being this effect is being applied to.
      */
     @Override

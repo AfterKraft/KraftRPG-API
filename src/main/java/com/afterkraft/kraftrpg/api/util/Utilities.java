@@ -59,6 +59,7 @@ public class Utilities {
     private static HashSet<Byte> transparentIds;
     private static HashSet<Material> transparentBlocks;
     private static Set<String> onlyItemKey = ImmutableSet.of("item");
+
     static {
         // Use Bukkit's Material#isTransParent()
         transparentBlocks = new HashSet<Material>();
@@ -223,7 +224,7 @@ public class Utilities {
             int quant = Integer.parseInt(matcher.group(1));
             char unit = matcher.group(2).charAt(0);
             switch (unit) {
-            // fallthrough
+                // fallthrough
                 case 'd':
                     quant *= 24;
                 case 'h':

@@ -19,10 +19,8 @@ import java.util.Collection;
 
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.LivingEntity;
 
 import com.afterkraft.kraftrpg.api.entity.Champion;
-import com.afterkraft.kraftrpg.api.entity.Insentient;
 import com.afterkraft.kraftrpg.api.entity.SkillCaster;
 
 /**
@@ -33,21 +31,21 @@ public interface ISkill {
 
     /**
      * Returns the generated permission node as a string for this ISkill.
-     * 
+     *
      * @return the string name permission node for this ISkill
      */
     public String getPermissionNode();
 
     /**
      * Return the unique name of this ISkill
-     * 
+     *
      * @return the name of this skill
      */
     public String getName();
 
     /**
      * Returns the default configuration for this skill.
-     * 
+     *
      * @return the defalt configuration for this skill
      */
     public ConfigurationSection getDefaultConfig();
@@ -55,6 +53,7 @@ public interface ISkill {
     /**
      * Gets an immutable collection of the {@link SkillSetting}s used by this
      * Skill. This should be absolute
+     *
      * @return
      */
     public Collection<SkillSetting> getUsedConfigNodes();
@@ -62,14 +61,14 @@ public interface ISkill {
     /**
      * Return the description for this skill. This should be unique for every
      * skill
-     * 
+     *
      * @return the description for this skill
      */
     public String getDescription();
 
     /**
      * Set the description for this skill.
-     * 
+     *
      * @param description the description for this skill
      */
     public void setDescription(String description);
@@ -88,7 +87,7 @@ public interface ISkill {
 
     /**
      * Adds an Entity as a skill target.
-     * 
+     *
      * @param entity to add as a target
      * @param caster casting this skill
      * @return true if successful
@@ -97,7 +96,7 @@ public interface ISkill {
 
     /**
      * Check if this ISkill is of the requested {@link SkillType}
-     * 
+     *
      * @param type the type to check
      * @return true if this skill is of the requested type
      */
@@ -106,9 +105,9 @@ public interface ISkill {
     /**
      * Checks if the receiving Champion is in meesage range to receive skill
      * messages
-     * 
+     *
      * @param broadcaster sending the message
-     * @param receiver receiving the message
+     * @param receiver    receiving the message
      * @return true if the receiver is in range
      */
     public boolean isInMessageRange(SkillCaster broadcaster, Champion receiver);
