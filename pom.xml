@@ -104,23 +104,6 @@
         </dependency>
         <!-- API Dependency -->
         <dependency>
-            <groupId>com.afterkraft.storage</groupId>
-            <artifactId>KraftStorage</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-            <optional>true</optional>
-            <scope>provided</scope>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.bukkit</groupId>
-                    <artifactId>bukkit</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>net.milkbowl.vault</groupId>
-                    <artifactId>Vault</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
             <groupId>net.milkbowl.vault</groupId>
             <artifactId>VaultAPI</artifactId>
             <version>1.4</version>

@@ -15,9 +15,11 @@
  */
 package com.afterkraft.kraftrpg.api.skills;
 
+import java.util.Arrays;
 import java.util.List;
 
 import com.google.common.collect.ImmutableList;
+import org.apache.commons.lang.Validate;
 
 import com.afterkraft.kraftrpg.api.RPGPlugin;
 import com.afterkraft.kraftrpg.api.entity.SkillCaster;
@@ -28,7 +30,7 @@ import com.afterkraft.kraftrpg.api.util.SkillRequirement;
  */
 public abstract class ActiveSkill extends Skill implements Active {
     private String usage = "";
-    private SkillArgument[] skillArguments;
+    SkillArgument[] skillArguments;
     private SkillCaster parsedCaster;
 
     protected ActiveSkill(RPGPlugin plugin, String name) {
@@ -59,14 +61,18 @@ public abstract class ActiveSkill extends Skill implements Active {
         return this.skillArguments;
     }
 
-    /**
-     * Set the SkillArguments to be used in parsing, and returned with
-     * {@link #getArgument(int)} and {@link #getSkillArguments()}.
-     *
-     * @param arguments to set
-     */
-    protected void setSkillArguments(SkillArgument... arguments) {
-        this.skillArguments = arguments;
+    protected void addSkillArgument(SkillArgument argument) {
+        Validate.notNull(argument, "Cannot add a null skill argument!");
+        if (this.plugin.isEnabled()) {
+            throw new IllegalStateException("KraftRPG is already enabled! Cannot modify Skill Arguments after being enabled.");
+        }
+        if (this.skillArguments == null) {
+            this.skillArguments = new SkillArgument[] { argument };
+            return;
+        }
+        SkillArgument[] newArgs = Arrays.copyOf(this.skillArguments, this.skillArguments.length + 1);
+        newArgs[this.skillArguments.length] = argument;
+        this.skillArguments = newArgs;
     }
 
     /**

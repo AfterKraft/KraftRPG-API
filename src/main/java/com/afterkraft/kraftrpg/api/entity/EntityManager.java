@@ -15,16 +15,22 @@
  */
 package com.afterkraft.kraftrpg.api.entity;
 
+import java.util.Set;
 import java.util.UUID;
 
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
 import com.afterkraft.kraftrpg.api.Manager;
 import com.afterkraft.kraftrpg.api.storage.PlayerData;
 
-
+/**
+ * A standard entity manager. Centralized manager to maintain links for the
+ * proxy objects known as {@link IEntity} and it's sub classes to the original
+ * objects represented by the Bukkit API.
+ */
 public interface EntityManager extends Manager {
 
     /**
@@ -32,11 +38,21 @@ public interface EntityManager extends Manager {
      * designated Entity. The IEntity is guaranteed to be affected by KraftRPG
      * if it is not returned by null
      *
-     * @param entity
-     * @return
+     * @param entity The bukkit entity to get the proxy object of
+     * @return The KraftRPG proxy object for the entity
      * @throws IllegalArgumentException If the entity is null or invalid
      */
     public IEntity getEntity(Entity entity);
+
+    /**
+     * Retrieve the {@link com.afterkraft.kraftrpg.api.entity.Monster} object
+     * for this Player.
+     *
+     * @param entity to get the Monster object of.
+     * @return the Monster object
+     * @throws IllegalArgumentException If the entity is null or invalid
+     */
+    public Monster getMonster(LivingEntity entity);
 
     /**
      * Retrieve the {@link com.afterkraft.kraftrpg.api.entity.Champion} object
@@ -49,14 +65,22 @@ public interface EntityManager extends Manager {
     public Champion getChampion(Player player);
 
     /**
-     * Retrieve the {@link com.afterkraft.kraftrpg.api.entity.Monster} object
-     * for this Player.
+     * Attempts to load a {@link com.afterkraft.kraftrpg.api.entity.Champion}
+     * with a link to a Player and
+     * {@link com.afterkraft.kraftrpg.api.storage.PlayerData} that allows
+     * interaction with the rest of KraftRPG.
+     * <p/>
+     * When needing data regarding a Player who is offline and the data is not
+     * intended to be modified, ignoreOffline can be used to retrieve the data
+     * for a specific player.
      *
-     * @param entity to get the Monster object of.
-     * @return the Monster object
-     * @throws IllegalArgumentException If the entity is null or invalid
+     * @param uuid          of the Player in question
+     * @param ignoreOffline whether to load a fake Champion regardless whether
+     *                      the linked Player is offline
+     * @return the loaded Champion belonging to the UUID, if not null
+     * @throws IllegalArgumentException If the uuid is null
      */
-    public Monster getMonster(LivingEntity entity);
+    public Champion getChampion(UUID uuid, boolean ignoreOffline);
 
     /**
      * Check if the given {@link org.bukkit.entity.Entity} is already managed
@@ -107,31 +131,20 @@ public interface EntityManager extends Manager {
     public boolean addEntity(IEntity entity);
 
     /**
-     * Return the linked {@link com.afterkraft.kraftrpg.api.entity.Monster} if
-     * the provided UUID is present in our tracked entities mapping.
+     * Spawns a new LivingEntity of the type given and automatically assigned
+     * to the owner.
      *
-     * @param uuid of the monster in question
-     * @return the linked Monster object
-     * @throws IllegalArgumentException if the UUID is null
+     * @param owner The owner of the summon
+     * @param type The type of LivingEntity to spawn
+     * @return The summon
+     * @throws IllegalArgumentException If the owner is null
+     * @throws IllegalArgumentException If the type is null
+     * @throws IllegalArgumentException If the type is not a living type
      */
-    public Monster getMonster(UUID uuid);
+    public Summon createSummon(SkillCaster owner, EntityType type);
 
-    /**
-     * Attempts to load a {@link com.afterkraft.kraftrpg.api.entity.Champion}
-     * with a link to a Player and
-     * {@link com.afterkraft.kraftrpg.api.storage.PlayerData} that allows
-     * interaction with the rest of KraftRPG.
-     * <p/>
-     * When needing data regarding a Player who is offline and the data is not
-     * intended to be modified, ignoreOffline can be used to retrieve the data
-     * for a specific player.
-     *
-     * @param uuid          of the Player in question
-     * @param ignoreOffline whether to load a fake Champion regardless whether
-     *                      the linked Player is offline
-     * @return the loaded Champion belonging to the UUID, if not null
-     * @throws IllegalArgumentException If the uuid is null
-     */
-    public Champion getChampion(UUID uuid, boolean ignoreOffline);
+    public Set<Summon> getSummons(SkillCaster owner);
+
+
 
 }

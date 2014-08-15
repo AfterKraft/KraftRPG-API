@@ -35,19 +35,19 @@ public class DamageWrapper {
         this.modifiedCause = modifiedCause;
     }
 
-    public DamageCause getOriginalCause() {
+    public final DamageCause getOriginalCause() {
         return this.originalCause;
     }
 
-    public double getOriginalDamage() {
+    public final double getOriginalDamage() {
         return this.originalDamage;
     }
 
-    public double getModifiedDamage() {
+    public final double getModifiedDamage() {
         return this.modifiedDamage;
     }
 
-    public DamageCause getModifiedCause() {
+    public final DamageCause getModifiedCause() {
         return this.modifiedCause;
     }
 

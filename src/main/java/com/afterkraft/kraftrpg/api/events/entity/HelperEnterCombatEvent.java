@@ -45,6 +45,7 @@ public class HelperEnterCombatEvent extends EnterCombatEvent {
         return (SkillCaster) this.being;
     }
 
+    @Override
     public HandlerList getHandlers() {
         return handlers;
     }

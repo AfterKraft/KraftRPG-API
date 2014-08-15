@@ -32,7 +32,7 @@ public final class FixedPoint extends Number implements Cloneable {
     public static final double ulp = twoPowNegSize;
     public static final long MAX_VALUE = Long.MAX_VALUE >>> FRAC_SIZE;
 
-    private long val;
+    private final long val;
 
     public FixedPoint() {
         this(0);

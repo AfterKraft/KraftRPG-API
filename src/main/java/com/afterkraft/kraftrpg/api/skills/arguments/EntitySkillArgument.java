@@ -15,6 +15,7 @@
  */
 package com.afterkraft.kraftrpg.api.skills.arguments;
 
+import java.lang.ref.WeakReference;
 import java.util.List;
 
 import com.google.common.base.Predicate;
@@ -32,7 +33,7 @@ public class EntitySkillArgument<E extends Entity> extends SkillArgument {
     protected final Predicate<E> condition;
     private final Class<E> clazz;
 
-    protected E matchedEntity = null;
+    protected WeakReference<E> matchedEntity = null;
 
     public EntitySkillArgument(double maxDistance, Class<E> clazz) {
         this(maxDistance, clazz, null);
@@ -50,7 +51,7 @@ public class EntitySkillArgument<E extends Entity> extends SkillArgument {
     }
 
     public E getMatchedEntity() {
-        return this.matchedEntity;
+        return this.matchedEntity.get();
     }
 
     // --------------------------------------------------------------
@@ -103,8 +104,12 @@ public class EntitySkillArgument<E extends Entity> extends SkillArgument {
         }
 
         if (closestDistance < this.maxDistance) {
-            this.matchedEntity = closest;
+            this.matchedEntity = new WeakReference<E>(closest);
         }
+    }
+
+    public double getMaxDistance() {
+        return this.maxDistance;
     }
 
     @Override

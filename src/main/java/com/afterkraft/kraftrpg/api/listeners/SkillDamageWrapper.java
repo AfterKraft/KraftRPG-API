@@ -34,7 +34,7 @@ public class SkillDamageWrapper extends AttackDamageWrapper {
         return (SkillCaster) super.getAttackingIEntity();
     }
 
-    public ISkill getSkillUsed() {
+    public final ISkill getSkillUsed() {
         return this.skillUsed;
     }
 }

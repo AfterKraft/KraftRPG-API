@@ -92,6 +92,11 @@ public enum SkillCastResult {
      */
     INVALID_TARGET,
     /**
+     * The skill has decided the the provided target is invalid, but does not
+     * wish to message the caster.
+     */
+    INVALID_TARGET_NO_MESSAGE,
+    /**
      * The skill has decided that the caster isn't allowed to target this.
      */
     UNTARGETABLE_TARGET,
