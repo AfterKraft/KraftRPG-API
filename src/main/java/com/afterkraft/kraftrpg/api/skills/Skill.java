@@ -65,8 +65,16 @@ public abstract class Skill implements ISkill {
         this.name = name;
     }
 
+    public static void knockback(Insentient target, Insentient attacker, double damage) {
+        knockback(target.getEntity(), attacker.getEntity(), damage);
+    }
+
     public static void knockback(LivingEntity target, LivingEntity attacker, double damage) {
         CraftBukkitHandler.getInterface().knockBack(target, attacker, damage);
+    }
+
+    public static boolean damageEntity(ISkill skill, Insentient target, Insentient attacker, double damage) {
+        return damageEntity(skill, target.getEntity(), attacker.getEntity(), damage);
     }
 
     public static boolean damageEntity(ISkill skill, LivingEntity target, LivingEntity attacker, double damage) {
@@ -126,6 +134,10 @@ public abstract class Skill implements ISkill {
         Bukkit.getServer().getPluginManager().callEvent(damageEntityEvent);
 
         return damageEntityEvent.isCancelled();
+    }
+
+    public static boolean damageCheck(Insentient attacking, Insentient victim) {
+        return damageCheck(attacking, victim.getEntity());
     }
 
     /**

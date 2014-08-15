@@ -64,4 +64,9 @@ public interface Expirable extends IEffect, Timed {
      */
     public Insentient getApplier();
 
+    /**
+     * A utility method to clear the applier of this effect.
+     */
+    public void clean();
+
 }
