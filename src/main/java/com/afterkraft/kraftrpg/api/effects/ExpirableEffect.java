@@ -34,7 +34,7 @@ import com.afterkraft.kraftrpg.api.skills.Skill;
  */
 public class ExpirableEffect extends Effect implements Expirable {
 
-    protected final Insentient applier;
+    protected Insentient applier;
     private final long duration;
     private long expireTime;
 
@@ -88,6 +88,11 @@ public class ExpirableEffect extends Effect implements Expirable {
     @Override
     public Insentient getApplier() {
         return this.applier;
+    }
+
+    @Override
+    public void clean() {
+        this.applier = null;
     }
 
     @Override
