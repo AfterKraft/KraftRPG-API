@@ -32,27 +32,27 @@ public class ProjectileShotEffect extends ImbuingEffect implements ProjectileSho
     private final int maxShots;
     private int currentShots;
 
-    public ProjectileShotEffect(Skill skill, SkillCaster applier, String name) {
+    public ProjectileShotEffect(Skill skill, Insentient applier, String name) {
         this(skill, applier, name, 1);
     }
 
-    public ProjectileShotEffect(Skill skill, SkillCaster applier, String name, int maxShots) {
+    public ProjectileShotEffect(Skill skill, Insentient applier, String name, int maxShots) {
         this(skill, applier, name, null, maxShots);
     }
 
-    public ProjectileShotEffect(Skill skill, SkillCaster applier, String name, Collection<EffectType> types) {
+    public ProjectileShotEffect(Skill skill, Insentient applier, String name, Collection<EffectType> types) {
         this(skill, applier, name, null, false, types, "", "");
     }
 
-    public ProjectileShotEffect(Skill skill, SkillCaster applier, String name, Collection<EffectType> types, int maxShots) {
+    public ProjectileShotEffect(Skill skill, Insentient applier, String name, Collection<EffectType> types, int maxShots) {
         this(skill, applier, name, null, false, types, "", "", maxShots);
     }
 
-    public ProjectileShotEffect(Skill skill, SkillCaster applier, String name, Set<PotionEffect> potionEffects, boolean persistent, Collection<EffectType> types, String applyText, String expireText) {
+    public ProjectileShotEffect(Skill skill, Insentient applier, String name, Set<PotionEffect> potionEffects, boolean persistent, Collection<EffectType> types, String applyText, String expireText) {
         this(skill, applier, name, potionEffects, persistent, types, applyText, expireText, 1);
     }
 
-    public ProjectileShotEffect(Skill skill, SkillCaster applier, String name, Set<PotionEffect> potionEffects, boolean persistent, Collection<EffectType> types, String applyText, String expireText, int maxShots) {
+    public ProjectileShotEffect(Skill skill, Insentient applier, String name, Set<PotionEffect> potionEffects, boolean persistent, Collection<EffectType> types, String applyText, String expireText, int maxShots) {
         super(skill, applier, name, potionEffects, persistent, types, applyText, expireText);
         super.types.add(EffectType.BENEFICIAL);
         super.types.add(EffectType.PHYSICAL);

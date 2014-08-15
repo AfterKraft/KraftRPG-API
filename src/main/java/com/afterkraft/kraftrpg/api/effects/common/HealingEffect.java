@@ -45,7 +45,7 @@ public class HealingEffect extends PeriodicExpirableEffect implements Healing {
         this(skill, applier, name, null, false, types, "", "", duration, period, tickHealth);
     }
 
-    public HealingEffect(Skill skill, SkillCaster applier, String name, long duration, String applyText, String expireText, EnumSet<EffectType> types, long period, double tickHealth) {
+    public HealingEffect(Skill skill, Insentient applier, String name, long duration, String applyText, String expireText, EnumSet<EffectType> types, long period, double tickHealth) {
         this(skill, applier, name, null, false, types, applyText, expireText, duration, period, tickHealth);
     }
 
