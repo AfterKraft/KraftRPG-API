@@ -15,6 +15,7 @@
  */
 package com.afterkraft.kraftrpg.api.skills.arguments;
 
+import java.lang.ref.WeakReference;
 import java.util.List;
 
 import com.google.common.base.Predicate;
@@ -55,7 +56,7 @@ public class RaytracingPlayerSkillArgument extends EntitySkillArgument<Player> {
         String arg = allArgs[startPosition];
         Player p = Bukkit.getPlayerExact(arg);
         if (p != null) {
-            this.matchedEntity = p;
+            this.matchedEntity = new WeakReference<Player>(p);
         } else {
             super.parse(caster, allArgs, startPosition);
         }
