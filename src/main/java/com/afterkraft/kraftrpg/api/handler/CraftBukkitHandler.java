@@ -36,6 +36,9 @@ import org.bukkit.util.Vector;
 
 import com.afterkraft.kraftrpg.api.RPGPlugin;
 import com.afterkraft.kraftrpg.api.entity.Insentient;
+import com.afterkraft.kraftrpg.api.entity.SkillCaster;
+import com.afterkraft.kraftrpg.api.events.entity.damage.InsentientDamageEvent;
+import com.afterkraft.kraftrpg.api.skills.ISkill;
 import com.afterkraft.kraftrpg.api.util.FixedPoint;
 
 
@@ -191,7 +194,11 @@ public abstract class CraftBukkitHandler {
     public abstract void modifyArrowDamage(Arrow arrow, double damage);
 
     //NMS methods required by skills
-    public abstract boolean damageEntity(LivingEntity target, LivingEntity attacker, double damage, DamageCause cause, boolean knockback);
+    public abstract boolean damageEntity(LivingEntity target, Insentient attacker, ISkill skill, double damage, DamageCause cause, boolean knockback);
+
+    public abstract boolean damageEntity(Insentient target, Insentient attacker, ISkill skill, double damage, DamageCause cause, boolean knockback);
+
+    public abstract boolean damageEntity(Insentient target, Insentient attacker, ISkill skill, Map<InsentientDamageEvent.DamageType, Double> modifiers, DamageCause cause, boolean knockback);
 
     public abstract void knockBack(LivingEntity target, LivingEntity attacker, double damage);
 

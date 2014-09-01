@@ -15,10 +15,16 @@
  */
 package com.afterkraft.kraftrpg.api.events.entity.damage;
 
+import java.util.EnumMap;
+import java.util.Map;
+
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
+import org.bukkit.event.entity.EntityDamageEvent.DamageModifier;
+
+import org.apache.commons.lang.Validate;
 
 import com.afterkraft.kraftrpg.api.entity.Insentient;
 import com.afterkraft.kraftrpg.api.events.entity.InsentientEvent;
@@ -45,21 +51,28 @@ import com.afterkraft.kraftrpg.api.events.entity.InsentientEvent;
  * that may not be considered {@link org.bukkit.entity.LivingEntity}.
  */
 public class InsentientDamageEvent extends InsentientEvent implements Cancellable {
+    private static final DamageType[] CUSTOM_MODIFIERS = DamageType.values();
     private static final HandlerList handlers = new HandlerList();
-    private final EntityDamageEvent event;
     private final DamageCause cause;
-    private Insentient defender;
-    private double defaultDamage;
+    private final Insentient defender;
+    private final Map<DamageType, Double> originals;
+    private final Map<DamageType, Double> modifiers;
+    private final EntityDamageEvent bukkitEvent;
     private boolean isVaryingDamageEnabled;
     private boolean cancelled;
 
-    public InsentientDamageEvent(Insentient defender, EntityDamageEvent event, double defaultDamage, boolean isVaryingEnabled) {
+    public InsentientDamageEvent(final Insentient defender, final EntityDamageEvent event, final Map<DamageType, Double> customModifiers, final boolean isVaryingEnabled) {
         super(defender);
+        Validate.notNull(event, "Cannot associate to a null EntityDamageEvent!");
+        Validate.notNull(customModifiers, "Cannot have a null modifier map!");
+        Validate.isTrue(!customModifiers.isEmpty(), "Cannot have an empty modifier map!");
+        Validate.noNullElements(customModifiers.values(), "Cannot have null modifiers!");
         this.defender = defender;
-        this.defaultDamage = defaultDamage;
+        this.originals = new EnumMap<DamageType, Double>(customModifiers);
+        this.modifiers = customModifiers;
         this.isVaryingDamageEnabled = isVaryingEnabled;
         this.cause = event.getCause();
-        this.event = event;
+        this.bukkitEvent = event;
     }
 
     public static HandlerList getHandlerList() {
@@ -67,7 +80,7 @@ public class InsentientDamageEvent extends InsentientEvent implements Cancellabl
     }
 
     /**
-     * Get the defending {@link com.afterkraft.kraftrpg.api.entity.Insentient}
+     * Get the defending {@link Insentient}
      * that is being damaged.
      *
      * @return the defending Insentient being
@@ -76,60 +89,118 @@ public class InsentientDamageEvent extends InsentientEvent implements Cancellabl
         return this.defender;
     }
 
-    public double getOriginalDamage() {
-        return this.event.getOriginalDamage(EntityDamageEvent.DamageModifier.BASE);
-    }
-
-    public double getOriginalModifier(EntityDamageEvent.DamageModifier modifier) {
-        return this.event.getOriginalDamage(modifier);
-    }
-
     /**
-     * Get the default damage (unmodified) of this event as calculated by the
-     * {@link com.afterkraft.kraftrpg.api.util.DamageManager}
+     * Get the default damage (unmodified) of this event as calculated by KraftRPG or a skill
      *
      * @return the default calculated damage
      */
-    public double getDefaultDamage() {
-        return this.defaultDamage;
+    public double getOriginalDamage() {
+        double damage = 0;
+        for (DamageType damageType : CUSTOM_MODIFIERS) {
+            damage += getOriginalDamage(damageType);
+        }
+        return damage;
+    }
+
+    /**
+     * Gets the default damage for the specified DamageType.
+     *
+     * @param type The type of Damage to get
+     * @return The raw amount of damage for the specified type
+     * @throws IllegalArgumentException If the damage type is null
+     */
+    public double getOriginalDamage(DamageType type) {
+        Validate.notNull(type, "Cannot have null DamageType");
+        final Double damage = this.originals.get(type);
+        return damage == null ? 0 : damage;
     }
 
     /**
      * Get the final damage after other listeners have handled this event.
      * This is usually to handle for specific customizations depending on the
-     * {@link org.bukkit.event.entity.EntityDamageEvent.DamageCause}
+     * {@link DamageCause}
      *
      * @return the final damage to be inflicted on the defending Insentient
      */
-    public double getFinalDamage() {
-        return this.event.getFinalDamage();
-    }
-
-    public double getModifierDamage(EntityDamageEvent.DamageModifier modifier) {
-        return this.event.getDamage(modifier);
+    public final double getTotalDamage() {
+        double damage = 0;
+        for (DamageType damageType : CUSTOM_MODIFIERS) {
+            damage += getDamage(damageType);
+        }
+        return damage;
     }
 
     /**
-     * Set the final damage to deal on the defending Insentient being.
+     * Gets the final damage after all damage reductions are applied.
      *
-     * @param finalDamage to deal to the insentient being.
+     * @return The amount of damage caused by the event
      */
-    public void setDamage(double finalDamage) {
-        this.event.setDamage(EntityDamageEvent.DamageModifier.BASE, finalDamage);
+    public final double getFinalDamage() {
+        double damage = 0;
+        for (DamageModifier modifier : DamageModifier.values()) {
+            damage += this.bukkitEvent.getDamage(modifier);
+        }
+        for (DamageType damageType : CUSTOM_MODIFIERS) {
+            damage += getDamage(damageType);
+        }
+        return damage;
     }
 
-    public void setModifier(EntityDamageEvent.DamageModifier modifier, double damage) {
-        this.event.setDamage(modifier, damage);
+    /**
+     * Gets the damage change for the damage type.
+     *
+     * @param modifier The modifier in question
+     * @return The damage for the specified modifier
+     * @throws IllegalArgumentException If the modifier is null
+     */
+    public final double getDamage(final DamageType modifier) {
+        Validate.notNull(modifier, "Cannot have a null modifier!");
+        return this.modifiers.get(modifier);
+    }
+
+    /**
+     * Sets the damage for the specified modifier. It should be checked that the provided modifier is applicable to
+     * the residing event via {@link #isApplicable(DamageModifier)}
+     *
+     * @param modifier The modifier
+     * @param damage The raw damage for the modifier
+     */
+    public final void setModifier(DamageModifier modifier, double damage) {
+        Validate.notNull(modifier, "Cannot calculate on a null modifier!");
+        Validate.isTrue(modifier != DamageModifier.BASE, "Cannot assign damage for the DamageModifier.BASE!");
+        this.bukkitEvent.setDamage(modifier, damage);
+    }
+
+    public final boolean isApplicable(DamageModifier modifier) {
+        return this.bukkitEvent.isApplicable(modifier);
+    }
+
+    public final void setModifier(DamageType damageType, double damage) {
+        Validate.notNull(damageType, "Cannot have a null DamageType!");
+        if (!isApplicable(damageType)) {
+            throw new UnsupportedOperationException(damageType + "is not applicable to this event!");
+        }
+        this.modifiers.put(damageType, damage);
+    }
+
+    /**
+     * Checks if the provided damage type is applicable to this event
+     * @param type The type of Damage to check
+     * @return True if the damage type is applicable
+     */
+    public final boolean isApplicable(DamageType type) {
+        Validate.notNull(type, "Cannot have a null DamageType!");
+        return this.modifiers.containsKey(type);
     }
 
     /**
      * Check if this damage was varied, if true, the default damage from
-     * {@link #getDefaultDamage()} is that calculated varied damage. If not,
+     * {@link #getOriginalDamage()} is that calculated varied damage. If not,
      * the damage is a precise number.
      *
      * @return true if KraftRPG was configured to have varied damage
      */
-    public boolean isVaryingDamageEnabled() {
+    public final boolean isVaryingDamageEnabled() {
         return this.isVaryingDamageEnabled;
     }
 
@@ -141,7 +212,7 @@ public class InsentientDamageEvent extends InsentientEvent implements Cancellabl
      *
      * @return the damage cause for this event.
      */
-    public DamageCause getCause() {
+    public final DamageCause getCause() {
         return this.cause;
     }
 
@@ -151,12 +222,55 @@ public class InsentientDamageEvent extends InsentientEvent implements Cancellabl
     }
 
     @Override
-    public boolean isCancelled() {
+    public final boolean isCancelled() {
         return this.cancelled;
     }
 
     @Override
-    public void setCancelled(boolean cancel) {
+    public final void setCancelled(boolean cancel) {
         this.cancelled = cancel;
+    }
+
+    /**
+     * Skills can deal various types of damages
+     */
+    public enum DamageType {
+        /**
+         * A damage type that is associated with a skill that deals physical damage. Physical damage can be associated
+         * with direct contact damage from a skill.
+         */
+        PHYSICAL(EntityDamageEvent.DamageModifier.BASE),
+        /**
+         * A damage type that is associated with a skill that deals magical damage. Magical damage can be associated
+         * with the magical elements, or ranged magical skills.
+         */
+        MAGICAL,
+        /**
+         * Summon damage associated with damage originating from a summonable entity.
+         */
+        SUMMON,
+        /**
+         * Damage dealt by effects
+         */
+        BIOLOGICAL,
+        /**
+         * Custom damage usually assigned via external plugins.
+         */
+        CUSTOM,
+        ;
+
+        private final EntityDamageEvent.DamageModifier modifier;
+
+        DamageType() {
+            this.modifier = EntityDamageEvent.DamageModifier.MAGIC;
+        }
+
+        DamageType(EntityDamageEvent.DamageModifier modifier) {
+            this.modifier = modifier;
+        }
+
+        public EntityDamageEvent.DamageModifier getModifier() {
+            return this.modifier;
+        }
     }
 }

@@ -33,7 +33,7 @@ import com.afterkraft.kraftrpg.api.util.FixedPoint;
 /**
  * This class is not a stable API.
  */
-public class PlayerData implements Cloneable {
+public final class PlayerData implements Cloneable {
     /**
      * Extra roles - these grant skills, but no hp/mana.
      */
@@ -54,13 +54,20 @@ public class PlayerData implements Cloneable {
      * Map from cooldown name to expiry time, in UNIX time.
      */
     public final Map<String, Long> cooldowns = new HashMap<String, Long>();
+    public final Set<String> ignoredSkills = new HashSet<String>();
     /**
      * Main Roles.
      */
     public Role primary, profession;
     public int currentMana;
+    public int maxStamina;
+    public int currentStamina;
     public String lastKnownName;
     public UUID playerID;
+    public boolean displayPrimaryRole;
+    public boolean isManaVerbose;
+    public boolean isStaminaVerbose;
+    public boolean isSkillVerbose;
 
     private Collection<Role> allRoles = null;
 
@@ -68,20 +75,31 @@ public class PlayerData implements Cloneable {
     }
 
     @Override
-    public PlayerData clone() {
-        PlayerData ret = new PlayerData();
+    public final PlayerData clone() {
+        try {
+            PlayerData ret = (PlayerData) super.clone();
 
-        ret.primary = this.primary;
-        ret.profession = this.profession;
-        ret.additionalRoles.addAll(this.additionalRoles);
-        ret.pastRoles.addAll(this.pastRoles);
-        ret.exp.putAll(this.exp);
-        ret.binds.putAll(this.binds);
-        ret.cooldowns.putAll(this.cooldowns);
-        ret.lastKnownName = this.lastKnownName;
-        ret.currentMana = this.currentMana;
-
-        return ret;
+            ret.primary = this.primary;
+            ret.profession = this.profession;
+            ret.additionalRoles.addAll(this.additionalRoles);
+            ret.pastRoles.addAll(this.pastRoles);
+            ret.exp.putAll(this.exp);
+            ret.binds.putAll(this.binds);
+            ret.cooldowns.putAll(this.cooldowns);
+            ret.lastKnownName = this.lastKnownName;
+            ret.currentMana = this.currentMana;
+            ret.currentStamina = this.currentStamina;
+            ret.maxStamina = this.maxStamina;
+            ret.isManaVerbose = this.isManaVerbose;
+            ret.isSkillVerbose = this.isSkillVerbose;
+            ret.isStaminaVerbose = this.isStaminaVerbose;
+            ret.displayPrimaryRole = this.displayPrimaryRole;
+            ret.ignoredSkills.addAll(this.ignoredSkills);
+            return ret;
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     /**
@@ -90,7 +108,7 @@ public class PlayerData implements Cloneable {
      *
      * @return all active roles
      */
-    public Collection<Role> allRoles() {
+    public Collection<Role> getAllRoles() {
         if (this.allRoles != null) return this.allRoles;
 
         ImmutableList.Builder<Role> b = ImmutableList.builder();

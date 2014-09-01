@@ -15,30 +15,24 @@
  */
 package com.afterkraft.kraftrpg.api.events.entity.damage;
 
+import java.util.Map;
+
 import org.bukkit.event.HandlerList;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 
 import com.afterkraft.kraftrpg.api.entity.Insentient;
 import com.afterkraft.kraftrpg.api.entity.SkillCaster;
 
 public class SkillDamageEvent extends InsentientDamageInsentientEvent {
-    private static final HandlerList handlers = new HandlerList();
 
-    public SkillDamageEvent(SkillCaster attacker, Insentient defender, EntityDamageEvent event, double defaultDamage, boolean isVaryingEnabled) {
-        super(attacker, defender, event, defaultDamage, isVaryingEnabled);
-    }
-
-    public static HandlerList getHandlerList() {
-        return handlers;
+    public SkillDamageEvent(final SkillCaster attacker, final Insentient defender, final EntityDamageByEntityEvent event, final Map<DamageType, Double> modifiers, boolean isVaryingEnabled) {
+        super(attacker, defender, event, modifiers, isVaryingEnabled);
     }
 
     @Override
-    public SkillCaster getAttacker() {
+    public final SkillCaster getAttacker() {
         return (SkillCaster) super.getAttacker();
     }
 
-    @Override
-    public HandlerList getHandlers() {
-        return handlers;
-    }
 }

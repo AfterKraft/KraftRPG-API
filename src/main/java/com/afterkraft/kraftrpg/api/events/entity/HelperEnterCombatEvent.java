@@ -29,28 +29,13 @@ import com.afterkraft.kraftrpg.api.entity.SkillCaster;
  * healing a Sentient already in combat with the 'other'.
  */
 public class HelperEnterCombatEvent extends EnterCombatEvent {
-    private static final HandlerList handlers = new HandlerList();
     private Sentient buffed;
 
     public HelperEnterCombatEvent(SkillCaster being, Sentient buffed, Sentient other, WeakHashMap<LivingEntity, EnterCombatReason> combatMap, EnterCombatReason reason) {
         super(being, other, combatMap, reason);
     }
 
-    public static HandlerList getHandlerList() {
-        return handlers;
-    }
-
-    @Override
-    public SkillCaster getBeing() {
-        return (SkillCaster) this.being;
-    }
-
-    @Override
-    public HandlerList getHandlers() {
-        return handlers;
-    }
-
-    public Sentient getBuffedBeing() {
+    public final Sentient getBuffedBeing() {
         return this.buffed;
     }
 }

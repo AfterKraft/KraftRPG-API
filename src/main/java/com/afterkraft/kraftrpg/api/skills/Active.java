@@ -18,7 +18,6 @@ package com.afterkraft.kraftrpg.api.skills;
 import java.util.List;
 
 import com.afterkraft.kraftrpg.api.entity.SkillCaster;
-import com.afterkraft.kraftrpg.api.util.SkillRequirement;
 
 /**
  * Represents a Skill that only has results on activation through command or
@@ -30,7 +29,6 @@ import com.afterkraft.kraftrpg.api.util.SkillRequirement;
  * <p/>
  * The methods {@link #getUsage()},
  * {@link #tabComplete(com.afterkraft.kraftrpg.api.entity.SkillCaster, String[], int)}
- * , {@link #getSkillRequirement(SkillCaster)}
  * <p/>
  * The methods that do rely on parser state shall be called in the following
  * order:
@@ -131,17 +129,5 @@ public interface Active extends ISkill {
      * @param caster caster, for validation
      */
     public void cleanState(SkillCaster caster);
-
-    /**
-     * Return the calculated SkillRequirement for the queried
-     * {@link com.afterkraft.kraftrpg.api.entity.Champion}. This can be
-     * overriden to use different requirements dependent on various things,
-     * such as Attributes, the experience level of the Champion, and other
-     * things.
-     *
-     * @param caster the Champion to check
-     * @return a new SkillRequirement for the queried champion
-     */
-    public SkillRequirement getSkillRequirement(SkillCaster caster);
 
 }

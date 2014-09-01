@@ -106,7 +106,7 @@ public interface EntityManager extends Manager {
      * @throws IllegalArgumentException If the player is null
      * @throws IllegalArgumentException If the data is null
      */
-    public Champion createChampion(Player player, PlayerData data);
+    public Champion createChampionWithData(Player player, PlayerData data);
 
     /**
      * Add the given entity to be managed by KraftRPG. This is to allow custom
@@ -146,5 +146,11 @@ public interface EntityManager extends Manager {
     public Set<Summon> getSummons(SkillCaster owner);
 
 
-
+    /**
+     * Removes the desired champion due to logout or quit. This is only supported
+     * to remove tracking of the champion.
+     *
+     * @param c
+     */
+    public void removeChampion(Champion c);
 }

@@ -186,14 +186,28 @@ public interface Insentient extends IEntity {
      *
      * @return the stamina of this being
      */
-    public float getStamina();
+    public int getStamina();
+
+    /**
+     * Gets the maximum stamina for this being. Stamina is a resource that some
+     * skills may use and affects how fast a Player walks.
+     * @return The maximum stamina
+     */
+    public int getMaxStamina();
+
+    /**
+     * Sets the stamina for the linked Insentient being. Stamina is a resource
+     * that some skills may use and affects how a Player walks in the world.
+     * @param stamina The stamina to be set
+     */
+    public void setStamina(int stamina);
 
     /**
      * Modifies the current stamina of the being. Stamina can be negative
      *
      * @param staminaDiff to add to the current mana of the being
      */
-    public void modifyStamina(float staminaDiff);
+    public void modifyStamina(int staminaDiff);
 
     /**
      * A cleaning method provided to ensure possible connected client's view

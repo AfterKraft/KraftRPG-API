@@ -25,7 +25,6 @@ import com.afterkraft.kraftrpg.api.entity.Insentient;
 
 public abstract class InsentientEvent extends Event {
 
-    private static final HandlerList handlers = new HandlerList();
     private final Insentient entity;
 
     protected InsentientEvent(Insentient entity) {
@@ -33,16 +32,7 @@ public abstract class InsentientEvent extends Event {
         this.entity = entity;
     }
 
-    public static HandlerList getHandlerList() {
-        return handlers;
-    }
-
     public Insentient getEntity() {
         return this.entity;
-    }
-
-    @Override
-    public HandlerList getHandlers() {
-        return handlers;
     }
 }

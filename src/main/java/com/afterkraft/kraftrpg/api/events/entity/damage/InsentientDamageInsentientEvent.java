@@ -15,7 +15,10 @@
  */
 package com.afterkraft.kraftrpg.api.events.entity.damage;
 
+import java.util.Map;
+
 import org.bukkit.event.HandlerList;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 
 import com.afterkraft.kraftrpg.api.entity.Insentient;
@@ -46,16 +49,11 @@ import com.afterkraft.kraftrpg.api.entity.Insentient;
  * that may not be considered {@link org.bukkit.entity.LivingEntity}.
  */
 public class InsentientDamageInsentientEvent extends InsentientDamageEvent {
-    private static final HandlerList handlers = new HandlerList();
     private final Insentient attacker;
 
-    public InsentientDamageInsentientEvent(Insentient attacker, Insentient defender, EntityDamageEvent event, double defaultDamage, boolean isVaryingEnabled) {
-        super(defender, event, defaultDamage, isVaryingEnabled);
+    public InsentientDamageInsentientEvent(final Insentient attacker, final Insentient defender, final EntityDamageByEntityEvent event, final Map<DamageType, Double> modifiers, final boolean isVarying) {
+        super(defender, event, modifiers, isVarying);
         this.attacker = attacker;
-    }
-
-    public static HandlerList getHandlerList() {
-        return handlers;
     }
 
     /**
@@ -70,10 +68,5 @@ public class InsentientDamageInsentientEvent extends InsentientDamageEvent {
      */
     public Insentient getAttacker() {
         return this.attacker;
-    }
-
-    @Override
-    public HandlerList getHandlers() {
-        return handlers;
     }
 }

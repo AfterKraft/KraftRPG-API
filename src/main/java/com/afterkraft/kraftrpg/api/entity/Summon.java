@@ -24,8 +24,25 @@ package com.afterkraft.kraftrpg.api.entity;
  */
 public interface Summon extends Insentient {
 
+    /**
+     * Gets the time in milliseconds this summon has remaining to live in the
+     * world.
+     *
+     * @return The time left remaining in the world
+     */
     public long getTimeLeftAlive();
 
+    /**
+     * Gets the linked summoner that summoned this summon.
+     *
+     * @return The skillcaster that summoned this summon
+     */
     public SkillCaster getSummoner();
+
+    /**
+     * Removes the summon from the world. This is a utility method primarily to
+     * reset the summon and unlink it from any physical contact.
+     */
+    public void remove();
 
 }

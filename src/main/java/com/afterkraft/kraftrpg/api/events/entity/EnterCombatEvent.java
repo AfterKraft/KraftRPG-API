@@ -25,16 +25,16 @@ import org.bukkit.event.HandlerList;
 import com.afterkraft.kraftrpg.api.entity.EnterCombatReason;
 import com.afterkraft.kraftrpg.api.entity.Sentient;
 
-public class EnterCombatEvent extends Event implements Cancellable {
+public class EnterCombatEvent extends InsentientEvent implements Cancellable {
 
     private static final HandlerList handlers = new HandlerList();
-    protected Sentient being, with;
-    protected EnterCombatReason reason;
-    private WeakHashMap<LivingEntity, EnterCombatReason> combatMap;
+    protected final Sentient with;
+    protected final EnterCombatReason reason;
+    private final WeakHashMap<LivingEntity, EnterCombatReason> combatMap;
     private boolean cancelled;
 
     public EnterCombatEvent(Sentient being, Sentient with, WeakHashMap<LivingEntity, EnterCombatReason> combatMap, EnterCombatReason reason) {
-        this.being = being;
+        super(being);
         this.with = with;
         this.combatMap = combatMap;
         this.reason = reason;
@@ -44,39 +44,31 @@ public class EnterCombatEvent extends Event implements Cancellable {
         return handlers;
     }
 
-    /**
-     * Get the Sentient entering combat in this event.
-     *
-     * @return sentient entering combat
-     */
-    public Sentient getBeing() {
-        return this.being;
-    }
 
     /**
      * Get the Sentient that the primary one is entering combat with.
      *
      * @return sentient
      */
-    public Sentient getOtherBeing() {
+    public final Sentient getOtherBeing() {
         return this.with;
     }
 
-    public WeakHashMap<LivingEntity, EnterCombatReason> getCombatMap() {
+    public final WeakHashMap<LivingEntity, EnterCombatReason> getCombatMap() {
         return this.combatMap;
     }
 
-    public EnterCombatReason getReason() {
+    public final EnterCombatReason getReason() {
         return this.reason;
     }
 
     @Override
-    public boolean isCancelled() {
+    public final boolean isCancelled() {
         return this.cancelled;
     }
 
     @Override
-    public void setCancelled(boolean cancel) {
+    public final void setCancelled(boolean cancel) {
         this.cancelled = cancel;
 
     }

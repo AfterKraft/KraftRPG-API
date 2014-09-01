@@ -53,6 +53,8 @@ public final class Role {
     private final Map<Material, Double> itemDamages;
     private final Map<Material, Double> itemDamagePerLevel;
     private final Map<Material, Boolean> itemVaryingDamage;
+    private final Set<Material> allowedArmor;
+    private final Set<Material> allowedWeapon;
     private final Set<ExperienceType> allowedExperience;
     private final Set<String> children;
     private final Set<String> parents;
@@ -111,8 +113,16 @@ public final class Role {
             experienceTypeBuilder.add(type1);
         }
         ImmutableSet.Builder<String> restrictedSkillsBuilder = ImmutableSet.builder();
-        for (String skillName : builder.restirctedSkills) {
+        for (String skillName : builder.restrictedSkills) {
             restrictedSkillsBuilder.add(skillName);
+        }
+        ImmutableSet.Builder<Material> allowedArmorBuilder = ImmutableSet.builder();
+        for (Material type : builder.allowedArmor) {
+            allowedArmorBuilder.add(type);
+        }
+        ImmutableSet.Builder<Material> allowedWeaponBuilder = ImmutableSet.builder();
+        for (Material type : builder.allowedWeapon) {
+            allowedWeaponBuilder.add(type);
         }
         this.skills = skillBuilder.build();
         this.allowedExperience = experienceTypeBuilder.build();
@@ -122,6 +132,8 @@ public final class Role {
         this.children = childList.build();
         this.parents = parentList.build();
         this.restrictedSkills = restrictedSkillsBuilder.build();
+        this.allowedArmor = allowedArmorBuilder.build();
+        this.allowedWeapon = allowedWeaponBuilder.build();
     }
 
     /**
@@ -186,7 +198,7 @@ public final class Role {
     /**
      * Get the type of Role this is.
      *
-     * @return the {@link com.afterkraft.kraftrpg.api.roles.Role.RoleType}
+     * @return the {@link RoleType}
      */
     public final RoleType getType() {
         return this.type;
@@ -517,6 +529,32 @@ public final class Role {
     }
 
     /**
+     * Checks if the material type is considered to be a wearable Armor piece
+     * for this role.
+     *
+     * @param type The type of material to check
+     * @return True if the material is allowed as an armor piece
+     * @throws IllegalArgumentException if the type is null
+     */
+    public boolean isArmorAllowed(Material type) {
+        Validate.notNull(type, "Cannot check a null Material type!");
+        return this.allowedArmor.contains(type);
+    }
+
+    /**
+     * Checks if the material type is considered to be an equipable Weapon for
+     * this role.
+     *
+     * @param type The type of material to check
+     * @return True if the material is allowed as a weapon
+     * @throws IllegalArgumentException If the type is null
+     */
+    public boolean isWeaponAllowed(Material type) {
+        Validate.notNull(type, "Cannot check a null Material type!");
+        return this.allowedWeapon.contains(type);
+    }
+
+    /**
      * Gets the description of this role.
      *
      * @return the description of this role
@@ -626,8 +664,10 @@ public final class Role {
         /**
          * An Additional role defines only skills to be granted at level 0 or
          * a progressing skill tree. It does not alter health or mana
-         * benefits. A {@link com.afterkraft.kraftrpg.api.entity.Sentient} may
-         * have several Additional roles active at any given time.
+         * benefits. Nor does it provide any weapon/armor/item allowances.
+         * It should be noted that a {@link com.afterkraft.kraftrpg.api.entity.Sentient}
+         * may have several active Additional roles at any given time.
+         * Additional roles may still provide skill settings.
          */
         ADDITIONAL
     }
@@ -643,7 +683,9 @@ public final class Role {
         Map<Material, Double> itemDamagePerLevel = new EnumMap<Material, Double>(Material.class);
         Map<Material, Boolean> itemVaryingDamage = new EnumMap<Material, Boolean>(Material.class);
         Set<ExperienceType> experienceTypes = new HashSet<ExperienceType>();
-        Set<String> restirctedSkills = new HashSet<String>();
+        Set<Material> allowedArmor = new HashSet<Material>();
+        Set<Material> allowedWeapon = new HashSet<Material>();
+        Set<String> restrictedSkills = new HashSet<String>();
         RoleType type = RoleType.PRIMARY;
         Set<String> children = new HashSet<String>();
         Set<String> parents = new HashSet<String>();
@@ -801,7 +843,7 @@ public final class Role {
             Validate.notNull(skill.getName(), "Cannot have a Skill with a null name!");
             Validate.isTrue(!skill.getName().isEmpty(), "Cannot have an empty Skill name!");
             Validate.isTrue(section.getInt(SkillSetting.LEVEL.node(), 0) >= 0, "Level not specified in the skill configuration!");
-            Validate.isTrue(!this.restirctedSkills.contains(skill.getName()), "Cannot add a skill that is already restricted!");
+            Validate.isTrue(!this.restrictedSkills.contains(skill.getName()), "Cannot add a skill that is already restricted!");
             this.skills.put(skill.getName(), new RoleSkill(skill.getName(), section));
             return this;
         }
@@ -865,6 +907,24 @@ public final class Role {
             Validate.notNull(child, "Cannot set a null parent Role!");
             Validate.isTrue(!this.parents.contains(child.getName()), "Cannot remove a child role when it is already a parent role!");
             this.children.remove(child.getName());
+            return this;
+        }
+
+        /**
+         * Adds the specified Material type to the allowed armor for this role.
+         * Armor can restricted to different roles.
+         * @param type Type of armor material
+         * @return This builder for chaining
+         */
+        public Builder addAllowedArmor(Material type) {
+            Validate.notNull(type, "Cannot add a null armor type");
+            this.allowedArmor.add(type);
+            return this;
+        }
+
+        public Builder addAllowedWeapon(Material type) {
+            Validate.notNull(type, "Cannot add a null weapon type");
+            this.allowedWeapon.add(type);
             return this;
         }
 
@@ -942,7 +1002,7 @@ public final class Role {
         public Builder addRestirctedSkill(ISkill skill) {
             Validate.notNull(skill, "Cannot add a restriction on a null Skill!");
             Validate.isTrue(!this.skills.containsKey(skill.getName()), "Cannot restrict a skill that is already added as a granted skill!");
-            this.restirctedSkills.add(skill.getName());
+            this.restrictedSkills.add(skill.getName());
             return this;
         }
 
@@ -957,7 +1017,7 @@ public final class Role {
          */
         public Builder removeRestrictedSkill(ISkill skill) {
             Validate.notNull(skill, "Cannot remove a restriction on a null Skill!");
-            this.restirctedSkills.remove(skill.getName());
+            this.restrictedSkills.remove(skill.getName());
             return this;
         }
 

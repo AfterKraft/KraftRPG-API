@@ -20,7 +20,6 @@ import java.util.Collection;
 import com.afterkraft.kraftrpg.api.roles.Role;
 import com.afterkraft.kraftrpg.api.skills.ISkill;
 import com.afterkraft.kraftrpg.api.skills.Stalled;
-import com.afterkraft.kraftrpg.api.util.SkillRequirement;
 
 /**
  * SkillCaster is the core interface that
@@ -29,16 +28,6 @@ import com.afterkraft.kraftrpg.api.util.SkillRequirement;
  * of skills and effects.
  */
 public interface SkillCaster extends Sentient, PartyMember {
-
-    /**
-     * Attempts to remove the designated {@link SkillRequirement} from this
-     * caster. Calling this should assume this caster has satisfied the
-     * requirement and also assume that the requirement is removed properly.
-     *
-     * @param skillRequirement to remove from the caster
-     * @throws IllegalArgumentException If the requirement is null
-     */
-    public void removeSkillRequirement(SkillRequirement skillRequirement);
 
     /**
      * Get the key'ed cooldown. Used by skills to mark individual cooldowns

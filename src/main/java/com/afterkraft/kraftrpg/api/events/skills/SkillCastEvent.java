@@ -19,6 +19,8 @@ import org.bukkit.event.Cancellable;
 import org.bukkit.event.HandlerList;
 import org.bukkit.inventory.ItemStack;
 
+import org.apache.commons.lang.Validate;
+
 import com.afterkraft.kraftrpg.api.entity.SkillCaster;
 import com.afterkraft.kraftrpg.api.events.entity.InsentientEvent;
 import com.afterkraft.kraftrpg.api.skills.ISkill;
@@ -37,11 +39,15 @@ public class SkillCastEvent extends InsentientEvent implements Cancellable {
 
     public SkillCastEvent(SkillCaster caster, ISkill skill, double manaCost, double healthCost, double exhaustionCost, ItemStack reagentCost) {
         super(caster);
+        Validate.notNull(skill, "Cannot have a null skill!");
         this.skill = skill;
         this.manaCost = manaCost;
         this.healthCost = healthCost;
         this.exhaustionCost = exhaustionCost;
-        this.reagent = reagentCost;
+        if (reagentCost != null)
+        this.reagent = new ItemStack(reagentCost);
+        else
+        this.reagent = null;
         this.cancelled = false;
     }
 
@@ -90,11 +96,11 @@ public class SkillCastEvent extends InsentientEvent implements Cancellable {
     }
 
     public ItemStack getItemCost() {
-        return this.reagent;
+        return this.reagent == null ? null : this.reagent.clone();
     }
 
     public void setItemCost(ItemStack item) {
-        this.reagent = item;
+        this.reagent = new ItemStack(item);
     }
 
     @Override

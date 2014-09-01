@@ -15,8 +15,11 @@
  */
 package com.afterkraft.kraftrpg.api.events.entity.damage;
 
+import java.util.Map;
+
 import org.bukkit.entity.Projectile;
 import org.bukkit.event.HandlerList;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.inventory.ItemStack;
 
@@ -26,21 +29,13 @@ public class ProjectileDamageEvent extends WeaponDamageEvent {
     private static final HandlerList handlers = new HandlerList();
     private final Projectile projectile;
 
-    public ProjectileDamageEvent(Insentient attacker, Insentient defender, Projectile projectile, EntityDamageEvent event, ItemStack weapon, double defaultDamage, boolean isVaryingEnabled) {
-        super(attacker, defender, event, weapon, defaultDamage, isVaryingEnabled);
+    public ProjectileDamageEvent(final Insentient attacker, final Insentient defender, final Projectile projectile, final EntityDamageByEntityEvent event, final ItemStack weapon, final Map<DamageType, Double> modifiers, boolean isVaryingEnabled) {
+        super(attacker, defender, event, weapon, modifiers, isVaryingEnabled);
         this.projectile = projectile;
-    }
-
-    public static HandlerList getHandlerList() {
-        return handlers;
     }
 
     public final Projectile getProjectile() {
         return this.projectile;
     }
 
-    @Override
-    public HandlerList getHandlers() {
-        return handlers;
-    }
 }

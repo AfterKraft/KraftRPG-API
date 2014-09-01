@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.afterkraft.kraftrpg.api.events.entity.effects;
+package com.afterkraft.kraftrpg.api.events.effects;
 
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;

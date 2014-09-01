@@ -74,7 +74,9 @@ public final class ExternalProviderRegistration {
 
     public static <T extends Function<? super Double, Double>> void registerDamageModifierFunction(DamageModifier modifier, T function) {
         check();
+        Validate.isTrue(modifier != DamageModifier.BASE, "Cannot register a BASE DamageModifier function!");
         Validate.notNull(modifier, "Cannot register a null modifier");
+        Validate.notNull(function, "Cannot register a null function!");
         modifiers.put(modifier, function);
     }
 
@@ -187,6 +189,10 @@ public final class ExternalProviderRegistration {
         providedSkills = ImmutableList.copyOf(providedSkills);
         storageBackends = ImmutableMap.copyOf(storageBackends);
         modifiers = ImmutableMap.copyOf(modifiers);
+    }
+
+    public static Map<DamageModifier, Function<? super Double, Double>> getDamageModifierFunctions() {
+        return modifiers;
     }
 
     public static List<ISkill> getRegisteredSkills() {

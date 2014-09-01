@@ -17,6 +17,8 @@ package com.afterkraft.kraftrpg.api.effects.common;
 
 import java.util.Collection;
 import java.util.EnumSet;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang.Validate;
@@ -28,6 +30,7 @@ import com.afterkraft.kraftrpg.api.effects.EffectType;
 import com.afterkraft.kraftrpg.api.effects.PeriodicExpirableEffect;
 import com.afterkraft.kraftrpg.api.entity.Insentient;
 import com.afterkraft.kraftrpg.api.entity.SkillCaster;
+import com.afterkraft.kraftrpg.api.events.entity.damage.InsentientDamageEvent.DamageType;
 import com.afterkraft.kraftrpg.api.skills.Skill;
 import com.afterkraft.kraftrpg.api.skills.SkillType;
 
@@ -105,7 +108,14 @@ public class DamagingEffect extends PeriodicExpirableEffect implements Damaging 
             if (being instanceof SkillCaster) {
                 SkillCaster caster = (SkillCaster) being;
                 this.skill.addSkillTarget(being.getEntity(), caster);
-                Skill.damageEntity(being.getEntity(), getApplier().getEntity(), this.tickDamage, this.skill.isType(SkillType.ABILITY_PROPERTY_PHYSICAL) ? DamageCause.ENTITY_ATTACK : DamageCause.MAGIC, this.knockback);
+                boolean isMagic = this.skill.isType(SkillType.ABILITY_PROPERTY_PHYSICAL);
+                Map<DamageType, Double> modifiers = new HashMap<DamageType, Double>();
+                if (isMagic) {
+                    modifiers.put(DamageType.MAGICAL, this.tickDamage);
+                } else {
+                    modifiers.put(DamageType.PHYSICAL, this.tickDamage);
+                }
+                Skill.damageEntity(being, (SkillCaster) getApplier(), this.skill,  modifiers, this.skill.isType(SkillType.ABILITY_PROPERTY_PHYSICAL) ? DamageCause.ENTITY_ATTACK : DamageCause.MAGIC, this.knockback);
             }
         }
     }

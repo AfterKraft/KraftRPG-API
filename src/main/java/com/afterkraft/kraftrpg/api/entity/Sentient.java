@@ -154,6 +154,9 @@ public interface Sentient extends Insentient {
     /**
      * Attempts to remove the given {@link Role} provided that the
      * {@link com.afterkraft.kraftrpg.api.roles.Role.RoleType} is ADDITIONAL.
+     * This does NOT perform any skill permission refreshes, nor does it check
+     * for any passive skills refreshes. This would need to be checked manually
+     * by the caller of this method.
      *
      * @param role the additional role to remove from this sentient being
      * @return true if the role was removed successfully

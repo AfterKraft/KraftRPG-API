@@ -62,7 +62,7 @@ public enum EffectType {
     BLEED,
     /**
      * Causes the Insentient being to have a blinded potion effect. Usually
-     * prevents physical and projectile attacks to miss.
+     * makes physical and magical attacks to miss their targets.
      */
     BLIND,
     /**

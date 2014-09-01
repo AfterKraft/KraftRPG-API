@@ -15,9 +15,14 @@
  */
 package com.afterkraft.kraftrpg.api.events.entity.damage;
 
+import java.util.Map;
+
 import org.bukkit.event.HandlerList;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.inventory.ItemStack;
+
+import org.apache.commons.lang.Validate;
 
 import com.afterkraft.kraftrpg.api.entity.Insentient;
 
@@ -54,17 +59,12 @@ import com.afterkraft.kraftrpg.api.entity.Insentient;
  */
 public class WeaponDamageEvent extends InsentientDamageInsentientEvent {
 
-    private static final HandlerList handlers = new HandlerList();
+    private final ItemStack weapon;
 
-    private ItemStack weapon;
-
-    public WeaponDamageEvent(Insentient attacker, Insentient defender, EntityDamageEvent event, ItemStack weapon, double defaultDamage, boolean isVaryingEnabled) {
-        super(attacker, defender, event, defaultDamage, isVaryingEnabled);
-        this.weapon = weapon;
-    }
-
-    public static HandlerList getHandlerList() {
-        return handlers;
+    public WeaponDamageEvent(final Insentient attacker, final Insentient defender, final EntityDamageByEntityEvent event, final ItemStack weapon, final Map<DamageType, Double> modifiers, final boolean isVaryingEnabled) {
+        super(attacker, defender, event, modifiers, isVaryingEnabled);
+        Validate.notNull(weapon, "Cannot have a null weapon!");
+        this.weapon = new ItemStack(weapon);
     }
 
     /**
@@ -74,12 +74,7 @@ public class WeaponDamageEvent extends InsentientDamageInsentientEvent {
      *
      * @return the Item used to attack the defending Insentient being.
      */
-    public ItemStack getWeaponUsed() {
-        return this.weapon;
-    }
-
-    @Override
-    public HandlerList getHandlers() {
-        return handlers;
+    public final ItemStack getWeaponUsed() {
+        return this.weapon.clone();
     }
 }

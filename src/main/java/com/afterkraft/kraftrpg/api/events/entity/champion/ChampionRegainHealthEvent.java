@@ -26,8 +26,6 @@ import com.afterkraft.kraftrpg.api.skills.ISkill;
 public class ChampionRegainHealthEvent extends InsentientRegainHealthEvent {
 
 
-    private static final HandlerList handlers = new HandlerList();
-
     public ChampionRegainHealthEvent(Champion beneficiary, double healAmount, ISkill skill) {
         super(beneficiary, healAmount, skill);
     }
@@ -36,17 +34,8 @@ public class ChampionRegainHealthEvent extends InsentientRegainHealthEvent {
         super(beneficiary, healAmount, skill, healer);
     }
 
-    public static HandlerList getHandlerList() {
-        return handlers;
-    }
-
     public Champion getChampion() {
         return (Champion) super.getEntity();
-    }
-
-    @Override
-    public HandlerList getHandlers() {
-        return handlers;
     }
 
 }

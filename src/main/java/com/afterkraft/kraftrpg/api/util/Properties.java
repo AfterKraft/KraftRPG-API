@@ -17,6 +17,7 @@ package com.afterkraft.kraftrpg.api.util;
 
 
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 
@@ -41,6 +42,19 @@ public interface Properties {
     public boolean isStarvingDamageEnabled();
 
     public int getCombatTime();
+
+    public int getDefaultMaxStamina();
+
+    public int getDefaultStaminaRegeneration();
+
+    /**
+     * Gets the stamina increase for the desired Material. If the Material is
+     * not a food item, the value of 0 will be given.
+     *
+     * @param foodMaterial
+     * @return
+     */
+    public int getStaminaIncreaseForFood(Material foodMaterial);
 
     public int getFoodHealPercent();
 

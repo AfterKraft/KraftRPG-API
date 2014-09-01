@@ -23,7 +23,6 @@ import org.apache.commons.lang.Validate;
 
 import com.afterkraft.kraftrpg.api.RPGPlugin;
 import com.afterkraft.kraftrpg.api.entity.SkillCaster;
-import com.afterkraft.kraftrpg.api.util.SkillRequirement;
 
 /**
  * See {@link Active}.
@@ -163,11 +162,6 @@ public abstract class ActiveSkill extends Skill implements Active {
         for (SkillArgument arg : this.skillArguments) {
             arg.clean();
         }
-    }
-
-    @Override
-    public SkillRequirement getSkillRequirement(SkillCaster caster) {
-        return SkillRequirement.TRUE;
     }
 
     public SkillCastResult checkCustomRestrictions(SkillCaster caster) {

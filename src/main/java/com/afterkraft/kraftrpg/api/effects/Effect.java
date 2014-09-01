@@ -17,6 +17,7 @@ package com.afterkraft.kraftrpg.api.effects;
 
 import java.util.Collection;
 import java.util.EnumSet;
+import java.util.HashSet;
 import java.util.Set;
 
 import com.google.common.collect.ImmutableSet;
@@ -61,11 +62,10 @@ public class Effect implements IEffect {
         this.skill = skill;
         this.persistent = persistent;
         this.types.addAll(types);
-        ImmutableSet.Builder<PotionEffect> builder = ImmutableSet.builder();
+        this.potionEffects = new HashSet<PotionEffect>();
         for (PotionEffect effect : potionEffects) {
-            builder.add(new PotionEffect(effect.getType(), effect.getDuration(), effect.getAmplifier(), effect.isAmbient()));
+            this.potionEffects.add(new PotionEffect(effect.getType(), effect.getDuration(), effect.getAmplifier(), effect.isAmbient()));
         }
-        this.potionEffects = builder.build();
 
         this.applyText = applyText;
         this.expireText = expireText;
@@ -89,7 +89,15 @@ public class Effect implements IEffect {
 
     @Override
     public final Set<PotionEffect> getPotionEffects() {
-        return this.potionEffects;
+        ImmutableSet.Builder<PotionEffect> builder = ImmutableSet.builder();
+        for (PotionEffect effect : this.potionEffects) {
+            builder.add(new PotionEffect(effect.getType(), effect.getDuration(), effect.getAmplifier(), effect.isAmbient()));
+        }
+        return builder.build();
+    }
+
+    protected void addPotionEffect(PotionEffect effect) {
+        this.potionEffects.add(new PotionEffect(effect.getType(), effect.getDuration(), effect.getAmplifier(), effect.isAmbient()));
     }
 
     @Override

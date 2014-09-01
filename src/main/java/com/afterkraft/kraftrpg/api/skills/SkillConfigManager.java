@@ -27,7 +27,24 @@ import com.afterkraft.kraftrpg.api.entity.Sentient;
 import com.afterkraft.kraftrpg.api.entity.SkillCaster;
 import com.afterkraft.kraftrpg.api.roles.Role;
 
-
+/**
+ * A manager providing skill configurations for all skills. There may be more
+ * than one skill manager provided at any time, provided that the implementing
+ * skill is defined to use more than one.
+ *
+ * All Role settings are performed for the role specifically and does not take
+ * into account any other role settings, or alternative settings provided by
+ * other means.
+ *
+ * All use settings, such as {@link #getUsedSetting(SkillCaster, ISkill, SkillSetting)}
+ * have the following priority in terms of role skill definitions:
+ * <ol>
+ *     <li>{@link com.afterkraft.kraftrpg.api.roles.Role.RoleType#PRIMARY}</li>
+ *     <li>{@link com.afterkraft.kraftrpg.api.roles.Role.RoleType#SECONDARY}</li>
+ *     <li>{@link com.afterkraft.kraftrpg.api.roles.Role.RoleType#ADDITIONAL}</li>
+ * </ol>
+ *
+ */
 public interface SkillConfigManager extends Manager {
 
     /**
@@ -68,9 +85,19 @@ public interface SkillConfigManager extends Manager {
      * Clears all custom skill settings after use. This is used for cleaning up
      * the provided skill defaults for a caster's use.
      *
-     * @param caster
+     * @param caster The caster using the defaults
      */
     public void clearTemporarySkillConfigurations(SkillCaster caster);
+
+    /**
+     * Clears the custom skill settings for the specified skill. This is used
+     * for cleaning up the provided skill defaults for a caster's specific
+     * skill use.
+     *
+     * @param caster The caster using the defaults
+     * @param skill The skill for the defaults
+     */
+    public void clearTemporarySkillConfigurations(SkillCaster caster, ISkill skill);
 
     /**
      * Gets the global {@link ISkill} setting defined by the String setting.
@@ -161,6 +188,34 @@ public interface SkillConfigManager extends Manager {
      */
     public boolean isSettingConfigured(ISkill skill, String setting);
 
+    public Object getRawSetting(ISkill skill, String setting);
+
+    public Object getRawSetting(ISkill skill, SkillSetting setting);
+
+    public int getRawIntSetting(ISkill skill, String setting);
+
+    public int getRawIntSetting(ISkill skill, SkillSetting setting);
+
+    public double getRawDoubleSetting(ISkill skill, String setting);
+
+    public double getRawDoubleSetting(ISkill skill, SkillSetting setting);
+
+    public String getRawStringSetting(ISkill skill, String setting);
+
+    public String getRawStringSetting(ISkill skill, SkillSetting setting);
+
+    public Boolean getRawBooleanSetting(ISkill skill, String setting);
+
+    public Boolean getRawBooleanSetting(ISkill skill, SkillSetting setting);
+
+    public List<String> getRawStringListSetting(ISkill skill, String setting);
+
+    public List<String> getRawStringListSetting(ISkill skill, SkillSetting setting);
+
+    public ItemStack getRawItemStackSetting(ISkill skill, String setting);
+
+    public ItemStack getRawItemStackSetting(ISkill skill, SkillSetting setting);
+
     public Object getSetting(Role role, ISkill skill, SkillSetting setting);
 
     public Object getSetting(Role role, ISkill skill, String setting);
@@ -189,21 +244,7 @@ public interface SkillConfigManager extends Manager {
 
     public ItemStack getItemStackSetting(Role role, ISkill skill, String setting);
 
-    public Set<String> getRootKeys(Role role, ISkill skill);
-
-    public Set<String> getSettingKeys(Role role, ISkill skill, String setting);
-
-    public Set<String> getSettingKeys(Role role, ISkill skill, SkillSetting setting);
-
-    public Set<String> getUseSettingKeys(SkillCaster caster, ISkill skill, SkillSetting setting);
-
-    public Set<String> getUseSettingKeys(SkillCaster caster, ISkill skill, String setting);
-
-    public List<String> getUseSettingKeys(SkillCaster caster, ISkill skill);
-
-    public int getLevel(Sentient being, ISkill skill);
-
-    public int getLevel(Sentient being, ISkill skill, int defaultSetting);
+    public int getLevel(SkillCaster caster, ISkill skill);
 
     public Object getUsedSetting(SkillCaster caster, ISkill skill, SkillSetting setting);
 

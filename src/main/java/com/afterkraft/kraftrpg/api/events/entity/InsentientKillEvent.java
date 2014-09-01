@@ -37,18 +37,19 @@ public class InsentientKillEvent extends InsentientEvent {
         return handlers;
     }
 
-    public Insentient getKiller() {
+    public final Insentient getKiller() {
         return this.getEntity();
     }
 
-    public Insentient getVictim() {
+    public final Insentient getVictim() {
         return this.victim;
     }
 
-    public EnterCombatReason getReason() {
+    public final EnterCombatReason getReason() {
         return reason;
     }
 
+    @Override
     public HandlerList getHandlers() {
         return handlers;
     }

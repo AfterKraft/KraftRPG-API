@@ -17,6 +17,7 @@ package com.afterkraft.kraftrpg.api.skills;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.EnumMap;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -24,6 +25,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.google.common.base.Function;
+import com.google.common.base.Functions;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Sets;
 import org.apache.commons.lang.Validate;
 
@@ -43,12 +47,17 @@ import com.afterkraft.kraftrpg.api.RPGPlugin;
 import com.afterkraft.kraftrpg.api.entity.Champion;
 import com.afterkraft.kraftrpg.api.entity.Insentient;
 import com.afterkraft.kraftrpg.api.entity.SkillCaster;
+import com.afterkraft.kraftrpg.api.events.entity.damage.InsentientDamageEvent;
+import com.afterkraft.kraftrpg.api.events.entity.damage.InsentientDamageEvent.DamageType;
 import com.afterkraft.kraftrpg.api.handler.CraftBukkitHandler;
 
 /**
  * Represents an intended implementation of ISkill.
  */
 public abstract class Skill implements ISkill {
+
+    private static final Function<? super Double, Double> ZERO = Functions.constant(-0.0);
+
 
     public final RPGPlugin plugin;
     private final Map<SkillSetting, Object> settings = new HashMap<SkillSetting, Object>();
@@ -73,24 +82,41 @@ public abstract class Skill implements ISkill {
         CraftBukkitHandler.getInterface().knockBack(target, attacker, damage);
     }
 
-    public static boolean damageEntity(ISkill skill, Insentient target, Insentient attacker, double damage) {
-        return damageEntity(skill, target.getEntity(), attacker.getEntity(), damage);
+    public static boolean damageEntity(LivingEntity target, SkillCaster attacker, ISkill skill, double damage, DamageCause cause) {
+        return damageEntity(target, attacker, skill, damage, cause, true);
     }
 
-    public static boolean damageEntity(ISkill skill, LivingEntity target, LivingEntity attacker, double damage) {
-        return damageEntity(target, attacker, damage, skill.isType(SkillType.ABILITY_PROPERTY_AIR) || skill.isType(SkillType.ABILITY_PROPERTY_PHYSICAL) ? DamageCause.ENTITY_ATTACK : DamageCause.MAGIC);
+    public static boolean damageEntity(LivingEntity target, SkillCaster attacker, ISkill skill, double damage, DamageCause cause, boolean knockback) {
+        return damageEntity(target, attacker, skill, damage, cause, knockback, false);
     }
 
-    public static boolean damageEntity(LivingEntity target, LivingEntity attacker, double damage, DamageCause cause) {
-        return damageEntity(target, attacker, damage, cause, true);
+    public static boolean damageEntity(LivingEntity target, SkillCaster attacker, ISkill skill, double damage, DamageCause cause, boolean knockback, boolean ignoreDamageCheck) {
+        return CraftBukkitHandler.getInterface().damageEntity(target, attacker, skill, damage, cause, knockback);
     }
 
-    public static boolean damageEntity(LivingEntity target, LivingEntity attacker, double damage, DamageCause cause, boolean knockback) {
-        return CraftBukkitHandler.getInterface().damageEntity(target, attacker, damage, cause, knockback);
+    public static boolean damageEntity(Insentient target, SkillCaster attacker, ISkill skill, double damage, DamageCause cause) {
+        return damageEntity(target, attacker, skill, damage, cause, true);
     }
 
-    public static boolean damageEntity(LivingEntity target, SkillCaster attacker, double damage, DamageCause cause) {
-        return damageEntity(target, attacker.getEntity(), damage, cause, true);
+    public static boolean damageEntity(Insentient target, SkillCaster attacker, ISkill skill, double damage, DamageCause cause, boolean knockback) {
+        return damageEntity(target, attacker, skill, damage, cause, knockback, false);
+    }
+
+    public static boolean damageEntity(Insentient target, SkillCaster attacker, ISkill skill, double damage, DamageCause cause, boolean knockback, boolean ignoreDamageCheck) {
+        Map<InsentientDamageEvent.DamageType, Double> modifiers = new EnumMap<InsentientDamageEvent.DamageType, Double>(ImmutableMap.of(DamageType.PHYSICAL, damage));
+        return damageEntity(target, attacker, skill, modifiers, cause, knockback, ignoreDamageCheck);
+    }
+
+    public static boolean damageEntity(Insentient target, Insentient attacker, ISkill skill, Map<DamageType, Double> modifiers, DamageCause cause) {
+        return damageEntity(target, attacker, skill, modifiers, cause, true);
+    }
+
+    public static boolean damageEntity(Insentient target, Insentient attacker, ISkill skill, Map<DamageType, Double> modifiers, DamageCause cause, boolean knockback) {
+        return damageEntity(target, attacker, skill, modifiers, cause, knockback, false);
+    }
+
+    public static boolean damageEntity(Insentient target, Insentient attacker, ISkill skill, Map<DamageType, Double> modifiers, DamageCause cause, boolean knockback, boolean ignoreDamageCheck) {
+        return CraftBukkitHandler.getInterface().damageEntity(target, attacker, skill, modifiers, cause, knockback);
     }
 
     /**
@@ -126,11 +152,7 @@ public abstract class Skill implements ISkill {
                 return false;
             }
         }
-        // Create the base map for the damage event.
-        Map<DamageModifier, Double> damage = new HashMap<DamageModifier, Double>();
-        damage.put(DamageModifier.BASE, 1D);
-
-        EntityDamageByEntityEvent damageEntityEvent = new EntityDamageByEntityEvent(attacking.getEntity(), defenderLE, DamageCause.CUSTOM, damage);
+        EntityDamageByEntityEvent damageEntityEvent = new EntityDamageByEntityEvent(attacking.getEntity(), defenderLE, DamageCause.CUSTOM, new EnumMap<DamageModifier, Double>(ImmutableMap.of(DamageModifier.BASE, 1.0D)), new EnumMap<DamageModifier, Function<? super Double, Double>>(ImmutableMap.of(DamageModifier.BASE, ZERO)));
         Bukkit.getServer().getPluginManager().callEvent(damageEntityEvent);
 
         return damageEntityEvent.isCancelled();

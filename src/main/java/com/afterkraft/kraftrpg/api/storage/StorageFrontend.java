@@ -28,6 +28,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import com.afterkraft.kraftrpg.api.RPGPlugin;
 import com.afterkraft.kraftrpg.api.entity.Champion;
+import com.afterkraft.kraftrpg.api.roles.Role;
 
 /**
  * The proxy through which the plugin interacts with the StorageBackend.
@@ -108,7 +109,7 @@ public abstract class StorageFrontend {
         // Check the saving queue for this player
         if (this.offlineToSave.containsKey(uuid)) {
             PlayerData data = this.offlineToSave.get(uuid);
-            return this.plugin.getEntityManager().createChampion(player, data);
+            return this.plugin.getEntityManager().createChampionWithData(player, data);
         }
         if (this.toSave.containsKey(uuid)) {
             Champion ret = this.toSave.get(uuid);
@@ -122,12 +123,18 @@ public abstract class StorageFrontend {
                 return null;
             } else {
                 data = new PlayerData();
+                Role defaultPrimary = this.plugin.getRoleManager().getDefaultPrimaryRole();
+                Role defaultSecondary = this.plugin.getRoleManager().getDefaultSecondaryRole();
+                data.primary = defaultPrimary;
+                if (defaultSecondary != null) {
+                    data.profession = defaultSecondary;
+                }
             }
         }
         data.playerID = player.getUniqueId();
         data.lastKnownName = player.getName();
 
-        return this.plugin.getEntityManager().createChampion(player, data);
+        return this.plugin.getEntityManager().createChampionWithData(player, data);
     }
 
     /**
