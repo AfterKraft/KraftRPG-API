@@ -23,21 +23,14 @@
  */
 package com.afterkraft.kraftrpg.api.skills;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.EnumMap;
-import java.util.EnumSet;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
+
+import static com.google.common.base.Preconditions.checkArgument;
 
 import com.google.common.base.Function;
 import com.google.common.base.Functions;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Sets;
-import org.apache.commons.lang.Validate;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -57,7 +50,7 @@ import com.afterkraft.kraftrpg.api.entity.Insentient;
 import com.afterkraft.kraftrpg.api.entity.SkillCaster;
 import com.afterkraft.kraftrpg.api.events.entity.damage.InsentientDamageEvent;
 import com.afterkraft.kraftrpg.api.events.entity.damage.InsentientDamageEvent.DamageType;
-import com.afterkraft.kraftrpg.api.handler.CraftBukkitHandler;
+import com.afterkraft.kraftrpg.api.handler.ServerInternals;
 
 /**
  * Represents an intended implementation of ISkill.
@@ -87,7 +80,7 @@ public abstract class Skill implements ISkill {
     }
 
     public static void knockback(LivingEntity target, LivingEntity attacker, double damage) {
-        CraftBukkitHandler.getInterface().knockBack(target, attacker, damage);
+        ServerInternals.getInterface().knockBack(target, attacker, damage);
     }
 
     public static boolean damageEntity(LivingEntity target, SkillCaster attacker, ISkill skill, double damage, DamageCause cause) {
@@ -99,7 +92,7 @@ public abstract class Skill implements ISkill {
     }
 
     public static boolean damageEntity(LivingEntity target, SkillCaster attacker, ISkill skill, double damage, DamageCause cause, boolean knockback, boolean ignoreDamageCheck) {
-        return CraftBukkitHandler.getInterface().damageEntity(target, attacker, skill, damage, cause, knockback);
+        return ServerInternals.getInterface().damageEntity(target, attacker, skill, damage, cause, knockback);
     }
 
     public static boolean damageEntity(Insentient target, SkillCaster attacker, ISkill skill, double damage, DamageCause cause) {
@@ -124,7 +117,7 @@ public abstract class Skill implements ISkill {
     }
 
     public static boolean damageEntity(Insentient target, Insentient attacker, ISkill skill, Map<DamageType, Double> modifiers, DamageCause cause, boolean knockback, boolean ignoreDamageCheck) {
-        return CraftBukkitHandler.getInterface().damageEntity(target, attacker, skill, modifiers, cause, knockback);
+        return ServerInternals.getInterface().damageEntity(target, attacker, skill, modifiers, cause, knockback);
     }
 
     /**
@@ -181,8 +174,8 @@ public abstract class Skill implements ISkill {
      * @throws IllegalArgumentException If the setting is null
      */
     protected void setDefault(SkillSetting node, Object value) {
-        Validate.notNull(node, "Cannot set a default null node!");
-        Validate.notNull(value, "Cannot set a default null value!");
+        checkArgument(node != null, "Cannot set a default null node!");
+        checkArgument(value != null, "Cannot set a default null value!");
         if (node.getClass().equals(SkillSetting.class) && !SkillSetting.LIST_SETTINGS.contains(node)) {
             throw new IllegalArgumentException("Attempt to set string default of a non-string SkillSetting");
         }
@@ -202,8 +195,8 @@ public abstract class Skill implements ISkill {
      * @throws IllegalArgumentException If the setting is null
      */
     protected void setDefault(String node, Object value) {
-        Validate.notNull(node, "Cannot set a default null node!");
-        Validate.notNull(value, "Cannot set a default null value!");
+        checkArgument(node != null, "Cannot set a default null node!");
+        checkArgument(value != null, "Cannot set a default null value!");
         ConfigurationSection section = getDefaultConfig();
         section.set(node, value);
         this.usedNodes.add(node);
@@ -220,7 +213,7 @@ public abstract class Skill implements ISkill {
      * @throws IllegalArgumentException If the setting is null
      */
     protected void setDefault(SkillSetting node, boolean value) {
-        Validate.notNull(node, "Cannot set a default null node!");
+        checkArgument(node != null, "Cannot set a default null node!");
         if (node.getClass().equals(SkillSetting.class) && !SkillSetting.BOOLEAN_SETTINGS.contains(node)) {
             throw new IllegalArgumentException("Attempt to set boolean default of a non-boolean SkillSetting");
         }
@@ -240,7 +233,7 @@ public abstract class Skill implements ISkill {
      * @throws IllegalArgumentException If the setting is null
      */
     protected void setDefault(String node, boolean value) {
-        Validate.notNull(node, "Cannot set a default null node!");
+        checkArgument(node != null, "Cannot set a default null node!");
         ConfigurationSection section = getDefaultConfig();
         section.set(node, value);
         this.usedNodes.add(node);
@@ -257,7 +250,7 @@ public abstract class Skill implements ISkill {
      * @throws IllegalArgumentException If the setting is null
      */
     protected void setDefault(SkillSetting node, double value) {
-        Validate.notNull(node, "Cannot set a default null node!");
+        checkArgument(node != null, "Cannot set a default null node!");
         ConfigurationSection section = getDefaultConfig();
         section.set(node.node(), value);
         this.usedSettings.add(node);
@@ -277,7 +270,7 @@ public abstract class Skill implements ISkill {
      * @throws IllegalArgumentException If the setting is null
      */
     protected void setDefault(String node, double value) {
-        Validate.notNull(node, "Cannot set a default null node!");
+        checkArgument(node != null, "Cannot set a default null node!");
         ConfigurationSection section = getDefaultConfig();
         section.set(node, value);
         this.usedNodes.add(node);
@@ -294,7 +287,7 @@ public abstract class Skill implements ISkill {
      * @throws IllegalArgumentException If the setting is null
      */
     protected void setDefault(SkillSetting node, double value, double valuePerLevel) {
-        Validate.notNull(node, "Cannot set a default null node!");
+        checkArgument(node != null, "Cannot set a default null node!");
         if (node.scalingNode() == null) {
             throw new IllegalArgumentException("Attempt to set scaling default of a non-scaling SkillSetting");
         }
@@ -315,7 +308,7 @@ public abstract class Skill implements ISkill {
      * @throws IllegalArgumentException If the setting is null
      */
     protected void setDefault(String node, double value, double valuePerLevel) {
-        Validate.notNull(node, "Cannot set a default null node!");
+        checkArgument(node != null, "Cannot set a default null node!");
         ConfigurationSection section = getDefaultConfig();
         section.set(node, value);
         section.set(node + "-per-level", valuePerLevel);
@@ -334,8 +327,8 @@ public abstract class Skill implements ISkill {
      * @throws IllegalArgumentException If the setting is null
      */
     protected void setDefault(SkillSetting node, String value) {
-        Validate.notNull(node, "Cannot set a default null node!");
-        Validate.notNull(value, "Cannot set a default null value!");
+        checkArgument(node != null, "Cannot set a default null node!");
+        checkArgument(value != null, "Cannot set a default null value!");
         if (node.getClass().equals(SkillSetting.class) && !SkillSetting.STRING_SETTINGS.contains(node)) {
             throw new IllegalArgumentException("Attempt to set string default of a non-string SkillSetting");
         }
@@ -355,8 +348,8 @@ public abstract class Skill implements ISkill {
      * @throws IllegalArgumentException If the setting is null
      */
     protected void setDefault(String node, String value) {
-        Validate.notNull(node, "Cannot set a default null node!");
-        Validate.notNull(value, "Cannot set a default null value!");
+        checkArgument(node != null, "Cannot set a default null node!");
+        checkArgument(value != null, "Cannot set a default null value!");
         ConfigurationSection section = getDefaultConfig();
         section.set(node, value);
         this.usedNodes.add(node);
@@ -374,8 +367,8 @@ public abstract class Skill implements ISkill {
      * @throws IllegalArgumentException If the setting is null
      */
     protected void setDefault(SkillSetting node, List<?> value) {
-        Validate.notNull(node, "Cannot set a default null node!");
-        Validate.notNull(value, "Cannot set a default null value!");
+        checkArgument(node != null, "Cannot set a default null node!");
+        checkArgument(value != null, "Cannot set a default null value!");
         if (node.getClass().equals(SkillSetting.class) && !SkillSetting.LIST_SETTINGS.contains(node)) {
             throw new IllegalArgumentException("Attempt to set string default of a non-list SkillSetting");
         }
@@ -395,8 +388,8 @@ public abstract class Skill implements ISkill {
      * @throws IllegalArgumentException If the setting is null
      */
     protected void setDefault(String node, List<?> value) {
-        Validate.notNull(node, "Cannot set a default null node!");
-        Validate.notNull(value, "Cannot set a default null value!");
+        checkArgument(node != null, "Cannot set a default null node!");
+        checkArgument(value != null, "Cannot set a default null value!");
         ConfigurationSection section = getDefaultConfig();
         section.set(node, value);
         this.usedNodes.add(node);
@@ -413,8 +406,8 @@ public abstract class Skill implements ISkill {
      * @throws IllegalArgumentException If the setting is null
      */
     protected void setDefault(SkillSetting node, ItemStack value) {
-        Validate.notNull(node, "Cannot set a default null node!");
-        Validate.notNull(value, "Cannot set a default null ItemStack!");
+        checkArgument(node != null, "Cannot set a default null node!");
+        checkArgument(value != null, "Cannot set a default null ItemStack!");
         if (node.getClass().equals(SkillSetting.class) && node != SkillSetting.REAGENT) {
             throw new IllegalArgumentException("Attempt to set item default of a non-item SkillSetting");
         }
@@ -434,8 +427,8 @@ public abstract class Skill implements ISkill {
      * @throws IllegalArgumentException If the setting is null
      */
     protected void setDefault(String node, ItemStack value) {
-        Validate.notNull(node, "Cannot set a default null node!");
-        Validate.notNull(value, "Cannot set a default null ItemStack!");
+        checkArgument(node != null, "Cannot set a default null node!");
+        checkArgument(value != null, "Cannot set a default null ItemStack!");
         ConfigurationSection section = getDefaultConfig();
         section.set(node, new ItemStack(value));
         this.usedNodes.add(node);
@@ -500,14 +493,14 @@ public abstract class Skill implements ISkill {
 
     @Override
     public final void setDescription(String description) {
-        Validate.notNull(description, "Cannot set the description to null!");
+        checkArgument(description != null, "Cannot set the description to null!");
         this.description = description;
     }
 
     @Override
     public boolean addSkillTarget(Entity entity, SkillCaster caster) {
-        Validate.notNull(entity, "Cannot add a null entity skill target!");
-        Validate.notNull(caster, "Cannot add a null caster targetting an entity!");
+        checkArgument(entity != null, "Cannot add a null entity skill target!");
+        checkArgument(caster != null, "Cannot add a null caster targetting an entity!");
         this.plugin.getSkillManager().addSkillTarget(entity, caster, this);
         return true;
     }

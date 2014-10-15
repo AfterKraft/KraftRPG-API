@@ -23,13 +23,9 @@
  */
 package com.afterkraft.kraftrpg.api.effects.common;
 
-import java.util.Collection;
-import java.util.EnumSet;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
-import org.apache.commons.lang.Validate;
+import static com.google.common.base.Preconditions.checkArgument;
 
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.potion.PotionEffect;
@@ -90,7 +86,7 @@ public class DamagingEffect extends PeriodicExpirableEffect implements Damaging 
 
     @Override
     public void setTickDamage(double tickDamage) {
-        Validate.isTrue(tickDamage > 0, "Cannot set a negative or zero tick damage!");
+        checkArgument(tickDamage > 0, "Cannot set a negative or zero tick damage!");
         this.tickDamage = tickDamage;
     }
 
@@ -108,7 +104,7 @@ public class DamagingEffect extends PeriodicExpirableEffect implements Damaging 
      */
     @Override
     public void tick(Insentient being) {
-        Validate.notNull(being, "Cannot tick on a null Insentient being!");
+        checkArgument(being != null, "Cannot tick on a null Insentient being!");
         if (being.isEntityValid() && (getApplier() != null) && getApplier().isEntityValid()) {
             if (!Skill.damageCheck(being, getApplier().getEntity())) {
                 return;
@@ -123,7 +119,7 @@ public class DamagingEffect extends PeriodicExpirableEffect implements Damaging 
                 } else {
                     modifiers.put(DamageType.PHYSICAL, this.tickDamage);
                 }
-                Skill.damageEntity(being, (SkillCaster) getApplier(), this.skill,  modifiers, this.skill.isType(SkillType.ABILITY_PROPERTY_PHYSICAL) ? DamageCause.ENTITY_ATTACK : DamageCause.MAGIC, this.knockback);
+                Skill.damageEntity(being, (SkillCaster) getApplier(), this.skill, modifiers, this.skill.isType(SkillType.ABILITY_PROPERTY_PHYSICAL) ? DamageCause.ENTITY_ATTACK : DamageCause.MAGIC, this.knockback);
             }
         }
     }

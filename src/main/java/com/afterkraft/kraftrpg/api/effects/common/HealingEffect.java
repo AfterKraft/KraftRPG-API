@@ -26,7 +26,7 @@ package com.afterkraft.kraftrpg.api.effects.common;
 import java.util.EnumSet;
 import java.util.Set;
 
-import org.apache.commons.lang.Validate;
+import static com.google.common.base.Preconditions.checkArgument;
 
 import org.bukkit.potion.PotionEffect;
 
@@ -34,7 +34,6 @@ import com.afterkraft.kraftrpg.api.effects.EffectType;
 import com.afterkraft.kraftrpg.api.effects.PeriodicExpirableEffect;
 import com.afterkraft.kraftrpg.api.entity.Champion;
 import com.afterkraft.kraftrpg.api.entity.Insentient;
-import com.afterkraft.kraftrpg.api.entity.SkillCaster;
 import com.afterkraft.kraftrpg.api.events.entity.InsentientRegainHealthEvent;
 import com.afterkraft.kraftrpg.api.events.entity.champion.ChampionRegainHealthEvent;
 import com.afterkraft.kraftrpg.api.skills.Skill;
@@ -69,7 +68,7 @@ public class HealingEffect extends PeriodicExpirableEffect implements Healing {
 
     @Override
     public void setTickHealth(double tickHealth) {
-        Validate.isTrue(tickHealth > 0, "Cannot set a negative/zero health per tick!");
+        checkArgument(tickHealth > 0, "Cannot set a negative/zero health per tick!");
         this.tickHealth = tickHealth;
     }
 
@@ -82,7 +81,7 @@ public class HealingEffect extends PeriodicExpirableEffect implements Healing {
      */
     @Override
     public void tick(Insentient being) {
-        Validate.notNull(being, "Cannot tick on a null Insentient being!");
+        checkArgument(being != null, "Cannot tick on a null Insentient being!");
         if (!being.isEntityValid() || !getApplier().isEntityValid()) {
             return;
         }

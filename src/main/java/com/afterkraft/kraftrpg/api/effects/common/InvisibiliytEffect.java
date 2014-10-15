@@ -30,14 +30,12 @@ import java.util.UUID;
 
 import com.google.common.collect.ImmutableSet;
 
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-import com.afterkraft.kraftrpg.api.RPGPlugin;
 import com.afterkraft.kraftrpg.api.effects.EffectType;
 import com.afterkraft.kraftrpg.api.effects.ExpirableEffect;
 import com.afterkraft.kraftrpg.api.entity.Insentient;
-import com.afterkraft.kraftrpg.api.handler.CraftBukkitHandler;
+import com.afterkraft.kraftrpg.api.handler.ServerInternals;
 import com.afterkraft.kraftrpg.api.skills.Skill;
 
 public class InvisibiliytEffect extends ExpirableEffect {
@@ -65,9 +63,8 @@ public class InvisibiliytEffect extends ExpirableEffect {
         super.apply(being);
         if (being.getEntity() instanceof Player) {
             Player player = (Player) being.getEntity();
-            CraftBukkitHandler.getInterface().hidePlayer(player);
+            ServerInternals.getInterface().hidePlayer(being);
             InvisibiliytEffect.invisiblePlayers.add(player.getUniqueId());
-
         }
         // TODO actually implement toggling of invisibility
     }

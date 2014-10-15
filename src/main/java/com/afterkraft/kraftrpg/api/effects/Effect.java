@@ -28,8 +28,9 @@ import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.Set;
 
+import static com.google.common.base.Preconditions.checkArgument;
+
 import com.google.common.collect.ImmutableSet;
-import org.apache.commons.lang.Validate;
 
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -63,9 +64,9 @@ public class Effect implements IEffect {
     }
 
     public Effect(Skill skill, String name, Set<PotionEffect> potionEffects, boolean persistent, Collection<EffectType> types, String applyText, String expireText) {
-        Validate.notNull(skill, "Cannot create an effect with a null Skill!");
-        Validate.notNull(name, "Cannot create an effect with a null name!");
-        Validate.isTrue(!name.isEmpty(), "Cannot create an effect with an empty name!");
+        checkArgument(skill != null, "Cannot create an effect with a null Skill!");
+        checkArgument(name != null, "Cannot create an effect with a null name!");
+        checkArgument(!name.isEmpty(), "Cannot create an effect with an empty name!");
         this.name = name;
         this.skill = skill;
         this.persistent = persistent;
@@ -91,7 +92,7 @@ public class Effect implements IEffect {
 
     @Override
     public final boolean isType(EffectType queryType) {
-        Validate.notNull(queryType, "Cannot check a null EffectType!");
+        checkArgument(queryType != null, "Cannot check a null EffectType!");
         return this.types.contains(queryType);
     }
 
@@ -120,7 +121,7 @@ public class Effect implements IEffect {
 
     @Override
     public void apply(Insentient being) {
-        Validate.notNull(being, "Cannot apply an effect to a null Insentient being!");
+        checkArgument(being != null, "Cannot apply an effect to a null Insentient being!");
         this.applyTime = System.currentTimeMillis();
         if (!this.potionEffects.isEmpty()) {
             for (final PotionEffect pEffect : this.potionEffects) {
@@ -131,7 +132,7 @@ public class Effect implements IEffect {
 
     @Override
     public void remove(Insentient being) {
-        Validate.notNull(being, "Cannot remove an effect to a null Insentient being!");
+        checkArgument(being != null, "Cannot remove an effect to a null Insentient being!");
         if (!this.potionEffects.isEmpty()) {
             for (final PotionEffect pEffect : this.potionEffects) {
                 being.removePotionEffect(pEffect.getType());
@@ -140,8 +141,8 @@ public class Effect implements IEffect {
     }
 
     public void broadcast(Location source, String message, Object... args) {
-        Validate.notNull(source, "Cannot broadcast to a null location!");
-        Validate.notNull(message, "Cannot broadcast a null message!");
+        checkArgument(source != null, "Cannot broadcast to a null location!");
+        checkArgument(message != null, "Cannot broadcast a null message!");
         if ((message == null) || message.isEmpty() || message.equalsIgnoreCase("off")) {
             return;
         }

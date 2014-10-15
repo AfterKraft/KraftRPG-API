@@ -26,7 +26,6 @@ package com.afterkraft.kraftrpg.api.events.entity;
 import java.util.WeakHashMap;
 
 import org.bukkit.entity.LivingEntity;
-import org.bukkit.event.HandlerList;
 
 import com.afterkraft.kraftrpg.api.entity.EnterCombatReason;
 import com.afterkraft.kraftrpg.api.entity.Sentient;

@@ -27,7 +27,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
+import com.google.common.base.Joiner;
 
 import org.bukkit.conversations.ConversationContext;
 import org.bukkit.util.StringUtil;
@@ -48,7 +48,7 @@ public abstract class TCFixedSetPrompt extends TCValidatingPrompt {
      * @param fixedSet A fixed set of strings, one of which the user must
      *                 type.
      */
-    public TCFixedSetPrompt(String... fixedSet) {
+    protected TCFixedSetPrompt(String... fixedSet) {
         super();
         this.fixedSet = Arrays.asList(fixedSet);
     }
@@ -76,6 +76,6 @@ public abstract class TCFixedSetPrompt extends TCValidatingPrompt {
      * cheese, and panda were the options used
      */
     protected String formatFixedSet() {
-        return "[" + StringUtils.join(this.fixedSet, ", ") + "]";
+        return "[" + Joiner.on(", ").join(this.fixedSet) + "]";
     }
 }

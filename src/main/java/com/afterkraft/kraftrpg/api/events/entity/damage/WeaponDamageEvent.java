@@ -25,12 +25,10 @@ package com.afterkraft.kraftrpg.api.events.entity.damage;
 
 import java.util.Map;
 
-import org.bukkit.event.HandlerList;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.entity.EntityDamageEvent;
-import org.bukkit.inventory.ItemStack;
+import static com.google.common.base.Preconditions.checkArgument;
 
-import org.apache.commons.lang.Validate;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.inventory.ItemStack;
 
 import com.afterkraft.kraftrpg.api.entity.Insentient;
 
@@ -71,7 +69,7 @@ public class WeaponDamageEvent extends InsentientDamageInsentientEvent {
 
     public WeaponDamageEvent(final Insentient attacker, final Insentient defender, final EntityDamageByEntityEvent event, final ItemStack weapon, final Map<DamageType, Double> modifiers, final boolean isVaryingEnabled) {
         super(attacker, defender, event, modifiers, isVaryingEnabled);
-        Validate.notNull(weapon, "Cannot have a null weapon!");
+        checkArgument(weapon != null, "Cannot have a null weapon!");
         this.weapon = new ItemStack(weapon);
     }
 

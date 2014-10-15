@@ -28,7 +28,7 @@ import java.util.Set;
 import java.util.concurrent.Delayed;
 import java.util.concurrent.TimeUnit;
 
-import org.apache.commons.lang.Validate;
+import static com.google.common.base.Preconditions.checkArgument;
 
 import org.bukkit.potion.PotionEffect;
 
@@ -56,8 +56,8 @@ public class ExpirableEffect extends Effect implements Expirable {
 
     public ExpirableEffect(Skill skill, Insentient applier, String name, Set<PotionEffect> potionEffects, boolean persistent, Collection<EffectType> types, String applyText, String expireText, long duration) {
         super(skill, name, potionEffects, persistent, types, applyText, expireText);
-        Validate.notNull(applier, "Cannot create an ExpirableEffect with a null applier!");
-        Validate.isTrue(duration > 0, "Cannot have a negative Effect duration!");
+        checkArgument(applier != null, "Cannot create an ExpirableEffect with a null applier!");
+        checkArgument(duration > 0, "Cannot have a negative Effect duration!");
         this.applier = applier;
         this.duration = duration;
     }

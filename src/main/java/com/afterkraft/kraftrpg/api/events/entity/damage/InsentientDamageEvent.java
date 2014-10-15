@@ -26,13 +26,15 @@ package com.afterkraft.kraftrpg.api.events.entity.damage;
 import java.util.EnumMap;
 import java.util.Map;
 
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Predicates.isNull;
+import static com.google.common.collect.Iterables.any;
+
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.entity.EntityDamageEvent.DamageModifier;
-
-import org.apache.commons.lang.Validate;
 
 import com.afterkraft.kraftrpg.api.entity.Insentient;
 import com.afterkraft.kraftrpg.api.events.entity.InsentientEvent;
@@ -71,10 +73,10 @@ public class InsentientDamageEvent extends InsentientEvent implements Cancellabl
 
     public InsentientDamageEvent(final Insentient defender, final EntityDamageEvent event, final Map<DamageType, Double> customModifiers, final boolean isVaryingEnabled) {
         super(defender);
-        Validate.notNull(event, "Cannot associate to a null EntityDamageEvent!");
-        Validate.notNull(customModifiers, "Cannot have a null modifier map!");
-        Validate.isTrue(!customModifiers.isEmpty(), "Cannot have an empty modifier map!");
-        Validate.noNullElements(customModifiers.values(), "Cannot have null modifiers!");
+        checkArgument(event != null, "Cannot associate to a null EntityDamageEvent!");
+        checkArgument(customModifiers != null, "Cannot have a null modifier map!");
+        checkArgument(!customModifiers.isEmpty(), "Cannot have an empty modifier map!");
+        checkArgument(any(customModifiers.values(), isNull()), "Cannot have null modifiers!");
         this.defender = defender;
         this.originals = new EnumMap<DamageType, Double>(customModifiers);
         this.modifiers = customModifiers;
@@ -118,7 +120,7 @@ public class InsentientDamageEvent extends InsentientEvent implements Cancellabl
      * @throws IllegalArgumentException If the damage type is null
      */
     public double getOriginalDamage(DamageType type) {
-        Validate.notNull(type, "Cannot have null DamageType");
+        checkArgument(type != null, "Cannot have null DamageType");
         final Double damage = this.originals.get(type);
         return damage == null ? 0 : damage;
     }
@@ -162,7 +164,7 @@ public class InsentientDamageEvent extends InsentientEvent implements Cancellabl
      * @throws IllegalArgumentException If the modifier is null
      */
     public final double getDamage(final DamageType modifier) {
-        Validate.notNull(modifier, "Cannot have a null modifier!");
+        checkArgument(modifier != null, "Cannot have a null modifier!");
         return this.modifiers.get(modifier);
     }
 
@@ -174,8 +176,8 @@ public class InsentientDamageEvent extends InsentientEvent implements Cancellabl
      * @param damage The raw damage for the modifier
      */
     public final void setModifier(DamageModifier modifier, double damage) {
-        Validate.notNull(modifier, "Cannot calculate on a null modifier!");
-        Validate.isTrue(modifier != DamageModifier.BASE, "Cannot assign damage for the DamageModifier.BASE!");
+        checkArgument(modifier != null, "Cannot calculate on a null modifier!");
+        checkArgument(modifier != DamageModifier.BASE, "Cannot assign damage for the DamageModifier.BASE!");
         this.bukkitEvent.setDamage(modifier, damage);
     }
 
@@ -184,7 +186,7 @@ public class InsentientDamageEvent extends InsentientEvent implements Cancellabl
     }
 
     public final void setModifier(DamageType damageType, double damage) {
-        Validate.notNull(damageType, "Cannot have a null DamageType!");
+        checkArgument(damageType != null, "Cannot have a null DamageType!");
         if (!isApplicable(damageType)) {
             throw new UnsupportedOperationException(damageType + "is not applicable to this event!");
         }
@@ -197,7 +199,7 @@ public class InsentientDamageEvent extends InsentientEvent implements Cancellabl
      * @return True if the damage type is applicable
      */
     public final boolean isApplicable(DamageType type) {
-        Validate.notNull(type, "Cannot have a null DamageType!");
+        checkArgument(type != null, "Cannot have a null DamageType!");
         return this.modifiers.containsKey(type);
     }
 

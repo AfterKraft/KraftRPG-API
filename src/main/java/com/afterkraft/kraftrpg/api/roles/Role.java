@@ -23,15 +23,13 @@
  */
 package com.afterkraft.kraftrpg.api.roles;
 
-import java.util.EnumMap;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
+
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkState;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
-import org.apache.commons.lang.Validate;
 
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
@@ -40,7 +38,6 @@ import org.bukkit.configuration.MemoryConfiguration;
 import com.afterkraft.kraftrpg.api.RPGPlugin;
 import com.afterkraft.kraftrpg.api.skills.ISkill;
 import com.afterkraft.kraftrpg.api.skills.SkillSetting;
-
 
 /**
  * A Role is an Immutable object representing the skill tree and damage values
@@ -154,12 +151,12 @@ public final class Role {
      * @throws IllegalArgumentException if plugin is null
      */
     public static Builder builder(RPGPlugin plugin) {
-        Validate.notNull(plugin, "Cannot start a RoleBuilder with a null RPGPlugin!");
+        checkArgument(plugin != null, "Cannot start a RoleBuilder with a null RPGPlugin!");
         return new Builder(plugin);
     }
 
     public static Builder copyOf(Role role) {
-        Validate.notNull(role, "Cannot copy a null Role!");
+        checkArgument(role != null, "Cannot copy a null Role!");
         Builder builder = new Builder(role.plugin)
                 .setName(role.name)
                 .setAdvancementLevel(role.advancementLevel)
@@ -231,7 +228,7 @@ public final class Role {
      * @throws IllegalArgumentException if the skill is null
      */
     public boolean hasSkillAtLevel(ISkill skill, int level) {
-        Validate.notNull(skill, "Cannot check against a null skill!");
+        checkArgument(skill != null, "Cannot check against a null skill!");
         RoleSkill rs = this.skills.get(skill.getName());
 
         return rs != null && rs.getLevel() <= level;
@@ -271,12 +268,12 @@ public final class Role {
      * @throws IllegalArgumentException if the skill is null
      */
     public boolean hasSkill(ISkill skill) {
-        Validate.notNull(skill, "Cannot check a null ISkill!");
+        checkArgument(skill != null, "Cannot check a null ISkill!");
         return this.skills.containsKey(skill.getName());
     }
 
     public boolean isSkillRestricted(ISkill skill) {
-        Validate.notNull(skill, "Cannot check a null ISkill!");
+        checkArgument(skill != null, "Cannot check a null ISkill!");
         return this.restrictedSkills.contains(skill.getName());
     }
 
@@ -290,7 +287,7 @@ public final class Role {
      *                                                                           level required
      */
     public int getLevelRequired(ISkill skill) {
-        Validate.notNull(skill, "Cannot check a null ISkill!");
+        checkArgument(skill != null, "Cannot check a null ISkill!");
         RoleSkill rs = this.skills.get(skill.getName());
         if (rs == null) {
             throw new RoleSkillConfigurationException("A skill: " + skill.getName() + " does not have a configured level requirement!");
@@ -321,7 +318,7 @@ public final class Role {
      * @throws IllegalArgumentException if the level is negative
      */
     public Set<ISkill> getAllSkillsAtLevel(int level) {
-        Validate.isTrue(level >= 0, "Cannot get Skills for a negative role level!");
+        checkArgument(level >= 0, "Cannot get Skills for a negative role level!");
         ImmutableSet.Builder<ISkill> builder = ImmutableSet.builder();
         for (Map.Entry<String, RoleSkill> entry : this.skills.entrySet()) {
             if (entry.getValue().getLevel() <= level) {
@@ -382,7 +379,7 @@ public final class Role {
      * @throws IllegalArgumentException if the level is less than 0
      */
     public double getMaxHealthAtLevel(int level) {
-        Validate.isTrue(level >= 0, "Cannot calculate for a negative Role level!");
+        checkArgument(level >= 0, "Cannot calculate for a negative Role level!");
         return this.hpAt0 + this.hpPerLevel * level;
     }
 
@@ -394,7 +391,7 @@ public final class Role {
      * @throws IllegalArgumentException if the level is less than 0
      */
     public int getMaxManaAtLevel(int level) {
-        Validate.isTrue(level >= 0, "Cannot calculate for a negative Role level!");
+        checkArgument(level >= 0, "Cannot calculate for a negative Role level!");
         return (int) (this.mpAt0 + this.mpPerLevel * level);
     }
 
@@ -406,7 +403,7 @@ public final class Role {
      * @throws IllegalArgumentException if the level is less than 0
      */
     public int getManaRegenAtLevel(int level) {
-        Validate.isTrue(level >= 0, "Cannot calculate for a negative Role level!");
+        checkArgument(level >= 0, "Cannot calculate for a negative Role level!");
         return this.mpRegenAt0 + this.mpRegenPerLevel * level;
     }
 
@@ -504,7 +501,7 @@ public final class Role {
      * @throws IllegalArgumentException if the type is null
      */
     public double getItemDamage(Material type) {
-        Validate.notNull(type, "Cannot check the Item damage of a null Material type!");
+        checkArgument(type != null, "Cannot check the Item damage of a null Material type!");
         return this.itemDamages.containsKey(type) ? this.itemDamages.get(type) : 0.0D;
     }
 
@@ -519,7 +516,7 @@ public final class Role {
      * @throws IllegalArgumentException if the type is null
      */
     public boolean doesItemVaryDamage(Material type) {
-        Validate.notNull(type, "Cannot check a null Material type!");
+        checkArgument(type != null, "Cannot check a null Material type!");
         return this.itemVaryingDamage.containsKey(type) ? this.itemVaryingDamage.get(type) : false;
     }
 
@@ -532,7 +529,7 @@ public final class Role {
      * @throws IllegalArgumentException if the type is null
      */
     public double getItemDamagePerLevel(Material type) {
-        Validate.notNull(type, "Cannot check a null Material type!");
+        checkArgument(type != null, "Cannot check a null Material type!");
         return this.itemDamagePerLevel.get(type) != null ? this.itemDamagePerLevel.get(type) : 0.0D;
     }
 
@@ -545,7 +542,7 @@ public final class Role {
      * @throws IllegalArgumentException if the type is null
      */
     public boolean isArmorAllowed(Material type) {
-        Validate.notNull(type, "Cannot check a null Material type!");
+        checkArgument(type != null, "Cannot check a null Material type!");
         return this.allowedArmor.contains(type);
     }
 
@@ -558,7 +555,7 @@ public final class Role {
      * @throws IllegalArgumentException If the type is null
      */
     public boolean isWeaponAllowed(Material type) {
-        Validate.notNull(type, "Cannot check a null Material type!");
+        checkArgument(type != null, "Cannot check a null Material type!");
         return this.allowedWeapon.contains(type);
     }
 
@@ -579,7 +576,7 @@ public final class Role {
      * @throws IllegalArgumentException If the type is null
      */
     public boolean canGainExperience(ExperienceType type) {
-        Validate.notNull(type, "Cannot check a null ExperienceType!");
+        checkArgument(type != null, "Cannot check a null ExperienceType!");
         return this.allowedExperience.contains(type);
     }
 
@@ -705,7 +702,7 @@ public final class Role {
         int mpAt0 = 100, mpPerLevel, mpRegenAt0 = 1, mpRegenPerLevel;
 
         Builder(RPGPlugin plugin) {
-            Validate.notNull(plugin, "Cannot create a Role builder with a null plugin!");
+            checkArgument(plugin != null, "Cannot create a Role builder with a null plugin!");
             this.plugin = plugin;
         }
 
@@ -717,7 +714,7 @@ public final class Role {
          * @throws IllegalArgumentException if the role type is null
          */
         public Builder setType(RoleType type) {
-            Validate.notNull(type, "Cannot have a null RoleType!");
+            checkArgument(type != null, "Cannot have a null RoleType!");
             this.type = type;
             return this;
         }
@@ -731,8 +728,8 @@ public final class Role {
          * @throws IllegalArgumentException if the name is null or empty
          */
         public Builder setManaName(String manaName) {
-            Validate.notNull(manaName, "Cannot have a null Mana Name!");
-            Validate.isTrue(!manaName.isEmpty(), "Cannot have an empty Mana Name!");
+            checkArgument(manaName != null, "Cannot have a null Mana Name!");
+            checkArgument(!manaName.isEmpty(), "Cannot have an empty Mana Name!");
             this.manaName = manaName;
             return this;
         }
@@ -743,7 +740,7 @@ public final class Role {
         }
 
         public Builder setMpPerLevel(int mpPerLevel) {
-            Validate.isTrue(mpPerLevel >= 0, "Cannot have a negative mana gained per level!");
+            checkArgument(mpPerLevel >= 0, "Cannot have a negative mana gained per level!");
             this.mpPerLevel = mpPerLevel;
             return this;
         }
@@ -754,25 +751,25 @@ public final class Role {
         }
 
         public Builder setMpAt0(int mpAt0) {
-            Validate.isTrue(mpAt0 > 0, "Cannot have a zero or negative starting Mana!");
+            checkArgument(mpAt0 > 0, "Cannot have a zero or negative starting Mana!");
             this.mpAt0 = mpAt0;
             return this;
         }
 
         public Builder setHpPerLevel(double hpPerLevel) {
-            Validate.isTrue(hpPerLevel >= 0, "Cannot have a negative health gained per level!");
+            checkArgument(hpPerLevel >= 0, "Cannot have a negative health gained per level!");
             this.hpPerLevel = hpPerLevel;
             return this;
         }
 
         public Builder setHpAt0(double hpAt0) {
-            Validate.isTrue(hpAt0 > 0, "Cannot have a zero or negative starting health!");
+            checkArgument(hpAt0 > 0, "Cannot have a zero or negative starting health!");
             this.hpAt0 = hpAt0;
             return this;
         }
 
         public Builder setDescription(String description) {
-            Validate.notNull(description, "Cannot have a null Role description!");
+            checkArgument(description != null, "Cannot have a null Role description!");
             this.description = description;
             return this;
         }
@@ -783,34 +780,34 @@ public final class Role {
         }
 
         public Builder setMaxLevel(int maxLevel) {
-            Validate.isTrue(maxLevel > 0 && maxLevel >= this.advancementLevel, "Cannot have a max level lower than the advancement level or less than zero!");
+            checkArgument(maxLevel > 0 && maxLevel >= this.advancementLevel, "Cannot have a max level lower than the advancement level or less than zero!");
             this.maxLevel = maxLevel;
             return this;
         }
 
         public Builder setAdvancementLevel(int advancementLevel) {
-            Validate.isTrue(advancementLevel >= 0, "Cannot have a less than zero advancement level!");
+            checkArgument(advancementLevel >= 0, "Cannot have a less than zero advancement level!");
             this.advancementLevel = advancementLevel;
             return this;
         }
 
         public Builder setName(String name) {
-            Validate.notNull(name, "Cannot have a null Role name!");
-            Validate.isTrue(!name.isEmpty(), "Cannot have an empty Role name!");
+            checkArgument(name != null, "Cannot have a null Role name!");
+            checkArgument(!name.isEmpty(), "Cannot have an empty Role name!");
             this.name = name;
             return this;
         }
 
         public Builder setItemDamage(Material type, double damage) {
-            Validate.notNull(type, "Cannot have a null Material type!");
-            Validate.isTrue(damage > 0, "Cannot have a zero or less than zero damage value!");
+            checkArgument(type != null, "Cannot have a null Material type!");
+            checkArgument(damage > 0, "Cannot have a zero or less than zero damage value!");
             this.itemDamages.put(type, damage);
             return this;
         }
 
         public Builder setItemDamagePerLevel(Material type, double damagePerLevel) {
-            Validate.notNull(type, "Cannot have a null Material type!");
-            Validate.isTrue(damagePerLevel > 0, "Cannot have a zero or less than zero damage per level value!");
+            checkArgument(type != null, "Cannot have a null Material type!");
+            checkArgument(damagePerLevel > 0, "Cannot have a zero or less than zero damage per level value!");
             this.itemDamagePerLevel.put(type, damagePerLevel);
             return this;
         }
@@ -823,8 +820,8 @@ public final class Role {
          * @param doesDamageVary if true, set the item to deal varying damage.
          */
         public Builder setItemDamageVaries(Material type, boolean doesDamageVary) {
-            Validate.notNull(type, "Cannot have a null Material type!");
-            Validate.notNull(doesDamageVary, "Cannot have a zero or less than zero damage per level value!");
+            checkArgument(type != null, "Cannot have a null Material type!");
+            checkArgument(doesDamageVary, "Cannot have a zero or less than zero damage per level value!");
             this.itemVaryingDamage.put(type, doesDamageVary);
             return this;
         }
@@ -846,12 +843,12 @@ public final class Role {
          *                                  restricted skills
          */
         public Builder addRoleSkill(ISkill skill, ConfigurationSection section) {
-            Validate.notNull(skill, "Cannot have a null ISkill!");
-            Validate.notNull(section, "Cannot have a null ConfigurationSection!");
-            Validate.notNull(skill.getName(), "Cannot have a Skill with a null name!");
-            Validate.isTrue(!skill.getName().isEmpty(), "Cannot have an empty Skill name!");
-            Validate.isTrue(section.getInt(SkillSetting.LEVEL.node(), 0) >= 0, "Level not specified in the skill configuration!");
-            Validate.isTrue(!this.restrictedSkills.contains(skill.getName()), "Cannot add a skill that is already restricted!");
+            checkArgument(skill != null, "Cannot have a null ISkill!");
+            checkArgument(section != null, "Cannot have a null ConfigurationSection!");
+            checkArgument(skill.getName() != null, "Cannot have a Skill with a null name!");
+            checkArgument(!skill.getName().isEmpty(), "Cannot have an empty Skill name!");
+            checkArgument(section.getInt(SkillSetting.LEVEL.node(), 0) >= 0, "Level not specified in the skill configuration!");
+            checkArgument(!this.restrictedSkills.contains(skill.getName()), "Cannot add a skill that is already restricted!");
             this.skills.put(skill.getName(), new RoleSkill(skill.getName(), section));
             return this;
         }
@@ -866,8 +863,8 @@ public final class Role {
          * @throws IllegalArgumentException if the child was already added as a parent
          */
         public Builder addChild(Role child) {
-            Validate.notNull(child, "Cannot set a null child Role!");
-            Validate.isTrue(!this.parents.contains(child.getName()), "Cannot add a child role when it is already a parent role!");
+            checkArgument(child != null, "Cannot set a null child Role!");
+            checkArgument(!this.parents.contains(child.getName()), "Cannot add a child role when it is already a parent role!");
             this.children.add(child.getName());
             return this;
         }
@@ -882,8 +879,8 @@ public final class Role {
          * @throws IllegalArgumentException if the parent was already added as a child
          */
         public Builder addParent(Role parent) {
-            Validate.notNull(parent, "Cannot set a null parent Role!");
-            Validate.isTrue(!this.children.contains(parent.getName()), "Cannot add a parent role when it is already a child role!");
+            checkArgument(parent != null, "Cannot set a null parent Role!");
+            checkArgument(!this.children.contains(parent.getName()), "Cannot add a parent role when it is already a child role!");
             this.parents.add(parent.getName());
             return this;
         }
@@ -898,7 +895,7 @@ public final class Role {
          * @throws IllegalArgumentException If the type is null
          */
         public Builder addExperienceType(ExperienceType type) {
-            Validate.notNull(type, "Cannot add a null ExperienceType!");
+            checkArgument(type != null, "Cannot add a null ExperienceType!");
             this.experienceTypes.add(type);
             return this;
         }
@@ -912,8 +909,8 @@ public final class Role {
          * @throws IllegalArgumentException If the child is null
          */
         public Builder removeChild(Role child) {
-            Validate.notNull(child, "Cannot set a null parent Role!");
-            Validate.isTrue(!this.parents.contains(child.getName()), "Cannot remove a child role when it is already a parent role!");
+            checkArgument(child != null, "Cannot set a null parent Role!");
+            checkArgument(!this.parents.contains(child.getName()), "Cannot remove a child role when it is already a parent role!");
             this.children.remove(child.getName());
             return this;
         }
@@ -925,13 +922,13 @@ public final class Role {
          * @return This builder for chaining
          */
         public Builder addAllowedArmor(Material type) {
-            Validate.notNull(type, "Cannot add a null armor type");
+            checkArgument(type != null, "Cannot add a null armor type");
             this.allowedArmor.add(type);
             return this;
         }
 
         public Builder addAllowedWeapon(Material type) {
-            Validate.notNull(type, "Cannot add a null weapon type");
+            checkArgument(type != null, "Cannot add a null weapon type");
             this.allowedWeapon.add(type);
             return this;
         }
@@ -946,8 +943,8 @@ public final class Role {
          * @throws IllegalArgumentException If the parent is also a child
          */
         public Builder removeParent(Role parent) {
-            Validate.notNull(parent, "Cannot set a null parent Role!");
-            Validate.isTrue(!this.children.contains(parent.getName()), "Cannot remove a parent role when it is already a child role!");
+            checkArgument(parent != null, "Cannot set a null parent Role!");
+            checkArgument(!this.children.contains(parent.getName()), "Cannot remove a parent role when it is already a child role!");
             this.parents.remove(parent.getName());
             return this;
         }
@@ -976,24 +973,12 @@ public final class Role {
          * @throws IllegalStateException If the mana gained per level at max level is less than zero
          */
         public Role build() {
-            if (this.description == null) {
-                throw new IllegalStateException("Cannot have a null description!");
-            }
-            if (this.advancementLevel == 0) {
-                throw new IllegalStateException("Cannot have a zero advancement level!");
-            }
-            if (this.maxLevel == 0) {
-                throw new IllegalStateException("Cannot have a zero max level!");
-            }
-            if (this.hpAt0 <= 0) {
-                throw new IllegalStateException("Cannot have a zero or negative health at level zero!");
-            }
-            if (this.hpPerLevel < 0) {
-                throw new IllegalStateException("Cannot have a negative health per level!");
-            }
-            if (this.mpPerLevel < 0 && this.mpAt0 > (this.maxLevel * this.mpPerLevel + this.mpAt0)) {
-                throw new IllegalStateException("Cannot have a negative Mana value at max level!");
-            }
+            checkState(this.description != null, "Cannot have a null description!");
+            checkState(this.advancementLevel > 0, "Cannot have a zero advancement level!");
+            checkState(this.maxLevel > 0, "Cannot have a zero max level!");
+            checkState(this.hpAt0 > 0, "Cannot have a zero or negative health at level zero!");
+            checkState(this.hpPerLevel > 0, "Cannot have a negative health per level!");
+            checkState(this.mpPerLevel > 0 || this.mpAt0 > (this.maxLevel * this.mpPerLevel + this.mpAt0), "Cannot have a negative mana value at max level!");
             return new Role(this);
         }
 
@@ -1008,8 +993,8 @@ public final class Role {
          * @throws IllegalArgumentException If the skill is already in the granted skills list
          */
         public Builder addRestirctedSkill(ISkill skill) {
-            Validate.notNull(skill, "Cannot add a restriction on a null Skill!");
-            Validate.isTrue(!this.skills.containsKey(skill.getName()), "Cannot restrict a skill that is already added as a granted skill!");
+            checkArgument(skill != null, "Cannot add a restriction on a null Skill!");
+            checkArgument(!this.skills.containsKey(skill.getName()), "Cannot restrict a skill that is already added as a granted skill!");
             this.restrictedSkills.add(skill.getName());
             return this;
         }
@@ -1024,7 +1009,7 @@ public final class Role {
          * @throws IllegalArgumentException If the skill is null
          */
         public Builder removeRestrictedSkill(ISkill skill) {
-            Validate.notNull(skill, "Cannot remove a restriction on a null Skill!");
+            checkArgument(skill != null, "Cannot remove a restriction on a null Skill!");
             this.restrictedSkills.remove(skill.getName());
             return this;
         }

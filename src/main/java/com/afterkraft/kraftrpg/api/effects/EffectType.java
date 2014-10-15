@@ -24,13 +24,9 @@
 package com.afterkraft.kraftrpg.api.effects;
 
 
-import java.util.HashMap;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
-import org.apache.commons.lang.Validate;
+import static com.google.common.base.Preconditions.checkArgument;
 
 import org.bukkit.configuration.ConfigurationSection;
 
@@ -517,8 +513,8 @@ public enum EffectType {
      * @throws IllegalArgumentException If the skill is null
      */
     public boolean isSkillResisted(Insentient being, ISkill skill) {
-        Validate.notNull(being, "Cannot check against a null entity!");
-        Validate.notNull(skill, "Cannot check against a null skill!");
+        checkArgument(being != null, "Cannot check against a null entity!");
+        checkArgument(skill != null, "Cannot check against a null skill!");
         return (this.resistance != null && being.hasEffectType(this) && skill.isType(this.resistance));
     }
 
@@ -536,8 +532,8 @@ public enum EffectType {
      * @throws IllegalArgumentException If the effect is null
      */
     public boolean isEffectResisted(Insentient being, IEffect effect) {
-        Validate.notNull(being, "Cannot check against a null entity");
-        Validate.notNull(effect, "Cannot check against a null effect!");
+        checkArgument(being != null, "Cannot check against a null entity");
+        checkArgument(effect != null, "Cannot check against a null effect!");
         if (!being.hasEffectType(this)) {
             return false;
         }

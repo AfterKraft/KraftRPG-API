@@ -23,7 +23,8 @@
  */
 package com.afterkraft.kraftrpg.api.events.entity;
 
-import org.apache.commons.lang.Validate;
+
+import static com.google.common.base.Preconditions.checkArgument;
 
 import org.bukkit.event.HandlerList;
 
@@ -38,8 +39,8 @@ public class ManaChangeEvent extends InsentientEvent {
 
     public ManaChangeEvent(Insentient being, int fromMana, int toMana, ManaChangeReason reason) {
         super(being);
-        Validate.notNull(reason, "Cannot create an event with a null ManaChangeReason!");
-        Validate.isTrue(toMana >= 0, "Cannot handle a Mana event where the mana is less than zero!");
+        checkArgument(reason != null, "Cannot create an event with a null ManaChangeReason!");
+        checkArgument(toMana >= 0, "Cannot handle a Mana event where the mana is less than zero!");
         this.fromMana = fromMana;
         this.toMana = toMana;
         this.reason = reason;

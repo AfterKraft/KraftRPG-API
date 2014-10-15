@@ -25,8 +25,9 @@ package com.afterkraft.kraftrpg.api.attributes;
 
 import java.util.Map;
 
+import static com.google.common.base.Preconditions.checkArgument;
+
 import com.google.common.collect.Maps;
-import org.apache.commons.lang.Validate;
 
 /**
  * Attributes are defined through configurations and different attributes have
@@ -69,7 +70,7 @@ public enum AttributeType {
     }
 
     public static AttributeType matchAttributeType(final String name) {
-        Validate.notNull(name, "IAttribute Name cannot be null");
+        checkArgument(name != null, "IAttribute Name cannot be null");
         AttributeType result = BY_NAME.get(name.toUpperCase());
 
         if (result == null) {

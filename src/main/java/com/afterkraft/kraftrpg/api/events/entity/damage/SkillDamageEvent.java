@@ -25,9 +25,7 @@ package com.afterkraft.kraftrpg.api.events.entity.damage;
 
 import java.util.Map;
 
-import org.bukkit.event.HandlerList;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.entity.EntityDamageEvent;
 
 import com.afterkraft.kraftrpg.api.entity.Insentient;
 import com.afterkraft.kraftrpg.api.entity.SkillCaster;

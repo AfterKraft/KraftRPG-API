@@ -26,8 +26,9 @@ package com.afterkraft.kraftrpg.api.skills;
 import java.util.Arrays;
 import java.util.List;
 
+import static com.google.common.base.Preconditions.checkArgument;
+
 import com.google.common.collect.ImmutableList;
-import org.apache.commons.lang.Validate;
 
 import com.afterkraft.kraftrpg.api.RPGPlugin;
 import com.afterkraft.kraftrpg.api.entity.SkillCaster;
@@ -69,7 +70,7 @@ public abstract class ActiveSkill extends Skill implements Active {
     }
 
     protected void addSkillArgument(SkillArgument argument) {
-        Validate.notNull(argument, "Cannot add a null skill argument!");
+        checkArgument(argument != null, "Cannot add a null skill argument!");
         if (this.plugin.isEnabled()) {
             throw new IllegalStateException("KraftRPG is already enabled! Cannot modify Skill Arguments after being enabled.");
         }

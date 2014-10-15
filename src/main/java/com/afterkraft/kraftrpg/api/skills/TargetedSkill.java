@@ -24,18 +24,13 @@
 package com.afterkraft.kraftrpg.api.skills;
 
 
-import org.apache.commons.lang.Validate;
+import static com.google.common.base.Preconditions.checkArgument;
 
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.LivingEntity;
 
 import com.afterkraft.kraftrpg.api.RPGPlugin;
 import com.afterkraft.kraftrpg.api.effects.EffectType;
-import com.afterkraft.kraftrpg.api.entity.IEntity;
-import com.afterkraft.kraftrpg.api.entity.Insentient;
-import com.afterkraft.kraftrpg.api.entity.PartyMember;
-import com.afterkraft.kraftrpg.api.entity.SkillCaster;
-import com.afterkraft.kraftrpg.api.entity.Summon;
+import com.afterkraft.kraftrpg.api.entity.*;
 import com.afterkraft.kraftrpg.api.skills.arguments.EntitySkillArgument;
 
 /**
@@ -66,7 +61,7 @@ public abstract class TargetedSkill<E extends Entity> extends ActiveSkill implem
         if (this.plugin.isEnabled()) {
             throw new IllegalStateException("KraftRPG is already enabled! Cannot modify Skill Arguments after being enabled.");
         }
-        Validate.notNull(argument, "Cannot set the targeting argument as null!");
+        checkArgument(argument != null, "Cannot set the targeting argument as null!");
         if (this.skillArguments == null) {
             addSkillArgument(argument);
         } else {

@@ -85,7 +85,7 @@ public class EntitySkillArgument<E extends Entity> extends SkillArgument {
         E closest = null;
 
         for (Entity entity : nearby) {
-            if (!entity.getClass().isAssignableFrom(this.clazz)) {
+            if (!this.clazz.isInstance(entity)) {
                 continue;
             }
             @SuppressWarnings("unchecked")

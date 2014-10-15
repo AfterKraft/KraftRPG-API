@@ -27,8 +27,9 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Map;
 
+import static com.google.common.base.Preconditions.checkArgument;
+
 import com.google.common.collect.ImmutableMap;
-import org.apache.commons.lang.Validate;
 
 import org.bukkit.configuration.Configuration;
 import org.bukkit.entity.Entity;
@@ -36,6 +37,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.permissions.Permission;
 
 import com.afterkraft.kraftrpg.api.RPGPlugin;
+import com.afterkraft.kraftrpg.api.RpgCommon;
 import com.afterkraft.kraftrpg.api.entity.Champion;
 import com.afterkraft.kraftrpg.api.entity.Sentient;
 import com.afterkraft.kraftrpg.api.entity.SkillCaster;
@@ -92,7 +94,7 @@ public final class PermissionSkill extends Skill implements Permissible {
 
     @Override
     public void setPermissions(Map<String, Boolean> permissions) {
-        Validate.notNull(permissions, "Cannot set the permissions to a null mapping!");
+        checkArgument(permissions != null, "Cannot set the permissions to a null mapping!");
         this.permissions = permissions;
         this.permission = this.plugin.getServer().getPluginManager().getPermission(this.getName());
         if (this.permission != null) {
@@ -105,17 +107,17 @@ public final class PermissionSkill extends Skill implements Permissible {
 
     @Override
     public void tryLearning(Sentient being) {
-        Validate.notNull(being, "Cannot tell a null Sentient being to learn a skill!");
+        checkArgument(being != null, "Cannot tell a null Sentient being to learn a skill!");
         if (being.getEntity() instanceof Player) {
-            this.plugin.getVaultPermissions().playerAddTransient((Player) being.getEntity(), this.permission.getName());
+            RpgCommon.getPermissionManager().addTransientGlobalPermission(being, this.permission.getName());
         }
     }
 
     @Override
     public void tryUnlearning(Sentient being) {
-        Validate.notNull(being, "Cannot tell a null Sentient being to unlearn a skill!");
+        checkArgument(being != null, "Cannot tell a null Sentient being to unlearn a skill!");
         if (being.getEntity() instanceof Player) {
-            this.plugin.getVaultPermissions().playerRemoveTransient((Player) being.getEntity(), this.permission.getName());
+            RpgCommon.getPermissionManager().addTransientGlobalPermission(being, this.permission.getName());
         }
     }
 }

@@ -27,30 +27,15 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.google.common.base.Preconditions.checkArgument;
+
 import net.milkbowl.vault.item.ItemInfo;
 import net.milkbowl.vault.item.Items;
-import org.apache.commons.lang.Validate;
 
-import org.bukkit.CoalType;
-import org.bukkit.DyeColor;
-import org.bukkit.GrassSpecies;
-import org.bukkit.Material;
-import org.bukkit.SandstoneType;
-import org.bukkit.SkullType;
-import org.bukkit.TreeSpecies;
+import org.bukkit.*;
 import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.material.Coal;
-import org.bukkit.material.Leaves;
-import org.bukkit.material.LongGrass;
-import org.bukkit.material.MaterialData;
-import org.bukkit.material.MonsterEggs;
-import org.bukkit.material.Sandstone;
-import org.bukkit.material.SpawnEgg;
-import org.bukkit.material.TexturedMaterial;
-import org.bukkit.material.Tree;
-import org.bukkit.material.WoodenStep;
-import org.bukkit.material.Wool;
+import org.bukkit.material.*;
 
 enum TEMP_WallType {
     COBBLESTONE,
@@ -184,7 +169,7 @@ public final class ItemStringInterpreter {
         }
 
         String[] split = itemString.split(":");
-        Validate.isTrue(split.length <= 2, "Unable to parse item string - too many colons (maximum 1). Please correct the format and reload the config. Input: " + itemString);
+        checkArgument(split.length <= 2, "Unable to parse item string - too many colons (maximum 1). Please correct the format and reload the config. Input: " + itemString);
         Material mat = getMaterial(split[0]);
         if (mat == null) {
             return null;

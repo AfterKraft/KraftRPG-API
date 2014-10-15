@@ -23,7 +23,8 @@
  */
 package com.afterkraft.kraftrpg.api.roles;
 
-import org.apache.commons.lang.Validate;
+
+import static com.google.common.base.Preconditions.checkArgument;
 
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.MemoryConfiguration;
@@ -42,7 +43,7 @@ public final class RoleSkill {
     }
 
     public boolean skillEquals(ISkill other) {
-        Validate.notNull(other, "Cannot compare to a null Skill!");
+        checkArgument(other != null, "Cannot compare to a null Skill!");
         return this.skill.equalsIgnoreCase(other.getName());
 
     }

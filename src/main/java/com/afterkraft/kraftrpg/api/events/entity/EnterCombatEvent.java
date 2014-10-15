@@ -27,7 +27,6 @@ import java.util.WeakHashMap;
 
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.Cancellable;
-import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
 import com.afterkraft.kraftrpg.api.entity.EnterCombatReason;

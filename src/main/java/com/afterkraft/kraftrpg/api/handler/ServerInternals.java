@@ -43,14 +43,14 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 
 import com.afterkraft.kraftrpg.api.RPGPlugin;
+import com.afterkraft.kraftrpg.api.entity.IEntity;
 import com.afterkraft.kraftrpg.api.entity.Insentient;
-import com.afterkraft.kraftrpg.api.entity.SkillCaster;
-import com.afterkraft.kraftrpg.api.events.entity.damage.InsentientDamageEvent;
+import com.afterkraft.kraftrpg.api.events.entity.damage.InsentientDamageEvent.DamageType;
 import com.afterkraft.kraftrpg.api.skills.ISkill;
 import com.afterkraft.kraftrpg.api.util.FixedPoint;
 
 
-public abstract class CraftBukkitHandler {
+public abstract class ServerInternals {
     public static final double UNSET_VALUE = Double.longBitsToDouble(0xcc123);
 
     protected final static String DAMAGE_STRING = "Damage";
@@ -61,14 +61,14 @@ public abstract class CraftBukkitHandler {
     protected final static String SPAWNREASON_STRING = "SpawnReason";
 
     public static ServerType serverType;
-    private static CraftBukkitHandler activeInterface;
+    private static ServerInternals activeInterface;
     protected RPGPlugin plugin;
 
-    protected CraftBukkitHandler(ServerType type) {
+    protected ServerInternals(ServerType type) {
         serverType = type;
     }
 
-    public static CraftBukkitHandler getInterface() {
+    public static ServerInternals getInterface() {
         if (activeInterface == null) {
             // Get minecraft version
             String packageName = Bukkit.getServer().getClass().getPackage().getName();
@@ -92,8 +92,8 @@ public abstract class CraftBukkitHandler {
             }
             try {
                 Class<?> clazz = Class.forName("com.afterkraft.kraftrpg.compat." + version + ".RPGHandler");
-                if (CraftBukkitHandler.class.isAssignableFrom(clazz)) {
-                    activeInterface = (CraftBukkitHandler) clazz.getConstructor(ServerType.class).newInstance(serverType);
+                if (ServerInternals.class.isAssignableFrom(clazz)) {
+                    activeInterface = (ServerInternals) clazz.getConstructor(ServerType.class).newInstance(serverType);
                 }
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
@@ -202,19 +202,28 @@ public abstract class CraftBukkitHandler {
     public abstract void modifyArrowDamage(Arrow arrow, double damage);
 
     //NMS methods required by skills
+
+    public abstract boolean damageCheck(Insentient attacker, IEntity victim);
+
+    public abstract void knockBack(Insentient target, Insentient attacker, double damage);
+
+    public abstract void knockBack(LivingEntity target, LivingEntity attacker, double damage);
+
+    public abstract boolean healEntity(Insentient being, double tickHealth, ISkill skill, Insentient applier);
+
     public abstract boolean damageEntity(LivingEntity target, Insentient attacker, ISkill skill, double damage, DamageCause cause, boolean knockback);
 
     public abstract boolean damageEntity(Insentient target, Insentient attacker, ISkill skill, double damage, DamageCause cause, boolean knockback);
 
-    public abstract boolean damageEntity(Insentient target, Insentient attacker, ISkill skill, Map<InsentientDamageEvent.DamageType, Double> modifiers, DamageCause cause, boolean knockback);
+    public abstract boolean damageEntity(Insentient target, Insentient attacker, ISkill skill, Map<DamageType, Double> modifiers, DamageCause cause, boolean knockback);
 
-    public abstract void knockBack(LivingEntity target, LivingEntity attacker, double damage);
+    public abstract boolean damageEntity(Insentient target, Insentient attacker, ISkill skill, Map<DamageType, Double> modifiers, DamageCause cause, boolean knockback, boolean ignoreDamageCheck);
 
     public abstract void refreshLastPlayerDamageTime(LivingEntity entity);
 
 
     //NMS methods required by effects
-    public abstract void hidePlayer(Player player);
+    public abstract void hidePlayer(Insentient player);
 
     public abstract void sendFakePotionEffectPacket(PotionEffect effect, Player player);
 
@@ -225,7 +234,7 @@ public abstract class CraftBukkitHandler {
     public abstract void removeFakePotionEffectPackets(Set<PotionEffect> effects, Player player);
 
     //Bukkit specific NMS Requirements to fulfill deficiencies in API
-    public abstract void setArrowDamage(Arrow arrow, double damage);
+    public abstract void setProjectileDamage(IEntity arrow, double damage);
 
     //Utility functions
     protected abstract float getSoundStrength(LivingEntity entity);

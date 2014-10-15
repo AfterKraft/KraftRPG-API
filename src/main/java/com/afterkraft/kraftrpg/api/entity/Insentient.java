@@ -244,10 +244,10 @@ public interface Insentient extends IEntity {
      * Implementations may vary, but this should be assured to follow the
      * index representation provided by the following methods: <code>
      * <ul>
-     * <li>{@link com.afterkraft.kraftrpg.api.handler.CraftBukkitHandler#getArmorIndexHelmet()}</li>
-     * <li>{@link com.afterkraft.kraftrpg.api.handler.CraftBukkitHandler#getArmorIndexChestPlate()} </li>
-     * <li>{@link com.afterkraft.kraftrpg.api.handler.CraftBukkitHandler#getArmorIndexLeggings()} </li>
-     * <li>{@link com.afterkraft.kraftrpg.api.handler.CraftBukkitHandler#getArmorIndexBoots()} </li>
+     * <li>{@link com.afterkraft.kraftrpg.api.handler.ServerInternals#getArmorIndexHelmet()}</li>
+     * <li>{@link com.afterkraft.kraftrpg.api.handler.ServerInternals#getArmorIndexChestPlate()} </li>
+     * <li>{@link com.afterkraft.kraftrpg.api.handler.ServerInternals#getArmorIndexLeggings()} </li>
+     * <li>{@link com.afterkraft.kraftrpg.api.handler.ServerInternals#getArmorIndexBoots()} </li>
      * </ul>
      * </code>
      *

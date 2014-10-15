@@ -23,18 +23,13 @@
  */
 package com.afterkraft.kraftrpg.api;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.ListIterator;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
+
+import static com.google.common.base.Preconditions.checkArgument;
 
 import com.google.common.base.Function;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
-import org.apache.commons.lang.Validate;
 
 import org.bukkit.event.entity.EntityDamageEvent.DamageModifier;
 
@@ -43,7 +38,6 @@ import com.afterkraft.kraftrpg.api.skills.ISkill;
 import com.afterkraft.kraftrpg.api.skills.Skill;
 import com.afterkraft.kraftrpg.api.storage.StorageBackend;
 import com.afterkraft.kraftrpg.api.storage.StorageFrontendFactory;
-
 
 public final class ExternalProviderRegistration {
     private static boolean pluginEnabled = false;
@@ -82,9 +76,9 @@ public final class ExternalProviderRegistration {
 
     public static <T extends Function<? super Double, Double>> void registerDamageModifierFunction(DamageModifier modifier, T function) {
         check();
-        Validate.isTrue(modifier != DamageModifier.BASE, "Cannot register a BASE DamageModifier function!");
-        Validate.notNull(modifier, "Cannot register a null modifier");
-        Validate.notNull(function, "Cannot register a null function!");
+        checkArgument(modifier != DamageModifier.BASE, "Cannot register a BASE DamageModifier function!");
+        checkArgument(modifier != null, "Cannot register a null modifier");
+        checkArgument(function != null, "Cannot register a null function!");
         modifiers.put(modifier, function);
     }
 
@@ -116,7 +110,7 @@ public final class ExternalProviderRegistration {
 
     public static void registerPartyManager(PartyManager manager) {
         check();
-        Validate.notNull(manager, "Attempt to register a null PartyManager");
+        checkArgument(manager != null, "Attempt to register a null PartyManager");
         partyManager = manager;
     }
 

@@ -23,8 +23,6 @@
  */
 package com.afterkraft.kraftrpg.api.events.entity.champion;
 
-import org.bukkit.event.HandlerList;
-
 import com.afterkraft.kraftrpg.api.entity.Champion;
 import com.afterkraft.kraftrpg.api.entity.Insentient;
 import com.afterkraft.kraftrpg.api.events.entity.InsentientRegainHealthEvent;
