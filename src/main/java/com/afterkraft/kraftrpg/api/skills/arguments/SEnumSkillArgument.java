@@ -32,6 +32,10 @@ import com.afterkraft.kraftrpg.api.entity.SkillCaster;
 import com.afterkraft.kraftrpg.api.skills.SkillArgument;
 import com.afterkraft.kraftrpg.api.util.Utilities;
 
+/**
+ * A SkillArgument that parses and validates based on an array of String choices. This can be hugely
+ * beneficial for configuration based string values
+ */
 public class SEnumSkillArgument extends SkillArgument {
     private final String def;
     private final String[] choices;

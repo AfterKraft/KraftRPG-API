@@ -30,6 +30,11 @@ import org.bukkit.Material;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.configuration.serialization.SerializableAs;
 
+/**
+ * Represents a binding of a Skill to an item type with prescribed skill arguments as a single
+ * string. This can be serialized and saved to any form of database. This is primarily used by
+ * Champions.
+ */
 @SerializableAs("krpg-bind")
 public final class SkillBind implements ConfigurationSerializable {
     private final Material material;
@@ -37,7 +42,8 @@ public final class SkillBind implements ConfigurationSerializable {
     private final String arguments;
 
     public SkillBind(Map<String, Object> data) {
-        this(Material.matchMaterial((String) data.get("material")), (String) data.get("skill"), (String) data.get("args"));
+        this(Material.matchMaterial((String) data.get("material")),
+                (String) data.get("skill"), (String) data.get("args"));
     }
 
     public SkillBind(Material material, String skillName, String argument) {

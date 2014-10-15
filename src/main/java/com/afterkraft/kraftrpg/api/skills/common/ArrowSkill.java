@@ -30,13 +30,10 @@ import com.afterkraft.kraftrpg.api.skills.ActiveSkill;
 import com.afterkraft.kraftrpg.api.skills.SkillCastResult;
 
 /**
- * A default implementation of an {@link ImbuingSkill} that applies a default
- * {@link ProjectileShotEffect}. This is a common ArrowSkill that is intended
- * to be extended and override the following:
- * <ul>
- * <li>{@link #addImbueEffect(SkillCaster, int)}</li>
- * </ul>
- * Extended skills do not need to override {@link #useSkill(SkillCaster)}
+ * A default implementation of an {@link ImbuingSkill} that applies a default {@link
+ * ProjectileShotEffect}. This is a common ArrowSkill that is intended to be extended and override
+ * the following: <ul> <li>{@link #addImbueEffect(SkillCaster, int)}</li> </ul> Extended skills do
+ * not need to override {@link #useSkill(SkillCaster)}
  */
 public abstract class ArrowSkill extends ActiveSkill implements ImbuingSkill {
 
@@ -48,14 +45,16 @@ public abstract class ArrowSkill extends ActiveSkill implements ImbuingSkill {
 
     @Override
     public SkillCastResult useSkill(SkillCaster caster) {
-        int maxShots = this.plugin.getSkillConfigManager().getUsedIntSetting(caster, this, CommonSettings.IMBUED_MAX_USE_COUNT);
+        int maxShots = this.plugin.getSkillConfigManager().getUsedIntSetting(caster, this,
+                CommonSettings.IMBUED_MAX_USE_COUNT);
         this.addImbueEffect(caster, maxShots);
         return SkillCastResult.NORMAL;
     }
 
     @Override
     public void addImbueEffect(SkillCaster caster, int maxUses) {
-        ProjectileShotEffect effect = new ProjectileShotEffect(this, caster, "ArrowShotImbueEffect");
+        ProjectileShotEffect effect = new ProjectileShotEffect(this, caster,
+                "ArrowShotImbueEffect");
         caster.addEffect(effect);
     }
 }

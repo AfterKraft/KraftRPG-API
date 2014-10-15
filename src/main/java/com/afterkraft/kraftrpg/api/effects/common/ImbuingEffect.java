@@ -34,19 +34,29 @@ import com.afterkraft.kraftrpg.api.effects.IEffect;
 import com.afterkraft.kraftrpg.api.entity.Insentient;
 import com.afterkraft.kraftrpg.api.skills.Skill;
 
+/**
+ * A standard effect that focuses on behaviors for applying to a weapon or object related to the
+ * owning Insentient being. Standard usages are: applying an effect to Insentient beings harmed by a
+ * weapon wielded by the attacking Insentient being, applying an effect to the Insentient being
+ * while a certain weapon is equipped, etc.
+ */
 public class ImbuingEffect extends Effect implements Imbuing {
 
     protected final Insentient applier;
 
-    public ImbuingEffect(Skill skill, Insentient applier, String name, Collection<EffectType> types) {
+    public ImbuingEffect(Skill skill, Insentient applier, String name,
+                         Collection<EffectType> types) {
         this(skill, applier, name, "", "", types);
     }
 
-    public ImbuingEffect(Skill skill, Insentient applier, String name, String applyText, String expireText, Collection<EffectType> types) {
+    public ImbuingEffect(Skill skill, Insentient applier, String name, String applyText,
+                         String expireText, Collection<EffectType> types) {
         this(skill, applier, name, null, false, types, applyText, expireText);
     }
 
-    public ImbuingEffect(Skill skill, Insentient applier, String name, Set<PotionEffect> potionEffects, boolean persistent, Collection<EffectType> types, String applyText, String expireText) {
+    public ImbuingEffect(Skill skill, Insentient applier, String name,
+                         Set<PotionEffect> potionEffects, boolean persistent,
+                         Collection<EffectType> types, String applyText, String expireText) {
         super(skill, name, potionEffects, persistent, types, applyText, expireText);
         super.types.add(EffectType.IMBUE);
         this.applier = applier;

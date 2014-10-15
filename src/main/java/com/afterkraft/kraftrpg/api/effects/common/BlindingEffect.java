@@ -36,11 +36,16 @@ import com.afterkraft.kraftrpg.api.effects.ExpirableEffect;
 import com.afterkraft.kraftrpg.api.entity.Insentient;
 import com.afterkraft.kraftrpg.api.skills.Skill;
 
+/**
+ * Standard blinding effect that applies a Blinding potion effect to the victim. This is usually
+ * client-visible only.
+ */
 public class BlindingEffect extends ExpirableEffect {
 
     public static final String DEFAULT_APPLY_TEXT = "You've become invisible to the world.";
     public static final String DEFAULT_EXPIRE_TEXT = "You are now visible to the world.";
-    public static final Set<EffectType> DEFAULT_Blinding_EFFECTTYPES = EnumSet.of(EffectType.BLIND, EffectType.HARMFUL);
+    public static final Set<EffectType> DEFAULT_Blinding_EFFECTTYPES =
+            EnumSet.of(EffectType.BLIND, EffectType.HARMFUL);
 
     private static final Set<UUID> invisiblePlayers = new HashSet<UUID>();
 
@@ -48,9 +53,11 @@ public class BlindingEffect extends ExpirableEffect {
         this(skill, applier, name, duration, DEFAULT_APPLY_TEXT, DEFAULT_EXPIRE_TEXT);
     }
 
-    public BlindingEffect(Skill skill, Insentient applier, String name, long duration, String applyText, String expireText) {
+    public BlindingEffect(Skill skill, Insentient applier, String name, long duration,
+                          String applyText, String expireText) {
         super(skill, applier, name, duration, applyText, expireText, DEFAULT_Blinding_EFFECTTYPES);
-        addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, (int) ((duration / 1000) * 20), 0, false));
+        addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS,
+                (int) ((duration / 1000) * 20), 0, false));
     }
 
 }

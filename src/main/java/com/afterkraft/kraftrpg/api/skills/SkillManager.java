@@ -31,7 +31,9 @@ import com.afterkraft.kraftrpg.api.Manager;
 import com.afterkraft.kraftrpg.api.entity.SkillCaster;
 import com.afterkraft.kraftrpg.api.skills.common.Permissible;
 
-
+/**
+ * Manages skills with both skill loading and skill management.
+ */
 public interface SkillManager extends Manager {
 
     /**
@@ -45,25 +47,27 @@ public interface SkillManager extends Manager {
      * Checks if a skill by the skill name exists.
      *
      * @param skillName to check
+     *
      * @return true if a Skill exists by the name
      * @throws java.lang.IllegalArgumentException if the name is null
      */
     public boolean hasSkill(String skillName);
 
     /**
-     * Returns a skill from it's name If the skill is not in the skill mapping
-     * it will attempt to load it from file
+     * Returns a skill from it's name If the skill is not in the skill mapping it will attempt to
+     * load it from file
      *
      * @param name
+     *
      * @return
      */
     public ISkill getSkill(String name);
 
     /**
-     * Attempt to load the requested skill name that is to represent a
-     * {@link Permissible} skill.
+     * Attempt to load the requested skill name that is to represent a {@link Permissible} skill.
      *
      * @param name to create
+     *
      * @return true if successful
      */
     public boolean loadPermissionSkill(String name);
@@ -79,6 +83,7 @@ public interface SkillManager extends Manager {
      * Checks if a skill has already been loaded
      *
      * @param name of the skill
+     *
      * @return true if the skill has been initialized
      */
     public boolean isLoaded(String name);
@@ -91,17 +96,18 @@ public interface SkillManager extends Manager {
     public void removeSkill(ISkill skill);
 
     /**
-     * Check if the {@link com.afterkraft.kraftrpg.api.entity.SkillCaster} has
-     * an actively {@link Stalled} Skill.
+     * Check if the {@link com.afterkraft.kraftrpg.api.entity.SkillCaster} has an actively {@link
+     * Stalled} Skill.
      *
      * @param caster the caster in question
-     * @return true if the specified caster is in process of casting a Stalled
-     * skill
+     *
+     * @return true if the specified caster is in process of casting a Stalled skill
      */
     public boolean isCasterDelayed(SkillCaster caster);
 
     /**
      * @param caster
+     *
      * @return
      */
     public Stalled getDelayedSkill(SkillCaster caster);

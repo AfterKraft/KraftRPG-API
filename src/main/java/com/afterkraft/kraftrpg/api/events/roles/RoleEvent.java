@@ -27,7 +27,9 @@ import com.afterkraft.kraftrpg.api.entity.Sentient;
 import com.afterkraft.kraftrpg.api.events.entity.InsentientEvent;
 import com.afterkraft.kraftrpg.api.roles.Role;
 
-
+/**
+ * A standard hierarchical event associated with Roles and Sentient beings.
+ */
 public abstract class RoleEvent extends InsentientEvent {
     private final Role rpgRole;
 
@@ -40,13 +42,13 @@ public abstract class RoleEvent extends InsentientEvent {
         return this.rpgRole;
     }
 
+    public final Sentient getSentientBeing() {
+        return (Sentient) this.getEntity();
+    }
+
     @Override
     public Sentient getEntity() {
         return (Sentient) super.getEntity();
-    }
-
-    public final Sentient getSentientBeing() {
-        return (Sentient) this.getEntity();
     }
 
 }

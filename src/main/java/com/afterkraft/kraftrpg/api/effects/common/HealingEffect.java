@@ -39,26 +39,32 @@ import com.afterkraft.kraftrpg.api.events.entity.champion.ChampionRegainHealthEv
 import com.afterkraft.kraftrpg.api.skills.Skill;
 
 /**
- * Standard implementation of a
- * {@link com.afterkraft.kraftrpg.api.effects.Periodic} and
- * {@link Healing}. Consider that this
- * effect will heal the {@link com.afterkraft.kraftrpg.api.entity.Insentient}
+ * Standard implementation of a {@link com.afterkraft.kraftrpg.api.effects.Periodic} and {@link
+ * Healing}. Consider that this effect will heal the {@link com.afterkraft.kraftrpg.api.entity.Insentient}
  * being every tick based on {@link #getTickHealth()}
  */
 public class HealingEffect extends PeriodicExpirableEffect implements Healing {
     private double tickHealth;
 
-    public HealingEffect(Skill skill, Insentient applier, String name, long duration, EnumSet<EffectType> types, long period, double tickHealth) {
+    public HealingEffect(Skill skill, Insentient applier, String name, long duration,
+                         EnumSet<EffectType> types, long period, double tickHealth) {
         this(skill, applier, name, null, false, types, "", "", duration, period, tickHealth);
     }
 
-    public HealingEffect(Skill skill, Insentient applier, String name, long duration, String applyText, String expireText, EnumSet<EffectType> types, long period, double tickHealth) {
-        this(skill, applier, name, null, false, types, applyText, expireText, duration, period, tickHealth);
+    public HealingEffect(Skill skill, Insentient applier, String name,
+                         Set<PotionEffect> potionEffects, boolean persistent,
+                         EnumSet<EffectType> types, String applyText, String expireText,
+                         long duration, long period, double tickHealth) {
+        super(skill, applier, name, potionEffects, persistent, types, applyText, expireText,
+                duration, period);
+        this.tickHealth = tickHealth;
     }
 
-    public HealingEffect(Skill skill, Insentient applier, String name, Set<PotionEffect> potionEffects, boolean persistent, EnumSet<EffectType> types, String applyText, String expireText, long duration, long period, double tickHealth) {
-        super(skill, applier, name, potionEffects, persistent, types, applyText, expireText, duration, period);
-        this.tickHealth = tickHealth;
+    public HealingEffect(Skill skill, Insentient applier, String name, long duration,
+                         String applyText, String expireText, EnumSet<EffectType> types,
+                         long period, double tickHealth) {
+        this(skill, applier, name, null, false, types, applyText, expireText, duration, period,
+                tickHealth);
     }
 
     @Override
@@ -73,9 +79,8 @@ public class HealingEffect extends PeriodicExpirableEffect implements Healing {
     }
 
     /**
-     * {@inheritDoc} This will heal the
-     * {@link com.afterkraft.kraftrpg.api.entity.Insentient} being the
-     * prescribed health from {@link #getTickHealth()} ()}
+     * {@inheritDoc} This will heal the {@link com.afterkraft.kraftrpg.api.entity.Insentient} being
+     * the prescribed health from {@link #getTickHealth()} ()}
      *
      * @param being - The being this effect is being applied to.
      */
@@ -87,10 +92,12 @@ public class HealingEffect extends PeriodicExpirableEffect implements Healing {
         }
         InsentientRegainHealthEvent event;
         if (being instanceof Champion) {
-            event = new ChampionRegainHealthEvent((Champion) being, this.tickHealth, this.skill, getApplier());
+            event = new ChampionRegainHealthEvent((Champion) being, this.tickHealth,
+                    this.skill, getApplier());
 
         } else {
-            event = new InsentientRegainHealthEvent(being, this.tickHealth, this.skill, getApplier());
+            event = new InsentientRegainHealthEvent(being, this.tickHealth,
+                    this.skill, getApplier());
         }
         this.skill.plugin.getServer().getPluginManager().callEvent(event);
         if (event.isCancelled()) {

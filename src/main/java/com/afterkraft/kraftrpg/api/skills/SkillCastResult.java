@@ -23,7 +23,10 @@
  */
 package com.afterkraft.kraftrpg.api.skills;
 
-
+/**
+ * A result of a skill cast. This is a descriptive representation for the result of an attempt to
+ * cast a Skill.
+ */
 public enum SkillCastResult {
 
     /**
@@ -67,8 +70,7 @@ public enum SkillCastResult {
      */
     EVENT_CANCELLED,
     /**
-     * The skill can't be used due to something about the current Stalled
-     * skill.
+     * The skill can't be used due to something about the current Stalled skill.
      */
     STALLING_FAILURE,
     /**
@@ -100,8 +102,8 @@ public enum SkillCastResult {
      */
     INVALID_TARGET,
     /**
-     * The skill has decided the the provided target is invalid, but does not
-     * wish to message the caster.
+     * The skill has decided the the provided target is invalid, but does not wish to message the
+     * caster.
      */
     INVALID_TARGET_NO_MESSAGE,
     /**
@@ -109,8 +111,7 @@ public enum SkillCastResult {
      */
     UNTARGETABLE_TARGET,
     /**
-     * The skill has sent its own message, and the caller should not print
-     * one.
+     * The skill has sent its own message, and the caller should not print one.
      */
     CUSTOM_NO_MESSAGE_FAILURE,
     /**

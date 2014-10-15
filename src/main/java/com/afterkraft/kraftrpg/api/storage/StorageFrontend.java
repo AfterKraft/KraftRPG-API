@@ -23,7 +23,12 @@
  */
 package com.afterkraft.kraftrpg.api.storage;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -36,23 +41,20 @@ import com.afterkraft.kraftrpg.api.roles.Role;
 /**
  * The proxy through which the plugin interacts with the StorageBackend.
  * <p/>
- * A StorageFrontend handles things like batching of saves and caching of
- * loaded data. It also performs filtering of NPC data, and conversion between
- * two StorageBackends.
+ * A StorageFrontend handles things like batching of saves and caching of loaded data. It also
+ * performs filtering of NPC data, and conversion between two StorageBackends.
  */
 public abstract class StorageFrontend {
     protected final RPGPlugin plugin;
     protected final StorageBackend backend;
 
     /**
-     * This map builds up a to-do list for the saving task, which runs every
-     * half-hour.
+     * This map builds up a to-do list for the saving task, which runs every half-hour.
      */
     protected final Map<UUID, Champion> toSave;
 
     /**
-     * This map is also a to-do list, but is for the editing of offline
-     * players.
+     * This map is also a to-do list, but is for the editing of offline players.
      */
     protected final Map<UUID, PlayerData> offlineToSave;
 
@@ -71,8 +73,8 @@ public abstract class StorageFrontend {
     }
 
     /**
-     * This constructor skips making a save queue. If you call this
-     * constructor, you MUST override saveChampion().
+     * This constructor skips making a save queue. If you call this constructor, you MUST override
+     * saveChampion().
      */
     protected StorageFrontend(RPGPlugin plugin, StorageBackend backend, boolean ignored) {
         this.plugin = plugin;
@@ -88,11 +90,11 @@ public abstract class StorageFrontend {
      * [frontend-name]/[backend-name]
      * </pre>
      * <p/>
-     * In the default implementation, the frontend-name is "Default". You
-     * should change this if you extend the class.
+     * In the default implementation, the frontend-name is "Default". You should change this if you
+     * extend the class.
      * <p/>
-     * The backend-name is <code>backend.getClass().getSimpleName()</code>.
-     * This should remain the same in your implementation.
+     * The backend-name is <code>backend.getClass().getSimpleName()</code>. This should remain the
+     * same in your implementation.
      *
      * @return name of storage format
      */
@@ -104,6 +106,7 @@ public abstract class StorageFrontend {
      * Load the Champion data.
      *
      * @param player the requested Player data
+     *
      * @return the loaded Champion instance if data exists, else returns null
      */
     public Champion loadChampion(Player player, boolean shouldCreate) {
@@ -141,8 +144,8 @@ public abstract class StorageFrontend {
     }
 
     /**
-     * Saves the given {@link com.afterkraft.kraftrpg.api.entity.Champion}
-     * data at some later point.
+     * Saves the given {@link com.afterkraft.kraftrpg.api.entity.Champion} data at some later
+     * point.
      */
     public void saveChampion(Champion champion) {
         if (this.ignoredPlayers.contains(champion.getPlayer().getUniqueId())) {
@@ -199,8 +202,7 @@ public abstract class StorageFrontend {
     }
 
     /**
-     * Convert all data from the provided StorageBackend to the one currently
-     * being used.
+     * Convert all data from the provided StorageBackend to the one currently being used.
      *
      * @param from StorageBackend to convert from
      */
@@ -212,6 +214,9 @@ public abstract class StorageFrontend {
         }
     }
 
+    /**
+     * A task designed to periodically save all registered Champions at a prescribed time.
+     */
     protected class SavingStarterTask extends BukkitRunnable {
         // Main thread, just like everything else
         @Override
@@ -225,10 +230,14 @@ public abstract class StorageFrontend {
             StorageFrontend.this.toSave.clear();
             StorageFrontend.this.offlineToSave.clear();
 
-            Bukkit.getScheduler().runTaskAsynchronously(StorageFrontend.this.plugin, new SavingWorker(data));
+            Bukkit.getScheduler().runTaskAsynchronously(StorageFrontend.this.plugin,
+                    new SavingWorker(data));
         }
     }
 
+    /**
+     * An Asynchronous task designed to perform the save operation of a Champion.
+     */
     protected class SavingWorker implements Runnable {
         private Map<UUID, PlayerData> data;
 

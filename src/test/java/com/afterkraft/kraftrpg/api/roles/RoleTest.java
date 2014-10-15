@@ -2,16 +2,17 @@ package com.afterkraft.kraftrpg.api.roles;
 
 import java.util.Set;
 
-import com.google.common.collect.ImmutableSet;
-import org.hamcrest.CoreMatchers;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
 import org.bukkit.Material;
 import org.bukkit.configuration.MemoryConfiguration;
+import org.hamcrest.CoreMatchers;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+
+import com.google.common.collect.ImmutableSet;
 
 import com.afterkraft.kraftrpg.api.RPGPlugin;
 import com.afterkraft.kraftrpg.api.RPGTestCreator;

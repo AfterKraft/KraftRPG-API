@@ -30,19 +30,18 @@ import java.util.Set;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
-import com.google.common.collect.ImmutableSet;
-
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
+
+import com.google.common.collect.ImmutableSet;
 
 import com.afterkraft.kraftrpg.api.entity.Champion;
 import com.afterkraft.kraftrpg.api.entity.Insentient;
 import com.afterkraft.kraftrpg.api.skills.Skill;
 
 /**
- * Standard implementation of an
- * {@link com.afterkraft.kraftrpg.api.effects.IEffect}.
+ * Standard implementation of an {@link com.afterkraft.kraftrpg.api.effects.IEffect}.
  */
 public class Effect implements IEffect {
 
@@ -59,11 +58,13 @@ public class Effect implements IEffect {
         this(skill, name, null, false, null);
     }
 
-    public Effect(Skill skill, String name, Set<PotionEffect> potionEffects, boolean persistent, Collection<EffectType> types) {
+    public Effect(Skill skill, String name, Set<PotionEffect> potionEffects, boolean persistent,
+                  Collection<EffectType> types) {
         this(skill, name, potionEffects, persistent, types, "", "");
     }
 
-    public Effect(Skill skill, String name, Set<PotionEffect> potionEffects, boolean persistent, Collection<EffectType> types, String applyText, String expireText) {
+    public Effect(Skill skill, String name, Set<PotionEffect> potionEffects, boolean persistent,
+                  Collection<EffectType> types, String applyText, String expireText) {
         checkArgument(skill != null, "Cannot create an effect with a null Skill!");
         checkArgument(name != null, "Cannot create an effect with a null name!");
         checkArgument(!name.isEmpty(), "Cannot create an effect with an empty name!");
@@ -73,7 +74,8 @@ public class Effect implements IEffect {
         this.types.addAll(types);
         this.potionEffects = new HashSet<PotionEffect>();
         for (PotionEffect effect : potionEffects) {
-            this.potionEffects.add(new PotionEffect(effect.getType(), effect.getDuration(), effect.getAmplifier(), effect.isAmbient()));
+            this.potionEffects.add(new PotionEffect(effect.getType(), effect.getDuration(),
+                    effect.getAmplifier(), effect.isAmbient()));
         }
 
         this.applyText = applyText;
@@ -100,13 +102,10 @@ public class Effect implements IEffect {
     public final Set<PotionEffect> getPotionEffects() {
         ImmutableSet.Builder<PotionEffect> builder = ImmutableSet.builder();
         for (PotionEffect effect : this.potionEffects) {
-            builder.add(new PotionEffect(effect.getType(), effect.getDuration(), effect.getAmplifier(), effect.isAmbient()));
+            builder.add(new PotionEffect(effect.getType(), effect.getDuration(),
+                    effect.getAmplifier(), effect.isAmbient()));
         }
         return builder.build();
-    }
-
-    protected void addPotionEffect(PotionEffect effect) {
-        this.potionEffects.add(new PotionEffect(effect.getType(), effect.getDuration(), effect.getAmplifier(), effect.isAmbient()));
     }
 
     @Override
@@ -140,6 +139,21 @@ public class Effect implements IEffect {
         }
     }
 
+    @Override
+    public String getApplyText() {
+        return this.applyText;
+    }
+
+    @Override
+    public String getExpireText() {
+        return this.expireText;
+    }
+
+    protected void addPotionEffect(PotionEffect effect) {
+        this.potionEffects.add(new PotionEffect(effect.getType(), effect.getDuration(),
+                effect.getAmplifier(), effect.isAmbient()));
+    }
+
     public void broadcast(Location source, String message, Object... args) {
         checkArgument(source != null, "Cannot broadcast to a null location!");
         checkArgument(message != null, "Cannot broadcast a null message!");
@@ -153,14 +167,17 @@ public class Effect implements IEffect {
             if (champion.isIgnoringSkill(this.skill)) {
                 continue;
             }
-            if (source.getWorld().equals(playerLocation.getWorld()) && isInMsgRange(playerLocation, source)) {
+            if (source.getWorld().equals(playerLocation.getWorld())
+                    && isInMsgRange(playerLocation, source)) {
                 champion.sendMessage(message, args);
             }
         }
     }
 
     private boolean isInMsgRange(Location loc1, Location loc2) {
-        return (Math.abs(loc1.getBlockX() - loc2.getBlockX()) < 25) && (Math.abs(loc1.getBlockY() - loc2.getBlockY()) < 25) && (Math.abs(loc1.getBlockZ() - loc2.getBlockZ()) < 25);
+        return (Math.abs(loc1.getBlockX() - loc2.getBlockX()) < 25)
+                && (Math.abs(loc1.getBlockY() - loc2.getBlockY()) < 25)
+                && (Math.abs(loc1.getBlockZ() - loc2.getBlockZ()) < 25);
     }
 
     @Override
@@ -185,15 +202,5 @@ public class Effect implements IEffect {
             return false;
         }
         return true;
-    }
-
-    @Override
-    public String getApplyText() {
-        return this.applyText;
-    }
-
-    @Override
-    public String getExpireText() {
-        return this.expireText;
     }
 }

@@ -36,25 +36,28 @@ import com.afterkraft.kraftrpg.api.entity.Insentient;
 import com.afterkraft.kraftrpg.api.skills.Skill;
 
 /**
- * Implementation of an
- * {@link Expirable} based on
- * {@link com.afterkraft.kraftrpg.api.effects.Effect}
+ * Implementation of an {@link Expirable} based on {@link com.afterkraft.kraftrpg.api.effects.Effect}
  */
 public class ExpirableEffect extends Effect implements Expirable {
 
-    protected Insentient applier;
     private final long duration;
+    protected Insentient applier;
     private long expireTime;
 
-    public ExpirableEffect(Skill skill, Insentient applier, String name, long duration, Collection<EffectType> types) {
+    public ExpirableEffect(Skill skill, Insentient applier, String name, long duration,
+                           Collection<EffectType> types) {
         this(skill, applier, name, duration, null, null, types);
     }
 
-    public ExpirableEffect(Skill skill, Insentient applier, String name, long duration, String applyText, String expireText, Collection<EffectType> types) {
+    public ExpirableEffect(Skill skill, Insentient applier, String name, long duration,
+                           String applyText, String expireText, Collection<EffectType> types) {
         this(skill, applier, name, null, false, types, applyText, expireText, duration);
     }
 
-    public ExpirableEffect(Skill skill, Insentient applier, String name, Set<PotionEffect> potionEffects, boolean persistent, Collection<EffectType> types, String applyText, String expireText, long duration) {
+    public ExpirableEffect(Skill skill, Insentient applier, String name,
+                           Set<PotionEffect> potionEffects, boolean persistent,
+                           Collection<EffectType> types, String applyText, String expireText,
+                           long duration) {
         super(skill, name, potionEffects, persistent, types, applyText, expireText);
         checkArgument(applier != null, "Cannot create an ExpirableEffect with a null applier!");
         checkArgument(duration > 0, "Cannot have a negative Effect duration!");

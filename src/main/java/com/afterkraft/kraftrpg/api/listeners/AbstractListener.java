@@ -29,6 +29,10 @@ import org.bukkit.event.Listener;
 import com.afterkraft.kraftrpg.api.Manager;
 import com.afterkraft.kraftrpg.api.RPGPlugin;
 
+/**
+ * An abstract listener object that automatically registers itself and unregisters itself with
+ * Bukkit's event system.
+ */
 public abstract class AbstractListener implements Listener, Manager {
 
     protected RPGPlugin plugin;

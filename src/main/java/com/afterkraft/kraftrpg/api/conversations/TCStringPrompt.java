@@ -26,8 +26,7 @@ package com.afterkraft.kraftrpg.api.conversations;
 import org.bukkit.conversations.ConversationContext;
 
 /**
- * StringPrompt is the base class for any prompt that accepts an arbitrary
- * string from the user.
+ * StringPrompt is the base class for any prompt that accepts an arbitrary string from the user.
  */
 public abstract class TCStringPrompt implements TabCompletablePrompt {
 
@@ -35,6 +34,7 @@ public abstract class TCStringPrompt implements TabCompletablePrompt {
      * Ensures that the prompt waits for the user to provide input.
      *
      * @param context Context information about the conversation.
+     *
      * @return True.
      */
     @Override

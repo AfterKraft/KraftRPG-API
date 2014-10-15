@@ -27,24 +27,35 @@ import org.bukkit.inventory.ItemStack;
 
 import com.afterkraft.kraftrpg.api.entity.Insentient;
 
+/**
+ * Standard imbuing effect that applies specifically to melee/ranged weapons that affect any being
+ * when that being is hit by said weapon.
+ */
 public interface WeaponImbuing extends Imbuing {
 
     /**
-     * Apply the effect to the ItemStack
+     * Apply the effect to the ItemStack.
      *
-     * @param itemStack
-     * @return
+     * @param itemStack The itemstack in question
+     *
+     * @return True if the effect was successfully applied
      */
     public boolean applyToWeapon(ItemStack itemStack);
 
     /**
-     * A
+     * Affects the victim with a behavior, this is usually called when all checks have been made for
+     * any sort of immunity to this type of effect.
      *
-     * @param victim
-     * @param attacker
-     * @param weapon
+     * @param victim   The victim being hit
+     * @param attacker The attacker hitting the victim
+     * @param weapon   The weapon used to hit the victim
      */
     public void onEntityHit(Insentient victim, Insentient attacker, ItemStack weapon);
 
+    /**
+     * Gets the number of hits left for this effect before expiration.
+     *
+     * @return The number of hits before expiration
+     */
     public int getHitsLeft();
 }

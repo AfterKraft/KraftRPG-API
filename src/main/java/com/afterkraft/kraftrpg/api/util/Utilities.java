@@ -23,30 +23,50 @@
  */
 package com.afterkraft.kraftrpg.api.util;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.google.common.collect.ImmutableSet;
-
-import org.bukkit.*;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.Color;
+import org.bukkit.Material;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.MemoryConfiguration;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.*;
+import org.bukkit.inventory.meta.BookMeta;
+import org.bukkit.inventory.meta.EnchantmentStorageMeta;
+import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.LeatherArmorMeta;
+import org.bukkit.inventory.meta.PotionMeta;
+import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.StringUtil;
 
-import com.afterkraft.kraftrpg.api.handler.ServerInternals;
+import com.google.common.collect.ImmutableSet;
 
+import com.afterkraft.kraftrpg.api.RpgCommon;
 
+/**
+ * A standard utilities class containing various methods that are useful enough to simplify code and
+ * calculations.
+ */
 public class Utilities {
 
-    public static final Pattern uuidRegex = Pattern.compile("[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}", Pattern.CASE_INSENSITIVE);
+    public static final Pattern uuidRegex =
+            Pattern.compile("[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}",
+                    Pattern.CASE_INSENSITIVE);
     private static final Pattern timePattern = Pattern.compile("(\\d+)(\\w)");
     public static Pattern locationRegex = Pattern.compile("~?-?[0-9]*(\\.[0-9]+)?");
     private static HashSet<Byte> transparentIds;
@@ -75,20 +95,26 @@ public class Utilities {
     @SuppressWarnings("unchecked")
     public static ItemStack loadItem(Object root) {
         ConfigurationSection section;
-        if (root == null) return null;
-        if (root instanceof ItemStack) return (ItemStack) root;
+        if (root == null) {
+            return null;
+        }
+        if (root instanceof ItemStack) {
+            return (ItemStack) root;
+        }
         if (root instanceof ConfigurationSection) {
             section = (ConfigurationSection) root;
         } else if (root instanceof Map) {
-            MemoryConfiguration _section = new MemoryConfiguration();
-            _section.addDefaults((Map<String, Object>) root);
-            section = _section;
+            MemoryConfiguration memorySection = new MemoryConfiguration();
+            memorySection.addDefaults((Map<String, Object>) root);
+            section = memorySection;
         } else {
             return null;
         }
 
         ItemStack item = ItemStringInterpreter.valueOf(section.getString("item"));
-        if (item == null) return null;
+        if (item == null) {
+            return null;
+        }
 
         // No addtl data? Return now
         if (section.getKeys(true).equals(onlyItemKey)) {
@@ -98,7 +124,8 @@ public class Utilities {
         ItemMeta meta = item.getItemMeta();
 
         if (section.get("name") != null) {
-            meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', section.getString("name")));
+            meta.setDisplayName(ChatColor.translateAlternateColorCodes('&',
+                    section.getString("name")));
         }
 
         if (section.get("lore") != null) {
@@ -165,6 +192,7 @@ public class Utilities {
                     // FIXME
                     ((SkullMeta) meta).setOwner(offlinePlayer.getName());
                 } catch (IllegalArgumentException ignored) {
+                    // Do nothing
                 }
             }
         }
@@ -175,7 +203,9 @@ public class Utilities {
 
     public static Color parseColor(String str) {
         String[] split = str.split(":");
-        int r, g, b;
+        int r;
+        int g;
+        int b;
         try {
             r = Integer.parseInt(split[0]);
             g = Integer.parseInt(split[1]);
@@ -191,15 +221,20 @@ public class Utilities {
     }
 
     public static PotionEffect loadEffect(Object root) {
-        if (root instanceof PotionEffect) return (PotionEffect) root;
+        if (root instanceof PotionEffect) {
+            return (PotionEffect) root;
+        }
         if (root instanceof ConfigurationSection) {
             ConfigurationSection section = (ConfigurationSection) root;
 
             PotionEffectType type = PotionEffectType.getByName(section.getString("type"));
             if (type == null) {
-                type = ServerInternals.getInterface().getAlternatePotionEffectNames().get(section.getString("type").toLowerCase());
+                type = RpgCommon.getHandler().getAlternatePotionEffectNames()
+                        .get(section.getString("type").toLowerCase());
             }
-            if (type == null) return null;
+            if (type == null) {
+                return null;
+            }
 
             int strength = section.getInt("level", 0);
 
@@ -209,10 +244,14 @@ public class Utilities {
             }
 
             String time = section.getString("time");
-            if (time == null) return null;
+            if (time == null) {
+                return null;
+            }
 
             Matcher matcher = timePattern.matcher(time);
-            if (!matcher.matches()) return null;
+            if (!matcher.matches()) {
+                return null;
+            }
 
             int quant = Integer.parseInt(matcher.group(1));
             char unit = matcher.group(2).charAt(0);
@@ -220,12 +259,22 @@ public class Utilities {
                 // fallthrough
                 case 'd':
                     quant *= 24;
+                    quant *= 60;
+                    quant *= 60;
+                    quant *= 20;
+                    break;
                 case 'h':
                     quant *= 60;
+                    quant *= 60;
+                    quant *= 20;
+                    break;
                 case 'm':
                     quant *= 60;
+                    quant *= 20;
+                    break;
                 case 's':
                     quant *= 20;
+                    break;
                 case 't':
                     break;
                 default:
@@ -282,7 +331,9 @@ public class Utilities {
     }
 
     public static List<String> findMatches(String partial, List<String> candidates) {
-        if (partial == null || partial.isEmpty()) return candidates;
+        if (partial == null || partial.isEmpty()) {
+            return candidates;
+        }
 
         List<String> ret = new ArrayList<String>();
         // This is a Bukkit method!
@@ -296,7 +347,8 @@ public class Utilities {
         ArrayList<String> matchedPlayers = new ArrayList<String>();
         for (Player player : sender.getServer().getOnlinePlayers()) {
             String name = player.getName();
-            if ((senderPlayer == null || senderPlayer.canSee(player)) && StringUtil.startsWithIgnoreCase(name, partial)) {
+            if ((senderPlayer == null || senderPlayer.canSee(player))
+                    && StringUtil.startsWithIgnoreCase(name, partial)) {
                 matchedPlayers.add(name);
             }
         }
@@ -306,6 +358,7 @@ public class Utilities {
     }
 
     public static String minMaxString(double at0, double max, ChatColor color) {
-        return String.format("%3$s%1$.1f%4$s-%3$s%2$.1f%5$s", at0, max, color.toString(), ChatColor.WHITE.toString(), ChatColor.RESET.toString());
+        return String.format("%3$s%1$.1f%4$s-%3$s%2$.1f%5$s", at0, max, color.toString(),
+                ChatColor.WHITE.toString(), ChatColor.RESET.toString());
     }
 }

@@ -29,19 +29,22 @@ import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 
+/**
+ * Standard properties provided for the API. This can too be used by skills for various
+ * calculations.
+ */
 public interface Properties {
 
     public int getDefaultGlobalCooldown();
 
     /**
-     * Return if the {@link com.afterkraft.kraftrpg.api.util.DamageManager}
-     * will calculate varying damages for {@link org.bukkit.entity.EntityType}
-     * and {@link org.bukkit.Material}. If varying damage is enabled, all
-     * damages are varied depending on each
-     * {@link org.bukkit.event.entity.EntityDamageEvent}
+     * Return if the {@link com.afterkraft.kraftrpg.api.util.DamageManager} will calculate varying
+     * damages for {@link org.bukkit.entity.EntityType} and {@link org.bukkit.Material}. If varying
+     * damage is enabled, all damages are varied depending on each {@link
+     * org.bukkit.event.entity.EntityDamageEvent}
      * <p/>
-     * It should be known that varying damages are also further customized by
-     * {@link com.afterkraft.kraftrpg.api.roles.Role}
+     * It should be known that varying damages are also further customized by {@link
+     * com.afterkraft.kraftrpg.api.roles.Role}
      *
      * @return true if enabled, false otherwise.
      */
@@ -56,10 +59,11 @@ public interface Properties {
     public int getDefaultStaminaRegeneration();
 
     /**
-     * Gets the stamina increase for the desired Material. If the Material is
-     * not a food item, the value of 0 will be given.
+     * Gets the stamina increase for the desired Material. If the Material is not a food item, the
+     * value of 0 will be given.
      *
      * @param foodMaterial
+     *
      * @return
      */
     public int getStaminaIncreaseForFood(Material foodMaterial);
@@ -91,8 +95,9 @@ public interface Properties {
     public String getStorageType();
 
     /**
-     * Third party plugin, VanishNoPacket, checks if the use of VanishNoPacket
-     * is configured to be enabled or disabled.
+     * Third party plugin, VanishNoPacket, checks if the use of VanishNoPacket is configured to be
+     * enabled or disabled.
+     *
      * @return True if VanishNoPacket is configured to be used for invisibility
      */
     public boolean useVanishIfAvailable();

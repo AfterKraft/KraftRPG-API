@@ -26,10 +26,8 @@ package com.afterkraft.kraftrpg.api.effects;
 import com.afterkraft.kraftrpg.api.skills.Skill;
 
 /**
- * Standard implementation of a
- * {@link com.afterkraft.kraftrpg.api.effects.Periodic} effect that
- * performs some operations with
- * {@link #tick(com.afterkraft.kraftrpg.api.entity.Insentient)}
+ * Standard implementation of a {@link com.afterkraft.kraftrpg.api.effects.Periodic} effect that
+ * performs some operations with {@link #tick(com.afterkraft.kraftrpg.api.entity.Insentient)}
  */
 public abstract class PeriodicEffect extends Effect implements Periodic {
 

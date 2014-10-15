@@ -13,6 +13,7 @@ public class FileUtils {
      * Used to delete a folder.
      *
      * @param file The folder to delete.
+     *
      * @return true if the folder was successfully deleted.
      */
     public static boolean deleteFolder(File file) {

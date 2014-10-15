@@ -23,6 +23,9 @@
  */
 package com.afterkraft.kraftrpg.api;
 
+/**
+ * Thrown when a cyclic dependency is detected in a {@link com.afterkraft.kraftrpg.api.util.DirectedGraph}.
+ */
 public class CircularDependencyException extends RuntimeException {
     public CircularDependencyException(String message) {
         super(message);

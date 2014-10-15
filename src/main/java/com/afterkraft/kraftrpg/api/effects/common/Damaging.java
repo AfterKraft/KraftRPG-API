@@ -26,8 +26,8 @@ package com.afterkraft.kraftrpg.api.effects.common;
 import com.afterkraft.kraftrpg.api.effects.Periodic;
 
 /**
- * A damaging effect that will damage the
- * {@link com.afterkraft.kraftrpg.api.entity.Insentient} being.
+ * A damaging effect that will damage the {@link com.afterkraft.kraftrpg.api.entity.Insentient}
+ * being.
  */
 public interface Damaging extends Periodic {
 
@@ -42,6 +42,7 @@ public interface Damaging extends Periodic {
      * Set the damage per tick for this effect.
      *
      * @param tickDamage for this effect.
+     *
      * @throws IllegalArgumentException If the damage is negative or zero
      */
     public void setTickDamage(double tickDamage);

@@ -30,11 +30,16 @@ import org.bukkit.inventory.ItemStack;
 
 import com.afterkraft.kraftrpg.api.entity.Insentient;
 
+/**
+ * Standard wrapper for attack damage dealt with an ItemStack
+ */
 public class AttackDamageWrapper extends DamageWrapper {
     private final WeakReference<Insentient> attackingIEntity;
     private final ItemStack weaponUsed;
 
-    public AttackDamageWrapper(Insentient attackingIEntity, DamageCause originalCause, double originalDamage, double modifiedDamage, DamageCause modifiedCause) {
+    public AttackDamageWrapper(Insentient attackingIEntity, DamageCause originalCause,
+                               double originalDamage, double modifiedDamage,
+                               DamageCause modifiedCause) {
         super(originalCause, originalDamage, modifiedDamage, modifiedCause);
         this.attackingIEntity = new WeakReference<Insentient>(attackingIEntity);
         this.weaponUsed = new ItemStack(attackingIEntity.getItemInHand());

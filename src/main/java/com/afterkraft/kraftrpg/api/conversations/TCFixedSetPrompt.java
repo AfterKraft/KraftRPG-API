@@ -27,14 +27,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import com.google.common.base.Joiner;
-
 import org.bukkit.conversations.ConversationContext;
 import org.bukkit.util.StringUtil;
 
+import com.google.common.base.Joiner;
+
 /**
- * FixedSetPrompt is the base class for any prompt that requires a fixed set
- * response from the user.
+ * FixedSetPrompt is the base class for any prompt that requires a fixed set response from the
+ * user.
  */
 public abstract class TCFixedSetPrompt extends TCValidatingPrompt {
 
@@ -45,8 +45,7 @@ public abstract class TCFixedSetPrompt extends TCValidatingPrompt {
      * <p/>
      * foo = new FixedSetPrompt("bar", "cheese", "panda");
      *
-     * @param fixedSet A fixed set of strings, one of which the user must
-     *                 type.
+     * @param fixedSet A fixed set of strings, one of which the user must type.
      */
     protected TCFixedSetPrompt(String... fixedSet) {
         super();
@@ -62,18 +61,19 @@ public abstract class TCFixedSetPrompt extends TCValidatingPrompt {
     }
 
     @Override
-    public List<String> onTabComplete(ConversationContext context, String fullMessage, String lastToken) {
+    public List<String> onTabComplete(ConversationContext context, String fullMessage,
+                                      String lastToken) {
         List<String> matches = new ArrayList<String>();
         StringUtil.copyPartialMatches(fullMessage, matches, this.fixedSet);
         return matches;
     }
 
     /**
-     * Utility function to create a formatted string containing all the
-     * options declared in the constructor.
+     * Utility function to create a formatted string containing all the options declared in the
+     * constructor.
      *
-     * @return the options formatted like "[bar, cheese, panda]" if bar,
-     * cheese, and panda were the options used
+     * @return the options formatted like "[bar, cheese, panda]" if bar, cheese, and panda were the
+     * options used
      */
     protected String formatFixedSet() {
         return "[" + Joiner.on(", ").join(this.fixedSet) + "]";

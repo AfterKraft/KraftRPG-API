@@ -27,7 +27,17 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.configuration.Configuration;
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.*;
+import org.bukkit.entity.Arrow;
+import org.bukkit.entity.Egg;
+import org.bukkit.entity.EnderPearl;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.LargeFireball;
+import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.SmallFireball;
+import org.bukkit.entity.Snowball;
+import org.bukkit.entity.ThrownExpBottle;
+import org.bukkit.entity.WitherSkull;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.inventory.ItemStack;
@@ -37,44 +47,42 @@ import com.afterkraft.kraftrpg.api.entity.Insentient;
 import com.afterkraft.kraftrpg.api.entity.Monster;
 
 /**
- * The generalized manager for calculating and fetching damages for entities
- * and items alike.
+ * The generalized manager for calculating and fetching damages for entities and items alike.
  */
 public interface DamageManager extends Manager {
 
     /**
-     * Attempts to calculate the highest damage given for the given ItemStack.
-     * This will check all possibilities of damage modification if the
-     * Insentient is a {@link com.afterkraft.kraftrpg.api.entity.SkillCaster}
-     * or {@link com.afterkraft.kraftrpg.api.entity.Sentient} to which
-     * {@link com.afterkraft.kraftrpg.api.roles.Role}s will be allowed to
-     * modify the damage dealt from the Item.
+     * Attempts to calculate the highest damage given for the given ItemStack. This will check all
+     * possibilities of damage modification if the Insentient is a {@link
+     * com.afterkraft.kraftrpg.api.entity.SkillCaster} or {@link com.afterkraft.kraftrpg.api.entity.Sentient}
+     * to which {@link com.afterkraft.kraftrpg.api.roles.Role}s will be allowed to modify the damage
+     * dealt from the Item.
      * <p/>
-     * If the Insentient has no default damages for the Item, the damage
-     * returned will be 0.
+     * If the Insentient has no default damages for the Item, the damage returned will be 0.
      *
      * @param being         the Insentient to query for damages
      * @param defaultDamage
-     * @return the highest possible damage for the item from any possible
-     * modifications
+     *
+     * @return the highest possible damage for the item from any possible modifications
      */
     public double getHighestItemDamage(Insentient being, Insentient defender, double defaultDamage);
 
     public double getHighestProjectileDamage(Insentient champion, ProjectileType type);
 
     /**
-     * Request the default damage for the provided {@link org.bukkit.Material}
-     * and uses the default damage provided if the default damage is not
-     * configured.
+     * Request the default damage for the provided {@link org.bukkit.Material} and uses the default
+     * damage provided if the default damage is not configured.
      *
      * @param type
      * @param damage
+     *
      * @return
      */
     public double getDefaultItemDamage(Material type, double damage);
 
     /**
      * @param type
+     *
      * @return
      */
     public double getDefaultItemDamage(Material type);
@@ -87,6 +95,7 @@ public interface DamageManager extends Manager {
 
     /**
      * @param type
+     *
      * @return
      */
     public boolean doesItemDamageVary(Material type);
@@ -101,8 +110,8 @@ public interface DamageManager extends Manager {
      * Gets the default damage for the given EntityType.
      *
      * @param type of Entity we are querying
-     * @return the damage from the default configuration for the given
-     * EntityType
+     *
+     * @return the damage from the default configuration for the given EntityType
      */
     public double getEntityDamage(EntityType type);
 
@@ -111,44 +120,46 @@ public interface DamageManager extends Manager {
     public double getEnchantmentDamage(Enchantment enchantment, int enchantmentLevel);
 
     /**
-     * Utility method to calculate the modified damage from an Enchantment
-     * damage caused by an Armor piece or Weapon. The
-     * {@link com.afterkraft.kraftrpg.api.entity.Insentient} is used to check
-     * for any possible {@link com.afterkraft.kraftrpg.api.roles.Role} damage
-     * modifications necessary.
+     * Utility method to calculate the modified damage from an Enchantment damage caused by an Armor
+     * piece or Weapon. The {@link com.afterkraft.kraftrpg.api.entity.Insentient} is used to check
+     * for any possible {@link com.afterkraft.kraftrpg.api.roles.Role} damage modifications
+     * necessary.
      * <p/>
-     * If varying damage is enabled, the damage will already take this into
-     * account.
+     * If varying damage is enabled, the damage will already take this into account.
      *
      * @param being       wearing/using the enchanted ItemStack
      * @param enchantment to calculate for
      * @param item        that is enchanted
+     *
      * @return calculated damage that may be varied if enabled
      */
-    public double getItemEnchantmentDamage(Insentient being, Enchantment enchantment, ItemStack item);
+    public double getItemEnchantmentDamage(Insentient being, Enchantment enchantment,
+                                           ItemStack item);
 
     /**
-     * Calculate the fall reduction for this being considering various sources
-     * including armor.
+     * Calculate the fall reduction for this being considering various sources including armor.
      *
      * @param being
+     *
      * @return
      */
     public double getFallReduction(Insentient being);
 
     /**
-     * Attempts to calculate various possible modifications to the default
-     * damage for the given Monster depending on various things like location,
-     * base damage, whether it was spawned from a Mob Spawner and possibly
-     * other things varying by the implementation.
+     * Attempts to calculate various possible modifications to the default damage for the given
+     * Monster depending on various things like location, base damage, whether it was spawned from a
+     * Mob Spawner and possibly other things varying by the implementation.
      *
      * @param monster     the Monster to query
      * @param location    the spawn location of the Monster
      * @param baseDamage  the default base damage of the Monster
      * @param fromSpawner whether the Monster originated from a Spawner
+     *
      * @return the calculated customized damage for the Monster
      */
-    public double getModifiedEntityDamage(final Monster monster, final Location location, final double baseDamage, final CreatureSpawnEvent.SpawnReason fromSpawner);
+    public double getModifiedEntityDamage(final Monster monster, final Location location,
+                                          final double baseDamage,
+                                          final CreatureSpawnEvent.SpawnReason fromSpawner);
 
     public double getDefaultEntityHealth(final LivingEntity entity);
 
@@ -167,6 +178,9 @@ public interface DamageManager extends Manager {
      */
     public void load(Configuration config);
 
+    /**
+     * Standard projectile type enum for use by the DamageManager.
+     */
     public enum ProjectileType {
         ARROW,
         EGG,

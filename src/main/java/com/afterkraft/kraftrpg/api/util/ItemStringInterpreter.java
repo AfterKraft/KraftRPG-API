@@ -29,33 +29,49 @@ import java.util.Map;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
+import org.bukkit.CoalType;
+import org.bukkit.DyeColor;
+import org.bukkit.GrassSpecies;
+import org.bukkit.Material;
+import org.bukkit.SandstoneType;
+import org.bukkit.SkullType;
+import org.bukkit.TreeSpecies;
+import org.bukkit.entity.EntityType;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.material.Coal;
+import org.bukkit.material.Leaves;
+import org.bukkit.material.LongGrass;
+import org.bukkit.material.MaterialData;
+import org.bukkit.material.MonsterEggs;
+import org.bukkit.material.Sandstone;
+import org.bukkit.material.SpawnEgg;
+import org.bukkit.material.TexturedMaterial;
+import org.bukkit.material.Tree;
+import org.bukkit.material.WoodenStep;
+import org.bukkit.material.Wool;
+
 import net.milkbowl.vault.item.ItemInfo;
 import net.milkbowl.vault.item.Items;
 
-import org.bukkit.*;
-import org.bukkit.entity.EntityType;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.material.*;
-
-enum TEMP_WallType {
+enum WallTypeEnum {
     COBBLESTONE,
     MOSSY_COBBLESTONE,
 }
 
-enum TEMP_AnvilDamage {
+enum AnvilDamageEnum {
     UNDAMAGED,
     SLIGHTLY_DAMAGED,
     VERY_DAMAGED,
 }
 
-enum TEMP_QuartzType {
+enum QuartzTypeEnum {
     NORMAL,
     CHISELED,
     PILLAR,
 }
 
 // From Step.class - missing new values
-enum TEMP_StepType {
+enum StepTypeEnum {
     STONE,
     SANDSTONE,
     WOOD,
@@ -75,7 +91,7 @@ enum TEMP_StepType {
 }
 
 // From SmoothBrick.class - dumb names
-enum TEMP_StoneBrickType {
+enum StoneBrickType {
     NORMAL,
     CRACKED,
     MOSSY,
@@ -89,15 +105,22 @@ interface StringInterpreter {
      * The provided string must first be made all uppercase before calling.
      *
      * @param s provided string
+     *
      * @return byte of data
      */
     public byte interpret(String s);
 }
 
+/**
+ * Interpreter of ItemStacks to Strings and Strings to ItemStacks. This is mainly used for
+ * serialization purposes.
+ */
 @SuppressWarnings("rawtypes")
 public final class ItemStringInterpreter {
-    private static Map<Class<? extends MaterialData>, Class<? extends Enum>> materialData = new HashMap<Class<? extends MaterialData>, Class<? extends Enum>>();
-    private static Map<Material, StringInterpreter> workarounds = new HashMap<Material, StringInterpreter>();
+    private static Map<Class<? extends MaterialData>, Class<? extends Enum>> materialData =
+            new HashMap<Class<? extends MaterialData>, Class<? extends Enum>>();
+    private static Map<Material, StringInterpreter> workarounds =
+            new HashMap<Material, StringInterpreter>();
 
     private ItemStringInterpreter() {
         @SuppressWarnings("unused")
@@ -117,22 +140,29 @@ public final class ItemStringInterpreter {
         workarounds.put(Material.MONSTER_EGGS, new TexturedMaterialInterpreter(new MonsterEggs()));
 
         // Workaround: The texture names are pretty damn dumb here
-        //workarounds.put(Material.SMOOTH_BRICK, new TexturedMaterialInterpreter(new SmoothBrick()));
-        workarounds.put(Material.SMOOTH_BRICK, new EnumOrdinalMaterialInterpreter(TEMP_StoneBrickType.values()));
+        //workarounds.put(Material.SMOOTH_BRICK,
+        //      new TexturedMaterialInterpreter(new SmoothBrick()));
+        workarounds.put(Material.SMOOTH_BRICK,
+                new EnumOrdinalMaterialInterpreter(StoneBrickType.values()));
 
         // Workaround: Step does not have the new materials in its texture list
         //workarounds.put(Material.STEP, new TexturedMaterialInterpreter(new Step()));
-        workarounds.put(Material.STEP, new EnumOrdinalMaterialInterpreter(TEMP_StepType.values()));
-        workarounds.put(Material.DOUBLE_STEP, new EnumOrdinalMaterialInterpreter(TEMP_StepType.values()));
+        workarounds.put(Material.STEP, new EnumOrdinalMaterialInterpreter(StepTypeEnum.values()));
+        workarounds.put(Material.DOUBLE_STEP,
+                new EnumOrdinalMaterialInterpreter(StepTypeEnum.values()));
 
         // Workaround: No MaterialData class for SKULL_ITEM
-        workarounds.put(Material.SKULL_ITEM, new EnumOrdinalMaterialInterpreter(SkullType.values()));
+        workarounds.put(Material.SKULL_ITEM,
+                new EnumOrdinalMaterialInterpreter(SkullType.values()));
         // Workaround: No MaterialData class for COBBLE_WALL
-        workarounds.put(Material.COBBLE_WALL, new EnumOrdinalMaterialInterpreter(TEMP_WallType.values()));
+        workarounds.put(Material.COBBLE_WALL,
+                new EnumOrdinalMaterialInterpreter(WallTypeEnum.values()));
         // Workaround: No MaterialData class for ANVIL
-        workarounds.put(Material.ANVIL, new EnumOrdinalMaterialInterpreter(TEMP_AnvilDamage.values()));
+        workarounds.put(Material.ANVIL,
+                new EnumOrdinalMaterialInterpreter(AnvilDamageEnum.values()));
         // Workaround: No MaterialData class for QUARTZ_BLOCK
-        workarounds.put(Material.QUARTZ_BLOCK, new EnumOrdinalMaterialInterpreter(TEMP_QuartzType.values()));
+        workarounds.put(Material.QUARTZ_BLOCK,
+                new EnumOrdinalMaterialInterpreter(QuartzTypeEnum.values()));
 
         materialData.put(Wool.class, DyeColor.class);
 
@@ -169,7 +199,10 @@ public final class ItemStringInterpreter {
         }
 
         String[] split = itemString.split(":");
-        checkArgument(split.length <= 2, "Unable to parse item string - too many colons (maximum 1). Please correct the format and reload the config. Input: " + itemString);
+        checkArgument(split.length <= 2,
+                "Unable to parse item string - too many colons (maximum 1). "
+                        + "Please correct the format and reload the config. Input: "
+                        + itemString);
         Material mat = getMaterial(split[0]);
         if (mat == null) {
             return null;
@@ -182,8 +215,9 @@ public final class ItemStringInterpreter {
         short data;
         try {
             data = Short.parseShort(dataString);
-            return new ItemStack(mat, 1, data); // the datastring is not passed if it was just a number
+            return new ItemStack(mat, 1, data);
         } catch (NumberFormatException ignored) {
+            // do nothing
         }
 
         if (materialData.containsKey(mat.getData())) {
@@ -191,17 +225,22 @@ public final class ItemStringInterpreter {
             Class<? extends Enum> enumClass = materialData.get(mat.getData());
             Enum enumValue;
             try {
-                enumValue = (Enum) enumClass.getMethod("valueOf", String.class).invoke(null, dataString);
+                enumValue = (Enum) enumClass.getMethod("valueOf", String.class)
+                        .invoke(null, dataString);
             } catch (InvocationTargetException e) {
-                throw new IllegalArgumentException("Unable to parse item string - " + dataString + " is not a valid member of " + enumClass.getSimpleName() + ". Input: " + itemString, e.getCause());
+                throw new IllegalArgumentException("Unable to parse item string - "
+                        + dataString + " is not a valid member of "
+                        + enumClass.getSimpleName() + ". Input: " + itemString, e.getCause());
             } catch (Exception rethrow) {
-                throw new RuntimeException("Unexpected exception when parsing item string. Input: " + itemString, rethrow);
+                throw new RuntimeException("Unexpected exception when parsing item string. Input: "
+                        + itemString, rethrow);
             }
             MaterialData matData;
             try {
                 matData = matClass.getConstructor(enumClass).newInstance(enumValue);
             } catch (Exception rethrow) {
-                throw new RuntimeException("Unexpected exception when parsing item string. Input: " + itemString, rethrow);
+                throw new RuntimeException("Unexpected exception when parsing item string. Input: "
+                        + itemString, rethrow);
             }
             return new ItemStack(mat, 1, (short) matData.getData());
         }
@@ -218,15 +257,19 @@ public final class ItemStringInterpreter {
         try {
             m = Material.matchMaterial(s);
         } catch (Exception ignored) {
+            // do nothing
         }
-        if (m != null)
+        if (m != null) {
             return m;
+        }
         try {
             m = Material.getMaterial(Integer.parseInt(s));
         } catch (Exception ignored) {
+            // do nothing
         }
-        if (m != null)
+        if (m != null) {
             return m;
+        }
         return null;
     }
 }

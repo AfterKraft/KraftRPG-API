@@ -25,6 +25,9 @@ package com.afterkraft.kraftrpg.api.skills.common;
 
 import com.afterkraft.kraftrpg.api.skills.SkillSetting;
 
+/**
+ * Extended SkillSettings that are intended for use by skills extending the Common skills.
+ */
 public class CommonSettings extends SkillSetting {
 
     public static final CommonSettings IMBUED_MAX_USE_COUNT = new CommonSettings("max-imbued");

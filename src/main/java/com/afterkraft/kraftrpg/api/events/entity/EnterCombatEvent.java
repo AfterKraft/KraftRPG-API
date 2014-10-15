@@ -32,6 +32,9 @@ import org.bukkit.event.HandlerList;
 import com.afterkraft.kraftrpg.api.entity.EnterCombatReason;
 import com.afterkraft.kraftrpg.api.entity.Sentient;
 
+/**
+ * When an Insentient enters combat with another Sentient.
+ */
 public class EnterCombatEvent extends InsentientEvent implements Cancellable {
 
     private static final HandlerList handlers = new HandlerList();
@@ -40,7 +43,9 @@ public class EnterCombatEvent extends InsentientEvent implements Cancellable {
     private final WeakHashMap<LivingEntity, EnterCombatReason> combatMap;
     private boolean cancelled;
 
-    public EnterCombatEvent(Sentient being, Sentient with, WeakHashMap<LivingEntity, EnterCombatReason> combatMap, EnterCombatReason reason) {
+    public EnterCombatEvent(Sentient being, Sentient with,
+                            WeakHashMap<LivingEntity, EnterCombatReason> combatMap,
+                            EnterCombatReason reason) {
         super(being);
         this.with = with;
         this.combatMap = combatMap;

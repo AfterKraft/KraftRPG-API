@@ -30,6 +30,9 @@ import org.bukkit.event.HandlerList;
 
 import com.afterkraft.kraftrpg.api.entity.Insentient;
 
+/**
+ * An event when an Insentient being's mana changes.
+ */
 public class ManaChangeEvent extends InsentientEvent {
 
     private static final HandlerList handlers = new HandlerList();
@@ -67,10 +70,13 @@ public class ManaChangeEvent extends InsentientEvent {
         return handlers;
     }
 
+    /**
+     * Standard reasons for why mana has changed.
+     */
     public enum ManaChangeReason {
         /**
-         * Mana is being changed due to casting a skill. The associated
-         * Insentient being may be a {@link com.afterkraft.kraftrpg.api.entity.SkillCaster}
+         * Mana is being changed due to casting a skill. The associated Insentient being may be a
+         * {@link com.afterkraft.kraftrpg.api.entity.SkillCaster}
          */
         SKILL_USAGE,
         /**

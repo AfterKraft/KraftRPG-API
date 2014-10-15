@@ -28,7 +28,9 @@ import org.bukkit.event.HandlerList;
 import com.afterkraft.kraftrpg.api.entity.PartyMember;
 import com.afterkraft.kraftrpg.api.entity.party.Party;
 
-
+/**
+ * An event when a PartyMember successfully joins a Party.
+ */
 public class PartyJoinEvent extends PartyEvent {
 
     private static final HandlerList handlers = new HandlerList();

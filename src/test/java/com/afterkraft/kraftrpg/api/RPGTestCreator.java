@@ -4,9 +4,6 @@ import java.io.File;
 import java.lang.reflect.Field;
 import java.util.logging.Level;
 
-import com.google.common.collect.ImmutableList;
-import org.easymock.EasyMockRunner;
-import org.junit.runner.RunWith;
 import static org.easymock.EasyMock.createNiceMock;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.replay;
@@ -21,6 +18,10 @@ import org.bukkit.Server;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginManager;
+import org.easymock.EasyMockRunner;
+import org.junit.runner.RunWith;
+
+import com.google.common.collect.ImmutableList;
 
 import com.afterkraft.kraftrpg.api.skills.ISkill;
 import com.afterkraft.kraftrpg.api.skills.SkillManager;
@@ -31,11 +32,10 @@ import com.afterkraft.kraftrpg.api.util.Util;
 @RunWith(EasyMockRunner.class)
 public class RPGTestCreator {
 
-    private RPGPlugin mockPlugin;
-    private ISkill mockSkill;
-
     public static final File pluginDirectory = new File("bin/test/server/plugins/rpgtest");
     public static final File serverDirectory = new File("bin/test/server");
+    private RPGPlugin mockPlugin;
+    private ISkill mockSkill;
 
     public RPGPlugin getMockPlugin() {
         return this.mockPlugin;
@@ -58,7 +58,8 @@ public class RPGTestCreator {
             expect(mockServer.getBukkitVersion()).andStubReturn("1.7.9");
             expect(mockServer.getLogger()).andStubReturn(Util.logger);
 
-            PluginDescriptionFile descriptionFile = new PluginDescriptionFile("TestRPG", "1.0.0", "com.afterkraft.kraftrpg.api.RPGTestCreator");
+            PluginDescriptionFile descriptionFile = new PluginDescriptionFile("TestRPG", "1.0.0",
+                    "com.afterkraft.kraftrpg.api.RPGTestCreator");
 
             // Set up mockPlugin prep
             this.mockPlugin = createNiceMock(RPGPlugin.class);
@@ -73,7 +74,8 @@ public class RPGTestCreator {
             // Set up mockSkillManager
             SkillManager mockSkillManager = createNiceMock(SkillManager.class);
             expect(mockSkillManager.getSkill("TestSkill")).andReturn(this.mockSkill).times(3);
-            expect(mockSkillManager.getSkills()).andStubReturn(ImmutableList.<ISkill>builder().add(this.mockSkill).build());
+            expect(mockSkillManager.getSkills())
+                    .andStubReturn(ImmutableList.<ISkill>builder().add(this.mockSkill).build());
             expect(mockSkillManager.hasSkill("TestSkill")).andStubReturn(true);
 
             // Finalize mockSkillManager
@@ -83,7 +85,7 @@ public class RPGTestCreator {
             expect(this.mockPlugin.getSkillManager()).andReturn(mockSkillManager).times(4);
 
 
-            Plugin[] plugins = new Plugin[] { this.mockPlugin };
+            Plugin[] plugins = new Plugin[]{ this.mockPlugin };
 
             // Set up mockPluginManager
             PluginManager mockPluginManager = createNiceMock(PluginManager.class);
@@ -127,7 +129,8 @@ public class RPGTestCreator {
             serverField.setAccessible(true);
             serverField.set(Class.forName("org.bukkit.Bukkit"), null);
         } catch (Exception e) {
-            Util.log(Level.SEVERE, "Error while trying to unregister the server. Has the Bukkit implementation changed?");
+            Util.log(Level.SEVERE,
+                    "Error while trying to unregister the server. Has the Bukkit implementation changed?");
             e.printStackTrace();
             fail(e.getMessage());
             return false;

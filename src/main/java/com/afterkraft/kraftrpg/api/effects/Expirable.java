@@ -59,14 +59,13 @@ public interface Expirable extends IEffect, Timed {
     public boolean isExpired();
 
     /**
-     * Manually expire this Effect. This will set the expire time to the
-     * current System time.
+     * Manually expire this Effect. This will set the expire time to the current System time.
      */
     public void expire();
 
     /**
-     * Get the {@link com.afterkraft.kraftrpg.api.entity.SkillCaster} applying
-     * this expirable effect.
+     * Get the {@link com.afterkraft.kraftrpg.api.entity.SkillCaster} applying this expirable
+     * effect.
      *
      * @return the SkillCaster applying this effect
      */

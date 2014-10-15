@@ -31,6 +31,10 @@ import org.bukkit.entity.Player;
 import com.afterkraft.kraftrpg.api.entity.SkillCaster;
 import com.afterkraft.kraftrpg.api.skills.SkillArgument;
 
+/**
+ * A SkillArgument that specifies an online Player by name. Useful for player lookups and
+ * validation.
+ */
 public class ExplicitPlayerArgument extends SkillArgument {
     private final boolean defaultYou;
 

@@ -28,7 +28,9 @@ import java.util.concurrent.TimeUnit;
 
 import com.afterkraft.kraftrpg.api.entity.SkillCaster;
 
-
+/**
+ * A default implementation of a stalled skill awaiting for a specified warmup period.
+ */
 public class StalledSkill implements Stalled {
 
     private final String[] argument;
@@ -43,7 +45,8 @@ public class StalledSkill implements Stalled {
         this(skill, args, caster, System.currentTimeMillis(), warmup);
     }
 
-    public StalledSkill(Active skill, String[] args, SkillCaster caster, long startTime, long warmup) {
+    public StalledSkill(Active skill, String[] args, SkillCaster caster, long startTime,
+                        long warmup) {
         this.argument = args;
         this.startTime = startTime;
         this.skill = skill;

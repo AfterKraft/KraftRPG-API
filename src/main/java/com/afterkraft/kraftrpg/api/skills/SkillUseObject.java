@@ -28,6 +28,10 @@ import java.util.List;
 
 import com.afterkraft.kraftrpg.api.entity.SkillCaster;
 
+/**
+ * A standard data structure representing a used skill with the SkillCaster and the validated
+ * SkillArguments.
+ */
 public final class SkillUseObject {
 
     private final WeakReference<SkillCaster> entity;

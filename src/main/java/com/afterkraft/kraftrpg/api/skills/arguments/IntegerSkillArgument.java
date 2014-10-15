@@ -28,6 +28,9 @@ import java.util.List;
 import com.afterkraft.kraftrpg.api.entity.SkillCaster;
 import com.afterkraft.kraftrpg.api.skills.SkillArgument;
 
+/**
+ * A SkillArgument that parses and validates input as an integer.
+ */
 public class IntegerSkillArgument extends SkillArgument {
     private int value;
     private String desc = "num";

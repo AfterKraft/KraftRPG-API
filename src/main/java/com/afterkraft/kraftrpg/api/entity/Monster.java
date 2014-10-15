@@ -27,11 +27,9 @@ import org.bukkit.Location;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 
 /**
- * Represents a customized
- * {@link com.afterkraft.kraftrpg.api.entity.Insentient} being that has the
- * ability to deal damage to other
- * {@link com.afterkraft.kraftrpg.api.entity.Insentient} beings. A monster is
- * guaranteed to have modified damage.
+ * Represents a customized {@link com.afterkraft.kraftrpg.api.entity.Insentient} being that has the
+ * ability to deal damage to other {@link com.afterkraft.kraftrpg.api.entity.Insentient} beings. A
+ * monster is guaranteed to have modified damage.
  */
 public interface Monster extends Insentient {
 
@@ -42,10 +40,10 @@ public interface Monster extends Insentient {
     public double getModifiedDamage();
 
     /**
-     * Set the modified damage this Monster will deal to other Insentient
-     * beings when attacking.
+     * Set the modified damage this Monster will deal to other Insentient beings when attacking.
      *
      * @param damage To deal when attacking
+     *
      * @throws IllegalArgumentException If the damage is less than zero
      */
     public void setModifiedDamage(double damage);

@@ -9,8 +9,6 @@ import java.util.logging.Logger;
 public class Util {
 
 
-    private Util() {}
-
     public static final Logger logger = Logger.getLogger("RPG-Test");
 
     static {
@@ -19,14 +17,24 @@ public class Util {
         Handler handler = new ConsoleHandler();
         Handler[] handlers = logger.getHandlers();
 
-        for (Handler h : handlers)
+        for (Handler h : handlers) {
             logger.removeHandler(h);
+        }
 
         logger.addHandler(handler);
     }
 
+    private Util() {
+    }
+
     public static void log(Throwable t) {
         log(Level.WARNING, t.getLocalizedMessage(), t);
+    }
+
+    public static void log(Level level, String message, Throwable t) {
+        LogRecord record = new LogRecord(level, message);
+        record.setThrown(t);
+        logger.log(record);
     }
 
     public static void log(Level level, Throwable t) {
@@ -35,12 +43,6 @@ public class Util {
 
     public static void log(String message, Throwable t) {
         log(Level.WARNING, message, t);
-    }
-
-    public static void log(Level level, String message, Throwable t) {
-        LogRecord record = new LogRecord(level, message);
-        record.setThrown(t);
-        logger.log(record);
     }
 
     public static void log(String message) {

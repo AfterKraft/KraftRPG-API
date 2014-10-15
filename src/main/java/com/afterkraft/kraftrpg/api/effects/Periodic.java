@@ -26,9 +26,8 @@ package com.afterkraft.kraftrpg.api.effects;
 import com.afterkraft.kraftrpg.api.entity.Insentient;
 
 /**
- * Represents an effect that will perform some action on the
- * {@link com.afterkraft.kraftrpg.api.entity.Insentient} per tick as defined
- * by {@link #tick(com.afterkraft.kraftrpg.api.entity.Insentient)}
+ * Represents an effect that will perform some action on the {@link com.afterkraft.kraftrpg.api.entity.Insentient}
+ * per tick as defined by {@link #tick(com.afterkraft.kraftrpg.api.entity.Insentient)}
  */
 public interface Periodic extends IEffect, Timed {
 
@@ -55,6 +54,7 @@ public interface Periodic extends IEffect, Timed {
      * Ticks this effect on the specified entity.
      *
      * @param being - The being this effect is being applied to
+     *
      * @throws IllegalArgumentException If the being is null
      */
     public void tick(Insentient being);

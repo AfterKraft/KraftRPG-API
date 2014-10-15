@@ -28,11 +28,16 @@ import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import com.afterkraft.kraftrpg.api.entity.SkillCaster;
 import com.afterkraft.kraftrpg.api.skills.ISkill;
 
+/**
+ * A standard wrapper referencing the skill used to damage the associated Insentient being.
+ */
 public class SkillDamageWrapper extends AttackDamageWrapper {
 
     private final ISkill skillUsed;
 
-    public SkillDamageWrapper(SkillCaster attackingIEntity, ISkill skill, DamageCause originalCause, double originalDamage, double modifiedDamage, DamageCause modifiedCause) {
+    public SkillDamageWrapper(SkillCaster attackingIEntity, ISkill skill,
+                              DamageCause originalCause, double originalDamage,
+                              double modifiedDamage, DamageCause modifiedCause) {
         super(attackingIEntity, originalCause, originalDamage, modifiedDamage, modifiedCause);
         this.skillUsed = skill;
     }

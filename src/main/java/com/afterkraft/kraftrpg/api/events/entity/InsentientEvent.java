@@ -29,6 +29,9 @@ import org.bukkit.event.Event;
 
 import com.afterkraft.kraftrpg.api.entity.Insentient;
 
+/**
+ * Hierachical event class relating to Insentient beings.
+ */
 public abstract class InsentientEvent extends Event {
 
     private final Insentient entity;

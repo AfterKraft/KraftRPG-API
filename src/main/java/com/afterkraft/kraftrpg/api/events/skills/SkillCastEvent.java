@@ -33,7 +33,10 @@ import com.afterkraft.kraftrpg.api.entity.SkillCaster;
 import com.afterkraft.kraftrpg.api.events.entity.InsentientEvent;
 import com.afterkraft.kraftrpg.api.skills.ISkill;
 
-
+/**
+ * An event when a Skill is about to be casted, having passed all specific requirement checks. This
+ * event can be used to prevent a skill being casted for any reason.
+ */
 public class SkillCastEvent extends InsentientEvent implements Cancellable {
 
     private static final HandlerList handlers = new HandlerList();
@@ -45,17 +48,19 @@ public class SkillCastEvent extends InsentientEvent implements Cancellable {
     private boolean cancelled;
 
 
-    public SkillCastEvent(SkillCaster caster, ISkill skill, double manaCost, double healthCost, double exhaustionCost, ItemStack reagentCost) {
+    public SkillCastEvent(SkillCaster caster, ISkill skill, double manaCost, double healthCost,
+                          double exhaustionCost, ItemStack reagentCost) {
         super(caster);
         checkArgument(skill != null, "Cannot have a null skill!");
         this.skill = skill;
         this.manaCost = manaCost;
         this.healthCost = healthCost;
         this.exhaustionCost = exhaustionCost;
-        if (reagentCost != null)
-        this.reagent = new ItemStack(reagentCost);
-        else
-        this.reagent = null;
+        if (reagentCost != null) {
+            this.reagent = new ItemStack(reagentCost);
+        } else {
+            this.reagent = null;
+        }
         this.cancelled = false;
     }
 

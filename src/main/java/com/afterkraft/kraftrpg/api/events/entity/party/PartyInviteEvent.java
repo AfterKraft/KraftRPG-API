@@ -29,7 +29,10 @@ import org.bukkit.event.HandlerList;
 import com.afterkraft.kraftrpg.api.entity.PartyMember;
 import com.afterkraft.kraftrpg.api.entity.party.Party;
 
-
+/**
+ * An event when a PartyMember, that is presumably leading their current party, invites another
+ * PartyMember to join. This can be cancelled for any reason.
+ */
 public class PartyInviteEvent extends PartyEvent implements Cancellable {
 
     private static final HandlerList handlers = new HandlerList();

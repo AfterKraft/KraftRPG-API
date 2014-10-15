@@ -29,7 +29,9 @@ import org.bukkit.event.HandlerList;
 import com.afterkraft.kraftrpg.api.entity.Champion;
 import com.afterkraft.kraftrpg.api.roles.Role;
 
-
+/**
+ * An event representing when a Sentient being changes roles for any reason.
+ */
 public class RoleChangeEvent extends RoleEvent implements Cancellable {
 
     private static final HandlerList handlers = new HandlerList();

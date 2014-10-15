@@ -32,6 +32,10 @@ import org.bukkit.configuration.MemoryConfiguration;
 import com.afterkraft.kraftrpg.api.skills.ISkill;
 import com.afterkraft.kraftrpg.api.skills.SkillSetting;
 
+/**
+ * Representation for a Skill and an associated MemoryConfiguration for that skill. This is a simple
+ * datastructure utilized in Roles.
+ */
 public final class RoleSkill {
     private String skill;
     private MemoryConfiguration section;

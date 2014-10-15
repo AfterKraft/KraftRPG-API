@@ -28,9 +28,9 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
-import com.google.common.collect.ImmutableSet;
-
 import org.bukkit.entity.Player;
+
+import com.google.common.collect.ImmutableSet;
 
 import com.afterkraft.kraftrpg.api.effects.EffectType;
 import com.afterkraft.kraftrpg.api.effects.ExpirableEffect;
@@ -38,11 +38,24 @@ import com.afterkraft.kraftrpg.api.entity.Insentient;
 import com.afterkraft.kraftrpg.api.handler.ServerInternals;
 import com.afterkraft.kraftrpg.api.skills.Skill;
 
+/**
+ * Standard masking effect that attempts to completely hide an Insentient being from view of all
+ * other beings. The standard behaviors of this effect are: <ul> <li>The Insentient being is
+ * rendered invisible and untargetable by area of effect skills</li> <li>The being produces no
+ * sounds for movement actions</li> <li>The being is rendered visible upon attacking or manipulating
+ * blocks around it.</li> </ul>
+ * <p/>
+ * Further customization can be achieved by means of extending this effect.
+ * <p/>
+ * This effect is provided as-is for common usage of common skills.
+ */
 public class InvisibiliytEffect extends ExpirableEffect {
 
     public static final String DEFAULT_APPLY_TEXT = "You've become invisible to the world.";
     public static final String DEFAULT_EXPIRE_TEXT = "You are now visible to the world.";
-    public static final Set<EffectType> DEFAULT_INVISIBLE_EFFECTTYPES = EnumSet.of(EffectType.INVISIBILITY, EffectType.BENEFICIAL, EffectType.UNTARGETABLE, EffectType.SILENT_ACTIONS);
+    public static final Set<EffectType> DEFAULT_INVISIBLE_EFFECTTYPES =
+            EnumSet.of(EffectType.INVISIBILITY, EffectType.BENEFICIAL, EffectType.UNTARGETABLE,
+                    EffectType.SILENT_ACTIONS);
 
     private static final Set<UUID> invisiblePlayers = new HashSet<UUID>();
 
@@ -50,7 +63,8 @@ public class InvisibiliytEffect extends ExpirableEffect {
         this(skill, applier, name, duration, DEFAULT_APPLY_TEXT, DEFAULT_EXPIRE_TEXT);
     }
 
-    public InvisibiliytEffect(Skill skill, Insentient applier, String name, long duration, String applyText, String expireText) {
+    public InvisibiliytEffect(Skill skill, Insentient applier, String name, long duration,
+                              String applyText, String expireText) {
         super(skill, applier, name, duration, applyText, expireText, DEFAULT_INVISIBLE_EFFECTTYPES);
     }
 

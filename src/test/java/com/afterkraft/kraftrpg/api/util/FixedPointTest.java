@@ -1,7 +1,8 @@
 package com.afterkraft.kraftrpg.api.util;
 
-import org.junit.Test;
 import static org.junit.Assert.assertEquals;
+
+import org.junit.Test;
 
 public class FixedPointTest {
     private static final double exact = 0;

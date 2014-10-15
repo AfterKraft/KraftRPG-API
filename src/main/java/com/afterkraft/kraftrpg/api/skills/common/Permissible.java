@@ -29,15 +29,13 @@ import com.afterkraft.kraftrpg.api.entity.Sentient;
 import com.afterkraft.kraftrpg.api.skills.ISkill;
 
 /**
- * Represents a bundle of permisson nodes that are granted as though they are
- * skills. This has uses for granting/denying permissions from external
- * plugins.
+ * Represents a bundle of permisson nodes that are granted as though they are skills. This has uses
+ * for granting/denying permissions from external plugins.
  */
 public interface Permissible extends ISkill {
 
     /**
-     * Gets a copy of the current permissions attached to this permissible
-     * skill.
+     * Gets a copy of the current permissions attached to this permissible skill.
      *
      * @return A copy of the permission mappings
      */
@@ -51,16 +49,16 @@ public interface Permissible extends ISkill {
     public void setPermissions(Map<String, Boolean> permissions);
 
     /**
-     * Try to learn this permission skill's permission node along with any
-     * other permissions related to this Permissible skill.
+     * Try to learn this permission skill's permission node along with any other permissions related
+     * to this Permissible skill.
      *
      * @param being to learn this skill
      */
     public void tryLearning(Sentient being);
 
     /**
-     * Try to unlearn this permission skill's permission node along with any
-     * other permissions related to this Permissible skill.
+     * Try to unlearn this permission skill's permission node along with any other permissions
+     * related to this Permissible skill.
      *
      * @param being to unlearn
      */

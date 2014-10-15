@@ -32,13 +32,15 @@ import com.afterkraft.kraftrpg.api.entity.Sentient;
 import com.afterkraft.kraftrpg.api.entity.SkillCaster;
 
 /**
- * This event is called when a SkillCaster enters combat due to buffing or
- * healing a Sentient already in combat with the 'other'.
+ * This event is called when a SkillCaster enters combat due to buffing or healing a Sentient
+ * already in combat with the 'other'.
  */
 public class HelperEnterCombatEvent extends EnterCombatEvent {
     private Sentient buffed;
 
-    public HelperEnterCombatEvent(SkillCaster being, Sentient buffed, Sentient other, WeakHashMap<LivingEntity, EnterCombatReason> combatMap, EnterCombatReason reason) {
+    public HelperEnterCombatEvent(SkillCaster being, Sentient buffed, Sentient other,
+                                  WeakHashMap<LivingEntity, EnterCombatReason> combatMap,
+                                  EnterCombatReason reason) {
         super(being, other, combatMap, reason);
     }
 

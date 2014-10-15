@@ -54,6 +54,10 @@ public final class FixedPoint extends Number implements Cloneable {
         return fromRaw(toFixed(number));
     }
 
+    public static FixedPoint fromRaw(long raw) {
+        return new FixedPoint(raw);
+    }
+
     private static long toFixed(int param) {
         return param * (long) ONE;
     }
@@ -74,10 +78,6 @@ public final class FixedPoint extends Number implements Cloneable {
         return Math.round(param * ONE);
     }
 
-    public static FixedPoint fromRaw(long raw) {
-        return new FixedPoint(raw);
-    }
-
     @Override
     public FixedPoint clone() {
         try {
@@ -85,6 +85,40 @@ public final class FixedPoint extends Number implements Cloneable {
         } catch (CloneNotSupportedException e) {
             return null;
         }
+    }
+
+    @Override
+    public String toString() {
+        return toString(3);
+    }
+
+    /**
+     * Converts to string with custom rounding
+     *
+     * @param maxDecimalPlaces maximum decimal places to display
+     *
+     * @return String representation of the number
+     */
+    public String toString(int maxDecimalPlaces) {
+        long disp = Math.abs(this.val);
+        int pow10 = (int) Math.pow(10, maxDecimalPlaces);
+        //Round
+        disp += (HALF / pow10);
+
+        long decimal = disp & MAX_FRAC_VAL;
+        StringBuilder fracPart = new StringBuilder();
+        for (int i = 0; i < maxDecimalPlaces; i++) {
+            decimal *= 10;
+            fracPart.append((decimal >> FRAC_SIZE));
+            decimal &= MAX_FRAC_VAL;
+        }
+
+        //Remove trailing zeroes
+        String str = (disp >> FRAC_SIZE) + "." + fracPart.toString().replaceFirst("0*$", "");
+        if (this.val < 0) {
+            str = "-" + str;
+        }
+        return str;
     }
 
     public FixedPoint add(int param) {
@@ -139,14 +173,14 @@ public final class FixedPoint extends Number implements Cloneable {
         return multRaw(toFixed(param));
     }
 
-    public FixedPoint mult(FixedPoint param) {
-        return multRaw(param.val);
-    }
-
     public FixedPoint multRaw(long fixedVal) {
         long t = this.val * fixedVal;
         t += HALF;
         return fromRaw(t >> FRAC_SIZE);
+    }
+
+    public FixedPoint mult(FixedPoint param) {
+        return multRaw(param.val);
     }
 
     public FixedPoint div(int param) {
@@ -161,14 +195,14 @@ public final class FixedPoint extends Number implements Cloneable {
         return divRaw(toFixed(param));
     }
 
-    public FixedPoint div(FixedPoint param) {
-        return divRaw(param.val);
-    }
-
     public FixedPoint divRaw(long fixedVal) {
         long t = this.val << FRAC_SIZE;
         t += (fixedVal >> 1);
         return fromRaw(t / fixedVal);
+    }
+
+    public FixedPoint div(FixedPoint param) {
+        return divRaw(param.val);
     }
 
     public FixedPoint setRaw(long fixedVal) {
@@ -213,38 +247,5 @@ public final class FixedPoint extends Number implements Cloneable {
 
     public long rawValue() {
         return this.val;
-    }
-
-    @Override
-    public String toString() {
-        return toString(3);
-    }
-
-    /**
-     * Converts to string with custom rounding
-     *
-     * @param maxDecimalPlaces maximum decimal places to display
-     * @return String representation of the number
-     */
-    public String toString(int maxDecimalPlaces) {
-        long disp = Math.abs(this.val);
-        int pow10 = (int) Math.pow(10, maxDecimalPlaces);
-        //Round
-        disp += (HALF / pow10);
-
-        long decimal = disp & MAX_FRAC_VAL;
-        StringBuilder fracPart = new StringBuilder();
-        for (int i = 0; i < maxDecimalPlaces; i++) {
-            decimal *= 10;
-            fracPart.append((decimal >> FRAC_SIZE));
-            decimal &= MAX_FRAC_VAL;
-        }
-
-        //Remove trailing zeroes
-        String str = (disp >> FRAC_SIZE) + "." + fracPart.toString().replaceFirst("0*$", "");
-        if (this.val < 0) {
-            str = "-" + str;
-        }
-        return str;
     }
 }

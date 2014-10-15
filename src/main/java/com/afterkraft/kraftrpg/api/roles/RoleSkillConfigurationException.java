@@ -23,6 +23,10 @@
  */
 package com.afterkraft.kraftrpg.api.roles;
 
+/**
+ * An exception that is thrown when a RoleSkill has a malformed configuration or issue of some
+ * kind.
+ */
 public class RoleSkillConfigurationException extends RuntimeException {
     public RoleSkillConfigurationException(String message) {
         super(message);

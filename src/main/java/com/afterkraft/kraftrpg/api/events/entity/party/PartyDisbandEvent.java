@@ -27,7 +27,9 @@ import org.bukkit.event.HandlerList;
 
 import com.afterkraft.kraftrpg.api.entity.party.Party;
 
-
+/**
+ * An event when a Party is completely disbanded and prepared to be removed.
+ */
 public class PartyDisbandEvent extends PartyEvent {
 
     private static final HandlerList handlers = new HandlerList();

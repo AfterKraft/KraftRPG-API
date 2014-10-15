@@ -29,12 +29,12 @@ import java.util.Map;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
-import com.google.common.collect.ImmutableMap;
-
 import org.bukkit.configuration.Configuration;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.Permission;
+
+import com.google.common.collect.ImmutableMap;
 
 import com.afterkraft.kraftrpg.api.RPGPlugin;
 import com.afterkraft.kraftrpg.api.RpgCommon;
@@ -45,9 +45,9 @@ import com.afterkraft.kraftrpg.api.skills.Skill;
 import com.afterkraft.kraftrpg.api.skills.SkillSetting;
 
 /**
- * PermissionSkill allows setting any other Plugin's permission to become a
- * Skill through permission restrictions. A PermissionSkill does not allow any
- * type of SkillArguments and it will always return true on Skill use.
+ * PermissionSkill allows setting any other Plugin's permission to become a Skill through permission
+ * restrictions. A PermissionSkill does not allow any type of SkillArguments and it will always
+ * return true on Skill use.
  * <p/>
  * PermissionSkill can apply Permissions with both true and false
  */
@@ -65,6 +65,11 @@ public final class PermissionSkill extends Skill implements Permissible {
     }
 
     @Override
+    public Collection<SkillSetting> getUsedConfigNodes() {
+        return new HashSet<SkillSetting>();
+    }
+
+    @Override
     public boolean addSkillTarget(Entity entity, SkillCaster caster) {
         return true;
     }
@@ -72,11 +77,6 @@ public final class PermissionSkill extends Skill implements Permissible {
     @Override
     public boolean isInMessageRange(SkillCaster broadcaster, Champion receiver) {
         return false;
-    }
-
-    @Override
-    public Collection<SkillSetting> getUsedConfigNodes() {
-        return new HashSet<SkillSetting>();
     }
 
     @Override
@@ -101,7 +101,8 @@ public final class PermissionSkill extends Skill implements Permissible {
             this.plugin.getServer().getPluginManager().removePermission(this.permission);
         }
 
-        this.permission = new Permission(getName(), "PermissionSkill " + getName(), this.permissions);
+        this.permission = new Permission(getName(), "PermissionSkill " + getName(),
+                this.permissions);
         this.plugin.getServer().getPluginManager().addPermission(this.permission);
     }
 
@@ -109,7 +110,8 @@ public final class PermissionSkill extends Skill implements Permissible {
     public void tryLearning(Sentient being) {
         checkArgument(being != null, "Cannot tell a null Sentient being to learn a skill!");
         if (being.getEntity() instanceof Player) {
-            RpgCommon.getPermissionManager().addTransientGlobalPermission(being, this.permission.getName());
+            RpgCommon.getPermissionManager().addTransientGlobalPermission(being,
+                    this.permission.getName());
         }
     }
 
@@ -117,7 +119,8 @@ public final class PermissionSkill extends Skill implements Permissible {
     public void tryUnlearning(Sentient being) {
         checkArgument(being != null, "Cannot tell a null Sentient being to unlearn a skill!");
         if (being.getEntity() instanceof Player) {
-            RpgCommon.getPermissionManager().addTransientGlobalPermission(being, this.permission.getName());
+            RpgCommon.getPermissionManager().addTransientGlobalPermission(being,
+                    this.permission.getName());
         }
     }
 }

@@ -28,7 +28,9 @@ import org.bukkit.event.HandlerList;
 import com.afterkraft.kraftrpg.api.entity.Champion;
 import com.afterkraft.kraftrpg.api.events.entity.InsentientEvent;
 
-
+/**
+ * A Champion related event.
+ */
 public abstract class ChampionEvent extends InsentientEvent {
 
     private static final HandlerList handlers = new HandlerList();

@@ -28,6 +28,11 @@ import org.bukkit.World;
 import com.afterkraft.kraftrpg.api.Manager;
 import com.afterkraft.kraftrpg.api.entity.IEntity;
 
+/**
+ * Standard permissions manager. This is provided to reduce dependency on Vault if and when
+ * necessary. This is meant to be provided through RpgCommon and should be considered to be used
+ * instead of being managed by Vault.
+ */
 public interface PermissionsManager extends Manager {
 
     static final String ADMIN_INVENTORY_BYPASS_PERMISSION = "kraftrpg.admin.bypass.inventory";
@@ -39,7 +44,8 @@ public interface PermissionsManager extends Manager {
 
     boolean hasWorldPermission(final IEntity entity, final World world, final String permission);
 
-    boolean hasWorldPermission(final IEntity entity, final String worldName, final String permission);
+    boolean hasWorldPermission(final IEntity entity, final String worldName,
+                               final String permission);
 
     void addGlobalPermission(final IEntity entity, final String permission);
 
@@ -49,20 +55,25 @@ public interface PermissionsManager extends Manager {
 
     void addTransientGlobalPermission(final IEntity entity, final String permission);
 
-    void addTransientWorldPermission(final IEntity entity, final World world, final String permission);
+    void addTransientWorldPermission(final IEntity entity, final World world,
+                                     final String permission);
 
-    void addTransientWorldPermission(final IEntity entity, final String worldName, final String permission);
+    void addTransientWorldPermission(final IEntity entity, final String worldName,
+                                     final String permission);
 
     void removeGlobalPermission(final IEntity entity, final String permission);
 
     void removeWorldPermission(final IEntity entity, final World world, final String permission);
 
-    void removeWorldPermission(final IEntity entity, final String worldName, final String permission);
+    void removeWorldPermission(final IEntity entity, final String worldName,
+                               final String permission);
 
     void removeTransientGlobalPermission(final IEntity entity, final String permission);
 
-    void removeTransientWorldPermission(final IEntity entity, final World world, final String permission);
+    void removeTransientWorldPermission(final IEntity entity, final World world,
+                                        final String permission);
 
-    void removeTransientWorldPermission(final IEntity entity, final String worldName, final String permission);
+    void removeTransientWorldPermission(final IEntity entity, final String worldName,
+                                        final String permission);
 
 }

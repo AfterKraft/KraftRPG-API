@@ -31,7 +31,11 @@ import com.afterkraft.kraftrpg.api.entity.Sentient;
 import com.afterkraft.kraftrpg.api.roles.Role;
 import com.afterkraft.kraftrpg.api.util.FixedPoint;
 
-
+/**
+ * When a Sentient being gains experience in a specific Role. The event contains knowledge to the
+ * location the experience was gained, the role that is gaining the experience, and the change in
+ * experience.
+ */
 public class ExperienceChangeEvent extends RoleEvent implements Cancellable {
 
     private static final HandlerList handlers = new HandlerList();
@@ -40,7 +44,8 @@ public class ExperienceChangeEvent extends RoleEvent implements Cancellable {
     private FixedPoint change;
     private boolean cancelled = false;
 
-    public ExperienceChangeEvent(Sentient insentient, Location location, Role role, FixedPoint original, FixedPoint change) {
+    public ExperienceChangeEvent(Sentient insentient, Location location, Role role,
+                                 FixedPoint original, FixedPoint change) {
         super(insentient, role);
         this.location = location;
 

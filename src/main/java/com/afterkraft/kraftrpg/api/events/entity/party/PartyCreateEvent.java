@@ -27,7 +27,9 @@ import org.bukkit.event.HandlerList;
 
 import com.afterkraft.kraftrpg.api.entity.party.Party;
 
-
+/**
+ * An event when a Party is created for any reason.
+ */
 public class PartyCreateEvent extends PartyEvent {
 
     private static final HandlerList handlers = new HandlerList();

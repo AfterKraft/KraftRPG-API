@@ -24,7 +24,11 @@
 package com.afterkraft.kraftrpg.api.effects;
 
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
@@ -35,8 +39,8 @@ import com.afterkraft.kraftrpg.api.skills.ISkill;
 import com.afterkraft.kraftrpg.api.skills.SkillType;
 
 /**
- * A basic effect and affect enum. Various effects require different settings,
- * and sometimes, some videos or tv shows are annoying as shit anyway.
+ * A basic effect and affect enum. Various effects require different settings, and sometimes, some
+ * videos or tv shows are annoying as shit anyway.
  */
 public enum EffectType {
 
@@ -65,8 +69,8 @@ public enum EffectType {
      */
     BLEED,
     /**
-     * Causes the Insentient being to have a blinded potion effect. Usually
-     * makes physical and magical attacks to miss their targets.
+     * Causes the Insentient being to have a blinded potion effect. Usually makes physical and
+     * magical attacks to miss their targets.
      */
     BLIND,
     /**
@@ -86,8 +90,7 @@ public enum EffectType {
      */
     CONFUSION,
     /**
-     * Damages the affected Insentient being. This can also be damaging over
-     * time.
+     * Damages the affected Insentient being. This can also be damaging over time.
      */
     DAMAGING,
     /**
@@ -95,9 +98,9 @@ public enum EffectType {
      */
     DARK,
     /**
-     * Disables the Insentient being from controlling their movements. Can be
-     * used to apply a {@link EffectType#STUN} or some sporadic movement.
-     * SkillCasters are unable to cast skills while disabled.
+     * Disables the Insentient being from controlling their movements. Can be used to apply a {@link
+     * EffectType#STUN} or some sporadic movement. SkillCasters are unable to cast skills while
+     * disabled.
      */
     DISABLE,
     /**
@@ -105,23 +108,22 @@ public enum EffectType {
      */
     DISARM,
     /**
-     * Usually an effect that renders the Insentient being slowed, fatigued,
-     * nauseated and confused.
+     * Usually an effect that renders the Insentient being slowed, fatigued, nauseated and
+     * confused.
      */
     DISEASE,
     /**
-     * Marks the effect as being able to be removed from an Insentient being
-     * without harming effects. Usually tied together with {@link #BENEFICIAL}
+     * Marks the effect as being able to be removed from an Insentient being without harming
+     * effects. Usually tied together with {@link #BENEFICIAL}
      */
     DISPELLABLE,
     /**
-     * Causes an increase in durability of either all worn items, or a specific
-     * piece or armor/weapon.
+     * Causes an increase in durability of either all worn items, or a specific piece or
+     * armor/weapon.
      */
     DURABILITY_INCREASING,
     /**
-     * Reduces the durability of all worn items, or a specific piece of armor
-     * or weapon.
+     * Reduces the durability of all worn items, or a specific piece of armor or weapon.
      */
     DURABILITY_REDUCING,
     /**
@@ -129,18 +131,16 @@ public enum EffectType {
      */
     EARTH,
     /**
-     * A fire based effect. Usually used to apply a burning effect on the
-     * Insentient being.
+     * A fire based effect. Usually used to apply a burning effect on the Insentient being.
      */
     FIRE,
     /**
-     * A forceful effect that causes an Insentient being to move dangerously
-     * and far.
+     * A forceful effect that causes an Insentient being to move dangerously and far.
      */
     FORCE,
     /**
-     * An effect that is harmful to the applier, usually the applier will be
-     * saved from harm due to the effect.
+     * An effect that is harmful to the applier, usually the applier will be saved from harm due to
+     * the effect.
      */
     HARMFUL,
     /**
@@ -168,13 +168,13 @@ public enum EffectType {
      */
     IMBUE,
     /**
-     * Renders the Insentient being as invisible to enemy monsters. It will not
-     * prevent Players from seeing the Insentient being.
+     * Renders the Insentient being as invisible to enemy monsters. It will not prevent Players from
+     * seeing the Insentient being.
      */
     INVIS,
     /**
-     * Full potion effect based Invisibility effect. Should render the being
-     * invisible and prevent targeting by enemy monsters.
+     * Full potion effect based Invisibility effect. Should render the being invisible and prevent
+     * targeting by enemy monsters.
      */
     INVISIBILITY,
     /**
@@ -186,13 +186,12 @@ public enum EffectType {
      */
     ITEM_CREATION,
     /**
-     * Destroys an item, either from the inventory of the Insentient being, or
-     * those around it.
+     * Destroys an item, either from the inventory of the Insentient being, or those around it.
      */
     ITEM_DESTRUCTION,
     /**
-     * Modifies an item in the inventory of the Insentient being. Usually used
-     * for customizing enchantments, or preventing item durability.
+     * Modifies an item in the inventory of the Insentient being. Usually used for customizing
+     * enchantments, or preventing item durability.
      */
     ITEM_MODIFYICATION,
     /**
@@ -204,13 +203,13 @@ public enum EffectType {
      */
     LIGHT,
     /**
-     * A standard lightning effect, usually causes a Thunder particle or
-     * sound to be forced upon the Insentient being.
+     * A standard lightning effect, usually causes a Thunder particle or sound to be forced upon the
+     * Insentient being.
      */
     LIGHTNING,
     /**
-     * A mystical effect that ignores armor for attacking, defending, and
-     * sometimes ignores physics!
+     * A mystical effect that ignores armor for attacking, defending, and sometimes ignores
+     * physics!
      */
     MAGIC,
     /**
@@ -226,13 +225,12 @@ public enum EffectType {
      */
     MANA_INCREASING,
     /**
-     * Decreases the mana regeneration for the Insentient being. Mana
-     * regeneration can never be below zero.
+     * Decreases the mana regeneration for the Insentient being. Mana regeneration can never be
+     * below zero.
      */
     MANA_REGEN_DECREASING,
     /**
-     * Restricts any changes in the mana regeneration values for the Insentient
-     * being.
+     * Restricts any changes in the mana regeneration values for the Insentient being.
      */
     MANA_REGEN_FREEZING,
     /**
@@ -256,8 +254,8 @@ public enum EffectType {
      */
     MAX_MANA_INCREASING,
     /**
-     * Decreases the maximum available stamina for the Insentient being. The
-     * maximum stamina can never be below zero.
+     * Decreases the maximum available stamina for the Insentient being. The maximum stamina can
+     * never be below zero.
      */
     MAX_STAMINA_DECREASING,
     /**
@@ -273,8 +271,8 @@ public enum EffectType {
      */
     NAUSEA,
     /**
-     * Grants the Insentient being with full night vision. This can allow for
-     * players to see in caves.
+     * Grants the Insentient being with full night vision. This can allow for players to see in
+     * caves.
      */
     NIGHT_VISION,
     /**
@@ -354,23 +352,23 @@ public enum EffectType {
      */
     RESIST_VOID(SkillType.ABILITY_PROPERTY_VOID),
     /**
-     * Prevents the Insentient being from moving their legs or fly in place.
-     * Itis still possible for the being to attack.
+     * Prevents the Insentient being from moving their legs or fly in place. Itis still possible for
+     * the being to attack.
      */
     ROOT,
     /**
-     * Grants the Insentient being the ability to withstand long falls to the
-     * ground without major injuries.
+     * Grants the Insentient being the ability to withstand long falls to the ground without major
+     * injuries.
      */
     SAFEFALL,
     /**
-     * Renders the Insentient being silent. SkillCasters who are silenced are
-     * unable to cast skills.
+     * Renders the Insentient being silent. SkillCasters who are silenced are unable to cast
+     * skills.
      */
     SILENCE,
     /**
-     * Renders all actions, active effects, and skill casting to be silent
-     * (without broadcast). Usually goes in hand with {@link #INVISIBILITY}
+     * Renders all actions, active effects, and skill casting to be silent (without broadcast).
+     * Usually goes in hand with {@link #INVISIBILITY}
      */
     SILENT_ACTIONS,
     /**
@@ -378,8 +376,8 @@ public enum EffectType {
      */
     SLOW,
     /**
-     * Causes the Insentient being to crouch. Sometimes able to move normally,
-     * and for Players, name tags can be rendered invisible.
+     * Causes the Insentient being to crouch. Sometimes able to move normally, and for Players, name
+     * tags can be rendered invisible.
      */
     SNEAK,
     /**
@@ -419,8 +417,7 @@ public enum EffectType {
      */
     STUN,
     /**
-     * The insentient being is not sentient, but rather a summon for another
-     * Insentient being.
+     * The insentient being is not sentient, but rather a summon for another Insentient being.
      */
     SUMMON,
     /**
@@ -428,8 +425,8 @@ public enum EffectType {
      */
     UNBREAKABLE,
     /**
-     * Causes all monsters currently targetting the Insentient being to
-     * targeting others. Monsters are unable to target this being.
+     * Causes all monsters currently targetting the Insentient being to targeting others. Monsters
+     * are unable to target this being.
      */
     UNTARGETABLE,
     /**
@@ -453,18 +450,17 @@ public enum EffectType {
      */
     WATER_BREATHING,
     /**
-     * A simple element, but it's still worth the try. Elements are the
-     * building blocks of today's society.
+     * A simple element, but it's still worth the try. Elements are the building blocks of today's
+     * society.
      */
     WATER,
     /**
-     * Renders the Insentient being seen with an injury and can not justify a
-     * reason for th meeting to break apart.
+     * Renders the Insentient being seen with an injury and can not justify a reason for th meeting
+     * to break apart.
      */
     WEAKNESS,
     /**
-     * Applies a vanilla withering damage over time effect to the Insentient
-     * being.
+     * Applies a vanilla withering damage over time effect to the Insentient being.
      */
     WITHER;
 
@@ -502,12 +498,18 @@ public enum EffectType {
         }
     }
 
+    private EffectType addResistance(EffectType type) {
+        this.effectResists.add(type);
+        return this;
+    }
+
     /**
-     * Checks if this EffectType restricted the {@link SkillType} active to the
-     * {@link ISkill} and {@link Insentient} being.
+     * Checks if this EffectType restricted the {@link SkillType} active to the {@link ISkill} and
+     * {@link Insentient} being.
      *
      * @param being That is being checked
      * @param skill That is being checked.
+     *
      * @return true if the skill requested th newest ticket.
      * @throws IllegalArgumentException If the being is null
      * @throws IllegalArgumentException If the skill is null
@@ -515,18 +517,18 @@ public enum EffectType {
     public boolean isSkillResisted(Insentient being, ISkill skill) {
         checkArgument(being != null, "Cannot check against a null entity!");
         checkArgument(skill != null, "Cannot check against a null skill!");
-        return (this.resistance != null && being.hasEffectType(this) && skill.isType(this.resistance));
+        return (this.resistance != null && being.hasEffectType(this)
+                && skill.isType(this.resistance));
     }
 
     /**
-     * Returns true if the queried IEffect is of an EffectType that is resisted
-     * by this EffectType. Since EffectTypes are configurable, it is impossible
-     * to know the state of the resistances without manually checking each
-     * EffectType.
+     * Returns true if the queried IEffect is of an EffectType that is resisted by this EffectType.
+     * Since EffectTypes are configurable, it is impossible to know the state of the resistances
+     * without manually checking each EffectType.
      *
      * @param being  The Insentient being to check if it has this effect type
-     * @param effect The IEffect in question whether the queried being should
-     *               resist the effect
+     * @param effect The IEffect in question whether the queried being should resist the effect
+     *
      * @return True if this EffectType resists the queried effect
      * @throws IllegalArgumentException If the being is null
      * @throws IllegalArgumentException If the effect is null
@@ -543,11 +545,6 @@ public enum EffectType {
             }
         }
         return false;
-    }
-
-    private EffectType addResistance(EffectType type) {
-        this.effectResists.add(type);
-        return this;
     }
 
 }

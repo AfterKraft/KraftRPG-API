@@ -32,7 +32,9 @@ import org.bukkit.event.HandlerList;
 import com.afterkraft.kraftrpg.api.entity.Insentient;
 import com.afterkraft.kraftrpg.api.skills.ISkill;
 
-
+/**
+ * When an Insentient regains health for any reason.
+ */
 public class InsentientRegainHealthEvent extends InsentientEvent implements Cancellable {
 
     private static final HandlerList handlers = new HandlerList();
@@ -45,7 +47,8 @@ public class InsentientRegainHealthEvent extends InsentientEvent implements Canc
         this(beneficiary, healAmount, skill, null);
     }
 
-    public InsentientRegainHealthEvent(Insentient beneficiary, double healAmount, ISkill skill, Insentient healer) {
+    public InsentientRegainHealthEvent(Insentient beneficiary, double healAmount, ISkill skill,
+                                       Insentient healer) {
         super(beneficiary);
         checkArgument(skill != null, "Cannot create an event with a null Skill!");
         this.amount = healAmount;
@@ -83,6 +86,7 @@ public class InsentientRegainHealthEvent extends InsentientEvent implements Canc
         this.cancelled = cancelled;
     }
 
+    @Override
     public HandlerList getHandlers() {
         return handlers;
     }

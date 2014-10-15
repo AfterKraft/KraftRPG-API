@@ -23,11 +23,18 @@
  */
 package com.afterkraft.kraftrpg.api.util;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ListIterator;
+import java.util.Map;
 
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.configuration.serialization.ConfigurationSerialization;
 
+/**
+ * Standard utility class for serialization.
+ */
 public class SerializationUtil {
 
     public static Map<String, Object> fullySerialize(ConfigurationSerializable obj) {
@@ -39,7 +46,8 @@ public class SerializationUtil {
             }
         }
 
-        ret.put(ConfigurationSerialization.SERIALIZED_TYPE_KEY, ConfigurationSerialization.getAlias(obj.getClass()));
+        ret.put(ConfigurationSerialization.SERIALIZED_TYPE_KEY,
+                ConfigurationSerialization.getAlias(obj.getClass()));
 
         return ret;
     }

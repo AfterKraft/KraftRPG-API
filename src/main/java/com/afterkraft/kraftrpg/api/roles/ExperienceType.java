@@ -23,7 +23,9 @@
  */
 package com.afterkraft.kraftrpg.api.roles;
 
-
+/**
+ * List of Experience Types applicable for this API.
+ */
 public enum ExperienceType {
     SKILL,
     PVE,

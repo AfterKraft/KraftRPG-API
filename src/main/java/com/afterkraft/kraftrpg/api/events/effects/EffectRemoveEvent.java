@@ -24,23 +24,25 @@
 package com.afterkraft.kraftrpg.api.events.effects;
 
 import org.bukkit.event.Cancellable;
-import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
 import com.afterkraft.kraftrpg.api.effects.IEffect;
 import com.afterkraft.kraftrpg.api.entity.Insentient;
+import com.afterkraft.kraftrpg.api.events.entity.InsentientEvent;
 
-
-public class EffectRemoveEvent extends Event implements Cancellable {
+/**
+ * An even when an Insentient being has an effect removed. This event may be uncancellable for cases
+ * when an effect is expiring due to time.
+ */
+public class EffectRemoveEvent extends InsentientEvent implements Cancellable {
 
     private static final HandlerList handlers = new HandlerList();
-    private final Insentient being;
     private boolean isCancelled = false;
-    private IEffect IEffect;
+    private IEffect effect;
 
-    public EffectRemoveEvent(Insentient being, IEffect IEffect) {
-        this.being = being;
-        this.IEffect = IEffect;
+    public EffectRemoveEvent(Insentient being, IEffect effect) {
+        super(being);
+        this.effect = effect;
     }
 
     public static HandlerList getHandlerList() {
@@ -48,11 +50,11 @@ public class EffectRemoveEvent extends Event implements Cancellable {
     }
 
     public IEffect getEffect() {
-        return this.IEffect;
+        return this.effect;
     }
 
     public Insentient getInsentientBeing() {
-        return this.being;
+        return this.getEntity();
     }
 
     @Override

@@ -25,16 +25,20 @@ package com.afterkraft.kraftrpg.api.handler;
 
 import org.bukkit.event.entity.CreatureSpawnEvent;
 
+/**
+ * Standard attribute mapping for ServerInternals.
+ */
 public enum EntityAttributeType {
     DAMAGE,
     EXPERIENCE,
     SPAWNX,
     SPAWNY,
     SPAWNZ,
-    SPAWNREASON(0, CreatureSpawnEvent.SpawnReason.values().length),;
+    SPAWNREASON(0, CreatureSpawnEvent.SpawnReason.values().length);
 
     private String attrName;
-    private double minValue, maxValue;
+    private double minValue;
+    private double maxValue;
 
     private EntityAttributeType() {
         this(-Double.MAX_VALUE, Double.MAX_VALUE);

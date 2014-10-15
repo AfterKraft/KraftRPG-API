@@ -27,23 +27,21 @@ import com.afterkraft.kraftrpg.api.Manager;
 import com.afterkraft.kraftrpg.api.entity.Insentient;
 
 /**
- * Basic manager for applying, ticking, and removing effects from
- * {@link com.afterkraft.kraftrpg.api.entity.Insentient} It can be used to
- * apply new effects via <code>
- * {@link #manageEffect(com.afterkraft.kraftrpg.api.entity.Insentient, Timed)}
- * </code> and remove current effects via <code>
- * {@link #queueRemoval(com.afterkraft.kraftrpg.api.entity.Insentient, Timed)}
- * </code>
+ * Basic manager for applying, ticking, and removing effects from {@link
+ * com.afterkraft.kraftrpg.api.entity.Insentient} It can be used to apply new effects via <code>
+ * {@link #manageEffect(com.afterkraft.kraftrpg.api.entity.Insentient, Timed)} </code> and remove
+ * current effects via <code> {@link #queueRemoval(com.afterkraft.kraftrpg.api.entity.Insentient,
+ * Timed)} </code>
  */
 public interface EffectManager extends Manager {
 
     /**
-     * Applies the Timed effect to the Insentient being. Depending on the
-     * status of the Insentient being and the effect, the effect may not be
-     * applied immediately.
+     * Applies the Timed effect to the Insentient being. Depending on the status of the Insentient
+     * being and the effect, the effect may not be applied immediately.
      *
      * @param being  to apply the timed effect on
      * @param effect to apply
+     *
      * @throws IllegalArgumentException If the being is null
      * @throws IllegalArgumentException If the effect is null
      */
@@ -52,6 +50,7 @@ public interface EffectManager extends Manager {
     /**
      * @param being
      * @param effect
+     *
      * @throws IllegalArgumentException If the being is null
      * @throws IllegalArgumentException If the effect is null
      */

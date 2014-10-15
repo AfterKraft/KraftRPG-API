@@ -24,22 +24,23 @@
 package com.afterkraft.kraftrpg.api.events.effects;
 
 import org.bukkit.event.Cancellable;
-import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
 import com.afterkraft.kraftrpg.api.effects.IEffect;
 import com.afterkraft.kraftrpg.api.entity.Insentient;
+import com.afterkraft.kraftrpg.api.events.entity.InsentientEvent;
 
-
-public class EffectAddEvent extends Event implements Cancellable {
+/**
+ * When an Insentient has an effect applied to them.
+ */
+public class EffectAddEvent extends InsentientEvent implements Cancellable {
 
     private static final HandlerList handlers = new HandlerList();
-    private final Insentient being;
+    private final IEffect effect;
     private boolean isCancelled = false;
-    private IEffect effect;
 
     public EffectAddEvent(Insentient mage, IEffect effect) {
-        this.being = mage;
+        super(mage);
         this.effect = effect;
     }
 
@@ -52,7 +53,7 @@ public class EffectAddEvent extends Event implements Cancellable {
     }
 
     public Insentient getInsentientBeing() {
-        return this.being;
+        return this.getEntity();
     }
 
     @Override

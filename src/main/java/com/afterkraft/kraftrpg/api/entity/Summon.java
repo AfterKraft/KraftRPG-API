@@ -24,17 +24,15 @@
 package com.afterkraft.kraftrpg.api.entity;
 
 /**
- * A summon LivingEntity that is attached to a {@link SkillCaster}.
- * Summons for all intents and purposes should be considered a proxy of a
- * LivingEntity. A Summon may also have a timed amount to live, after which it
- * will be removed from the World. A Summon should not be considered to persist
+ * A summon LivingEntity that is attached to a {@link SkillCaster}. Summons for all intents and
+ * purposes should be considered a proxy of a LivingEntity. A Summon may also have a timed amount to
+ * live, after which it will be removed from the World. A Summon should not be considered to persist
  * when a SkillCaster is no longer valid.
  */
 public interface Summon extends Insentient {
 
     /**
-     * Gets the time in milliseconds this summon has remaining to live in the
-     * world.
+     * Gets the time in milliseconds this summon has remaining to live in the world.
      *
      * @return The time left remaining in the world
      */
@@ -48,8 +46,8 @@ public interface Summon extends Insentient {
     public SkillCaster getSummoner();
 
     /**
-     * Removes the summon from the world. This is a utility method primarily to
-     * reset the summon and unlink it from any physical contact.
+     * Removes the summon from the world. This is a utility method primarily to reset the summon and
+     * unlink it from any physical contact.
      */
     public void remove();
 

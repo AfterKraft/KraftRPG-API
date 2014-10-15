@@ -32,11 +32,20 @@ import org.bukkit.inventory.ItemStack;
 
 import com.afterkraft.kraftrpg.api.entity.Insentient;
 
+/**
+ * An event when an Insentient being is harmed by a Projectile launched by an attacking Insentient
+ * being.
+ */
 public class ProjectileDamageEvent extends WeaponDamageEvent {
     private static final HandlerList handlers = new HandlerList();
     private final Projectile projectile;
 
-    public ProjectileDamageEvent(final Insentient attacker, final Insentient defender, final Projectile projectile, final EntityDamageByEntityEvent event, final ItemStack weapon, final Map<DamageType, Double> modifiers, boolean isVaryingEnabled) {
+    public ProjectileDamageEvent(final Insentient attacker, final Insentient defender,
+                                 final Projectile projectile,
+                                 final EntityDamageByEntityEvent event,
+                                 final ItemStack weapon,
+                                 final Map<DamageType, Double> modifiers,
+                                 boolean isVaryingEnabled) {
         super(attacker, defender, event, weapon, modifiers, isVaryingEnabled);
         this.projectile = projectile;
     }

@@ -29,7 +29,9 @@ import com.afterkraft.kraftrpg.api.entity.SkillCaster;
 import com.afterkraft.kraftrpg.api.events.entity.InsentientEvent;
 import com.afterkraft.kraftrpg.api.skills.ISkill;
 
-
+/**
+ * When a {@link com.afterkraft.kraftrpg.api.entity.SkillCaster} has a cooldown that has expired.
+ */
 public class CooldownExpireEvent extends InsentientEvent {
 
     private static final HandlerList handlers = new HandlerList();

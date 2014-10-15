@@ -30,17 +30,13 @@ import java.util.Map;
 import com.afterkraft.kraftrpg.api.CircularDependencyException;
 
 /**
- * This is a somewhat simple Graph data structure that has directed edges and
- * allows for nodes to be removed without having to specifically loosing all
- * the children nodes of the given node. Performance is gained by utilizing
- * LinkedHashMaps as iterations are performed in virtually all operations.
+ * This is a somewhat simple Graph data structure that has directed edges and allows for nodes to be
+ * removed without having to specifically loosing all the children nodes of the given node.
+ * Performance is gained by utilizing LinkedHashMaps as iterations are performed in virtually all
+ * operations.
  * <p/>
- * This type of graph does not allow for cycles and actively checks for cycles
- * when
- * <ul>
- * <li>{@link #addEdge(Object, Object)}</li>
- * <li>{@link #doesCycleExist()}</li>
- * </ul>
+ * This type of graph does not allow for cycles and actively checks for cycles when <ul> <li>{@link
+ * #addEdge(Object, Object)}</li> <li>{@link #doesCycleExist()}</li> </ul>
  *
  * @param <T>
  */
@@ -102,7 +98,8 @@ public class DirectedGraph<T> {
         vertex.addEdge(new Vertex<T>(to));
         this.vertexes.put(from, vertex);
         if (doesCycleExist()) { // We can't allow the creation of a cycle
-            throw new CircularDependencyException("Could not add " + from.toString() + " as a parent of " + to.toString());
+            throw new CircularDependencyException("Could not add " + from.toString()
+                    + " as a parent of " + to.toString());
         }
         return true;
     }
@@ -235,7 +232,8 @@ public class DirectedGraph<T> {
     }
 
     static class Edge<T> {
-        protected Vertex<T> from, to;
+        protected Vertex<T> from;
+        protected Vertex<T> to;
 
         Edge(Vertex<T> from, Vertex<T> to) {
             this.from = from;

@@ -26,14 +26,18 @@ package com.afterkraft.kraftrpg.api.skills.arguments;
 import java.lang.ref.WeakReference;
 import java.util.List;
 
-import com.google.common.base.Predicate;
-
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+
+import com.google.common.base.Predicate;
 
 import com.afterkraft.kraftrpg.api.entity.SkillCaster;
 import com.afterkraft.kraftrpg.api.util.Utilities;
 
+/**
+ * A SkillArgument that performs raytracing calculations in search for a Player and checks the
+ * provided Player name is both visible and valid.
+ */
 public class RaytracingPlayerSkillArgument extends EntitySkillArgument<Player> {
 
     public RaytracingPlayerSkillArgument(double maxDistance, Predicate<Player> condition) {

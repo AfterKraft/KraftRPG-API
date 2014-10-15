@@ -31,17 +31,15 @@ import com.afterkraft.kraftrpg.api.entity.Insentient;
 import com.afterkraft.kraftrpg.api.skills.ISkill;
 
 /**
- * The base of KraftPRG's Effect system. An effect can perform various
- * operations on an {@link com.afterkraft.kraftrpg.api.entity.Insentient}
- * being. While it is recommended to utilize the
- * {@link com.afterkraft.kraftrpg.api.effects.IEffect} as the standard
- * implementation, various other interfaces have different implementations.
+ * The base of KraftPRG's Effect system. An effect can perform various operations on an {@link
+ * com.afterkraft.kraftrpg.api.entity.Insentient} being. While it is recommended to utilize the
+ * {@link com.afterkraft.kraftrpg.api.effects.IEffect} as the standard implementation, various other
+ * interfaces have different implementations.
  */
 public interface IEffect {
 
     /**
-     * Returns the associated
-     * {@link com.afterkraft.kraftrpg.api.skills.ISkill} that created this
+     * Returns the associated {@link com.afterkraft.kraftrpg.api.skills.ISkill} that created this
      * effect.
      *
      * @return the Skill that created this effect
@@ -49,8 +47,7 @@ public interface IEffect {
     public ISkill getSkill();
 
     /**
-     * Returns this individual Effect's name. (Should be as unique and
-     * recognizable as possible).
+     * Returns this individual Effect's name. (Should be as unique and recognizable as possible).
      *
      * @return the name of this effect.
      */
@@ -60,22 +57,23 @@ public interface IEffect {
      * Check if this Effect is of a certain EffectType
      *
      * @param queryType The type of effect to query
+     *
      * @return True if this Effect is of the queried EffectType
      * @throws IllegalArgumentException If the query type is null
      */
     public boolean isType(EffectType queryType);
 
     /**
-     * Gets an immutable set of the potion effects that are applied when
-     * {@link #apply(Insentient)} is called.
+     * Gets an immutable set of the potion effects that are applied when {@link #apply(Insentient)}
+     * is called.
      *
      * @return An immutable set of potion effects
      */
     public Set<PotionEffect> getPotionEffects();
 
     /**
-     * Check if this Effect is persistent. A Persistent effect will never
-     * expire until the Effect is removed.
+     * Check if this Effect is persistent. A Persistent effect will never expire until the Effect is
+     * removed.
      *
      * @return true if this Effect is persistent
      */
@@ -87,10 +85,10 @@ public interface IEffect {
     public long getApplyTime();
 
     /**
-     * Attempts to apply this effect to the provided
-     * {@link com.afterkraft.kraftrpg.api.entity.Insentient}.
+     * Attempts to apply this effect to the provided {@link com.afterkraft.kraftrpg.api.entity.Insentient}.
      *
      * @param being this effect is being applied on to.
+     *
      * @throws IllegalArgumentException If the being is null or invalid
      */
     public void apply(Insentient being);
@@ -99,13 +97,13 @@ public interface IEffect {
      * Attempts to remove this effect from the given Insentient being
      *
      * @param being this effect is being removed by.
+     *
      * @throws IllegalArgumentException If the being is null or invalid
      */
     public void remove(Insentient being);
 
     /**
-     * Get the message that should be sent to players when this effect is
-     * applied
+     * Get the message that should be sent to players when this effect is applied
      *
      * @return the message when this effect is applied
      */

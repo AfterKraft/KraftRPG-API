@@ -26,12 +26,10 @@ package com.afterkraft.kraftrpg.api.storage;
 import com.afterkraft.kraftrpg.api.RPGPlugin;
 
 /**
- * This class constructs a StorageFrontend once the StorageBackend is known.
- * Your implementation should look like this:
+ * This class constructs a StorageFrontend once the StorageBackend is known. Your implementation
+ * should look like this:
  * <p/>
- * <code>
- * return new MyCustomStorageFrontend(plugin, backend);
- * </code>
+ * <code> return new MyCustomStorageFrontend(plugin, backend); </code>
  * <p/>
  * Factories replace the use of reflection.
  */
@@ -39,6 +37,9 @@ public abstract class StorageFrontendFactory {
 
     public abstract StorageFrontend construct(RPGPlugin plugin, StorageBackend backend);
 
+    /**
+     * A default factory without customization
+     */
     public static class DefaultFactory extends StorageFrontendFactory {
         @Override
         public StorageFrontend construct(RPGPlugin plugin, StorageBackend backend) {

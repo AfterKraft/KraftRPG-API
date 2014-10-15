@@ -23,7 +23,9 @@
  */
 package com.afterkraft.kraftrpg.api.entity;
 
-
+/**
+ * Derp
+ */
 public enum EnterCombatReason {
 
     /**

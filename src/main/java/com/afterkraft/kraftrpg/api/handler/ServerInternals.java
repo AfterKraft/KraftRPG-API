@@ -49,16 +49,18 @@ import com.afterkraft.kraftrpg.api.events.entity.damage.InsentientDamageEvent.Da
 import com.afterkraft.kraftrpg.api.skills.ISkill;
 import com.afterkraft.kraftrpg.api.util.FixedPoint;
 
-
+/**
+ * Standard utility class for handling version and platform specific code.
+ */
 public abstract class ServerInternals {
     public static final double UNSET_VALUE = Double.longBitsToDouble(0xcc123);
 
-    protected final static String DAMAGE_STRING = "Damage";
-    protected final static String EXPERIENCE_STRING = "Experience";
-    protected final static String SPAWNX_STRING = "SpawnX";
-    protected final static String SPAWNY_STRING = "SpawnY";
-    protected final static String SPAWNZ_STRING = "SpawnZ";
-    protected final static String SPAWNREASON_STRING = "SpawnReason";
+    protected static final String DAMAGE_STRING = "Damage";
+    protected static final String EXPERIENCE_STRING = "Experience";
+    protected static final String SPAWNX_STRING = "SpawnX";
+    protected static final String SPAWNY_STRING = "SpawnY";
+    protected static final String SPAWNZ_STRING = "SpawnZ";
+    protected static final String SPAWNREASON_STRING = "SpawnReason";
 
     public static ServerType serverType;
     private static ServerInternals activeInterface;
@@ -77,7 +79,8 @@ public abstract class ServerInternals {
                 version = "pre";
             }
             String serverString = Bukkit.getServer().getVersion().split("-")[1].toLowerCase();
-            if (serverString.equalsIgnoreCase("bukkit") || serverString.equalsIgnoreCase("craftbukkit")) {
+            if (serverString.equalsIgnoreCase("bukkit")
+                    || serverString.equalsIgnoreCase("craftbukkit")) {
                 serverType = ServerType.BUKKIT;
             } else if (serverString.equalsIgnoreCase("spigot")) {
                 serverType = ServerType.SPIGOT;
@@ -86,14 +89,18 @@ public abstract class ServerInternals {
             }
             if (serverType == null) {
                 Bukkit.getLogger().info("KraftRPG could not detect your server mod type.");
-                Bukkit.getLogger().info("It detected " + serverString + " which isn't known to KraftRPG.");
-                Bukkit.getLogger().info("But don't worry! We're falling back on Bukkit compatibility");
+                Bukkit.getLogger().info("It detected " + serverString
+                        + " which isn't known to KraftRPG.");
+                Bukkit.getLogger().info("But don't worry! We're falling back"
+                        + " on Bukkit compatibility");
                 serverType = ServerType.BUKKIT;
             }
             try {
-                Class<?> clazz = Class.forName("com.afterkraft.kraftrpg.compat." + version + ".RPGHandler");
+                Class<?> clazz = Class.forName("com.afterkraft.kraftrpg.compat."
+                        + version + ".RPGHandler");
                 if (ServerInternals.class.isAssignableFrom(clazz)) {
-                    activeInterface = (ServerInternals) clazz.getConstructor(ServerType.class).newInstance(serverType);
+                    activeInterface = (ServerInternals) clazz.getConstructor(ServerType.class)
+                            .newInstance(serverType);
                 }
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
@@ -142,7 +149,8 @@ public abstract class ServerInternals {
 
     public abstract Location getSpawnLocation(LivingEntity entity);
 
-    public abstract CreatureSpawnEvent.SpawnReason getSpawnReason(LivingEntity entity, SpawnReason provided);
+    public abstract CreatureSpawnEvent.SpawnReason getSpawnReason(LivingEntity entity,
+                                                                  SpawnReason provided);
 
     public abstract FixedPoint getMonsterExperience(LivingEntity entity, FixedPoint value);
 
@@ -151,11 +159,11 @@ public abstract class ServerInternals {
     public abstract double getEntityDamage(LivingEntity entity, double calculated);
 
     /**
-     * Check if a given EntityAttributeType is present in the given
-     * LivingEntity.
+     * Check if a given EntityAttributeType is present in the given LivingEntity.
      *
      * @param entity entity to inspect
      * @param type   attribute to check
+     *
      * @return true if set, false if not
      */
     public abstract boolean isAttributeSet(LivingEntity entity, EntityAttributeType type);
@@ -166,9 +174,11 @@ public abstract class ServerInternals {
      * @param entity       entity to inspect
      * @param type         attribute to check
      * @param defaultValue value to return if not set
+     *
      * @return double set value, or defaultValue if not
      */
-    public abstract double getAttribute(LivingEntity entity, EntityAttributeType type, double defaultValue);
+    public abstract double getAttribute(LivingEntity entity, EntityAttributeType type,
+                                        double defaultValue);
 
     /**
      * Set the value of an EntityAttributeType for the given entity.
@@ -176,26 +186,30 @@ public abstract class ServerInternals {
      * @param entity   entity to change
      * @param type     attribute to use
      * @param newValue value to set
-     * @return previous value, or the special value {@link #UNSET_VALUE} if
-     * not already set
+     *
+     * @return previous value, or the special value {@link #UNSET_VALUE} if not already set
      */
-    public abstract double setAttribute(LivingEntity entity, EntityAttributeType type, double newValue);
+    public abstract double setAttribute(LivingEntity entity, EntityAttributeType type,
+                                        double newValue);
 
     /**
-     * Gets the stored value of an EntityAttributeType, or sets it to the
-     * given value if it wasn't present before.
+     * Gets the stored value of an EntityAttributeType, or sets it to the given value if it wasn't
+     * present before.
      *
      * @param entity       entity to inspect/change
      * @param type         attribute to use
      * @param valueIfEmpty value to set if empty
+     *
      * @return current value
      */
-    public abstract double getOrSetAttribute(LivingEntity entity, EntityAttributeType type, double valueIfEmpty);
+    public abstract double getOrSetAttribute(LivingEntity entity, EntityAttributeType type,
+                                             double valueIfEmpty);
 
     //NMS methods required by listeners
     public abstract double getPostArmorDamage(LivingEntity defender, double damage);
 
-    public abstract double getPostArmorDamage(Insentient being, EntityDamageEvent event, double damage);
+    public abstract double getPostArmorDamage(Insentient being, EntityDamageEvent event,
+                                              double damage);
 
     public abstract void setPlayerExpZero(Player player);
 
@@ -209,15 +223,22 @@ public abstract class ServerInternals {
 
     public abstract void knockBack(LivingEntity target, LivingEntity attacker, double damage);
 
-    public abstract boolean healEntity(Insentient being, double tickHealth, ISkill skill, Insentient applier);
+    public abstract boolean healEntity(Insentient being, double tickHealth, ISkill skill,
+                                       Insentient applier);
 
-    public abstract boolean damageEntity(LivingEntity target, Insentient attacker, ISkill skill, double damage, DamageCause cause, boolean knockback);
+    public abstract boolean damageEntity(LivingEntity target, Insentient attacker, ISkill skill,
+                                         double damage, DamageCause cause, boolean knockback);
 
-    public abstract boolean damageEntity(Insentient target, Insentient attacker, ISkill skill, double damage, DamageCause cause, boolean knockback);
+    public abstract boolean damageEntity(Insentient target, Insentient attacker, ISkill skill,
+                                         double damage, DamageCause cause, boolean knockback);
 
-    public abstract boolean damageEntity(Insentient target, Insentient attacker, ISkill skill, Map<DamageType, Double> modifiers, DamageCause cause, boolean knockback);
+    public abstract boolean damageEntity(Insentient target, Insentient attacker, ISkill skill,
+                                         Map<DamageType, Double> modifiers, DamageCause cause,
+                                         boolean knockback);
 
-    public abstract boolean damageEntity(Insentient target, Insentient attacker, ISkill skill, Map<DamageType, Double> modifiers, DamageCause cause, boolean knockback, boolean ignoreDamageCheck);
+    public abstract boolean damageEntity(Insentient target, Insentient attacker, ISkill skill,
+                                         Map<DamageType, Double> modifiers, DamageCause cause,
+                                         boolean knockback, boolean ignoreDamageCheck);
 
     public abstract void refreshLastPlayerDamageTime(LivingEntity entity);
 
@@ -239,7 +260,8 @@ public abstract class ServerInternals {
     //Utility functions
     protected abstract float getSoundStrength(LivingEntity entity);
 
-    public abstract void playClientEffect(Player player, Location startLocation, String particle, Vector offset, float speed, int count, boolean sendToAll);
+    public abstract void playClientEffect(Player player, Location startLocation, String particle,
+                                          Vector offset, float speed, int count, boolean sendToAll);
 
     public abstract Conversation getCurrentConversation(Player player);
 
@@ -257,6 +279,9 @@ public abstract class ServerInternals {
 
     public abstract Map<String, PotionEffectType> getAlternatePotionEffectNames();
 
+    /**
+     * List of acknowledged server types supported by KraftRPG.
+     */
     public static enum ServerType {
         BUKKIT,
         SPIGOT,

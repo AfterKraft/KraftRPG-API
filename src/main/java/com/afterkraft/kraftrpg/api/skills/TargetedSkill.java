@@ -30,19 +30,23 @@ import org.bukkit.entity.Entity;
 
 import com.afterkraft.kraftrpg.api.RPGPlugin;
 import com.afterkraft.kraftrpg.api.effects.EffectType;
-import com.afterkraft.kraftrpg.api.entity.*;
+import com.afterkraft.kraftrpg.api.entity.IEntity;
+import com.afterkraft.kraftrpg.api.entity.Insentient;
+import com.afterkraft.kraftrpg.api.entity.PartyMember;
+import com.afterkraft.kraftrpg.api.entity.SkillCaster;
+import com.afterkraft.kraftrpg.api.entity.Summon;
 import com.afterkraft.kraftrpg.api.skills.arguments.EntitySkillArgument;
 
 /**
- * The default implementation of a {@link Targeted} skill. This implementation
- * handles automatic creation of the required first argument being an
- * {@link EntitySkillArgument} with a default targeting distance of 10.
- * It should be noted that {@link #useSkill(SkillCaster)} is final because of
- * initial target handling checks, if the target is an {@link Insentient} being
- * and if that being has {@link EffectType}s that prevent it from being damaged,
- * the {@link #useSkill(SkillCaster, IEntity, Entity)} is not used.
- *
+ * The default implementation of a {@link Targeted} skill. This implementation handles automatic
+ * creation of the required first argument being an {@link EntitySkillArgument} with a default
+ * targeting distance of 10. It should be noted that {@link #useSkill(SkillCaster)} is final because
+ * of initial target handling checks, if the target is an {@link Insentient} being and if that being
+ * has {@link EffectType}s that prevent it from being damaged, the {@link #useSkill(SkillCaster,
+ * IEntity, Entity)} is not used.
+ * <p/>
  * Only experienced developers wishing to add further customizations
+ *
  * @param <E> The entity type to target
  */
 public abstract class TargetedSkill<E extends Entity> extends ActiveSkill implements Targeted<E> {
@@ -59,7 +63,8 @@ public abstract class TargetedSkill<E extends Entity> extends ActiveSkill implem
 
     protected void setTargetArgument(EntitySkillArgument<E> argument) {
         if (this.plugin.isEnabled()) {
-            throw new IllegalStateException("KraftRPG is already enabled! Cannot modify Skill Arguments after being enabled.");
+            throw new IllegalStateException("KraftRPG is already enabled! Cannot modify Skill "
+                    + "Arguments after being enabled.");
         }
         checkArgument(argument != null, "Cannot set the targeting argument as null!");
         if (this.skillArguments == null) {
@@ -77,7 +82,8 @@ public abstract class TargetedSkill<E extends Entity> extends ActiveSkill implem
         }
         E target = this.<EntitySkillArgument<E>>getArgument(0).getMatchedEntity();
 
-        double distance = this.plugin.getSkillConfigManager().getUsedIntSetting(caster, this, SkillSetting.MAX_DISTANCE);
+        double distance = this.plugin.getSkillConfigManager().getUsedIntSetting(caster, this,
+                SkillSetting.MAX_DISTANCE);
         if (target == null || target.getLocation().distance(caster.getLocation()) > distance) {
             return SkillCastResult.INVALID_TARGET_NO_MESSAGE;
         }
@@ -85,7 +91,8 @@ public abstract class TargetedSkill<E extends Entity> extends ActiveSkill implem
         if (entity instanceof Insentient) {
             Insentient insentient = (Insentient) entity;
             if (caster.equals(insentient)) {
-                if (this.isType(SkillType.AGGRESSIVE) || this.isType(SkillType.NO_SELF_TARGETTING)) {
+                if (this.isType(SkillType.AGGRESSIVE)
+                        || this.isType(SkillType.NO_SELF_TARGETTING)) {
                     return SkillCastResult.INVALID_TARGET_NO_MESSAGE;
                 }
             }
@@ -101,7 +108,8 @@ public abstract class TargetedSkill<E extends Entity> extends ActiveSkill implem
             }
 
             if (this.isType(SkillType.DAMAGING)) {
-                if (!damageCheck(caster, insentient.getEntity()) || (insentient instanceof Summon && (caster.equals(((Summon) insentient).getSummoner())))) {
+                if (!damageCheck(caster, insentient.getEntity()) || (insentient instanceof Summon
+                        && (caster.equals(((Summon) insentient).getSummoner())))) {
                     caster.sendMessage("You cannot damage that target!");
                     return SkillCastResult.INVALID_TARGET_NO_MESSAGE;
                 }

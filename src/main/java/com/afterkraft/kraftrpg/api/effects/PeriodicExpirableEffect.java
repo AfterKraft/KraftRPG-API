@@ -32,28 +32,33 @@ import com.afterkraft.kraftrpg.api.entity.Insentient;
 import com.afterkraft.kraftrpg.api.skills.Skill;
 
 /**
- * Standard implementation of a
- * {@link com.afterkraft.kraftrpg.api.effects.Periodic} and
- * {@link Expirable}. This effect
- * will expire after the designated time by {@link #getExpiry()}
+ * Standard implementation of a {@link com.afterkraft.kraftrpg.api.effects.Periodic} and {@link
+ * Expirable}. This effect will expire after the designated time by {@link #getExpiry()}
  */
 public abstract class PeriodicExpirableEffect extends ExpirableEffect implements Periodic {
 
     private final long period;
     protected long lastTickTime = 0;
 
-    protected PeriodicExpirableEffect(Skill skill, Insentient applier, String name, long duration, Collection<EffectType> types, long period) {
+    protected PeriodicExpirableEffect(Skill skill, Insentient applier, String name,
+                                      long duration, Collection<EffectType> types, long period) {
         super(skill, applier, name, duration, types);
         this.period = period;
     }
 
-    protected PeriodicExpirableEffect(Skill skill, Insentient applier, String name, long duration, String applyText, String expireText, Collection<EffectType> types, long period) {
+    protected PeriodicExpirableEffect(Skill skill, Insentient applier, String name, long duration,
+                                      String applyText, String expireText,
+                                      Collection<EffectType> types, long period) {
         super(skill, applier, name, duration, applyText, expireText, types);
         this.period = period;
     }
 
-    protected PeriodicExpirableEffect(Skill skill, Insentient applier, String name, Set<PotionEffect> potionEffects, boolean persistent, Collection<EffectType> types, String applyText, String expireText, long duration, long period) {
-        super(skill, applier, name, potionEffects, persistent, types, applyText, expireText, duration);
+    protected PeriodicExpirableEffect(Skill skill, Insentient applier, String name,
+                                      Set<PotionEffect> potionEffects, boolean persistent,
+                                      Collection<EffectType> types, String applyText,
+                                      String expireText, long duration, long period) {
+        super(skill, applier, name, potionEffects, persistent, types, applyText,
+                expireText, duration);
         this.period = period;
     }
 

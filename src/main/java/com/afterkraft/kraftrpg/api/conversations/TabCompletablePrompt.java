@@ -28,6 +28,10 @@ import java.util.List;
 import org.bukkit.conversations.ConversationContext;
 import org.bukkit.conversations.Prompt;
 
+/**
+ *
+ */
 public interface TabCompletablePrompt extends Prompt {
-    public List<String> onTabComplete(ConversationContext context, String fullMessage, String lastToken);
+    public List<String> onTabComplete(ConversationContext context, String fullMessage,
+                                      String lastToken);
 }

@@ -29,7 +29,10 @@ import com.afterkraft.kraftrpg.api.CircularDependencyException;
 import com.afterkraft.kraftrpg.api.Manager;
 import com.afterkraft.kraftrpg.api.util.FixedPoint;
 
-
+/**
+ * Manages all interactions with roles and entities. Roles can be assigned, created, and swapped
+ * with this manager.
+ */
 public interface RoleManager extends Manager {
 
     public Role getDefaultPrimaryRole();
@@ -53,11 +56,11 @@ public interface RoleManager extends Manager {
     public FixedPoint getRoleLevelExperience(Role role, int level);
 
     /**
-     * Attempts to add a dependency for the two involving roles. This method
-     * is here to
+     * Attempts to add a dependency for the two involving roles. This method is here to
      *
      * @param parent
      * @param child
+     *
      * @return
      * @throws IllegalArgumentException
      * @throws CircularDependencyException
@@ -67,8 +70,8 @@ public interface RoleManager extends Manager {
     public boolean removeRoleDependency(Role parent, Role child);
 
     /**
-     * This is a simple check for all registered Roles. This should not be
-     * called often, but it is used when adding role dependencies.
+     * This is a simple check for all registered Roles. This should not be called often, but it is
+     * used when adding role dependencies.
      *
      * @return
      */

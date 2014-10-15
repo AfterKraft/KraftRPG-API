@@ -37,8 +37,8 @@ public class SkillSetting {
      */
     public static final SkillSetting LEVEL = new SkillSetting("level");
     /**
-     * Depends on another skill being granted. Prevents use of the skill when
-     * the depended skill is not activated. Defaults to none
+     * Depends on another skill being granted. Prevents use of the skill when the depended skill is
+     * not activated. Defaults to none
      */
     public static final SkillSetting DEPENDS = new SkillSetting("depends");
     /**
@@ -78,8 +78,7 @@ public class SkillSetting {
      */
     public static final SkillSetting REAGENT = new SkillSetting("reagent");
     /**
-     * How many items are deducted. This will always be converted to a whole
-     * number before use.
+     * How many items are deducted. This will always be converted to a whole number before use.
      */
     public static final SkillSetting REAGENT_QUANTITY = new SkillSetting("reagent-amount", true);
     /**
@@ -91,8 +90,7 @@ public class SkillSetting {
      */
     public static final Set<SkillSetting> BOOLEAN_SETTINGS = ImmutableSet.of(NO_COMBAT_USE);
     /**
-     * How many skill points it costs to learn the skill once the level
-     * requirement is met. (TODO)
+     * How many skill points it costs to learn the skill once the level requirement is met. (TODO)
      */
     public static final SkillSetting SKILL_POINT_COST = new SkillSetting("skill-point-cost");
     /**
@@ -131,7 +129,8 @@ public class SkillSetting {
      */
     public static final SkillSetting MAX_DISTANCE = new SkillSetting("max-distance", true);
     /**
-     * Amount of ticks between a {@link com.afterkraft.kraftrpg.api.effects.Periodic} effect's ticks.
+     * Amount of ticks between a {@link com.afterkraft.kraftrpg.api.effects.Periodic} effect's
+     * ticks.
      */
     public static final SkillSetting RECURRENCE_PERIOD = new SkillSetting("period", true);
     /**
@@ -216,7 +215,9 @@ public class SkillSetting {
      * @return The 'per-level' string node for this setting
      */
     public String scalingNode() {
-        if (!this.scaled) return null;
+        if (!this.scaled) {
+            return null;
+        }
 
         return this.node + "-per-level";
     }

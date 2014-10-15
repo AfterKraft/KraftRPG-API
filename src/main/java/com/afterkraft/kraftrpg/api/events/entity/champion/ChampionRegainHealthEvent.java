@@ -28,7 +28,9 @@ import com.afterkraft.kraftrpg.api.entity.Insentient;
 import com.afterkraft.kraftrpg.api.events.entity.InsentientRegainHealthEvent;
 import com.afterkraft.kraftrpg.api.skills.ISkill;
 
-
+/**
+ * {@inheritDoc}
+ */
 public class ChampionRegainHealthEvent extends InsentientRegainHealthEvent {
 
 
@@ -36,7 +38,8 @@ public class ChampionRegainHealthEvent extends InsentientRegainHealthEvent {
         super(beneficiary, healAmount, skill);
     }
 
-    public ChampionRegainHealthEvent(Champion beneficiary, double healAmount, ISkill skill, Insentient healer) {
+    public ChampionRegainHealthEvent(Champion beneficiary, double healAmount, ISkill skill,
+                                     Insentient healer) {
         super(beneficiary, healAmount, skill, healer);
     }
 

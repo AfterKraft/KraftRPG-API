@@ -23,7 +23,9 @@
  */
 package com.afterkraft.kraftrpg.api.entity;
 
-
+/**
+ * Reasons for when an Insentient being has left combat with any other Insentient being.
+ */
 public enum LeaveCombatReason {
     /**
      * Normal death by fall, fire, suffocation etc.

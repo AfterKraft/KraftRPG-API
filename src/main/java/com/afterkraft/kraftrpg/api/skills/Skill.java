@@ -23,14 +23,17 @@
  */
 package com.afterkraft.kraftrpg.api.skills;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.EnumMap;
+import java.util.EnumSet;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import static com.google.common.base.Preconditions.checkArgument;
-
-import com.google.common.base.Function;
-import com.google.common.base.Functions;
-import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.Sets;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -43,6 +46,11 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.entity.EntityDamageEvent.DamageModifier;
 import org.bukkit.inventory.ItemStack;
+
+import com.google.common.base.Function;
+import com.google.common.base.Functions;
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Sets;
 
 import com.afterkraft.kraftrpg.api.RPGPlugin;
 import com.afterkraft.kraftrpg.api.entity.Champion;
@@ -83,61 +91,84 @@ public abstract class Skill implements ISkill {
         ServerInternals.getInterface().knockBack(target, attacker, damage);
     }
 
-    public static boolean damageEntity(LivingEntity target, SkillCaster attacker, ISkill skill, double damage, DamageCause cause) {
+    public static boolean damageEntity(LivingEntity target, SkillCaster attacker, ISkill skill,
+                                       double damage, DamageCause cause) {
         return damageEntity(target, attacker, skill, damage, cause, true);
     }
 
-    public static boolean damageEntity(LivingEntity target, SkillCaster attacker, ISkill skill, double damage, DamageCause cause, boolean knockback) {
+    public static boolean damageEntity(LivingEntity target, SkillCaster attacker, ISkill skill,
+                                       double damage, DamageCause cause, boolean knockback) {
         return damageEntity(target, attacker, skill, damage, cause, knockback, false);
     }
 
-    public static boolean damageEntity(LivingEntity target, SkillCaster attacker, ISkill skill, double damage, DamageCause cause, boolean knockback, boolean ignoreDamageCheck) {
-        return ServerInternals.getInterface().damageEntity(target, attacker, skill, damage, cause, knockback);
+    public static boolean damageEntity(LivingEntity target, SkillCaster attacker, ISkill skill,
+                                       double damage, DamageCause cause, boolean knockback,
+                                       boolean ignoreDamageCheck) {
+        return ServerInternals.getInterface().damageEntity(target, attacker, skill, damage,
+                cause, knockback);
     }
 
-    public static boolean damageEntity(Insentient target, SkillCaster attacker, ISkill skill, double damage, DamageCause cause) {
+    public static boolean damageEntity(Insentient target, SkillCaster attacker, ISkill skill,
+                                       double damage, DamageCause cause) {
         return damageEntity(target, attacker, skill, damage, cause, true);
     }
 
-    public static boolean damageEntity(Insentient target, SkillCaster attacker, ISkill skill, double damage, DamageCause cause, boolean knockback) {
+    public static boolean damageEntity(Insentient target, SkillCaster attacker, ISkill skill,
+                                       double damage, DamageCause cause, boolean knockback) {
         return damageEntity(target, attacker, skill, damage, cause, knockback, false);
     }
 
-    public static boolean damageEntity(Insentient target, SkillCaster attacker, ISkill skill, double damage, DamageCause cause, boolean knockback, boolean ignoreDamageCheck) {
-        Map<InsentientDamageEvent.DamageType, Double> modifiers = new EnumMap<InsentientDamageEvent.DamageType, Double>(ImmutableMap.of(DamageType.PHYSICAL, damage));
-        return damageEntity(target, attacker, skill, modifiers, cause, knockback, ignoreDamageCheck);
+    public static boolean damageEntity(Insentient target, SkillCaster attacker, ISkill skill,
+                                       double damage, DamageCause cause, boolean knockback,
+                                       boolean ignoreDamageCheck) {
+        Map<InsentientDamageEvent.DamageType, Double> modifiers =
+                new EnumMap<InsentientDamageEvent.DamageType, Double>(
+                        ImmutableMap.of(DamageType.PHYSICAL, damage));
+        return damageEntity(target, attacker, skill, modifiers, cause, knockback,
+                ignoreDamageCheck);
     }
 
-    public static boolean damageEntity(Insentient target, Insentient attacker, ISkill skill, Map<DamageType, Double> modifiers, DamageCause cause) {
+    public static boolean damageEntity(Insentient target, Insentient attacker, ISkill skill,
+                                       Map<DamageType, Double> modifiers, DamageCause cause,
+                                       boolean knockback, boolean ignoreDamageCheck) {
+        return ServerInternals.getInterface().damageEntity(target, attacker, skill, modifiers,
+                cause, knockback);
+    }
+
+    public static boolean damageEntity(Insentient target, Insentient attacker, ISkill skill,
+                                       Map<DamageType, Double> modifiers, DamageCause cause) {
         return damageEntity(target, attacker, skill, modifiers, cause, true);
     }
 
-    public static boolean damageEntity(Insentient target, Insentient attacker, ISkill skill, Map<DamageType, Double> modifiers, DamageCause cause, boolean knockback) {
+    public static boolean damageEntity(Insentient target, Insentient attacker, ISkill skill,
+                                       Map<DamageType, Double> modifiers, DamageCause cause,
+                                       boolean knockback) {
         return damageEntity(target, attacker, skill, modifiers, cause, knockback, false);
     }
 
-    public static boolean damageEntity(Insentient target, Insentient attacker, ISkill skill, Map<DamageType, Double> modifiers, DamageCause cause, boolean knockback, boolean ignoreDamageCheck) {
-        return ServerInternals.getInterface().damageEntity(target, attacker, skill, modifiers, cause, knockback);
-    }
-
     /**
-     * Transform the name of a skill to a normal form. The results of this
-     * method should not be compared with anything other than other results of
-     * this method.
+     * Transform the name of a skill to a normal form. The results of this method should not be
+     * compared with anything other than other results of this method.
      *
      * @param skillName skill.getName() to check
+     *
      * @return normalized name
      */
     public static String getNormalizedName(String skillName) {
         return skillName.toLowerCase().replace("skill", "");
     }
 
+    public static boolean damageCheck(Insentient attacking, Insentient victim) {
+        return damageCheck(attacking, victim.getEntity());
+    }
+
     /**
-     * Attempts to damage the defending LivingEntity, this allows for various
-     * protection plugins to cancel damage events.
+     * Attempts to damage the defending LivingEntity, this allows for various protection plugins to
+     * cancel damage events.
      *
      * @param attacking  attempting to deal the damage
      * @param defenderLE entity being damaged
+     *
      * @return true if the damage check was successful
      */
     public static boolean damageCheck(Insentient attacking, LivingEntity defenderLE) {
@@ -153,31 +184,34 @@ public abstract class Skill implements ISkill {
                 return false;
             }
         }
-        EntityDamageByEntityEvent damageEntityEvent = new EntityDamageByEntityEvent(attacking.getEntity(), defenderLE, DamageCause.CUSTOM, new EnumMap<DamageModifier, Double>(ImmutableMap.of(DamageModifier.BASE, 1.0D)), new EnumMap<DamageModifier, Function<? super Double, Double>>(ImmutableMap.of(DamageModifier.BASE, ZERO)));
+        EntityDamageByEntityEvent damageEntityEvent =
+                new EntityDamageByEntityEvent(attacking.getEntity(), defenderLE,
+                        DamageCause.CUSTOM, new EnumMap<DamageModifier, Double>(
+                        ImmutableMap.of(DamageModifier.BASE, 1.0D)),
+                        new EnumMap<DamageModifier, Function<? super Double, Double>>(
+                                ImmutableMap.of(DamageModifier.BASE, ZERO)));
         Bukkit.getServer().getPluginManager().callEvent(damageEntityEvent);
 
         return damageEntityEvent.isCancelled();
     }
 
-    public static boolean damageCheck(Insentient attacking, Insentient victim) {
-        return damageCheck(attacking, victim.getEntity());
-    }
-
     /**
-     * Sets a boolean default setting for this skill. This automatically
-     * registers the provided SkillSetting node to the used settings.
-     * This is useful for not having to override {@link #getDefaultConfig()}
-     * and {@link #getUsedConfigNodes()}
+     * Sets a boolean default setting for this skill. This automatically registers the provided
+     * SkillSetting node to the used settings. This is useful for not having to override {@link
+     * #getDefaultConfig()} and {@link #getUsedConfigNodes()}
      *
      * @param node  The skill setting node
      * @param value The value to set the setting at
+     *
      * @throws IllegalArgumentException If the setting is null
      */
     protected void setDefault(SkillSetting node, Object value) {
         checkArgument(node != null, "Cannot set a default null node!");
         checkArgument(value != null, "Cannot set a default null value!");
-        if (node.getClass().equals(SkillSetting.class) && !SkillSetting.LIST_SETTINGS.contains(node)) {
-            throw new IllegalArgumentException("Attempt to set string default of a non-string SkillSetting");
+        if (node.getClass().equals(SkillSetting.class)
+                && !SkillSetting.LIST_SETTINGS.contains(node)) {
+            throw new IllegalArgumentException("Attempt to set string default "
+                    + "of a non-string SkillSetting");
         }
         ConfigurationSection section = getDefaultConfig();
         section.set(node.node(), value);
@@ -185,13 +219,13 @@ public abstract class Skill implements ISkill {
     }
 
     /**
-     * Sets a boolean default setting for this skill. This automatically
-     * registers the provided SkillSetting node to the used settings.
-     * This is useful for not having to override {@link #getDefaultConfig()}
-     * and {@link #getUsedConfigNodes()}
+     * Sets a boolean default setting for this skill. This automatically registers the provided
+     * SkillSetting node to the used settings. This is useful for not having to override {@link
+     * #getDefaultConfig()} and {@link #getUsedConfigNodes()}
      *
      * @param node  The skill setting node
      * @param value The value to set the setting at
+     *
      * @throws IllegalArgumentException If the setting is null
      */
     protected void setDefault(String node, Object value) {
@@ -203,19 +237,21 @@ public abstract class Skill implements ISkill {
     }
 
     /**
-     * Sets a boolean default setting for this skill. This automatically
-     * registers the provided SkillSetting node to the used settings.
-     * This is useful for not having to override {@link #getDefaultConfig()}
-     * and {@link #getUsedConfigNodes()}
+     * Sets a boolean default setting for this skill. This automatically registers the provided
+     * SkillSetting node to the used settings. This is useful for not having to override {@link
+     * #getDefaultConfig()} and {@link #getUsedConfigNodes()}
      *
      * @param node  The skill setting node
      * @param value The value to set the setting at
+     *
      * @throws IllegalArgumentException If the setting is null
      */
     protected void setDefault(SkillSetting node, boolean value) {
         checkArgument(node != null, "Cannot set a default null node!");
-        if (node.getClass().equals(SkillSetting.class) && !SkillSetting.BOOLEAN_SETTINGS.contains(node)) {
-            throw new IllegalArgumentException("Attempt to set boolean default of a non-boolean SkillSetting");
+        if (node.getClass().equals(SkillSetting.class)
+                && !SkillSetting.BOOLEAN_SETTINGS.contains(node)) {
+            throw new IllegalArgumentException("Attempt to set boolean "
+                    + "default of a non-boolean SkillSetting");
         }
         ConfigurationSection section = getDefaultConfig();
         section.set(node.node(), value);
@@ -223,13 +259,13 @@ public abstract class Skill implements ISkill {
     }
 
     /**
-     * Sets a boolean default setting for this skill. This automatically
-     * registers the provided SkillSetting node to the used settings.
-     * This is useful for not having to override {@link #getDefaultConfig()}
-     * and {@link #getUsedConfigNodes()}
+     * Sets a boolean default setting for this skill. This automatically registers the provided
+     * SkillSetting node to the used settings. This is useful for not having to override {@link
+     * #getDefaultConfig()} and {@link #getUsedConfigNodes()}
      *
      * @param node  The skill setting node
      * @param value The value to set the setting at
+     *
      * @throws IllegalArgumentException If the setting is null
      */
     protected void setDefault(String node, boolean value) {
@@ -240,13 +276,13 @@ public abstract class Skill implements ISkill {
     }
 
     /**
-     * Sets a boolean default setting for this skill. This automatically
-     * registers the provided SkillSetting node to the used settings.
-     * This is useful for not having to override {@link #getDefaultConfig()}
-     * and {@link #getUsedConfigNodes()}
+     * Sets a boolean default setting for this skill. This automatically registers the provided
+     * SkillSetting node to the used settings. This is useful for not having to override {@link
+     * #getDefaultConfig()} and {@link #getUsedConfigNodes()}
      *
      * @param node  The skill setting node
      * @param value The value to set the setting at
+     *
      * @throws IllegalArgumentException If the setting is null
      */
     protected void setDefault(SkillSetting node, double value) {
@@ -260,13 +296,13 @@ public abstract class Skill implements ISkill {
     }
 
     /**
-     * Sets a boolean default setting for this skill. This automatically
-     * registers the provided SkillSetting node to the used settings.
-     * This is useful for not having to override {@link #getDefaultConfig()}
-     * and {@link #getUsedConfigNodes()}
+     * Sets a boolean default setting for this skill. This automatically registers the provided
+     * SkillSetting node to the used settings. This is useful for not having to override {@link
+     * #getDefaultConfig()} and {@link #getUsedConfigNodes()}
      *
      * @param node  The skill setting node
      * @param value The value to set the setting at
+     *
      * @throws IllegalArgumentException If the setting is null
      */
     protected void setDefault(String node, double value) {
@@ -277,19 +313,20 @@ public abstract class Skill implements ISkill {
     }
 
     /**
-     * Sets a boolean default setting for this skill. This automatically
-     * registers the provided SkillSetting node to the used settings.
-     * This is useful for not having to override {@link #getDefaultConfig()}
-     * and {@link #getUsedConfigNodes()}
+     * Sets a boolean default setting for this skill. This automatically registers the provided
+     * SkillSetting node to the used settings. This is useful for not having to override {@link
+     * #getDefaultConfig()} and {@link #getUsedConfigNodes()}
      *
      * @param node  The skill setting node
      * @param value The value to set the setting at
+     *
      * @throws IllegalArgumentException If the setting is null
      */
     protected void setDefault(SkillSetting node, double value, double valuePerLevel) {
         checkArgument(node != null, "Cannot set a default null node!");
         if (node.scalingNode() == null) {
-            throw new IllegalArgumentException("Attempt to set scaling default of a non-scaling SkillSetting");
+            throw new IllegalArgumentException("Attempt to set scaling default of "
+                    + "a non-scaling SkillSetting");
         }
         ConfigurationSection section = getDefaultConfig();
         section.set(node.node(), value);
@@ -298,13 +335,13 @@ public abstract class Skill implements ISkill {
     }
 
     /**
-     * Sets a boolean default setting for this skill. This automatically
-     * registers the provided SkillSetting node to the used settings.
-     * This is useful for not having to override {@link #getDefaultConfig()}
-     * and {@link #getUsedConfigNodes()}
+     * Sets a boolean default setting for this skill. This automatically registers the provided
+     * SkillSetting node to the used settings. This is useful for not having to override {@link
+     * #getDefaultConfig()} and {@link #getUsedConfigNodes()}
      *
      * @param node  The skill setting node
      * @param value The value to set the setting at
+     *
      * @throws IllegalArgumentException If the setting is null
      */
     protected void setDefault(String node, double value, double valuePerLevel) {
@@ -317,20 +354,22 @@ public abstract class Skill implements ISkill {
     }
 
     /**
-     * Sets a boolean default setting for this skill. This automatically
-     * registers the provided SkillSetting node to the used settings.
-     * This is useful for not having to override {@link #getDefaultConfig()}
-     * and {@link #getUsedConfigNodes()}
+     * Sets a boolean default setting for this skill. This automatically registers the provided
+     * SkillSetting node to the used settings. This is useful for not having to override {@link
+     * #getDefaultConfig()} and {@link #getUsedConfigNodes()}
      *
      * @param node  The skill setting node
      * @param value The value to set the setting at
+     *
      * @throws IllegalArgumentException If the setting is null
      */
     protected void setDefault(SkillSetting node, String value) {
         checkArgument(node != null, "Cannot set a default null node!");
         checkArgument(value != null, "Cannot set a default null value!");
-        if (node.getClass().equals(SkillSetting.class) && !SkillSetting.STRING_SETTINGS.contains(node)) {
-            throw new IllegalArgumentException("Attempt to set string default of a non-string SkillSetting");
+        if (node.getClass().equals(SkillSetting.class)
+                && !SkillSetting.STRING_SETTINGS.contains(node)) {
+            throw new IllegalArgumentException("Attempt to set string default of "
+                    + "a non-string SkillSetting");
         }
         ConfigurationSection section = getDefaultConfig();
         section.set(node.node(), value);
@@ -338,13 +377,13 @@ public abstract class Skill implements ISkill {
     }
 
     /**
-     * Sets a boolean default setting for this skill. This automatically
-     * registers the provided SkillSetting node to the used settings.
-     * This is useful for not having to override {@link #getDefaultConfig()}
-     * and {@link #getUsedConfigNodes()}
+     * Sets a boolean default setting for this skill. This automatically registers the provided
+     * SkillSetting node to the used settings. This is useful for not having to override {@link
+     * #getDefaultConfig()} and {@link #getUsedConfigNodes()}
      *
      * @param node  The skill setting node
      * @param value The value to set the setting at
+     *
      * @throws IllegalArgumentException If the setting is null
      */
     protected void setDefault(String node, String value) {
@@ -357,20 +396,22 @@ public abstract class Skill implements ISkill {
 
 
     /**
-     * Sets a boolean default setting for this skill. This automatically
-     * registers the provided SkillSetting node to the used settings.
-     * This is useful for not having to override {@link #getDefaultConfig()}
-     * and {@link #getUsedConfigNodes()}
+     * Sets a boolean default setting for this skill. This automatically registers the provided
+     * SkillSetting node to the used settings. This is useful for not having to override {@link
+     * #getDefaultConfig()} and {@link #getUsedConfigNodes()}
      *
      * @param node  The skill setting node
      * @param value The value to set the setting at
+     *
      * @throws IllegalArgumentException If the setting is null
      */
     protected void setDefault(SkillSetting node, List<?> value) {
         checkArgument(node != null, "Cannot set a default null node!");
         checkArgument(value != null, "Cannot set a default null value!");
-        if (node.getClass().equals(SkillSetting.class) && !SkillSetting.LIST_SETTINGS.contains(node)) {
-            throw new IllegalArgumentException("Attempt to set string default of a non-list SkillSetting");
+        if (node.getClass().equals(SkillSetting.class)
+                && !SkillSetting.LIST_SETTINGS.contains(node)) {
+            throw new IllegalArgumentException("Attempt to set string default of "
+                    + "a non-list SkillSetting");
         }
         ConfigurationSection section = getDefaultConfig();
         section.set(node.node(), value);
@@ -378,13 +419,13 @@ public abstract class Skill implements ISkill {
     }
 
     /**
-     * Sets a boolean default setting for this skill. This automatically
-     * registers the provided SkillSetting node to the used settings.
-     * This is useful for not having to override {@link #getDefaultConfig()}
-     * and {@link #getUsedConfigNodes()}
+     * Sets a boolean default setting for this skill. This automatically registers the provided
+     * SkillSetting node to the used settings. This is useful for not having to override {@link
+     * #getDefaultConfig()} and {@link #getUsedConfigNodes()}
      *
      * @param node  The skill setting node
      * @param value The value to set the setting at
+     *
      * @throws IllegalArgumentException If the setting is null
      */
     protected void setDefault(String node, List<?> value) {
@@ -396,20 +437,21 @@ public abstract class Skill implements ISkill {
     }
 
     /**
-     * Sets a boolean default setting for this skill. This automatically
-     * registers the provided SkillSetting node to the used settings.
-     * This is useful for not having to override {@link #getDefaultConfig()}
-     * and {@link #getUsedConfigNodes()}
+     * Sets a boolean default setting for this skill. This automatically registers the provided
+     * SkillSetting node to the used settings. This is useful for not having to override {@link
+     * #getDefaultConfig()} and {@link #getUsedConfigNodes()}
      *
      * @param node  The skill setting node
      * @param value The value to set the setting at
+     *
      * @throws IllegalArgumentException If the setting is null
      */
     protected void setDefault(SkillSetting node, ItemStack value) {
         checkArgument(node != null, "Cannot set a default null node!");
         checkArgument(value != null, "Cannot set a default null ItemStack!");
         if (node.getClass().equals(SkillSetting.class) && node != SkillSetting.REAGENT) {
-            throw new IllegalArgumentException("Attempt to set item default of a non-item SkillSetting");
+            throw new IllegalArgumentException("Attempt to set item default of "
+                    + "a non-item SkillSetting");
         }
         ConfigurationSection section = getDefaultConfig();
         section.set(node.node(), new ItemStack(value));
@@ -417,13 +459,13 @@ public abstract class Skill implements ISkill {
     }
 
     /**
-     * Sets a boolean default setting for this skill. This automatically
-     * registers the provided String node to the used settings.
-     * This is useful for not having to override {@link #getDefaultConfig()}
-     * and {@link #getUsedConfigNodes()}
+     * Sets a boolean default setting for this skill. This automatically registers the provided
+     * String node to the used settings. This is useful for not having to override {@link
+     * #getDefaultConfig()} and {@link #getUsedConfigNodes()}
      *
      * @param node  The skill setting node
      * @param value The value to set the setting at
+     *
      * @throws IllegalArgumentException If the setting is null
      */
     protected void setDefault(String node, ItemStack value) {
@@ -432,14 +474,6 @@ public abstract class Skill implements ISkill {
         ConfigurationSection section = getDefaultConfig();
         section.set(node, new ItemStack(value));
         this.usedNodes.add(node);
-    }
-
-    @Override
-    public Collection<SkillSetting> getUsedConfigNodes() {
-        for (String string : this.usedNodes) {
-            this.usedSettings.add(new SkillSetting(string));
-        }
-        return Sets.newHashSet(this.usedSettings);
     }
 
     /**
@@ -484,6 +518,14 @@ public abstract class Skill implements ISkill {
             this.defaultConfig = new MemoryConfiguration();
         }
         return this.defaultConfig;
+    }
+
+    @Override
+    public Collection<SkillSetting> getUsedConfigNodes() {
+        for (String string : this.usedNodes) {
+            this.usedSettings.add(new SkillSetting(string));
+        }
+        return Sets.newHashSet(this.usedSettings);
     }
 
     @Override
@@ -534,14 +576,26 @@ public abstract class Skill implements ISkill {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (obj == null) return false;
-        if (getClass() != obj.getClass()) return false;
-        if (!(obj instanceof Skill)) return false;
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        if (!(obj instanceof Skill)) {
+            return false;
+        }
         Skill other = (Skill) obj;
         if (this.name == null) {
-            if (other.name != null) return false;
-        } else if (!this.name.equals(other.name)) return false;
+            if (other.name != null) {
+                return false;
+            }
+        } else if (!this.name.equals(other.name)) {
+            return false;
+        }
         return true;
     }
 }

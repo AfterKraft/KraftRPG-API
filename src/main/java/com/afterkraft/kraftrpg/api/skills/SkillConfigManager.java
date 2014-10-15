@@ -35,28 +35,23 @@ import com.afterkraft.kraftrpg.api.entity.SkillCaster;
 import com.afterkraft.kraftrpg.api.roles.Role;
 
 /**
- * A manager providing skill configurations for all skills. There may be more
- * than one skill manager provided at any time, provided that the implementing
- * skill is defined to use more than one.
- *
- * All Role settings are performed for the role specifically and does not take
- * into account any other role settings, or alternative settings provided by
- * other means.
- *
- * All use settings, such as {@link #getUsedSetting(SkillCaster, ISkill, SkillSetting)}
- * have the following priority in terms of role skill definitions:
- * <ol>
- *     <li>{@link com.afterkraft.kraftrpg.api.roles.Role.RoleType#PRIMARY}</li>
- *     <li>{@link com.afterkraft.kraftrpg.api.roles.Role.RoleType#SECONDARY}</li>
- *     <li>{@link com.afterkraft.kraftrpg.api.roles.Role.RoleType#ADDITIONAL}</li>
- * </ol>
- *
+ * A manager providing skill configurations for all skills. There may be more than one skill manager
+ * provided at any time, provided that the implementing skill is defined to use more than one.
+ * <p/>
+ * All Role settings are performed for the role specifically and does not take into account any
+ * other role settings, or alternative settings provided by other means.
+ * <p/>
+ * All use settings, such as {@link #getUsedSetting(SkillCaster, ISkill, SkillSetting)} have the
+ * following priority in terms of role skill definitions: <ol> <li>{@link
+ * com.afterkraft.kraftrpg.api.roles.Role.RoleType#PRIMARY}</li> <li>{@link
+ * com.afterkraft.kraftrpg.api.roles.Role.RoleType#SECONDARY}</li> <li>{@link
+ * com.afterkraft.kraftrpg.api.roles.Role.RoleType#ADDITIONAL}</li> </ol>
  */
 public interface SkillConfigManager extends Manager {
 
     /**
-     * Attempts to reload all skill settings. This will cause all linked
-     * {@link Role}s to be reconfigured with any updated skill settings.
+     * Attempts to reload all skill settings. This will cause all linked {@link Role}s to be
+     * reconfigured with any updated skill settings.
      */
     public void reload();
 
@@ -67,42 +62,42 @@ public interface SkillConfigManager extends Manager {
 
     public Configuration getRoleSkillConfig(String name);
 
-    public void addRoleSkillSettings(String roleName, String skillName, ConfigurationSection section);
+    public void addRoleSkillSettings(String roleName, String skillName,
+                                     ConfigurationSection section);
 
     public void loadSkillDefaults(ISkill skill);
 
     /**
-     * Applies a customized skill configuration for the specified skill and
-     * skill caster. The provided configuration section should be completely
-     * filled with the correct defaults the skill may call on. Uses for this
-     * method include applying custom skill settings when an ItemStack is
-     * granting a specific skill use.
+     * Applies a customized skill configuration for the specified skill and skill caster. The
+     * provided configuration section should be completely filled with the correct defaults the
+     * skill may call on. Uses for this method include applying custom skill settings when an
+     * ItemStack is granting a specific skill use.
      *
      * @param skill   The skill to set the custom defaults for
      * @param caster  The caster to use these defaults
-     * @param section The section of skill settings for the caster's next skill
-     *                use
+     * @param section The section of skill settings for the caster's next skill use
+     *
      * @throws IllegalArgumentException If the skill is null
      * @throws IllegalArgumentException If the caster is null
      * @throws IllegalArgumentException If the section is null or empty
      */
-    public void addTemporarySkillConfigurations(ISkill skill, SkillCaster caster, ConfigurationSection section);
+    public void addTemporarySkillConfigurations(ISkill skill, SkillCaster caster,
+                                                ConfigurationSection section);
 
     /**
-     * Clears all custom skill settings after use. This is used for cleaning up
-     * the provided skill defaults for a caster's use.
+     * Clears all custom skill settings after use. This is used for cleaning up the provided skill
+     * defaults for a caster's use.
      *
      * @param caster The caster using the defaults
      */
     public void clearTemporarySkillConfigurations(SkillCaster caster);
 
     /**
-     * Clears the custom skill settings for the specified skill. This is used
-     * for cleaning up the provided skill defaults for a caster's specific
-     * skill use.
+     * Clears the custom skill settings for the specified skill. This is used for cleaning up the
+     * provided skill defaults for a caster's specific skill use.
      *
      * @param caster The caster using the defaults
-     * @param skill The skill for the defaults
+     * @param skill  The skill for the defaults
      */
     public void clearTemporarySkillConfigurations(SkillCaster caster, ISkill skill);
 
@@ -111,11 +106,11 @@ public interface SkillConfigManager extends Manager {
      *
      * @param skill   The skill to get the settings of
      * @param setting The node to use
+     *
      * @return The Boolean value found at the configured node
      * @throws IllegalArgumentException If the skill is null
      * @throws IllegalArgumentException If the setting is null
-     * @throws IllegalStateException    If the setting was not configured with a
-     *                                  default
+     * @throws IllegalStateException    If the setting was not configured with a default
      */
     public String getRawString(ISkill skill, String setting);
 
@@ -124,11 +119,11 @@ public interface SkillConfigManager extends Manager {
      *
      * @param skill   The skill to get the settings of
      * @param setting The node to use
+     *
      * @return The Boolean value found at the configured node
      * @throws IllegalArgumentException If the skill is null
      * @throws IllegalArgumentException If the setting is null
-     * @throws IllegalStateException    If the setting was not configured with a
-     *                                  default
+     * @throws IllegalStateException    If the setting was not configured with a default
      */
     public String getRawString(ISkill skill, SkillSetting setting);
 
@@ -137,11 +132,11 @@ public interface SkillConfigManager extends Manager {
      *
      * @param skill   The skill to get the settings of
      * @param setting The node to use
+     *
      * @return The Boolean value found at the configured node
      * @throws IllegalArgumentException If the skill is null
      * @throws IllegalArgumentException If the setting is null
-     * @throws IllegalStateException    If the setting was not configured with a
-     *                                  default
+     * @throws IllegalStateException    If the setting was not configured with a default
      */
     public Boolean getRawBoolean(ISkill skill, SkillSetting setting);
 
@@ -150,11 +145,11 @@ public interface SkillConfigManager extends Manager {
      *
      * @param skill   The skill to get the settings of
      * @param setting The node to use
+     *
      * @return The Boolean value found at the configured node
      * @throws IllegalArgumentException If the skill is null
      * @throws IllegalArgumentException If the setting is null
-     * @throws IllegalStateException    If the setting was not configured with a
-     *                                  default
+     * @throws IllegalStateException    If the setting was not configured with a default
      */
     public Boolean getRawBoolean(ISkill skill, String setting);
 
@@ -163,11 +158,11 @@ public interface SkillConfigManager extends Manager {
      *
      * @param skill   The skill to get the settings of
      * @param setting The node to use
+     *
      * @return The Boolean value found at the configured node
      * @throws IllegalArgumentException If the skill is null
      * @throws IllegalArgumentException If the setting is null
-     * @throws IllegalStateException    If the setting was not configured with a
-     *                                  default
+     * @throws IllegalStateException    If the setting was not configured with a default
      */
     public Set<String> getRawKeys(ISkill skill, String setting);
 
@@ -176,8 +171,8 @@ public interface SkillConfigManager extends Manager {
      *
      * @param skill   The skill to check the default configurations of
      * @param setting The setting node to check if it is configured
-     * @return True if the setting for the skill has been set in the default
-     * configurations
+     *
+     * @return True if the setting for the skill has been set in the default configurations
      * @throws IllegalArgumentException If the skill is null
      * @throws IllegalArgumentException If the setting is null
      */
@@ -188,8 +183,8 @@ public interface SkillConfigManager extends Manager {
      *
      * @param skill   The skill to check the default configurations of
      * @param setting The setting node to check if it is configured
-     * @return True if the setting for the skill has been set in the default
-     * configurations
+     *
+     * @return True if the setting for the skill has been set in the default configurations
      * @throws IllegalArgumentException If the skill is null
      * @throws IllegalArgumentException If the setting is null
      */
@@ -277,11 +272,13 @@ public interface SkillConfigManager extends Manager {
 
     public List<?> getUsedListSetting(SkillCaster caster, ISkill skill, String setting);
 
-    public List<String> getUsedStringListSetting(SkillCaster caster, ISkill skill, SkillSetting setting);
+    public List<String> getUsedStringListSetting(SkillCaster caster, ISkill skill,
+                                                 SkillSetting setting);
 
     public List<String> getUsedStringListSetting(SkillCaster caster, ISkill skill, String setting);
 
-    public ItemStack getUsedItemStackSetting(SkillCaster caster, ISkill skill, SkillSetting setting);
+    public ItemStack getUsedItemStackSetting(SkillCaster caster, ISkill skill,
+                                             SkillSetting setting);
 
     public ItemStack getUsedItemStackSetting(SkillCaster caster, ISkill skill, String setting);
 

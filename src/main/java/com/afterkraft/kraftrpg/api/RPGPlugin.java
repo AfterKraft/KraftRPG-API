@@ -25,9 +25,6 @@ package com.afterkraft.kraftrpg.api;
 
 import java.util.logging.Level;
 
-import net.milkbowl.vault.economy.Economy;
-import net.milkbowl.vault.permission.Permission;
-
 import org.bukkit.plugin.Plugin;
 
 import com.afterkraft.kraftrpg.api.effects.EffectManager;
@@ -44,19 +41,20 @@ import com.afterkraft.kraftrpg.api.util.ConfigManager;
 import com.afterkraft.kraftrpg.api.util.DamageManager;
 import com.afterkraft.kraftrpg.api.util.Properties;
 
-
+/**
+ * Standard plugin for KraftRPG. This is provided to avoid leaking implementation that may change
+ * between versions.
+ */
 public interface RPGPlugin extends Plugin {
 
-    public static final String ADMIN_INVENTORY_BYPASS_PERMISSION = "kraftrpg.admin.bypass.inventory";
+    public static final String ADMIN_INVENTORY_BYPASS_PERMISSION =
+            "kraftrpg.admin.bypass.inventory";
+
     /**
-     * Stop the plugin from enabling. This should be used when there is a
-     * fatal configuration error.
+     * Stop the plugin from enabling. This should be used when there is a fatal configuration
+     * error.
      */
     public void cancelEnable();
-
-    public Permission getVaultPermissions();
-
-    public Economy getVaultEconomy();
 
     public SkillConfigManager getSkillConfigManager();
 
@@ -84,7 +82,8 @@ public interface RPGPlugin extends Plugin {
 
     public void log(Level level, String msg);
 
-    public void logSkillThrowing(ISkill skill, String action, Throwable thrown, Object extraContext);
+    public void logSkillThrowing(ISkill skill, String action, Throwable thrown,
+                                 Object extraContext);
 
     public void debugLog(Level level, String msg);
 

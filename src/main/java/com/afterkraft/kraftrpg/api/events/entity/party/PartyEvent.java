@@ -27,7 +27,9 @@ import org.bukkit.event.Event;
 
 import com.afterkraft.kraftrpg.api.entity.party.Party;
 
-
+/**
+ * Standard hierarchical event relating to Parties.
+ */
 public abstract class PartyEvent extends Event {
     private final Party party;
 

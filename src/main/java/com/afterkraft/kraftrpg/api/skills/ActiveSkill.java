@@ -27,6 +27,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkState;
 
 import com.google.common.collect.ImmutableList;
 
@@ -37,8 +38,8 @@ import com.afterkraft.kraftrpg.api.entity.SkillCaster;
  * See {@link Active}.
  */
 public abstract class ActiveSkill extends Skill implements Active {
-    private String usage = "";
     SkillArgument[] skillArguments;
+    private String usage = "";
     private SkillCaster parsedCaster;
 
     protected ActiveSkill(RPGPlugin plugin, String name) {
@@ -69,25 +70,10 @@ public abstract class ActiveSkill extends Skill implements Active {
         return this.skillArguments;
     }
 
-    protected void addSkillArgument(SkillArgument argument) {
-        checkArgument(argument != null, "Cannot add a null skill argument!");
-        if (this.plugin.isEnabled()) {
-            throw new IllegalStateException("KraftRPG is already enabled! Cannot modify Skill Arguments after being enabled.");
-        }
-        if (this.skillArguments == null) {
-            this.skillArguments = new SkillArgument[] { argument };
-            return;
-        }
-        SkillArgument[] newArgs = Arrays.copyOf(this.skillArguments, this.skillArguments.length + 1);
-        newArgs[this.skillArguments.length] = argument;
-        this.skillArguments = newArgs;
-    }
-
     /**
      * {@inheritDoc}
      * <p/>
-     * As not all skills will want this method, subclasses should override it
-     * if desired.
+     * As not all skills will want this method, subclasses should override it if desired.
      *
      * @param caster
      */
@@ -101,7 +87,8 @@ public abstract class ActiveSkill extends Skill implements Active {
     @Override
     public boolean parse(SkillCaster caster, String[] strings) {
         this.parsedCaster = caster;
-        int stringIndex = 0, argIndex = 0;
+        int stringIndex = 0;
+        int argIndex = 0;
 
         while (stringIndex < strings.length && argIndex < this.skillArguments.length) {
             SkillArgument current = this.skillArguments[argIndex];
@@ -139,7 +126,8 @@ public abstract class ActiveSkill extends Skill implements Active {
     public List<String> tabComplete(SkillCaster caster, String[] strings, int startIndex) {
         this.parsedCaster = caster;
 
-        int stringIndex = startIndex, argIndex = 0;
+        int stringIndex = startIndex;
+        int argIndex = 0;
         while (stringIndex < strings.length - 1 && argIndex < this.skillArguments.length) {
             SkillArgument current = this.skillArguments[argIndex];
 
@@ -171,6 +159,20 @@ public abstract class ActiveSkill extends Skill implements Active {
         for (SkillArgument arg : this.skillArguments) {
             arg.clean();
         }
+    }
+
+    protected void addSkillArgument(SkillArgument argument) {
+        checkArgument(argument != null, "Cannot add a null skill argument!");
+        checkState(!this.plugin.isEnabled(), "KraftRPG is already enabled! " + "Cannot modify "
+                + "Skill Arguments after being enabled.");
+        if (this.skillArguments == null) {
+            this.skillArguments = new SkillArgument[]{ argument };
+            return;
+        }
+        SkillArgument[] newArgs = Arrays.copyOf(this.skillArguments,
+                this.skillArguments.length + 1);
+        newArgs[this.skillArguments.length] = argument;
+        this.skillArguments = newArgs;
     }
 
     public SkillCastResult checkCustomRestrictions(SkillCaster caster) {

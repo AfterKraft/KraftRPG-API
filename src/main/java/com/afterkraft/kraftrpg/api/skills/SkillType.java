@@ -23,7 +23,10 @@
  */
 package com.afterkraft.kraftrpg.api.skills;
 
-
+/**
+ * Various types of skills. These can be joined together to further customize a skill and utilize
+ * external modules to further interact with these skill types.
+ */
 public enum SkillType {
     /**
      * Grants a non-health benefit to allies.
@@ -50,8 +53,7 @@ public enum SkillType {
      */
     ENEMY_INTERRUPTING,
     /**
-     * If an Exclusive skill is stalled, no other skills can be used during
-     * its delay.
+     * If an Exclusive skill is stalled, no other skills can be used during its delay.
      */
     EXCLUSIVE,
     /**
@@ -61,8 +63,8 @@ public enum SkillType {
      */
     HEALING,
     /**
-     * If a Self-Interrupting skill is used while you have a Stalled skill
-     * active, the Stalled skill will be cancelled, unless
+     * If a Self-Interrupting skill is used while you have a Stalled skill active, the Stalled skill
+     * will be cancelled, unless
      */
     SELF_INTERRUPTING,
     /**
@@ -70,8 +72,8 @@ public enum SkillType {
      */
     UNBINDABLE,
     /**
-     * During the delay time of a Stalled Uninterruptible skill, no other
-     * skills can be used and the skill cannot be cancelled, except by death.
+     * During the delay time of a Stalled Uninterruptible skill, no other skills can be used and the
+     * skill cannot be cancelled, except by death.
      */
     UNINTERRUPTIBLE,
     /**
@@ -105,8 +107,7 @@ public enum SkillType {
     BLOCK_REMOVING,
     BLOCK_MODIFYING,
     /**
-     * A Desummoning skill tends to remove entities or blocks created by a
-     * Summoning skill.
+     * A Desummoning skill tends to remove entities or blocks created by a Summoning skill.
      */
     DESUMMONING,
     DISABLE_COUNTERING,

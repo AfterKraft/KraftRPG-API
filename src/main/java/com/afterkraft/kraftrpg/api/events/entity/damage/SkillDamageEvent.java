@@ -30,9 +30,15 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import com.afterkraft.kraftrpg.api.entity.Insentient;
 import com.afterkraft.kraftrpg.api.entity.SkillCaster;
 
+/**
+ * An event when an Insentient being is damaged due to a skill. This can be used to prevent
+ * unintended damage to any entity for any reason.
+ */
 public class SkillDamageEvent extends InsentientDamageInsentientEvent {
 
-    public SkillDamageEvent(final SkillCaster attacker, final Insentient defender, final EntityDamageByEntityEvent event, final Map<DamageType, Double> modifiers, boolean isVaryingEnabled) {
+    public SkillDamageEvent(final SkillCaster attacker, final Insentient defender,
+                            final EntityDamageByEntityEvent event,
+                            final Map<DamageType, Double> modifiers, boolean isVaryingEnabled) {
         super(attacker, defender, event, modifiers, isVaryingEnabled);
     }
 

@@ -28,7 +28,9 @@ import org.bukkit.event.HandlerList;
 import com.afterkraft.kraftrpg.api.entity.EnterCombatReason;
 import com.afterkraft.kraftrpg.api.entity.Insentient;
 
-
+/**
+ * When an Insentient kills another insentient being.
+ */
 public class InsentientKillEvent extends InsentientEvent {
 
     private static final HandlerList handlers = new HandlerList();

@@ -23,10 +23,19 @@
  */
 package com.afterkraft.kraftrpg.api;
 
-
+/**
+ * Standard manager that can be initialized and shut down. This is primarily useful for managers
+ * that should be considered to be reloadable.
+ */
 public interface Manager {
 
+    /**
+     * Initializes the manager. Assigns necessary enabling modules for the manager to function.
+     */
     public void initialize();
 
+    /**
+     * Shuts down the manager, halting all processes and prepares for a complete shutdown.
+     */
     public void shutdown();
 }

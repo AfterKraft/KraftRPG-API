@@ -23,11 +23,16 @@
  */
 package com.afterkraft.kraftrpg.api.storage;
 
-import java.util.*;
-
-import com.google.common.collect.ImmutableList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
 
 import org.bukkit.Material;
+
+import com.google.common.collect.ImmutableList;
 
 import com.afterkraft.kraftrpg.api.roles.Role;
 import com.afterkraft.kraftrpg.api.skills.SkillBind;
@@ -61,7 +66,8 @@ public final class PlayerData implements Cloneable {
     /**
      * Main Roles.
      */
-    public Role primary, profession;
+    public Role primary;
+    public Role profession;
     public int currentMana;
     public int maxStamina;
     public int currentStamina;
@@ -106,17 +112,23 @@ public final class PlayerData implements Cloneable {
     }
 
     /**
-     * Return a collection of all active roles in the order Primary,
-     * Secondary, Additional. Past roles are excluded.
+     * Return a collection of all active roles in the order Primary, Secondary, Additional. Past
+     * roles are excluded.
      *
      * @return all active roles
      */
     public Collection<Role> getAllRoles() {
-        if (this.allRoles != null) return this.allRoles;
+        if (this.allRoles != null) {
+            return this.allRoles;
+        }
 
         ImmutableList.Builder<Role> b = ImmutableList.builder();
-        if (this.primary != null) b.add(this.primary);
-        if (this.profession != null) b.add(this.profession);
+        if (this.primary != null) {
+            b.add(this.primary);
+        }
+        if (this.profession != null) {
+            b.add(this.profession);
+        }
         b.addAll(this.additionalRoles);
         this.allRoles = b.build();
 

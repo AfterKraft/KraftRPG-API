@@ -28,7 +28,9 @@ import org.bukkit.event.HandlerList;
 import com.afterkraft.kraftrpg.api.entity.Sentient;
 import com.afterkraft.kraftrpg.api.roles.Role;
 
-
+/**
+ * An event thrown when a Sentient being has a level change in a specific role.
+ */
 public class RoleLevelChangeEvent extends RoleEvent {
 
     private static final HandlerList handlers = new HandlerList();
@@ -40,7 +42,8 @@ public class RoleLevelChangeEvent extends RoleEvent {
         this(being, rpgRole, from, to, false);
     }
 
-    public RoleLevelChangeEvent(Sentient being, Role rpgRole, int from, int to, boolean isMastering) {
+    public RoleLevelChangeEvent(Sentient being, Role rpgRole, int from, int to,
+                                boolean isMastering) {
         super(being, rpgRole);
         this.fromLevel = from;
         this.toLevel = to;

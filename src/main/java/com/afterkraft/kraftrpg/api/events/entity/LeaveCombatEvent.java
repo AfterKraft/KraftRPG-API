@@ -33,13 +33,19 @@ import com.afterkraft.kraftrpg.api.entity.EnterCombatReason;
 import com.afterkraft.kraftrpg.api.entity.Insentient;
 import com.afterkraft.kraftrpg.api.entity.LeaveCombatReason;
 
+/**
+ * When an Insentient being leaves combat. The event provides the WeakHashMap of all existing
+ * LivingEntities that the Insentient being was in combat with and is no longer in combat.
+ */
 public class LeaveCombatEvent extends Event {
     private static final HandlerList handlers = new HandlerList();
     private Insentient being;
     private WeakHashMap<LivingEntity, EnterCombatReason> combatMap;
     private LeaveCombatReason reason;
 
-    public LeaveCombatEvent(Insentient being, WeakHashMap<LivingEntity, EnterCombatReason> combatMap, LeaveCombatReason reason) {
+    public LeaveCombatEvent(Insentient being,
+                            WeakHashMap<LivingEntity, EnterCombatReason> combatMap,
+                            LeaveCombatReason reason) {
         this.being = being;
         this.combatMap = combatMap;
         this.reason = reason;

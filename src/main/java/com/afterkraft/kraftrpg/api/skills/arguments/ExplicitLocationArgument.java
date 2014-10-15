@@ -26,14 +26,18 @@ package com.afterkraft.kraftrpg.api.skills.arguments;
 import java.util.List;
 import java.util.regex.Matcher;
 
-import com.google.common.collect.ImmutableList;
-
 import org.bukkit.Location;
+
+import com.google.common.collect.ImmutableList;
 
 import com.afterkraft.kraftrpg.api.entity.SkillCaster;
 import com.afterkraft.kraftrpg.api.skills.SkillArgument;
 import com.afterkraft.kraftrpg.api.util.Utilities;
 
+/**
+ * A SkillArgument that parses, validates, and returns a specific location. This is comparable to
+ * CommandBlocks parsing locations.
+ */
 public class ExplicitLocationArgument extends SkillArgument {
     private static final Location nullLocation = new Location(null, 0, -256, 0);
     private Location location = nullLocation;
@@ -91,7 +95,10 @@ public class ExplicitLocationArgument extends SkillArgument {
 
         this.location = caster.getLocation().clone();
 
-        double diffX = 0, diffY = 0, diffZ = 0;
+        double diffX = 0;
+        double diffY = 0;
+        double diffZ = 0;
+
         String curArg = allArgs[startPosition];
 
         if (curArg.startsWith("~")) {

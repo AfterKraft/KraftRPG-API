@@ -23,10 +23,13 @@
  */
 package com.afterkraft.kraftrpg.api.handler;
 
+/**
+ * An ItemAttribute is used for processing items that enable use of skills when wielded.
+ */
 public enum ItemAttributeType {
     // Note to maintainer: New additions need a corresponding line in KraftRPGPlugin
     GRANT_SKILL,
-    BOOST_SKILL,;
+    BOOST_SKILL;
 
     private String attrName;
 

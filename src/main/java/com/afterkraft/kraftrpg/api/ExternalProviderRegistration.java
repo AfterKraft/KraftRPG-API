@@ -23,15 +23,21 @@
  */
 package com.afterkraft.kraftrpg.api;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.ListIterator;
+import java.util.Map;
+import java.util.Set;
 
 import static com.google.common.base.Preconditions.checkArgument;
+
+import org.bukkit.event.entity.EntityDamageEvent.DamageModifier;
 
 import com.google.common.base.Function;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
-
-import org.bukkit.event.entity.EntityDamageEvent.DamageModifier;
 
 import com.afterkraft.kraftrpg.api.entity.party.PartyManager;
 import com.afterkraft.kraftrpg.api.skills.ISkill;
@@ -39,27 +45,34 @@ import com.afterkraft.kraftrpg.api.skills.Skill;
 import com.afterkraft.kraftrpg.api.storage.StorageBackend;
 import com.afterkraft.kraftrpg.api.storage.StorageFrontendFactory;
 
+/**
+ * On load registration for various external providers of various services to further customize the
+ * implementation of KraftRPG.
+ */
 public final class ExternalProviderRegistration {
     private static boolean pluginEnabled = false;
 
     private static RPGPlugin plugin;
 
-    private static Map<String, StorageBackend> storageBackends = new HashMap<String, StorageBackend>();
-    private static Map<DamageModifier, Function<? super Double, Double>> modifiers = new HashMap<DamageModifier, Function<? super Double, Double>>();
-    private static StorageFrontendFactory storageFrontend = new StorageFrontendFactory.DefaultFactory();
+    private static Map<String, StorageBackend> storageBackends =
+            new HashMap<String, StorageBackend>();
+    private static Map<DamageModifier, Function<? super Double, Double>> modifiers =
+            new HashMap<DamageModifier, Function<? super Double, Double>>();
+    private static StorageFrontendFactory storageFrontend =
+            new StorageFrontendFactory.DefaultFactory();
     private static Set<String> providedSkillNames = new HashSet<String>();
     private static List<ISkill> providedSkills = new ArrayList<ISkill>();
     private static PartyManager partyManager;
 
     /**
-     * Provide a new storage frontend, or revert from another plugin's
-     * override to the default.
+     * Provide a new storage frontend, or revert from another plugin's override to the default.
      *
      * @param newQueueManager custom StorageFrontend, or null for default
-     * @throws LateRegistrationException if called after KraftRPG has been
-     *                                   loaded
+     *
+     * @throws LateRegistrationException if called after KraftRPG has been loaded
      */
-    public static void overrideStorageFrontend(StorageFrontendFactory newQueueManager) {
+    public static void overrideStorageFrontend(StorageFrontendFactory newQueueManager)
+            throws LateRegistrationException {
         check();
         if (newQueueManager == null) {
             storageFrontend = new StorageFrontendFactory.DefaultFactory();
@@ -68,44 +81,41 @@ public final class ExternalProviderRegistration {
         }
     }
 
-    private static void check() {
+    private static void check() throws LateRegistrationException {
         if (pluginEnabled) {
-            throw new LateRegistrationException("KraftRPG is already loaded and enabled. Please do your registrations in onLoad().");
+            throw new LateRegistrationException("KraftRPG is already loaded and enabled."
+                    + " Please do your registrations in onLoad().");
         }
     }
 
-    public static <T extends Function<? super Double, Double>> void registerDamageModifierFunction(DamageModifier modifier, T function) {
+    public static <T extends Function<? super Double, Double>> void registerDamageModifierFunction(
+            DamageModifier modifier, T function) throws LateRegistrationException {
         check();
-        checkArgument(modifier != DamageModifier.BASE, "Cannot register a BASE DamageModifier function!");
+        checkArgument(modifier != DamageModifier.BASE,
+                "Cannot register a BASE DamageModifier function!");
         checkArgument(modifier != null, "Cannot register a null modifier");
         checkArgument(function != null, "Cannot register a null function!");
         modifiers.put(modifier, function);
     }
 
     /**
-     * Register a new available StorageBackend with the given configuration
-     * identifiers.
+     * Register a new available StorageBackend with the given configuration identifiers.
      *
      * @param storage     Uninitialized StorageBackend instance
-     * @param identifiers Names it can be referenced by in config files and
-     *                    commands
-     * @throws LateRegistrationException if called after KraftRPG has been
-     *                                   loaded
-     * @throws IllegalArgumentException  if no identifiers were provided; if
-     *                                   storage is null
+     * @param identifiers Names it can be referenced by in config files and commands
+     *
+     * @throws LateRegistrationException If called after KraftRPG has been loaded
      */
-    public static void registerStorageBackend(StorageBackend storage, String... identifiers) {
+    public static boolean registerStorageBackend(StorageBackend storage, String... identifiers)
+            throws LateRegistrationException {
         check();
-        if (identifiers.length == 0) {
-            throw new IllegalArgumentException("Need to provide a config file identifier");
-        }
-        if (storage == null) {
-            throw new IllegalArgumentException("Attempt to register a null StorageBackend");
-        }
+        checkArgument(identifiers.length != 0, "Need to provide a config file identifier");
+        checkArgument(storage != null, "Attempt to register a null StorageBackend");
 
         for (String ident : identifiers) {
             storageBackends.put(ident.toLowerCase(), storage);
         }
+        return true;
     }
 
     public static void registerPartyManager(PartyManager manager) {
@@ -118,11 +128,11 @@ public final class ExternalProviderRegistration {
      * Register a new skill for KraftRPG to use.
      *
      * @param skill Skill to register
+     *
      * @return True if the skill does not have a duplicate name
-     * @throws LateRegistrationException if called after KraftRPG has been
-     *                                   loaded
+     * @throws LateRegistrationException if called after KraftRPG has been loaded
      */
-    public static boolean registerSkill(ISkill skill) {
+    public static boolean registerSkill(ISkill skill) throws LateRegistrationException {
         check();
         String name = Skill.getNormalizedName(skill.getName());
         if (!providedSkillNames.add(name)) {
@@ -141,12 +151,12 @@ public final class ExternalProviderRegistration {
      * This method will always succeed.
      *
      * @param skill Skill to register
-     * @return True if there was a previous registration to override (NOT a
-     * success indicator - can generally be ignored)
-     * @throws LateRegistrationException if called after KraftRPG has been
-     *                                   loaded
+     *
+     * @return True if there was a previous registration to override (NOT a success indicator - can
+     * generally be ignored)
+     * @throws LateRegistrationException if called after KraftRPG has been loaded
      */
-    public static boolean overrideSkill(ISkill skill) {
+    public static boolean overrideSkill(ISkill skill) throws LateRegistrationException {
         check();
 
         String name = Skill.getNormalizedName(skill.getName());
@@ -169,8 +179,7 @@ public final class ExternalProviderRegistration {
     }
 
     /**
-     * Store the RPGPlugin, for use in checks. KraftRPG will call this in its
-     * onLoad() method.
+     * Store the RPGPlugin, for use in checks. KraftRPG will call this in its onLoad() method.
      *
      * @param p plugin
      */
@@ -183,8 +192,8 @@ public final class ExternalProviderRegistration {
     }
 
     /**
-     * You should not call this - KraftRPG will call this in its onEnable(),
-     * which closes any new registrations.
+     * You should not call this - KraftRPG will call this in its onEnable(), which closes any new
+     * registrations.
      */
     public static void finish() {
         pluginEnabled = true;
@@ -193,7 +202,7 @@ public final class ExternalProviderRegistration {
         modifiers = ImmutableMap.copyOf(modifiers);
     }
 
-    public static Map<DamageModifier, Function<? super Double, Double>> getDamageModifierFunctions() {
+    public static Map<DamageModifier, Function<? super Double, Double>> getDamageFunctions() {
         return modifiers;
     }
 
