@@ -57,8 +57,7 @@ public interface Insentient extends IEntity {
      *
      * @return the attached LivingEntity, if there is no LivingEntity, then null.
      */
-    @Override
-    LivingEntity getEntity();
+    @Override LivingEntity getEntity();
 
     /**
      * Get the current mana this being has.

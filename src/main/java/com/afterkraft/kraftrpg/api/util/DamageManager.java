@@ -62,6 +62,7 @@ public interface DamageManager extends Manager {
      *
      * @param being         the Insentient to query for damages
      * @param defaultDamage
+     *
      * @return the highest possible damage for the item from any possible modifications
      */
     double getHighestItemDamage(Insentient being, Insentient defender, double defaultDamage);
@@ -74,12 +75,14 @@ public interface DamageManager extends Manager {
      *
      * @param type
      * @param damage
+     *
      * @return
      */
     public double getDefaultItemDamage(Material type, double damage);
 
     /**
      * @param type
+     *
      * @return
      */
     double getDefaultItemDamage(Material type);
@@ -92,6 +95,7 @@ public interface DamageManager extends Manager {
 
     /**
      * @param type
+     *
      * @return
      */
     boolean doesItemDamageVary(Material type);
@@ -106,6 +110,7 @@ public interface DamageManager extends Manager {
      * Gets the default damage for the given EntityType.
      *
      * @param type of Entity we are querying
+     *
      * @return the damage from the default configuration for the given EntityType
      */
     double getEntityDamage(EntityType type);
@@ -125,6 +130,7 @@ public interface DamageManager extends Manager {
      * @param being       wearing/using the enchanted ItemStack
      * @param enchantment to calculate for
      * @param item        that is enchanted
+     *
      * @return calculated damage that may be varied if enabled
      */
     double getItemEnchantmentDamage(Insentient being, Enchantment enchantment,
@@ -134,6 +140,7 @@ public interface DamageManager extends Manager {
      * Calculate the fall reduction for this being considering various sources including armor.
      *
      * @param being
+     *
      * @return
      */
     double getFallReduction(Insentient being);
@@ -147,6 +154,7 @@ public interface DamageManager extends Manager {
      * @param location    the spawn location of the Monster
      * @param baseDamage  the default base damage of the Monster
      * @param fromSpawner whether the Monster originated from a Spawner
+     *
      * @return the calculated customized damage for the Monster
      */
     double getModifiedEntityDamage(final Monster monster, final Location location,

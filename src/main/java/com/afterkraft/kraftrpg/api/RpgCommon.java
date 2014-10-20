@@ -245,19 +245,19 @@ public final class RpgCommon {
         return getPlugin().getEntityManager().getEntity(entity);
     }
 
-    public void knockBack(LivingEntity target, LivingEntity attacker, double damage) {
-        knockback((Insentient) getPlugin().getEntityManager().getEntity(target),
-                (Insentient) getPlugin().getEntityManager().getEntity(attacker), damage);
-    }
-
     public static void knockback(Insentient target, Insentient attacker, double damage) {
         checkArgument(attacker != null, "Cannot have a null attacker!");
         checkArgument(target != null, "Cannot have a null victim!");
         getHandler().knockBack(target, attacker, damage);
     }
 
-    public boolean damageEntity(LivingEntity target, Insentient attacker, ISkill skill,
-                                double damage, DamageCause cause, boolean knockback) {
+    public static void knockBack(LivingEntity target, LivingEntity attacker, double damage) {
+        knockback((Insentient) getPlugin().getEntityManager().getEntity(target),
+                (Insentient) getPlugin().getEntityManager().getEntity(attacker), damage);
+    }
+
+    public static boolean damageEntity(LivingEntity target, Insentient attacker, ISkill skill,
+                                       double damage, DamageCause cause, boolean knockback) {
         return getHandler().damageEntity(
                 (Insentient) getPlugin().getEntityManager().getEntity(target), attacker, skill,
                 damage, cause, knockback);

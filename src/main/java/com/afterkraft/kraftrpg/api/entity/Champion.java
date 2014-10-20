@@ -52,8 +52,7 @@ public interface Champion extends SkillCaster {
      */
     void setPlayer(Player player);
 
-    @Override
-    Player getEntity();
+    @Override Player getEntity();
 
     /**
      * Attempt to reset the linked {@link org.bukkit.entity.Player} in the event the player is not

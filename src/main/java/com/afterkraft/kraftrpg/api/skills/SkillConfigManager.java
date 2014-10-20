@@ -63,7 +63,7 @@ public interface SkillConfigManager extends Manager {
     Configuration getRoleSkillConfig(String name);
 
     void addRoleSkillSettings(String roleName, String skillName,
-                                     ConfigurationSection section);
+                              ConfigurationSection section);
 
     void loadSkillDefaults(ISkill skill);
 
@@ -82,7 +82,7 @@ public interface SkillConfigManager extends Manager {
      * @throws IllegalArgumentException If the section is null or empty
      */
     void addTemporarySkillConfigurations(ISkill skill, SkillCaster caster,
-                                                ConfigurationSection section);
+                                         ConfigurationSection section);
 
     /**
      * Clears all custom skill settings after use. This is used for cleaning up the provided skill
@@ -273,12 +273,12 @@ public interface SkillConfigManager extends Manager {
     List<?> getUsedListSetting(SkillCaster caster, ISkill skill, String setting);
 
     List<String> getUsedStringListSetting(SkillCaster caster, ISkill skill,
-                                                 SkillSetting setting);
+                                          SkillSetting setting);
 
     List<String> getUsedStringListSetting(SkillCaster caster, ISkill skill, String setting);
 
     ItemStack getUsedItemStackSetting(SkillCaster caster, ISkill skill,
-                                             SkillSetting setting);
+                                      SkillSetting setting);
 
     ItemStack getUsedItemStackSetting(SkillCaster caster, ISkill skill, String setting);
 

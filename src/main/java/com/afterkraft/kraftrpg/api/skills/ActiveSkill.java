@@ -166,7 +166,7 @@ public abstract class ActiveSkill extends Skill implements Active {
         checkState(!this.plugin.isEnabled(), "KraftRPG is already enabled! " + "Cannot modify "
                 + "Skill Arguments after being enabled.");
         if (this.skillArguments == null) {
-            this.skillArguments = new SkillArgument[]{ argument };
+            this.skillArguments = new SkillArgument[]{argument};
             return;
         }
         SkillArgument[] newArgs = Arrays.copyOf(this.skillArguments,

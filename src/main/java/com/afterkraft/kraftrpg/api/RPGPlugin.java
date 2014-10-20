@@ -79,8 +79,7 @@ public interface RPGPlugin extends Plugin {
 
     void log(Level level, String msg);
 
-    void logSkillThrowing(ISkill skill, String action, Throwable thrown,
-                                 Object extraContext);
+    void logSkillThrowing(ISkill skill, String action, Throwable thrown, Object extraContext);
 
     void debugLog(Level level, String msg);
 
