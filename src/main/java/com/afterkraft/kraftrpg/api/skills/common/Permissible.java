@@ -39,14 +39,14 @@ public interface Permissible extends ISkill {
      *
      * @return A copy of the permission mappings
      */
-    public Map<String, Boolean> getPermissions();
+    Map<String, Boolean> getPermissions();
 
     /**
      * Set this permission skill to apply the specified permission mapping.
      *
      * @param permissions to apply
      */
-    public void setPermissions(Map<String, Boolean> permissions);
+    void setPermissions(Map<String, Boolean> permissions);
 
     /**
      * Try to learn this permission skill's permission node along with any other permissions related
@@ -54,7 +54,7 @@ public interface Permissible extends ISkill {
      *
      * @param being to learn this skill
      */
-    public void tryLearning(Sentient being);
+    void tryLearning(Sentient being);
 
     /**
      * Try to unlearn this permission skill's permission node along with any other permissions
@@ -62,5 +62,5 @@ public interface Permissible extends ISkill {
      *
      * @param being to unlearn
      */
-    public void tryUnlearning(Sentient being);
+    void tryUnlearning(Sentient being);
 }

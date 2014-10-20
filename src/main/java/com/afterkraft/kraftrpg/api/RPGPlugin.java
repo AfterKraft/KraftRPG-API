@@ -47,45 +47,42 @@ import com.afterkraft.kraftrpg.api.util.Properties;
  */
 public interface RPGPlugin extends Plugin {
 
-    public static final String ADMIN_INVENTORY_BYPASS_PERMISSION =
-            "kraftrpg.admin.bypass.inventory";
-
     /**
      * Stop the plugin from enabling. This should be used when there is a fatal configuration
      * error.
      */
-    public void cancelEnable();
+    void cancelEnable();
 
-    public SkillConfigManager getSkillConfigManager();
+    SkillConfigManager getSkillConfigManager();
 
-    public CombatTracker getCombatTracker();
+    CombatTracker getCombatTracker();
 
-    public EntityManager getEntityManager();
+    EntityManager getEntityManager();
 
-    public EffectManager getEffectManager();
+    EffectManager getEffectManager();
 
-    public StorageFrontend getStorage();
+    StorageFrontend getStorage();
 
-    public ConfigManager getConfigurationManager();
+    ConfigManager getConfigurationManager();
 
-    public DamageManager getDamageManager();
+    DamageManager getDamageManager();
 
-    public SkillManager getSkillManager();
+    SkillManager getSkillManager();
 
-    public RoleManager getRoleManager();
+    RoleManager getRoleManager();
 
-    public PartyManager getPartyManager();
+    PartyManager getPartyManager();
 
-    public Properties getProperties();
+    Properties getProperties();
 
-    public ListenerManager getListenerManager();
+    ListenerManager getListenerManager();
 
-    public void log(Level level, String msg);
+    void log(Level level, String msg);
 
-    public void logSkillThrowing(ISkill skill, String action, Throwable thrown,
+    void logSkillThrowing(ISkill skill, String action, Throwable thrown,
                                  Object extraContext);
 
-    public void debugLog(Level level, String msg);
+    void debugLog(Level level, String msg);
 
-    public void debugThrow(String sourceClass, String sourceMethod, Throwable thrown);
+    void debugThrow(String sourceClass, String sourceMethod, Throwable thrown);
 }

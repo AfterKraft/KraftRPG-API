@@ -41,7 +41,7 @@ public interface SkillManager extends Manager {
      *
      * @param skill
      */
-    public void addSkill(ISkill skill);
+    void addSkill(ISkill skill);
 
     /**
      * Checks if a skill by the skill name exists.
@@ -51,7 +51,7 @@ public interface SkillManager extends Manager {
      * @return true if a Skill exists by the name
      * @throws java.lang.IllegalArgumentException if the name is null
      */
-    public boolean hasSkill(String skillName);
+    boolean hasSkill(String skillName);
 
     /**
      * Returns a skill from it's name If the skill is not in the skill mapping it will attempt to
@@ -61,7 +61,7 @@ public interface SkillManager extends Manager {
      *
      * @return
      */
-    public ISkill getSkill(String name);
+    ISkill getSkill(String name);
 
     /**
      * Attempt to load the requested skill name that is to represent a {@link Permissible} skill.
@@ -70,14 +70,14 @@ public interface SkillManager extends Manager {
      *
      * @return true if successful
      */
-    public boolean loadPermissionSkill(String name);
+    boolean loadPermissionSkill(String name);
 
     /**
      * Returns a collection of all skills loaded in the skill manager
      *
      * @return a live collection of all loaded skills
      */
-    public Collection<ISkill> getSkills();
+    Collection<ISkill> getSkills();
 
     /**
      * Checks if a skill has already been loaded
@@ -86,14 +86,14 @@ public interface SkillManager extends Manager {
      *
      * @return true if the skill has been initialized
      */
-    public boolean isLoaded(String name);
+    boolean isLoaded(String name);
 
     /**
      * Removes a skill from the skill mapping
      *
      * @param skill to remove
      */
-    public void removeSkill(ISkill skill);
+    void removeSkill(ISkill skill);
 
     /**
      * Check if the {@link com.afterkraft.kraftrpg.api.entity.SkillCaster} has an actively {@link
@@ -103,22 +103,22 @@ public interface SkillManager extends Manager {
      *
      * @return true if the specified caster is in process of casting a Stalled skill
      */
-    public boolean isCasterDelayed(SkillCaster caster);
+    boolean isCasterDelayed(SkillCaster caster);
 
     /**
      * @param caster
      *
      * @return
      */
-    public Stalled getDelayedSkill(SkillCaster caster);
+    Stalled getDelayedSkill(SkillCaster caster);
 
-    public void setCompletedSkill(SkillCaster caster);
+    void setCompletedSkill(SkillCaster caster);
 
-    public void addSkillTarget(Entity entity, SkillCaster caster, ISkill skill);
+    void addSkillTarget(Entity entity, SkillCaster caster, ISkill skill);
 
-    public SkillUseObject getSkillTargetInfo(Entity o);
+    SkillUseObject getSkillTargetInfo(Entity o);
 
-    public boolean isSkillTarget(Entity entity);
+    boolean isSkillTarget(Entity entity);
 
-    public void removeSkillTarget(Entity entity, SkillCaster caster, ISkill skill);
+    void removeSkillTarget(Entity entity, SkillCaster caster, ISkill skill);
 }

@@ -49,7 +49,7 @@ public interface EntityManager extends Manager {
      * @return The KraftRPG proxy object for the entity
      * @throws IllegalArgumentException If the entity is null or invalid
      */
-    public IEntity getEntity(Entity entity);
+    IEntity getEntity(Entity entity);
 
     /**
      * Retrieve the {@link com.afterkraft.kraftrpg.api.entity.Monster} object for this Player.
@@ -59,7 +59,7 @@ public interface EntityManager extends Manager {
      * @return the Monster object
      * @throws IllegalArgumentException If the entity is null or invalid
      */
-    public Monster getMonster(LivingEntity entity);
+    Monster getMonster(LivingEntity entity);
 
     /**
      * Retrieve the {@link com.afterkraft.kraftrpg.api.entity.Champion} object for this Player.
@@ -69,7 +69,7 @@ public interface EntityManager extends Manager {
      * @return the Champion object, or null if the player is not valid
      * @throws IllegalArgumentException If the player is null or invalid
      */
-    public Champion getChampion(Player player);
+    Champion getChampion(Player player);
 
     /**
      * Attempts to load a {@link com.afterkraft.kraftrpg.api.entity.Champion} with a link to a
@@ -86,7 +86,7 @@ public interface EntityManager extends Manager {
      * @return the loaded Champion belonging to the UUID, if not null
      * @throws IllegalArgumentException If the uuid is null
      */
-    public Champion getChampion(UUID uuid, boolean ignoreOffline);
+    Champion getChampion(UUID uuid, boolean ignoreOffline);
 
     /**
      * Check if the given {@link org.bukkit.entity.Entity} is already managed by this EntityManager.
@@ -99,7 +99,7 @@ public interface EntityManager extends Manager {
      * @return true if the entity's UUID is already added to the managed entities
      * @throws IllegalArgumentException If the entity is null or invalid
      */
-    public boolean isEntityManaged(Entity entity);
+    boolean isEntityManaged(Entity entity);
 
     /**
      * Create a new Champion instance from the given player and data from the database.
@@ -111,7 +111,7 @@ public interface EntityManager extends Manager {
      * @throws IllegalArgumentException If the player is null
      * @throws IllegalArgumentException If the data is null
      */
-    public Champion createChampionWithData(Player player, PlayerData data);
+    Champion createChampionWithData(Player player, PlayerData data);
 
     /**
      * Add the given entity to be managed by KraftRPG. This is to allow custom IEntities to exist in
@@ -132,7 +132,7 @@ public interface EntityManager extends Manager {
      * @throws IllegalArgumentException If the entity is null
      * @throws IllegalArgumentException If the entity is not valid
      */
-    public boolean addEntity(IEntity entity);
+    boolean addEntity(IEntity entity);
 
     /**
      * Spawns a new LivingEntity of the type given and automatically assigned to the owner.
@@ -145,9 +145,9 @@ public interface EntityManager extends Manager {
      * @throws IllegalArgumentException If the type is null
      * @throws IllegalArgumentException If the type is not a living type
      */
-    public Summon createSummon(SkillCaster owner, EntityType type);
+    Summon createSummon(SkillCaster owner, EntityType type);
 
-    public Set<Summon> getSummons(SkillCaster owner);
+    Set<Summon> getSummons(SkillCaster owner);
 
 
     /**
@@ -156,5 +156,5 @@ public interface EntityManager extends Manager {
      *
      * @param c
      */
-    public void removeChampion(Champion c);
+    void removeChampion(Champion c);
 }

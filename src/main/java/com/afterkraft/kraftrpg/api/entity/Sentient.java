@@ -51,7 +51,7 @@ public interface Sentient extends Insentient {
      * @return the FixedPoint value of the designated role.
      * @throws IllegalArgumentException If the role is null
      */
-    public FixedPoint getExperience(Role role);
+    FixedPoint getExperience(Role role);
 
     /**
      * Check if this being can gain experience of the designated type. This will check with all
@@ -62,7 +62,7 @@ public interface Sentient extends Insentient {
      * @return true if the experience type can be gained
      * @throws IllegalArgumentException If the type is null
      */
-    public boolean canGainExperience(ExperienceType type);
+    boolean canGainExperience(ExperienceType type);
 
     /**
      * Tells this being to gain experience of the determined {@link com.afterkraft.kraftrpg.api.roles.ExperienceType}
@@ -78,7 +78,7 @@ public interface Sentient extends Insentient {
      * @throws IllegalArgumentException If the type is null
      * @throws IllegalArgumentException If the location is null
      */
-    public FixedPoint gainExperience(FixedPoint exp, ExperienceType type, Location location);
+    FixedPoint gainExperience(FixedPoint exp, ExperienceType type, Location location);
 
     /**
      * Tells this being to lose the prescribed experience from all {@link
@@ -89,21 +89,21 @@ public interface Sentient extends Insentient {
      *
      * @throws IllegalArgumentException If the multiplier is negative
      */
-    public void loseExperienceFromDeath(double multiplier, boolean byPVP);
+    void loseExperienceFromDeath(double multiplier, boolean byPVP);
 
     /**
      * Get the currently active Primary {@link Role} that this sentient being has
      *
      * @return the current primary role this sentient being has activated
      */
-    public Role getPrimaryRole();
+    Role getPrimaryRole();
 
     /**
      * Get the currently active Secondary {@link Role} that this sentient being has
      *
      * @return the current secondary role this sentient being has activated
      */
-    public Role getSecondaryRole();
+    Role getSecondaryRole();
 
     /**
      * Set the current {@link com.afterkraft.kraftrpg.api.roles.Role.RoleType#PRIMARY} {@link Role}
@@ -114,7 +114,7 @@ public interface Sentient extends Insentient {
      *
      * @throws IllegalArgumentException If the role is not of the Primary type
      */
-    public boolean setPrimaryRole(Role role);
+    boolean setPrimaryRole(Role role);
 
     /**
      * Set the current {@link com.afterkraft.kraftrpg.api.roles.Role.RoleType#SECONDARY} {@link
@@ -126,7 +126,7 @@ public interface Sentient extends Insentient {
      * @return true if the set was successful
      * @throws IllegalArgumentException If the role is not of the Secondary type
      */
-    public boolean setSecondaryRole(Role role);
+    boolean setSecondaryRole(Role role);
 
     /**
      * Get a Set of {@link Role}s that are marked as {@link com.afterkraft.kraftrpg.api.roles.Role.RoleType#ADDITIONAL}
@@ -134,7 +134,7 @@ public interface Sentient extends Insentient {
      *
      * @return an unmodifiable set of additional Roles this sentient being has activated
      */
-    public Set<Role> getAdditionalRoles();
+    Set<Role> getAdditionalRoles();
 
     /**
      * Attempts to add the given {@link Role} provided that the {@link
@@ -146,7 +146,7 @@ public interface Sentient extends Insentient {
      * @throws IllegalArgumentException If the role is null
      * @throws IllegalArgumentException If the role is not of the type Additional
      */
-    public boolean addAdditionalRole(Role role);
+    boolean addAdditionalRole(Role role);
 
     /**
      * Attempts to remove the given {@link Role} provided that the {@link
@@ -159,7 +159,7 @@ public interface Sentient extends Insentient {
      * @return true if the role was removed successfully
      * @throws IllegalArgumentException If the role is null
      */
-    public boolean removeAdditionalRole(Role role);
+    boolean removeAdditionalRole(Role role);
 
     /**
      * Get a Set of all {@link Role}s active on this sentient being.
@@ -170,7 +170,7 @@ public interface Sentient extends Insentient {
      *
      * @return an immutable list of all roles
      */
-    public List<Role> getAllRoles();
+    List<Role> getAllRoles();
 
     /**
      * Fetches the current calculated level of the designated Role. If the Role is not leveled by
@@ -181,5 +181,5 @@ public interface Sentient extends Insentient {
      * @return the current calculated level of this Role if not 0
      * @throws IllegalArgumentException If the role is null
      */
-    public int getLevel(Role role);
+    int getLevel(Role role);
 }

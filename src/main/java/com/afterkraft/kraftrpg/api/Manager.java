@@ -32,10 +32,10 @@ public interface Manager {
     /**
      * Initializes the manager. Assigns necessary enabling modules for the manager to function.
      */
-    public void initialize();
+    void initialize();
 
     /**
      * Shuts down the manager, halting all processes and prepares for a complete shutdown.
      */
-    public void shutdown();
+    void shutdown();
 }

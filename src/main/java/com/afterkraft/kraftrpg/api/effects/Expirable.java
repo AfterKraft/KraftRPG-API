@@ -35,33 +35,33 @@ public interface Expirable extends IEffect, Timed {
      *
      * @return the duration in milliseconds
      */
-    public long getDuration();
+    long getDuration();
 
     /**
      * Fetch the estimated Expire time in milliseconds
      *
      * @return the expire time in milliseconds.
      */
-    public long getExpiry();
+    long getExpiry();
 
     /**
      * Fetch the estimated remaining time of this Effect
      *
      * @return the estimated remaining time in milliseconds
      */
-    public long getRemainingTime();
+    long getRemainingTime();
 
     /**
      * Check if this Effect is expired
      *
      * @return true if this Effect is expired
      */
-    public boolean isExpired();
+    boolean isExpired();
 
     /**
      * Manually expire this Effect. This will set the expire time to the current System time.
      */
-    public void expire();
+    void expire();
 
     /**
      * Get the {@link com.afterkraft.kraftrpg.api.entity.SkillCaster} applying this expirable
@@ -69,11 +69,11 @@ public interface Expirable extends IEffect, Timed {
      *
      * @return the SkillCaster applying this effect
      */
-    public Insentient getApplier();
+    Insentient getApplier();
 
     /**
      * A utility method to clear the applier of this effect.
      */
-    public void clean();
+    void clean();
 
 }

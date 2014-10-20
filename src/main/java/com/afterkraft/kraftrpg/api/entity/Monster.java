@@ -33,11 +33,11 @@ import org.bukkit.event.entity.CreatureSpawnEvent;
  */
 public interface Monster extends Insentient {
 
-    public Location getSpawnLocation();
+    Location getSpawnLocation();
 
-    public double getBaseDamage();
+    double getBaseDamage();
 
-    public double getModifiedDamage();
+    double getModifiedDamage();
 
     /**
      * Set the modified damage this Monster will deal to other Insentient beings when attacking.
@@ -46,7 +46,7 @@ public interface Monster extends Insentient {
      *
      * @throws IllegalArgumentException If the damage is less than zero
      */
-    public void setModifiedDamage(double damage);
+    void setModifiedDamage(double damage);
 
-    public CreatureSpawnEvent.SpawnReason getSpawnReason();
+    CreatureSpawnEvent.SpawnReason getSpawnReason();
 }

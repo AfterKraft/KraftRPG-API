@@ -58,14 +58,14 @@ public interface Insentient extends IEntity {
      * @return the attached LivingEntity, if there is no LivingEntity, then null.
      */
     @Override
-    public LivingEntity getEntity();
+    LivingEntity getEntity();
 
     /**
      * Get the current mana this being has.
      *
      * @return current mana
      */
-    public int getMana();
+    int getMana();
 
     /**
      * Set the total mana of the being.
@@ -74,14 +74,14 @@ public interface Insentient extends IEntity {
      *
      * @throws IllegalArgumentException If the mana is negative
      */
-    public void setMana(int mana);
+    void setMana(int mana);
 
     /**
      * Gets the current max mana
      *
      * @return the max mana for this being
      */
-    public int getMaxMana();
+    int getMaxMana();
 
     /**
      * Sets the current maximum mana for this being.
@@ -90,14 +90,14 @@ public interface Insentient extends IEntity {
      *
      * @throws IllegalArgumentException If the new max mana is negative or zero
      */
-    public void setMaxMana(int mana);
+    void setMaxMana(int mana);
 
     /**
      * Return the health of the being.
      *
      * @return health
      */
-    public double getHealth();
+    double getHealth();
 
     /**
      * Attempts to set the health of the being. If the being is dead, the health will not be
@@ -107,14 +107,14 @@ public interface Insentient extends IEntity {
      *
      * @throws IllegalArgumentException If health is negative
      */
-    public void setHealth(double health);
+    void setHealth(double health);
 
     /**
      * Return the max health for this being.
      *
      * @return maximum health
      */
-    public double getMaxHealth();
+    double getMaxHealth();
 
     /**
      * Add a fixed health bonus that does not get reset when {@link #recalculateMaxHealth()} is
@@ -128,7 +128,7 @@ public interface Insentient extends IEntity {
      * @return true if successful, if the key did not exist before.
      * @throws IllegalArgumentException If the key is null or empty
      */
-    public boolean addMaxHealth(String key, double value);
+    boolean addMaxHealth(String key, double value);
 
     /**
      * Removes an additional health modifier from the calculations for the {@link
@@ -140,7 +140,7 @@ public interface Insentient extends IEntity {
      * @return true if successful, false if the mapping didn't exist.
      * @throws IllegalArgumentException If the key is null
      */
-    public boolean removeMaxHealth(String key);
+    boolean removeMaxHealth(String key);
 
     /**
      * Forcefully recalculates the total max health the linked {@link org.bukkit.entity.LivingEntity}
@@ -149,7 +149,7 @@ public interface Insentient extends IEntity {
      *
      * @return the newly recalculated max health
      */
-    public double recalculateMaxHealth();
+    double recalculateMaxHealth();
 
     /**
      * Attempts to heal the {@link org.bukkit.entity.LivingEntity} the defined amount of health.
@@ -157,39 +157,39 @@ public interface Insentient extends IEntity {
      *
      * @param amount to heal
      */
-    public void heal(double amount);
+    void heal(double amount);
 
     /**
      * Clears out all health bonuses to the max health except the necessary provided by the default
      * implementation of KraftRPG.
      */
-    public void clearHealthBonuses();
+    void clearHealthBonuses();
 
 
-    public DamageWrapper getDamageWrapper();
+    DamageWrapper getDamageWrapper();
 
-    public void setDamageWrapper(DamageWrapper wrapper);
+    void setDamageWrapper(DamageWrapper wrapper);
 
     /**
      * Check if this being is dead
      *
      * @return true if dead
      */
-    public boolean isDead();
+    boolean isDead();
 
     /**
      * A helper method to get the internal no damage ticks for the represented LivingEntity.
      *
      * @return amount of no damage ticks
      */
-    public int getNoDamageTicks();
+    int getNoDamageTicks();
 
     /**
      * Assuming this being is affected by stamina, returns the current stamina of the being
      *
      * @return the stamina of this being
      */
-    public int getStamina();
+    int getStamina();
 
     /**
      * Sets the stamina for the linked Insentient being. Stamina is a resource that some skills may
@@ -197,7 +197,7 @@ public interface Insentient extends IEntity {
      *
      * @param stamina The stamina to be set
      */
-    public void setStamina(int stamina);
+    void setStamina(int stamina);
 
     /**
      * Gets the maximum stamina for this being. Stamina is a resource that some skills may use and
@@ -205,20 +205,20 @@ public interface Insentient extends IEntity {
      *
      * @return The maximum stamina
      */
-    public int getMaxStamina();
+    int getMaxStamina();
 
     /**
      * Modifies the current stamina of the being. Stamina can be negative
      *
      * @param staminaDiff to add to the current mana of the being
      */
-    public void modifyStamina(int staminaDiff);
+    void modifyStamina(int staminaDiff);
 
     /**
      * A cleaning method provided to ensure possible connected client's view of an inventory is
      * properly refreshed, and not erroneously represented.
      */
-    public void updateInventory();
+    void updateInventory();
 
     /**
      * Assumes this being has a functional hand, this will return the {@link
@@ -226,7 +226,7 @@ public interface Insentient extends IEntity {
      *
      * @return the ItemStack in the hand of the being.
      */
-    public ItemStack getItemInHand();
+    ItemStack getItemInHand();
 
     /**
      * Returns a proper {@link org.bukkit.inventory.Inventory} that belongs to this being. It can be
@@ -234,7 +234,7 @@ public interface Insentient extends IEntity {
      *
      * @return the inventory belonging to this being.
      */
-    public Inventory getInventory();
+    Inventory getInventory();
 
     /**
      * Provided as a utility method to get a copy of the being's armor. Implementations may vary,
@@ -247,7 +247,7 @@ public interface Insentient extends IEntity {
      *
      * @return The copy of the ItemStack list of the armor for this being
      */
-    public ItemStack[] getArmor();
+    ItemStack[] getArmor();
 
     /**
      * Set the armor piece of the specified armor slot. The item can be null
@@ -255,7 +255,7 @@ public interface Insentient extends IEntity {
      * @param item      to set, if not null
      * @param armorSlot to set
      */
-    public void setArmor(ItemStack item, int armorSlot);
+    void setArmor(ItemStack item, int armorSlot);
 
     /**
      * Check if this being is capable of equipping the {@link org.bukkit.inventory.ItemStack}. This
@@ -266,7 +266,7 @@ public interface Insentient extends IEntity {
      *
      * @return true if the item is a valid item to equip
      */
-    public boolean canEquipItem(ItemStack itemStack);
+    boolean canEquipItem(ItemStack itemStack);
 
     /**
      * Returns (if available) the named {@link com.afterkraft.kraftrpg.api.effects.IEffect}
@@ -275,14 +275,14 @@ public interface Insentient extends IEntity {
      *
      * @return the named Effect if not null
      */
-    public IEffect getEffect(String name);
+    IEffect getEffect(String name);
 
     /**
      * Returns an unmodifiable set of Effects this Insentient being has active.
      *
      * @return an unmodifiable set of Effects this Insentient being has active.
      */
-    public Set<IEffect> getEffects();
+    Set<IEffect> getEffects();
 
     /**
      * Adds the given Effect to this Insentient being. Added Effects will be applied on the next
@@ -292,7 +292,7 @@ public interface Insentient extends IEntity {
      *
      * @throws IllegalArgumentException If the effect is null
      */
-    public void addEffect(IEffect effect);
+    void addEffect(IEffect effect);
 
     /**
      * Add the {@link org.bukkit.potion.PotionEffect} to this Insentient being.
@@ -304,7 +304,7 @@ public interface Insentient extends IEntity {
      *
      * @throws IllegalArgumentException If the potion effect is null
      */
-    public void addPotionEffect(PotionEffect potion);
+    void addPotionEffect(PotionEffect potion);
 
     /**
      * Remove the {@link org.bukkit.potion.PotionEffectType} from this Insentient.
@@ -316,7 +316,7 @@ public interface Insentient extends IEntity {
      *
      * @throws IllegalArgumentException If the potioneffect type is null
      */
-    public void removePotionEffect(PotionEffectType type);
+    void removePotionEffect(PotionEffectType type);
 
     /**
      * Checks if this being has a specific PotionEffectType
@@ -326,7 +326,7 @@ public interface Insentient extends IEntity {
      * @return true if the being has the queried type of potion effect
      * @throws IllegalArgumentException If the potion effect type is null
      */
-    public boolean hasPotionEffect(PotionEffectType type);
+    boolean hasPotionEffect(PotionEffectType type);
 
     /**
      * Check if this Insentient being has an {@link com.afterkraft.kraftrpg.api.effects.IEffect}
@@ -337,7 +337,7 @@ public interface Insentient extends IEntity {
      * @return true if there is an active effect by the queried name
      * @throws IllegalArgumentException If the name is null or empty
      */
-    public boolean hasEffect(String name);
+    boolean hasEffect(String name);
 
     /**
      * Check if this being has an effect of the given {@link com.afterkraft.kraftrpg.api.effects.EffectType}.
@@ -347,7 +347,7 @@ public interface Insentient extends IEntity {
      * @return true if this being has effect of the queried type
      * @throws IllegalArgumentException If the type is null
      */
-    public boolean hasEffectType(EffectType type);
+    boolean hasEffectType(EffectType type);
 
     /**
      * Safely removes the {@link IEffect} from this being. This will call {@link
@@ -357,7 +357,7 @@ public interface Insentient extends IEntity {
      *
      * @throws IllegalArgumentException If the effect is null
      */
-    public void removeEffect(IEffect effect);
+    void removeEffect(IEffect effect);
 
     /**
      * Unsafely removes the IEffect from this being. It will not call {@link
@@ -368,17 +368,17 @@ public interface Insentient extends IEntity {
      *
      * @throws IllegalArgumentException If the effect is null
      */
-    public void manualRemoveEffect(IEffect effect);
+    void manualRemoveEffect(IEffect effect);
 
     /**
      * Safely removes all active effects on this being.
      */
-    public void clearEffects();
+    void clearEffects();
 
     /**
      * Unsafely removes all active effects without calling {@link IEffect#remove(Insentient)}
      */
-    public void manualClearEffects();
+    void manualClearEffects();
 
     /**
      * Return the {@link com.afterkraft.kraftrpg.api.util.FixedPoint} this being should grant as a
@@ -386,14 +386,14 @@ public interface Insentient extends IEntity {
      *
      * @return the customized experience to grant to a killer
      */
-    public FixedPoint getRewardExperience();
+    FixedPoint getRewardExperience();
 
     /**
      * Set the rewarding experience this being will grant to its killer.
      *
      * @param experience to grant
      */
-    public void setRewardExperience(FixedPoint experience);
+    void setRewardExperience(FixedPoint experience);
 
     /**
      * Sends a message to this being. A helper method to avoid having to cast check the being or the
@@ -401,9 +401,9 @@ public interface Insentient extends IEntity {
      *
      * @param message to be sent
      */
-    public void sendMessage(String message);
+    void sendMessage(String message);
 
-    public void sendMessage(String message, Object... args);
+    void sendMessage(String message, Object... args);
 
     /**
      * Check if this insentient is ignoring messages from the specified {@link
@@ -413,5 +413,5 @@ public interface Insentient extends IEntity {
      *
      * @return true if this being does not wish to listen to the skill messages
      */
-    public boolean isIgnoringSkill(ISkill skill);
+    boolean isIgnoringSkill(ISkill skill);
 }

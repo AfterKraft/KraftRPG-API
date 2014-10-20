@@ -44,7 +44,7 @@ public interface CombatTracker extends Manager {
      * combat with them.
      * @throws IllegalArgumentException if the target is null
      */
-    public Map<Insentient, EnterCombatReason> getCombatants(Insentient target);
+    Map<Insentient, EnterCombatReason> getCombatants(Insentient target);
 
     /**
      * Adds the target to be in combat with the attacker.
@@ -57,7 +57,7 @@ public interface CombatTracker extends Manager {
      * @throws IllegalArgumentException if the attacker is null
      * @throws IllegalArgumentException if the reason is null
      */
-    public void enterCombatWith(Insentient target, Insentient attacker, EnterCombatReason reason);
+    void enterCombatWith(Insentient target, Insentient attacker, EnterCombatReason reason);
 
     /**
      * Performs the leave combat operation on the target by the attacker. Depending on the reason,
@@ -71,7 +71,7 @@ public interface CombatTracker extends Manager {
      * @throws IllegalArgumentException if the attacker is null
      * @throws IllegalArgumentException if the reason is null
      */
-    public void leaveCombatWith(Insentient target, Insentient attacker, LeaveCombatReason reason);
+    void leaveCombatWith(Insentient target, Insentient attacker, LeaveCombatReason reason);
 
     /**
      * Notifies all combatants that the specified target is leaving combat with the specified
@@ -83,7 +83,7 @@ public interface CombatTracker extends Manager {
      * @throws IllegalArgumentException if the target is null
      * @throws IllegalArgumentException if the reason is null
      */
-    public void leaveCombat(Insentient target, LeaveCombatReason reason);
+    void leaveCombat(Insentient target, LeaveCombatReason reason);
 
     /**
      * Check if the being is in combat with any entity for any reason.
@@ -93,7 +93,7 @@ public interface CombatTracker extends Manager {
      * @return true if the being is in combat with any other attacker for any reason
      * @throws IllegalArgumentException if the being is null
      */
-    public boolean isInCombat(Insentient being);
+    boolean isInCombat(Insentient being);
 
     /**
      * Check directly if the target is in combat with the potentialAttacker.
@@ -105,5 +105,5 @@ public interface CombatTracker extends Manager {
      * @throws IllegalArgumentException if the target is null
      * @throws IllegalArgumentException if the potentialAttacker is null
      */
-    public boolean isInCombatWith(Insentient target, Insentient potentialAttacker);
+    boolean isInCombatWith(Insentient target, Insentient potentialAttacker);
 }

@@ -31,5 +31,5 @@ import com.afterkraft.kraftrpg.api.entity.Insentient;
  */
 public interface Imbuing extends IEffect {
 
-    public Insentient getApplier();
+    Insentient getApplier();
 }

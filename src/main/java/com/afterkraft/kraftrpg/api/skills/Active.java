@@ -90,7 +90,7 @@ public interface Active extends ISkill {
      *
      * @return if parse was successful - that is, the skill can be used with these arguments.
      */
-    public boolean parse(SkillCaster caster, String[] args);
+    boolean parse(SkillCaster caster, String[] args);
 
     /**
      * Suggest tab-completions to the given caster based on the given arguments.
@@ -99,9 +99,9 @@ public interface Active extends ISkill {
      * @param args       partial command arguments
      * @param startIndex index in the array to start looking
      *
-     * @return
+     * @return A string list of available completable entries
      */
-    public List<String> tabComplete(SkillCaster caster, String[] args, int startIndex);
+    List<String> tabComplete(SkillCaster caster, String[] args, int startIndex);
 
     /**
      * Without parsed state, check if the given SkillCaster is permitted to cast this skill.
@@ -111,7 +111,7 @@ public interface Active extends ISkill {
      *
      * @return a preliminary SkillCastResult
      */
-    public SkillCastResult checkCustomRestrictions(SkillCaster caster, boolean forced);
+    SkillCastResult checkCustomRestrictions(SkillCaster caster, boolean forced);
 
     /**
      * Apply this skill using the previously parse()ed state.
@@ -120,7 +120,7 @@ public interface Active extends ISkill {
      *
      * @return final SkillCastResults
      */
-    public SkillCastResult useSkill(SkillCaster caster);
+    SkillCastResult useSkill(SkillCaster caster);
 
     /**
      * Clean any parsed state. In particular, any generated objects should be available for garbage
@@ -128,6 +128,6 @@ public interface Active extends ISkill {
      *
      * @param caster caster, for validation
      */
-    public void cleanState(SkillCaster caster);
+    void cleanState(SkillCaster caster);
 
 }

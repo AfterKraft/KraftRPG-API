@@ -38,7 +38,7 @@ public interface Champion extends SkillCaster {
      *
      * @return the bukkit Player object if not null
      */
-    public Player getPlayer();
+    Player getPlayer();
 
     /**
      * Set the Bukkit {@link Player} object for this Champion. This should automatically call {@link
@@ -50,10 +50,10 @@ public interface Champion extends SkillCaster {
      * @throws IllegalArgumentException If the player is null
      * @throws IllegalArgumentException If the player is not of the same UUID
      */
-    public void setPlayer(Player player);
+    void setPlayer(Player player);
 
     @Override
-    public Player getEntity();
+    Player getEntity();
 
     /**
      * Attempt to reset the linked {@link org.bukkit.entity.Player} in the event the player is not
@@ -67,20 +67,20 @@ public interface Champion extends SkillCaster {
      * @throws IllegalArgumentException If the player is null
      * @throws IllegalArgumentException If the player is not of the same UUID
      */
-    public boolean setEntity(Player player);
+    boolean setEntity(Player player);
 
     /**
      * Get the in-use PlayerData object. Changes made to this object are live.
      *
      * @return live PlayerData
      */
-    public PlayerData getData();
+    PlayerData getData();
 
     /**
      * Create a snapshot of the current PlayerData. The returned object is thread-safe.
      *
      * @return PlayerData snapshot
      */
-    public PlayerData getDataClone();
+    PlayerData getDataClone();
 
 }

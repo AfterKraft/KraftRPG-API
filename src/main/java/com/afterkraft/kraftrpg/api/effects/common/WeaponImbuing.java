@@ -40,7 +40,7 @@ public interface WeaponImbuing extends Imbuing {
      *
      * @return True if the effect was successfully applied
      */
-    public boolean applyToWeapon(ItemStack itemStack);
+    boolean applyToWeapon(ItemStack itemStack);
 
     /**
      * Affects the victim with a behavior, this is usually called when all checks have been made for
@@ -50,12 +50,12 @@ public interface WeaponImbuing extends Imbuing {
      * @param attacker The attacker hitting the victim
      * @param weapon   The weapon used to hit the victim
      */
-    public void onEntityHit(Insentient victim, Insentient attacker, ItemStack weapon);
+    void onEntityHit(Insentient victim, Insentient attacker, ItemStack weapon);
 
     /**
      * Gets the number of hits left for this effect before expiration.
      *
      * @return The number of hits before expiration
      */
-    public int getHitsLeft();
+    int getHitsLeft();
 }

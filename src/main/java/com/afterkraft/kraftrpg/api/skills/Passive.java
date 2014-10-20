@@ -38,7 +38,7 @@ public interface Passive extends ISkill {
      *
      * @return true if successful
      */
-    public boolean apply(SkillCaster caster);
+    boolean apply(SkillCaster caster);
 
     /**
      * Attempts to remove the passive skill from the given SkillCaster. It should be noted that all
@@ -47,5 +47,5 @@ public interface Passive extends ISkill {
      *
      * @param caster to unapply this passive skill to
      */
-    public void remove(SkillCaster caster);
+    void remove(SkillCaster caster);
 }

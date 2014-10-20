@@ -44,7 +44,7 @@ public interface SkillCaster extends Sentient, PartyMember {
      * @return the time in milliseconds that the cooldown expires
      * @throws IllegalArgumentException If the key is null
      */
-    public Long getCooldown(String key);
+    Long getCooldown(String key);
 
     /**
      * Get the global cooldown.
@@ -54,7 +54,7 @@ public interface SkillCaster extends Sentient, PartyMember {
      *
      * @return the global cooldown if not 0
      */
-    public long getGlobalCooldown();
+    long getGlobalCooldown();
 
     /**
      * Sets the global cooldown.
@@ -66,7 +66,7 @@ public interface SkillCaster extends Sentient, PartyMember {
      *
      * @throws IllegalArgumentException If the duration is negative
      */
-    public void setGlobalCooldown(long duration);
+    void setGlobalCooldown(long duration);
 
     /**
      * Sets the cooldown for anything of a required key.
@@ -78,7 +78,7 @@ public interface SkillCaster extends Sentient, PartyMember {
      * @throws IllegalArgumentException If the key is empty
      * @throws IllegalArgumentException If the duration is negative
      */
-    public void setCooldown(String key, long duration);
+    void setCooldown(String key, long duration);
 
     /**
      * Fetch the highest level of all active {@link com.afterkraft.kraftrpg.api.roles.Role}s that
@@ -89,7 +89,7 @@ public interface SkillCaster extends Sentient, PartyMember {
      * @return the highest level, if none, 0.
      * @throws IllegalArgumentException If the skill is null
      */
-    public int getHighestSkillLevel(ISkill skill);
+    int getHighestSkillLevel(ISkill skill);
 
     /**
      * Check if this SkillCaster can use the given skill at their current level.
@@ -99,14 +99,14 @@ public interface SkillCaster extends Sentient, PartyMember {
      * @return true if skill can be used
      * @throws IllegalArgumentException If the skill is null
      */
-    public boolean canUseSkill(ISkill skill);
+    boolean canUseSkill(ISkill skill);
 
     /**
      * Get all skills accessible at the current level in all roles.
      *
      * @return an unmodifiable collection of available skills
      */
-    public Collection<ISkill> getAvailableSkills();
+    Collection<ISkill> getAvailableSkills();
 
     /**
      * Same as {@link #getAvailableSkills()}, except return the names, and only of {@link
@@ -114,14 +114,14 @@ public interface SkillCaster extends Sentient, PartyMember {
      *
      * @return names of all skills currently accessible
      */
-    public Collection<String> getActiveSkillNames();
+    Collection<String> getActiveSkillNames();
 
     /**
      * Get all skills accessible at the max level in each role.
      *
      * @return an unmodifiable collection of all possible skills in all roles currently active
      */
-    public Collection<ISkill> getPossibleSkillsInRoles();
+    Collection<ISkill> getPossibleSkillsInRoles();
 
     /**
      * Check for all active roles of this Caster whether the requested skill is blocked from use. A
@@ -133,7 +133,7 @@ public interface SkillCaster extends Sentient, PartyMember {
      * @return false if no roles restrict use of the queried skill
      * @throws IllegalArgumentException If the skill is null
      */
-    public boolean isSkillRestricted(ISkill skill);
+    boolean isSkillRestricted(ISkill skill);
 
     /**
      * Checks the current primary role if the desired skill can be used. This may return false for
@@ -145,7 +145,7 @@ public interface SkillCaster extends Sentient, PartyMember {
      * @return true if the caster is allowed to use the skill
      * @throws IllegalArgumentException If the skill is null
      */
-    public boolean canPrimaryUseSkill(ISkill skill);
+    boolean canPrimaryUseSkill(ISkill skill);
 
     /**
      * Check if the current primary role explicitly restricts usage of the skill in question.
@@ -155,7 +155,7 @@ public interface SkillCaster extends Sentient, PartyMember {
      * @return false if the currently active primary role does not restrict this skill
      * @throws IllegalArgumentException If the skill is null
      */
-    public boolean doesPrimaryRestrictSkill(ISkill skill);
+    boolean doesPrimaryRestrictSkill(ISkill skill);
 
     /**
      * Checks the current secondary role if the desired skill can be used. This may return false for
@@ -167,7 +167,7 @@ public interface SkillCaster extends Sentient, PartyMember {
      * @return true if the caster is allowed to use the skill
      * @throws IllegalArgumentException If the skill is null
      */
-    public boolean canSecondaryUseSkill(ISkill skill);
+    boolean canSecondaryUseSkill(ISkill skill);
 
     /**
      * Check if the current secondary role explicitly restricts usage of the skill in question
@@ -177,7 +177,7 @@ public interface SkillCaster extends Sentient, PartyMember {
      * @return false if the currently active secondary role does not restrict this skill
      * @throws IllegalArgumentException If the skill is null
      */
-    public boolean doesSecondaryRestrictSkill(ISkill skill);
+    boolean doesSecondaryRestrictSkill(ISkill skill);
 
     /**
      * Checks all currently active additional roles if the desired skill can be used. This may
@@ -189,7 +189,7 @@ public interface SkillCaster extends Sentient, PartyMember {
      * @return true if the caster is allowed to use the skill
      * @throws IllegalArgumentException If the skill is null
      */
-    public boolean canAdditionalUseSkill(ISkill skill);
+    boolean canAdditionalUseSkill(ISkill skill);
 
     /**
      * Checks the specific additional role, if active, if the skill can be used. This may return
@@ -204,7 +204,7 @@ public interface SkillCaster extends Sentient, PartyMember {
      * @throws IllegalArgumentException If the role is null
      * @throws IllegalArgumentException If the skill is null
      */
-    public boolean canSpecificAdditionalUseSkill(Role role, ISkill skill);
+    boolean canSpecificAdditionalUseSkill(Role role, ISkill skill);
 
     /**
      * Checks all active additional roles whether any of them explicitly restrict usage of the
@@ -216,14 +216,14 @@ public interface SkillCaster extends Sentient, PartyMember {
      * queried skill
      * @throws IllegalArgumentException If the skill is null
      */
-    public boolean doesAdditionalRestrictSkill(ISkill skill);
+    boolean doesAdditionalRestrictSkill(ISkill skill);
 
     /**
      * Get the currently stalled skill for this caster, if not null.
      *
      * @return the currently stalled skill
      */
-    public Stalled getStalledSkill();
+    Stalled getStalledSkill();
 
     /**
      * Sets the currently stalled skill to the one provided. If another skill is already stalled on
@@ -233,7 +233,7 @@ public interface SkillCaster extends Sentient, PartyMember {
      *
      * @return true if the stalled skill was successfully set.
      */
-    public boolean setStalledSkill(Stalled stalledSkill);
+    boolean setStalledSkill(Stalled stalledSkill);
 
     /**
      * Interrupt the current Stalled skill.
@@ -242,6 +242,6 @@ public interface SkillCaster extends Sentient, PartyMember {
      *
      * @return true if the delayed skill was interrupted
      */
-    public boolean cancelStalledSkill(boolean enemyAction);
+    boolean cancelStalledSkill(boolean enemyAction);
 
 }

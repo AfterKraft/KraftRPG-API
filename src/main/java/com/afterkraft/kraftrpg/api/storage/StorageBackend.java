@@ -44,14 +44,14 @@ public interface StorageBackend {
      *
      * @throws Throwable anything if an fatal problem occurs - this will halt the plugin
      */
-    public void initialize() throws Throwable;
+    void initialize() throws Throwable;
 
     /**
      * Stop any long-running or maintenance tasks, cleanly terminate connections.
      * <p/>
      * (Main thread)
      */
-    public void shutdown();
+    void shutdown();
 
     /**
      * Delete the data for the given player.
@@ -62,7 +62,7 @@ public interface StorageBackend {
      *
      * @return true if player existed
      */
-    public boolean removePlayer(UUID uuid);
+    boolean removePlayer(UUID uuid);
 
     /**
      * Write the data for the given player.
@@ -74,7 +74,7 @@ public interface StorageBackend {
      *
      * @return unused, just return true for now
      */
-    public boolean savePlayer(UUID uuid, PlayerData data);
+    boolean savePlayer(UUID uuid, PlayerData data);
 
     /**
      * Load the data for the player with the given UUID. If shouldCreate is true, this may not
@@ -88,7 +88,7 @@ public interface StorageBackend {
      *
      * @return Champion with data, or null
      */
-    public PlayerData loadPlayer(UUID uuid, boolean shouldCreate);
+    PlayerData loadPlayer(UUID uuid, boolean shouldCreate);
 
     /**
      * Return a list of every UUID with data.
@@ -98,5 +98,5 @@ public interface StorageBackend {
      *
      * @return every UUID stored
      */
-    public List<UUID> getAllStoredUsers();
+    List<UUID> getAllStoredUsers();
 }

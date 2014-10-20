@@ -35,24 +35,24 @@ public interface PartyMember extends IEntity {
      *
      * @return true if the being is in a party
      */
-    public boolean hasParty();
+    boolean hasParty();
 
     /**
      * Get the currently attached Party for this being.
      *
      * @return the party
      */
-    public Party getParty();
+    Party getParty();
 
     /**
      * Set this member's current party.
      *
      * @param party to set
      */
-    public void setParty(Party party);
+    void setParty(Party party);
 
     /**
      * Leaves this member's current party.
      */
-    public void leaveParty();
+    void leaveParty();
 }

@@ -35,25 +35,25 @@ import com.afterkraft.kraftrpg.api.util.FixedPoint;
  */
 public interface RoleManager extends Manager {
 
-    public Role getDefaultPrimaryRole();
+    Role getDefaultPrimaryRole();
 
-    public boolean setDefaultPrimaryRole(Role role);
+    boolean setDefaultPrimaryRole(Role role);
 
-    public Role getDefaultSecondaryRole();
+    Role getDefaultSecondaryRole();
 
-    public void setDefaultSecondaryRole(Role role);
+    void setDefaultSecondaryRole(Role role);
 
-    public Role getRole(String roleName);
+    Role getRole(String roleName);
 
-    public boolean addRole(Role role);
+    boolean addRole(Role role);
 
-    public boolean removeRole(Role role);
+    boolean removeRole(Role role);
 
-    public Map<String, Role> getRoles();
+    Map<String, Role> getRoles();
 
-    public Map<String, Role> getRolesByType(Role.RoleType type);
+    Map<String, Role> getRolesByType(Role.RoleType type);
 
-    public FixedPoint getRoleLevelExperience(Role role, int level);
+    FixedPoint getRoleLevelExperience(Role role, int level);
 
     /**
      * Attempts to add a dependency for the two involving roles. This method is here to
@@ -65,15 +65,15 @@ public interface RoleManager extends Manager {
      * @throws IllegalArgumentException
      * @throws CircularDependencyException
      */
-    public boolean addRoleDependency(Role parent, Role child) throws CircularDependencyException;
+    boolean addRoleDependency(Role parent, Role child) throws CircularDependencyException;
 
-    public boolean removeRoleDependency(Role parent, Role child);
+    boolean removeRoleDependency(Role parent, Role child);
 
     /**
      * This is a simple check for all registered Roles. This should not be called often, but it is
      * used when adding role dependencies.
      *
-     * @return
+     * @return True if the dependencies are cyclic
      */
-    public boolean areRoleDependenciesCyclic();
+    boolean areRoleDependenciesCyclic();
 }

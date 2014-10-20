@@ -41,21 +41,21 @@ public interface ISkill {
      *
      * @return the string name permission node for this ISkill
      */
-    public String getPermissionNode();
+    String getPermissionNode();
 
     /**
      * Return the unique name of this ISkill
      *
      * @return the name of this skill
      */
-    public String getName();
+    String getName();
 
     /**
      * Returns the default configuration for this skill.
      *
      * @return the defalt configuration for this skill
      */
-    public ConfigurationSection getDefaultConfig();
+    ConfigurationSection getDefaultConfig();
 
     /**
      * Gets an immutable collection of the {@link SkillSetting}s used by this Skill. This should be
@@ -63,33 +63,33 @@ public interface ISkill {
      *
      * @return
      */
-    public Collection<SkillSetting> getUsedConfigNodes();
+    Collection<SkillSetting> getUsedConfigNodes();
 
     /**
      * Return the description for this skill. This should be unique for every skill
      *
      * @return the description for this skill
      */
-    public String getDescription();
+    String getDescription();
 
     /**
      * Set the description for this skill.
      *
      * @param description the description for this skill
      */
-    public void setDescription(String description);
+    void setDescription(String description);
 
     /**
      * Similar to {@link org.bukkit.plugin.Plugin#onEnable()}, should be used to register any
      * necessary listeners and managers for active use.
      */
-    public void initialize();
+    void initialize();
 
     /**
      * Similar to {@link org.bukkit.plugin.Plugin#onDisable()}, should be used to unregister any
      * listeners and be prepared for removal.
      */
-    public void shutdown();
+    void shutdown();
 
     /**
      * Adds an Entity as a skill target.
@@ -99,7 +99,7 @@ public interface ISkill {
      *
      * @return true if successful
      */
-    public boolean addSkillTarget(Entity entity, SkillCaster caster);
+    boolean addSkillTarget(Entity entity, SkillCaster caster);
 
     /**
      * Check if this ISkill is of the requested {@link SkillType}
@@ -108,7 +108,7 @@ public interface ISkill {
      *
      * @return true if this skill is of the requested type
      */
-    public boolean isType(SkillType type);
+    boolean isType(SkillType type);
 
     /**
      * Checks if the receiving Champion is in meesage range to receive skill messages
@@ -118,9 +118,9 @@ public interface ISkill {
      *
      * @return true if the receiver is in range
      */
-    public boolean isInMessageRange(SkillCaster broadcaster, Champion receiver);
+    boolean isInMessageRange(SkillCaster broadcaster, Champion receiver);
 
-    public int hashCode();
+    int hashCode();
 
-    public boolean equals(Object other);
+    boolean equals(Object other);
 }

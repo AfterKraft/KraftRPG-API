@@ -33,13 +33,13 @@ import com.afterkraft.kraftrpg.api.entity.SkillCaster;
  */
 public interface Stalled extends Delayed {
 
-    public boolean isReady();
+    boolean isReady();
 
-    public long startTime();
+    long startTime();
 
-    public String[] getArguments();
+    String[] getArguments();
 
-    public Active getActiveSkill();
+    Active getActiveSkill();
 
-    public SkillCaster getCaster();
+    SkillCaster getCaster();
 }

@@ -53,19 +53,19 @@ public interface SkillConfigManager extends Manager {
      * Attempts to reload all skill settings. This will cause all linked {@link Role}s to be
      * reconfigured with any updated skill settings.
      */
-    public void reload();
+    void reload();
 
     /**
      * Saves the current skill settings from memory to file.
      */
-    public void saveSkillConfig();
+    void saveSkillConfig();
 
-    public Configuration getRoleSkillConfig(String name);
+    Configuration getRoleSkillConfig(String name);
 
-    public void addRoleSkillSettings(String roleName, String skillName,
+    void addRoleSkillSettings(String roleName, String skillName,
                                      ConfigurationSection section);
 
-    public void loadSkillDefaults(ISkill skill);
+    void loadSkillDefaults(ISkill skill);
 
     /**
      * Applies a customized skill configuration for the specified skill and skill caster. The
@@ -81,7 +81,7 @@ public interface SkillConfigManager extends Manager {
      * @throws IllegalArgumentException If the caster is null
      * @throws IllegalArgumentException If the section is null or empty
      */
-    public void addTemporarySkillConfigurations(ISkill skill, SkillCaster caster,
+    void addTemporarySkillConfigurations(ISkill skill, SkillCaster caster,
                                                 ConfigurationSection section);
 
     /**
@@ -90,7 +90,7 @@ public interface SkillConfigManager extends Manager {
      *
      * @param caster The caster using the defaults
      */
-    public void clearTemporarySkillConfigurations(SkillCaster caster);
+    void clearTemporarySkillConfigurations(SkillCaster caster);
 
     /**
      * Clears the custom skill settings for the specified skill. This is used for cleaning up the
@@ -99,7 +99,7 @@ public interface SkillConfigManager extends Manager {
      * @param caster The caster using the defaults
      * @param skill  The skill for the defaults
      */
-    public void clearTemporarySkillConfigurations(SkillCaster caster, ISkill skill);
+    void clearTemporarySkillConfigurations(SkillCaster caster, ISkill skill);
 
     /**
      * Gets the global {@link ISkill} setting defined by the String setting.
@@ -112,7 +112,7 @@ public interface SkillConfigManager extends Manager {
      * @throws IllegalArgumentException If the setting is null
      * @throws IllegalStateException    If the setting was not configured with a default
      */
-    public String getRawString(ISkill skill, String setting);
+    String getRawString(ISkill skill, String setting);
 
     /**
      * Gets the global {@link ISkill} setting defined by the {@link SkillSetting} setting.
@@ -125,7 +125,7 @@ public interface SkillConfigManager extends Manager {
      * @throws IllegalArgumentException If the setting is null
      * @throws IllegalStateException    If the setting was not configured with a default
      */
-    public String getRawString(ISkill skill, SkillSetting setting);
+    String getRawString(ISkill skill, SkillSetting setting);
 
     /**
      * Gets the global {@link ISkill} setting defined by the {@link SkillSetting} setting.
@@ -138,7 +138,7 @@ public interface SkillConfigManager extends Manager {
      * @throws IllegalArgumentException If the setting is null
      * @throws IllegalStateException    If the setting was not configured with a default
      */
-    public Boolean getRawBoolean(ISkill skill, SkillSetting setting);
+    Boolean getRawBoolean(ISkill skill, SkillSetting setting);
 
     /**
      * Gets the global {@link ISkill} setting defined by the String setting.
@@ -151,7 +151,7 @@ public interface SkillConfigManager extends Manager {
      * @throws IllegalArgumentException If the setting is null
      * @throws IllegalStateException    If the setting was not configured with a default
      */
-    public Boolean getRawBoolean(ISkill skill, String setting);
+    Boolean getRawBoolean(ISkill skill, String setting);
 
     /**
      * Gets the global {@link ISkill}'s setting keys.
@@ -164,7 +164,7 @@ public interface SkillConfigManager extends Manager {
      * @throws IllegalArgumentException If the setting is null
      * @throws IllegalStateException    If the setting was not configured with a default
      */
-    public Set<String> getRawKeys(ISkill skill, String setting);
+    Set<String> getRawKeys(ISkill skill, String setting);
 
     /**
      * Checks if the queried skill has a default for the desired {@link SkillSetting}
@@ -176,7 +176,7 @@ public interface SkillConfigManager extends Manager {
      * @throws IllegalArgumentException If the skill is null
      * @throws IllegalArgumentException If the setting is null
      */
-    public boolean isSettingConfigured(ISkill skill, SkillSetting setting);
+    boolean isSettingConfigured(ISkill skill, SkillSetting setting);
 
     /**
      * Checks if the queried skill has a default for the desired {@link SkillSetting}
@@ -188,98 +188,98 @@ public interface SkillConfigManager extends Manager {
      * @throws IllegalArgumentException If the skill is null
      * @throws IllegalArgumentException If the setting is null
      */
-    public boolean isSettingConfigured(ISkill skill, String setting);
+    boolean isSettingConfigured(ISkill skill, String setting);
 
-    public Object getRawSetting(ISkill skill, String setting);
+    Object getRawSetting(ISkill skill, String setting);
 
-    public Object getRawSetting(ISkill skill, SkillSetting setting);
+    Object getRawSetting(ISkill skill, SkillSetting setting);
 
-    public int getRawIntSetting(ISkill skill, String setting);
+    int getRawIntSetting(ISkill skill, String setting);
 
-    public int getRawIntSetting(ISkill skill, SkillSetting setting);
+    int getRawIntSetting(ISkill skill, SkillSetting setting);
 
-    public double getRawDoubleSetting(ISkill skill, String setting);
+    double getRawDoubleSetting(ISkill skill, String setting);
 
-    public double getRawDoubleSetting(ISkill skill, SkillSetting setting);
+    double getRawDoubleSetting(ISkill skill, SkillSetting setting);
 
-    public String getRawStringSetting(ISkill skill, String setting);
+    String getRawStringSetting(ISkill skill, String setting);
 
-    public String getRawStringSetting(ISkill skill, SkillSetting setting);
+    String getRawStringSetting(ISkill skill, SkillSetting setting);
 
-    public Boolean getRawBooleanSetting(ISkill skill, String setting);
+    Boolean getRawBooleanSetting(ISkill skill, String setting);
 
-    public Boolean getRawBooleanSetting(ISkill skill, SkillSetting setting);
+    Boolean getRawBooleanSetting(ISkill skill, SkillSetting setting);
 
-    public List<String> getRawStringListSetting(ISkill skill, String setting);
+    List<String> getRawStringListSetting(ISkill skill, String setting);
 
-    public List<String> getRawStringListSetting(ISkill skill, SkillSetting setting);
+    List<String> getRawStringListSetting(ISkill skill, SkillSetting setting);
 
-    public ItemStack getRawItemStackSetting(ISkill skill, String setting);
+    ItemStack getRawItemStackSetting(ISkill skill, String setting);
 
-    public ItemStack getRawItemStackSetting(ISkill skill, SkillSetting setting);
+    ItemStack getRawItemStackSetting(ISkill skill, SkillSetting setting);
 
-    public Object getSetting(Role role, ISkill skill, SkillSetting setting);
+    Object getSetting(Role role, ISkill skill, SkillSetting setting);
 
-    public Object getSetting(Role role, ISkill skill, String setting);
+    Object getSetting(Role role, ISkill skill, String setting);
 
-    public int getIntSetting(Role role, ISkill skill, SkillSetting setting);
+    int getIntSetting(Role role, ISkill skill, SkillSetting setting);
 
-    public int getIntSetting(Role role, ISkill skill, String setting);
+    int getIntSetting(Role role, ISkill skill, String setting);
 
-    public double getDoubleSetting(Role role, ISkill skill, SkillSetting setting);
+    double getDoubleSetting(Role role, ISkill skill, SkillSetting setting);
 
-    public double getDoubleSetting(Role role, ISkill skill, String setting);
+    double getDoubleSetting(Role role, ISkill skill, String setting);
 
-    public String getStringSetting(Role role, ISkill skill, SkillSetting setting);
+    String getStringSetting(Role role, ISkill skill, SkillSetting setting);
 
-    public String getStringSetting(Role role, ISkill skill, String setting);
+    String getStringSetting(Role role, ISkill skill, String setting);
 
-    public Boolean getBooleanSetting(Role role, ISkill skill, SkillSetting setting);
+    Boolean getBooleanSetting(Role role, ISkill skill, SkillSetting setting);
 
-    public Boolean getBooleanSetting(Role role, ISkill skill, String setting);
+    Boolean getBooleanSetting(Role role, ISkill skill, String setting);
 
-    public List<String> getStringListSetting(Role role, ISkill skill, SkillSetting setting);
+    List<String> getStringListSetting(Role role, ISkill skill, SkillSetting setting);
 
-    public List<String> getStringListSetting(Role role, ISkill skill, String setting);
+    List<String> getStringListSetting(Role role, ISkill skill, String setting);
 
-    public ItemStack getItemStackSetting(Role role, ISkill skill, SkillSetting setting);
+    ItemStack getItemStackSetting(Role role, ISkill skill, SkillSetting setting);
 
-    public ItemStack getItemStackSetting(Role role, ISkill skill, String setting);
+    ItemStack getItemStackSetting(Role role, ISkill skill, String setting);
 
-    public int getLevel(SkillCaster caster, ISkill skill);
+    int getLevel(SkillCaster caster, ISkill skill);
 
-    public Object getUsedSetting(SkillCaster caster, ISkill skill, SkillSetting setting);
+    Object getUsedSetting(SkillCaster caster, ISkill skill, SkillSetting setting);
 
-    public Object getUsedSetting(SkillCaster caster, ISkill skill, String setting);
+    Object getUsedSetting(SkillCaster caster, ISkill skill, String setting);
 
-    public int getUsedIntSetting(SkillCaster caster, ISkill skill, SkillSetting setting);
+    int getUsedIntSetting(SkillCaster caster, ISkill skill, SkillSetting setting);
 
-    public int getUsedIntSetting(SkillCaster caster, ISkill skill, String setting);
+    int getUsedIntSetting(SkillCaster caster, ISkill skill, String setting);
 
-    public double getUsedDoubleSetting(SkillCaster caster, ISkill skill, SkillSetting setting);
+    double getUsedDoubleSetting(SkillCaster caster, ISkill skill, SkillSetting setting);
 
-    public double getUsedDoubleSetting(SkillCaster caster, ISkill skill, String setting);
+    double getUsedDoubleSetting(SkillCaster caster, ISkill skill, String setting);
 
-    public boolean getUsedBooleanSetting(SkillCaster caster, ISkill skill, SkillSetting setting);
+    boolean getUsedBooleanSetting(SkillCaster caster, ISkill skill, SkillSetting setting);
 
-    public boolean getUsedBooleanSetting(SkillCaster caster, ISkill skill, String setting);
+    boolean getUsedBooleanSetting(SkillCaster caster, ISkill skill, String setting);
 
-    public String getUsedStringSetting(SkillCaster caster, ISkill skill, SkillSetting setting);
+    String getUsedStringSetting(SkillCaster caster, ISkill skill, SkillSetting setting);
 
-    public String getUsedStringSetting(SkillCaster caster, ISkill skill, String setting);
+    String getUsedStringSetting(SkillCaster caster, ISkill skill, String setting);
 
-    public List<?> getUsedListSetting(SkillCaster caster, ISkill skill, SkillSetting setting);
+    List<?> getUsedListSetting(SkillCaster caster, ISkill skill, SkillSetting setting);
 
-    public List<?> getUsedListSetting(SkillCaster caster, ISkill skill, String setting);
+    List<?> getUsedListSetting(SkillCaster caster, ISkill skill, String setting);
 
-    public List<String> getUsedStringListSetting(SkillCaster caster, ISkill skill,
+    List<String> getUsedStringListSetting(SkillCaster caster, ISkill skill,
                                                  SkillSetting setting);
 
-    public List<String> getUsedStringListSetting(SkillCaster caster, ISkill skill, String setting);
+    List<String> getUsedStringListSetting(SkillCaster caster, ISkill skill, String setting);
 
-    public ItemStack getUsedItemStackSetting(SkillCaster caster, ISkill skill,
+    ItemStack getUsedItemStackSetting(SkillCaster caster, ISkill skill,
                                              SkillSetting setting);
 
-    public ItemStack getUsedItemStackSetting(SkillCaster caster, ISkill skill, String setting);
+    ItemStack getUsedItemStackSetting(SkillCaster caster, ISkill skill, String setting);
 
 }

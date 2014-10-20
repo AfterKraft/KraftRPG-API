@@ -36,7 +36,7 @@ public interface Damaging extends Periodic {
      *
      * @return damage per tick
      */
-    public double getTickDamage();
+    double getTickDamage();
 
     /**
      * Set the damage per tick for this effect.
@@ -45,13 +45,13 @@ public interface Damaging extends Periodic {
      *
      * @throws IllegalArgumentException If the damage is negative or zero
      */
-    public void setTickDamage(double tickDamage);
+    void setTickDamage(double tickDamage);
 
     /**
      * Return whether this effect knocks back the affected
      *
      * @return true if this effect will knock back on damage
      */
-    public boolean isKnockback();
+    boolean isKnockback();
 
 }

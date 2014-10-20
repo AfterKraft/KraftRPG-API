@@ -36,19 +36,19 @@ public interface Summon extends Insentient {
      *
      * @return The time left remaining in the world
      */
-    public long getTimeLeftAlive();
+    long getTimeLeftAlive();
 
     /**
      * Gets the linked summoner that summoned this summon.
      *
      * @return The skillcaster that summoned this summon
      */
-    public SkillCaster getSummoner();
+    SkillCaster getSummoner();
 
     /**
      * Removes the summon from the world. This is a utility method primarily to reset the summon and
      * unlink it from any physical contact.
      */
-    public void remove();
+    void remove();
 
 }

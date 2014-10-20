@@ -38,12 +38,12 @@ public interface Managed extends Delayed {
      *
      * @return the Effect
      */
-    public IEffect getEffect();
+    IEffect getEffect();
 
     /**
      * Return the IEntity attached to this Managed
      *
      * @return the IEntity
      */
-    public Insentient getSentientBeing();
+    Insentient getSentientBeing();
 }

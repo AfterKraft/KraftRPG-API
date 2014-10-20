@@ -53,5 +53,5 @@ public interface Targeted<E extends Entity> extends Active {
      *
      * @return final SkillCastResults
      */
-    public SkillCastResult useSkill(SkillCaster caster, IEntity target, E entity);
+    SkillCastResult useSkill(SkillCaster caster, IEntity target, E entity);
 }

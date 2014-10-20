@@ -43,7 +43,7 @@ public interface PartyManager extends Manager {
      * @return the party after members have been added
      * @throws IllegalArgumentException If the leader is null
      */
-    public Party createParty(PartyMember partyLeader, PartyMember... members);
+    Party createParty(PartyMember partyLeader, PartyMember... members);
 
     /**
      * Check if two PartyMembers are considered friendly to each other.
@@ -61,7 +61,7 @@ public interface PartyManager extends Manager {
      * @return if friendly - e.g., can heal
      * @throws IllegalArgumentException If either PartyMember is null
      */
-    public boolean isFriendly(PartyMember a, PartyMember b);
+    boolean isFriendly(PartyMember a, PartyMember b);
 
     /**
      * Check if two PartyMembers are considered hostile to each other.
@@ -79,5 +79,5 @@ public interface PartyManager extends Manager {
      * @return if hostile - e.g., can hurt
      * @throws IllegalArgumentException If either PartyMember is null
      */
-    public boolean isEnemy(PartyMember a, PartyMember b);
+    boolean isEnemy(PartyMember a, PartyMember b);
 }

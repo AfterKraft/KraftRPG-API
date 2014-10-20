@@ -40,6 +40,6 @@ public interface ListenerManager extends Manager {
      *
      * @param listener the listener being added to the list of managed Listeners
      */
-    public void addListener(AbstractListener listener);
+    void addListener(AbstractListener listener);
 
 }

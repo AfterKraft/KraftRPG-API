@@ -62,12 +62,11 @@ public interface DamageManager extends Manager {
      *
      * @param being         the Insentient to query for damages
      * @param defaultDamage
-     *
      * @return the highest possible damage for the item from any possible modifications
      */
-    public double getHighestItemDamage(Insentient being, Insentient defender, double defaultDamage);
+    double getHighestItemDamage(Insentient being, Insentient defender, double defaultDamage);
 
-    public double getHighestProjectileDamage(Insentient champion, ProjectileType type);
+    double getHighestProjectileDamage(Insentient champion, ProjectileType type);
 
     /**
      * Request the default damage for the provided {@link org.bukkit.Material} and uses the default
@@ -75,49 +74,45 @@ public interface DamageManager extends Manager {
      *
      * @param type
      * @param damage
-     *
      * @return
      */
     public double getDefaultItemDamage(Material type, double damage);
 
     /**
      * @param type
-     *
      * @return
      */
-    public double getDefaultItemDamage(Material type);
+    double getDefaultItemDamage(Material type);
 
     /**
      * @param type
      * @param damage
      */
-    public void setDefaultItemDamage(Material type, double damage);
+    void setDefaultItemDamage(Material type, double damage);
 
     /**
      * @param type
-     *
      * @return
      */
-    public boolean doesItemDamageVary(Material type);
+    boolean doesItemDamageVary(Material type);
 
     /**
      * @param type
      * @param isVarying
      */
-    public void setItemDamageVarying(Material type, boolean isVarying);
+    void setItemDamageVarying(Material type, boolean isVarying);
 
     /**
      * Gets the default damage for the given EntityType.
      *
      * @param type of Entity we are querying
-     *
      * @return the damage from the default configuration for the given EntityType
      */
-    public double getEntityDamage(EntityType type);
+    double getEntityDamage(EntityType type);
 
-    public double getEnvironmentalDamage(DamageCause cause);
+    double getEnvironmentalDamage(DamageCause cause);
 
-    public double getEnchantmentDamage(Enchantment enchantment, int enchantmentLevel);
+    double getEnchantmentDamage(Enchantment enchantment, int enchantmentLevel);
 
     /**
      * Utility method to calculate the modified damage from an Enchantment damage caused by an Armor
@@ -130,20 +125,18 @@ public interface DamageManager extends Manager {
      * @param being       wearing/using the enchanted ItemStack
      * @param enchantment to calculate for
      * @param item        that is enchanted
-     *
      * @return calculated damage that may be varied if enabled
      */
-    public double getItemEnchantmentDamage(Insentient being, Enchantment enchantment,
-                                           ItemStack item);
+    double getItemEnchantmentDamage(Insentient being, Enchantment enchantment,
+                                    ItemStack item);
 
     /**
      * Calculate the fall reduction for this being considering various sources including armor.
      *
      * @param being
-     *
      * @return
      */
-    public double getFallReduction(Insentient being);
+    double getFallReduction(Insentient being);
 
     /**
      * Attempts to calculate various possible modifications to the default damage for the given
@@ -154,34 +147,33 @@ public interface DamageManager extends Manager {
      * @param location    the spawn location of the Monster
      * @param baseDamage  the default base damage of the Monster
      * @param fromSpawner whether the Monster originated from a Spawner
-     *
      * @return the calculated customized damage for the Monster
      */
-    public double getModifiedEntityDamage(final Monster monster, final Location location,
-                                          final double baseDamage,
-                                          final CreatureSpawnEvent.SpawnReason fromSpawner);
+    double getModifiedEntityDamage(final Monster monster, final Location location,
+                                   final double baseDamage,
+                                   final CreatureSpawnEvent.SpawnReason fromSpawner);
 
-    public double getDefaultEntityHealth(final LivingEntity entity);
+    double getDefaultEntityHealth(final LivingEntity entity);
 
-    public double getModifiedEntityHealth(final LivingEntity entity);
+    double getModifiedEntityHealth(final LivingEntity entity);
 
-    public boolean doesEntityDealVaryingDamage(EntityType type);
+    boolean doesEntityDealVaryingDamage(EntityType type);
 
-    public void setEntityToDealVaryingDamage(EntityType type, boolean dealsVaryingDamage);
+    void setEntityToDealVaryingDamage(EntityType type, boolean dealsVaryingDamage);
 
-    public boolean isStandardWeapon(Material material);
+    boolean isStandardWeapon(Material material);
 
     /**
      * Load defaults for the default damages from the given Configuration
      *
      * @param config repsective for this manager
      */
-    public void load(Configuration config);
+    void load(Configuration config);
 
     /**
      * Standard projectile type enum for use by the DamageManager.
      */
-    public enum ProjectileType {
+    enum ProjectileType {
         ARROW,
         EGG,
         SNOWBALL,
@@ -191,7 +183,7 @@ public interface DamageManager extends Manager {
         WITHER_SKULL,
         THROWN_EXP_BOTTLE;
 
-        public static ProjectileType valueOf(Entity entity) {
+        static ProjectileType valueOf(Entity entity) {
             if (entity instanceof Arrow) {
                 return ARROW;
             } else if (entity instanceof Snowball) {

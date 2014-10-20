@@ -44,14 +44,14 @@ public interface IEffect {
      *
      * @return the Skill that created this effect
      */
-    public ISkill getSkill();
+    ISkill getSkill();
 
     /**
      * Returns this individual Effect's name. (Should be as unique and recognizable as possible).
      *
      * @return the name of this effect.
      */
-    public String getName();
+    String getName();
 
     /**
      * Check if this Effect is of a certain EffectType
@@ -61,7 +61,7 @@ public interface IEffect {
      * @return True if this Effect is of the queried EffectType
      * @throws IllegalArgumentException If the query type is null
      */
-    public boolean isType(EffectType queryType);
+    boolean isType(EffectType queryType);
 
     /**
      * Gets an immutable set of the potion effects that are applied when {@link #apply(Insentient)}
@@ -69,7 +69,7 @@ public interface IEffect {
      *
      * @return An immutable set of potion effects
      */
-    public Set<PotionEffect> getPotionEffects();
+    Set<PotionEffect> getPotionEffects();
 
     /**
      * Check if this Effect is persistent. A Persistent effect will never expire until the Effect is
@@ -77,12 +77,12 @@ public interface IEffect {
      *
      * @return true if this Effect is persistent
      */
-    public boolean isPersistent();
+    boolean isPersistent();
 
     /**
      * @return the applyTime
      */
-    public long getApplyTime();
+    long getApplyTime();
 
     /**
      * Attempts to apply this effect to the provided {@link com.afterkraft.kraftrpg.api.entity.Insentient}.
@@ -91,7 +91,7 @@ public interface IEffect {
      *
      * @throws IllegalArgumentException If the being is null or invalid
      */
-    public void apply(Insentient being);
+    void apply(Insentient being);
 
     /**
      * Attempts to remove this effect from the given Insentient being
@@ -100,7 +100,7 @@ public interface IEffect {
      *
      * @throws IllegalArgumentException If the being is null or invalid
      */
-    public void remove(Insentient being);
+    void remove(Insentient being);
 
     /**
      * Get the message that should be sent to players when this effect is applied

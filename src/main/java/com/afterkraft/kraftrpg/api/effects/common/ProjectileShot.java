@@ -34,7 +34,7 @@ import com.afterkraft.kraftrpg.api.entity.Insentient;
  */
 public interface ProjectileShot extends Imbuing {
 
-    public int getShotsLeft();
+    int getShotsLeft();
 
     /**
      * Applies the desired effect to the given Projectile.
@@ -44,7 +44,7 @@ public interface ProjectileShot extends Imbuing {
      * @return True if the projectile application was successful
      * @throws IllegalArgumentException If the projectile is null or not valid
      */
-    public boolean applyToProjectile(Projectile projectile);
+    boolean applyToProjectile(Projectile projectile);
 
     /**
      * A simple callback method for when the imbued projectile has hit the ground or another
@@ -53,7 +53,7 @@ public interface ProjectileShot extends Imbuing {
      * @param projectile The projectile that is landing
      * @param location   The location of the projectile's landing point
      */
-    public void onProjectileLand(Projectile projectile, Location location);
+    void onProjectileLand(Projectile projectile, Location location);
 
     /**
      * A simple callback method for when the imbued projectile has hit an {@link Insentient} being.
@@ -63,5 +63,5 @@ public interface ProjectileShot extends Imbuing {
      * @param projectile The projectile that is damaging the victim
      * @param victim     The victim being damaged
      */
-    public void onProjectileDamage(Projectile projectile, Insentient victim);
+    void onProjectileDamage(Projectile projectile, Insentient victim);
 }

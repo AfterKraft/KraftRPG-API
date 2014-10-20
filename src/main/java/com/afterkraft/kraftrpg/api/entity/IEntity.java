@@ -42,21 +42,21 @@ public interface IEntity {
      *
      * @return the Bukkit name of this Entity
      */
-    public String getName();
+    String getName();
 
     /**
      * Get the cleansed name for this Entity. It may be a customized name.
      *
      * @return The customized display name for this Entity
      */
-    public String getDisplayName();
+    String getDisplayName();
 
     /**
      * Check if the attached {@link org.bukkit.entity.LivingEntity} is still valid and not null
      *
      * @return true if the LivingEntity is not null
      */
-    public boolean isValid();
+    boolean isValid();
 
     /**
      * Check if the {@link org.bukkit.entity.Entity#isValid()}. This also checks if the reference of
@@ -64,21 +64,21 @@ public interface IEntity {
      *
      * @return true if the LivingEntity is alive and valid
      */
-    public boolean isEntityValid();
+    boolean isEntityValid();
 
     /**
      * Returns the Entity if the Entity {@link #isEntityValid()}.
      *
      * @return the linked Entity if not null
      */
-    public Entity getEntity();
+    Entity getEntity();
 
     /**
      * Gets the type of Entity this IEntity is wrapping.
      *
      * @return The type of entity this IEntity is wrapping
      */
-    public EntityType getEntityType();
+    EntityType getEntityType();
 
     /**
      * Reset the linked Entity to the provided {@link org.bukkit.entity.Entity} if the {@link
@@ -89,21 +89,21 @@ public interface IEntity {
      * @return true if successful, false if UUID did not match
      * @throws IllegalArgumentException If the entity is null
      */
-    public boolean setEntity(Entity entity);
+    boolean setEntity(Entity entity);
 
     /**
      * Returns the linked Entity's UUID provided by the server.
      *
      * @return the linked UUID to this entity.
      */
-    public UUID getUniqueID();
+    UUID getUniqueID();
 
     /**
      * Return the {@link org.bukkit.Location} of this being.
      *
      * @return the location of the being.
      */
-    public Location getLocation();
+    Location getLocation();
 
     /**
      * Gets a list of entities within a bounding box centered around this IEntity.
@@ -114,20 +114,20 @@ public interface IEntity {
      *
      * @return The List of entities nearby
      */
-    public List<Entity> getNearbyEntities(double x, double y, double z);
+    List<Entity> getNearbyEntities(double x, double y, double z);
 
     /**
      * Shortcut method for {@link #getLocation()#getWorld()}
      *
      * @return the world of this being.
      */
-    public World getWorld();
+    World getWorld();
 
     /**
      * Check if this being is on solid ground (not flying or jumping) in the air
      *
      * @return true if the being is not in the air
      */
-    public boolean isOnGround();
+    boolean isOnGround();
 
 }

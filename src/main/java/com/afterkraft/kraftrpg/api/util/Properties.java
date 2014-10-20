@@ -35,7 +35,7 @@ import org.bukkit.entity.LivingEntity;
  */
 public interface Properties {
 
-    public int getDefaultGlobalCooldown();
+    int getDefaultGlobalCooldown();
 
     /**
      * Return if the {@link com.afterkraft.kraftrpg.api.util.DamageManager} will calculate varying
@@ -48,15 +48,15 @@ public interface Properties {
      *
      * @return true if enabled, false otherwise.
      */
-    public boolean isVaryingDamageEnabled();
+    boolean isVaryingDamageEnabled();
 
-    public boolean isStarvingDamageEnabled();
+    boolean isStarvingDamageEnabled();
 
-    public int getCombatTime();
+    int getCombatTime();
 
-    public int getDefaultMaxStamina();
+    int getDefaultMaxStamina();
 
-    public int getDefaultStaminaRegeneration();
+    int getDefaultStaminaRegeneration();
 
     /**
      * Gets the stamina increase for the desired Material. If the Material is not a food item, the
@@ -66,33 +66,33 @@ public interface Properties {
      *
      * @return
      */
-    public int getStaminaIncreaseForFood(Material foodMaterial);
+    int getStaminaIncreaseForFood(Material foodMaterial);
 
-    public int getFoodHealPercent();
+    int getFoodHealPercent();
 
-    public int getFoodHealthPerTier();
+    int getFoodHealthPerTier();
 
-    public long getCombatPeriod();
+    long getCombatPeriod();
 
-    public FixedPoint getMonsterExperience(LivingEntity entity, Location spawnPoint);
+    FixedPoint getMonsterExperience(LivingEntity entity, Location spawnPoint);
 
-    public double getExperienceLossMultiplier();
+    double getExperienceLossMultiplier();
 
-    public double getExperienceLossMultiplierForPVP();
+    double getExperienceLossMultiplierForPVP();
 
-    public FixedPoint getPlayerKillingExperience();
+    FixedPoint getPlayerKillingExperience();
 
-    public boolean hasEntityRewardType(EntityType type);
+    boolean hasEntityRewardType(EntityType type);
 
-    public FixedPoint getEntityReward(EntityType type);
+    FixedPoint getEntityReward(EntityType type);
 
-    public boolean allowSpawnCamping();
+    boolean allowSpawnCamping();
 
-    public double getSpawnCampingMultiplier();
+    double getSpawnCampingMultiplier();
 
-    public boolean isMobDamageDistanceModified();
+    boolean isMobDamageDistanceModified();
 
-    public String getStorageType();
+    String getStorageType();
 
     /**
      * Third party plugin, VanishNoPacket, checks if the use of VanishNoPacket is configured to be
@@ -100,5 +100,5 @@ public interface Properties {
      *
      * @return True if VanishNoPacket is configured to be used for invisibility
      */
-    public boolean useVanishIfAvailable();
+    boolean useVanishIfAvailable();
 }

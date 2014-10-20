@@ -46,7 +46,7 @@ public interface Party {
      *
      * @return an unmodifiable list of Champions in this party.
      */
-    public List<PartyMember> getMembers();
+    List<PartyMember> getMembers();
 
     /**
      * Attempts to add the requested {@link com.afterkraft.kraftrpg.api.entity.Champion}. This will
@@ -58,7 +58,7 @@ public interface Party {
      * @return true if successful, false if the Champion could not be added for any reason
      * @throws IllegalArgumentException If the member is null
      */
-    public boolean addMember(PartyMember member);
+    boolean addMember(PartyMember member);
 
     /**
      * Attempts to add the requested {@link com.afterkraft.kraftrpg.api.entity.Champion} to this
@@ -73,7 +73,7 @@ public interface Party {
      * @return true if successful, false if the Champion could not be added
      * @throws IllegalArgumentException If the member is null
      */
-    public boolean addMember(PartyMember member, boolean forced);
+    boolean addMember(PartyMember member, boolean forced);
 
     /**
      * Removes the queried member if it is possible. This should be considered as throwing an event
@@ -85,7 +85,7 @@ public interface Party {
      *
      * @throws IllegalArgumentException if the member is null
      */
-    public void removeMember(PartyMember member);
+    void removeMember(PartyMember member);
 
     /**
      * Just like {@link #removeMember(com.afterkraft.kraftrpg.api.entity.PartyMember)}, except that
@@ -97,7 +97,7 @@ public interface Party {
      *
      * @throws IllegalArgumentException If the member is null
      */
-    public void removeMember(PartyMember member, boolean forced);
+    void removeMember(PartyMember member, boolean forced);
 
     /**
      * Add an invite to this party for the supplied member. Usually, this will result in a message
@@ -108,7 +108,7 @@ public interface Party {
      *
      * @throws IllegalArgumentException If the member is null
      */
-    public void addMemberInvite(PartyMember member);
+    void addMemberInvite(PartyMember member);
 
     /**
      * Removes the invite for the member, if it exists.
@@ -117,7 +117,7 @@ public interface Party {
      *
      * @throws IllegalArgumentException If the member is null
      */
-    public void removeMemberInvite(PartyMember member);
+    void removeMemberInvite(PartyMember member);
 
     /**
      * @param member
@@ -125,37 +125,37 @@ public interface Party {
      * @return
      * @throws IllegalArgumentException If the member is null
      */
-    public boolean hasMemberInvite(PartyMember member);
+    boolean hasMemberInvite(PartyMember member);
 
-    public int size();
+    int size();
 
     /**
      * @param message
      * @param announce
      */
-    public void messageParty(String message, boolean announce);
+    void messageParty(String message, boolean announce);
 
     /**
      * @return
      */
-    public boolean emptyParty();
+    boolean emptyParty();
 
     /**
      * @param member
      *
      * @return
      */
-    public boolean hasMember(PartyMember member);
+    boolean hasMember(PartyMember member);
 
     /**
      * @return
      */
-    public List<UUID> getPartyMemberUUIDs();
+    List<UUID> getPartyMemberUUIDs();
 
     /**
      * @param member
      */
-    public void logOffMember(PartyMember member);
+    void logOffMember(PartyMember member);
 
     /**
      * @param experience
@@ -166,6 +166,6 @@ public interface Party {
      * @throws IllegalArgumentException If the type is null
      * @throws IllegalArgumentException If the Location is null
      */
-    public void gainExperience(FixedPoint experience, ExperienceType type, Location location);
+    void gainExperience(FixedPoint experience, ExperienceType type, Location location);
 
 }

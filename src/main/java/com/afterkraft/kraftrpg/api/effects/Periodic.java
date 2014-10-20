@@ -36,19 +36,19 @@ public interface Periodic extends IEffect, Timed {
      *
      * @return the time in milliseconds this effect was last ticked
      */
-    public long getLastTickTime();
+    long getLastTickTime();
 
     /**
      * @return the duration of this effect
      */
-    public long getPeriod();
+    long getPeriod();
 
     /**
      * Returns whether the effect is ready for ticking
      *
      * @return - The ready state of this effect. DO NOT CALL IF THIS IS FALSE
      */
-    public boolean isReady();
+    boolean isReady();
 
     /**
      * Ticks this effect on the specified entity.
@@ -57,6 +57,6 @@ public interface Periodic extends IEffect, Timed {
      *
      * @throws IllegalArgumentException If the being is null
      */
-    public void tick(Insentient being);
+    void tick(Insentient being);
 
 }

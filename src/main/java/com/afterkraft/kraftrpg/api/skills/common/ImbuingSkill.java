@@ -41,5 +41,5 @@ public interface ImbuingSkill extends Active {
      * @param caster  The caster using this skill.
      * @param maxUses The configured max uses for the Imbued effect.
      */
-    public void addImbueEffect(SkillCaster caster, int maxUses);
+    void addImbueEffect(SkillCaster caster, int maxUses);
 }

@@ -35,7 +35,7 @@ public interface Healing extends Periodic {
      *
      * @return the health to heal per tick
      */
-    public double getTickHealth();
+    double getTickHealth();
 
     /**
      * Set the health to heal per tick
@@ -44,5 +44,5 @@ public interface Healing extends Periodic {
      *
      * @throws IllegalArgumentException If the health is negative
      */
-    public void setTickHealth(double tickHealth);
+    void setTickHealth(double tickHealth);
 }
