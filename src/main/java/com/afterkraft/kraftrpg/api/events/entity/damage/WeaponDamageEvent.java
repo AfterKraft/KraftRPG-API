@@ -37,22 +37,17 @@ import com.afterkraft.kraftrpg.api.entity.Insentient;
  * com.afterkraft.kraftrpg.api.entity.Insentient} being damaged by an attacking Insentient with a
  * weapon. This specific event does always have an attacker, but it is handled with the Insentient
  * in the event there is an Insentient being damaged for any reason (including instances of
- * CommandBlocks or {@link org.bukkit.entity.Entity}).
- * <p/>
- * This is the KraftRPG counterpart to {@link org.bukkit.event.entity.EntityDamageByEntityEvent}
- * after special handling and calculations being made on the damage being dealt.
- * <p/>
- * This specific event is called when the {@link #getAttacker()} is dealing damage via weapon as
- * understood by {@link com.afterkraft.kraftrpg.api.util.Utilities#isStandardWeapon(org.bukkit.Material)}
- * <p/>
- * <p/>
- * It is guaranteed that the {@link #getDefender()} will not be null, but it is not guaranteed the
- * linked {@link org.bukkit.entity.LivingEntity} is not a real entity. It is also guaranteed the
- * {@link #getAttacker()} is not null, but it is also not guaranteed that the linked {@link
- * org.bukkit.entity.LivingEntity} is not a real entity.
- * <p/>
- * Therefore the methods provided from {@link com.afterkraft.kraftrpg.api.entity.Insentient} should
- * be the only ones considered "safe" to use.
+ * CommandBlocks or {@link org.bukkit.entity.Entity}).  This is the KraftRPG counterpart to
+ * {@link org.bukkit.event.entity.EntityDamageByEntityEvent} after special handling and calculations
+ * being made on the damage being dealt.  This specific event is called when the {@link
+ * #getAttacker()} is dealing damage via weapon as understood by {@link
+ * com.afterkraft.kraftrpg.api.util.Utilities#isStandardWeapon(org.bukkit.Material)}   It is
+ * guaranteed that the {@link #getDefender()} will not be null, but it is not guaranteed the linked
+ * {@link org.bukkit.entity.LivingEntity} is not a real entity. It is also guaranteed the {@link
+ * #getAttacker()} is not null, but it is also not guaranteed that the linked {@link
+ * org.bukkit.entity.LivingEntity} is not a real entity.  Therefore the methods provided from
+ * {@link com.afterkraft.kraftrpg.api.entity.Insentient} should be the only ones considered "safe"
+ * to use.
  */
 public class WeaponDamageEvent extends InsentientDamageInsentientEvent {
 

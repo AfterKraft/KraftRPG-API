@@ -48,9 +48,8 @@ import com.afterkraft.kraftrpg.api.skills.SkillSetting;
  * com.afterkraft.kraftrpg.api.entity.Sentient} may have. All {@link
  * com.afterkraft.kraftrpg.api.skills.ISkill}s are granted for use to {@link
  * com.afterkraft.kraftrpg.api.entity.SkillCaster}s and experience is gained by {@link
- * com.afterkraft.kraftrpg.api.entity.Sentient}s.
- * <p/>
- * To construct a Role, use the linked {@link com.afterkraft.kraftrpg.api.roles.Role.Builder}
+ * com.afterkraft.kraftrpg.api.entity.Sentient}s.  To construct a Role, use the linked {@link
+ * com.afterkraft.kraftrpg.api.roles.Role.Builder}
  */
 public final class Role {
 
@@ -841,6 +840,8 @@ public final class Role {
          *
          * @param type           of Material
          * @param doesDamageVary if true, set the item to deal varying damage.
+         *
+         * @return The builder for chaining
          */
         public Builder setItemDamageVaries(Material type, boolean doesDamageVary) {
             checkArgument(type != null, "Cannot have a null Material type!");
@@ -860,6 +861,7 @@ public final class Role {
          * @param skill   to define
          * @param section defining the settings for the skill being added to this Role
          *
+         * @return The builder for chaining
          * @throws IllegalArgumentException if the skill is null
          * @throws IllegalArgumentException if the section is null
          * @throws IllegalArgumentException if the skill level node is not defined correctly
@@ -982,10 +984,9 @@ public final class Role {
 
         /**
          * Gets a Role from the present state of the Builder. There are requirements to generating a
-         * Role that otherwise, the Builder is in an incomplete state. <p></p> The requirements are:
-         * <ul> <li>A name</li> <li>A description</li> <li>A max level</li> <li>Minimum health at
-         * level 0</li> <li>Health gains per level is not 0</li> <li>Mana per level is not 0</li>
-         * </ul>
+         * Role that otherwise, the Builder is in an incomplete state. The requirements are: <ul>
+         * <li>A name</li> <li>A description</li> <li>A max level</li> <li>Minimum health at level
+         * 0</li> <li>Health gains per level is not 0</li> <li>Mana per level is not 0</li> </ul>
          *
          * @return A newly constructed Role that can not be changed.
          * @throws IllegalStateException If the description is null

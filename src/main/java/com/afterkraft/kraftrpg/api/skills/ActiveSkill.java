@@ -71,11 +71,10 @@ public abstract class ActiveSkill extends Skill implements Active {
     }
 
     /**
-     * {@inheritDoc}
-     * <p/>
-     * As not all skills will want this method, subclasses should override it if desired.
+     * {@inheritDoc}  As not all skills will want this method, subclasses should override it if
+     * desired.
      *
-     * @param caster
+     * @param caster The caster performing the warmup.
      */
     @Override
     public void onWarmUp(SkillCaster caster) {

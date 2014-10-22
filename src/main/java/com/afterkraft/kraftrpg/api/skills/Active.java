@@ -30,14 +30,10 @@ import com.afterkraft.kraftrpg.api.entity.SkillCaster;
 /**
  * Represents a Skill that only has results on activation through command or binding. As this is an
  * active skill that requires some possible binding or targetting, usage should be included by the
- * implementation for players to understand how to use this active skill.
- * <p/>
- * Recommended use of this interface is {@link ActiveSkill}.
- * <p/>
- * The methods {@link #getUsage()}, {@link #tabComplete(com.afterkraft.kraftrpg.api.entity.SkillCaster,
- * String[], int)}
- * <p/>
- * The methods that do rely on parser state shall be called in the following order: <ol> <li>{@link
+ * implementation for players to understand how to use this active skill.  Recommended use of
+ * this interface is {@link ActiveSkill}.  The methods {@link #getUsage()}, {@link
+ * #tabComplete(com.afterkraft.kraftrpg.api.entity.SkillCaster, String[], int)}  The methods
+ * that do rely on parser state shall be called in the following order: <ol> <li>{@link
  * #checkCustomRestrictions(SkillCaster, boolean)}</li> <li>{@link #parse(SkillCaster,
  * String[])}</li> <li>{@link #checkCustomRestrictions(SkillCaster, boolean)}</li> <li>If
  * checkCustomRestrictions() returns ON_WARMUP, then {@link #onWarmUp(SkillCaster)}. If it returns
@@ -58,6 +54,7 @@ public interface Active extends ISkill {
      * Get the typed SkillArgument at the given index. This method is intended for use by the Skill,
      * as it knows what types its arguments are in advance, and they do not move.
      *
+     * @param <T> The type of SkillArgument being requested.
      * @param index - index into the getSkillArguments() array
      *
      * @return a casted SkillArgument

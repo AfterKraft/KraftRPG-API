@@ -317,8 +317,9 @@ public abstract class Skill implements ISkill {
      * SkillSetting node to the used settings. This is useful for not having to override {@link
      * #getDefaultConfig()} and {@link #getUsedConfigNodes()}
      *
-     * @param node  The skill setting node
-     * @param value The value to set the setting at
+     * @param node          The skill setting node
+     * @param value         The value to set the setting at
+     * @param valuePerLevel The value per level
      *
      * @throws IllegalArgumentException If the setting is null
      */
@@ -339,8 +340,9 @@ public abstract class Skill implements ISkill {
      * SkillSetting node to the used settings. This is useful for not having to override {@link
      * #getDefaultConfig()} and {@link #getUsedConfigNodes()}
      *
-     * @param node  The skill setting node
-     * @param value The value to set the setting at
+     * @param node          The skill setting node
+     * @param value         The value to set the setting at
+     * @param valuePerLevel The value to set per level
      *
      * @throws IllegalArgumentException If the setting is null
      */

@@ -74,10 +74,9 @@ public interface EntityManager extends Manager {
     /**
      * Attempts to load a {@link com.afterkraft.kraftrpg.api.entity.Champion} with a link to a
      * Player and {@link com.afterkraft.kraftrpg.api.storage.PlayerData} that allows interaction
-     * with the rest of KraftRPG.
-     * <p/>
-     * When needing data regarding a Player who is offline and the data is not intended to be
-     * modified, ignoreOffline can be used to retrieve the data for a specific player.
+     * with the rest of KraftRPG.  When needing data regarding a Player who is offline and the
+     * data is not intended to be modified, ignoreOffline can be used to retrieve the data for a
+     * specific player.
      *
      * @param uuid          of the Player in question
      * @param ignoreOffline whether to load a fake Champion regardless whether the linked Player is
@@ -120,10 +119,8 @@ public interface EntityManager extends Manager {
      * possibly {@link com.afterkraft.kraftrpg.api.entity.SkillCaster}s. It will perform checks
      * against the current map of managed {@link org.bukkit.entity.Entity} and return false if the
      * entity is already registered. If the entity is registered, killing the entity and spawning a
-     * new one in it's place is possible.
-     * <p/>
-     * It is important that any custom entities are added through this method so that KraftRPG can
-     * function as intended.
+     * new one in it's place is possible.  It is important that any custom entities are added
+     * through this method so that KraftRPG can function as intended.
      *
      * @param entity to be managed by KraftRPG
      *
@@ -154,7 +151,7 @@ public interface EntityManager extends Manager {
      * Removes the desired champion due to logout or quit. This is only supported to remove tracking
      * of the champion.
      *
-     * @param c
+     * @param c The champion to remove
      */
     void removeChampion(Champion c);
 }

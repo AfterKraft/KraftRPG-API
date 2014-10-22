@@ -28,6 +28,8 @@ package com.afterkraft.kraftrpg.api.roles;
  * kind.
  */
 public class RoleSkillConfigurationException extends RuntimeException {
+    private static final long serialVersionUID = 1334807888872329269L;
+
     public RoleSkillConfigurationException(String message) {
         super(message);
     }

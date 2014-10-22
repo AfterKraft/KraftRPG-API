@@ -43,9 +43,8 @@ import com.afterkraft.kraftrpg.api.skills.arguments.EntitySkillArgument;
  * targeting distance of 10. It should be noted that {@link #useSkill(SkillCaster)} is final because
  * of initial target handling checks, if the target is an {@link Insentient} being and if that being
  * has {@link EffectType}s that prevent it from being damaged, the {@link #useSkill(SkillCaster,
- * IEntity, Entity)} is not used.
- * <p/>
- * Only experienced developers wishing to add further customizations
+ * IEntity, Entity)} is not used.  Only experienced developers wishing to add further
+ * customizations
  *
  * @param <E> The entity type to target
  */

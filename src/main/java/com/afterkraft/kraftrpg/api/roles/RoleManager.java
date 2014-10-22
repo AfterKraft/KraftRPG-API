@@ -58,12 +58,13 @@ public interface RoleManager extends Manager {
     /**
      * Attempts to add a dependency for the two involving roles. This method is here to
      *
-     * @param parent
-     * @param child
+     * @param parent The parent role adding the dependency
+     * @param child  The child role adding the parent dependency
      *
-     * @return
-     * @throws IllegalArgumentException
-     * @throws CircularDependencyException
+     * @return True if successful
+     * @throws IllegalArgumentException    If any roles are null
+     * @throws CircularDependencyException If the resulting dependency results in a circular
+     *                                     dependency
      */
     boolean addRoleDependency(Role parent, Role child) throws CircularDependencyException;
 

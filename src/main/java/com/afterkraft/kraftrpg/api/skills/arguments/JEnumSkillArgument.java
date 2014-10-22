@@ -34,7 +34,7 @@ import com.afterkraft.kraftrpg.api.util.Utilities;
 /**
  * A SkillArgument that parses and validates input according to a specified Java Enum.
  *
- * @param <T>
+ * @param <T> The type of enum
  */
 public class JEnumSkillArgument<T extends Enum<T>> extends SkillArgument {
     private final T def;

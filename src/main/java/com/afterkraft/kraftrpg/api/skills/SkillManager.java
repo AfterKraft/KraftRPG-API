@@ -39,7 +39,7 @@ public interface SkillManager extends Manager {
     /**
      * Adds a skill to the skill mapping
      *
-     * @param skill
+     * @param skill The skill in question to add
      */
     void addSkill(ISkill skill);
 
@@ -57,9 +57,9 @@ public interface SkillManager extends Manager {
      * Returns a skill from it's name If the skill is not in the skill mapping it will attempt to
      * load it from file
      *
-     * @param name
+     * @param name The name of the skill
      *
-     * @return
+     * @return The skill
      */
     ISkill getSkill(String name);
 
@@ -106,9 +106,11 @@ public interface SkillManager extends Manager {
     boolean isCasterDelayed(SkillCaster caster);
 
     /**
-     * @param caster
+     * Gets the currently stalled skill the caster is about to cast.
      *
-     * @return
+     * @param caster The caster in question
+     *
+     * @return The stalled skill for the caster
      */
     Stalled getDelayedSkill(SkillCaster caster);
 

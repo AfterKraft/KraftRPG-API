@@ -39,15 +39,12 @@ import com.afterkraft.kraftrpg.api.util.FixedPoint;
 
 /**
  * Represents an Insentient being that allows retreival of the being's status and handles the basic
- * {@link com.afterkraft.kraftrpg.api.effects.IEffect}.
- * <p/>
- * It is important to note that an Insentient, and it's subclasses, may not always be attached to a
- * {@link org.bukkit.entity.LivingEntity}. This is why these methods are provided to assure that
- * Effects and Skills may still function and apply themselves to Insentient beings.
- * <p/>
- * It is advisable that the following method may return null: <code> {@link #getEntity()} </code>
- * and therefor any common information retrieval should be performed using the supplied methods
- * instead of assuming the LivingEntity methods.
+ * {@link com.afterkraft.kraftrpg.api.effects.IEffect}.  It is important to note that an Insentient,
+ * and it's subclasses, may not always be attached to a {@link org.bukkit.entity.LivingEntity}. This
+ * is why these methods are provided to assure that Effects and Skills may still function and apply
+ * themselves to Insentient beings.  It is advisable that the following method may return null:
+ * <code> {@link #getEntity()} </code> and therefor any common information retrieval should be
+ * performed using the supplied methods instead of assuming the LivingEntity methods.
  */
 public interface Insentient extends IEntity {
 
@@ -238,11 +235,11 @@ public interface Insentient extends IEntity {
     /**
      * Provided as a utility method to get a copy of the being's armor. Implementations may vary,
      * but this should be assured to follow the index representation provided by the following
-     * methods: <code> <ul> <li>{@link com.afterkraft.kraftrpg.api.handler.ServerInternals#getArmorIndexHelmet()}</li>
+     * methods: <ul> <li>{@link com.afterkraft.kraftrpg.api.handler.ServerInternals#getArmorIndexHelmet()}</li>
      * <li>{@link com.afterkraft.kraftrpg.api.handler.ServerInternals#getArmorIndexChestPlate()}</li>
      * <li>{@link com.afterkraft.kraftrpg.api.handler.ServerInternals#getArmorIndexLeggings()} </li>
      * <li>{@link com.afterkraft.kraftrpg.api.handler.ServerInternals#getArmorIndexBoots()} </li>
-     * </ul> </code>
+     * </ul>
      *
      * @return The copy of the ItemStack list of the armor for this being
      */
@@ -294,9 +291,8 @@ public interface Insentient extends IEntity {
     void addEffect(IEffect effect);
 
     /**
-     * Add the {@link org.bukkit.potion.PotionEffect} to this Insentient being.
-     * <p/>
-     * This method is provided with the assurance that the entity would not have a {@link
+     * Add the {@link org.bukkit.potion.PotionEffect} to this Insentient being.  This method is
+     * provided with the assurance that the entity would not have a {@link
      * java.util.ConcurrentModificationException} caused by multiple sources.
      *
      * @param potion the effect to be applied
@@ -306,9 +302,8 @@ public interface Insentient extends IEntity {
     void addPotionEffect(PotionEffect potion);
 
     /**
-     * Remove the {@link org.bukkit.potion.PotionEffectType} from this Insentient.
-     * <p/>
-     * This method is provided with the assurance that the entity would not have a {@link
+     * Remove the {@link org.bukkit.potion.PotionEffectType} from this Insentient.  This method is
+     * provided with the assurance that the entity would not have a {@link
      * java.util.ConcurrentModificationException} caused by multiple sources.
      *
      * @param type of PotionEffect to remove

@@ -33,12 +33,10 @@ import com.afterkraft.kraftrpg.api.CircularDependencyException;
  * This is a somewhat simple Graph data structure that has directed edges and allows for nodes to be
  * removed without having to specifically loosing all the children nodes of the given node.
  * Performance is gained by utilizing LinkedHashMaps as iterations are performed in virtually all
- * operations.
- * <p/>
- * This type of graph does not allow for cycles and actively checks for cycles when <ul> <li>{@link
- * #addEdge(Object, Object)}</li> <li>{@link #doesCycleExist()}</li> </ul>
+ * operations.  This type of graph does not allow for cycles and actively checks for cycles when
+ * <ul> <li>{@link #addEdge(Object, Object)}</li> <li>{@link #doesCycleExist()}</li> </ul>
  *
- * @param <T>
+ * @param <T> The type of graph
  */
 public class DirectedGraph<T> {
     /**
@@ -166,7 +164,7 @@ public class DirectedGraph<T> {
             return this;
         }
 
-        public Vertex removeEdge(Vertex<T> vertex) {
+        public Vertex<T> removeEdge(Vertex<T> vertex) {
             this.toNodes.remove(vertex);
             vertex.fromNodes.remove(this);
             return this;

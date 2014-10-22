@@ -43,11 +43,8 @@ import com.afterkraft.kraftrpg.api.skills.Skill;
  * other beings. The standard behaviors of this effect are: <ul> <li>The Insentient being is
  * rendered invisible and untargetable by area of effect skills</li> <li>The being produces no
  * sounds for movement actions</li> <li>The being is rendered visible upon attacking or manipulating
- * blocks around it.</li> </ul>
- * <p/>
- * Further customization can be achieved by means of extending this effect.
- * <p/>
- * This effect is provided as-is for common usage of common skills.
+ * blocks around it.</li> </ul>  Further customization can be achieved by means of extending
+ * this effect.  This effect is provided as-is for common usage of common skills.
  */
 public class InvisibiliytEffect extends ExpirableEffect {
 

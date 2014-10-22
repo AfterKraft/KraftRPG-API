@@ -46,14 +46,11 @@ public interface PartyManager extends Manager {
     Party createParty(PartyMember partyLeader, PartyMember... members);
 
     /**
-     * Check if two PartyMembers are considered friendly to each other.
-     * <p/>
-     * This method should be symmetrical and reflexive, but not necessarily transitive.
-     * <p/>
-     * If this method returns false, {@link #isEnemy(com.afterkraft.kraftrpg.api.entity.PartyMember,
-     * com.afterkraft.kraftrpg.api.entity.PartyMember)} should not return false.
-     * <p/>
-     * (They may both, however, return true. Consider this a "neutral" state.)
+     * Check if two PartyMembers are considered friendly to each other.  This method should be
+     * symmetrical and reflexive, but not necessarily transitive.  If this method returns false,
+     * {@link #isEnemy(com.afterkraft.kraftrpg.api.entity.PartyMember,
+     * com.afterkraft.kraftrpg.api.entity.PartyMember)} should not return false.  (They may
+     * both, however, return true. Consider this a "neutral" state.)
      *
      * @param a One PartyMember
      * @param b Another PartyMember
@@ -64,14 +61,11 @@ public interface PartyManager extends Manager {
     boolean isFriendly(PartyMember a, PartyMember b);
 
     /**
-     * Check if two PartyMembers are considered hostile to each other.
-     * <p/>
-     * This method should be symmetrical and reflexive, but not necessarily transitive.
-     * <p/>
-     * If this method returns false, {@link #isFriendly(com.afterkraft.kraftrpg.api.entity.PartyMember,
-     * com.afterkraft.kraftrpg.api.entity.PartyMember)} should not return false.
-     * <p/>
-     * (They may both, however, return true. Consider this a "neutral" state.)
+     * Check if two PartyMembers are considered hostile to each other.  This method should be
+     * symmetrical and reflexive, but not necessarily transitive.  If this method returns false,
+     * {@link #isFriendly(com.afterkraft.kraftrpg.api.entity.PartyMember,
+     * com.afterkraft.kraftrpg.api.entity.PartyMember)} should not return false.  (They may
+     * both, however, return true. Consider this a "neutral" state.)
      *
      * @param a One PartyMember
      * @param b Another PartyMember

@@ -56,12 +56,12 @@ public interface DamageManager extends Manager {
      * possibilities of damage modification if the Insentient is a {@link
      * com.afterkraft.kraftrpg.api.entity.SkillCaster} or {@link com.afterkraft.kraftrpg.api.entity.Sentient}
      * to which {@link com.afterkraft.kraftrpg.api.roles.Role}s will be allowed to modify the damage
-     * dealt from the Item.
-     * <p/>
-     * If the Insentient has no default damages for the Item, the damage returned will be 0.
+     * dealt from the Item.  If the Insentient has no default damages for the Item, the damage
+     * returned will be 0.
      *
      * @param being         the Insentient to query for damages
-     * @param defaultDamage
+     * @param defender      The defendant
+     * @param defaultDamage The default damage to deal
      *
      * @return the highest possible damage for the item from any possible modifications
      */
@@ -69,41 +69,14 @@ public interface DamageManager extends Manager {
 
     double getHighestProjectileDamage(Insentient champion, ProjectileType type);
 
-    /**
-     * Request the default damage for the provided {@link org.bukkit.Material} and uses the default
-     * damage provided if the default damage is not configured.
-     *
-     * @param type
-     * @param damage
-     *
-     * @return
-     */
     public double getDefaultItemDamage(Material type, double damage);
 
-    /**
-     * @param type
-     *
-     * @return
-     */
     double getDefaultItemDamage(Material type);
 
-    /**
-     * @param type
-     * @param damage
-     */
     void setDefaultItemDamage(Material type, double damage);
 
-    /**
-     * @param type
-     *
-     * @return
-     */
     boolean doesItemDamageVary(Material type);
 
-    /**
-     * @param type
-     * @param isVarying
-     */
     void setItemDamageVarying(Material type, boolean isVarying);
 
     /**
@@ -123,9 +96,7 @@ public interface DamageManager extends Manager {
      * Utility method to calculate the modified damage from an Enchantment damage caused by an Armor
      * piece or Weapon. The {@link com.afterkraft.kraftrpg.api.entity.Insentient} is used to check
      * for any possible {@link com.afterkraft.kraftrpg.api.roles.Role} damage modifications
-     * necessary.
-     * <p/>
-     * If varying damage is enabled, the damage will already take this into account.
+     * necessary.  If varying damage is enabled, the damage will already take this into account.
      *
      * @param being       wearing/using the enchanted ItemStack
      * @param enchantment to calculate for
@@ -139,9 +110,9 @@ public interface DamageManager extends Manager {
     /**
      * Calculate the fall reduction for this being considering various sources including armor.
      *
-     * @param being
+     * @param being The being that is falling
      *
-     * @return
+     * @return The damage being dealt by falling
      */
     double getFallReduction(Insentient being);
 

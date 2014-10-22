@@ -5,6 +5,14 @@ build/
 .externalToolBuilders/
 .DS_Store
 
+#Gradle
+.gradle/
+artifacts/
+gradle-app.setting
+
+#Maven
+dependency-reduced-pom.xml
+
 # Eclipse
 .settings
 .project

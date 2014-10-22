@@ -41,9 +41,8 @@ public abstract class TCFixedSetPrompt extends TCValidatingPrompt {
     protected List<String> fixedSet;
 
     /**
-     * Creates a FixedSetPrompt from a set of strings.
-     * <p/>
-     * foo = new FixedSetPrompt("bar", "cheese", "panda");
+     * Creates a FixedSetPrompt from a set of strings.  foo = new FixedSetPrompt("bar",
+     * "cheese", "panda");
      *
      * @param fixedSet A fixed set of strings, one of which the user must type.
      */

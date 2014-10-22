@@ -1,9 +1,36 @@
+/*
+ * The MIT License (MIT)
+ *
+ * Copyright (c) 2014 Gabriel Harris-Rouquette
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
 package com.afterkraft.kraftrpg.api.util;
 
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
+/**
+ * Checks the implementation of a FixedPoint. Guarantees that any math method
+ * required for FixedPoint will work as intended.
+ */
 public class FixedPointTest {
     private static final double exact = 0;
     private static final double ulp = FixedPoint.ulp;
@@ -51,7 +78,7 @@ public class FixedPointTest {
 
         num = FixedPoint.valueOf(FixedPoint.MAX_VALUE);
         // assertEquals(??, num.intValue());
-        assertEquals((long) FixedPoint.MAX_VALUE, num.longValue());
+        assertEquals(FixedPoint.MAX_VALUE, num.longValue());
         assertEquals((float) FixedPoint.MAX_VALUE, num.floatValue(), ulp);
         assertEquals((double) FixedPoint.MAX_VALUE, num.doubleValue(), ulp);
 
@@ -61,14 +88,15 @@ public class FixedPointTest {
 
         num = FixedPoint.valueOf(temp);
         // assertEquals(??, num.intValue());
-        assertEquals((long) FixedPoint.MAX_VALUE, num.longValue());
+        assertEquals(FixedPoint.MAX_VALUE, num.longValue());
         assertEquals((float) FixedPoint.MAX_VALUE, num.floatValue(), ulp);
         assertEquals((double) FixedPoint.MAX_VALUE, num.doubleValue(), ulp);
     }
 
     @Test
     public void addFixedPoints() {
-        FixedPoint num, num2;
+        FixedPoint num;
+        FixedPoint num2;
 
         num = FixedPoint.valueOf(5);
         num2 = FixedPoint.valueOf(7);
@@ -88,7 +116,8 @@ public class FixedPointTest {
 
     @Test
     public void addDoubles() {
-        FixedPoint num, num2;
+        FixedPoint num;
+        FixedPoint num2;
 
         // Adding doubles
         num = FixedPoint.valueOf(2.125);
@@ -144,7 +173,8 @@ public class FixedPointTest {
 
     @Test
     public void subFixedPoints() {
-        FixedPoint num, num2;
+        FixedPoint num;
+        FixedPoint num2;
 
         num = FixedPoint.valueOf(5);
         num2 = FixedPoint.valueOf(7);
@@ -164,7 +194,8 @@ public class FixedPointTest {
 
     @Test
     public void multFixedPoints() {
-        FixedPoint num, num2;
+        FixedPoint num;
+        FixedPoint num2;
 
         num = FixedPoint.valueOf(5);
         num2 = FixedPoint.valueOf(7);
@@ -184,7 +215,8 @@ public class FixedPointTest {
 
     @Test
     public void divFixedPoints() {
-        FixedPoint num, num2;
+        FixedPoint num;
+        FixedPoint num2;
 
         num = FixedPoint.valueOf(-5);
         num = num.div(-5);

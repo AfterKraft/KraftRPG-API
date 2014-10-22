@@ -44,14 +44,12 @@ import com.afterkraft.kraftrpg.api.events.entity.InsentientEvent;
  * com.afterkraft.kraftrpg.api.entity.Insentient} being damaged for any reason. This specific event
  * does not always have an attacker, but it is handled with the Insentient in the event there is an
  * Insentient being damaged for any reason (including instances of CommandBlocks or {@link
- * org.bukkit.entity.Entity}).
- * <p/>
- * This is the KraftRPG counterpart to {@link org.bukkit.event.entity.EntityDamageEvent} after
- * special handling and calculations being made on the damage being dealt. It is guaranteed that the
- * {@link #getDefender()} will not be null, but it is not guaranteed the linked {@link
- * org.bukkit.entity.LivingEntity} is not a real entity. Therefore the methods provided from {@link
- * com.afterkraft.kraftrpg.api.entity.Insentient} should be the only ones considered "safe" to use.
- * <p/>
+ * org.bukkit.entity.Entity}).  This is the KraftRPG counterpart to {@link
+ * org.bukkit.event.entity.EntityDamageEvent} after special handling and calculations being made on
+ * the damage being dealt. It is guaranteed that the {@link #getDefender()} will not be null, but it
+ * is not guaranteed the linked {@link org.bukkit.entity.LivingEntity} is not a real entity.
+ * Therefore the methods provided from {@link com.afterkraft.kraftrpg.api.entity.Insentient} should
+ * be the only ones considered "safe" to use.
  */
 public class InsentientDamageEvent extends InsentientEvent implements Cancellable {
     private static final DamageType[] CUSTOM_MODIFIERS = DamageType.values();

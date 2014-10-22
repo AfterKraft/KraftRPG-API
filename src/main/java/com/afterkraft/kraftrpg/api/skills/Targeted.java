@@ -33,9 +33,8 @@ import com.afterkraft.kraftrpg.api.entity.SkillCaster;
  * usually perform some sort of special effect at the targeted entity, however, special note should
  * be taken care of: Targeted uses the type E to allow refinement as to the types of Entities are
  * valid for the skill. If the skill requires a Creature, {@link #useSkill(SkillCaster, IEntity,
- * Entity)} will only be called when the SkillCaster has targeted a Creature.
- * <p/>
- * The default implementation is a {@link TargetedSkill}.
+ * Entity)} will only be called when the SkillCaster has targeted a Creature.  The default
+ * implementation is a {@link TargetedSkill}.
  *
  * @param <E> The entity type to target
  */

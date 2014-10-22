@@ -49,9 +49,9 @@ public interface CombatTracker extends Manager {
     /**
      * Adds the target to be in combat with the attacker.
      *
-     * @param target
-     * @param attacker
-     * @param reason
+     * @param target   The target
+     * @param attacker The attacker
+     * @param reason   The reason
      *
      * @throws IllegalArgumentException if the target is null
      * @throws IllegalArgumentException if the attacker is null

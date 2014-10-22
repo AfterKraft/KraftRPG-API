@@ -34,10 +34,9 @@ import com.afterkraft.kraftrpg.api.skills.SkillCastResult;
  * A default implementation of an {@link ImbuingSkill} that applies a default {@link
  * WeaponImbuingEffect}. This is a common Skill that is intended to be extended and override the
  * following: <ul> <li>{@link #addImbueEffect(SkillCaster, int)}</li> </ul> Extended skills do not
- * need to override {@link #useSkill(SkillCaster)}
- * <p/>
- * The purpose of this skill is to simplify applying a customized {@link Imbuing} effect on a weapon
- * and handle the various uses cases of events and such.
+ * need to override {@link #useSkill(SkillCaster)}  The purpose of this skill is to simplify
+ * applying a customized {@link Imbuing} effect on a weapon and handle the various uses cases of
+ * events and such.
  */
 public abstract class WeaponImbuingSkill extends ActiveSkill implements ImbuingSkill {
 

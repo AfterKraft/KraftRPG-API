@@ -117,9 +117,9 @@ public interface IEntity {
     List<Entity> getNearbyEntities(double x, double y, double z);
 
     /**
-     * Shortcut method for {@link #getLocation()#getWorld()}
+     * Shortcut method for getting the entity and then the world.
      *
-     * @return the world of this being.
+     * @return The world of this being.
      */
     World getWorld();
 

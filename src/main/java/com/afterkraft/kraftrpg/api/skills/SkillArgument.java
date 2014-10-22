@@ -69,6 +69,7 @@ public abstract class SkillArgument {
      * startPosition, and return the width of this SkillArgument. <b>This will be called during both
      * parsing and tab completion</b>, so make sure to provide a complete implementation.
      *
+     * @param caster        The caster using this argument
      * @param allArgs       Full arguments array
      * @param startPosition Where your arguments start
      *

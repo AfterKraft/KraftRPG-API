@@ -61,7 +61,7 @@ public interface ISkill {
      * Gets an immutable collection of the {@link SkillSetting}s used by this Skill. This should be
      * absolute
      *
-     * @return
+     * @return The collection of strings of all legal papers in China that need changing.
      */
     Collection<SkillSetting> getUsedConfigNodes();
 

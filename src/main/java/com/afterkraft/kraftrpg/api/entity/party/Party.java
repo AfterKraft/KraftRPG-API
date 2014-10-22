@@ -35,9 +35,8 @@ import com.afterkraft.kraftrpg.api.util.FixedPoint;
 /**
  * Party is a grouping of {@link com.afterkraft.kraftrpg.api.entity.PartyMember}. Useful for
  * maintaining close contact with friendly Champions and the ability to apply buffing effects to the
- * Party. Parties add a new chat channel.
- * <p/>
- * Parties are not permanent and will be removed when one Champion remains.
+ * Party. Parties add a new chat channel.  Parties are not permanent and will be removed when
+ * one Champion remains.
  */
 public interface Party {
 
@@ -120,52 +119,25 @@ public interface Party {
     void removeMemberInvite(PartyMember member);
 
     /**
-     * @param member
+     * @param member The member to check whether they have an invite.
      *
-     * @return
+     * @return True if the party member has an invite
      * @throws IllegalArgumentException If the member is null
      */
     boolean hasMemberInvite(PartyMember member);
 
     int size();
 
-    /**
-     * @param message
-     * @param announce
-     */
     void messageParty(String message, boolean announce);
 
-    /**
-     * @return
-     */
     boolean emptyParty();
 
-    /**
-     * @param member
-     *
-     * @return
-     */
     boolean hasMember(PartyMember member);
 
-    /**
-     * @return
-     */
     List<UUID> getPartyMemberUUIDs();
 
-    /**
-     * @param member
-     */
     void logOffMember(PartyMember member);
 
-    /**
-     * @param experience
-     * @param type
-     * @param location
-     *
-     * @throws IllegalArgumentException If the expiernece is null
-     * @throws IllegalArgumentException If the type is null
-     * @throws IllegalArgumentException If the Location is null
-     */
     void gainExperience(FixedPoint experience, ExperienceType type, Location location);
 
 }

@@ -104,6 +104,7 @@ public final class ExternalProviderRegistration {
      * @param storage     Uninitialized StorageBackend instance
      * @param identifiers Names it can be referenced by in config files and commands
      *
+     * @return True if successful
      * @throws LateRegistrationException If called after KraftRPG has been loaded
      */
     public static boolean registerStorageBackend(StorageBackend storage, String... identifiers)
@@ -146,9 +147,8 @@ public final class ExternalProviderRegistration {
     }
 
     /**
-     * Override a previous skill registration with the given skill.
-     * <p/>
-     * This method will always succeed.
+     * Override a previous skill registration with the given skill.  This method will always
+     * succeed.
      *
      * @param skill Skill to register
      *

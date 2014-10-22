@@ -41,10 +41,8 @@ public interface Properties {
      * Return if the {@link com.afterkraft.kraftrpg.api.util.DamageManager} will calculate varying
      * damages for {@link org.bukkit.entity.EntityType} and {@link org.bukkit.Material}. If varying
      * damage is enabled, all damages are varied depending on each {@link
-     * org.bukkit.event.entity.EntityDamageEvent}
-     * <p/>
-     * It should be known that varying damages are also further customized by {@link
-     * com.afterkraft.kraftrpg.api.roles.Role}
+     * org.bukkit.event.entity.EntityDamageEvent}  It should be known that varying damages are
+     * also further customized by {@link com.afterkraft.kraftrpg.api.roles.Role}
      *
      * @return true if enabled, false otherwise.
      */
@@ -62,9 +60,9 @@ public interface Properties {
      * Gets the stamina increase for the desired Material. If the Material is not a food item, the
      * value of 0 will be given.
      *
-     * @param foodMaterial
+     * @param foodMaterial The provided material
      *
-     * @return
+     * @return The value of food hunger to satiate.
      */
     int getStaminaIncreaseForFood(Material foodMaterial);
 

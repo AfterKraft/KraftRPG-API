@@ -47,9 +47,7 @@ import com.afterkraft.kraftrpg.api.skills.SkillSetting;
 /**
  * PermissionSkill allows setting any other Plugin's permission to become a Skill through permission
  * restrictions. A PermissionSkill does not allow any type of SkillArguments and it will always
- * return true on Skill use.
- * <p/>
- * PermissionSkill can apply Permissions with both true and false
+ * return true on Skill use.  PermissionSkill can apply Permissions with both true and false
  */
 public final class PermissionSkill extends Skill implements Permissible {
     private Map<String, Boolean> permissions;

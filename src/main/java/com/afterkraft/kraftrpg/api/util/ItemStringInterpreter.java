@@ -100,9 +100,8 @@ enum StoneBrickType {
 
 interface StringInterpreter {
     /**
-     * Interpret a data string into a Byte suitable for MaterialData.
-     * <p/>
-     * The provided string must first be made all uppercase before calling.
+     * Interpret a data string into a Byte suitable for MaterialData.  The provided string must
+     * first be made all uppercase before calling.
      *
      * @param s provided string
      *

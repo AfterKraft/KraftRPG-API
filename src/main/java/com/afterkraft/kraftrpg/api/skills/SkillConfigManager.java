@@ -37,14 +37,11 @@ import com.afterkraft.kraftrpg.api.roles.Role;
 /**
  * A manager providing skill configurations for all skills. There may be more than one skill manager
  * provided at any time, provided that the implementing skill is defined to use more than one.
- * <p/>
  * All Role settings are performed for the role specifically and does not take into account any
- * other role settings, or alternative settings provided by other means.
- * <p/>
- * All use settings, such as {@link #getUsedSetting(SkillCaster, ISkill, SkillSetting)} have the
- * following priority in terms of role skill definitions: <ol> <li>{@link
- * com.afterkraft.kraftrpg.api.roles.Role.RoleType#PRIMARY}</li> <li>{@link
- * com.afterkraft.kraftrpg.api.roles.Role.RoleType#SECONDARY}</li> <li>{@link
+ * other role settings, or alternative settings provided by other means.  All use settings, such
+ * as {@link #getUsedSetting(SkillCaster, ISkill, SkillSetting)} have the following priority in
+ * terms of role skill definitions: <ol> <li>{@link com.afterkraft.kraftrpg.api.roles.Role.RoleType#PRIMARY}</li>
+ * <li>{@link com.afterkraft.kraftrpg.api.roles.Role.RoleType#SECONDARY}</li> <li>{@link
  * com.afterkraft.kraftrpg.api.roles.Role.RoleType#ADDITIONAL}</li> </ol>
  */
 public interface SkillConfigManager extends Manager {

@@ -39,10 +39,9 @@ import com.afterkraft.kraftrpg.api.entity.Champion;
 import com.afterkraft.kraftrpg.api.roles.Role;
 
 /**
- * The proxy through which the plugin interacts with the StorageBackend.
- * <p/>
- * A StorageFrontend handles things like batching of saves and caching of loaded data. It also
- * performs filtering of NPC data, and conversion between two StorageBackends.
+ * The proxy through which the plugin interacts with the StorageBackend.  A StorageFrontend handles
+ * things like batching of saves and caching of loaded data. It also performs filtering of NPC data,
+ * and conversion between two StorageBackends.
  */
 public abstract class StorageFrontend {
     protected final RPGPlugin plugin;
@@ -75,6 +74,10 @@ public abstract class StorageFrontend {
     /**
      * This constructor skips making a save queue. If you call this constructor, you MUST override
      * saveChampion().
+     *
+     * @param ignored Something....
+     * @param plugin  The plugin instance
+     * @param backend The backend storage instance
      */
     protected StorageFrontend(RPGPlugin plugin, StorageBackend backend, boolean ignored) {
         this.plugin = plugin;
@@ -85,16 +88,12 @@ public abstract class StorageFrontend {
 
     /**
      * The name of a StorageFrontend follows the following format:
-     * <p/>
      * <pre>
      * [frontend-name]/[backend-name]
      * </pre>
-     * <p/>
      * In the default implementation, the frontend-name is "Default". You should change this if you
-     * extend the class.
-     * <p/>
-     * The backend-name is <code>backend.getClass().getSimpleName()</code>. This should remain the
-     * same in your implementation.
+     * extend the class.  The backend-name is <code>backend.getClass().getSimpleName()</code>. This
+     * should remain the same in your implementation.
      *
      * @return name of storage format
      */
@@ -105,7 +104,9 @@ public abstract class StorageFrontend {
     /**
      * Load the Champion data.
      *
-     * @param player the requested Player data
+     * @param player       the requested Player data
+     * @param shouldCreate Whether the champion data should be generated into storage if it doesn't
+     *                     exist.
      *
      * @return the loaded Champion instance if data exists, else returns null
      */
@@ -146,6 +147,8 @@ public abstract class StorageFrontend {
     /**
      * Saves the given {@link com.afterkraft.kraftrpg.api.entity.Champion} data at some later
      * point.
+     *
+     * @param champion The champion to save
      */
     public void saveChampion(Champion champion) {
         if (this.ignoredPlayers.contains(champion.getPlayer().getUniqueId())) {

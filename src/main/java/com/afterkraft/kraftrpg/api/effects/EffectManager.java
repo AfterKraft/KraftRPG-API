@@ -47,12 +47,5 @@ public interface EffectManager extends Manager {
      */
     void manageEffect(Insentient being, Timed effect);
 
-    /**
-     * @param being
-     * @param effect
-     *
-     * @throws IllegalArgumentException If the being is null
-     * @throws IllegalArgumentException If the effect is null
-     */
     void queueRemoval(Insentient being, Timed effect);
 }

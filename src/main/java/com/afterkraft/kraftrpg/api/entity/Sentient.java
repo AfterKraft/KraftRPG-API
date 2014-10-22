@@ -41,10 +41,8 @@ import com.afterkraft.kraftrpg.api.util.FixedPoint;
 public interface Sentient extends Insentient {
 
     /**
-     * Fetches the current experience of the given Role.
-     * <p/>
-     * If this sentient being has no experience in the given Role, this will return a FixedPoint
-     * with value 0
+     * Fetches the current experience of the given Role.  If this sentient being has no experience
+     * in the given Role, this will return a FixedPoint with value 0
      *
      * @param role to check the current experience of
      *
@@ -112,6 +110,7 @@ public interface Sentient extends Insentient {
      *
      * @param role the Primary role to set this sentient being's primary role to
      *
+     * @return True if successful
      * @throws IllegalArgumentException If the role is not of the Primary type
      */
     boolean setPrimaryRole(Role role);
@@ -162,11 +161,10 @@ public interface Sentient extends Insentient {
     boolean removeAdditionalRole(Role role);
 
     /**
-     * Get a Set of all {@link Role}s active on this sentient being.
-     * <p/>
-     * The set should be slightly ordered, with primary first, profession second (if present),
-     * followed by all additional roles (additional roles are in an unspecified order). (This can be
-     * accomplished with an ImmutableSet.)
+     * Get a Set of all {@link Role}s active on this sentient being.  The set should be slightly
+     * ordered, with primary first, profession second (if present), followed by all additional roles
+     * (additional roles are in an unspecified order). (This can be accomplished with an
+     * ImmutableSet.)
      *
      * @return an immutable list of all roles
      */
