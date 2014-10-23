@@ -96,8 +96,7 @@ idea {
     }
 }
 def sonatypeUser = hasProperty('afterkraftUser') ? sonatypeUser : System.getenv('afterkraftUser')
-def sonatypePassword = hasProperty('afterkraftPassword') ? sonatypePassword : System.getenv
-('afterkraftPassword')
+def sonatypePassword = hasProperty('afterkraftPassword') ? sonatypePassword : System.getenv('afterkraftPassword')
 // Vault
 uploadArchives {
     repositories.mavenDeployer {
@@ -194,10 +193,6 @@ jar {
     }
     from ("${projectDir}") {
         include('KRAFTRPG-LICENSE', 'README.md')
-    }
-
-    from (pom) {
-        include('pom.xml')
     }
 }
 
