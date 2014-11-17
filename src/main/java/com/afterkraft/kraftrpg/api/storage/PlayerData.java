@@ -45,24 +45,24 @@ public final class PlayerData implements Cloneable {
     /**
      * Extra roles - these grant skills, but no hp/mana.
      */
-    public final Set<Role> additionalRoles = new HashSet<Role>();
+    public final Set<Role> additionalRoles = new HashSet<>();
     /**
      * Inactive roles - these have experience numbers, but no benefits.
      */
-    public final Set<Role> pastRoles = new HashSet<Role>();
+    public final Set<Role> pastRoles = new HashSet<>();
     /**
      * Experience data.
      */
-    public final Map<Role, FixedPoint> exp = new HashMap<Role, FixedPoint>();
+    public final Map<Role, FixedPoint> exp = new HashMap<>();
     /**
      * Raw bind data.
      */
-    public final Map<Material, SkillBind> binds = new HashMap<Material, SkillBind>();
+    public final Map<Material, SkillBind> binds = new HashMap<>();
     /**
      * Map from cooldown name to expiry time, in UNIX time.
      */
-    public final Map<String, Long> cooldowns = new HashMap<String, Long>();
-    public final Set<String> ignoredSkills = new HashSet<String>();
+    public final Map<String, Long> cooldowns = new HashMap<>();
+    public final Set<String> ignoredSkills = new HashSet<>();
     /**
      * Main Roles.
      */

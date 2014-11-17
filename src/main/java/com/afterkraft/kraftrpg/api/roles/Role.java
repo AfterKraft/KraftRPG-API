@@ -696,17 +696,17 @@ public final class Role {
     public static final class Builder {
         RPGPlugin plugin;
         String name;
-        Map<String, RoleSkill> skills = new HashMap<String, RoleSkill>();
-        Map<Material, Double> itemDamages = new EnumMap<Material, Double>(Material.class);
-        Map<Material, Double> itemDamagePerLevel = new EnumMap<Material, Double>(Material.class);
-        Map<Material, Boolean> itemVaryingDamage = new EnumMap<Material, Boolean>(Material.class);
-        Set<ExperienceType> experienceTypes = new HashSet<ExperienceType>();
-        Set<Material> allowedArmor = new HashSet<Material>();
-        Set<Material> allowedWeapon = new HashSet<Material>();
-        Set<String> restrictedSkills = new HashSet<String>();
+        Map<String, RoleSkill> skills = new HashMap<>();
+        Map<Material, Double> itemDamages = new EnumMap<>(Material.class);
+        Map<Material, Double> itemDamagePerLevel = new EnumMap<>(Material.class);
+        Map<Material, Boolean> itemVaryingDamage = new EnumMap<>(Material.class);
+        Set<ExperienceType> experienceTypes = new HashSet<>();
+        Set<Material> allowedArmor = new HashSet<>();
+        Set<Material> allowedWeapon = new HashSet<>();
+        Set<String> restrictedSkills = new HashSet<>();
         RoleType type = RoleType.PRIMARY;
-        Set<String> children = new HashSet<String>();
-        Set<String> parents = new HashSet<String>();
+        Set<String> children = new HashSet<>();
+        Set<String> parents = new HashSet<>();
         int advancementLevel;
         int maxLevel = 1;
         boolean choosable = true;

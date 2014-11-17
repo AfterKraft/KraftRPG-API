@@ -66,7 +66,7 @@ public final class SkillBind implements ConfigurationSerializable {
 
     @Override
     public Map<String, Object> serialize() {
-        HashMap<String, Object> ret = new HashMap<String, Object>();
+        HashMap<String, Object> ret = new HashMap<>();
         ret.put("material", this.material.name());
         ret.put("skill", this.skillName);
         ret.put("args", this.arguments);

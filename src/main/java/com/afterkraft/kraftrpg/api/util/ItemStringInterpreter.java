@@ -117,9 +117,9 @@ interface StringInterpreter {
 @SuppressWarnings("rawtypes")
 public final class ItemStringInterpreter {
     private static Map<Class<? extends MaterialData>, Class<? extends Enum>> materialData =
-            new HashMap<Class<? extends MaterialData>, Class<? extends Enum>>();
+            new HashMap<>();
     private static Map<Material, StringInterpreter> workarounds =
-            new HashMap<Material, StringInterpreter>();
+            new HashMap<>();
 
     private ItemStringInterpreter() {
         @SuppressWarnings("unused")

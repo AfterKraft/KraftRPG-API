@@ -67,16 +67,15 @@ public abstract class Skill implements ISkill {
 
     private static final Function<? super Double, Double> ZERO = Functions.constant(-0.0);
 
-
     public final RPGPlugin plugin;
-    private final Map<SkillSetting, Object> settings = new HashMap<SkillSetting, Object>();
+    private final Map<SkillSetting, Object> settings = new HashMap<>();
     private final Set<SkillType> skillTypes = EnumSet.noneOf(SkillType.class);
     private final String name;
     private String description = "";
     private boolean isEnabled = false;
     private ConfigurationSection defaultConfig;
-    private Set<SkillSetting> usedSettings = new HashSet<SkillSetting>();
-    private Set<String> usedNodes = new HashSet<String>();
+    private Set<SkillSetting> usedSettings = new HashSet<>();
+    private Set<String> usedNodes = new HashSet<>();
 
     protected Skill(RPGPlugin plugin, String name) {
         this.plugin = plugin;
@@ -122,7 +121,7 @@ public abstract class Skill implements ISkill {
                                        double damage, DamageCause cause, boolean knockback,
                                        boolean ignoreDamageCheck) {
         Map<InsentientDamageEvent.DamageType, Double> modifiers =
-                new EnumMap<InsentientDamageEvent.DamageType, Double>(
+                new EnumMap<>(
                         ImmutableMap.of(DamageType.PHYSICAL, damage));
         return damageEntity(target, attacker, skill, modifiers, cause, knockback,
                 ignoreDamageCheck);
@@ -186,7 +185,7 @@ public abstract class Skill implements ISkill {
         }
         EntityDamageByEntityEvent damageEntityEvent =
                 new EntityDamageByEntityEvent(attacking.getEntity(), defenderLE,
-                        DamageCause.CUSTOM, new EnumMap<DamageModifier, Double>(
+                        DamageCause.CUSTOM, new EnumMap<>(
                         ImmutableMap.of(DamageModifier.BASE, 1.0D)),
                         new EnumMap<DamageModifier, Function<? super Double, Double>>(
                                 ImmutableMap.of(DamageModifier.BASE, ZERO)));

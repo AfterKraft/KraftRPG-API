@@ -106,6 +106,24 @@ public interface IEntity {
     Location getLocation();
 
     /**
+     * Teleports this being to the provided Location. This uses the provided
+     * location's yaw and pitch and may be different than this being's current
+     * yaw and pitch.
+     *
+     * @param location the location to teleport to
+     */
+    void teleport(Location location);
+
+    /**
+     * Attempts to teleport this being to the provided Location while maintaining this
+     * being's current yaw and pitch if possible.
+     *
+     * @param location the location to teleport to
+     * @param keepYawAndPitch whether to maintain the yaw and pitch
+     */
+    void teleport(Location location, boolean keepYawAndPitch);
+
+    /**
      * Gets a list of entities within a bounding box centered around this IEntity.
      *
      * @param x Half the size of the box along the x axis

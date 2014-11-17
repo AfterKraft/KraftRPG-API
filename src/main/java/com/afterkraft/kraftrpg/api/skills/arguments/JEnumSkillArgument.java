@@ -51,7 +51,7 @@ public class JEnumSkillArgument<T extends Enum<T>> extends SkillArgument {
         @SuppressWarnings("unchecked")
         T[] allValues = (T[]) values.invoke(null);
 
-        this.names = new ArrayList<String>(allValues.length);
+        this.names = new ArrayList<>(allValues.length);
         for (T t : allValues) {
             String temp = t.toString();
             this.names.add(temp);

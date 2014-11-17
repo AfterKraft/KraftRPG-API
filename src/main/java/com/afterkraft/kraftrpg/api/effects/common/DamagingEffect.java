@@ -132,7 +132,7 @@ public class DamagingEffect extends PeriodicExpirableEffect implements Damaging 
                 SkillCaster caster = (SkillCaster) being;
                 this.skill.addSkillTarget(being.getEntity(), caster);
                 boolean isMagic = this.skill.isType(SkillType.ABILITY_PROPERTY_PHYSICAL);
-                Map<DamageType, Double> modifiers = new HashMap<DamageType, Double>();
+                Map<DamageType, Double> modifiers = new HashMap<>();
                 if (isMagic) {
                     modifiers.put(DamageType.MAGICAL, this.tickDamage);
                 } else {

@@ -60,13 +60,13 @@ public abstract class StorageFrontend {
     /**
      * Players in this set are silently dropped by saveChampion().
      */
-    protected final Set<UUID> ignoredPlayers = new HashSet<UUID>();
+    protected final Set<UUID> ignoredPlayers = new HashSet<>();
 
     protected StorageFrontend(RPGPlugin plugin, StorageBackend backend) {
         this.plugin = plugin;
         this.backend = backend;
-        this.toSave = new HashMap<UUID, Champion>();
-        this.offlineToSave = new HashMap<UUID, PlayerData>();
+        this.toSave = new HashMap<>();
+        this.offlineToSave = new HashMap<>();
 
         new SavingStarterTask().runTaskTimerAsynchronously(plugin, 20 * 60, 20 * 60);
     }
@@ -224,7 +224,7 @@ public abstract class StorageFrontend {
         // Main thread, just like everything else
         @Override
         public void run() {
-            Map<UUID, PlayerData> data = new HashMap<UUID, PlayerData>();
+            Map<UUID, PlayerData> data = new HashMap<>();
 
             data.putAll(StorageFrontend.this.offlineToSave);
             for (Map.Entry<UUID, Champion> entry : StorageFrontend.this.toSave.entrySet()) {

@@ -62,7 +62,7 @@ public abstract class TCFixedSetPrompt extends TCValidatingPrompt {
     @Override
     public List<String> onTabComplete(ConversationContext context, String fullMessage,
                                       String lastToken) {
-        List<String> matches = new ArrayList<String>();
+        List<String> matches = new ArrayList<>();
         StringUtil.copyPartialMatches(fullMessage, matches, this.fixedSet);
         return matches;
     }

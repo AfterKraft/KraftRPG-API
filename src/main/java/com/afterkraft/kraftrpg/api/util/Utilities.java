@@ -75,7 +75,7 @@ public class Utilities {
 
     static {
         // Use Bukkit's Material#isTransParent()
-        transparentBlocks = new HashSet<Material>();
+        transparentBlocks = new HashSet<>();
         for (Material mat : Material.values()) {
             if (mat.isTransparent()) {
                 transparentBlocks.add(mat);
@@ -83,7 +83,7 @@ public class Utilities {
         }
 
         // Use Bukkit's Material#isTransParent()
-        transparentIds = new HashSet<Byte>();
+        transparentIds = new HashSet<>();
         for (Material mat : Material.values()) {
             if (mat.isTransparent()) {
                 transparentIds.add((byte) mat.getId());
@@ -129,7 +129,7 @@ public class Utilities {
         }
 
         if (section.get("lore") != null) {
-            List<String> lore = new ArrayList<String>();
+            List<String> lore = new ArrayList<>();
             for (String str : section.getStringList("lore")) {
                 lore.add(ChatColor.translateAlternateColorCodes('&', str));
             }
@@ -154,7 +154,7 @@ public class Utilities {
 
         if (meta instanceof BookMeta) {
             if (section.get("pages") != null) {
-                List<String> pages = new ArrayList<String>();
+                List<String> pages = new ArrayList<>();
                 for (String page : section.getStringList("pages")) {
                     pages.add(ChatColor.translateAlternateColorCodes('&', page));
                 }
@@ -335,7 +335,7 @@ public class Utilities {
             return candidates;
         }
 
-        List<String> ret = new ArrayList<String>();
+        List<String> ret = new ArrayList<>();
         // This is a Bukkit method!
         StringUtil.copyPartialMatches(partial, candidates, ret);
         return ret;
@@ -344,7 +344,7 @@ public class Utilities {
     public static List<String> matchPlayers(String partial, CommandSender sender) {
         Player senderPlayer = sender instanceof Player ? (Player) sender : null;
 
-        ArrayList<String> matchedPlayers = new ArrayList<String>();
+        ArrayList<String> matchedPlayers = new ArrayList<>();
         for (Player player : sender.getServer().getOnlinePlayers()) {
             String name = player.getName();
             if ((senderPlayer == null || senderPlayer.canSee(player))

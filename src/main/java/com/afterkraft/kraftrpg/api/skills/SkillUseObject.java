@@ -40,9 +40,9 @@ public final class SkillUseObject {
 
 
     public SkillUseObject(SkillCaster entity, ISkill skill, List<SkillArgument> argument) {
-        this.entity = new WeakReference<SkillCaster>(entity);
-        this.skill = new WeakReference<ISkill>(skill);
-        this.argument = new WeakReference<List<SkillArgument>>(argument);
+        this.entity = new WeakReference<>(entity);
+        this.skill = new WeakReference<>(skill);
+        this.argument = new WeakReference<>(argument);
     }
 
     public SkillCaster getCaster() {

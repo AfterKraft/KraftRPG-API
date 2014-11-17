@@ -465,7 +465,7 @@ public enum EffectType {
     WITHER;
 
     private final SkillType resistance;
-    private final Set<EffectType> effectResists = new LinkedHashSet<EffectType>();
+    private final Set<EffectType> effectResists = new LinkedHashSet<>();
 
     EffectType() {
         this(null);
@@ -476,7 +476,7 @@ public enum EffectType {
     }
 
     public static Map<String, Object> serialize() {
-        Map<String, Object> map = new HashMap<String, Object>();
+        Map<String, Object> map = new HashMap<>();
         for (EffectType type : EffectType.values()) {
             map.put(type.name(), type.effectResists);
         }

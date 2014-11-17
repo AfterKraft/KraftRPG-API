@@ -71,7 +71,7 @@ public class InsentientDamageEvent extends InsentientEvent implements Cancellabl
         checkArgument(!customModifiers.isEmpty(), "Cannot have an empty modifier map!");
         checkArgument(any(customModifiers.values(), isNull()), "Cannot have null modifiers!");
         this.defender = defender;
-        this.originals = new EnumMap<DamageType, Double>(customModifiers);
+        this.originals = new EnumMap<>(customModifiers);
         this.modifiers = customModifiers;
         this.isVaryingDamageEnabled = isVaryingEnabled;
         this.cause = event.getCause();

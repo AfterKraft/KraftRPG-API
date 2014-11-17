@@ -47,7 +47,7 @@ public class BlindingEffect extends ExpirableEffect {
     public static final Set<EffectType> DEFAULT_Blinding_EFFECTTYPES =
             EnumSet.of(EffectType.BLIND, EffectType.HARMFUL);
 
-    private static final Set<UUID> invisiblePlayers = new HashSet<UUID>();
+    private static final Set<UUID> invisiblePlayers = new HashSet<>();
 
     public BlindingEffect(Skill skill, Insentient applier, String name, long duration) {
         this(skill, applier, name, duration, DEFAULT_APPLY_TEXT, DEFAULT_EXPIRE_TEXT);

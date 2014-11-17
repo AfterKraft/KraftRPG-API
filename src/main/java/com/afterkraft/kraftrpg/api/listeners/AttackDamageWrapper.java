@@ -41,7 +41,7 @@ public class AttackDamageWrapper extends DamageWrapper {
                                double originalDamage, double modifiedDamage,
                                DamageCause modifiedCause) {
         super(originalCause, originalDamage, modifiedDamage, modifiedCause);
-        this.attackingIEntity = new WeakReference<Insentient>(attackingIEntity);
+        this.attackingIEntity = new WeakReference<>(attackingIEntity);
         this.weaponUsed = new ItemStack(attackingIEntity.getItemInHand());
     }
 

@@ -38,7 +38,7 @@ import org.bukkit.configuration.serialization.ConfigurationSerialization;
 public class SerializationUtil {
 
     public static Map<String, Object> fullySerialize(ConfigurationSerializable obj) {
-        Map<String, Object> ret = new HashMap<String, Object>(obj.serialize());
+        Map<String, Object> ret = new HashMap<>(obj.serialize());
 
         for (Map.Entry<String, Object> entry : ret.entrySet()) {
             if (entry.getValue() instanceof ConfigurationSerializable) {

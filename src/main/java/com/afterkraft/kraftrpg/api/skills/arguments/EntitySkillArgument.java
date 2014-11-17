@@ -119,7 +119,7 @@ public class EntitySkillArgument<E extends Entity> extends SkillArgument {
         }
 
         if (closestDistance < this.maxDistance) {
-            this.matchedEntity = new WeakReference<E>(closest);
+            this.matchedEntity = new WeakReference<>(closest);
         }
     }
 

@@ -57,11 +57,11 @@ public class DirectedGraph<T> {
     protected final LinkedHashMap<T, Vertex<T>> vertexes;
 
     public DirectedGraph() {
-        this.vertexes = new LinkedHashMap<T, Vertex<T>>();
+        this.vertexes = new LinkedHashMap<>();
     }
 
     public void addVertex(T data) {
-        this.vertexes.put(data, new Vertex<T>(data));
+        this.vertexes.put(data, new Vertex<>(data));
     }
 
     public void removeVertex(T data) {
@@ -88,12 +88,12 @@ public class DirectedGraph<T> {
     public boolean addEdge(T from, T to) throws CircularDependencyException {
         Vertex<T> vertex = this.vertexes.get(from);
         if (vertex == null) {
-            vertex = new Vertex<T>(from);
+            vertex = new Vertex<>(from);
         }
         if (!this.vertexes.containsKey(to)) {
-            this.vertexes.put(to, new Vertex<T>(to));
+            this.vertexes.put(to, new Vertex<>(to));
         }
-        vertex.addEdge(new Vertex<T>(to));
+        vertex.addEdge(new Vertex<>(to));
         this.vertexes.put(from, vertex);
         if (doesCycleExist()) { // We can't allow the creation of a cycle
             throw new CircularDependencyException("Could not add " + from.toString()
@@ -112,7 +112,7 @@ public class DirectedGraph<T> {
     }
 
     public boolean doesCycleExist() {
-        ArrayList<Edge<T>> cycleEdges = new ArrayList<Edge<T>>();
+        ArrayList<Edge<T>> cycleEdges = new ArrayList<>();
         // Mark all verticies as white
         for (Map.Entry<T, Vertex<T>> entry : this.vertexes.entrySet()) {
             Vertex<T> v = entry.getValue();
@@ -153,12 +153,12 @@ public class DirectedGraph<T> {
         Vertex(T data) {
             this.data = data;
             this.name = data.toString();
-            this.fromNodes = new LinkedHashMap<Vertex<T>, Edge<T>>();
-            this.toNodes = new LinkedHashMap<Vertex<T>, Edge<T>>();
+            this.fromNodes = new LinkedHashMap<>();
+            this.toNodes = new LinkedHashMap<>();
         }
 
         public Vertex<T> addEdge(Vertex<T> vertex) {
-            Edge<T> edge = new Edge<T>(this, vertex);
+            Edge<T> edge = new Edge<>(this, vertex);
             this.toNodes.put(vertex, edge);
             vertex.fromNodes.put(this, edge);
             return this;

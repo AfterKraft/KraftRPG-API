@@ -72,7 +72,7 @@ public class Effect implements IEffect {
         this.skill = skill;
         this.persistent = persistent;
         this.types.addAll(types);
-        this.potionEffects = new HashSet<PotionEffect>();
+        this.potionEffects = new HashSet<>();
         for (PotionEffect effect : potionEffects) {
             this.potionEffects.add(new PotionEffect(effect.getType(), effect.getDuration(),
                     effect.getAmplifier(), effect.isAmbient()));

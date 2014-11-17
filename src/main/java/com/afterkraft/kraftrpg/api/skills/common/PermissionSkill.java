@@ -64,7 +64,7 @@ public final class PermissionSkill extends Skill implements Permissible {
 
     @Override
     public Collection<SkillSetting> getUsedConfigNodes() {
-        return new HashSet<SkillSetting>();
+        return new HashSet<>();
     }
 
     @Override

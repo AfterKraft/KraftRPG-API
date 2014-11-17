@@ -55,13 +55,13 @@ public final class ExternalProviderRegistration {
     private static RPGPlugin plugin;
 
     private static Map<String, StorageBackend> storageBackends =
-            new HashMap<String, StorageBackend>();
+            new HashMap<>();
     private static Map<DamageModifier, Function<? super Double, Double>> modifiers =
-            new HashMap<DamageModifier, Function<? super Double, Double>>();
+            new HashMap<>();
     private static StorageFrontendFactory storageFrontend =
             new StorageFrontendFactory.DefaultFactory();
-    private static Set<String> providedSkillNames = new HashSet<String>();
-    private static List<ISkill> providedSkills = new ArrayList<ISkill>();
+    private static Set<String> providedSkillNames = new HashSet<>();
+    private static List<ISkill> providedSkills = new ArrayList<>();
     private static PartyManager partyManager;
 
     /**

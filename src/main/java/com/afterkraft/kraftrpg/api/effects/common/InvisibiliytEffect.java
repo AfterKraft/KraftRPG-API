@@ -54,7 +54,7 @@ public class InvisibiliytEffect extends ExpirableEffect {
             EnumSet.of(EffectType.INVISIBILITY, EffectType.BENEFICIAL, EffectType.UNTARGETABLE,
                     EffectType.SILENT_ACTIONS);
 
-    private static final Set<UUID> invisiblePlayers = new HashSet<UUID>();
+    private static final Set<UUID> invisiblePlayers = new HashSet<>();
 
     public InvisibiliytEffect(Skill skill, Insentient applier, String name, long duration) {
         this(skill, applier, name, duration, DEFAULT_APPLY_TEXT, DEFAULT_EXPIRE_TEXT);

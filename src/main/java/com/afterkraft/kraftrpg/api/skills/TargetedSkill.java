@@ -56,7 +56,7 @@ public abstract class TargetedSkill<E extends Entity> extends ActiveSkill implem
 
     protected TargetedSkill(RPGPlugin plugin, String name, Class<E> entityClass, int maxDistance) {
         super(plugin, name);
-        addSkillArgument(new EntitySkillArgument<E>(maxDistance, entityClass));
+        addSkillArgument(new EntitySkillArgument<>(maxDistance, entityClass));
         setDefault(SkillSetting.MAX_DISTANCE, maxDistance);
     }
 

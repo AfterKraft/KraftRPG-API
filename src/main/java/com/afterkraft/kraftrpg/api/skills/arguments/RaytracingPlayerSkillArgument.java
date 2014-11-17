@@ -68,7 +68,7 @@ public class RaytracingPlayerSkillArgument extends EntitySkillArgument<Player> {
         String arg = allArgs[startPosition];
         Player p = Bukkit.getPlayerExact(arg);
         if (p != null) {
-            this.matchedEntity = new WeakReference<Player>(p);
+            this.matchedEntity = new WeakReference<>(p);
         } else {
             super.parse(caster, allArgs, startPosition);
         }

@@ -27,6 +27,7 @@ import java.util.Collection;
 import java.util.Map;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkState;
 
 import org.bukkit.Server;
 import org.bukkit.World;
@@ -82,9 +83,7 @@ public final class RpgCommon {
     }
 
     private static void check() {
-        if (isPluginEnabled) {
-            throw new IllegalStateException("RPGPlugin is already enabled!");
-        }
+        checkState(!isPluginEnabled, "RPGPlugin is already enabled!");
     }
 
     public static void setProjectileDamage(IEntity arrow, double damage) {
@@ -138,8 +137,7 @@ public final class RpgCommon {
     }
 
     public static RPGPlugin getPlugin() {
-        checkArgument(RpgCommon.rpgPlugin != null,
-                "The plugin has yet to be initialized");
+        checkArgument(RpgCommon.rpgPlugin != null, "The plugin has yet to be initialized");
         return RpgCommon.rpgPlugin;
     }
 
