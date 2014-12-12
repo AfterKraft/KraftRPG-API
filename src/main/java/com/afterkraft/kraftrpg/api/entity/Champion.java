@@ -23,13 +23,15 @@
  */
 package com.afterkraft.kraftrpg.api.entity;
 
-import org.bukkit.entity.Player;
+import org.spongepowered.api.entity.player.Player;
+
+import com.google.common.base.Optional;
 
 import com.afterkraft.kraftrpg.api.storage.PlayerData;
 
 /**
- * {@inheritDoc} Represents a {@link com.afterkraft.kraftrpg.api.entity.SkillCaster} that is
- * specially linked to a {@link org.bukkit.entity.Player}.
+ * {@inheritDoc} Represents a {@link SkillCaster} that is specially linked to
+ * a {@link Player}.
  */
 public interface Champion extends SkillCaster {
 
@@ -38,11 +40,11 @@ public interface Champion extends SkillCaster {
      *
      * @return the bukkit Player object if not null
      */
-    Player getPlayer();
+    Optional<Player> getPlayer();
 
     /**
      * Set the Bukkit {@link Player} object for this Champion. This should automatically call {@link
-     * #setEntity(org.bukkit.entity.Player)} as long as the original UUID matches the new Player's
+     * #setEntity(Player)} as long as the original UUID matches the new Player's
      * UUID.
      *
      * @param player the Bukkit Player for this Champion to attach to
@@ -52,10 +54,10 @@ public interface Champion extends SkillCaster {
      */
     void setPlayer(Player player);
 
-    @Override Player getEntity();
+    @Override Optional<? extends Player> getEntity();
 
     /**
-     * Attempt to reset the linked {@link org.bukkit.entity.Player} in the event the player is not
+     * Attempt to reset the linked {@link Player} in the event the player is not
      * valid or duplicate players have been detected. This will NOT allow changing the player when
      * the currently linked Player is still valid and/or if the {@link java.util.UUID} of the two
      * differ.

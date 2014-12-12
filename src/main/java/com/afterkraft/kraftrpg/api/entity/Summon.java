@@ -23,6 +23,8 @@
  */
 package com.afterkraft.kraftrpg.api.entity;
 
+import com.google.common.base.Optional;
+
 /**
  * A summon LivingEntity that is attached to a {@link SkillCaster}. Summons for all intents and
  * purposes should be considered a proxy of a LivingEntity. A Summon may also have a timed amount to
@@ -36,14 +38,14 @@ public interface Summon extends Insentient {
      *
      * @return The time left remaining in the world
      */
-    long getTimeLeftAlive();
+    Optional<Long> getTimeLeftAlive();
 
     /**
      * Gets the linked summoner that summoned this summon.
      *
      * @return The skillcaster that summoned this summon
      */
-    SkillCaster getSummoner();
+    Optional<SkillCaster> getSummoner();
 
     /**
      * Removes the summon from the world. This is a utility method primarily to reset the summon and

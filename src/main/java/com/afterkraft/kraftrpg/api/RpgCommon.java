@@ -29,12 +29,16 @@ import java.util.Map;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkState;
 
-import org.bukkit.Server;
-import org.bukkit.World;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
-import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
+import org.slf4j.Logger;
+import org.spongepowered.api.Game;
+import org.spongepowered.api.Server;
+import org.spongepowered.api.entity.Entity;
+import org.spongepowered.api.entity.living.Living;
+import org.spongepowered.api.entity.player.Player;
+import org.spongepowered.api.plugin.PluginContainer;
+import org.spongepowered.api.world.World;
+
+import com.google.common.base.Optional;
 
 import com.afterkraft.kraftrpg.api.entity.Champion;
 import com.afterkraft.kraftrpg.api.entity.IEntity;
@@ -43,13 +47,15 @@ import com.afterkraft.kraftrpg.api.events.entity.damage.InsentientDamageEvent.Da
 import com.afterkraft.kraftrpg.api.handler.ServerInternals;
 import com.afterkraft.kraftrpg.api.skills.ISkill;
 import com.afterkraft.kraftrpg.api.util.PermissionsManager;
+import com.afterkraft.kraftrpg.common.DamageCause;
 
 /**
  * Utility class providing simple and fast method calls to various managers.
  */
 public final class RpgCommon {
 
-    private static Server bukkitServer;
+    private static Server server;
+    private static Game game;
     private static PermissionsManager permissionsManager;
     private static RPGPlugin rpgPlugin;
     private static ServerInternals serverInternals;
@@ -65,8 +71,6 @@ public final class RpgCommon {
     }
 
     public static boolean damageCheck(Insentient attacker, Insentient victim) {
-        checkArgument(attacker != null, "Cannot have a null attacker!");
-        checkArgument(victim != null, "Cannot have a null victim!");
         return getHandler().damageCheck(attacker, victim);
     }
 
@@ -77,9 +81,12 @@ public final class RpgCommon {
     }
 
     public static void setHandler(ServerInternals handler) {
-        checkArgument(handler != null, "Cannot set a null handler!");
         check();
         RpgCommon.serverInternals = handler;
+    }
+
+    public static Game getGame() {
+        return RpgCommon.game;
     }
 
     private static void check() {
@@ -108,42 +115,38 @@ public final class RpgCommon {
     }
 
     @SuppressWarnings("deprecated")
-    public static Player getPlayerByName(String name) {
-        return getCommonServer().getPlayer(name);
+    public static Optional<Player> getPlayerByName(String name) {
+        return getServer().getPlayer(name);
     }
 
-    public static Server getCommonServer() {
-        checkArgument(RpgCommon.bukkitServer != null, "The server has not been set yet!");
-        return RpgCommon.bukkitServer;
+    public static Server getServer() {
+        checkArgument(RpgCommon.server != null, "The server has not been set yet!");
+        return RpgCommon.server;
     }
 
     public static void setCommonServer(Server bukkitServer) {
-        checkArgument(bukkitServer != null, "Cannot set a null server!");
         check();
-        RpgCommon.bukkitServer = bukkitServer;
+        RpgCommon.server = bukkitServer;
     }
 
     @SuppressWarnings("deprecated")
-    public static Player getPlayerExact(String name) {
-        return getCommonServer().getPlayerExact(name);
+    public static Optional<Player> getPlayerExact(String name) {
+        return getServer().getPlayer(name);
     }
 
     public static Collection<? extends Player> getOnlinePlayers() {
-        return getCommonServer().getOnlinePlayers();
+        return getServer().getOnlinePlayers();
     }
 
-    public static Champion getChampion(Player player) {
+    public static Optional<Champion> getChampion(Player player) {
         return getPlugin().getEntityManager().getChampion(player);
     }
 
     public static RPGPlugin getPlugin() {
-        checkArgument(RpgCommon.rpgPlugin != null, "The plugin has yet to be initialized");
         return RpgCommon.rpgPlugin;
     }
 
     public static void setPlugin(RPGPlugin plugin) {
-        checkArgument(plugin != null, "Cannot set a null plugin!");
-        checkArgument(!plugin.isEnabled(), "Cannot set a plugin that is already enabled!");
         check();
         RpgCommon.rpgPlugin = plugin;
     }
@@ -157,13 +160,10 @@ public final class RpgCommon {
     }
 
     public static PermissionsManager getPermissionManager() {
-        checkArgument(RpgCommon.permissionsManager != null,
-                "PermissionManager has yet to be initialized");
         return RpgCommon.permissionsManager;
     }
 
     public static void setPermissionManager(PermissionsManager permissionManager) {
-        checkArgument(permissionManager != null, "Cannot set a null permission manager!");
         check();
         RpgCommon.permissionsManager = permissionManager;
     }
@@ -239,25 +239,28 @@ public final class RpgCommon {
         getPermissionManager().removeTransientWorldPermission(entity, worldName, permission);
     }
 
-    public static IEntity getEntity(Entity entity) {
+    public static Optional<IEntity> getEntity(Entity entity) {
         return getPlugin().getEntityManager().getEntity(entity);
     }
 
     public static void knockback(Insentient target, Insentient attacker, double damage) {
-        checkArgument(attacker != null, "Cannot have a null attacker!");
-        checkArgument(target != null, "Cannot have a null victim!");
         getHandler().knockBack(target, attacker, damage);
     }
 
-    public static void knockBack(LivingEntity target, LivingEntity attacker, double damage) {
+    public static void knockBack(Living target, Living attacker, double damage) {
         knockback((Insentient) getPlugin().getEntityManager().getEntity(target),
                 (Insentient) getPlugin().getEntityManager().getEntity(attacker), damage);
     }
 
-    public static boolean damageEntity(LivingEntity target, Insentient attacker, ISkill skill,
+    public static boolean damageEntity(Living target, Insentient attacker,
+                                       ISkill skill,
                                        double damage, DamageCause cause, boolean knockback) {
         return getHandler().damageEntity(
                 (Insentient) getPlugin().getEntityManager().getEntity(target), attacker, skill,
                 damage, cause, knockback);
+    }
+
+    public static Logger getLogger() {
+        return game.getPluginManager().getLogger((PluginContainer) getPlugin());
     }
 }

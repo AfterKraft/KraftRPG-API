@@ -27,6 +27,7 @@ import java.util.List;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.spongepowered.api.entity.player.Player;
 
 import com.afterkraft.kraftrpg.api.entity.SkillCaster;
 import com.afterkraft.kraftrpg.api.skills.SkillArgument;
@@ -35,7 +36,7 @@ import com.afterkraft.kraftrpg.api.skills.SkillArgument;
  * A SkillArgument that specifies an online Player by name. Useful for player lookups and
  * validation.
  */
-public class ExplicitPlayerArgument extends SkillArgument {
+public class ExplicitPlayerArgument extends SkillArgument<Player> {
     private final boolean defaultYou;
 
     private Player matchedPlayer;

@@ -23,7 +23,7 @@
  */
 package com.afterkraft.kraftrpg.api.skills;
 
-import org.bukkit.entity.Entity;
+import org.spongepowered.api.entity.Entity;
 
 import com.afterkraft.kraftrpg.api.entity.IEntity;
 import com.afterkraft.kraftrpg.api.entity.SkillCaster;

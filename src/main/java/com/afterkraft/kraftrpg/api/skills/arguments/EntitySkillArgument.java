@@ -30,7 +30,11 @@ import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.util.Vector;
+import org.spongepowered.api.entity.Entity;
+import org.spongepowered.api.entity.living.Living;
+import org.spongepowered.api.world.Location;
 
+import com.google.common.base.Optional;
 import com.google.common.base.Predicate;
 
 import com.afterkraft.kraftrpg.api.entity.SkillCaster;
@@ -41,7 +45,7 @@ import com.afterkraft.kraftrpg.api.skills.SkillArgument;
  *
  * @param <E> The type of Entity to isolate
  */
-public class EntitySkillArgument<E extends Entity> extends SkillArgument {
+public class EntitySkillArgument<E extends Entity> extends SkillArgument<E> {
     protected final double maxDistance;
     protected final Predicate<E> condition;
     private final Class<E> clazz;
@@ -64,8 +68,9 @@ public class EntitySkillArgument<E extends Entity> extends SkillArgument {
         this.clazz = clazz;
     }
 
-    public E getMatchedEntity() {
-        return this.matchedEntity.get();
+    @Override
+    public Optional<E> getValue() {
+        return Optional.fromNullable(this.matchedEntity.get());
     }
 
     // --------------------------------------------------------------
@@ -84,8 +89,8 @@ public class EntitySkillArgument<E extends Entity> extends SkillArgument {
     public void parse(SkillCaster caster, String[] allArgs, int startPosition) {
         List<Entity> nearby = caster.getEntity().getNearbyEntities(this.maxDistance,
                 this.maxDistance, this.maxDistance);
-        LivingEntity actor = caster.getEntity();
-        Location middle = actor.getEyeLocation();
+        Living actor = caster.getEntity().get();
+        Vector3f middle = actor.getEyeLocation();
         Vector direction = middle.getDirection();
 
         double closestDistance = this.maxDistance;
@@ -101,8 +106,8 @@ public class EntitySkillArgument<E extends Entity> extends SkillArgument {
 
             // TODO change to middle for livings??
             Location otherMiddle = entity.getLocation();
-            if (entity instanceof LivingEntity) {
-                otherMiddle = ((LivingEntity) entity).getEyeLocation();
+            if (entity instanceof Living) {
+                otherMiddle = ((Living) entity).getEyeLocation();
             }
             Location diff = otherMiddle.subtract(middle);
             // Algorithm: Make a triangle

@@ -23,7 +23,7 @@
  */
 package com.afterkraft.kraftrpg.api.effects.common;
 
-import org.bukkit.inventory.ItemStack;
+import org.spongepowered.api.item.inventory.ItemStack;
 
 import com.afterkraft.kraftrpg.api.entity.Insentient;
 

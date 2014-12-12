@@ -23,24 +23,18 @@
  */
 package com.afterkraft.kraftrpg.api.handler;
 
+import javax.xml.stream.Location;
 import java.util.Map;
 import java.util.Set;
 
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.conversations.Conversation;
-import org.bukkit.conversations.Prompt;
-import org.bukkit.entity.Arrow;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
-import org.bukkit.event.entity.CreatureSpawnEvent;
-import org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason;
-import org.bukkit.event.entity.EntityDamageEvent;
-import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
-import org.bukkit.util.Vector;
+import org.spongepowered.api.entity.EntityType;
+import org.spongepowered.api.entity.EntityTypes;
+import org.spongepowered.api.entity.living.Living;
+import org.spongepowered.api.entity.player.Player;
+import org.spongepowered.api.entity.projectile.Arrow;
+import org.spongepowered.api.event.cause.Cause;
+import org.spongepowered.api.potion.PotionEffect;
+import org.spongepowered.api.potion.PotionEffectType;
 
 import com.afterkraft.kraftrpg.api.RPGPlugin;
 import com.afterkraft.kraftrpg.api.entity.IEntity;
@@ -48,6 +42,7 @@ import com.afterkraft.kraftrpg.api.entity.Insentient;
 import com.afterkraft.kraftrpg.api.events.entity.damage.InsentientDamageEvent.DamageType;
 import com.afterkraft.kraftrpg.api.skills.ISkill;
 import com.afterkraft.kraftrpg.api.util.FixedPoint;
+import com.afterkraft.kraftrpg.common.DamageCause;
 
 /**
  * Standard utility class for handling version and platform specific code.
@@ -72,101 +67,65 @@ public abstract class ServerInternals {
 
     public static ServerInternals getInterface() {
         if (activeInterface == null) {
-            // Get minecraft version
-            String packageName = Bukkit.getServer().getClass().getPackage().getName();
-            String version = packageName.substring(packageName.lastIndexOf('.') + 1);
-            if (version.equals("craftbukkit")) {
-                version = "pre";
-            }
-            String serverString = Bukkit.getServer().getVersion().split("-")[1].toLowerCase();
-            if (serverString.equalsIgnoreCase("bukkit")
-                    || serverString.equalsIgnoreCase("craftbukkit")) {
-                serverType = ServerType.BUKKIT;
-            } else if (serverString.equalsIgnoreCase("spigot")) {
-                serverType = ServerType.SPIGOT;
-            } else if (serverString.equalsIgnoreCase("tweakkit")) {
-                serverType = ServerType.TWEAKKIT;
-            }
-            if (serverType == null) {
-                Bukkit.getLogger().info("KraftRPG could not detect your server mod type.");
-                Bukkit.getLogger().info("It detected " + serverString
-                        + " which isn't known to KraftRPG.");
-                Bukkit.getLogger().info("But don't worry! We're falling back"
-                        + " on Bukkit compatibility");
-                serverType = ServerType.BUKKIT;
-            }
-            try {
-                Class<?> clazz = Class.forName("com.afterkraft.kraftrpg.compat."
-                        + version + ".RPGHandler");
-                if (ServerInternals.class.isAssignableFrom(clazz)) {
-                    activeInterface = (ServerInternals) clazz.getConstructor(ServerType.class)
-                            .newInstance(serverType);
-                }
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            // redo this later in the implementation.
         }
         return activeInterface;
     }
 
     protected static String getSoundName(EntityType type) {
-        switch (type) {
-            case BLAZE:
-                return "mob.blaze.death";
-            case CHICKEN:
-                return "mob.chickenhurt";
-            case CREEPER:
-                return "mob.creeperdeath";
-            case MAGMA_CUBE:
-            case SLIME:
-                return "mob.slime";
-            case SKELETON:
-                return "mob.skeletonhurt";
-            case IRON_GOLEM:
-                return "mob.irongolem.death";
-            case GHAST:
-                return "mob.ghast.death";
-            case PIG:
-                return "mob.pigdeath";
-            case OCELOT:
-                return "mob.cat.hitt";
-            case SHEEP:
-                return "mob.sheep";
-            case SPIDER:
-                return "mob.spiderdeath";
-            case WOLF:
-                return "mob.wolf.death";
-            case ZOMBIE:
-                return "mob.zombiedeath";
-            default:
-                return "damage.hurtflesh";
-        }
+        if (type == EntityTypes.BLAZE) {
+            return "mob.blaze.death";
+        } else if (type == EntityTypes.CHICKEN) {
+            return "mob.chickenhurt";
+        } else if (type == EntityTypes.CREEPER) {
+            return "mob.creeperdeath";
+        } else if (type == EntityTypes.MAGMA_CUBE) {
+            return "mob.slime";
+        } else if (type == EntityTypes.SLIME) {
+            return "mob.slime";
+        } else if (type == EntityTypes.SKELETON) {
+            return "mob.skeletonhurt";
+        } else if (type == EntityTypes.IRON_GOLEM) {
+            return "mob.irongolem.death";
+        } else if (type == EntityTypes.GHAST) {
+            return "mob.ghast.death";
+        } else if (type == EntityTypes.PIG) {
+            return "mob.pigdeath";
+        } else if (type == EntityTypes.OCELOT) {
+            return "mob.cat.hitt";
+        } else if (type == EntityTypes.SHEEP) {
+            return "mob.sheep";
+        } else if (type == EntityTypes.SPIDER) {
+            return "mob.spiderdeath";
+        } else if (type == EntityTypes.WOLF) {
+            return "mob.wolf.death";
+        } else if (type == EntityTypes.ZOMBIE) {
+            return "mob.zombiedeath";
+        } else
+            return "damage.hurtflesh";
     }
 
     public abstract void loadExtraListeners();
 
-    public abstract Location getSpawnLocation(LivingEntity entity);
+    public abstract Location getSpawnLocation(Living entity);
 
-    public abstract CreatureSpawnEvent.SpawnReason getSpawnReason(LivingEntity entity,
-                                                                  SpawnReason provided);
+    public abstract Cause getSpawnReason(Living entity, Cause provided);
 
-    public abstract FixedPoint getMonsterExperience(LivingEntity entity, FixedPoint value);
+    public abstract FixedPoint getMonsterExperience(Living entity, FixedPoint value);
 
-    public abstract void setMonsterExperience(LivingEntity entity, FixedPoint experience);
+    public abstract void setMonsterExperience(Living entity, FixedPoint experience);
 
-    public abstract double getEntityDamage(LivingEntity entity, double calculated);
+    public abstract double getEntityDamage(Living entity, double calculated);
 
     /**
-     * Check if a given EntityAttributeType is present in the given LivingEntity.
+     * Check if a given EntityAttributeType is present in the given Living.
      *
      * @param entity entity to inspect
      * @param type   attribute to check
      *
      * @return true if set, false if not
      */
-    public abstract boolean isAttributeSet(LivingEntity entity, EntityAttributeType type);
+    public abstract boolean isAttributeSet(Living entity, EntityAttributeType type);
 
     /**
      * Get the value of an EntityAttributeType stored in the given entity.
@@ -177,7 +136,7 @@ public abstract class ServerInternals {
      *
      * @return double set value, or defaultValue if not
      */
-    public abstract double getAttribute(LivingEntity entity, EntityAttributeType type,
+    public abstract double getAttribute(Living entity, EntityAttributeType type,
                                         double defaultValue);
 
     /**
@@ -189,7 +148,7 @@ public abstract class ServerInternals {
      *
      * @return previous value, or the special value {@link #UNSET_VALUE} if not already set
      */
-    public abstract double setAttribute(LivingEntity entity, EntityAttributeType type,
+    public abstract double setAttribute(Living entity, EntityAttributeType type,
                                         double newValue);
 
     /**
@@ -202,14 +161,12 @@ public abstract class ServerInternals {
      *
      * @return current value
      */
-    public abstract double getOrSetAttribute(LivingEntity entity, EntityAttributeType type,
+    public abstract double getOrSetAttribute(Living entity, EntityAttributeType type,
                                              double valueIfEmpty);
 
     //NMS methods required by listeners
-    public abstract double getPostArmorDamage(LivingEntity defender, double damage);
+    public abstract double getPostArmorDamage(Living defender, double damage);
 
-    public abstract double getPostArmorDamage(Insentient being, EntityDamageEvent event,
-                                              double damage);
 
     public abstract void setPlayerExpZero(Player player);
 
@@ -221,12 +178,13 @@ public abstract class ServerInternals {
 
     public abstract void knockBack(Insentient target, Insentient attacker, double damage);
 
-    public abstract void knockBack(LivingEntity target, LivingEntity attacker, double damage);
+    public abstract void knockBack(Living target, Living attacker, double damage);
 
     public abstract boolean healEntity(Insentient being, double tickHealth, ISkill skill,
                                        Insentient applier);
 
-    public abstract boolean damageEntity(LivingEntity target, Insentient attacker, ISkill skill,
+    public abstract boolean damageEntity(Living target, Insentient attacker, 
+                                         ISkill skill,
                                          double damage, DamageCause cause, boolean knockback);
 
     public abstract boolean damageEntity(Insentient target, Insentient attacker, ISkill skill,
@@ -240,7 +198,7 @@ public abstract class ServerInternals {
                                          Map<DamageType, Double> modifiers, DamageCause cause,
                                          boolean knockback, boolean ignoreDamageCheck);
 
-    public abstract void refreshLastPlayerDamageTime(LivingEntity entity);
+    public abstract void refreshLastPlayerDamageTime(Living entity);
 
 
     //NMS methods required by effects
@@ -258,14 +216,7 @@ public abstract class ServerInternals {
     public abstract void setProjectileDamage(IEntity arrow, double damage);
 
     //Utility functions
-    protected abstract float getSoundStrength(LivingEntity entity);
-
-    public abstract void playClientEffect(Player player, Location startLocation, String particle,
-                                          Vector offset, float speed, int count, boolean sendToAll);
-
-    public abstract Conversation getCurrentConversation(Player player);
-
-    public abstract Prompt getCurrentPrompt(Conversation conversation);
+    protected abstract float getSoundStrength(Living entity);
 
     public abstract void addNBTAttributes();
 

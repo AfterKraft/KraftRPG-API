@@ -25,7 +25,9 @@ package com.afterkraft.kraftrpg.api.skills;
 
 import java.util.Collection;
 
-import org.bukkit.entity.Entity;
+import org.spongepowered.api.entity.Entity;
+
+import com.google.common.base.Optional;
 
 import com.afterkraft.kraftrpg.api.Manager;
 import com.afterkraft.kraftrpg.api.entity.SkillCaster;
@@ -61,7 +63,7 @@ public interface SkillManager extends Manager {
      *
      * @return The skill
      */
-    ISkill getSkill(String name);
+    Optional<ISkill> getSkill(String name);
 
     /**
      * Attempt to load the requested skill name that is to represent a {@link Permissible} skill.
@@ -96,29 +98,19 @@ public interface SkillManager extends Manager {
     void removeSkill(ISkill skill);
 
     /**
-     * Check if the {@link com.afterkraft.kraftrpg.api.entity.SkillCaster} has an actively {@link
-     * Stalled} Skill.
-     *
-     * @param caster the caster in question
-     *
-     * @return true if the specified caster is in process of casting a Stalled skill
-     */
-    boolean isCasterDelayed(SkillCaster caster);
-
-    /**
      * Gets the currently stalled skill the caster is about to cast.
      *
      * @param caster The caster in question
      *
      * @return The stalled skill for the caster
      */
-    Stalled getDelayedSkill(SkillCaster caster);
+    Optional<Stalled> getDelayedSkill(SkillCaster caster);
 
     void setCompletedSkill(SkillCaster caster);
 
     void addSkillTarget(Entity entity, SkillCaster caster, ISkill skill);
 
-    SkillUseObject getSkillTargetInfo(Entity o);
+    Optional<SkillUseObject> getSkillTargetInfo(Entity o);
 
     boolean isSkillTarget(Entity entity);
 

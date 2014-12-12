@@ -33,6 +33,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.potion.PotionEffect;
+import org.spongepowered.api.potion.PotionEffect;
 
 import com.afterkraft.kraftrpg.api.effects.EffectType;
 import com.afterkraft.kraftrpg.api.effects.PeriodicExpirableEffect;
@@ -41,6 +42,7 @@ import com.afterkraft.kraftrpg.api.entity.SkillCaster;
 import com.afterkraft.kraftrpg.api.events.entity.damage.InsentientDamageEvent.DamageType;
 import com.afterkraft.kraftrpg.api.skills.Skill;
 import com.afterkraft.kraftrpg.api.skills.SkillType;
+import com.afterkraft.kraftrpg.common.DamageCause;
 
 /**
  * Standard implementation of a {@link com.afterkraft.kraftrpg.api.effects.Periodic} and {@link
@@ -123,14 +125,13 @@ public class DamagingEffect extends PeriodicExpirableEffect implements Damaging 
      */
     @Override
     public void tick(Insentient being) {
-        checkArgument(being != null, "Cannot tick on a null Insentient being!");
-        if (being.isEntityValid() && (getApplier() != null) && getApplier().isEntityValid()) {
-            if (!Skill.damageCheck(being, getApplier().getEntity())) {
+        if (being.isEntityValid() && getApplier().isEntityValid()) {
+            if (!Skill.damageCheck(being, getApplier().getEntity().get())) {
                 return;
             }
             if (being instanceof SkillCaster) {
                 SkillCaster caster = (SkillCaster) being;
-                this.skill.addSkillTarget(being.getEntity(), caster);
+                this.skill.addSkillTarget(being.getEntity().get(), caster);
                 boolean isMagic = this.skill.isType(SkillType.ABILITY_PROPERTY_PHYSICAL);
                 Map<DamageType, Double> modifiers = new HashMap<>();
                 if (isMagic) {

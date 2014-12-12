@@ -33,9 +33,13 @@ import static com.google.common.base.Preconditions.checkArgument;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
+import org.spongepowered.api.entity.player.Player;
+import org.spongepowered.api.potion.PotionEffect;
+import org.spongepowered.api.world.Location;
 
 import com.google.common.collect.ImmutableSet;
 
+import com.afterkraft.kraftrpg.api.RpgCommon;
 import com.afterkraft.kraftrpg.api.entity.Champion;
 import com.afterkraft.kraftrpg.api.entity.Insentient;
 import com.afterkraft.kraftrpg.api.skills.Skill;
@@ -161,13 +165,14 @@ public class Effect implements IEffect {
             return;
         }
 
-        for (final Player player : this.skill.plugin.getServer().getOnlinePlayers()) {
+        for (final Player player : RpgCommon.getOnlinePlayers()) {
             final Location playerLocation = player.getLocation();
-            final Champion champion = this.skill.plugin.getEntityManager().getChampion(player);
+            final Champion champion = this.skill.plugin.getEntityManager()
+                    .getChampion(player).get();
             if (champion.isIgnoringSkill(this.skill)) {
                 continue;
             }
-            if (source.getWorld().equals(playerLocation.getWorld())
+            if (source.getExtent().equals(playerLocation.getExtent())
                     && isInMsgRange(playerLocation, source)) {
                 champion.sendMessage(message, args);
             }
@@ -175,7 +180,7 @@ public class Effect implements IEffect {
     }
 
     private boolean isInMsgRange(Location loc1, Location loc2) {
-        return (Math.abs(loc1.getBlockX() - loc2.getBlockX()) < 25)
+        return (Math.abs(loc1.getPosition() - loc2.getBlockX()) < 25)
                 && (Math.abs(loc1.getBlockY() - loc2.getBlockY()) < 25)
                 && (Math.abs(loc1.getBlockZ() - loc2.getBlockZ()) < 25);
     }

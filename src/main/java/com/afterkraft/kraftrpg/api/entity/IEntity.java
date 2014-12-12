@@ -26,10 +26,12 @@ package com.afterkraft.kraftrpg.api.entity;
 import java.util.List;
 import java.util.UUID;
 
-import org.bukkit.Location;
-import org.bukkit.World;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
+import org.spongepowered.api.entity.Entity;
+import org.spongepowered.api.entity.EntityType;
+import org.spongepowered.api.world.Location;
+import org.spongepowered.api.world.World;
+
+import com.google.common.base.Optional;
 
 /**
  * Represents an {@link Entity} linked with KraftRPG. This is the base for all entities in
@@ -52,14 +54,14 @@ public interface IEntity {
     String getDisplayName();
 
     /**
-     * Check if the attached {@link org.bukkit.entity.LivingEntity} is still valid and not null
+     * Check if the attached entity is still valid and not null
      *
-     * @return true if the LivingEntity is not null
+     * @return true if the entity is not null
      */
     boolean isValid();
 
     /**
-     * Check if the {@link org.bukkit.entity.Entity#isValid()}. This also checks if the reference of
+     * Check if the Entity is valid. This also checks if the reference of
      * the entity {@link #isValid()}.
      *
      * @return true if the LivingEntity is alive and valid
@@ -71,17 +73,17 @@ public interface IEntity {
      *
      * @return the linked Entity if not null
      */
-    Entity getEntity();
+    Optional<? extends Entity> getEntity();
 
     /**
      * Gets the type of Entity this IEntity is wrapping.
      *
      * @return The type of entity this IEntity is wrapping
      */
-    EntityType getEntityType();
+    Optional<EntityType> getEntityType();
 
     /**
-     * Reset the linked Entity to the provided {@link org.bukkit.entity.Entity} if the {@link
+     * Reset the linked Entity to the provided {@link Entity} if the {@link
      * java.util.UUID} match for the old reference and the provided reference
      *
      * @param entity the Entity to re-attach this IEntity to
@@ -99,7 +101,7 @@ public interface IEntity {
     UUID getUniqueID();
 
     /**
-     * Return the {@link org.bukkit.Location} of this being.
+     * Return the {@link Location} of this being.
      *
      * @return the location of the being.
      */

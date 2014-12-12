@@ -32,8 +32,6 @@ import java.util.Set;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
-import org.bukkit.configuration.ConfigurationSection;
-
 import com.afterkraft.kraftrpg.api.entity.Insentient;
 import com.afterkraft.kraftrpg.api.skills.ISkill;
 import com.afterkraft.kraftrpg.api.skills.SkillType;

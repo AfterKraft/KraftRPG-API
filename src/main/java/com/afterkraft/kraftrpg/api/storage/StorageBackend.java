@@ -26,6 +26,8 @@ package com.afterkraft.kraftrpg.api.storage;
 import java.util.List;
 import java.util.UUID;
 
+import com.google.common.base.Optional;
+
 /**
  * A backend for storage of player data. All methods in this class may be assumed to take a long
  * time, and will be called off of the main thread. (Therefore, no Bukkit API except the Scheduler
@@ -77,7 +79,7 @@ public interface StorageBackend {
      *
      * @return Champion with data, or null
      */
-    PlayerData loadPlayer(UUID uuid, boolean shouldCreate);
+    Optional<PlayerData> loadPlayer(UUID uuid, boolean shouldCreate);
 
     /**
      * Return a list of every UUID with data.  Assume that you're running on a different thread,

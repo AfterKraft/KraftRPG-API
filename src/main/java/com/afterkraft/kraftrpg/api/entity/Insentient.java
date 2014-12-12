@@ -23,24 +23,27 @@
  */
 package com.afterkraft.kraftrpg.api.entity;
 
+import javax.annotation.Nullable;
 import java.util.Set;
 
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
+import org.spongepowered.api.entity.living.Living;
+import org.spongepowered.api.item.inventory.ItemStack;
+import org.spongepowered.api.potion.PotionEffect;
+import org.spongepowered.api.potion.PotionEffectType;
+
+import com.google.common.base.Optional;
 
 import com.afterkraft.kraftrpg.api.effects.EffectType;
 import com.afterkraft.kraftrpg.api.effects.IEffect;
 import com.afterkraft.kraftrpg.api.listeners.DamageWrapper;
 import com.afterkraft.kraftrpg.api.skills.ISkill;
 import com.afterkraft.kraftrpg.api.util.FixedPoint;
+import com.afterkraft.kraftrpg.common.Inventory;
 
 /**
  * Represents an Insentient being that allows retreival of the being's status and handles the basic
  * {@link com.afterkraft.kraftrpg.api.effects.IEffect}.  It is important to note that an Insentient,
- * and it's subclasses, may not always be attached to a {@link org.bukkit.entity.LivingEntity}. This
+ * and it's subclasses, may not always be attached to a {@link Living}. This
  * is why these methods are provided to assure that Effects and Skills may still function and apply
  * themselves to Insentient beings.  It is advisable that the following method may return null:
  * <code> {@link #getEntity()} </code> and therefor any common information retrieval should be
@@ -49,12 +52,12 @@ import com.afterkraft.kraftrpg.api.util.FixedPoint;
 public interface Insentient extends IEntity {
 
     /**
-     * Attempts to fetch the attached LivingEntity of this Insentient Being, unless a LivingEntity
-     * is not attached, to which this will return null.
+     * Attempts to fetch the attached LivingEntity of this Insentient Being,
+     * unless a Living is not attached, to which this will return null.
      *
      * @return the attached LivingEntity, if there is no LivingEntity, then null.
      */
-    @Override LivingEntity getEntity();
+    @Override Optional<? extends Living> getEntity();
 
     /**
      * Get the current mana this being has.
@@ -128,7 +131,7 @@ public interface Insentient extends IEntity {
 
     /**
      * Removes an additional health modifier from the calculations for the {@link
-     * org.bukkit.entity.LivingEntity#getMaxHealth()}. Removing KraftRPG specific mappings may have
+     * Living#getMaxHealth()}. Removing KraftRPG specific mappings may have
      * unknown side-effects.
      *
      * @param key linking to the additional health bonus for this being
@@ -139,7 +142,7 @@ public interface Insentient extends IEntity {
     boolean removeMaxHealth(String key);
 
     /**
-     * Forcefully recalculates the total max health the linked {@link org.bukkit.entity.LivingEntity}
+     * Forcefully recalculates the total max health the linked {@link Living}
      * should have and applies it. This will also apply the current percentage of total health the
      * entity has compared to their current max health.
      *
@@ -148,7 +151,7 @@ public interface Insentient extends IEntity {
     double recalculateMaxHealth();
 
     /**
-     * Attempts to heal the {@link org.bukkit.entity.LivingEntity} the defined amount of health.
+     * Attempts to heal the {@link Living} the defined amount of health.
      * This will not allow healing past the current max health
      *
      * @param amount to heal
@@ -161,10 +164,9 @@ public interface Insentient extends IEntity {
      */
     void clearHealthBonuses();
 
+    Optional<DamageWrapper> getDamageWrapper();
 
-    DamageWrapper getDamageWrapper();
-
-    void setDamageWrapper(DamageWrapper wrapper);
+    void setDamageWrapper(@Nullable DamageWrapper wrapper);
 
     /**
      * Check if this being is dead
@@ -218,14 +220,14 @@ public interface Insentient extends IEntity {
 
     /**
      * Assumes this being has a functional hand, this will return the {@link
-     * org.bukkit.inventory.ItemStack} in said hand.
+     * ItemStack} in said hand.
      *
      * @return the ItemStack in the hand of the being.
      */
-    ItemStack getItemInHand();
+    Optional<ItemStack> getItemInHand();
 
     /**
-     * Returns a proper {@link org.bukkit.inventory.Inventory} that belongs to this being. It can be
+     * Returns a proper {@link Inventory} that belongs to this being. It can be
      * modified and queried without exception.
      *
      * @return the inventory belonging to this being.
@@ -254,7 +256,7 @@ public interface Insentient extends IEntity {
     void setArmor(ItemStack item, int armorSlot);
 
     /**
-     * Check if this being is capable of equipping the {@link org.bukkit.inventory.ItemStack}. This
+     * Check if this being is capable of equipping the {@link ItemStack}. This
      * is primarily used for damage listeners and other logic that may be needed throughout
      * KraftRPG
      *
@@ -271,7 +273,7 @@ public interface Insentient extends IEntity {
      *
      * @return the named Effect if not null
      */
-    IEffect getEffect(String name);
+    Optional<IEffect> getEffect(String name);
 
     /**
      * Returns an unmodifiable set of Effects this Insentient being has active.
@@ -291,7 +293,7 @@ public interface Insentient extends IEntity {
     void addEffect(IEffect effect);
 
     /**
-     * Add the {@link org.bukkit.potion.PotionEffect} to this Insentient being.  This method is
+     * Add the {@link PotionEffect} to this Insentient being.  This method is
      * provided with the assurance that the entity would not have a {@link
      * java.util.ConcurrentModificationException} caused by multiple sources.
      *
@@ -302,7 +304,7 @@ public interface Insentient extends IEntity {
     void addPotionEffect(PotionEffect potion);
 
     /**
-     * Remove the {@link org.bukkit.potion.PotionEffectType} from this Insentient.  This method is
+     * Remove the {@link PotionEffectType} from this Insentient.  This method is
      * provided with the assurance that the entity would not have a {@link
      * java.util.ConcurrentModificationException} caused by multiple sources.
      *
@@ -356,7 +358,7 @@ public interface Insentient extends IEntity {
     /**
      * Unsafely removes the IEffect from this being. It will not call {@link
      * IEffect#remove(Insentient)} and may leave behind some unintended {@link
-     * org.bukkit.potion.PotionEffect}s on the being.
+     * PotionEffect}s on the being.
      *
      * @param effect being removed.
      *

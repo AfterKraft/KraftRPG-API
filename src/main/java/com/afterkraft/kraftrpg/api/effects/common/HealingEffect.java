@@ -28,7 +28,7 @@ import java.util.Set;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
-import org.bukkit.potion.PotionEffect;
+import org.spongepowered.api.potion.PotionEffect;
 
 import com.afterkraft.kraftrpg.api.effects.EffectType;
 import com.afterkraft.kraftrpg.api.effects.PeriodicExpirableEffect;
@@ -86,7 +86,6 @@ public class HealingEffect extends PeriodicExpirableEffect implements Healing {
      */
     @Override
     public void tick(Insentient being) {
-        checkArgument(being != null, "Cannot tick on a null Insentient being!");
         if (!being.isEntityValid() || !getApplier().isEntityValid()) {
             return;
         }

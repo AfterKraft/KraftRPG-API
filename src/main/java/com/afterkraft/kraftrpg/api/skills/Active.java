@@ -25,6 +25,8 @@ package com.afterkraft.kraftrpg.api.skills;
 
 import java.util.List;
 
+import com.google.common.base.Optional;
+
 import com.afterkraft.kraftrpg.api.entity.SkillCaster;
 
 /**
@@ -59,7 +61,7 @@ public interface Active extends ISkill {
      *
      * @return a casted SkillArgument
      */
-    public <T extends SkillArgument> T getArgument(int index);
+    public <T extends SkillArgument> Optional<T> getArgument(int index);
 
     /**
      * Get the active array of SkillArguments currently in use.

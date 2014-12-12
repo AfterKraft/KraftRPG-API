@@ -21,17 +21,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.afterkraft.kraftrpg.api.conversations;
 
-import java.util.List;
-
-import org.bukkit.conversations.ConversationContext;
-import org.bukkit.conversations.Prompt;
-
-/**
- *
- */
-public interface TabCompletablePrompt extends Prompt {
-    public List<String> onTabComplete(ConversationContext context, String fullMessage,
-                                      String lastToken);
-}
+@org.spongepowered.api.util.annotation.NonnullByDefault
+package com.afterkraft.kraftrpg.api.events.entity.champion;

@@ -26,10 +26,12 @@ package com.afterkraft.kraftrpg.api.entity;
 import java.util.Set;
 import java.util.UUID;
 
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
+import org.spongepowered.api.entity.Entity;
+import org.spongepowered.api.entity.EntityType;
+import org.spongepowered.api.entity.living.Living;
+import org.spongepowered.api.entity.player.Player;
+
+import com.google.common.base.Optional;
 
 import com.afterkraft.kraftrpg.api.Manager;
 import com.afterkraft.kraftrpg.api.storage.PlayerData;
@@ -41,7 +43,7 @@ import com.afterkraft.kraftrpg.api.storage.PlayerData;
 public interface EntityManager extends Manager {
 
     /**
-     * Return the {@link com.afterkraft.kraftrpg.api.entity.IEntity} for the designated Entity. The
+     * Return the {@link IEntity} for the designated Entity. The
      * IEntity is guaranteed to be affected by KraftRPG if it is not returned by null
      *
      * @param entity The bukkit entity to get the proxy object of
@@ -49,7 +51,7 @@ public interface EntityManager extends Manager {
      * @return The KraftRPG proxy object for the entity
      * @throws IllegalArgumentException If the entity is null or invalid
      */
-    IEntity getEntity(Entity entity);
+    Optional<IEntity> getEntity(Entity entity);
 
     /**
      * Retrieve the {@link com.afterkraft.kraftrpg.api.entity.Monster} object for this Player.
@@ -59,7 +61,7 @@ public interface EntityManager extends Manager {
      * @return the Monster object
      * @throws IllegalArgumentException If the entity is null or invalid
      */
-    Monster getMonster(LivingEntity entity);
+    Optional<Monster> getMonster(Living entity);
 
     /**
      * Retrieve the {@link com.afterkraft.kraftrpg.api.entity.Champion} object for this Player.
@@ -69,27 +71,24 @@ public interface EntityManager extends Manager {
      * @return the Champion object, or null if the player is not valid
      * @throws IllegalArgumentException If the player is null or invalid
      */
-    Champion getChampion(Player player);
+    Optional<Champion> getChampion(Player player);
 
     /**
      * Attempts to load a {@link com.afterkraft.kraftrpg.api.entity.Champion} with a link to a
      * Player and {@link com.afterkraft.kraftrpg.api.storage.PlayerData} that allows interaction
      * with the rest of KraftRPG.  When needing data regarding a Player who is offline and the
-     * data is not intended to be modified, ignoreOffline can be used to retrieve the data for a
-     * specific player.
+     * data is not intended to be modified, fetching the PlayerData directly
+     * from Storage is recommended.
      *
      * @param uuid          of the Player in question
-     * @param ignoreOffline whether to load a fake Champion regardless whether the linked Player is
-     *                      offline
      *
-     * @return the loaded Champion belonging to the UUID, if not null
-     * @throws IllegalArgumentException If the uuid is null
+     * @return The loaded Champion belonging to the UUID, if available
      */
-    Champion getChampion(UUID uuid, boolean ignoreOffline);
+    Optional<Champion> getChampion(UUID uuid);
 
     /**
-     * Check if the given {@link org.bukkit.entity.Entity} is already managed by this EntityManager.
-     * If true, attempting to add a new {@link com.afterkraft.kraftrpg.api.entity.IEntity} via
+     * Check if the given {@link Entity} is already managed by this EntityManager.
+     * If true, attempting to add a new {@link IEntity} via
      * {@link #addEntity(IEntity)} will fail. This is provided as a utility check for extending the
      * functionality of KraftRPG.
      *
@@ -107,8 +106,6 @@ public interface EntityManager extends Manager {
      * @param data   PlayerData object
      *
      * @return Constructed Champion
-     * @throws IllegalArgumentException If the player is null
-     * @throws IllegalArgumentException If the data is null
      */
     Champion createChampionWithData(Player player, PlayerData data);
 
@@ -117,7 +114,7 @@ public interface EntityManager extends Manager {
      * the world that normally would not be considered an {@link com.afterkraft.kraftrpg.api.entity.IEntity}.
      * This can be used to add customized {@link com.afterkraft.kraftrpg.api.entity.Monster}s and
      * possibly {@link com.afterkraft.kraftrpg.api.entity.SkillCaster}s. It will perform checks
-     * against the current map of managed {@link org.bukkit.entity.Entity} and return false if the
+     * against the current map of managed {@link Entity} and return false if the
      * entity is already registered. If the entity is registered, killing the entity and spawning a
      * new one in it's place is possible.  It is important that any custom entities are added
      * through this method so that KraftRPG can function as intended.
@@ -126,7 +123,6 @@ public interface EntityManager extends Manager {
      *
      * @return true if the entity's {@link java.util.UUID} did not exist and adding the entity was
      * successful.
-     * @throws IllegalArgumentException If the entity is null
      * @throws IllegalArgumentException If the entity is not valid
      */
     boolean addEntity(IEntity entity);

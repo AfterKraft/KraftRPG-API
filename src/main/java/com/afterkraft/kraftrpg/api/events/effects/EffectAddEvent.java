@@ -25,6 +25,7 @@ package com.afterkraft.kraftrpg.api.events.effects;
 
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.HandlerList;
+import org.spongepowered.api.util.event.Cancellable;
 
 import com.afterkraft.kraftrpg.api.effects.IEffect;
 import com.afterkraft.kraftrpg.api.entity.Insentient;

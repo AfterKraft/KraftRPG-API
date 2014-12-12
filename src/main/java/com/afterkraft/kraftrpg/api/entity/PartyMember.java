@@ -23,6 +23,8 @@
  */
 package com.afterkraft.kraftrpg.api.entity;
 
+import com.google.common.base.Optional;
+
 import com.afterkraft.kraftrpg.api.entity.party.Party;
 
 /**
@@ -42,7 +44,7 @@ public interface PartyMember extends IEntity {
      *
      * @return the party
      */
-    Party getParty();
+    Optional<Party> getParty();
 
     /**
      * Set this member's current party.

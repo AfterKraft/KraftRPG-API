@@ -25,8 +25,6 @@ package com.afterkraft.kraftrpg.api;
 
 import java.util.logging.Level;
 
-import org.bukkit.plugin.Plugin;
-
 import com.afterkraft.kraftrpg.api.effects.EffectManager;
 import com.afterkraft.kraftrpg.api.entity.CombatTracker;
 import com.afterkraft.kraftrpg.api.entity.EntityManager;
@@ -45,7 +43,7 @@ import com.afterkraft.kraftrpg.api.util.Properties;
  * Standard plugin for KraftRPG. This is provided to avoid leaking implementation that may change
  * between versions.
  */
-public interface RPGPlugin extends Plugin {
+public interface RPGPlugin {
 
     /**
      * Stop the plugin from enabling. This should be used when there is a fatal configuration
@@ -84,4 +82,6 @@ public interface RPGPlugin extends Plugin {
     void debugLog(Level level, String msg);
 
     void debugThrow(String sourceClass, String sourceMethod, Throwable thrown);
+
+    boolean isEnabled();
 }

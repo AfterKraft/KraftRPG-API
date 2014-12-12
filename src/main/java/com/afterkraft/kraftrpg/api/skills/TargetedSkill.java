@@ -23,10 +23,7 @@
  */
 package com.afterkraft.kraftrpg.api.skills;
 
-
-import static com.google.common.base.Preconditions.checkArgument;
-
-import org.bukkit.entity.Entity;
+import org.spongepowered.api.entity.Entity;
 
 import com.afterkraft.kraftrpg.api.RPGPlugin;
 import com.afterkraft.kraftrpg.api.effects.EffectType;
@@ -65,7 +62,6 @@ public abstract class TargetedSkill<E extends Entity> extends ActiveSkill implem
             throw new IllegalStateException("KraftRPG is already enabled! Cannot modify Skill "
                     + "Arguments after being enabled.");
         }
-        checkArgument(argument != null, "Cannot set the targeting argument as null!");
         if (this.skillArguments == null) {
             addSkillArgument(argument);
         } else {
@@ -79,14 +75,15 @@ public abstract class TargetedSkill<E extends Entity> extends ActiveSkill implem
             caster.sendMessage("You cannot target anything while blinded!");
             return SkillCastResult.INVALID_TARGET;
         }
-        E target = this.<EntitySkillArgument<E>>getArgument(0).getMatchedEntity();
+        E target = this.<EntitySkillArgument<E>>getArgument(0)
+                .get().getValue().get();
 
         double distance = this.plugin.getSkillConfigManager().getUsedIntSetting(caster, this,
                 SkillSetting.MAX_DISTANCE);
         if (target == null || target.getLocation().distance(caster.getLocation()) > distance) {
             return SkillCastResult.INVALID_TARGET_NO_MESSAGE;
         }
-        IEntity entity = this.plugin.getEntityManager().getEntity(target);
+        IEntity entity = this.plugin.getEntityManager().getEntity(target).get();
         if (entity instanceof Insentient) {
             Insentient insentient = (Insentient) entity;
             if (caster.equals(insentient)) {
@@ -100,14 +97,15 @@ public abstract class TargetedSkill<E extends Entity> extends ActiveSkill implem
                 return SkillCastResult.UNTARGETABLE_TARGET;
             }
 
-            if (caster.hasParty() && insentient instanceof PartyMember) {
+            if (caster.getParty().isPresent() && insentient instanceof PartyMember) {
                 if (this.plugin.getPartyManager().isFriendly(caster, (PartyMember) insentient)) {
                     return SkillCastResult.INVALID_TARGET_NO_MESSAGE;
                 }
             }
 
             if (this.isType(SkillType.DAMAGING)) {
-                if (!damageCheck(caster, insentient.getEntity()) || (insentient instanceof Summon
+                if (!damageCheck(caster, insentient.getEntity().get())
+                        || (insentient instanceof Summon
                         && (caster.equals(((Summon) insentient).getSummoner())))) {
                     caster.sendMessage("You cannot damage that target!");
                     return SkillCastResult.INVALID_TARGET_NO_MESSAGE;

@@ -26,7 +26,7 @@ package com.afterkraft.kraftrpg.api.effects.common;
 import java.util.Collection;
 import java.util.Set;
 
-import org.bukkit.potion.PotionEffect;
+import org.spongepowered.api.potion.PotionEffect;
 
 import com.afterkraft.kraftrpg.api.effects.Effect;
 import com.afterkraft.kraftrpg.api.effects.EffectType;

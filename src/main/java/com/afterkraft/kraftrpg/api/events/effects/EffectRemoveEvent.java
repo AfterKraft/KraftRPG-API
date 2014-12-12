@@ -25,6 +25,7 @@ package com.afterkraft.kraftrpg.api.events.effects;
 
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.HandlerList;
+import org.spongepowered.api.util.event.Cancellable;
 
 import com.afterkraft.kraftrpg.api.effects.IEffect;
 import com.afterkraft.kraftrpg.api.entity.Insentient;
@@ -36,7 +37,6 @@ import com.afterkraft.kraftrpg.api.events.entity.InsentientEvent;
  */
 public class EffectRemoveEvent extends InsentientEvent implements Cancellable {
 
-    private static final HandlerList handlers = new HandlerList();
     private boolean isCancelled = false;
     private IEffect effect;
 
@@ -45,9 +45,6 @@ public class EffectRemoveEvent extends InsentientEvent implements Cancellable {
         this.effect = effect;
     }
 
-    public static HandlerList getHandlerList() {
-        return handlers;
-    }
 
     public IEffect getEffect() {
         return this.effect;
@@ -67,8 +64,4 @@ public class EffectRemoveEvent extends InsentientEvent implements Cancellable {
         this.isCancelled = cancel;
     }
 
-    @Override
-    public HandlerList getHandlers() {
-        return handlers;
-    }
 }

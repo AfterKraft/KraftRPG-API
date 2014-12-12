@@ -43,7 +43,6 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.MemoryConfiguration;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BookMeta;
 import org.bukkit.inventory.meta.EnchantmentStorageMeta;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -53,43 +52,33 @@ import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.StringUtil;
+import org.spongepowered.api.block.BlockType;
+import org.spongepowered.api.item.ItemType;
+import org.spongepowered.api.item.ItemTypes;
+import org.spongepowered.api.item.inventory.ItemStack;
 
 import com.google.common.collect.ImmutableSet;
 
 import com.afterkraft.kraftrpg.api.RpgCommon;
 
 /**
- * A standard utilities class containing various methods that are useful enough to simplify code and
- * calculations.
+ * A standard utilities class containing various methods that are useful enough
+ * to simplify code and calculations.
  */
 public class Utilities {
 
     public static final Pattern uuidRegex =
-            Pattern.compile("[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}",
+            Pattern.compile(
+                    "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}",
                     Pattern.CASE_INSENSITIVE);
     private static final Pattern timePattern = Pattern.compile("(\\d+)(\\w)");
-    public static Pattern locationRegex = Pattern.compile("~?-?[0-9]*(\\.[0-9]+)?");
+    public static Pattern locationRegex =
+            Pattern.compile("~?-?[0-9]*(\\.[0-9]+)?");
     private static HashSet<Byte> transparentIds;
-    private static HashSet<Material> transparentBlocks;
+    private static HashSet<BlockType> transparentBlocks;
     private static Set<String> onlyItemKey = ImmutableSet.of("item");
 
     static {
-        // Use Bukkit's Material#isTransParent()
-        transparentBlocks = new HashSet<>();
-        for (Material mat : Material.values()) {
-            if (mat.isTransparent()) {
-                transparentBlocks.add(mat);
-            }
-        }
-
-        // Use Bukkit's Material#isTransParent()
-        transparentIds = new HashSet<>();
-        for (Material mat : Material.values()) {
-            if (mat.isTransparent()) {
-                transparentIds.add((byte) mat.getId());
-            }
-        }
-
     }
 
     @SuppressWarnings("unchecked")
@@ -111,7 +100,8 @@ public class Utilities {
             return null;
         }
 
-        ItemStack item = ItemStringInterpreter.valueOf(section.getString("item"));
+        ItemStack item =
+                ItemStringInterpreter.valueOf(section.getString("item"));
         if (item == null) {
             return null;
         }
@@ -125,7 +115,8 @@ public class Utilities {
 
         if (section.get("name") != null) {
             meta.setDisplayName(ChatColor.translateAlternateColorCodes('&',
-                    section.getString("name")));
+                                                                       section.getString(
+                                                                               "name")));
         }
 
         if (section.get("lore") != null) {
@@ -137,17 +128,21 @@ public class Utilities {
         }
 
         if (section.getConfigurationSection("enchantments") != null) {
-            ConfigurationSection enchantSection = section.getConfigurationSection("enchantments");
+            ConfigurationSection enchantSection =
+                    section.getConfigurationSection("enchantments");
             if (meta instanceof EnchantmentStorageMeta) {
                 EnchantmentStorageMeta esMeta = (EnchantmentStorageMeta) meta;
                 for (String enchantStr : enchantSection.getKeys(false)) {
                     Enchantment enchant = Enchantment.getByName(enchantStr);
-                    esMeta.addStoredEnchant(enchant, enchantSection.getInt(enchantStr), true);
+                    esMeta.addStoredEnchant(enchant,
+                                            enchantSection.getInt(enchantStr),
+                                            true);
                 }
             } else {
                 for (String enchantStr : enchantSection.getKeys(false)) {
                     Enchantment enchant = Enchantment.getByName(enchantStr);
-                    meta.addEnchant(enchant, enchantSection.getInt(enchantStr), true);
+                    meta.addEnchant(enchant, enchantSection.getInt(enchantStr),
+                                    true);
                 }
             }
         }
@@ -156,7 +151,8 @@ public class Utilities {
             if (section.get("pages") != null) {
                 List<String> pages = new ArrayList<>();
                 for (String page : section.getStringList("pages")) {
-                    pages.add(ChatColor.translateAlternateColorCodes('&', page));
+                    pages.add(
+                            ChatColor.translateAlternateColorCodes('&', page));
                 }
                 ((BookMeta) meta).setPages(pages);
             }
@@ -227,7 +223,8 @@ public class Utilities {
         if (root instanceof ConfigurationSection) {
             ConfigurationSection section = (ConfigurationSection) root;
 
-            PotionEffectType type = PotionEffectType.getByName(section.getString("type"));
+            PotionEffectType type =
+                    PotionEffectType.getByName(section.getString("type"));
             if (type == null) {
                 type = RpgCommon.getHandler().getAlternatePotionEffectNames()
                         .get(section.getString("type").toLowerCase());
@@ -285,40 +282,66 @@ public class Utilities {
         return null;
     }
 
-    public static boolean isStandardWeapon(Material mat) {
-        switch (mat) {
-            case IRON_AXE:
-            case IRON_HOE:
-            case IRON_PICKAXE:
-            case IRON_SPADE:
-            case IRON_SWORD:
-            case STONE_AXE:
-            case STONE_HOE:
-            case STONE_PICKAXE:
-            case STONE_SPADE:
-            case STONE_SWORD:
-            case GOLD_AXE:
-            case GOLD_HOE:
-            case GOLD_PICKAXE:
-            case GOLD_SPADE:
-            case GOLD_SWORD:
-            case WOOD_AXE:
-            case WOOD_HOE:
-            case WOOD_PICKAXE:
-            case WOOD_SPADE:
-            case WOOD_SWORD:
-            case DIAMOND_AXE:
-            case DIAMOND_HOE:
-            case DIAMOND_PICKAXE:
-            case DIAMOND_SPADE:
-            case DIAMOND_SWORD:
-            case BOW:
-            case FISHING_ROD:
-            case CARROT_STICK:
-            case SHEARS:
-                return true;
-            default:
-                return false;
+    public static boolean isStandardWeapon(ItemType mat) {
+        if (mat == ItemTypes.IRON_AXE) {
+        } else if (mat == ItemTypes.IRON_HOE) {
+            return true;
+        } else if (mat == ItemTypes.IRON_PICKAXE) {
+            return true;
+        } else if (mat == ItemTypes.IRON_SHOVEL) {
+            return true;
+        } else if (mat == ItemTypes.IRON_SWORD) {
+            return true;
+        } else if (mat == ItemTypes.STONE_AXE) {
+            return true;
+        } else if (mat == ItemTypes.STONE_HOE) {
+            return true;
+        } else if (mat == ItemTypes.STONE_PICKAXE) {
+            return true;
+        } else if (mat == ItemTypes.STONE_SHOVEL) {
+            return true;
+        } else if (mat == ItemTypes.STONE_SWORD) {
+            return true;
+        } else if (mat == ItemTypes.GOLDEN_AXE) {
+            return true;
+        } else if (mat == ItemTypes.GOLDEN_HOE) {
+            return true;
+        } else if (mat == ItemTypes.GOLDEN_PICKAXE) {
+            return true;
+        } else if (mat == ItemTypes.GOLDEN_SHOVEL) {
+            return true;
+        } else if (mat == ItemTypes.GOLDEN_SWORD) {
+            return true;
+        } else if (mat == ItemTypes.WOODEN_AXE) {
+            return true;
+        } else if (mat == ItemTypes.WOODEN_HOE) {
+            return true;
+        } else if (mat == ItemTypes.WOODEN_PICKAXE) {
+            return true;
+        } else if (mat == ItemTypes.WOODEN_SHOVEL) {
+            return true;
+        } else if (mat == ItemTypes.WOODEN_SWORD) {
+            return true;
+        } else if (mat == ItemTypes.DIAMOND_AXE) {
+            return true;
+        } else if (mat == ItemTypes.DIAMOND_HOE) {
+            return true;
+        } else if (mat == ItemTypes.DIAMOND_PICKAXE) {
+            return true;
+        } else if (mat == ItemTypes.DIAMOND_SHOVEL) {
+            return true;
+        } else if (mat == ItemTypes.DIAMOND_SWORD) {
+            return true;
+        } else if (mat == ItemTypes.BOW) {
+            return true;
+        } else if (mat == ItemTypes.FISHING_ROD) {
+            return true;
+        } else if (mat == ItemTypes.CARROT_ON_A_STICK) {
+            return true;
+        } else if (mat == ItemTypes.SHEARS) {
+            return true;
+        } else {
+            return false;
         }
     }
 
@@ -326,11 +349,12 @@ public class Utilities {
         return transparentIds;
     }
 
-    public static HashSet<Material> getTransparentBlocks() {
+    public static HashSet<BlockType> getTransparentBlocks() {
         return transparentBlocks;
     }
 
-    public static List<String> findMatches(String partial, List<String> candidates) {
+    public static List<String> findMatches(String partial,
+                                           List<String> candidates) {
         if (partial == null || partial.isEmpty()) {
             return candidates;
         }
@@ -341,7 +365,8 @@ public class Utilities {
         return ret;
     }
 
-    public static List<String> matchPlayers(String partial, CommandSender sender) {
+    public static List<String> matchPlayers(String partial,
+                                            CommandSender sender) {
         Player senderPlayer = sender instanceof Player ? (Player) sender : null;
 
         ArrayList<String> matchedPlayers = new ArrayList<>();
@@ -358,7 +383,9 @@ public class Utilities {
     }
 
     public static String minMaxString(double at0, double max, ChatColor color) {
-        return String.format("%3$s%1$.1f%4$s-%3$s%2$.1f%5$s", at0, max, color.toString(),
-                ChatColor.WHITE.toString(), ChatColor.RESET.toString());
+        return String.format("%3$s%1$.1f%4$s-%3$s%2$.1f%5$s", at0, max,
+                             color.toString(),
+                             ChatColor.WHITE.toString(),
+                             ChatColor.RESET.toString());
     }
 }

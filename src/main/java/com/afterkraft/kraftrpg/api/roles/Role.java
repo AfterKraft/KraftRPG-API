@@ -32,9 +32,7 @@ import java.util.Set;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkState;
 
-import org.bukkit.Material;
-import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.configuration.MemoryConfiguration;
+import org.spongepowered.api.item.ItemType;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
@@ -57,11 +55,11 @@ public final class Role {
     private final String name;
     private final Map<String, RoleSkill> skills;
     private final Set<String> restrictedSkills;
-    private final Map<Material, Double> itemDamages;
-    private final Map<Material, Double> itemDamagePerLevel;
-    private final Map<Material, Boolean> itemVaryingDamage;
-    private final Set<Material> allowedArmor;
-    private final Set<Material> allowedWeapon;
+    private final Map<ItemType, Double> itemDamages;
+    private final Map<ItemType, Double> itemDamagePerLevel;
+    private final Map<ItemType, Boolean> itemVaryingDamage;
+    private final Set<ItemType> allowedArmor;
+    private final Set<ItemType> allowedWeapon;
     private final Set<ExperienceType> allowedExperience;
     private final Set<String> children;
     private final Set<String> parents;
@@ -94,16 +92,16 @@ public final class Role {
         this.advancementLevel = builder.advancementLevel;
         this.maxLevel = builder.maxLevel;
 
-        ImmutableMap.Builder<Material, Double> itemDamagesBuilder = ImmutableMap.builder();
-        for (Map.Entry<Material, Double> entry : builder.itemDamages.entrySet()) {
+        ImmutableMap.Builder<ItemType, Double> itemDamagesBuilder = ImmutableMap.builder();
+        for (Map.Entry<ItemType, Double> entry : builder.itemDamages.entrySet()) {
             itemDamagesBuilder.put(entry.getKey(), entry.getValue());
         }
-        ImmutableMap.Builder<Material, Double> itemDamagePerLevelBuilder = ImmutableMap.builder();
-        for (Map.Entry<Material, Double> entry : builder.itemDamagePerLevel.entrySet()) {
+        ImmutableMap.Builder<ItemType, Double> itemDamagePerLevelBuilder = ImmutableMap.builder();
+        for (Map.Entry<ItemType, Double> entry : builder.itemDamagePerLevel.entrySet()) {
             itemDamagePerLevelBuilder.put(entry.getKey(), entry.getValue());
         }
-        ImmutableMap.Builder<Material, Boolean> itemDamageVaryingBuilder = ImmutableMap.builder();
-        for (Map.Entry<Material, Boolean> entry : builder.itemVaryingDamage.entrySet()) {
+        ImmutableMap.Builder<ItemType, Boolean> itemDamageVaryingBuilder = ImmutableMap.builder();
+        for (Map.Entry<ItemType, Boolean> entry : builder.itemVaryingDamage.entrySet()) {
             itemDamageVaryingBuilder.put(entry.getKey(), entry.getValue());
         }
         ImmutableMap.Builder<String, RoleSkill> skillBuilder = ImmutableMap.builder();
@@ -127,12 +125,12 @@ public final class Role {
         for (String skillName : builder.restrictedSkills) {
             restrictedSkillsBuilder.add(skillName);
         }
-        ImmutableSet.Builder<Material> allowedArmorBuilder = ImmutableSet.builder();
-        for (Material type : builder.allowedArmor) {
+        ImmutableSet.Builder<ItemType> allowedArmorBuilder = ImmutableSet.builder();
+        for (ItemType type : builder.allowedArmor) {
             allowedArmorBuilder.add(type);
         }
-        ImmutableSet.Builder<Material> allowedWeaponBuilder = ImmutableSet.builder();
-        for (Material type : builder.allowedWeapon) {
+        ImmutableSet.Builder<ItemType> allowedWeaponBuilder = ImmutableSet.builder();
+        for (ItemType type : builder.allowedWeapon) {
             allowedWeaponBuilder.add(type);
         }
         this.skills = skillBuilder.build();
@@ -178,13 +176,13 @@ public final class Role {
                 .setManaName(role.manaName)
                 .setType(role.type);
 
-        for (Map.Entry<Material, Double> entry : role.itemDamages.entrySet()) {
+        for (Map.Entry<ItemType, Double> entry : role.itemDamages.entrySet()) {
             builder.setItemDamage(entry.getKey(), entry.getValue());
         }
-        for (Map.Entry<Material, Double> entry : role.itemDamagePerLevel.entrySet()) {
+        for (Map.Entry<ItemType, Double> entry : role.itemDamagePerLevel.entrySet()) {
             builder.setItemDamagePerLevel(entry.getKey(), entry.getValue());
         }
-        for (Map.Entry<Material, Boolean> entry : role.itemVaryingDamage.entrySet()) {
+        for (Map.Entry<ItemType, Boolean> entry : role.itemVaryingDamage.entrySet()) {
             builder.setItemDamageVaries(entry.getKey(), entry.getValue());
         }
         for (Map.Entry<String, RoleSkill> entry : role.skills.entrySet()) {
@@ -503,7 +501,7 @@ public final class Role {
     }
 
     /**
-     * Gets the flat damage for the specified {@link org.bukkit.Material}. If the damage is not
+     * Gets the flat damage for the specified {@link ItemType}. If the damage is not
      * configured, the default damage is 0.
      *
      * @param type to check
@@ -511,14 +509,14 @@ public final class Role {
      * @return the damage for the perscribed material, if not 0
      * @throws IllegalArgumentException if the type is null
      */
-    public double getItemDamage(Material type) {
-        checkArgument(type != null, "Cannot check the Item damage of a null Material type!");
+    public double getItemDamage(ItemType type) {
+        checkArgument(type != null, "Cannot check the Item damage of a null ItemType type!");
         return this.itemDamages.containsKey(type) ? this.itemDamages.get(type) : 0.0D;
     }
 
     /**
      * If a Role defines an item to deal varying damage for each attack, the final damage is not
-     * always the same. This checks if a {@link org.bukkit.Material} type is configured to deal
+     * always the same. This checks if a {@link ItemType} type is configured to deal
      * varying damage.
      *
      * @param type to check
@@ -526,13 +524,13 @@ public final class Role {
      * @return true if this Role is configured to have varying damage for the item
      * @throws IllegalArgumentException if the type is null
      */
-    public boolean doesItemVaryDamage(Material type) {
-        checkArgument(type != null, "Cannot check a null Material type!");
+    public boolean doesItemVaryDamage(ItemType type) {
+        checkArgument(type != null, "Cannot check a null ItemType type!");
         return this.itemVaryingDamage.containsKey(type) ? this.itemVaryingDamage.get(type) : false;
     }
 
     /**
-     * Gets the damage to add to the base damage for the specified Material per level. If the damage
+     * Gets the damage to add to the base damage for the specified ItemType per level. If the damage
      * increase is not defined, it will default to 0.
      *
      * @param type of item to get the damage increase per level of
@@ -540,8 +538,8 @@ public final class Role {
      * @return the damage increase per level if not 0
      * @throws IllegalArgumentException if the type is null
      */
-    public double getItemDamagePerLevel(Material type) {
-        checkArgument(type != null, "Cannot check a null Material type!");
+    public double getItemDamagePerLevel(ItemType type) {
+        checkArgument(type != null, "Cannot check a null ItemType type!");
         return this.itemDamagePerLevel.get(type) != null ? this.itemDamagePerLevel.get(type) : 0.0D;
     }
 
@@ -553,8 +551,8 @@ public final class Role {
      * @return True if the material is allowed as an armor piece
      * @throws IllegalArgumentException if the type is null
      */
-    public boolean isArmorAllowed(Material type) {
-        checkArgument(type != null, "Cannot check a null Material type!");
+    public boolean isArmorAllowed(ItemType type) {
+        checkArgument(type != null, "Cannot check a null ItemType type!");
         return this.allowedArmor.contains(type);
     }
 
@@ -566,8 +564,8 @@ public final class Role {
      * @return True if the material is allowed as a weapon
      * @throws IllegalArgumentException If the type is null
      */
-    public boolean isWeaponAllowed(Material type) {
-        checkArgument(type != null, "Cannot check a null Material type!");
+    public boolean isWeaponAllowed(ItemType type) {
+        checkArgument(type != null, "Cannot check a null ItemType type!");
         return this.allowedWeapon.contains(type);
     }
 
@@ -697,12 +695,12 @@ public final class Role {
         RPGPlugin plugin;
         String name;
         Map<String, RoleSkill> skills = new HashMap<>();
-        Map<Material, Double> itemDamages = new EnumMap<>(Material.class);
-        Map<Material, Double> itemDamagePerLevel = new EnumMap<>(Material.class);
-        Map<Material, Boolean> itemVaryingDamage = new EnumMap<>(Material.class);
+        Map<ItemType, Double> itemDamages = new HashMap<>();
+        Map<ItemType, Double> itemDamagePerLevel = new HashMap<>();
+        Map<ItemType, Boolean> itemVaryingDamage = new HashMap<>();
         Set<ExperienceType> experienceTypes = new HashSet<>();
-        Set<Material> allowedArmor = new HashSet<>();
-        Set<Material> allowedWeapon = new HashSet<>();
+        Set<ItemType> allowedArmor = new HashSet<>();
+        Set<ItemType> allowedWeapon = new HashSet<>();
         Set<String> restrictedSkills = new HashSet<>();
         RoleType type = RoleType.PRIMARY;
         Set<String> children = new HashSet<>();
@@ -748,7 +746,6 @@ public final class Role {
          * @throws IllegalArgumentException if the name is null or empty
          */
         public Builder setManaName(String manaName) {
-            checkArgument(manaName != null, "Cannot have a null Mana Name!");
             checkArgument(!manaName.isEmpty(), "Cannot have an empty Mana Name!");
             this.manaName = manaName;
             return this;
@@ -789,7 +786,6 @@ public final class Role {
         }
 
         public Builder setDescription(String description) {
-            checkArgument(description != null, "Cannot have a null Role description!");
             this.description = description;
             return this;
         }
@@ -813,21 +809,18 @@ public final class Role {
         }
 
         public Builder setName(String name) {
-            checkArgument(name != null, "Cannot have a null Role name!");
             checkArgument(!name.isEmpty(), "Cannot have an empty Role name!");
             this.name = name;
             return this;
         }
 
-        public Builder setItemDamage(Material type, double damage) {
-            checkArgument(type != null, "Cannot have a null Material type!");
+        public Builder setItemDamage(ItemType type, double damage) {
             checkArgument(damage > 0, "Cannot have a zero or less than zero damage value!");
             this.itemDamages.put(type, damage);
             return this;
         }
 
-        public Builder setItemDamagePerLevel(Material type, double damagePerLevel) {
-            checkArgument(type != null, "Cannot have a null Material type!");
+        public Builder setItemDamagePerLevel(ItemType type, double damagePerLevel) {
             checkArgument(damagePerLevel > 0, "Cannot have a zero or less than zero "
                     + "damage per level value!");
             this.itemDamagePerLevel.put(type, damagePerLevel);
@@ -835,16 +828,15 @@ public final class Role {
         }
 
         /**
-         * Set the {@link org.bukkit.Material} type of item to deal varying damage or not. Setting
+         * Set the {@link ItemType} type of item to deal varying damage or not. Setting
          * this will affect all damage immediately.
          *
-         * @param type           of Material
+         * @param type           of ItemType
          * @param doesDamageVary if true, set the item to deal varying damage.
          *
          * @return The builder for chaining
          */
-        public Builder setItemDamageVaries(Material type, boolean doesDamageVary) {
-            checkArgument(type != null, "Cannot have a null Material type!");
+        public Builder setItemDamageVaries(ItemType type, boolean doesDamageVary) {
             if (doesDamageVary) {
                 this.itemVaryingDamage.put(type, doesDamageVary);
             } else {
@@ -868,9 +860,6 @@ public final class Role {
          * @throws IllegalArgumentException if the skill is listed in the restricted skills
          */
         public Builder addRoleSkill(ISkill skill, ConfigurationSection section) {
-            checkArgument(skill != null, "Cannot have a null ISkill!");
-            checkArgument(section != null, "Cannot have a null ConfigurationSection!");
-            checkArgument(skill.getName() != null, "Cannot have a Skill with a null name!");
             checkArgument(!skill.getName().isEmpty(), "Cannot have an empty Skill name!");
             checkArgument(section.getInt(SkillSetting.LEVEL.node(), 0) >= 0,
                     "Level not specified in the skill configuration!");
@@ -890,7 +879,6 @@ public final class Role {
          * @throws IllegalArgumentException if the child was already added as a parent
          */
         public Builder addChild(Role child) {
-            checkArgument(child != null, "Cannot set a null child Role!");
             checkArgument(!this.parents.contains(child.getName()),
                     "Cannot add a child role when it is already a parent role!");
             this.children.add(child.getName());
@@ -907,7 +895,6 @@ public final class Role {
          * @throws IllegalArgumentException if the parent was already added as a child
          */
         public Builder addParent(Role parent) {
-            checkArgument(parent != null, "Cannot set a null parent Role!");
             checkArgument(!this.children.contains(parent.getName()),
                     "Cannot add a parent role when it is already a child role!");
             this.parents.add(parent.getName());
@@ -924,7 +911,6 @@ public final class Role {
          * @throws IllegalArgumentException If the type is null
          */
         public Builder addExperienceType(ExperienceType type) {
-            checkArgument(type != null, "Cannot add a null ExperienceType!");
             this.experienceTypes.add(type);
             return this;
         }
@@ -938,7 +924,6 @@ public final class Role {
          * @throws IllegalArgumentException If the child is null
          */
         public Builder removeChild(Role child) {
-            checkArgument(child != null, "Cannot set a null parent Role!");
             checkArgument(!this.parents.contains(child.getName()),
                     "Cannot remove a child role when it is already a parent role!");
             this.children.remove(child.getName());
@@ -946,21 +931,19 @@ public final class Role {
         }
 
         /**
-         * Adds the specified Material type to the allowed armor for this role. Armor can restricted
+         * Adds the specified ItemType type to the allowed armor for this role. Armor can restricted
          * to different roles.
          *
          * @param type Type of armor material
          *
          * @return This builder for chaining
          */
-        public Builder addAllowedArmor(Material type) {
-            checkArgument(type != null, "Cannot add a null armor type");
+        public Builder addAllowedArmor(ItemType type) {
             this.allowedArmor.add(type);
             return this;
         }
 
-        public Builder addAllowedWeapon(Material type) {
-            checkArgument(type != null, "Cannot add a null weapon type");
+        public Builder addAllowedWeapon(ItemType type) {
             this.allowedWeapon.add(type);
             return this;
         }
@@ -975,7 +958,6 @@ public final class Role {
          * @throws IllegalArgumentException If the parent is also a child
          */
         public Builder removeParent(Role parent) {
-            checkArgument(parent != null, "Cannot set a null parent Role!");
             checkArgument(!this.children.contains(parent.getName()),
                     "Cannot remove a parent role when it is already a child role!");
             this.parents.remove(parent.getName());
@@ -998,7 +980,6 @@ public final class Role {
          *                               zero
          */
         public Role build() {
-            checkState(this.description != null, "Cannot have a null description!");
             checkState(this.advancementLevel > 0, "Cannot have a zero advancement level!");
             checkState(this.maxLevel > 0, "Cannot have a zero max level!");
             checkState(this.hpAt0 > 0, "Cannot have a zero or negative health at level zero!");
@@ -1020,7 +1001,6 @@ public final class Role {
          * @throws IllegalArgumentException If the skill is already in the granted skills list
          */
         public Builder addRestirctedSkill(ISkill skill) {
-            checkArgument(skill != null, "Cannot add a restriction on a null Skill!");
             checkArgument(!this.skills.containsKey(skill.getName()),
                     "Cannot restrict a skill that is already added as a granted skill!");
             this.restrictedSkills.add(skill.getName());
@@ -1037,7 +1017,6 @@ public final class Role {
          * @throws IllegalArgumentException If the skill is null
          */
         public Builder removeRestrictedSkill(ISkill skill) {
-            checkArgument(skill != null, "Cannot remove a restriction on a null Skill!");
             this.restrictedSkills.remove(skill.getName());
             return this;
         }

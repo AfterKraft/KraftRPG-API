@@ -23,8 +23,8 @@
  */
 package com.afterkraft.kraftrpg.api.entity;
 
-import org.bukkit.Location;
-import org.bukkit.event.entity.CreatureSpawnEvent;
+import org.spongepowered.api.event.cause.Cause;
+import org.spongepowered.api.world.Location;
 
 /**
  * Represents a customized {@link com.afterkraft.kraftrpg.api.entity.Insentient} being that has the
@@ -48,5 +48,5 @@ public interface Monster extends Insentient {
      */
     void setModifiedDamage(double damage);
 
-    CreatureSpawnEvent.SpawnReason getSpawnReason();
+    Cause getSpawnReason();
 }

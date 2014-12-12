@@ -27,6 +27,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 
 import org.bukkit.Location;
+import org.spongepowered.api.world.Location;
 
 import com.google.common.collect.ImmutableList;
 
@@ -38,7 +39,7 @@ import com.afterkraft.kraftrpg.api.util.Utilities;
  * A SkillArgument that parses, validates, and returns a specific location. This is comparable to
  * CommandBlocks parsing locations.
  */
-public class ExplicitLocationArgument extends SkillArgument {
+public class ExplicitLocationArgument extends SkillArgument<Location> {
     private static final Location nullLocation = new Location(null, 0, -256, 0);
     private Location location = nullLocation;
 

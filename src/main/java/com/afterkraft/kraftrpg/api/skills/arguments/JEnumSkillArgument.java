@@ -36,7 +36,7 @@ import com.afterkraft.kraftrpg.api.util.Utilities;
  *
  * @param <T> The type of enum
  */
-public class JEnumSkillArgument<T extends Enum<T>> extends SkillArgument {
+public class JEnumSkillArgument<T extends Enum<T>> extends SkillArgument<T> {
     private final T def;
     private final Class<T> clazz;
     private final List<String> names;

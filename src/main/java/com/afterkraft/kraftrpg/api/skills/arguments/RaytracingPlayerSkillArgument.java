@@ -26,11 +26,12 @@ package com.afterkraft.kraftrpg.api.skills.arguments;
 import java.lang.ref.WeakReference;
 import java.util.List;
 
-import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
+import org.spongepowered.api.entity.player.Player;
 
+import com.google.common.base.Optional;
 import com.google.common.base.Predicate;
 
+import com.afterkraft.kraftrpg.api.RpgCommon;
 import com.afterkraft.kraftrpg.api.entity.SkillCaster;
 import com.afterkraft.kraftrpg.api.util.Utilities;
 
@@ -55,8 +56,7 @@ public class RaytracingPlayerSkillArgument extends EntitySkillArgument<Player> {
     @SuppressWarnings("deprecation")
     public int matches(SkillCaster caster, String[] allArgs, int startPosition) {
         String arg = allArgs[startPosition];
-        Player p = Bukkit.getPlayerExact(arg);
-        if (p != null) {
+        if (RpgCommon.getPlayerExact(arg).isPresent()) {
             return 1;
         }
         return 0;
@@ -66,9 +66,9 @@ public class RaytracingPlayerSkillArgument extends EntitySkillArgument<Player> {
     @SuppressWarnings("deprecation")
     public void parse(SkillCaster caster, String[] allArgs, int startPosition) {
         String arg = allArgs[startPosition];
-        Player p = Bukkit.getPlayerExact(arg);
-        if (p != null) {
-            this.matchedEntity = new WeakReference<>(p);
+        Optional<Player> p = RpgCommon.getPlayerExact(arg);
+        if (p.isPresent()) {
+            this.matchedEntity = new WeakReference<>(p.get());
         } else {
             super.parse(caster, allArgs, startPosition);
         }

@@ -23,10 +23,13 @@
  */
 package com.afterkraft.kraftrpg.api.entity;
 
+import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Set;
 
-import org.bukkit.Location;
+import org.spongepowered.api.world.Location;
+
+import com.google.common.base.Optional;
 
 import com.afterkraft.kraftrpg.api.roles.ExperienceType;
 import com.afterkraft.kraftrpg.api.roles.Role;
@@ -49,7 +52,7 @@ public interface Sentient extends Insentient {
      * @return the FixedPoint value of the designated role.
      * @throws IllegalArgumentException If the role is null
      */
-    FixedPoint getExperience(Role role);
+    Optional<FixedPoint> getExperience(Role role);
 
     /**
      * Check if this being can gain experience of the designated type. This will check with all
@@ -94,14 +97,14 @@ public interface Sentient extends Insentient {
      *
      * @return the current primary role this sentient being has activated
      */
-    Role getPrimaryRole();
+    Optional<Role> getPrimaryRole();
 
     /**
      * Get the currently active Secondary {@link Role} that this sentient being has
      *
      * @return the current secondary role this sentient being has activated
      */
-    Role getSecondaryRole();
+    Optional<Role> getSecondaryRole();
 
     /**
      * Set the current {@link com.afterkraft.kraftrpg.api.roles.Role.RoleType#PRIMARY} {@link Role}
@@ -113,7 +116,7 @@ public interface Sentient extends Insentient {
      * @return True if successful
      * @throws IllegalArgumentException If the role is not of the Primary type
      */
-    boolean setPrimaryRole(Role role);
+    boolean setPrimaryRole(@Nullable Role role);
 
     /**
      * Set the current {@link com.afterkraft.kraftrpg.api.roles.Role.RoleType#SECONDARY} {@link
@@ -125,7 +128,7 @@ public interface Sentient extends Insentient {
      * @return true if the set was successful
      * @throws IllegalArgumentException If the role is not of the Secondary type
      */
-    boolean setSecondaryRole(Role role);
+    boolean setSecondaryRole(@Nullable Role role);
 
     /**
      * Get a Set of {@link Role}s that are marked as {@link com.afterkraft.kraftrpg.api.roles.Role.RoleType#ADDITIONAL}
@@ -142,8 +145,6 @@ public interface Sentient extends Insentient {
      * @param role the additional role to add to this sentient being
      *
      * @return true if the role was added successfully
-     * @throws IllegalArgumentException If the role is null
-     * @throws IllegalArgumentException If the role is not of the type Additional
      */
     boolean addAdditionalRole(Role role);
 
@@ -156,7 +157,6 @@ public interface Sentient extends Insentient {
      * @param role the additional role to remove from this sentient being
      *
      * @return true if the role was removed successfully
-     * @throws IllegalArgumentException If the role is null
      */
     boolean removeAdditionalRole(Role role);
 
@@ -179,5 +179,5 @@ public interface Sentient extends Insentient {
      * @return the current calculated level of this Role if not 0
      * @throws IllegalArgumentException If the role is null
      */
-    int getLevel(Role role);
+    Optional<Integer> getLevel(Role role);
 }

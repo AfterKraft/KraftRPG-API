@@ -33,8 +33,6 @@ import java.util.Set;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
-import org.bukkit.event.entity.EntityDamageEvent.DamageModifier;
-
 import com.google.common.base.Function;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
@@ -44,6 +42,8 @@ import com.afterkraft.kraftrpg.api.skills.ISkill;
 import com.afterkraft.kraftrpg.api.skills.Skill;
 import com.afterkraft.kraftrpg.api.storage.StorageBackend;
 import com.afterkraft.kraftrpg.api.storage.StorageFrontendFactory;
+import com.afterkraft.kraftrpg.common.DamageModifier;
+import com.afterkraft.kraftrpg.common.DamageModifiers;
 
 /**
  * On load registration for various external providers of various services to further customize the
@@ -91,10 +91,8 @@ public final class ExternalProviderRegistration {
     public static <T extends Function<? super Double, Double>> void registerDamageModifierFunction(
             DamageModifier modifier, T function) throws LateRegistrationException {
         check();
-        checkArgument(modifier != DamageModifier.BASE,
+        checkArgument(modifier != DamageModifiers.BASE,
                 "Cannot register a BASE DamageModifier function!");
-        checkArgument(modifier != null, "Cannot register a null modifier");
-        checkArgument(function != null, "Cannot register a null function!");
         modifiers.put(modifier, function);
     }
 

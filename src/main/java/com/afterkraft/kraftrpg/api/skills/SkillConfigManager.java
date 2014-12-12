@@ -33,6 +33,7 @@ import org.bukkit.inventory.ItemStack;
 import com.afterkraft.kraftrpg.api.Manager;
 import com.afterkraft.kraftrpg.api.entity.SkillCaster;
 import com.afterkraft.kraftrpg.api.roles.Role;
+import com.afterkraft.kraftrpg.common.persistence.data.DataView;
 
 /**
  * A manager providing skill configurations for all skills. There may be more than one skill manager
@@ -60,7 +61,7 @@ public interface SkillConfigManager extends Manager {
     Configuration getRoleSkillConfig(String name);
 
     void addRoleSkillSettings(String roleName, String skillName,
-                              ConfigurationSection section);
+                              DataView section);
 
     void loadSkillDefaults(ISkill skill);
 
@@ -79,7 +80,7 @@ public interface SkillConfigManager extends Manager {
      * @throws IllegalArgumentException If the section is null or empty
      */
     void addTemporarySkillConfigurations(ISkill skill, SkillCaster caster,
-                                         ConfigurationSection section);
+                                         DataView section);
 
     /**
      * Clears all custom skill settings after use. This is used for cleaning up the provided skill

@@ -30,13 +30,15 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
-import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
-import org.bukkit.scheduler.BukkitRunnable;
+import org.spongepowered.api.entity.player.Player;
+import org.spongepowered.api.plugin.PluginContainer;
+
+import com.google.common.base.Optional;
+import com.google.common.collect.ImmutableMap;
 
 import com.afterkraft.kraftrpg.api.RPGPlugin;
+import com.afterkraft.kraftrpg.api.RpgCommon;
 import com.afterkraft.kraftrpg.api.entity.Champion;
-import com.afterkraft.kraftrpg.api.roles.Role;
 
 /**
  * The proxy through which the plugin interacts with the StorageBackend.  A StorageFrontend handles
@@ -68,7 +70,9 @@ public abstract class StorageFrontend {
         this.toSave = new HashMap<>();
         this.offlineToSave = new HashMap<>();
 
-        new SavingStarterTask().runTaskTimerAsynchronously(plugin, 20 * 60, 20 * 60);
+        RpgCommon.getGame().getScheduler()
+                .runRepeatingTask((PluginContainer) this.plugin,
+                                  new SavingStarterTask(), 20 * 60);
     }
 
     /**
@@ -82,8 +86,8 @@ public abstract class StorageFrontend {
     protected StorageFrontend(RPGPlugin plugin, StorageBackend backend, boolean ignored) {
         this.plugin = plugin;
         this.backend = backend;
-        this.toSave = null;
-        this.offlineToSave = null;
+        this.toSave = ImmutableMap.of();
+        this.offlineToSave = ImmutableMap.of();
     }
 
     /**
@@ -110,38 +114,46 @@ public abstract class StorageFrontend {
      *
      * @return the loaded Champion instance if data exists, else returns null
      */
-    public Champion loadChampion(Player player, boolean shouldCreate) {
+    public Optional<Champion> loadChampion(Player player, boolean shouldCreate) {
         UUID uuid = player.getUniqueId();
 
         // Check the saving queue for this player
         if (this.offlineToSave.containsKey(uuid)) {
             PlayerData data = this.offlineToSave.get(uuid);
-            return this.plugin.getEntityManager().createChampionWithData(player, data);
+            return Optional.fromNullable(this.plugin.getEntityManager()
+                                                 .createChampionWithData(player,
+                                                                         data));
         }
         if (this.toSave.containsKey(uuid)) {
             Champion ret = this.toSave.get(uuid);
             ret.setPlayer(player);
-            return ret;
+            return Optional.of(ret);
         }
 
-        PlayerData data = this.backend.loadPlayer(uuid, shouldCreate);
-        if (data == null) {
+        Optional<PlayerData> data = this.backend.loadPlayer(uuid, shouldCreate);
+        if (!data.isPresent()) {
             if (!shouldCreate) {
-                return null;
+                return Optional.absent();
             } else {
-                data = new PlayerData();
-                Role defaultPrimary = this.plugin.getRoleManager().getDefaultPrimaryRole();
-                Role defaultSecondary = this.plugin.getRoleManager().getDefaultSecondaryRole();
-                data.primary = defaultPrimary;
-                if (defaultSecondary != null) {
-                    data.profession = defaultSecondary;
+                data = Optional.of(new PlayerData());
+                if (this.plugin.getRoleManager().getDefaultPrimaryRole()
+                        .isPresent()) {
+                    data.get().primary = this.plugin.getRoleManager()
+                            .getDefaultPrimaryRole().get();
+                }
+                if (this.plugin.getRoleManager().getDefaultSecondaryRole()
+                        .isPresent()) {
+                    data.get().profession = this.plugin.getRoleManager()
+                            .getDefaultSecondaryRole().get();
                 }
             }
         }
-        data.playerID = player.getUniqueId();
-        data.lastKnownName = player.getName();
+        data.get().playerID = player.getUniqueId();
+        data.get().lastKnownName = player.getName();
 
-        return this.plugin.getEntityManager().createChampionWithData(player, data);
+        return Optional.of(this.plugin
+                                   .getEntityManager()
+                                   .createChampionWithData(player, data.get()));
     }
 
     /**
@@ -151,22 +163,22 @@ public abstract class StorageFrontend {
      * @param champion The champion to save
      */
     public void saveChampion(Champion champion) {
-        if (this.ignoredPlayers.contains(champion.getPlayer().getUniqueId())) {
+        if (this.ignoredPlayers.contains(champion.getPlayer().get().getUniqueId())) {
             return;
         }
 
-        this.toSave.put(champion.getPlayer().getUniqueId(), champion);
+        this.toSave.put(champion.getPlayer().get().getUniqueId(), champion);
     }
 
-    public PlayerData loadOfflineChampion(UUID uuid) {
+    public Optional<PlayerData> loadOfflineChampion(UUID uuid) {
         if (this.offlineToSave.containsKey(uuid)) {
-            return this.offlineToSave.get(uuid);
+            return Optional.of(this.offlineToSave.get(uuid));
         } else if (this.toSave.containsKey(uuid)) {
-            return this.toSave.get(uuid).getData();
-        } else if (Bukkit.getPlayer(uuid) != null) {
-            Champion champ = this.plugin.getEntityManager().getChampion(uuid, true);
-            if (champ != null) {
-                return champ.getData();
+            return Optional.of(this.toSave.get(uuid).getData());
+        } else if (RpgCommon.getServer().getPlayer(uuid).isPresent()) {
+            if (this.plugin.getEntityManager().getChampion(uuid).isPresent()) {
+                return Optional.of(this.plugin.getEntityManager()
+                                           .getChampion(uuid).get().getData());
             }
         }
         return this.backend.loadPlayer(uuid, false);
@@ -187,7 +199,8 @@ public abstract class StorageFrontend {
 
     public void flush() {
         for (Champion champion : this.toSave.values()) {
-            this.backend.savePlayer(champion.getPlayer().getUniqueId(), champion.getData());
+            this.backend.savePlayer(champion.getPlayer().get().getUniqueId(),
+                    champion.getData());
         }
         this.toSave.clear();
         for (Map.Entry<UUID, PlayerData> entry : this.offlineToSave.entrySet()) {
@@ -213,14 +226,14 @@ public abstract class StorageFrontend {
         List<UUID> uuids = from.getAllStoredUsers();
 
         for (UUID uuid : uuids) {
-            backend.savePlayer(uuid, from.loadPlayer(uuid, false));
+            this.backend.savePlayer(uuid, from.loadPlayer(uuid, false).get());
         }
     }
 
     /**
      * A task designed to periodically save all registered Champions at a prescribed time.
      */
-    protected class SavingStarterTask extends BukkitRunnable {
+    protected class SavingStarterTask implements Runnable {
         // Main thread, just like everything else
         @Override
         public void run() {
@@ -233,8 +246,9 @@ public abstract class StorageFrontend {
             StorageFrontend.this.toSave.clear();
             StorageFrontend.this.offlineToSave.clear();
 
-            Bukkit.getScheduler().runTaskAsynchronously(StorageFrontend.this.plugin,
-                    new SavingWorker(data));
+            RpgCommon.getGame().getScheduler()
+                    .runTask((PluginContainer) RpgCommon.getPlugin(), new
+                            SavingWorker(data));
         }
     }
 

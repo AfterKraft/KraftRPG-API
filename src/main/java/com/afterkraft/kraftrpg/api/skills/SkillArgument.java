@@ -25,6 +25,8 @@ package com.afterkraft.kraftrpg.api.skills;
 
 import java.util.List;
 
+import com.google.common.base.Optional;
+
 import com.afterkraft.kraftrpg.api.entity.SkillCaster;
 
 /**
@@ -34,7 +36,7 @@ import com.afterkraft.kraftrpg.api.entity.SkillCaster;
  * storage purposes and allows for a Skill to re-generate the SkillArgument state after a Player
  * login.
  */
-public abstract class SkillArgument {
+public abstract class SkillArgument<T> {
     private final boolean required;
     protected boolean present;
 
@@ -94,6 +96,8 @@ public abstract class SkillArgument {
      * @param caster caster
      */
     public abstract void skippedOptional(SkillCaster caster);
+
+    public abstract Optional<T> getValue();
 
     /**
      * Erase the parsed state to blank values.

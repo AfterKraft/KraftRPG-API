@@ -23,28 +23,27 @@
  */
 package com.afterkraft.kraftrpg.api.util;
 
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.configuration.Configuration;
-import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.Arrow;
-import org.bukkit.entity.Egg;
-import org.bukkit.entity.EnderPearl;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.LargeFireball;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.SmallFireball;
-import org.bukkit.entity.Snowball;
-import org.bukkit.entity.ThrownExpBottle;
-import org.bukkit.entity.WitherSkull;
-import org.bukkit.event.entity.CreatureSpawnEvent;
-import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
-import org.bukkit.inventory.ItemStack;
+import org.spongepowered.api.entity.Entity;
+import org.spongepowered.api.entity.EntityType;
+import org.spongepowered.api.entity.living.Living;
+import org.spongepowered.api.entity.projectile.Arrow;
+import org.spongepowered.api.entity.projectile.Egg;
+import org.spongepowered.api.entity.projectile.EnderPearl;
+import org.spongepowered.api.entity.projectile.Snowball;
+import org.spongepowered.api.entity.projectile.ThrownExpBottle;
+import org.spongepowered.api.entity.projectile.fireball.LargeFireball;
+import org.spongepowered.api.entity.projectile.fireball.SmallFireball;
+import org.spongepowered.api.entity.projectile.fireball.WitherSkull;
+import org.spongepowered.api.event.cause.Cause;
+import org.spongepowered.api.item.ItemType;
+import org.spongepowered.api.item.inventory.ItemStack;
+import org.spongepowered.api.world.Location;
 
 import com.afterkraft.kraftrpg.api.Manager;
 import com.afterkraft.kraftrpg.api.entity.Insentient;
 import com.afterkraft.kraftrpg.api.entity.Monster;
+import com.afterkraft.kraftrpg.common.DamageCause;
+import com.afterkraft.kraftrpg.common.Enchantment;
 
 /**
  * The generalized manager for calculating and fetching damages for entities and items alike.
@@ -69,15 +68,15 @@ public interface DamageManager extends Manager {
 
     double getHighestProjectileDamage(Insentient champion, ProjectileType type);
 
-    public double getDefaultItemDamage(Material type, double damage);
+    public double getDefaultItemDamage(ItemType type, double damage);
 
-    double getDefaultItemDamage(Material type);
+    double getDefaultItemDamage(ItemType type);
 
-    void setDefaultItemDamage(Material type, double damage);
+    void setDefaultItemDamage(ItemType type, double damage);
 
-    boolean doesItemDamageVary(Material type);
+    boolean doesItemDamageVary(ItemType type);
 
-    void setItemDamageVarying(Material type, boolean isVarying);
+    void setItemDamageVarying(ItemType type, boolean isVarying);
 
     /**
      * Gets the default damage for the given EntityType.
@@ -130,17 +129,18 @@ public interface DamageManager extends Manager {
      */
     double getModifiedEntityDamage(final Monster monster, final Location location,
                                    final double baseDamage,
-                                   final CreatureSpawnEvent.SpawnReason fromSpawner);
+                                   final Cause fromSpawner);
 
-    double getDefaultEntityHealth(final LivingEntity entity);
+    double getDefaultEntityHealth(final Living entity);
 
-    double getModifiedEntityHealth(final LivingEntity entity);
+    double getModifiedEntityHealth(final Living entity);
 
     boolean doesEntityDealVaryingDamage(EntityType type);
 
-    void setEntityToDealVaryingDamage(EntityType type, boolean dealsVaryingDamage);
+    void setEntityToDealVaryingDamage(EntityType type, boolean
+            dealsVaryingDamage);
 
-    boolean isStandardWeapon(Material material);
+    boolean isStandardWeapon(ItemType material);
 
     /**
      * Load defaults for the default damages from the given Configuration

@@ -25,13 +25,15 @@ package com.afterkraft.kraftrpg.api.skills.arguments;
 
 import java.util.List;
 
+import com.google.common.base.Optional;
+
 import com.afterkraft.kraftrpg.api.entity.SkillCaster;
 import com.afterkraft.kraftrpg.api.skills.SkillArgument;
 
 /**
  * A SkillArgument that parses and validates input as an integer.
  */
-public class IntegerSkillArgument extends SkillArgument {
+public class IntegerSkillArgument extends SkillArgument<Integer> {
     private int value;
     private String desc = "num";
 
@@ -44,8 +46,9 @@ public class IntegerSkillArgument extends SkillArgument {
         return this;
     }
 
-    public int getValue() {
-        return this.value;
+    @Override
+    public Optional<Integer> getValue() {
+        return Optional.fromNullable(this.value);
     }
 
     public void setValue(int val) {

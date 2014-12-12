@@ -23,7 +23,8 @@
  */
 package com.afterkraft.kraftrpg.api.listeners;
 
-import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
+
+import com.afterkraft.kraftrpg.common.DamageCause;
 
 /**
  * This is a simple wrapper for the damage dealt to an entity. It wraps the various necessary

@@ -29,6 +29,7 @@ import java.util.List;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkState;
 
+import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableList;
 
 import com.afterkraft.kraftrpg.api.RPGPlugin;
@@ -61,8 +62,8 @@ public abstract class ActiveSkill extends Skill implements Active {
 
     @SuppressWarnings("unchecked")
     @Override
-    public <T extends SkillArgument> T getArgument(int index) {
-        return (T) this.skillArguments[index];
+    public <T extends SkillArgument> Optional<T> getArgument(int index) {
+        return Optional.fromNullable((T) this.skillArguments[index]);
     }
 
     @Override

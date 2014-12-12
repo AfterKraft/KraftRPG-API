@@ -23,11 +23,12 @@
  */
 package com.afterkraft.kraftrpg.api.util;
 
+import org.spongepowered.api.entity.EntityType;
+import org.spongepowered.api.entity.living.Living;
+import org.spongepowered.api.item.ItemType;
+import org.spongepowered.api.world.Location;
 
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.LivingEntity;
+import com.google.common.base.Optional;
 
 /**
  * Standard properties provided for the API. This can too be used by skills for various
@@ -37,15 +38,6 @@ public interface Properties {
 
     int getDefaultGlobalCooldown();
 
-    /**
-     * Return if the {@link com.afterkraft.kraftrpg.api.util.DamageManager} will calculate varying
-     * damages for {@link org.bukkit.entity.EntityType} and {@link org.bukkit.Material}. If varying
-     * damage is enabled, all damages are varied depending on each {@link
-     * org.bukkit.event.entity.EntityDamageEvent}  It should be known that varying damages are
-     * also further customized by {@link com.afterkraft.kraftrpg.api.roles.Role}
-     *
-     * @return true if enabled, false otherwise.
-     */
     boolean isVaryingDamageEnabled();
 
     boolean isStarvingDamageEnabled();
@@ -64,7 +56,7 @@ public interface Properties {
      *
      * @return The value of food hunger to satiate.
      */
-    int getStaminaIncreaseForFood(Material foodMaterial);
+    int getStaminaIncreaseForFood(ItemType foodMaterial);
 
     int getFoodHealPercent();
 
@@ -72,7 +64,7 @@ public interface Properties {
 
     long getCombatPeriod();
 
-    FixedPoint getMonsterExperience(LivingEntity entity, Location spawnPoint);
+    FixedPoint getMonsterExperience(Living entity, Location spawnPoint);
 
     double getExperienceLossMultiplier();
 
@@ -82,7 +74,7 @@ public interface Properties {
 
     boolean hasEntityRewardType(EntityType type);
 
-    FixedPoint getEntityReward(EntityType type);
+    Optional<FixedPoint> getEntityReward(EntityType type);
 
     boolean allowSpawnCamping();
 

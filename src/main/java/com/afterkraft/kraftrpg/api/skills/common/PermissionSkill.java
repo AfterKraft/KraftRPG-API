@@ -33,6 +33,7 @@ import org.bukkit.configuration.Configuration;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.Permission;
+import org.spongepowered.api.entity.Entity;
 
 import com.google.common.collect.ImmutableMap;
 
@@ -94,7 +95,10 @@ public final class PermissionSkill extends Skill implements Permissible {
     public void setPermissions(Map<String, Boolean> permissions) {
         checkArgument(permissions != null, "Cannot set the permissions to a null mapping!");
         this.permissions = permissions;
-        this.permission = this.plugin.getServer().getPluginManager().getPermission(this.getName());
+        this.permission = RpgCommon.getGame().getPluginManager().getPermission
+                (this
+                                                                              .getName
+                ());
         if (this.permission != null) {
             this.plugin.getServer().getPluginManager().removePermission(this.permission);
         }

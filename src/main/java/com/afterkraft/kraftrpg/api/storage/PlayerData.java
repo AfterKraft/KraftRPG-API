@@ -30,7 +30,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
-import org.bukkit.Material;
+import org.spongepowered.api.item.ItemType;
 
 import com.google.common.collect.ImmutableList;
 
@@ -57,7 +57,7 @@ public final class PlayerData implements Cloneable {
     /**
      * Raw bind data.
      */
-    public final Map<Material, SkillBind> binds = new HashMap<>();
+    public final Map<ItemType, SkillBind> binds = new HashMap<>();
     /**
      * Map from cooldown name to expiry time, in UNIX time.
      */

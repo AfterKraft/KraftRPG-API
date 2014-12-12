@@ -25,8 +25,9 @@ package com.afterkraft.kraftrpg.api.skills;
 
 import java.util.Collection;
 
-import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.entity.Entity;
+import org.spongepowered.api.entity.Entity;
+
+import com.typesafe.config.Config;
 
 import com.afterkraft.kraftrpg.api.entity.Champion;
 import com.afterkraft.kraftrpg.api.entity.SkillCaster;
@@ -55,7 +56,7 @@ public interface ISkill {
      *
      * @return the defalt configuration for this skill
      */
-    ConfigurationSection getDefaultConfig();
+    Config getDefaultConfig();
 
     /**
      * Gets an immutable collection of the {@link SkillSetting}s used by this Skill. This should be

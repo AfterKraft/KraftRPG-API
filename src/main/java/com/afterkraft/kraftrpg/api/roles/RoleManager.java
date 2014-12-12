@@ -25,6 +25,8 @@ package com.afterkraft.kraftrpg.api.roles;
 
 import java.util.Map;
 
+import com.google.common.base.Optional;
+
 import com.afterkraft.kraftrpg.api.CircularDependencyException;
 import com.afterkraft.kraftrpg.api.Manager;
 import com.afterkraft.kraftrpg.api.util.FixedPoint;
@@ -35,15 +37,15 @@ import com.afterkraft.kraftrpg.api.util.FixedPoint;
  */
 public interface RoleManager extends Manager {
 
-    Role getDefaultPrimaryRole();
+    Optional<Role> getDefaultPrimaryRole();
 
     boolean setDefaultPrimaryRole(Role role);
 
-    Role getDefaultSecondaryRole();
+    Optional<Role> getDefaultSecondaryRole();
 
     void setDefaultSecondaryRole(Role role);
 
-    Role getRole(String roleName);
+    Optional<Role> getRole(String roleName);
 
     boolean addRole(Role role);
 

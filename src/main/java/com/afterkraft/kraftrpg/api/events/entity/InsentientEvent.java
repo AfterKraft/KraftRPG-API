@@ -26,13 +26,15 @@ package com.afterkraft.kraftrpg.api.events.entity;
 import static com.google.common.base.Preconditions.checkArgument;
 
 import org.bukkit.event.Event;
+import org.spongepowered.api.event.GameEvent;
+import org.spongepowered.api.util.event.Event;
 
 import com.afterkraft.kraftrpg.api.entity.Insentient;
 
 /**
  * Hierachical event class relating to Insentient beings.
  */
-public abstract class InsentientEvent extends Event {
+public abstract class InsentientEvent implements GameEvent {
 
     private final Insentient entity;
 

@@ -23,8 +23,8 @@
  */
 package com.afterkraft.kraftrpg.api.effects.common;
 
-import org.bukkit.Location;
-import org.bukkit.entity.Projectile;
+import org.spongepowered.api.entity.projectile.Projectile;
+import org.spongepowered.api.world.Location;
 
 import com.afterkraft.kraftrpg.api.entity.Insentient;
 

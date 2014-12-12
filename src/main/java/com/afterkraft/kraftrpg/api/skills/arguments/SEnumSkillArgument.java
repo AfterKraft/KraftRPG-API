@@ -28,6 +28,8 @@ import java.util.List;
 
 import org.apache.commons.lang.ArrayUtils;
 
+import com.google.common.base.Optional;
+
 import com.afterkraft.kraftrpg.api.entity.SkillCaster;
 import com.afterkraft.kraftrpg.api.skills.SkillArgument;
 import com.afterkraft.kraftrpg.api.util.Utilities;
@@ -36,7 +38,7 @@ import com.afterkraft.kraftrpg.api.util.Utilities;
  * A SkillArgument that parses and validates based on an array of String choices. This can be hugely
  * beneficial for configuration based string values
  */
-public class SEnumSkillArgument extends SkillArgument {
+public class SEnumSkillArgument extends SkillArgument<String> {
     private final String def;
     private final String[] choices;
     private final String usage;
@@ -60,8 +62,9 @@ public class SEnumSkillArgument extends SkillArgument {
         this.usage = sb.toString();
     }
 
-    public String getChoice() {
-        return this.choice;
+    @Override
+    public Optional<String> getValue() {
+        return Optional.fromNullable(this.choice);
     }
 
     public boolean setChoice(String s) {

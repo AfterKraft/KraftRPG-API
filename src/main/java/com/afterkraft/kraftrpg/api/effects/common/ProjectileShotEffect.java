@@ -26,9 +26,9 @@ package com.afterkraft.kraftrpg.api.effects.common;
 import java.util.Collection;
 import java.util.Set;
 
-import org.bukkit.Location;
-import org.bukkit.entity.Projectile;
-import org.bukkit.potion.PotionEffect;
+import org.spongepowered.api.entity.projectile.Projectile;
+import org.spongepowered.api.potion.PotionEffect;
+import org.spongepowered.api.world.Location;
 
 import com.afterkraft.kraftrpg.api.effects.EffectType;
 import com.afterkraft.kraftrpg.api.entity.Insentient;
