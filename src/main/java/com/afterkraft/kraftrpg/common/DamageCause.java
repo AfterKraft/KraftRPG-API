@@ -25,4 +25,10 @@
 package com.afterkraft.kraftrpg.common;
 
 public interface DamageCause {
+
+    public static final DamageCause ENTITY_ATTACK = new DamageCause() {
+        @Override public String toString() {
+            return super.toString();
+        }
+    };
 }

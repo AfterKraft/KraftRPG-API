@@ -26,13 +26,12 @@ package com.afterkraft.kraftrpg.api.skills;
 import java.util.List;
 import java.util.Set;
 
-import org.bukkit.configuration.Configuration;
-import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.inventory.ItemStack;
+import org.spongepowered.api.item.inventory.ItemStack;
 
 import com.afterkraft.kraftrpg.api.Manager;
 import com.afterkraft.kraftrpg.api.entity.SkillCaster;
 import com.afterkraft.kraftrpg.api.roles.Role;
+import com.afterkraft.kraftrpg.common.persistence.data.DataContainer;
 import com.afterkraft.kraftrpg.common.persistence.data.DataView;
 
 /**
@@ -58,7 +57,7 @@ public interface SkillConfigManager extends Manager {
      */
     void saveSkillConfig();
 
-    Configuration getRoleSkillConfig(String name);
+    DataContainer getRoleSkillConfig(String name);
 
     void addRoleSkillSettings(String roleName, String skillName,
                               DataView section);

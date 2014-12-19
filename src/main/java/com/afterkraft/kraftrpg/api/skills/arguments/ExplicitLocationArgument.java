@@ -23,12 +23,14 @@
  */
 package com.afterkraft.kraftrpg.api.skills.arguments;
 
+import javax.annotation.Nullable;
 import java.util.List;
 import java.util.regex.Matcher;
 
-import org.bukkit.Location;
 import org.spongepowered.api.world.Location;
 
+import com.flowpowered.math.vector.Vector3d;
+import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableList;
 
 import com.afterkraft.kraftrpg.api.entity.SkillCaster;
@@ -40,18 +42,20 @@ import com.afterkraft.kraftrpg.api.util.Utilities;
  * CommandBlocks parsing locations.
  */
 public class ExplicitLocationArgument extends SkillArgument<Location> {
-    private static final Location nullLocation = new Location(null, 0, -256, 0);
+    private static final Location nullLocation = new Location(null, new Vector3d());
+    @Nullable
     private Location location = nullLocation;
 
     public ExplicitLocationArgument(boolean required) {
         super(required);
     }
 
-    public Location getLocation() {
-        return this.location;
+    @Override
+    public Optional<Location> getValue() {
+        return Optional.fromNullable(this.location);
     }
 
-    public void setLocation(Location loc) {
+    public void setLocation(@Nullable Location loc) {
         this.location = loc;
     }
 
@@ -94,6 +98,7 @@ public class ExplicitLocationArgument extends SkillArgument<Location> {
             return;
         }
 
+        /*
         this.location = caster.getLocation().clone();
 
         double diffX = 0;
@@ -126,11 +131,12 @@ public class ExplicitLocationArgument extends SkillArgument<Location> {
         }
 
         this.location.add(diffX, diffY, diffZ);
+        */
     }
 
     @Override
     public void skippedOptional(SkillCaster caster) {
-        this.location = nullLocation.clone();
+        this.location = nullLocation;
     }
 
     @Override

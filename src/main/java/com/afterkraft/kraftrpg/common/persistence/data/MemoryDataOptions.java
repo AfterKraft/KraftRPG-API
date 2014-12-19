@@ -31,7 +31,6 @@ public class MemoryDataOptions implements DataOptions {
     private char pathSeparator = '.';
 
     protected MemoryDataOptions(MemoryDataContainer container) {
-        checkArgument(container != null, "Cannot create a MemoryDataOptions with a null container!");
         this.container = container;
     }
 

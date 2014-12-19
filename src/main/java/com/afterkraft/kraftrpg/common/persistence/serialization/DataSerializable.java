@@ -23,7 +23,7 @@
  */
 package com.afterkraft.kraftrpg.common.persistence.serialization;
 
-import org.spongepowered.api.service.persistence.data.DataContainer;
+import com.afterkraft.kraftrpg.common.persistence.data.DataContainer;
 
 /**
  * Represents an object that can be represented by a {@link DataContainer}.

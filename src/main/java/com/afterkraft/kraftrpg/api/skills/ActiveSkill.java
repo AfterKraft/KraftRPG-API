@@ -39,7 +39,7 @@ import com.afterkraft.kraftrpg.api.entity.SkillCaster;
  * See {@link Active}.
  */
 public abstract class ActiveSkill extends Skill implements Active {
-    SkillArgument[] skillArguments;
+    SkillArgument<?>[] skillArguments;
     private String usage = "";
     private SkillCaster parsedCaster;
 
@@ -62,12 +62,12 @@ public abstract class ActiveSkill extends Skill implements Active {
 
     @SuppressWarnings("unchecked")
     @Override
-    public <T extends SkillArgument> Optional<T> getArgument(int index) {
+    public <T extends SkillArgument<?>> Optional<T> getArgument(int index) {
         return Optional.fromNullable((T) this.skillArguments[index]);
     }
 
     @Override
-    public SkillArgument[] getSkillArguments() {
+    public SkillArgument<?>[] getSkillArguments() {
         return this.skillArguments;
     }
 
@@ -91,7 +91,7 @@ public abstract class ActiveSkill extends Skill implements Active {
         int argIndex = 0;
 
         while (stringIndex < strings.length && argIndex < this.skillArguments.length) {
-            SkillArgument current = this.skillArguments[argIndex];
+            SkillArgument<?> current = this.skillArguments[argIndex];
 
             int width = current.matches(caster, strings, stringIndex);
             if (width >= 0) {
@@ -110,7 +110,7 @@ public abstract class ActiveSkill extends Skill implements Active {
         }
 
         while (argIndex < this.skillArguments.length) {
-            SkillArgument current = this.skillArguments[argIndex];
+            SkillArgument<?> current = this.skillArguments[argIndex];
 
             if (current.isOptional()) {
                 current.present = false;
@@ -129,7 +129,7 @@ public abstract class ActiveSkill extends Skill implements Active {
         int stringIndex = startIndex;
         int argIndex = 0;
         while (stringIndex < strings.length - 1 && argIndex < this.skillArguments.length) {
-            SkillArgument current = this.skillArguments[argIndex];
+            SkillArgument<?> current = this.skillArguments[argIndex];
 
             int width = current.matches(caster, strings, stringIndex);
             if (width >= 0) {
@@ -143,7 +143,8 @@ public abstract class ActiveSkill extends Skill implements Active {
         if (argIndex == this.skillArguments.length) {
             return ImmutableList.of();
         } else {
-            return this.skillArguments[argIndex].tabComplete(caster, strings, stringIndex);
+            return this.skillArguments[argIndex]
+                    .tabComplete(caster, strings, stringIndex);
         }
     }
 
@@ -156,20 +157,19 @@ public abstract class ActiveSkill extends Skill implements Active {
     public void cleanState(SkillCaster caster) {
         assert caster == this.parsedCaster;
 
-        for (SkillArgument arg : this.skillArguments) {
+        for (SkillArgument<?> arg : this.skillArguments) {
             arg.clean();
         }
     }
 
-    protected void addSkillArgument(SkillArgument argument) {
-        checkArgument(argument != null, "Cannot add a null skill argument!");
+    protected void addSkillArgument(SkillArgument<?> argument) {
         checkState(!this.plugin.isEnabled(), "KraftRPG is already enabled! " + "Cannot modify "
                 + "Skill Arguments after being enabled.");
         if (this.skillArguments == null) {
-            this.skillArguments = new SkillArgument[]{argument};
+            this.skillArguments = new SkillArgument<?>[]{argument};
             return;
         }
-        SkillArgument[] newArgs = Arrays.copyOf(this.skillArguments,
+        SkillArgument<?>[] newArgs = Arrays.copyOf(this.skillArguments,
                 this.skillArguments.length + 1);
         newArgs[this.skillArguments.length] = argument;
         this.skillArguments = newArgs;

@@ -33,28 +33,24 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import static com.google.common.base.Preconditions.checkArgument;
-
-
 import org.spongepowered.api.entity.Entity;
 import org.spongepowered.api.entity.living.Living;
-import org.spongepowered.api.entity.player.Player;
 import org.spongepowered.api.item.inventory.ItemStack;
 
 import com.google.common.base.Function;
 import com.google.common.base.Functions;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Sets;
-import com.typesafe.config.Config;
 
 import com.afterkraft.kraftrpg.api.RPGPlugin;
 import com.afterkraft.kraftrpg.api.entity.Champion;
 import com.afterkraft.kraftrpg.api.entity.Insentient;
 import com.afterkraft.kraftrpg.api.entity.SkillCaster;
-import com.afterkraft.kraftrpg.api.events.entity.damage.InsentientDamageEvent;
-import com.afterkraft.kraftrpg.api.events.entity.damage.InsentientDamageEvent.DamageType;
 import com.afterkraft.kraftrpg.api.handler.ServerInternals;
+import com.afterkraft.kraftrpg.api.util.Utilities;
 import com.afterkraft.kraftrpg.common.DamageCause;
+import com.afterkraft.kraftrpg.common.persistence.data.DataView;
+import com.afterkraft.kraftrpg.common.persistence.data.MemoryDataContainer;
 
 /**
  * Represents an intended implementation of ISkill.
@@ -69,13 +65,14 @@ public abstract class Skill implements ISkill {
     private final String name;
     private String description = "";
     private boolean isEnabled = false;
-    private Config defaultConfig;
+    private DataView defaultConfig;
     private Set<SkillSetting> usedSettings = new HashSet<>();
     private Set<String> usedNodes = new HashSet<>();
 
     protected Skill(RPGPlugin plugin, String name) {
         this.plugin = plugin;
         this.name = name;
+        this.defaultConfig = new MemoryDataContainer();
     }
 
     public static void knockback(Insentient target, Insentient attacker, double damage) {
@@ -116,7 +113,7 @@ public abstract class Skill implements ISkill {
     public static boolean damageEntity(Insentient target, SkillCaster attacker, ISkill skill,
                                        double damage, DamageCause cause, boolean knockback,
                                        boolean ignoreDamageCheck) {
-        Map<InsentientDamageEvent.DamageType, Double> modifiers =
+        Map<DamageType, Double> modifiers =
                 new EnumMap<>(
                         ImmutableMap.of(DamageType.PHYSICAL, damage));
         return damageEntity(target, attacker, skill, modifiers, cause, knockback,
@@ -170,8 +167,9 @@ public abstract class Skill implements ISkill {
         if (attacking.getEntity().equals(defenderLE)) {
             return false;
         }
+        /* Replace when Sponge supports calling our own EntityDamageEntityEvents
         if (defenderLE instanceof Player && attacking instanceof Champion) {
-            if (!attacking.getWorld().getPVP()) {
+            if (!attacking.getWorld().()) {
                 attacking.sendMessage(ChatColor.RED + "PVP is disabled!");
                 return false;
             }
@@ -184,7 +182,8 @@ public abstract class Skill implements ISkill {
                                 ImmutableMap.of(DamageModifier.BASE, ZERO)));
         Bukkit.getServer().getPluginManager().callEvent(damageEntityEvent);
 
-        return damageEntityEvent.isCancelled();
+         */
+        return false;
     }
 
     /**
@@ -203,7 +202,7 @@ public abstract class Skill implements ISkill {
             throw new IllegalArgumentException("Attempt to set string default "
                     + "of a non-string SkillSetting");
         }
-        ConfigurationSection section = getDefaultConfig();
+        DataView section = getDefaultConfig();
         section.set(node.node(), value);
         this.usedSettings.add(node);
     }
@@ -219,7 +218,7 @@ public abstract class Skill implements ISkill {
      * @throws IllegalArgumentException If the setting is null
      */
     protected void setDefault(String node, Object value) {
-        ConfigurationSection section = getDefaultConfig();
+        DataView section = getDefaultConfig();
         section.set(node, value);
         this.usedNodes.add(node);
     }
@@ -235,13 +234,12 @@ public abstract class Skill implements ISkill {
      * @throws IllegalArgumentException If the setting is null
      */
     protected void setDefault(SkillSetting node, boolean value) {
-        checkArgument(node != null, "Cannot set a default null node!");
         if (node.getClass().equals(SkillSetting.class)
                 && !SkillSetting.BOOLEAN_SETTINGS.contains(node)) {
             throw new IllegalArgumentException("Attempt to set boolean "
                     + "default of a non-boolean SkillSetting");
         }
-        ConfigurationSection section = getDefaultConfig();
+        DataView section = getDefaultConfig();
         section.set(node.node(), value);
         this.usedSettings.add(node);
     }
@@ -257,8 +255,7 @@ public abstract class Skill implements ISkill {
      * @throws IllegalArgumentException If the setting is null
      */
     protected void setDefault(String node, boolean value) {
-        checkArgument(node != null, "Cannot set a default null node!");
-        ConfigurationSection section = getDefaultConfig();
+        DataView section = getDefaultConfig();
         section.set(node, value);
         this.usedNodes.add(node);
     }
@@ -274,11 +271,11 @@ public abstract class Skill implements ISkill {
      * @throws IllegalArgumentException If the setting is null
      */
     protected void setDefault(SkillSetting node, double value) {
-        ConfigurationSection section = getDefaultConfig();
+        DataView section = getDefaultConfig();
         section.set(node.node(), value);
         this.usedSettings.add(node);
-        if (node.scalingNode() != null) {
-            section.set(node.scalingNode(), 0);
+        if (node.scalingNode().isPresent()) {
+            section.set(node.scalingNode().get(), 0);
         }
     }
 
@@ -293,7 +290,7 @@ public abstract class Skill implements ISkill {
      * @throws IllegalArgumentException If the setting is null
      */
     protected void setDefault(String node, double value) {
-        ConfigurationSection section = getDefaultConfig();
+        DataView section = getDefaultConfig();
         section.set(node, value);
         this.usedNodes.add(node);
     }
@@ -310,13 +307,13 @@ public abstract class Skill implements ISkill {
      * @throws IllegalArgumentException If the setting is null
      */
     protected void setDefault(SkillSetting node, double value, double valuePerLevel) {
-        if (node.scalingNode() == null) {
+        if (node.scalingNode().isPresent()) {
             throw new IllegalArgumentException("Attempt to set scaling default of "
                     + "a non-scaling SkillSetting");
         }
-        ConfigurationSection section = getDefaultConfig();
+        DataView section = getDefaultConfig();
         section.set(node.node(), value);
-        section.set(node.scalingNode(), valuePerLevel);
+        section.set(node.scalingNode().get(), valuePerLevel);
         this.usedSettings.add(node);
     }
 
@@ -332,7 +329,7 @@ public abstract class Skill implements ISkill {
      * @throws IllegalArgumentException If the setting is null
      */
     protected void setDefault(String node, double value, double valuePerLevel) {
-        ConfigurationSection section = getDefaultConfig();
+        DataView section = getDefaultConfig();
         section.set(node, value);
         section.set(node + "-per-level", valuePerLevel);
         this.usedNodes.add(node);
@@ -355,7 +352,7 @@ public abstract class Skill implements ISkill {
             throw new IllegalArgumentException("Attempt to set string default of "
                     + "a non-string SkillSetting");
         }
-        ConfigurationSection section = getDefaultConfig();
+        DataView section = getDefaultConfig();
         section.set(node.node(), value);
         this.usedSettings.add(node);
     }
@@ -371,7 +368,7 @@ public abstract class Skill implements ISkill {
      * @throws IllegalArgumentException If the setting is null
      */
     protected void setDefault(String node, String value) {
-        ConfigurationSection section = getDefaultConfig();
+        DataView section = getDefaultConfig();
         section.set(node, value);
         this.usedNodes.add(node);
     }
@@ -393,7 +390,7 @@ public abstract class Skill implements ISkill {
             throw new IllegalArgumentException("Attempt to set string default of "
                     + "a non-list SkillSetting");
         }
-        ConfigurationSection section = getDefaultConfig();
+        DataView section = getDefaultConfig();
         section.set(node.node(), value);
         this.usedSettings.add(node);
     }
@@ -409,7 +406,7 @@ public abstract class Skill implements ISkill {
      * @throws IllegalArgumentException If the setting is null
      */
     protected void setDefault(String node, List<?> value) {
-        ConfigurationSection section = getDefaultConfig();
+        DataView section = getDefaultConfig();
         section.set(node, value);
         this.usedNodes.add(node);
     }
@@ -429,8 +426,8 @@ public abstract class Skill implements ISkill {
             throw new IllegalArgumentException("Attempt to set item default of "
                     + "a non-item SkillSetting");
         }
-        ConfigurationSection section = getDefaultConfig();
-        section.set(node.node(), new ItemStack(value));
+        DataView section = getDefaultConfig();
+        section.set(node.node(), Utilities.copyOf(value));
         this.usedSettings.add(node);
     }
 
@@ -445,8 +442,8 @@ public abstract class Skill implements ISkill {
      * @throws IllegalArgumentException If the setting is null
      */
     protected void setDefault(String node, ItemStack value) {
-        ConfigurationSection section = getDefaultConfig();
-        section.set(node, new ItemStack(value));
+        DataView section = getDefaultConfig();
+        section.set(node, Utilities.copyOf(value));
         this.usedNodes.add(node);
     }
 
@@ -487,7 +484,7 @@ public abstract class Skill implements ISkill {
     }
 
     @Override
-    public Config getDefaultConfig() {
+    public DataView getDefaultConfig() {
         return this.defaultConfig;
     }
 

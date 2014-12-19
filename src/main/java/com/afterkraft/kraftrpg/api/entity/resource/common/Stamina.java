@@ -22,5 +22,7 @@
  * THE SOFTWARE.
  */
 
-@org.spongepowered.api.util.annotation.NonnullByDefault
-package com.afterkraft.kraftrpg.api.events.entity.damage;
+package com.afterkraft.kraftrpg.api.entity.resource.common;
+
+public class Stamina {
+}

@@ -124,7 +124,6 @@ public class Effect implements IEffect {
 
     @Override
     public void apply(Insentient being) {
-        checkArgument(being != null, "Cannot apply an effect to a null Insentient being!");
         this.applyTime = System.currentTimeMillis();
         if (!this.potionEffects.isEmpty()) {
             for (final PotionEffect pEffect : this.potionEffects) {
@@ -135,7 +134,6 @@ public class Effect implements IEffect {
 
     @Override
     public void remove(Insentient being) {
-        checkArgument(being != null, "Cannot remove an effect to a null Insentient being!");
         if (!this.potionEffects.isEmpty()) {
             for (final PotionEffect pEffect : this.potionEffects) {
                 being.removePotionEffect(pEffect.getType());
@@ -153,9 +151,15 @@ public class Effect implements IEffect {
         return this.expireText;
     }
 
+    /**
+     * Adds the given potion effect.
+     * @param effect
+     */
     protected void addPotionEffect(PotionEffect effect) {
+        /*
         this.potionEffects.add(new PotionEffect(effect.getType(), effect.getDuration(),
                 effect.getAmplifier(), effect.isAmbient()));
+                */
     }
 
     public void broadcast(Location source, String message, Object... args) {
@@ -180,9 +184,12 @@ public class Effect implements IEffect {
     }
 
     private boolean isInMsgRange(Location loc1, Location loc2) {
-        return (Math.abs(loc1.getPosition() - loc2.getBlockX()) < 25)
-                && (Math.abs(loc1.getBlockY() - loc2.getBlockY()) < 25)
-                && (Math.abs(loc1.getBlockZ() - loc2.getBlockZ()) < 25);
+        return (Math.abs(loc1.getPosition().getFloorX()
+                                 - loc2.getPosition().getFloorX()) < 25)
+                && (Math.abs(loc1.getPosition().getFloorY()
+                                     - loc2.getPosition().getFloorY()) < 25)
+                && (Math.abs(loc1.getPosition().getFloorZ()
+                                     - loc2.getPosition().getFloorZ()) < 25);
     }
 
     @Override

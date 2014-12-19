@@ -28,7 +28,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
-import org.bukkit.entity.Player;
+import org.spongepowered.api.entity.player.Player;
 
 import com.google.common.collect.ImmutableSet;
 

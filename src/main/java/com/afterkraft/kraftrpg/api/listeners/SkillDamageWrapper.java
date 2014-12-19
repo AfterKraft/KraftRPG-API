@@ -23,10 +23,11 @@
  */
 package com.afterkraft.kraftrpg.api.listeners;
 
-import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
+import com.google.common.base.Optional;
 
 import com.afterkraft.kraftrpg.api.entity.SkillCaster;
 import com.afterkraft.kraftrpg.api.skills.ISkill;
+import com.afterkraft.kraftrpg.common.DamageCause;
 
 /**
  * A standard wrapper referencing the skill used to damage the associated Insentient being.
@@ -43,8 +44,9 @@ public class SkillDamageWrapper extends AttackDamageWrapper {
     }
 
     @Override
-    public SkillCaster getAttackingIEntity() {
-        return (SkillCaster) super.getAttackingIEntity();
+    public Optional<? extends SkillCaster> getAttackingIEntity() {
+        return Optional.fromNullable(super.getAttackingIEntity().isPresent()
+                ? (SkillCaster) super.getAttackingIEntity().get() : null);
     }
 
     public final ISkill getSkillUsed() {

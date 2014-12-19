@@ -26,7 +26,6 @@ package com.afterkraft.kraftrpg.api.entity.party;
 import java.util.List;
 import java.util.UUID;
 
-import org.bukkit.Location;
 import org.spongepowered.api.world.Location;
 
 import com.afterkraft.kraftrpg.api.entity.PartyMember;

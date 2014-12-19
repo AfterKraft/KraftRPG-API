@@ -27,9 +27,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.spongepowered.api.service.persistence.serialization.DataSerializable;
-
 import com.google.common.base.Optional;
+
+import com.afterkraft.kraftrpg.common.persistence.serialization.DataSerializable;
 
 /**
  * Represents an object of data represented by a map.

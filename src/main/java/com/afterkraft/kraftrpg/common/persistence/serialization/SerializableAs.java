@@ -30,11 +30,11 @@ import java.lang.annotation.Target;
 
 /**
  * Annotates a class to have a particular key constant that can be used in
- * a {@link org.spongepowered.api.service.persistence.data.DataView}.
+ * a {@link com.afterkraft.kraftrpg.common.persistence.data.DataView}.
  * Usually, a {@link DataSerializable} can be directly fetched from a DataView
  * so long as the key is used.
  * <p>The class may be marked as compoundable to signify that the class data
- * can be merged with a parent {@link org.spongepowered.api.service.persistence.data.DataView}
+ * can be merged with a parent {@link com.afterkraft.kraftrpg.common.persistence.data.DataView}
  * without creating a new DataView child to the parent.</p>
  */
 @Retention(RetentionPolicy.RUNTIME)
@@ -43,7 +43,7 @@ public @interface SerializableAs {
 
     /**
      * Gets the key to refer to this {@link DataSerializable} when stored in
-     * a {@link org.spongepowered.api.service.persistence.data.DataView}.
+     * a {@link com.afterkraft.kraftrpg.common.persistence.data.DataView}.
      *
      * @return The key to refer to the target
      */
@@ -52,7 +52,7 @@ public @interface SerializableAs {
     /**
      * Returns whether this serialized object can be compounded and merged
      * in with a DataView at the current level without creating a child
-     * {@link org.spongepowered.api.service.persistence.data.DataView}.
+     * {@link com.afterkraft.kraftrpg.common.persistence.data.DataView}.
      *
      * @return Whether this can be compounded with a parent object
      */

@@ -23,9 +23,6 @@
  */
 package com.afterkraft.kraftrpg.api.listeners;
 
-import org.bukkit.event.HandlerList;
-import org.bukkit.event.Listener;
-
 import com.afterkraft.kraftrpg.api.Manager;
 import com.afterkraft.kraftrpg.api.RPGPlugin;
 
@@ -37,18 +34,12 @@ public abstract class AbstractListener implements Manager {
 
     protected RPGPlugin plugin;
 
+    /**
+     * Creates a new abstract listener.
+     *
+     * @param plugin The instance of the rpg plugin to utilize.
+     */
     protected AbstractListener(RPGPlugin plugin) {
         this.plugin = plugin;
-    }
-
-
-    @Override
-    public void initialize() {
-        this.plugin.getServer().getPluginManager().registerEvents(this, this.plugin);
-    }
-
-    @Override
-    public void shutdown() {
-        HandlerList.unregisterAll(this);
     }
 }

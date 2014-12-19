@@ -25,10 +25,12 @@ package com.afterkraft.kraftrpg.api.listeners;
 
 import java.lang.ref.WeakReference;
 
-import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
-import org.bukkit.inventory.ItemStack;
+import org.spongepowered.api.item.inventory.ItemStack;
+
+import com.google.common.base.Optional;
 
 import com.afterkraft.kraftrpg.api.entity.Insentient;
+import com.afterkraft.kraftrpg.common.DamageCause;
 
 /**
  * Standard wrapper for attack damage dealt with an ItemStack
@@ -42,14 +44,21 @@ public class AttackDamageWrapper extends DamageWrapper {
                                DamageCause modifiedCause) {
         super(originalCause, originalDamage, modifiedDamage, modifiedCause);
         this.attackingIEntity = new WeakReference<>(attackingIEntity);
-        this.weaponUsed = new ItemStack(attackingIEntity.getItemInHand());
+        this.weaponUsed = attackingIEntity.getItemInHand().isPresent()
+                ? attackingIEntity.getItemInHand().get() : null;
     }
 
-    public Insentient getAttackingIEntity() {
-        return this.attackingIEntity.get();
+    /**
+     * Gets the attacking {@link Insentient}. If the insentient is still
+     * available, then the attacker is still online/loaded in the game.
+     *
+     * @return The instance of the attacking entity, if available
+     */
+    public Optional<? extends Insentient> getAttackingIEntity() {
+        return Optional.fromNullable(this.attackingIEntity.get());
     }
 
-    public final ItemStack getWeaponUsed() {
-        return this.weaponUsed.clone();
+    public final Optional<ItemStack> getWeaponUsed() {
+        return Optional.fromNullable(this.weaponUsed);
     }
 }

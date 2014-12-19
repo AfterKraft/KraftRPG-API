@@ -26,13 +26,7 @@ package com.afterkraft.kraftrpg.api.skills.arguments;
 import java.lang.ref.WeakReference;
 import java.util.List;
 
-import org.bukkit.Location;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.util.Vector;
 import org.spongepowered.api.entity.Entity;
-import org.spongepowered.api.entity.living.Living;
-import org.spongepowered.api.world.Location;
 
 import com.google.common.base.Optional;
 import com.google.common.base.Predicate;
@@ -87,6 +81,7 @@ public class EntitySkillArgument<E extends Entity> extends SkillArgument<E> {
 
     @Override
     public void parse(SkillCaster caster, String[] allArgs, int startPosition) {
+        /*
         List<Entity> nearby = caster.getEntity().getNearbyEntities(this.maxDistance,
                 this.maxDistance, this.maxDistance);
         Living actor = caster.getEntity().get();
@@ -126,6 +121,7 @@ public class EntitySkillArgument<E extends Entity> extends SkillArgument<E> {
         if (closestDistance < this.maxDistance) {
             this.matchedEntity = new WeakReference<>(closest);
         }
+        */
     }
 
     @Override

@@ -32,10 +32,7 @@ import org.spongepowered.api.potion.PotionEffect;
 
 import com.afterkraft.kraftrpg.api.effects.EffectType;
 import com.afterkraft.kraftrpg.api.effects.PeriodicExpirableEffect;
-import com.afterkraft.kraftrpg.api.entity.Champion;
 import com.afterkraft.kraftrpg.api.entity.Insentient;
-import com.afterkraft.kraftrpg.api.events.entity.InsentientRegainHealthEvent;
-import com.afterkraft.kraftrpg.api.events.entity.champion.ChampionRegainHealthEvent;
 import com.afterkraft.kraftrpg.api.skills.Skill;
 
 /**
@@ -89,6 +86,7 @@ public class HealingEffect extends PeriodicExpirableEffect implements Healing {
         if (!being.isEntityValid() || !getApplier().isEntityValid()) {
             return;
         }
+        /*
         InsentientRegainHealthEvent event;
         if (being instanceof Champion) {
             event = new ChampionRegainHealthEvent((Champion) being, this.tickHealth,
@@ -103,5 +101,6 @@ public class HealingEffect extends PeriodicExpirableEffect implements Healing {
             return;
         }
         being.heal(event.getAmount());
+        */
     }
 }

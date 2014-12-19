@@ -21,47 +21,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.afterkraft.kraftrpg.api.events.entity;
 
-import org.bukkit.event.HandlerList;
-
-import com.afterkraft.kraftrpg.api.entity.EnterCombatReason;
-import com.afterkraft.kraftrpg.api.entity.Insentient;
-
-/**
- * When an Insentient kills another insentient being.
- */
-public class InsentientKillEvent extends InsentientEvent {
-
-    private static final HandlerList handlers = new HandlerList();
-    private final Insentient victim;
-    private final EnterCombatReason reason;
-
-    public InsentientKillEvent(Insentient attacker, Insentient victim, EnterCombatReason reason) {
-        super(attacker);
-        this.victim = victim;
-        this.reason = reason;
-    }
-
-    public static HandlerList getHandlerList() {
-        return handlers;
-    }
-
-    public final Insentient getKiller() {
-        return this.getEntity();
-    }
-
-    public final Insentient getVictim() {
-        return this.victim;
-    }
-
-    public final EnterCombatReason getReason() {
-        return reason;
-    }
-
-    @Override
-    public HandlerList getHandlers() {
-        return handlers;
-    }
-
-}
+@org.spongepowered.api.util.annotation.NonnullByDefault
+package com.afterkraft.kraftrpg.api.handler;

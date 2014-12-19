@@ -61,14 +61,14 @@ public interface Active extends ISkill {
      *
      * @return a casted SkillArgument
      */
-    public <T extends SkillArgument> Optional<T> getArgument(int index);
+    public <T extends SkillArgument<?>> Optional<T> getArgument(int index);
 
     /**
      * Get the active array of SkillArguments currently in use.
      *
      * @return array of SkillArguments
      */
-    public SkillArgument[] getSkillArguments();
+    public SkillArgument<?>[] getSkillArguments();
 
     /**
      * Any necessary warmup process for an Active Skill should be done here. This is called after

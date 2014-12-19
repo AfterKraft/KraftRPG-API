@@ -23,14 +23,13 @@
  */
 package com.afterkraft.kraftrpg.api.util;
 
-import org.bukkit.ChatColor;
-
 /**
  * A standard utility for managing messages.
  */
 public class MessageUtil {
 
     public static String parameterizeMessage(String msg, Object... params) {
+        /* TODO Rewrite for Sponge.
         msg = ChatColor.GRAY + msg;
         if (params != null) {
             for (int i = 0; i < params.length; i++) {
@@ -38,6 +37,7 @@ public class MessageUtil {
                         + ChatColor.GRAY);
             }
         }
+        */
         return msg;
     }
 }

@@ -28,9 +28,6 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
-
 import com.afterkraft.kraftrpg.api.effects.EffectType;
 import com.afterkraft.kraftrpg.api.effects.ExpirableEffect;
 import com.afterkraft.kraftrpg.api.entity.Insentient;
@@ -56,8 +53,8 @@ public class BlindingEffect extends ExpirableEffect {
     public BlindingEffect(Skill skill, Insentient applier, String name, long duration,
                           String applyText, String expireText) {
         super(skill, applier, name, duration, applyText, expireText, DEFAULT_Blinding_EFFECTTYPES);
-        addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS,
-                (int) ((duration / 1000) * 20), 0, false));
+//        addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS,
+//                (int) ((duration / 1000) * 20), 0, false));
     }
 
 }

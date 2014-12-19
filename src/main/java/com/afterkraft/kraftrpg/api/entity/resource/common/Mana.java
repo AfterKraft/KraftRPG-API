@@ -22,5 +22,17 @@
  * THE SOFTWARE.
  */
 
-@org.spongepowered.api.util.annotation.NonnullByDefault
-package com.afterkraft.kraftrpg.api.events.effects;
+package com.afterkraft.kraftrpg.api.entity.resource.common;
+
+import java.util.concurrent.atomic.AtomicInteger;
+
+import com.afterkraft.kraftrpg.api.entity.resource.Resource;
+
+public class Mana implements Resource {
+
+    private final AtomicInteger mana = new AtomicInteger(0);
+
+    public Integer getCurrentMana() {
+        return this.mana.get();
+    }
+}

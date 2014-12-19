@@ -22,5 +22,13 @@
  * THE SOFTWARE.
  */
 
-@org.spongepowered.api.util.annotation.NonnullByDefault
-package com.afterkraft.kraftrpg.api.events.entity.party;
+package com.afterkraft.kraftrpg.common.persistence.data;
+
+import com.google.common.base.Optional;
+
+public class DataUtil {
+
+    public static Optional<DataContainer> copyFromExisiting(DataView view) {
+        return Optional.<DataContainer>of(new MemoryDataContainer());
+    }
+}

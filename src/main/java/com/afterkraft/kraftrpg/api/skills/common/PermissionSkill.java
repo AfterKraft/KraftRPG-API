@@ -34,6 +34,7 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.Permission;
 import org.spongepowered.api.entity.Entity;
+import org.spongepowered.api.entity.player.Player;
 
 import com.google.common.collect.ImmutableMap;
 

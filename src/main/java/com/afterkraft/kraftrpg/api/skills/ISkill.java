@@ -31,6 +31,7 @@ import com.typesafe.config.Config;
 
 import com.afterkraft.kraftrpg.api.entity.Champion;
 import com.afterkraft.kraftrpg.api.entity.SkillCaster;
+import com.afterkraft.kraftrpg.common.persistence.data.DataView;
 
 /**
  * Represents a usable Skill for KraftRPG. The recommended use of implementation is {@link Skill}
@@ -56,7 +57,7 @@ public interface ISkill {
      *
      * @return the defalt configuration for this skill
      */
-    Config getDefaultConfig();
+    DataView getDefaultConfig();
 
     /**
      * Gets an immutable collection of the {@link SkillSetting}s used by this Skill. This should be

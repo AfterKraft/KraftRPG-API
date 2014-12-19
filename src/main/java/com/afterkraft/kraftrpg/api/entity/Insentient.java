@@ -35,6 +35,7 @@ import com.google.common.base.Optional;
 
 import com.afterkraft.kraftrpg.api.effects.EffectType;
 import com.afterkraft.kraftrpg.api.effects.IEffect;
+import com.afterkraft.kraftrpg.api.entity.resource.Resource;
 import com.afterkraft.kraftrpg.api.listeners.DamageWrapper;
 import com.afterkraft.kraftrpg.api.skills.ISkill;
 import com.afterkraft.kraftrpg.api.util.FixedPoint;
@@ -57,7 +58,16 @@ public interface Insentient extends IEntity {
      *
      * @return the attached LivingEntity, if there is no LivingEntity, then null.
      */
-    @Override Optional<? extends Living> getEntity();
+    @Override
+    Optional<? extends Living> getEntity();
+
+    /**
+     *
+     * @param clazz
+     * @param <T>
+     * @return
+     */
+    <T extends Resource> Optional<T> getResource(Class<T> clazz);
 
     /**
      * Get the current mana this being has.

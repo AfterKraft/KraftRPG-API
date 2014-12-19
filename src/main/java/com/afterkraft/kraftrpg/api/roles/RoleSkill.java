@@ -26,11 +26,13 @@ package com.afterkraft.kraftrpg.api.roles;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
-import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.configuration.MemoryConfiguration;
+import com.google.common.base.Optional;
 
 import com.afterkraft.kraftrpg.api.skills.ISkill;
 import com.afterkraft.kraftrpg.api.skills.SkillSetting;
+import com.afterkraft.kraftrpg.common.persistence.data.DataContainer;
+import com.afterkraft.kraftrpg.common.persistence.data.DataUtil;
+import com.afterkraft.kraftrpg.common.persistence.data.DataView;
 
 /**
  * Representation for a Skill and an associated MemoryConfiguration for that skill. This is a simple
@@ -38,16 +40,17 @@ import com.afterkraft.kraftrpg.api.skills.SkillSetting;
  */
 public final class RoleSkill {
     private String skill;
-    private MemoryConfiguration section;
+    private DataContainer section;
 
-    RoleSkill(String skill, ConfigurationSection section) {
+    RoleSkill(String skill, DataView section) {
         this.skill = skill;
-        this.section = new MemoryConfiguration();
-        this.section.addDefaults(section.getValues(true));
+        Optional<DataContainer> optional = DataUtil.copyFromExisiting(section);
+        checkArgument(optional.isPresent(), "Cannot have an invalid "
+                + "configuration for a role skill!");
+        this.section = optional.get();
     }
 
     public boolean skillEquals(ISkill other) {
-        checkArgument(other != null, "Cannot compare to a null Skill!");
         return this.skill.equalsIgnoreCase(other.getName());
 
     }
@@ -57,12 +60,10 @@ public final class RoleSkill {
     }
 
     public int getLevel() {
-        return this.section.getInt(SkillSetting.LEVEL.node());
+        return this.section.getInt(SkillSetting.LEVEL.node()).get();
     }
 
-    public ConfigurationSection getConfig() {
-        MemoryConfiguration clone = new MemoryConfiguration();
-        clone.addDefaults(this.section);
-        return clone;
+    public DataContainer getConfig() {
+        return DataUtil.copyFromExisiting(this.section).get();
     }
 }

@@ -31,8 +31,6 @@ import java.util.Set;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
-import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
-import org.bukkit.potion.PotionEffect;
 import org.spongepowered.api.potion.PotionEffect;
 
 import com.afterkraft.kraftrpg.api.effects.EffectType;
@@ -132,6 +130,7 @@ public class DamagingEffect extends PeriodicExpirableEffect implements Damaging 
             if (being instanceof SkillCaster) {
                 SkillCaster caster = (SkillCaster) being;
                 this.skill.addSkillTarget(being.getEntity().get(), caster);
+                /*
                 boolean isMagic = this.skill.isType(SkillType.ABILITY_PROPERTY_PHYSICAL);
                 Map<DamageType, Double> modifiers = new HashMap<>();
                 if (isMagic) {
@@ -142,6 +141,7 @@ public class DamagingEffect extends PeriodicExpirableEffect implements Damaging 
                 Skill.damageEntity(being, (SkillCaster) getApplier(), this.skill, modifiers,
                         this.skill.isType(SkillType.ABILITY_PROPERTY_PHYSICAL)
                                 ? DamageCause.ENTITY_ATTACK : DamageCause.MAGIC, this.knockback);
+                                */
             }
         }
     }

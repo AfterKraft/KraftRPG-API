@@ -25,6 +25,7 @@ package com.afterkraft.kraftrpg.api.skills;
 
 import java.util.Set;
 
+import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableSet;
 
 /**
@@ -174,11 +175,12 @@ public class SkillSetting {
     /**
      * Custom setting
      */
-    public static final SkillSetting CUSTOM = new SkillSetting(null);
+    public static final SkillSetting CUSTOM = new SkillSetting("custom");
     /**
      * Custom per caster setting
      */
-    public static final SkillSetting CUSTOM_PER_CASTER = new SkillSetting(null);
+    public static final SkillSetting CUSTOM_PER_CASTER =
+            new SkillSetting("custom");
     private final String node;
     private final boolean scaled;
 
@@ -201,25 +203,17 @@ public class SkillSetting {
     }
 
     /**
-     * Returns true if this setting is available in a 'per-level' basis.
-     *
-     * @return True if this setting is available on a 'per-level' basis.
-     */
-    public boolean isLevelScaled() {
-        return this.scaled;
-    }
-
-    /**
      * Gets the 'per-level' string node for this setting if applicable.
+     * <p>If the node is not a scaling node, the this will return {@link
+     * Optional#absent()}</p>
      *
      * @return The 'per-level' string node for this setting
      */
-    public String scalingNode() {
+    public Optional<String> scalingNode() {
         if (!this.scaled) {
-            return null;
+            return Optional.absent();
         }
-
-        return this.node + "-per-level";
+        return Optional.of(this.node + "-per-level");
     }
 
     @Override

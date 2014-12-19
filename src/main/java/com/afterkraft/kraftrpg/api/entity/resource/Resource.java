@@ -22,5 +22,7 @@
  * THE SOFTWARE.
  */
 
-@org.spongepowered.api.util.annotation.NonnullByDefault
-package com.afterkraft.kraftrpg.api.events.entity.champion;
+package com.afterkraft.kraftrpg.api.entity.resource;
+
+public interface Resource {
+}

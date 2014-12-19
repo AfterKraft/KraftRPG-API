@@ -30,9 +30,9 @@ import java.util.Set;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
-import org.spongepowered.api.service.persistence.serialization.DataSerializable;
-
 import com.google.common.base.Optional;
+
+import com.afterkraft.kraftrpg.common.persistence.serialization.DataSerializable;
 
 /**
  * Default implementation of a {@link DataView} being used in memory.
@@ -238,8 +238,9 @@ public class MemoryDataView implements DataView {
     }
 
     @Override
-    public <T extends DataSerializable> Optional<T> getSerialiable(String path, Class<T> clazz) {
-        return null; // TODO implement
+    public <T extends DataSerializable> Optional<T> getSerialiable(String path,
+                                                                   Class<T> clazz) {
+        return null;
     }
 
     @Override

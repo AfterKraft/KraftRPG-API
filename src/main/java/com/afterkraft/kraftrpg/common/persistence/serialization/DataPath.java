@@ -28,7 +28,8 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import org.spongepowered.api.service.persistence.data.DataView;
+
+import com.afterkraft.kraftrpg.common.persistence.data.DataView;
 
 /**
  * A DataPath is used to annotate a target for automated serialization of
@@ -41,7 +42,7 @@ public @interface DataPath {
 
     /**
      * Gets the key for the annotated target that can be used to reference
-     * in a {@link org.spongepowered.api.service.persistence.data.DataView}.
+     * in a {@link DataView}.
      *
      * @return The key to reference the annotated target
      */
@@ -49,7 +50,7 @@ public @interface DataPath {
 
     /**
      * Whether to collapse the given {@link DataSerializable} into the current
-     * {@link org.spongepowered.api.service.persistence.data.DataView} as a
+     * {@link DataView} as a
      * top level value instead of possibly creating a new
      * multi-value object.
      *

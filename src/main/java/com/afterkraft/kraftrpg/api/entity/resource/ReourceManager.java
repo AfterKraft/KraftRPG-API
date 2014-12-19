@@ -21,29 +21,8 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.afterkraft.kraftrpg.api.events.entity;
 
-import static com.google.common.base.Preconditions.checkArgument;
+package com.afterkraft.kraftrpg.api.entity.resource;
 
-import org.bukkit.event.Event;
-import org.spongepowered.api.event.GameEvent;
-import org.spongepowered.api.util.event.Event;
-
-import com.afterkraft.kraftrpg.api.entity.Insentient;
-
-/**
- * Hierachical event class relating to Insentient beings.
- */
-public abstract class InsentientEvent implements GameEvent {
-
-    private final Insentient entity;
-
-    protected InsentientEvent(Insentient entity) {
-        checkArgument(entity != null, "Cannot create an event for a null Insentient being!");
-        this.entity = entity;
-    }
-
-    public Insentient getEntity() {
-        return this.entity;
-    }
+public interface ReourceManager {
 }

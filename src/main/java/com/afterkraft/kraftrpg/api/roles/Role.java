@@ -23,7 +23,6 @@
  */
 package com.afterkraft.kraftrpg.api.roles;
 
-import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -34,20 +33,23 @@ import static com.google.common.base.Preconditions.checkState;
 
 import org.spongepowered.api.item.ItemType;
 
+import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 
 import com.afterkraft.kraftrpg.api.RPGPlugin;
 import com.afterkraft.kraftrpg.api.skills.ISkill;
 import com.afterkraft.kraftrpg.api.skills.SkillSetting;
+import com.afterkraft.kraftrpg.common.persistence.data.DataUtil;
+import com.afterkraft.kraftrpg.common.persistence.data.DataView;
 
 /**
  * A Role is an Immutable object representing the skill tree and damage values that a {@link
- * com.afterkraft.kraftrpg.api.entity.Sentient} may have. All {@link
- * com.afterkraft.kraftrpg.api.skills.ISkill}s are granted for use to {@link
+ * com.afterkraft.kraftrpg.api.entity.Sentient} may have. All {@link ISkill}s
+ * are granted for use to {@link
  * com.afterkraft.kraftrpg.api.entity.SkillCaster}s and experience is gained by {@link
- * com.afterkraft.kraftrpg.api.entity.Sentient}s.  To construct a Role, use the linked {@link
- * com.afterkraft.kraftrpg.api.roles.Role.Builder}
+ * com.afterkraft.kraftrpg.api.entity.Sentient}s.  To construct a Role, use
+ * the linked {@link Builder}
  */
 public final class Role {
 
@@ -152,15 +154,12 @@ public final class Role {
      * @param plugin implementation of KraftRPG
      *
      * @return a builder
-     * @throws IllegalArgumentException if plugin is null
      */
     public static Builder builder(RPGPlugin plugin) {
-        checkArgument(plugin != null, "Cannot start a RoleBuilder with a null RPGPlugin!");
         return new Builder(plugin);
     }
 
     public static Builder copyOf(Role role) {
-        checkArgument(role != null, "Cannot copy a null Role!");
         Builder builder = new Builder(role.plugin)
                 .setName(role.name)
                 .setAdvancementLevel(role.advancementLevel)
@@ -186,14 +185,15 @@ public final class Role {
             builder.setItemDamageVaries(entry.getKey(), entry.getValue());
         }
         for (Map.Entry<String, RoleSkill> entry : role.skills.entrySet()) {
-            builder.addRoleSkill(role.plugin.getSkillManager().getSkill(entry.getKey()),
+            builder.addRoleSkill(role.plugin.getSkillManager()
+                                         .getSkill(entry.getKey()).get(),
                     entry.getValue().getConfig());
         }
         for (String child : role.children) {
-            builder.addChild(role.plugin.getRoleManager().getRole(child));
+            builder.addChild(role.plugin.getRoleManager().getRole(child).get());
         }
         for (String parent : role.parents) {
-            builder.addParent(role.plugin.getRoleManager().getRole(parent));
+            builder.addParent(role.plugin.getRoleManager().getRole(parent).get());
         }
         for (ExperienceType type1 : role.allowedExperience) {
             builder.addExperienceType(type1);
@@ -230,13 +230,10 @@ public final class Role {
      * @param level to check
      *
      * @return true if the skill is granted at the level or before
-     * @throws IllegalArgumentException if the skill is null
      */
     public boolean hasSkillAtLevel(ISkill skill, int level) {
-        checkArgument(skill != null, "Cannot check against a null skill!");
-        RoleSkill rs = this.skills.get(skill.getName());
-
-        return rs != null && rs.getLevel() <= level;
+        return this.skills.containsKey(skill.getName())
+                && this.skills.get(skill.getName()).getLevel() <= level;
     }
 
     /**
@@ -247,42 +244,41 @@ public final class Role {
      * @param level to check if the skill is granted at that level
      *
      * @return a copy of the configuration section
-     * @throws IllegalArgumentException        if the skill is null
      * @throws RoleSkillConfigurationException if there is an error in the Role configuration
      */
-    public ConfigurationSection getSkillConfigIfAvailable(ISkill skill, int level)
+    public Optional<? extends DataView> getSkillConfigIfAvailable(ISkill skill,
+                                                               int level)
             throws RoleSkillConfigurationException {
         if (hasSkill(skill)) {
-            RoleSkill rs = this.skills.get(skill.getName());
-            if (rs == null) {
-                throw new RoleSkillConfigurationException("There is a null RoleSkill in "
-                        + this.name + "'s Configuration! Please fix your configuration!");
+            if (!this.skills.containsKey(skill.getName())) {
+                throw new RoleSkillConfigurationException(
+                        "There is an invalid RoleSkill in "
+                        + this.name
+                                + "'s Configuration!"
+                                + " Please fix your configuration!");
             }
+            RoleSkill rs = this.skills.get(skill.getName());
             if (rs.getLevel() <= level) {
-                MemoryConfiguration section = new MemoryConfiguration();
-                section.addDefaults(rs.getConfig().getValues(true));
-                return section;
+                return Optional.fromNullable(
+                        DataUtil.copyFromExisiting(rs.getConfig()));
             }
         }
-        return new MemoryConfiguration();
+        return Optional.absent();
     }
 
     /**
-     * Checks if this role has the defined {@link com.afterkraft.kraftrpg.api.skills.ISkill} at any
+     * Checks if this role has the defined {@link ISkill} at any
      * level
      *
      * @param skill to check
      *
      * @return true if the skill is defined
-     * @throws IllegalArgumentException if the skill is null
      */
     public boolean hasSkill(ISkill skill) {
-        checkArgument(skill != null, "Cannot check a null ISkill!");
         return this.skills.containsKey(skill.getName());
     }
 
     public boolean isSkillRestricted(ISkill skill) {
-        checkArgument(skill != null, "Cannot check a null ISkill!");
         return this.restrictedSkills.contains(skill.getName());
     }
 
@@ -292,18 +288,15 @@ public final class Role {
      * @param skill to check
      *
      * @return the level at which the skill is granted
-     * @throws IllegalArgumentException        if the skill is null
      * @throws RoleSkillConfigurationException if the skill does not have a skill configuration for
      *                                         the level required
      */
     public int getLevelRequired(ISkill skill) throws RoleSkillConfigurationException {
-        checkArgument(skill != null, "Cannot check a null ISkill!");
-        RoleSkill rs = this.skills.get(skill.getName());
-        if (rs == null) {
+        if (!this.skills.containsKey(skill.getName())) {
             throw new RoleSkillConfigurationException("A skill: " + skill.getName()
                     + " does not have a configured level requirement!");
         }
-        return rs.getLevel();
+        return this.skills.get(skill.getName()).getLevel();
     }
 
     /**
@@ -314,7 +307,8 @@ public final class Role {
     public Set<ISkill> getAllSkills() {
         ImmutableSet.Builder<ISkill> builder = ImmutableSet.builder();
         for (String skillName : this.skills.keySet()) {
-            builder.add(this.plugin.getSkillManager().getSkill(skillName));
+            builder.add(this.plugin
+                                .getSkillManager().getSkill(skillName).get());
         }
         return builder.build();
     }
@@ -329,11 +323,12 @@ public final class Role {
      * @throws IllegalArgumentException if the level is negative
      */
     public Set<ISkill> getAllSkillsAtLevel(int level) {
-        checkArgument(level >= 0, "Cannot get Skills for a negative role level!");
         ImmutableSet.Builder<ISkill> builder = ImmutableSet.builder();
         for (Map.Entry<String, RoleSkill> entry : this.skills.entrySet()) {
             if (entry.getValue().getLevel() <= level) {
-                builder.add(this.plugin.getSkillManager().getSkill(entry.getKey()));
+                builder.add(this.plugin
+                                    .getSkillManager()
+                                    .getSkill(entry.getKey()).get());
             }
         }
         return builder.build();
@@ -347,7 +342,7 @@ public final class Role {
     public Set<Role> getParents() {
         ImmutableSet.Builder<Role> builder = ImmutableSet.builder();
         for (String roleName : this.parents) {
-            builder.add(this.plugin.getRoleManager().getRole(roleName));
+            builder.add(this.plugin.getRoleManager().getRole(roleName).get());
         }
         return builder.build();
     }
@@ -360,7 +355,7 @@ public final class Role {
     public Set<Role> getChildren() {
         ImmutableSet.Builder<Role> builder = ImmutableSet.builder();
         for (String roleName : this.children) {
-            builder.add(this.plugin.getRoleManager().getRole(roleName));
+            builder.add(this.plugin.getRoleManager().getRole(roleName).get());
         }
         return builder.build();
     }
@@ -371,10 +366,14 @@ public final class Role {
      * @return true if this role is the default role
      */
     public boolean isDefault() {
-        if (this.type == RoleType.PRIMARY) {
-            return this == this.plugin.getRoleManager().getDefaultPrimaryRole();
-        } else if (this.type == RoleType.SECONDARY) {
-            return this == this.plugin.getRoleManager().getDefaultSecondaryRole();
+        if (this.type == RoleType.PRIMARY && this.plugin.getRoleManager()
+                .getDefaultPrimaryRole().isPresent()) {
+            return this == this.plugin.getRoleManager()
+                    .getDefaultPrimaryRole().get();
+        } else if (this.type == RoleType.SECONDARY && this.plugin
+                .getRoleManager().getDefaultSecondaryRole().isPresent()) {
+            return this == this.plugin.getRoleManager()
+                    .getDefaultSecondaryRole().get();
         }
         return false;
     }
@@ -507,10 +506,8 @@ public final class Role {
      * @param type to check
      *
      * @return the damage for the perscribed material, if not 0
-     * @throws IllegalArgumentException if the type is null
      */
     public double getItemDamage(ItemType type) {
-        checkArgument(type != null, "Cannot check the Item damage of a null ItemType type!");
         return this.itemDamages.containsKey(type) ? this.itemDamages.get(type) : 0.0D;
     }
 
@@ -522,10 +519,8 @@ public final class Role {
      * @param type to check
      *
      * @return true if this Role is configured to have varying damage for the item
-     * @throws IllegalArgumentException if the type is null
      */
     public boolean doesItemVaryDamage(ItemType type) {
-        checkArgument(type != null, "Cannot check a null ItemType type!");
         return this.itemVaryingDamage.containsKey(type) ? this.itemVaryingDamage.get(type) : false;
     }
 
@@ -536,11 +531,9 @@ public final class Role {
      * @param type of item to get the damage increase per level of
      *
      * @return the damage increase per level if not 0
-     * @throws IllegalArgumentException if the type is null
      */
-    public double getItemDamagePerLevel(ItemType type) {
-        checkArgument(type != null, "Cannot check a null ItemType type!");
-        return this.itemDamagePerLevel.get(type) != null ? this.itemDamagePerLevel.get(type) : 0.0D;
+    public Optional<Double> getItemDamagePerLevel(ItemType type) {
+        return Optional.fromNullable(this.itemDamagePerLevel.get(type));
     }
 
     /**
@@ -549,10 +542,8 @@ public final class Role {
      * @param type The type of material to check
      *
      * @return True if the material is allowed as an armor piece
-     * @throws IllegalArgumentException if the type is null
      */
     public boolean isArmorAllowed(ItemType type) {
-        checkArgument(type != null, "Cannot check a null ItemType type!");
         return this.allowedArmor.contains(type);
     }
 
@@ -562,10 +553,8 @@ public final class Role {
      * @param type The type of material to check
      *
      * @return True if the material is allowed as a weapon
-     * @throws IllegalArgumentException If the type is null
      */
     public boolean isWeaponAllowed(ItemType type) {
-        checkArgument(type != null, "Cannot check a null ItemType type!");
         return this.allowedWeapon.contains(type);
     }
 
@@ -584,10 +573,8 @@ public final class Role {
      * @param type The type of experience to check
      *
      * @return True if the type of experience can be gained
-     * @throws IllegalArgumentException If the type is null
      */
     public boolean canGainExperience(ExperienceType type) {
-        checkArgument(type != null, "Cannot check a null ExperienceType!");
         return this.allowedExperience.contains(type);
     }
 
@@ -718,7 +705,6 @@ public final class Role {
         int mpRegenPerLevel;
 
         Builder(RPGPlugin plugin) {
-            checkArgument(plugin != null, "Cannot create a Role builder with a null plugin!");
             this.plugin = plugin;
         }
 
@@ -728,10 +714,8 @@ public final class Role {
          * @param type of Role
          *
          * @return this builder for chaining
-         * @throws IllegalArgumentException if the role type is null
          */
         public Builder setType(RoleType type) {
-            checkArgument(type != null, "Cannot have a null RoleType!");
             this.type = type;
             return this;
         }
@@ -743,7 +727,6 @@ public final class Role {
          * @param manaName customized name of Mana
          *
          * @return This builder, for chaining
-         * @throws IllegalArgumentException if the name is null or empty
          */
         public Builder setManaName(String manaName) {
             checkArgument(!manaName.isEmpty(), "Cannot have an empty Mana Name!");
@@ -838,7 +821,7 @@ public final class Role {
          */
         public Builder setItemDamageVaries(ItemType type, boolean doesDamageVary) {
             if (doesDamageVary) {
-                this.itemVaryingDamage.put(type, doesDamageVary);
+                this.itemVaryingDamage.put(type, true);
             } else {
                 this.itemVaryingDamage.remove(type);
             }
@@ -854,14 +837,12 @@ public final class Role {
          * @param section defining the settings for the skill being added to this Role
          *
          * @return The builder for chaining
-         * @throws IllegalArgumentException if the skill is null
-         * @throws IllegalArgumentException if the section is null
          * @throws IllegalArgumentException if the skill level node is not defined correctly
          * @throws IllegalArgumentException if the skill is listed in the restricted skills
          */
-        public Builder addRoleSkill(ISkill skill, ConfigurationSection section) {
+        public Builder addRoleSkill(ISkill skill, DataView section) {
             checkArgument(!skill.getName().isEmpty(), "Cannot have an empty Skill name!");
-            checkArgument(section.getInt(SkillSetting.LEVEL.node(), 0) >= 0,
+            checkArgument(section.getInt(SkillSetting.LEVEL.node()).isPresent(),
                     "Level not specified in the skill configuration!");
             checkArgument(!this.restrictedSkills.contains(skill.getName()),
                     "Cannot add a skill that is already restricted!");
@@ -875,7 +856,6 @@ public final class Role {
          * @param child The child being added to this role
          *
          * @return This builder for chaining
-         * @throws IllegalArgumentException if the child is null
          * @throws IllegalArgumentException if the child was already added as a parent
          */
         public Builder addChild(Role child) {
@@ -891,7 +871,6 @@ public final class Role {
          * @param parent The parent being added to this role
          *
          * @return This builder for chaining
-         * @throws IllegalArgumentException if the parent is null
          * @throws IllegalArgumentException if the parent was already added as a child
          */
         public Builder addParent(Role parent) {
@@ -908,7 +887,6 @@ public final class Role {
          * @param type The type of Experience that can be gained
          *
          * @return This builder for chaining
-         * @throws IllegalArgumentException If the type is null
          */
         public Builder addExperienceType(ExperienceType type) {
             this.experienceTypes.add(type);
@@ -921,7 +899,6 @@ public final class Role {
          * @param child The child to remove from the dependency list
          *
          * @return This builder for chaining
-         * @throws IllegalArgumentException If the child is null
          */
         public Builder removeChild(Role child) {
             checkArgument(!this.parents.contains(child.getName()),
@@ -954,7 +931,6 @@ public final class Role {
          * @param parent The parent to remove from the dependency list
          *
          * @return This builder for chaining
-         * @throws IllegalArgumentException If the parent is null
          * @throws IllegalArgumentException If the parent is also a child
          */
         public Builder removeParent(Role parent) {
@@ -971,8 +947,6 @@ public final class Role {
          * 0</li> <li>Health gains per level is not 0</li> <li>Mana per level is not 0</li> </ul>
          *
          * @return A newly constructed Role that can not be changed.
-         * @throws IllegalStateException If the description is null
-         * @throws IllegalStateException If the name is null
          * @throws IllegalStateException If maximum level has not been set
          * @throws IllegalStateException If the health at level zero has not been set
          * @throws IllegalStateException If the health per level gained is less than zero
@@ -997,7 +971,6 @@ public final class Role {
          * @param skill The skill to restrict
          *
          * @return This builder for chaining
-         * @throws IllegalArgumentException If the skill is null
          * @throws IllegalArgumentException If the skill is already in the granted skills list
          */
         public Builder addRestirctedSkill(ISkill skill) {
@@ -1014,7 +987,6 @@ public final class Role {
          * @param skill The skill to un-restrict
          *
          * @return This builder for chaining
-         * @throws IllegalArgumentException If the skill is null
          */
         public Builder removeRestrictedSkill(ISkill skill) {
             this.restrictedSkills.remove(skill.getName());

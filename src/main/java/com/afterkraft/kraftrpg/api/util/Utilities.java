@@ -27,39 +27,22 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
-import java.util.UUID;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Color;
-import org.bukkit.Material;
-import org.bukkit.OfflinePlayer;
-import org.bukkit.command.CommandSender;
-import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.configuration.MemoryConfiguration;
-import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.meta.BookMeta;
-import org.bukkit.inventory.meta.EnchantmentStorageMeta;
-import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.inventory.meta.LeatherArmorMeta;
-import org.bukkit.inventory.meta.PotionMeta;
-import org.bukkit.inventory.meta.SkullMeta;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
-import org.bukkit.util.StringUtil;
 import org.spongepowered.api.block.BlockType;
 import org.spongepowered.api.item.ItemType;
 import org.spongepowered.api.item.ItemTypes;
 import org.spongepowered.api.item.inventory.ItemStack;
+import org.spongepowered.api.potion.PotionEffect;
+import org.spongepowered.api.util.command.CommandSource;
 
+import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Lists;
 
 import com.afterkraft.kraftrpg.api.RpgCommon;
+
 
 /**
  * A standard utilities class containing various methods that are useful enough
@@ -82,204 +65,12 @@ public class Utilities {
     }
 
     @SuppressWarnings("unchecked")
-    public static ItemStack loadItem(Object root) {
-        ConfigurationSection section;
-        if (root == null) {
-            return null;
-        }
-        if (root instanceof ItemStack) {
-            return (ItemStack) root;
-        }
-        if (root instanceof ConfigurationSection) {
-            section = (ConfigurationSection) root;
-        } else if (root instanceof Map) {
-            MemoryConfiguration memorySection = new MemoryConfiguration();
-            memorySection.addDefaults((Map<String, Object>) root);
-            section = memorySection;
-        } else {
-            return null;
-        }
-
-        ItemStack item =
-                ItemStringInterpreter.valueOf(section.getString("item"));
-        if (item == null) {
-            return null;
-        }
-
-        // No addtl data? Return now
-        if (section.getKeys(true).equals(onlyItemKey)) {
-            return item;
-        }
-
-        ItemMeta meta = item.getItemMeta();
-
-        if (section.get("name") != null) {
-            meta.setDisplayName(ChatColor.translateAlternateColorCodes('&',
-                                                                       section.getString(
-                                                                               "name")));
-        }
-
-        if (section.get("lore") != null) {
-            List<String> lore = new ArrayList<>();
-            for (String str : section.getStringList("lore")) {
-                lore.add(ChatColor.translateAlternateColorCodes('&', str));
-            }
-            meta.setLore(lore);
-        }
-
-        if (section.getConfigurationSection("enchantments") != null) {
-            ConfigurationSection enchantSection =
-                    section.getConfigurationSection("enchantments");
-            if (meta instanceof EnchantmentStorageMeta) {
-                EnchantmentStorageMeta esMeta = (EnchantmentStorageMeta) meta;
-                for (String enchantStr : enchantSection.getKeys(false)) {
-                    Enchantment enchant = Enchantment.getByName(enchantStr);
-                    esMeta.addStoredEnchant(enchant,
-                                            enchantSection.getInt(enchantStr),
-                                            true);
-                }
-            } else {
-                for (String enchantStr : enchantSection.getKeys(false)) {
-                    Enchantment enchant = Enchantment.getByName(enchantStr);
-                    meta.addEnchant(enchant, enchantSection.getInt(enchantStr),
-                                    true);
-                }
-            }
-        }
-
-        if (meta instanceof BookMeta) {
-            if (section.get("pages") != null) {
-                List<String> pages = new ArrayList<>();
-                for (String page : section.getStringList("pages")) {
-                    pages.add(
-                            ChatColor.translateAlternateColorCodes('&', page));
-                }
-                ((BookMeta) meta).setPages(pages);
-            }
-        }
-
-        if (meta instanceof LeatherArmorMeta) {
-            Object obj = section.get("color");
-            if (obj instanceof String) {
-                ((LeatherArmorMeta) meta).setColor(parseColor((String) obj));
-            } else if (obj instanceof Color) {
-                ((LeatherArmorMeta) meta).setColor((Color) obj);
-            }
-        }
-
-        if (meta instanceof PotionMeta) {
-            List<?> effects = section.getList("effects");
-            if (effects != null) {
-                for (Object obj : effects) {
-                    PotionEffect effect = loadEffect(obj);
-                    if (effect != null) {
-                        ((PotionMeta) meta).addCustomEffect(effect, true);
-                    }
-                }
-            }
-        }
-
-        if (meta instanceof SkullMeta) {
-            String uuid = section.getString("uuid");
-            if (uuid != null) {
-                try {
-                    UUID u = UUID.fromString(uuid);
-                    OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(u);
-                    // FIXME
-                    ((SkullMeta) meta).setOwner(offlinePlayer.getName());
-                } catch (IllegalArgumentException ignored) {
-                    // Do nothing
-                }
-            }
-        }
-
-        item.setItemMeta(meta);
-        return item;
+    public static Optional<ItemStack> loadItem(Object root) {
+        return Optional.absent();
     }
 
-    public static Color parseColor(String str) {
-        String[] split = str.split(":");
-        int r;
-        int g;
-        int b;
-        try {
-            r = Integer.parseInt(split[0]);
-            g = Integer.parseInt(split[1]);
-            b = Integer.parseInt(split[2]);
-            return Color.fromRGB(r, g, b);
-        } catch (NumberFormatException e) {
-            return null;
-        } catch (ArrayIndexOutOfBoundsException e) {
-            return null;
-        } catch (IllegalArgumentException e) {
-            return null;
-        }
-    }
-
-    public static PotionEffect loadEffect(Object root) {
-        if (root instanceof PotionEffect) {
-            return (PotionEffect) root;
-        }
-        if (root instanceof ConfigurationSection) {
-            ConfigurationSection section = (ConfigurationSection) root;
-
-            PotionEffectType type =
-                    PotionEffectType.getByName(section.getString("type"));
-            if (type == null) {
-                type = RpgCommon.getHandler().getAlternatePotionEffectNames()
-                        .get(section.getString("type").toLowerCase());
-            }
-            if (type == null) {
-                return null;
-            }
-
-            int strength = section.getInt("level", 0);
-
-            int ticks = section.getInt("ticks", -1);
-            if (ticks != -1) {
-                return new PotionEffect(type, ticks, strength);
-            }
-
-            String time = section.getString("time");
-            if (time == null) {
-                return null;
-            }
-
-            Matcher matcher = timePattern.matcher(time);
-            if (!matcher.matches()) {
-                return null;
-            }
-
-            int quant = Integer.parseInt(matcher.group(1));
-            char unit = matcher.group(2).charAt(0);
-            switch (unit) {
-                // fallthrough
-                case 'd':
-                    quant *= 24;
-                    quant *= 60;
-                    quant *= 60;
-                    quant *= 20;
-                    break;
-                case 'h':
-                    quant *= 60;
-                    quant *= 60;
-                    quant *= 20;
-                    break;
-                case 'm':
-                    quant *= 60;
-                    quant *= 20;
-                    break;
-                case 's':
-                    quant *= 20;
-                    break;
-                case 't':
-                    break;
-                default:
-                    return null;
-            }
-            return new PotionEffect(type, quant, strength);
-        }
-        return null;
+    public static Optional<PotionEffect> loadEffect(Object root) {
+        return Optional.absent();
     }
 
     public static boolean isStandardWeapon(ItemType mat) {
@@ -343,6 +134,7 @@ public class Utilities {
         } else {
             return false;
         }
+        return false;
     }
 
     public static HashSet<Byte> getTransparentBlockIDs() {
@@ -355,37 +147,18 @@ public class Utilities {
 
     public static List<String> findMatches(String partial,
                                            List<String> candidates) {
-        if (partial == null || partial.isEmpty()) {
-            return candidates;
-        }
-
-        List<String> ret = new ArrayList<>();
-        // This is a Bukkit method!
-        StringUtil.copyPartialMatches(partial, candidates, ret);
-        return ret;
+        return Lists.newArrayList();
     }
 
     public static List<String> matchPlayers(String partial,
-                                            CommandSender sender) {
-        Player senderPlayer = sender instanceof Player ? (Player) sender : null;
+                                            CommandSource sender) {
 
-        ArrayList<String> matchedPlayers = new ArrayList<>();
-        for (Player player : sender.getServer().getOnlinePlayers()) {
-            String name = player.getName();
-            if ((senderPlayer == null || senderPlayer.canSee(player))
-                    && StringUtil.startsWithIgnoreCase(name, partial)) {
-                matchedPlayers.add(name);
-            }
-        }
-
-        Collections.sort(matchedPlayers, String.CASE_INSENSITIVE_ORDER);
-        return matchedPlayers;
+        return Lists.newArrayList();
     }
 
-    public static String minMaxString(double at0, double max, ChatColor color) {
-        return String.format("%3$s%1$.1f%4$s-%3$s%2$.1f%5$s", at0, max,
-                             color.toString(),
-                             ChatColor.WHITE.toString(),
-                             ChatColor.RESET.toString());
+    public static ItemStack copyOf(ItemStack itemStack) {
+        return RpgCommon.getGame().getRegistry().getItemBuilder()
+                .fromItemStack(itemStack).build();
     }
+
 }
