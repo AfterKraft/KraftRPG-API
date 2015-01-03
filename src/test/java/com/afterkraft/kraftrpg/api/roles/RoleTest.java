@@ -28,21 +28,22 @@ import java.util.Set;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
-import org.bukkit.Material;
-import org.bukkit.configuration.MemoryConfiguration;
 import org.easymock.EasyMockRunner;
 import org.hamcrest.CoreMatchers;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.spongepowered.api.item.ItemTypes;
 
 import com.google.common.collect.ImmutableSet;
 
 import com.afterkraft.kraftrpg.api.RPGPlugin;
 import com.afterkraft.kraftrpg.api.RPGTestCreator;
+import com.afterkraft.kraftrpg.api.entity.resource.Resources;
 import com.afterkraft.kraftrpg.api.skills.ISkill;
 import com.afterkraft.kraftrpg.api.skills.TestSkill;
+import com.afterkraft.kraftrpg.common.persistence.data.MemoryDataContainer;
 
 /**
  * Performs all tests on the Role object directly.
@@ -84,16 +85,16 @@ public class RoleTest {
                 .setDescription("A test role for KraftRPG-API Unit Tests.")
                 .setAdvancementLevel(1)
                 .setMaxLevel(1)
-                .setMpAt0(100)
-                .setMpRegenAt0(1)
-                .setMpPerLevel(10)
-                .setMpRegenPerLevel(1)
-                .setHpAt0(100)
-                .setHpPerLevel(10)
+                .setResourceAtZero(Resources.MANA, 100)
+                .setResourceBaseRegeneration(Resources.MANA, 1)
+                .setResourcePerLevel(Resources.MANA, 10)
+                .setResourceRegenerationPerLevel(Resources.MANA, 1)
+                .setResourceAtZero(Resources.HEALTH, 100)
+                .setResourcePerLevel(Resources.HEALTH, 10)
                 .setChoosable(true)
-                .setItemDamage(Material.DIAMOND_HOE, 10)
-                .setItemDamagePerLevel(Material.DIAMOND_HOE, 10)
-                .setItemDamageVaries(Material.DIAMOND_HOE, true)
+                .setItemDamage(ItemTypes.DIAMOND_HOE, 10)
+                .setItemDamagePerLevel(ItemTypes.DIAMOND_HOE, 10)
+                .setItemDamageVaries(ItemTypes.DIAMOND_HOE, true)
                 .build();
     }
 
@@ -113,33 +114,24 @@ public class RoleTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testNullManaName() {
-        Role.builder(this.plugin).setManaName(null);
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void testEmptyManaName() {
-        Role.builder(this.plugin).setManaName("");
-    }
-
-    @Test(expected = IllegalArgumentException.class)
     public void testNegativeMpPerLevel() {
-        Role.builder(this.plugin).setMpPerLevel(-1);
+        Role.builder(this.plugin).setResourcePerLevel(Resources.MANA, -1);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testSetMpAt0() {
-        Role.builder(this.plugin).setMpAt0(0);
+        Role.builder(this.plugin).setResourceAtZero(Resources.MANA, 0);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testSetHpAt0() {
-        Role.builder(this.plugin).setHpAt0(0);
+        Role.builder(this.plugin).setResourceAtZero(Resources.HEALTH, 0);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testSetHpAt0WithMaxNegative() {
-        Role.builder(this.plugin).setHpAt0(Integer.MIN_VALUE);
+        Role.builder(this.plugin).setResourceAtZero(Resources.HEALTH, Integer
+                                                            .MIN_VALUE);
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -164,7 +156,7 @@ public class RoleTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void testZeroItemDamage() {
-        Role.builder(this.plugin).setItemDamage(Material.DIAMOND_HOE, 0);
+        Role.builder(this.plugin).setItemDamage(ItemTypes.DIAMOND_HOE, 0);
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -174,7 +166,7 @@ public class RoleTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void testZeroItemDamagePerLevel() {
-        Role.builder(this.plugin).setItemDamagePerLevel(Material.DIAMOND_HOE, 0);
+        Role.builder(this.plugin).setItemDamagePerLevel(ItemTypes.DIAMOND_HOE, 0);
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -199,7 +191,7 @@ public class RoleTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void testAddNullSkill() {
-        Role.builder(this.plugin).addRoleSkill(null, new MemoryConfiguration());
+        Role.builder(this.plugin).addRoleSkill(null, new MemoryDataContainer());
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -219,13 +211,13 @@ public class RoleTest {
 
     @Test
     public void testValidAddSkill() {
-        Role.builder(this.plugin).addRoleSkill(this.testSkill, new MemoryConfiguration());
+        Role.builder(this.plugin).addRoleSkill(this.testSkill, new MemoryDataContainer());
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testAddRestrictedAndSkill() {
         Role.builder(this.plugin)
-                .addRoleSkill(this.testSkill, new MemoryConfiguration())
+                .addRoleSkill(this.testSkill, new MemoryDataContainer())
                 .addRestirctedSkill(this.testSkill);
     }
 
@@ -237,17 +229,17 @@ public class RoleTest {
                 .setDescription("A test role for KraftRPG-API Unit Tests.")
                 .setAdvancementLevel(1)
                 .setMaxLevel(1)
-                .setMpAt0(100)
-                .setMpRegenAt0(1)
-                .setMpPerLevel(10)
-                .setMpRegenPerLevel(1)
-                .setHpAt0(100)
-                .setHpPerLevel(10)
+                .setResourceAtZero(Resources.MANA, 100)
+                .setResourceBaseRegeneration(Resources.MANA, 1)
+                .setResourcePerLevel(Resources.MANA, 10)
+                .setResourceRegenerationPerLevel(Resources.MANA, 1)
+                .setResourceAtZero(Resources.HEALTH, 100)
+                .setResourcePerLevel(Resources.HEALTH, 10)
                 .setChoosable(true)
-                .setItemDamage(Material.DIAMOND_HOE, 10)
-                .setItemDamagePerLevel(Material.DIAMOND_HOE, 10)
-                .setItemDamageVaries(Material.DIAMOND_HOE, true)
-                .addRoleSkill(this.testSkill, new MemoryConfiguration())
+                .setItemDamage(ItemTypes.DIAMOND_HOE, 10)
+                .setItemDamagePerLevel(ItemTypes.DIAMOND_HOE, 10)
+                .setItemDamageVaries(ItemTypes.DIAMOND_HOE, true)
+                .addRoleSkill(this.testSkill, new MemoryDataContainer())
                 .build();
         test.getAllSkills();
         Set<ISkill> skills = ImmutableSet.<ISkill>builder().add(new TestSkill(this.plugin)).build();

@@ -27,11 +27,10 @@ import java.util.Collection;
 
 import org.spongepowered.api.entity.Entity;
 
-import com.typesafe.config.Config;
-
 import com.afterkraft.kraftrpg.api.entity.Champion;
 import com.afterkraft.kraftrpg.api.entity.SkillCaster;
 import com.afterkraft.kraftrpg.common.persistence.data.DataView;
+import com.afterkraft.kraftrpg.common.skills.Skill;
 
 /**
  * Represents a usable Skill for KraftRPG. The recommended use of implementation is {@link Skill}

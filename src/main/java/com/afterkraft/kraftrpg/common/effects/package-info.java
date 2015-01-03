@@ -21,31 +21,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.afterkraft.kraftrpg.api.skills;
 
-import java.util.ArrayList;
-import java.util.Collection;
-
-import com.afterkraft.kraftrpg.api.RPGPlugin;
-import com.afterkraft.kraftrpg.api.entity.SkillCaster;
-import com.afterkraft.kraftrpg.common.skills.ActiveSkill;
-
-/**
- * Default skill for Test Skill
- */
-public class TestSkill extends ActiveSkill {
-
-    public TestSkill(RPGPlugin plugin) {
-        super(plugin, "TestSkill");
-    }
-
-    @Override
-    public SkillCastResult useSkill(SkillCaster caster) {
-        return SkillCastResult.NORMAL;
-    }
-
-    @Override
-    public Collection<SkillSetting> getUsedConfigNodes() {
-        return new ArrayList<SkillSetting>();
-    }
-}
+@org.spongepowered.api.util.annotation.NonnullByDefault
+package com.afterkraft.kraftrpg.common.effects;

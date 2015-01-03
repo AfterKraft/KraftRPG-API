@@ -24,5 +24,24 @@
 
 package com.afterkraft.kraftrpg.api.entity.resource;
 
+/**
+ * Represents a resource made availalbe on entities that can be used by
+ * skills and various other interactions.
+ */
 public interface Resource {
+
+    /**
+     * Gets the name of this resource.
+     *
+     * @return The name of this resource
+     */
+    String getName();
+
+    /**
+     * Gets the type of this resource.
+     *
+     * @return The type of this resource
+     */
+    ResourceType getType();
+
 }

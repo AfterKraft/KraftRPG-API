@@ -21,31 +21,15 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.afterkraft.kraftrpg.api.skills;
 
-import java.util.ArrayList;
-import java.util.Collection;
+package com.afterkraft.kraftrpg.api.entity.resource;
 
-import com.afterkraft.kraftrpg.api.RPGPlugin;
-import com.afterkraft.kraftrpg.api.entity.SkillCaster;
-import com.afterkraft.kraftrpg.common.skills.ActiveSkill;
+public interface ResourceType {
 
-/**
- * Default skill for Test Skill
- */
-public class TestSkill extends ActiveSkill {
-
-    public TestSkill(RPGPlugin plugin) {
-        super(plugin, "TestSkill");
-    }
-
-    @Override
-    public SkillCastResult useSkill(SkillCaster caster) {
-        return SkillCastResult.NORMAL;
-    }
-
-    @Override
-    public Collection<SkillSetting> getUsedConfigNodes() {
-        return new ArrayList<SkillSetting>();
-    }
+    /**
+     * Gets the name of this resource type.
+     *
+     * @return The name of this resource type
+     */
+    String getName();
 }

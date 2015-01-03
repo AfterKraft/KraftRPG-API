@@ -21,31 +21,43 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.afterkraft.kraftrpg.api.skills;
-
-import java.util.ArrayList;
-import java.util.Collection;
+package com.afterkraft.kraftrpg.common.skills.common;
 
 import com.afterkraft.kraftrpg.api.RPGPlugin;
+import com.afterkraft.kraftrpg.api.effects.common.Imbuing;
+import com.afterkraft.kraftrpg.common.effects.common.WeaponImbuingEffect;
 import com.afterkraft.kraftrpg.api.entity.SkillCaster;
 import com.afterkraft.kraftrpg.common.skills.ActiveSkill;
+import com.afterkraft.kraftrpg.api.skills.SkillCastResult;
 
 /**
- * Default skill for Test Skill
+ * A default implementation of an {@link ImbuingSkill} that applies a default {@link
+ * WeaponImbuingEffect}. This is a common Skill that is intended to be extended and override the
+ * following: <ul> <li>{@link #addImbueEffect(SkillCaster, int)}</li> </ul> Extended skills do not
+ * need to override {@link #useSkill(SkillCaster)}  The purpose of this skill is to simplify
+ * applying a customized {@link Imbuing} effect on a weapon and handle the various uses cases of
+ * events and such.
  */
-public class TestSkill extends ActiveSkill {
+public abstract class WeaponImbuingSkill extends ActiveSkill implements ImbuingSkill {
 
-    public TestSkill(RPGPlugin plugin) {
-        super(plugin, "TestSkill");
+    protected WeaponImbuingSkill(RPGPlugin plugin, String name) {
+        super(plugin, name);
+        setDefault(CommonSettings.IMBUED_MAX_USE_COUNT, 1);
+
     }
 
     @Override
     public SkillCastResult useSkill(SkillCaster caster) {
+        int maxShots = this.plugin.getSkillConfigManager().getUsedIntSetting(caster, this,
+                CommonSettings.IMBUED_MAX_USE_COUNT);
+        this.addImbueEffect(caster, maxShots);
         return SkillCastResult.NORMAL;
     }
 
     @Override
-    public Collection<SkillSetting> getUsedConfigNodes() {
-        return new ArrayList<SkillSetting>();
+    public void addImbueEffect(SkillCaster caster, int maxUses) {
+        WeaponImbuingEffect effect =
+                new WeaponImbuingEffect(this, caster, "WeaponUseImbuingEffect");
+        caster.addEffect(effect);
     }
 }

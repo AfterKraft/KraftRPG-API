@@ -38,6 +38,9 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 
 import com.afterkraft.kraftrpg.api.RPGPlugin;
+import com.afterkraft.kraftrpg.api.entity.resource.Resource;
+import com.afterkraft.kraftrpg.api.entity.resource.ResourceType;
+import com.afterkraft.kraftrpg.api.entity.resource.Resources;
 import com.afterkraft.kraftrpg.api.skills.ISkill;
 import com.afterkraft.kraftrpg.api.skills.SkillSetting;
 import com.afterkraft.kraftrpg.common.persistence.data.DataUtil;
@@ -66,17 +69,14 @@ public final class Role {
     private final Set<String> children;
     private final Set<String> parents;
     private final RoleType type;
+    private final Map<ResourceType, Double> resourceMinimum;
+    private final Map<ResourceType, Double> resourceRegeneration;
+    private final Map<ResourceType, Double> resourcePerLevel;
+    private final Map<ResourceType, Double> resourceRegenerationPerLevel;
     private final int advancementLevel;
     private final int maxLevel;
     private final boolean choosable;
     private final String description;
-    private final String manaName;
-    private final double hpAt0;
-    private final double hpPerLevel;
-    private final int mpAt0;
-    private final int mpPerLevel;
-    private final int mpRegenAt0;
-    private final int mpRegenPerLevel;
 
     private Role(Builder builder) {
         this.plugin = builder.plugin;
@@ -84,16 +84,34 @@ public final class Role {
         this.type = builder.type;
         this.choosable = builder.choosable;
         this.description = builder.description;
-        this.manaName = builder.manaName;
-        this.hpAt0 = builder.hpAt0;
-        this.hpPerLevel = builder.hpPerLevel;
-        this.mpAt0 = builder.mpAt0;
-        this.mpPerLevel = builder.mpPerLevel;
-        this.mpRegenAt0 = builder.mpRegenAt0;
-        this.mpRegenPerLevel = builder.mpRegenPerLevel;
         this.advancementLevel = builder.advancementLevel;
         this.maxLevel = builder.maxLevel;
 
+        ImmutableMap.Builder<ResourceType, Double> resourceBuilder =
+                ImmutableMap.builder();
+        for (Map.Entry<ResourceType, Double> entry : builder.resourceMinimum
+                .entrySet()) {
+            resourceBuilder.put(entry.getKey(), entry.getValue());
+        }
+        ImmutableMap.Builder<ResourceType, Double> resourceRegenBuilder =
+                ImmutableMap.builder();
+        for (Map.Entry<ResourceType, Double> entry : builder.resourceRegeneration
+                .entrySet()) {
+            resourceRegenBuilder.put(entry.getKey(), entry.getValue());
+        }
+        ImmutableMap.Builder<ResourceType, Double> resourcePerLevelBuilder =
+                ImmutableMap.builder();
+        for (Map.Entry<ResourceType, Double> entry : builder.resourcePerLevel
+                .entrySet()) {
+            resourcePerLevelBuilder.put(entry.getKey(), entry.getValue());
+        }
+        ImmutableMap.Builder<ResourceType, Double>
+                resourceRegenPerLevelBuilder =
+                ImmutableMap.builder();
+        for (Map.Entry<ResourceType, Double> entry : builder.resourceRegenerationPerLevel
+                .entrySet()) {
+            resourceRegenPerLevelBuilder.put(entry.getKey(), entry.getValue());
+        }
         ImmutableMap.Builder<ItemType, Double> itemDamagesBuilder = ImmutableMap.builder();
         for (Map.Entry<ItemType, Double> entry : builder.itemDamages.entrySet()) {
             itemDamagesBuilder.put(entry.getKey(), entry.getValue());
@@ -135,6 +153,10 @@ public final class Role {
         for (ItemType type : builder.allowedWeapon) {
             allowedWeaponBuilder.add(type);
         }
+        this.resourceMinimum = resourceBuilder.build();
+        this.resourceRegeneration = resourceRegenBuilder.build();
+        this.resourcePerLevel = resourcePerLevelBuilder.build();
+        this.resourceRegenerationPerLevel = resourceRegenPerLevelBuilder.build();
         this.skills = skillBuilder.build();
         this.allowedExperience = experienceTypeBuilder.build();
         this.itemDamages = itemDamagesBuilder.build();
@@ -151,14 +173,20 @@ public final class Role {
      * Construct a Role. It is necessary to provide the link to {@link
      * com.afterkraft.kraftrpg.api.RPGPlugin} as many of the operations performed in a Role use it.
      *
-     * @param plugin implementation of KraftRPG
+     * @param plugin The implementation of KraftRPG
      *
-     * @return a builder
+     * @return This builder
      */
     public static Builder builder(RPGPlugin plugin) {
         return new Builder(plugin);
     }
 
+    /**
+     * Creates a builder using a role as a template for further modification.
+     *
+     * @param role The role to copy
+     * @return This builder
+     */
     public static Builder copyOf(Role role) {
         Builder builder = new Builder(role.plugin)
                 .setName(role.name)
@@ -166,15 +194,25 @@ public final class Role {
                 .setMaxLevel(role.maxLevel)
                 .setChoosable(role.choosable)
                 .setDescription(role.description)
-                .setHpAt0(role.hpAt0)
-                .setHpPerLevel(role.hpPerLevel)
-                .setMpAt0(role.mpAt0)
-                .setMpRegenAt0(role.mpRegenAt0)
-                .setMpPerLevel(role.mpPerLevel)
-                .setMpRegenPerLevel(role.mpRegenPerLevel)
-                .setManaName(role.manaName)
                 .setType(role.type);
 
+        for (Map.Entry<ResourceType, Double> entry : role.resourceMinimum
+                .entrySet()) {
+            builder.setResourceAtZero(entry.getKey(), entry.getValue());
+        }
+        for (Map.Entry<ResourceType, Double> entry : role.resourcePerLevel
+                .entrySet()) {
+            builder.setResourcePerLevel(entry.getKey(), entry.getValue());
+        }
+        for (Map.Entry<ResourceType, Double> entry : role.resourceRegeneration
+                .entrySet()) {
+            builder.setResourceBaseRegeneration(entry.getKey(),
+                                                entry.getValue());
+        }
+        for (Map.Entry<ResourceType, Double> entry : role.resourceRegenerationPerLevel
+                .entrySet()) {
+            builder.setResourceRegenerationPerLevel(entry.getKey(), entry.getValue());
+        }
         for (Map.Entry<ItemType, Double> entry : role.itemDamages.entrySet()) {
             builder.setItemDamage(entry.getKey(), entry.getValue());
         }
@@ -201,6 +239,12 @@ public final class Role {
         return builder;
     }
 
+    /**
+     * Gets the maximum level that can be achieved with this Role.
+     *
+     * @return The maximum level that can be achieved with this role
+     */
+    @SuppressWarnings("unused")
     public int getMaxLevel() {
         return this.maxLevel;
     }
@@ -208,7 +252,7 @@ public final class Role {
     /**
      * Get the type of Role this is.
      *
-     * @return the {@link RoleType}
+     * @return The {@link RoleType}
      */
     public final RoleType getType() {
         return this.type;
@@ -217,7 +261,7 @@ public final class Role {
     /**
      * Return the configured name for this Role
      *
-     * @return the name for this role
+     * @return The name for this role
      */
     public String getName() {
         return this.name;
@@ -226,11 +270,12 @@ public final class Role {
     /**
      * Check if the specified skill is granted at the specified level, if not before the level.
      *
-     * @param skill to query
-     * @param level to check
+     * @param skill The skill to query
+     * @param level The level to check
      *
-     * @return true if the skill is granted at the level or before
+     * @return True if the skill is granted at the level or before
      */
+    @SuppressWarnings("unused")
     public boolean hasSkillAtLevel(ISkill skill, int level) {
         return this.skills.containsKey(skill.getName())
                 && this.skills.get(skill.getName()).getLevel() <= level;
@@ -246,7 +291,8 @@ public final class Role {
      * @return a copy of the configuration section
      * @throws RoleSkillConfigurationException if there is an error in the Role configuration
      */
-    public Optional<? extends DataView> getSkillConfigIfAvailable(ISkill skill,
+    @SuppressWarnings("unused")
+    public Optional<DataView> getSkillConfigIfAvailable(ISkill skill,
                                                                int level)
             throws RoleSkillConfigurationException {
         if (hasSkill(skill)) {
@@ -259,8 +305,8 @@ public final class Role {
             }
             RoleSkill rs = this.skills.get(skill.getName());
             if (rs.getLevel() <= level) {
-                return Optional.fromNullable(
-                        DataUtil.copyFromExisiting(rs.getConfig()));
+                return Optional.<DataView>fromNullable(
+                        DataUtil.copyFromExisiting(rs.getConfig()).get());
             }
         }
         return Optional.absent();
@@ -274,10 +320,18 @@ public final class Role {
      *
      * @return true if the skill is defined
      */
+    @SuppressWarnings("unused")
     public boolean hasSkill(ISkill skill) {
         return this.skills.containsKey(skill.getName());
     }
 
+    /**
+     * Checks whether the given skill is considered restricted by this role.
+     *
+     * @param skill The skill to check
+     * @return Whether the skill is restricted
+     */
+    @SuppressWarnings("unused")
     public boolean isSkillRestricted(ISkill skill) {
         return this.restrictedSkills.contains(skill.getName());
     }
@@ -291,6 +345,7 @@ public final class Role {
      * @throws RoleSkillConfigurationException if the skill does not have a skill configuration for
      *                                         the level required
      */
+    @SuppressWarnings("unused")
     public int getLevelRequired(ISkill skill) throws RoleSkillConfigurationException {
         if (!this.skills.containsKey(skill.getName())) {
             throw new RoleSkillConfigurationException("A skill: " + skill.getName()
@@ -304,6 +359,7 @@ public final class Role {
      *
      * @return an immutable set of all defined skills
      */
+    @SuppressWarnings("unused")
     public Set<ISkill> getAllSkills() {
         ImmutableSet.Builder<ISkill> builder = ImmutableSet.builder();
         for (String skillName : this.skills.keySet()) {
@@ -322,6 +378,7 @@ public final class Role {
      * @return the skills granted up to the specified level.
      * @throws IllegalArgumentException if the level is negative
      */
+    @SuppressWarnings("unused")
     public Set<ISkill> getAllSkillsAtLevel(int level) {
         ImmutableSet.Builder<ISkill> builder = ImmutableSet.builder();
         for (Map.Entry<String, RoleSkill> entry : this.skills.entrySet()) {
@@ -339,6 +396,7 @@ public final class Role {
      *
      * @return an immutable set of roles that are this role's parents
      */
+    @SuppressWarnings("unused")
     public Set<Role> getParents() {
         ImmutableSet.Builder<Role> builder = ImmutableSet.builder();
         for (String roleName : this.parents) {
@@ -352,6 +410,7 @@ public final class Role {
      *
      * @return an immutable set of roles that are this role's children
      */
+    @SuppressWarnings("unused")
     public Set<Role> getChildren() {
         ImmutableSet.Builder<Role> builder = ImmutableSet.builder();
         for (String roleName : this.children) {
@@ -365,6 +424,7 @@ public final class Role {
      *
      * @return true if this role is the default role
      */
+    @SuppressWarnings("unused")
     public boolean isDefault() {
         if (this.type == RoleType.PRIMARY && this.plugin.getRoleManager()
                 .getDefaultPrimaryRole().isPresent()) {
@@ -379,105 +439,33 @@ public final class Role {
     }
 
     /**
-     * Gets the max health at the specified level
+     * Gets the calculated amount of the given resource at the given level.
      *
-     * @param level specified
-     *
-     * @return the max health at the specified level
-     * @throws IllegalArgumentException if the level is less than 0
+     * @param type The resource type
+     * @param level The level
+     * @return The calculated resource, if availalbe and defined by this role
      */
-    public double getMaxHealthAtLevel(int level) {
-        checkArgument(level >= 0, "Cannot calculate for a negative Role level!");
-        return this.hpAt0 + this.hpPerLevel * level;
+    public Optional<Double> getResourceAtLevel(ResourceType type, int level) {
+        if (!this.resourceMinimum.containsKey(type)) {
+            return Optional.absent();
+        }
+        double zero = this.resourceMinimum.get(type);
+        if (!this.resourceRegeneration.containsKey(type)) {
+            return Optional.of(zero);
+        }
+        return Optional.of(zero + level * this.resourceRegeneration.get(type));
+
     }
 
     /**
-     * Gets the max mana at the specified level
+     * Gets the desired resource per level.
      *
-     * @param level specified
-     *
-     * @return the max mana at the specified level
-     * @throws IllegalArgumentException if the level is less than 0
+     * @param type The type of resource
+     * @return THe resource regeneration
      */
-    public int getMaxManaAtLevel(int level) {
-        checkArgument(level >= 0, "Cannot calculate for a negative Role level!");
-        return (int) (this.mpAt0 + this.mpPerLevel * level);
-    }
-
-    /**
-     * Gets the max health at the specified level
-     *
-     * @param level specified
-     *
-     * @return the max health at the specified level
-     * @throws IllegalArgumentException if the level is less than 0
-     */
-    public int getManaRegenAtLevel(int level) {
-        checkArgument(level >= 0, "Cannot calculate for a negative Role level!");
-        return this.mpRegenAt0 + this.mpRegenPerLevel * level;
-    }
-
-    /**
-     * Gets the customized (if not default) name of mana for this role.
-     *
-     * @return the customized name of Mana
-     */
-    public String getManaName() {
-        return this.manaName;
-    }
-
-    /**
-     * Gets the maximum health at level 0.
-     *
-     * @return the maximum health at level 0.
-     */
-    public double getMaxHealthAtZero() {
-        return this.hpAt0;
-    }
-
-    /**
-     * Gets the maximum health increase per level.
-     *
-     * @return the maximum health increase per level
-     */
-    public double getHeatlhIncreasePerLevel() {
-        return this.hpPerLevel;
-    }
-
-    /**
-     * Gets the maximum mana at level 0.
-     *
-     * @return the maximum mana at level 0
-     */
-    public double getMaxManaAtZero() {
-        return this.mpAt0;
-    }
-
-    /**
-     * Gets the maximum mana increase per level.
-     *
-     * @return the maximum mana increase per level
-     */
-    public double getManaIncreasePerLevel() {
-        return this.mpPerLevel;
-    }
-
-    /**
-     * Gets the mana regeneration at level 0.
-     *
-     * @return the mana regeneration at level 0
-     */
-    public double getManaRegenAtZero() {
-        return this.mpRegenAt0;
-    }
-
-    /**
-     * Gets the mana regeneration increase per level.
-     *
-     * @return the mana regeneration increase per level
-     */
-    public double getManaRegenIncreasePerLevel() {
-        return this.mpRegenPerLevel;
+    public Optional<Double> getResourcePerLevel(ResourceType type) {
+        return this.resourceRegeneration.containsKey(type)
+                ? Optional.of(this.resourceRegeneration.get(type)) : Optional.<Double>absent();
     }
 
     /**
@@ -486,6 +474,7 @@ public final class Role {
      *
      * @return can be chosen
      */
+    @SuppressWarnings("unused")
     public boolean isChoosable() {
         return this.choosable;
     }
@@ -495,6 +484,7 @@ public final class Role {
      *
      * @return the level that this role is eligible for advancement to a child role
      */
+    @SuppressWarnings("unused")
     public int getAdvancementLevel() {
         return this.advancementLevel;
     }
@@ -507,6 +497,7 @@ public final class Role {
      *
      * @return the damage for the perscribed material, if not 0
      */
+    @SuppressWarnings("unused")
     public double getItemDamage(ItemType type) {
         return this.itemDamages.containsKey(type) ? this.itemDamages.get(type) : 0.0D;
     }
@@ -520,6 +511,7 @@ public final class Role {
      *
      * @return true if this Role is configured to have varying damage for the item
      */
+    @SuppressWarnings("unused")
     public boolean doesItemVaryDamage(ItemType type) {
         return this.itemVaryingDamage.containsKey(type) ? this.itemVaryingDamage.get(type) : false;
     }
@@ -532,6 +524,7 @@ public final class Role {
      *
      * @return the damage increase per level if not 0
      */
+    @SuppressWarnings("unused")
     public Optional<Double> getItemDamagePerLevel(ItemType type) {
         return Optional.fromNullable(this.itemDamagePerLevel.get(type));
     }
@@ -543,6 +536,7 @@ public final class Role {
      *
      * @return True if the material is allowed as an armor piece
      */
+    @SuppressWarnings("unused")
     public boolean isArmorAllowed(ItemType type) {
         return this.allowedArmor.contains(type);
     }
@@ -554,6 +548,7 @@ public final class Role {
      *
      * @return True if the material is allowed as a weapon
      */
+    @SuppressWarnings("unused")
     public boolean isWeaponAllowed(ItemType type) {
         return this.allowedWeapon.contains(type);
     }
@@ -563,6 +558,7 @@ public final class Role {
      *
      * @return the description of this role
      */
+    @SuppressWarnings("unused")
     public String getDescription() {
         return this.description;
     }
@@ -574,6 +570,7 @@ public final class Role {
      *
      * @return True if the type of experience can be gained
      */
+    @SuppressWarnings("unused")
     public boolean canGainExperience(ExperienceType type) {
         return this.allowedExperience.contains(type);
     }
@@ -593,12 +590,10 @@ public final class Role {
         hash = hash * PRIME + this.restrictedSkills.hashCode();
         hash = hash * PRIME + this.children.hashCode();
         hash = hash * PRIME + this.parents.hashCode();
-        hash = hash * PRIME + (int) this.hpAt0;
-        hash = hash * PRIME + (int) this.hpPerLevel;
-        hash = hash * PRIME + this.mpAt0;
-        hash = hash * PRIME + this.mpPerLevel;
-        hash = hash * PRIME + this.mpRegenAt0;
-        hash = hash * PRIME + this.mpRegenPerLevel;
+        hash = hash * PRIME + this.resourceMinimum.hashCode();
+        hash = hash * PRIME + this.resourcePerLevel.hashCode();
+        hash = hash * PRIME + this.resourceRegeneration.hashCode();
+        hash = hash * PRIME + this.resourceRegenerationPerLevel.hashCode();
         hash = hash * PRIME + this.type.hashCode();
         hash = hash * PRIME + this.advancementLevel;
         hash = hash * PRIME + this.maxLevel;
@@ -629,19 +624,19 @@ public final class Role {
                 && this.maxLevel == role.maxLevel
                 && this.children.equals(role.children)
                 && this.parents.equals(role.parents)
-                && this.hpAt0 == role.hpAt0
-                && this.hpPerLevel == role.hpPerLevel
-                && this.mpAt0 == role.mpAt0
-                && this.mpPerLevel == role.mpPerLevel
-                && this.mpRegenAt0 == role.mpRegenAt0
-                && this.mpRegenPerLevel == role.mpRegenPerLevel;
+                && this.resourceMinimum.equals(role.resourceMinimum)
+                && this.resourcePerLevel.equals(role.resourcePerLevel)
+                && this.resourceRegeneration.equals(role.resourceRegeneration)
+                && this.resourceRegenerationPerLevel.equals(role
+                                                                    .resourceRegenerationPerLevel);
     }
 
     /**
      * Creates a copy of this current role with all settings.
      *
-     * @return a copy of this Role
+     * @return A copy of this Role
      */
+    @SuppressWarnings("unused")
     public Role asNewCopy() {
         return copyOf(this).build();
     }
@@ -685,6 +680,10 @@ public final class Role {
         Map<ItemType, Double> itemDamages = new HashMap<>();
         Map<ItemType, Double> itemDamagePerLevel = new HashMap<>();
         Map<ItemType, Boolean> itemVaryingDamage = new HashMap<>();
+        Map<ResourceType, Double> resourceMinimum = new HashMap<>();
+        Map<ResourceType, Double> resourcePerLevel = new HashMap<>();
+        Map<ResourceType, Double> resourceRegeneration = new HashMap<>();
+        Map<ResourceType, Double> resourceRegenerationPerLevel = new HashMap<>();
         Set<ExperienceType> experienceTypes = new HashSet<>();
         Set<ItemType> allowedArmor = new HashSet<>();
         Set<ItemType> allowedWeapon = new HashSet<>();
@@ -696,13 +695,6 @@ public final class Role {
         int maxLevel = 1;
         boolean choosable = true;
         String description;
-        String manaName = "Mana";
-        double hpAt0 = 20;
-        double hpPerLevel;
-        int mpAt0 = 100;
-        int mpPerLevel;
-        int mpRegenAt0 = 1;
-        int mpRegenPerLevel;
 
         Builder(RPGPlugin plugin) {
             this.plugin = plugin;
@@ -720,51 +712,38 @@ public final class Role {
             return this;
         }
 
-        /**
-         * Set the visible mana name for the role. This name is used to describe to players their
-         * current count of the "mana" resource.
-         *
-         * @param manaName customized name of Mana
-         *
-         * @return This builder, for chaining
-         */
-        public Builder setManaName(String manaName) {
-            checkArgument(!manaName.isEmpty(), "Cannot have an empty Mana Name!");
-            this.manaName = manaName;
+        public Builder setResourceAtZero(ResourceType type, double minimum) {
+            checkArgument(minimum > 0);
+            this.resourceMinimum.put(type, minimum);
             return this;
         }
 
-        public Builder setMpRegenPerLevel(int mpRegenPerLevel) {
-            this.mpRegenPerLevel = mpRegenPerLevel;
+        public Builder setResourcePerLevel(ResourceType type, double increase) {
+            if (type.equals(Resources.HEALTH)) {
+                checkArgument(increase >= 0, "Health increase per level can "
+                        + "not be negative!");
+            }
+            this.resourcePerLevel.put(type, increase);
             return this;
         }
 
-        public Builder setMpPerLevel(int mpPerLevel) {
-            checkArgument(mpPerLevel >= 0, "Cannot have a negative mana gained per level!");
-            this.mpPerLevel = mpPerLevel;
+        public Builder setResourceBaseRegeneration(ResourceType type, double
+                regen) {
+            if (type.equals(Resources.HEALTH)) {
+                checkArgument(regen > 0, "Health regeneration must be above "
+                        + "zero");
+            }
+            this.resourceRegeneration.put(type, regen);
             return this;
         }
 
-        public Builder setMpRegenAt0(int mpRegenAt0) {
-            this.mpRegenAt0 = mpRegenAt0;
-            return this;
-        }
-
-        public Builder setMpAt0(int mpAt0) {
-            checkArgument(mpAt0 > 0, "Cannot have a zero or negative starting Mana!");
-            this.mpAt0 = mpAt0;
-            return this;
-        }
-
-        public Builder setHpPerLevel(double hpPerLevel) {
-            checkArgument(hpPerLevel >= 0, "Cannot have a negative health gained per level!");
-            this.hpPerLevel = hpPerLevel;
-            return this;
-        }
-
-        public Builder setHpAt0(double hpAt0) {
-            checkArgument(hpAt0 > 0, "Cannot have a zero or negative starting health!");
-            this.hpAt0 = hpAt0;
+        public Builder setResourceRegenerationPerLevel(ResourceType type,
+                                                       double regen) {
+            if (type.equals(Resources.HEALTH)) {
+                checkArgument(regen > 0, "Health regeneration must be above "
+                        + "zero");
+            }
+            this.resourceRegenerationPerLevel.put(type, regen);
             return this;
         }
 
@@ -956,11 +935,12 @@ public final class Role {
         public Role build() {
             checkState(this.advancementLevel > 0, "Cannot have a zero advancement level!");
             checkState(this.maxLevel > 0, "Cannot have a zero max level!");
-            checkState(this.hpAt0 > 0, "Cannot have a zero or negative health at level zero!");
-            checkState(this.hpPerLevel > 0, "Cannot have a negative health per level!");
-            checkState(this.mpPerLevel > 0
-                            || this.mpAt0 > (this.maxLevel * this.mpPerLevel + this.mpAt0),
-                    "Cannot have a negative mana value at max level!");
+            checkState(this.resourceMinimum.containsKey(Resources.HEALTH)
+                               && this.resourceMinimum.get(Resources.HEALTH) > 0,
+                    "Cannot have a zero or negative health at level zero!");
+            checkState(this.resourceRegeneration.containsKey(Resources.HEALTH)
+                               && this.resourceRegeneration.get(Resources.HEALTH) > 0,
+                       "Cannot have a negative health per level!");
             return new Role(this);
         }
 

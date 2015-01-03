@@ -27,6 +27,7 @@ import org.spongepowered.api.entity.Entity;
 
 import com.afterkraft.kraftrpg.api.entity.IEntity;
 import com.afterkraft.kraftrpg.api.entity.SkillCaster;
+import com.afterkraft.kraftrpg.common.skills.TargetedSkill;
 
 /**
  * A Targeted skill is an Active skill that requires an {@link IEntity} target. The skill will

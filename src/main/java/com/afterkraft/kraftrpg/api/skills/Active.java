@@ -28,6 +28,7 @@ import java.util.List;
 import com.google.common.base.Optional;
 
 import com.afterkraft.kraftrpg.api.entity.SkillCaster;
+import com.afterkraft.kraftrpg.common.skills.ActiveSkill;
 
 /**
  * Represents a Skill that only has results on activation through command or binding. As this is an

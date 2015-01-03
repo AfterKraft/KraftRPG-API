@@ -21,31 +21,25 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.afterkraft.kraftrpg.api.skills;
+package com.afterkraft.kraftrpg.common.skills.common;
 
-import java.util.ArrayList;
-import java.util.Collection;
-
-import com.afterkraft.kraftrpg.api.RPGPlugin;
+import com.afterkraft.kraftrpg.api.effects.common.Imbuing;
 import com.afterkraft.kraftrpg.api.entity.SkillCaster;
-import com.afterkraft.kraftrpg.common.skills.ActiveSkill;
+import com.afterkraft.kraftrpg.api.skills.Active;
 
 /**
- * Default skill for Test Skill
+ * A standard {@link com.afterkraft.kraftrpg.api.skills.ISkill} that will apply a {@link
+ * com.afterkraft.kraftrpg.api.effects.common.Imbuing} effect on skill use. It has a default
+ * implementation with the following common abstract skills: <ul> <li>{@link ArrowSkill}</li> </ul>
  */
-public class TestSkill extends ActiveSkill {
+public interface ImbuingSkill extends Active {
 
-    public TestSkill(RPGPlugin plugin) {
-        super(plugin, "TestSkill");
-    }
-
-    @Override
-    public SkillCastResult useSkill(SkillCaster caster) {
-        return SkillCastResult.NORMAL;
-    }
-
-    @Override
-    public Collection<SkillSetting> getUsedConfigNodes() {
-        return new ArrayList<SkillSetting>();
-    }
+    /**
+     * Abstract callback method by all implementations to apply an {@link Imbuing} effect according
+     * to the provided SkillCaster.
+     *
+     * @param caster  The caster using this skill.
+     * @param maxUses The configured max uses for the Imbued effect.
+     */
+    void addImbueEffect(SkillCaster caster, int maxUses);
 }

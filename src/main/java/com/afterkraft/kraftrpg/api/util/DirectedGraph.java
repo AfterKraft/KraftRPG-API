@@ -111,6 +111,14 @@ public class DirectedGraph<T> {
         this.vertexes.put(from, vertex);
     }
 
+    /**
+     * Checks whether this graph contains a path that cycles itself.
+     *
+     * <p>The performance costs of this method involves a full depth first
+     * search.</p>
+     *
+     * @return True if there is a cycle that exists
+     */
     public boolean doesCycleExist() {
         ArrayList<Edge<T>> cycleEdges = new ArrayList<>();
         // Mark all verticies as white

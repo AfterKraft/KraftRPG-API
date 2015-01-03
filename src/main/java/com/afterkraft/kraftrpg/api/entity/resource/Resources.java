@@ -21,31 +21,27 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.afterkraft.kraftrpg.api.skills;
 
-import java.util.ArrayList;
-import java.util.Collection;
+package com.afterkraft.kraftrpg.api.entity.resource;
 
-import com.afterkraft.kraftrpg.api.RPGPlugin;
-import com.afterkraft.kraftrpg.api.entity.SkillCaster;
-import com.afterkraft.kraftrpg.common.skills.ActiveSkill;
+import com.google.common.base.Optional;
 
 /**
- * Default skill for Test Skill
+ * An enumeration of various resources made available by default.
  */
-public class TestSkill extends ActiveSkill {
+public final class Resources {
 
-    public TestSkill(RPGPlugin plugin) {
-        super(plugin, "TestSkill");
+    // TODO fill these with with proper values from registration or something
+    public static final ResourceType HEALTH = null;
+    public static final ResourceType MANA = null;
+    public static final ResourceType STAMINA = null;
+
+    private Resources() {
+
     }
 
-    @Override
-    public SkillCastResult useSkill(SkillCaster caster) {
-        return SkillCastResult.NORMAL;
-    }
-
-    @Override
-    public Collection<SkillSetting> getUsedConfigNodes() {
-        return new ArrayList<SkillSetting>();
+    public static Optional<ResourceType> getResourceByName(String name) {
+        // TODO Complete registration from somewhere.
+        return Optional.absent();
     }
 }

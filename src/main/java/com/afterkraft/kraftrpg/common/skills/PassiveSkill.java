@@ -21,31 +21,54 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.afterkraft.kraftrpg.api.skills;
+package com.afterkraft.kraftrpg.common.skills;
 
-import java.util.ArrayList;
-import java.util.Collection;
+import org.bukkit.configuration.Configuration;
 
 import com.afterkraft.kraftrpg.api.RPGPlugin;
+import com.afterkraft.kraftrpg.api.entity.Champion;
 import com.afterkraft.kraftrpg.api.entity.SkillCaster;
-import com.afterkraft.kraftrpg.common.skills.ActiveSkill;
+import com.afterkraft.kraftrpg.api.skills.Passive;
+import com.afterkraft.kraftrpg.common.persistence.data.DataView;
+import com.afterkraft.kraftrpg.common.persistence.data.MemoryDataContainer;
 
 /**
- * Default skill for Test Skill
+ * Default implementation of a Skill with the Passive interface
  */
-public class TestSkill extends ActiveSkill {
+public abstract class PassiveSkill extends Skill implements Passive {
 
-    public TestSkill(RPGPlugin plugin) {
-        super(plugin, "TestSkill");
+    protected PassiveSkill(RPGPlugin plugin, String name) {
+        super(plugin, name);
     }
 
     @Override
-    public SkillCastResult useSkill(SkillCaster caster) {
-        return SkillCastResult.NORMAL;
+    public boolean apply(SkillCaster caster) {
+        return false;
     }
 
     @Override
-    public Collection<SkillSetting> getUsedConfigNodes() {
-        return new ArrayList<SkillSetting>();
+    public void remove(SkillCaster caster) {
+
+    }
+
+    @Override
+    public DataView getDefaultConfig() {
+        // TODO Auto-generated method stub
+        return new MemoryDataContainer();
+    }
+
+    @Override
+    public boolean isInMessageRange(SkillCaster broadcaster, Champion receiver) {
+        return false;
+    }
+
+    @Override
+    public void initialize() {
+
+    }
+
+    @Override
+    public void shutdown() {
+
     }
 }

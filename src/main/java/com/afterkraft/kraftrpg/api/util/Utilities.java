@@ -161,4 +161,23 @@ public class Utilities {
                 .fromItemStack(itemStack).build();
     }
 
+    public static PotionEffect copyPotion(PotionEffect potionEffect) {
+        return RpgCommon.getGame().getRegistry().getPotionEffectBuilder()
+                .potionType(potionEffect.getType())
+                .ambience(potionEffect.getShowParticles())
+                .amplifier(potionEffect.getAmplifier())
+                .duration(potionEffect.getDuration())
+                .build();
+    }
+
+    public static <T> boolean arrayContains(T[] array, T check) {
+        boolean contains = false;
+        for (T entry : array) {
+            if (entry.equals(check)) {
+                contains = true;
+            }
+        }
+        return contains;
+    }
+
 }

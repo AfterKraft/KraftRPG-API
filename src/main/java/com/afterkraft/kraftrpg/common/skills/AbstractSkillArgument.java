@@ -21,31 +21,48 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.afterkraft.kraftrpg.api.skills;
 
-import java.util.ArrayList;
-import java.util.Collection;
+package com.afterkraft.kraftrpg.common.skills;
 
-import com.afterkraft.kraftrpg.api.RPGPlugin;
-import com.afterkraft.kraftrpg.api.entity.SkillCaster;
-import com.afterkraft.kraftrpg.common.skills.ActiveSkill;
+import com.afterkraft.kraftrpg.api.skills.SkillArgument;
 
 /**
- * Default skill for Test Skill
+ * Default abstract implementation of {@link SkillArgument}.
+ *
+ * @param <T> The type of argument to return and utilize
  */
-public class TestSkill extends ActiveSkill {
+public abstract class AbstractSkillArgument<T> implements SkillArgument<T> {
+    private final boolean required;
+    protected boolean present;
 
-    public TestSkill(RPGPlugin plugin) {
-        super(plugin, "TestSkill");
+    /**
+     * Creates a new skill argument
+     */
+    protected AbstractSkillArgument() {
+        this(false);
+    }
+
+    /**
+     * Creates a new skill argument with a requirement for casting.
+     *
+     * @param required Whether the argument is required for skill casting
+     */
+    protected AbstractSkillArgument(boolean required) {
+        this.required = required;
     }
 
     @Override
-    public SkillCastResult useSkill(SkillCaster caster) {
-        return SkillCastResult.NORMAL;
+    public boolean isOptional() {
+        return !this.required;
     }
 
     @Override
-    public Collection<SkillSetting> getUsedConfigNodes() {
-        return new ArrayList<SkillSetting>();
+    public boolean isPresent() {
+        return this.present;
+    }
+
+    @Override
+    public void setPresent(boolean present) {
+        this.present = present;
     }
 }

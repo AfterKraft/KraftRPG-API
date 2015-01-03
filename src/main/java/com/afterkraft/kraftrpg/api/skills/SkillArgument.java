@@ -35,27 +35,32 @@ import com.afterkraft.kraftrpg.api.entity.SkillCaster;
  * Active#parse(com.afterkraft.kraftrpg.api.entity.SkillCaster, String[])} method is kept for
  * storage purposes and allows for a Skill to re-generate the SkillArgument state after a Player
  * login.
+ *
+ * @param <T> The type of skill argument
  */
-public abstract class SkillArgument<T> {
-    private final boolean required;
-    protected boolean present;
+public interface SkillArgument<T> {
 
-    protected SkillArgument() {
-        this(false);
-    }
+    /**
+     * Whether this argument is optional or not for skill casting.
+     *
+     * @return Whether the argument is required for casting or not
+     */
+    boolean isOptional();
 
-    protected SkillArgument(boolean required) {
-        this.required = required;
-    }
+    /**
+     * Checks whether this argument is validated and ready for use in skill
+     * casting.
+     *
+     * @return Whether this argument is ready for use
+     */
+    boolean isPresent();
 
-    public boolean isOptional() {
-        return !this.required;
-    }
-
-    // parsed state
-    public boolean isPresent() {
-        return this.present;
-    }
+    /**
+     * Sets whether the argument is indeed present.
+     *
+     * @param present Whether the argument is present
+     */
+    void setPresent(boolean present);
 
     /**
      * Return a string suitable for inclusion in a usage string. No colors, please.
@@ -64,7 +69,7 @@ public abstract class SkillArgument<T> {
      *
      * @return partial usage string
      */
-    public abstract String getUsageString(boolean optional);
+    String getUsageString(boolean optional);
 
     /**
      * Check if this SkillArgument is satisfied by the arguments in allArgs starting at index
@@ -77,7 +82,7 @@ public abstract class SkillArgument<T> {
      *
      * @return Negative if no match, or number of args consumed if matched
      */
-    public abstract int matches(SkillCaster caster, String[] allArgs, int startPosition);
+    int matches(SkillCaster caster, String[] allArgs, int startPosition);
 
     /**
      * Overwrite your state with that of the provided arguments starting at index startPosition.
@@ -87,7 +92,7 @@ public abstract class SkillArgument<T> {
      * @param allArgs       Full arguments array
      * @param startPosition Where your arguments start
      */
-    public abstract void parse(SkillCaster caster, String[] allArgs, int startPosition);
+    void parse(SkillCaster caster, String[] allArgs, int startPosition);
 
     /**
      * This method is called instead of parse() when an optional SkillArgument is skipped (i.e. not
@@ -95,14 +100,22 @@ public abstract class SkillArgument<T> {
      *
      * @param caster caster
      */
-    public abstract void skippedOptional(SkillCaster caster);
+    void skippedOptional(SkillCaster caster);
 
-    public abstract Optional<T> getValue();
+    /**
+     * Gets the parsed and validated value of this argument.
+     *
+     * <p>If the argument has not processed or the input is invalid, {@link
+     * Optional#absent()} will be returned.</p>
+     *
+     * @return The validated value, if available
+     */
+    Optional<T> getValue();
 
     /**
      * Erase the parsed state to blank values.
      */
-    public abstract void clean();
+    void clean();
 
     /**
      * Provide tab-completion suggestions for the last item in allArgs. Your arguments start at
@@ -114,6 +127,5 @@ public abstract class SkillArgument<T> {
      *
      * @return completion suggestions for the last item in allArgs
      */
-    public abstract List<String> tabComplete(SkillCaster caster, String[] allArgs,
-                                             int startPosition);
+    List<String> tabComplete(SkillCaster caster, String[] allArgs, int startPosition);
 }

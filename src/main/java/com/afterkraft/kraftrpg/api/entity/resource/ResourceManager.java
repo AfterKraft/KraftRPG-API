@@ -21,61 +21,31 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.afterkraft.kraftrpg.api.effects;
+
+package com.afterkraft.kraftrpg.api.entity.resource;
 
 import com.google.common.base.Optional;
 
-import com.afterkraft.kraftrpg.api.entity.Insentient;
+import com.afterkraft.kraftrpg.api.Manager;
 
 /**
- * An effect that will expire after a certain amount of time passing by.
+ * A simple manager for resources
  */
-public interface Expirable extends IEffect, Timed {
+public interface ResourceManager extends Manager {
 
     /**
-     * Fetch the duration of this Expirable Effect.
+     * Gets the resource by name.
      *
-     * @return the duration in milliseconds
+     * @param name The name of the resource
+     * @return The found resource, if available
      */
-    long getDuration();
+    Optional<ResourceType> getResource(String name);
 
     /**
-     * Fetch the estimated Expire time in milliseconds
      *
-     * @return the expire time in milliseconds.
+     * @param resource
      */
-    long getExpiry();
+    void registerResource(Resource resource);
 
-    /**
-     * Fetch the estimated remaining time of this Effect
-     *
-     * @return the estimated remaining time in milliseconds
-     */
-    long getRemainingTime();
-
-    /**
-     * Check if this Effect is expired
-     *
-     * @return true if this Effect is expired
-     */
-    boolean isExpired();
-
-    /**
-     * Manually expire this Effect. This will set the expire time to the current System time.
-     */
-    void expire();
-
-    /**
-     * Get the {@link com.afterkraft.kraftrpg.api.entity.SkillCaster} applying this expirable
-     * effect.
-     *
-     * @return the SkillCaster applying this effect
-     */
-    Optional<Insentient> getApplier();
-
-    /**
-     * A utility method to clear the applier of this effect.
-     */
-    void clean();
 
 }

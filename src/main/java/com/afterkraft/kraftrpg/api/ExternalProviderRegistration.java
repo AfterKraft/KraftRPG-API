@@ -39,7 +39,7 @@ import com.google.common.collect.ImmutableMap;
 
 import com.afterkraft.kraftrpg.api.entity.party.PartyManager;
 import com.afterkraft.kraftrpg.api.skills.ISkill;
-import com.afterkraft.kraftrpg.api.skills.Skill;
+import com.afterkraft.kraftrpg.common.skills.Skill;
 import com.afterkraft.kraftrpg.api.storage.StorageBackend;
 import com.afterkraft.kraftrpg.api.storage.StorageFrontendFactory;
 import com.afterkraft.kraftrpg.common.DamageModifier;

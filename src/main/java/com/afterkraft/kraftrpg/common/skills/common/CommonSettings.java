@@ -21,31 +21,23 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.afterkraft.kraftrpg.api.skills;
+package com.afterkraft.kraftrpg.common.skills.common;
 
-import java.util.ArrayList;
-import java.util.Collection;
-
-import com.afterkraft.kraftrpg.api.RPGPlugin;
-import com.afterkraft.kraftrpg.api.entity.SkillCaster;
-import com.afterkraft.kraftrpg.common.skills.ActiveSkill;
+import com.afterkraft.kraftrpg.api.skills.SkillSetting;
 
 /**
- * Default skill for Test Skill
+ * Extended SkillSettings that are intended for use by skills extending the Common skills.
  */
-public class TestSkill extends ActiveSkill {
+public class CommonSettings extends SkillSetting {
 
-    public TestSkill(RPGPlugin plugin) {
-        super(plugin, "TestSkill");
+    public static final CommonSettings IMBUED_MAX_USE_COUNT = new CommonSettings("max-imbued");
+
+
+    protected CommonSettings(String node, boolean scaled) {
+        super(node, scaled);
     }
 
-    @Override
-    public SkillCastResult useSkill(SkillCaster caster) {
-        return SkillCastResult.NORMAL;
-    }
-
-    @Override
-    public Collection<SkillSetting> getUsedConfigNodes() {
-        return new ArrayList<SkillSetting>();
+    protected CommonSettings(String node) {
+        super(node);
     }
 }

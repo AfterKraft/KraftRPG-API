@@ -21,61 +21,46 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.afterkraft.kraftrpg.api.effects;
+package com.afterkraft.kraftrpg.common.skills.common;
 
-import com.google.common.base.Optional;
+import java.util.Map;
 
-import com.afterkraft.kraftrpg.api.entity.Insentient;
+import com.afterkraft.kraftrpg.api.entity.Sentient;
+import com.afterkraft.kraftrpg.api.skills.ISkill;
 
 /**
- * An effect that will expire after a certain amount of time passing by.
+ * Represents a bundle of permisson nodes that are granted as though they are skills. This has uses
+ * for granting/denying permissions from external plugins.
  */
-public interface Expirable extends IEffect, Timed {
+public interface Permissible extends ISkill {
 
     /**
-     * Fetch the duration of this Expirable Effect.
+     * Gets a copy of the current permissions attached to this permissible skill.
      *
-     * @return the duration in milliseconds
+     * @return A copy of the permission mappings
      */
-    long getDuration();
+    Map<String, Boolean> getPermissions();
 
     /**
-     * Fetch the estimated Expire time in milliseconds
+     * Set this permission skill to apply the specified permission mapping.
      *
-     * @return the expire time in milliseconds.
+     * @param permissions to apply
      */
-    long getExpiry();
+    void setPermissions(Map<String, Boolean> permissions);
 
     /**
-     * Fetch the estimated remaining time of this Effect
+     * Try to learn this permission skill's permission node along with any other permissions related
+     * to this Permissible skill.
      *
-     * @return the estimated remaining time in milliseconds
+     * @param being to learn this skill
      */
-    long getRemainingTime();
+    void tryLearning(Sentient being);
 
     /**
-     * Check if this Effect is expired
+     * Try to unlearn this permission skill's permission node along with any other permissions
+     * related to this Permissible skill.
      *
-     * @return true if this Effect is expired
+     * @param being to unlearn
      */
-    boolean isExpired();
-
-    /**
-     * Manually expire this Effect. This will set the expire time to the current System time.
-     */
-    void expire();
-
-    /**
-     * Get the {@link com.afterkraft.kraftrpg.api.entity.SkillCaster} applying this expirable
-     * effect.
-     *
-     * @return the SkillCaster applying this effect
-     */
-    Optional<Insentient> getApplier();
-
-    /**
-     * A utility method to clear the applier of this effect.
-     */
-    void clean();
-
+    void tryUnlearning(Sentient being);
 }

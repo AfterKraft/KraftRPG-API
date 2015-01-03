@@ -36,6 +36,7 @@ import com.google.common.base.Optional;
 import com.afterkraft.kraftrpg.api.effects.EffectType;
 import com.afterkraft.kraftrpg.api.effects.IEffect;
 import com.afterkraft.kraftrpg.api.entity.resource.Resource;
+import com.afterkraft.kraftrpg.api.entity.resource.ResourceType;
 import com.afterkraft.kraftrpg.api.listeners.DamageWrapper;
 import com.afterkraft.kraftrpg.api.skills.ISkill;
 import com.afterkraft.kraftrpg.api.util.FixedPoint;
@@ -62,9 +63,11 @@ public interface Insentient extends IEntity {
     Optional<? extends Living> getEntity();
 
     /**
+     * Gets the container of the resource desired. A resource wraps the
+     * values
      *
-     * @param clazz
-     * @param <T>
+     * @param clazz The class of the resource needing to be gotten
+     * @param <T> The type of resource
      * @return
      */
     <T extends Resource> Optional<T> getResource(Class<T> clazz);

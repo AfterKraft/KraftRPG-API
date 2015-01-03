@@ -21,31 +21,44 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.afterkraft.kraftrpg.api.skills;
+package com.afterkraft.kraftrpg.common.effects;
 
-import java.util.ArrayList;
-import java.util.Collection;
-
-import com.afterkraft.kraftrpg.api.RPGPlugin;
-import com.afterkraft.kraftrpg.api.entity.SkillCaster;
-import com.afterkraft.kraftrpg.common.skills.ActiveSkill;
+import com.afterkraft.kraftrpg.api.effects.Periodic;
+import com.afterkraft.kraftrpg.common.skills.Skill;
 
 /**
- * Default skill for Test Skill
+ * Standard implementation of a {@link com.afterkraft.kraftrpg.api.effects.Periodic} effect that
+ * performs some operations with {@link #tick(com.afterkraft.kraftrpg.api.entity.Insentient)}
  */
-public class TestSkill extends ActiveSkill {
+public abstract class PeriodicEffect extends Effect implements Periodic {
 
-    public TestSkill(RPGPlugin plugin) {
-        super(plugin, "TestSkill");
+    private final long period;
+    protected long lastTickTime = 0;
+
+    /**
+     * TODO Write Javadocs
+     * @param skill
+     * @param name
+     * @param period
+     */
+    protected PeriodicEffect(Skill skill, String name, long period) {
+        super(skill, name);
+        this.period = period;
     }
 
     @Override
-    public SkillCastResult useSkill(SkillCaster caster) {
-        return SkillCastResult.NORMAL;
+    public long getLastTickTime() {
+        return this.lastTickTime;
     }
 
     @Override
-    public Collection<SkillSetting> getUsedConfigNodes() {
-        return new ArrayList<SkillSetting>();
+    public long getPeriod() {
+        return this.period;
     }
+
+    @Override
+    public boolean isReady() {
+        return false;
+    }
+
 }
