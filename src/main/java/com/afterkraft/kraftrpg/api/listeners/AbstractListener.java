@@ -23,6 +23,10 @@
  */
 package com.afterkraft.kraftrpg.api.listeners;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
+import com.google.common.base.Preconditions;
+
 import com.afterkraft.kraftrpg.api.Manager;
 import com.afterkraft.kraftrpg.api.RPGPlugin;
 
@@ -40,6 +44,7 @@ public abstract class AbstractListener implements Manager {
      * @param plugin The instance of the rpg plugin to utilize.
      */
     protected AbstractListener(RPGPlugin plugin) {
+        checkNotNull(plugin);
         this.plugin = plugin;
     }
 }

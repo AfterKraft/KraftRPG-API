@@ -21,33 +21,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.afterkraft.kraftrpg.common.persistence.data;
 
-import static com.google.common.base.Preconditions.checkArgument;
-
-public class MemoryDataOptions implements DataOptions {
-
-    private final DataContainer container;
-    private char pathSeparator = '.';
-
-    protected MemoryDataOptions(MemoryDataContainer container) {
-        this.container = container;
-    }
-
-    @Override
-    public char getPathSeparator() {
-        return this.pathSeparator;
-    }
-
-    @Override
-    public DataOptions setPathSeparator(char separator) {
-        checkArgument(separator != '\u0000', "Cannot set an empty separator.");
-        this.pathSeparator = separator;
-        return this;
-    }
-
-    @Override
-    public DataContainer getContainer() {
-        return this.container;
-    }
-}
+@org.spongepowered.api.util.annotation.NonnullByDefault
+package com.afterkraft.kraftrpg.api.roles.aspects;

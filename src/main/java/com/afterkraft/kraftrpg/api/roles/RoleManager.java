@@ -23,12 +23,14 @@
  */
 package com.afterkraft.kraftrpg.api.roles;
 
-import java.util.Map;
+import javax.annotation.Nullable;
+import java.util.List;
 
 import com.google.common.base.Optional;
 
 import com.afterkraft.kraftrpg.api.CircularDependencyException;
 import com.afterkraft.kraftrpg.api.Manager;
+import com.afterkraft.kraftrpg.api.roles.Role.RoleType;
 import com.afterkraft.kraftrpg.api.util.FixedPoint;
 
 /**
@@ -37,28 +39,104 @@ import com.afterkraft.kraftrpg.api.util.FixedPoint;
  */
 public interface RoleManager extends Manager {
 
-    Optional<Role> getDefaultPrimaryRole();
+    /**
+     * Gets the current default primary role assigned to champions upon
+     * initial creation.
+     *
+     * @return The default primary role, if available
+     */
+    Role getDefaultPrimaryRole();
 
+    /**
+     * Sets the default primary role assigned to newly created champions.
+     *
+     * @param role The default primary role
+     * @return True if successful
+     */
     boolean setDefaultPrimaryRole(Role role);
 
+    /**
+     * Gets the default secondary role assigned to newly created champions.
+     *
+     * <p>It is not a requirement for a secondary role to exist, unlike
+     * primary roles.</p>
+     *
+     * @return The secondary role, if available
+     */
     Optional<Role> getDefaultSecondaryRole();
 
-    void setDefaultSecondaryRole(Role role);
+    /**
+     * Sets the default secondary role for newly created champions.
+     *
+     * <p>It is not a requirement for a secondary role to exist, unlike
+     * primary roles.</p>
+     *
+     * @param role The secondary role, can be null
+     */
+    void setDefaultSecondaryRole(@Nullable Role role);
 
+    /**
+     * Gets the role by name.
+     *
+     * @param roleName The role name
+     * @return The role, if available
+     */
     Optional<Role> getRole(String roleName);
 
+    /**
+     * Adds the given role to this manager.
+     *
+     * @param role The role to register
+     * @return True if successful
+     */
     boolean addRole(Role role);
 
+    /**
+     * Removes the given role from availability. All existing insentient
+     * entities and offline player data may be affected by the removal of the
+     * role if assigned. Depending on the implementation, this process may be
+     * fully synchronized with the server.
+     *
+     * @param role The role to remove
+     * @return True if successful
+     */
     boolean removeRole(Role role);
 
-    Map<String, Role> getRoles();
+    /**
+     * Gets a list of all available roles.
+     *
+     * @return A list of all available roles
+     */
+    List<Role> getRoles();
 
-    Map<String, Role> getRolesByType(Role.RoleType type);
+    /**
+     * Gets a list of all available roles by the specific {@link RoleType}.
+     *
+     * @param type The type of role
+     * @return A list of all roles with the specified type
+     */
+    List<Role> getRolesByType(RoleType type);
 
+    /**
+     * Gets the required experience for the specified level for the given
+     * {@link Role}.
+     *
+     * @param role The role
+     * @param level The level
+     * @return The experience requirement
+     */
     FixedPoint getRoleLevelExperience(Role role, int level);
 
     /**
-     * Attempts to add a dependency for the two involving roles. This method is here to
+     * Attempts to add a dependency for the two involving roles. This may
+     * cause a re-assignment of roles for all sentient beings with either of
+     * the roles being swapped out.
+     * <p>Note that it is inherently illegal for any instance of a circular
+     * dependency to exist with roles. This is designed to avoid issues of a
+     * player attempting to select a role that has a dependency of other
+     * roles that depend on the given role, preventing the player from
+     * actually selecting the given role.
+     * </p>
      *
      * @param parent The parent role adding the dependency
      * @param child  The child role adding the parent dependency
@@ -70,6 +148,14 @@ public interface RoleManager extends Manager {
      */
     boolean addRoleDependency(Role parent, Role child) throws CircularDependencyException;
 
+    /**
+     * Removes the given role dependencies between the parent {@link Role}
+     * and the child {@link Role}.
+     *
+     * @param parent The role becoming a parent
+     * @param child The role becoming dependent on the parent
+     * @return True if successful
+     */
     boolean removeRoleDependency(Role parent, Role child);
 
     /**

@@ -39,6 +39,8 @@ import org.spongepowered.api.item.ItemType;
 import org.spongepowered.api.item.inventory.ItemStack;
 import org.spongepowered.api.world.Location;
 
+import com.typesafe.config.Config;
+
 import com.afterkraft.kraftrpg.api.Manager;
 import com.afterkraft.kraftrpg.api.entity.Insentient;
 import com.afterkraft.kraftrpg.api.entity.Monster;
@@ -147,7 +149,7 @@ public interface DamageManager extends Manager {
      *
      * @param config repsective for this manager
      */
-    void load(Configuration config);
+    void load(Config config);
 
     /**
      * Standard projectile type enum for use by the DamageManager.

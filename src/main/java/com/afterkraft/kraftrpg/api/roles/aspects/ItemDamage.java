@@ -21,41 +21,37 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.afterkraft.kraftrpg.common.persistence.data;
 
-/**
- * Represents the options for a {@link DataContainer}. Options may include
- * things such as path separators.
- */
-public interface DataOptions {
+package com.afterkraft.kraftrpg.api.roles.aspects;
 
-    /**
-     * Gets the path separator.
-     * <p>When performing a {@link DataView#get(String)}, the string is parsed
-     * with the returning path separator, separating one {@link DataView} from
-     * it's parent DataView.</p>
-     *
-     * @return The character representing a separator in a path
-     */
-    char getPathSeparator();
+import java.util.Map;
 
-    /**
-     * Sets the path separator.
-     * <p>When performing a {@link DataView#get(String)}, the string is parsed
-     * with the returning path separator, separating one {@link DataView} from
-     * it's parent DataView.</p>
-     *
-     * @param separator The character to separate paths
-     * @return This instance of options for chaining
-     */
-    DataOptions setPathSeparator(char separator);
+import org.spongepowered.api.item.ItemType;
+
+import com.google.common.base.Optional;
+
+import com.afterkraft.kraftrpg.api.roles.RoleAspect;
+
+public final class ItemDamage implements RoleAspect {
+    private final ItemType[] itemTypes;
+    private final double[] baseDamages;
+    private final double[] damageIncreases;
+
+    public Optional<Double> getItemBaseDamage(ItemType type);
+
+    public Optional<Double> getItemDamageAtLevel(ItemType type, int level);
 
     /**
-     * Gets the container this set of options is affecting. No container can
-     * exist without a form of DataOptions.
      *
-     * @return The container this set of options affects
+     * @param type
+     * @return
      */
-    DataContainer getContainer();
+    public Optional<Double> getItemDamagePerLevel(ItemType type);
 
+    /**
+     * Gets a map of all configured item damages by {@link ItemType}.
+     *
+     * @return A map of all item types and their prescribed damages
+     */
+    public Map<ItemType, Double> getItemDamages();
 }

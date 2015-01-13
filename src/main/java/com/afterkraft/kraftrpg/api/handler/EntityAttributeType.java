@@ -23,8 +23,6 @@
  */
 package com.afterkraft.kraftrpg.api.handler;
 
-import org.bukkit.event.entity.CreatureSpawnEvent;
-
 /**
  * Standard attribute mapping for ServerInternals.
  */
@@ -34,7 +32,7 @@ public enum EntityAttributeType {
     SPAWNX,
     SPAWNY,
     SPAWNZ,
-    SPAWNREASON(0, CreatureSpawnEvent.SpawnReason.values().length);
+    SPAWNREASON(0, 1);
 
     private String attrName;
     private double minValue;

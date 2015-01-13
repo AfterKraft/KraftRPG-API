@@ -36,6 +36,7 @@ import java.util.Set;
 import org.spongepowered.api.entity.Entity;
 import org.spongepowered.api.entity.living.Living;
 import org.spongepowered.api.item.inventory.ItemStack;
+import org.spongepowered.api.service.persistence.data.DataView;
 
 import com.google.common.base.Function;
 import com.google.common.base.Functions;
@@ -54,8 +55,6 @@ import com.afterkraft.kraftrpg.api.util.Utilities;
 import com.afterkraft.kraftrpg.common.DamageCause;
 import com.afterkraft.kraftrpg.common.DamageType;
 import com.afterkraft.kraftrpg.common.DamageTypes;
-import com.afterkraft.kraftrpg.common.persistence.data.DataView;
-import com.afterkraft.kraftrpg.common.persistence.data.MemoryDataContainer;
 
 /**
  * Represents an intended implementation of ISkill.

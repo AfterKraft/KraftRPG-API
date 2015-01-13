@@ -21,19 +21,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.afterkraft.kraftrpg.common.persistence.data;
 
-/**
- * Represents a data structure that contains data. A DataContainer is
- * an object that can be considered a root {@link DataView}.
- */
-public interface DataContainer extends DataView {
-
-    /**
-     * Gets the options for this container.
-     * @return The options for this container
-     * @see DataOptions
-     */
-    DataOptions getOptions();
-
-}
+@org.spongepowered.api.util.annotation.NonnullByDefault
+package com.afterkraft.kraftrpg.api.listeners;

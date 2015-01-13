@@ -28,10 +28,10 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
 
+import org.spongepowered.api.service.persistence.DataSerializable;
+
 import com.google.common.base.Optional;
 import com.google.common.collect.Maps;
-
-import com.afterkraft.kraftrpg.common.persistence.serialization.DataSerializable;
 
 /**
  * Standard utility class for serialization.

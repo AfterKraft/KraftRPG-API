@@ -27,12 +27,12 @@ import java.util.List;
 import java.util.Set;
 
 import org.spongepowered.api.item.inventory.ItemStack;
+import org.spongepowered.api.service.persistence.data.DataContainer;
+import org.spongepowered.api.service.persistence.data.DataView;
 
 import com.afterkraft.kraftrpg.api.Manager;
 import com.afterkraft.kraftrpg.api.entity.SkillCaster;
 import com.afterkraft.kraftrpg.api.roles.Role;
-import com.afterkraft.kraftrpg.common.persistence.data.DataContainer;
-import com.afterkraft.kraftrpg.common.persistence.data.DataView;
 
 /**
  * A manager providing skill configurations for all skills. There may be more than one skill manager

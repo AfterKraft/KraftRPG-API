@@ -22,5 +22,19 @@
  * THE SOFTWARE.
  */
 
-@org.spongepowered.api.util.annotation.NonnullByDefault
-package com.afterkraft.kraftrpg.common.persistence.data;
+package com.afterkraft.kraftrpg.api.util;
+
+import org.spongepowered.api.service.persistence.data.DataContainer;
+import org.spongepowered.api.service.persistence.data.DataView;
+
+import com.google.common.base.Optional;
+
+public class DataUtil {
+
+    public static Optional<DataContainer> containerFromExisting(DataView data) {
+        return Optional.absent();
+    }
+    public static Optional<DataView> copyFromExisting(DataView data) {
+        return Optional.absent();
+    }
+}

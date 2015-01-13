@@ -23,6 +23,7 @@
  */
 package com.afterkraft.kraftrpg.api.listeners;
 
+import javax.annotation.Nullable;
 import java.lang.ref.WeakReference;
 
 import org.spongepowered.api.item.inventory.ItemStack;
@@ -37,6 +38,7 @@ import com.afterkraft.kraftrpg.common.DamageCause;
  */
 public class AttackDamageWrapper extends DamageWrapper {
     private final WeakReference<Insentient> attackingIEntity;
+    @Nullable
     private final ItemStack weaponUsed;
 
     public AttackDamageWrapper(Insentient attackingIEntity, DamageCause originalCause,

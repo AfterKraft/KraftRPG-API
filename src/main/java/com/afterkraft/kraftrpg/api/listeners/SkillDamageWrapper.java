@@ -23,7 +23,10 @@
  */
 package com.afterkraft.kraftrpg.api.listeners;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import com.google.common.base.Optional;
+import com.google.common.base.Preconditions;
 
 import com.afterkraft.kraftrpg.api.entity.SkillCaster;
 import com.afterkraft.kraftrpg.api.skills.ISkill;
@@ -40,6 +43,7 @@ public class SkillDamageWrapper extends AttackDamageWrapper {
                               DamageCause originalCause, double originalDamage,
                               double modifiedDamage, DamageCause modifiedCause) {
         super(attackingIEntity, originalCause, originalDamage, modifiedDamage, modifiedCause);
+        checkNotNull(skill);
         this.skillUsed = skill;
     }
 

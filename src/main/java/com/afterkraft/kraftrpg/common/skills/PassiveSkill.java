@@ -23,13 +23,12 @@
  */
 package com.afterkraft.kraftrpg.common.skills;
 
-import org.bukkit.configuration.Configuration;
+import org.spongepowered.api.service.persistence.data.DataView;
 
 import com.afterkraft.kraftrpg.api.RPGPlugin;
 import com.afterkraft.kraftrpg.api.entity.Champion;
 import com.afterkraft.kraftrpg.api.entity.SkillCaster;
 import com.afterkraft.kraftrpg.api.skills.Passive;
-import com.afterkraft.kraftrpg.common.persistence.data.DataView;
 import com.afterkraft.kraftrpg.common.persistence.data.MemoryDataContainer;
 
 /**

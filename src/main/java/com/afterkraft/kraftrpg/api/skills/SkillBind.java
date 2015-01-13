@@ -26,33 +26,28 @@ package com.afterkraft.kraftrpg.api.skills;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.bukkit.Material;
-import org.bukkit.configuration.serialization.ConfigurationSerializable;
-import org.bukkit.configuration.serialization.SerializableAs;
+import org.spongepowered.api.item.ItemType;
+import org.spongepowered.api.service.persistence.DataSerializable;
+import org.spongepowered.api.service.persistence.DataSource;
+import org.spongepowered.api.service.persistence.data.DataContainer;
 
 /**
  * Represents a binding of a Skill to an item type with prescribed skill arguments as a single
  * string. This can be serialized and saved to any form of database. This is primarily used by
  * Champions.
  */
-@SerializableAs("krpg-bind")
-public final class SkillBind implements ConfigurationSerializable {
-    private final Material material;
+public final class SkillBind implements DataSerializable {
+    private final ItemType material;
     private final String skillName;
     private final String arguments;
 
-    public SkillBind(Map<String, Object> data) {
-        this(Material.matchMaterial((String) data.get("material")),
-                (String) data.get("skill"), (String) data.get("args"));
-    }
-
-    public SkillBind(Material material, String skillName, String argument) {
+    public SkillBind(ItemType material, String skillName, String argument) {
         this.material = material;
         this.skillName = skillName;
         this.arguments = argument;
     }
 
-    public Material getMaterial() {
+    public ItemType getMaterial() {
         return this.material;
     }
 
@@ -64,12 +59,20 @@ public final class SkillBind implements ConfigurationSerializable {
         return this.arguments;
     }
 
-    @Override
     public Map<String, Object> serialize() {
         HashMap<String, Object> ret = new HashMap<>();
-        ret.put("material", this.material.name());
+        ret.put("material", this.material.getId());
         ret.put("skill", this.skillName);
         ret.put("args", this.arguments);
         return ret;
+    }
+
+    @Override
+    public DataContainer toContainer() {
+        return null;
+    }
+
+    @Override
+    public void serialize(DataSource source) {
     }
 }

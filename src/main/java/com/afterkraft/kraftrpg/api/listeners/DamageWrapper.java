@@ -23,6 +23,7 @@
  */
 package com.afterkraft.kraftrpg.api.listeners;
 
+import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.afterkraft.kraftrpg.common.DamageCause;
 
@@ -39,6 +40,8 @@ public class DamageWrapper {
 
     public DamageWrapper(DamageCause originalCause, double originalDamage, double modifiedDamage,
                          DamageCause modifiedCause) {
+        checkNotNull(originalCause);
+        checkNotNull(modifiedCause);
         this.originalCause = originalCause;
         this.originalDamage = originalDamage;
         this.modifiedDamage = modifiedDamage;

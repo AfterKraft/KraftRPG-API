@@ -24,13 +24,15 @@
 package com.afterkraft.kraftrpg.api.effects;
 
 
+import javax.annotation.Nullable;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import static com.google.common.base.Preconditions.checkArgument;
+import org.spongepowered.api.service.persistence.data.DataQuery;
+import org.spongepowered.api.service.persistence.data.DataView;
 
 import com.afterkraft.kraftrpg.api.entity.Insentient;
 import com.afterkraft.kraftrpg.api.skills.ISkill;
@@ -462,6 +464,7 @@ public enum EffectType {
      */
     WITHER;
 
+    @Nullable
     private final SkillType resistance;
     private final Set<EffectType> effectResists = new LinkedHashSet<>();
 
@@ -469,7 +472,7 @@ public enum EffectType {
         this(null);
     }
 
-    EffectType(SkillType resistance) {
+    EffectType(@Nullable SkillType resistance) {
         this.resistance = resistance;
     }
 
@@ -481,13 +484,15 @@ public enum EffectType {
         return map;
     }
 
-    public static void deserialize(ConfigurationSection section) {
+    public static void deserialize(DataView section) {
         for (String key : section.getKeys(false)) {
             EffectType type = EffectType.valueOf(key);
             if (type != null) {
-                List<String> types = section.getStringList(key);
+                List<String> types = section
+                        .getStringList(new DataQuery(".", key)).get();
                 for (String resistTypeString : types) {
-                    EffectType resistType = EffectType.valueOf(resistTypeString);
+                    EffectType resistType = EffectType
+                            .valueOf(resistTypeString);
                     if (resistType != null) {
                         type.addResistance(resistType);
                     }
@@ -513,8 +518,6 @@ public enum EffectType {
      * @throws IllegalArgumentException If the skill is null
      */
     public boolean isSkillResisted(Insentient being, ISkill skill) {
-        checkArgument(being != null, "Cannot check against a null entity!");
-        checkArgument(skill != null, "Cannot check against a null skill!");
         return (this.resistance != null && being.hasEffectType(this)
                 && skill.isType(this.resistance));
     }
@@ -532,8 +535,6 @@ public enum EffectType {
      * @throws IllegalArgumentException If the effect is null
      */
     public boolean isEffectResisted(Insentient being, IEffect effect) {
-        checkArgument(being != null, "Cannot check against a null entity");
-        checkArgument(effect != null, "Cannot check against a null effect!");
         if (!being.hasEffectType(this)) {
             return false;
         }

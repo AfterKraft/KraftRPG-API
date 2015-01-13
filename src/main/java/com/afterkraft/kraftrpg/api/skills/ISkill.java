@@ -26,10 +26,10 @@ package com.afterkraft.kraftrpg.api.skills;
 import java.util.Collection;
 
 import org.spongepowered.api.entity.Entity;
+import org.spongepowered.api.service.persistence.data.DataView;
 
 import com.afterkraft.kraftrpg.api.entity.Champion;
 import com.afterkraft.kraftrpg.api.entity.SkillCaster;
-import com.afterkraft.kraftrpg.common.persistence.data.DataView;
 import com.afterkraft.kraftrpg.common.skills.Skill;
 
 /**
@@ -81,14 +81,13 @@ public interface ISkill {
     void setDescription(String description);
 
     /**
-     * Similar to {@link org.bukkit.plugin.Plugin#onEnable()}, should be used to register any
-     * necessary listeners and managers for active use.
+     * Should be used to register any necessary listeners and managers for
+     * active use.
      */
     void initialize();
 
     /**
-     * Similar to {@link org.bukkit.plugin.Plugin#onDisable()}, should be used to unregister any
-     * listeners and be prepared for removal.
+     * Should be used to unregister any listeners and be prepared for removal.
      */
     void shutdown();
 

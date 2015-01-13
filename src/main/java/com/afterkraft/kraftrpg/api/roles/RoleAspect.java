@@ -22,13 +22,12 @@
  * THE SOFTWARE.
  */
 
-package com.afterkraft.kraftrpg.common.persistence.data;
+package com.afterkraft.kraftrpg.api.roles;
 
-import com.google.common.base.Optional;
-
-public class DataUtil {
-
-    public static Optional<DataContainer> copyFromExisiting(DataView view) {
-        return Optional.<DataContainer>of(new MemoryDataContainer());
-    }
+/**
+ * Represents an aspect built for a {@link Role}. RoleAspects are encouraged
+ * to be immutable once created by a builder, this is to avoid potentially
+ * causing problems while the aspect is in use.
+ */
+public interface RoleAspect {
 }

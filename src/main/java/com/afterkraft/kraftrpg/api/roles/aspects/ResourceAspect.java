@@ -21,32 +21,54 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.afterkraft.kraftrpg.common.persistence.data;
+
+package com.afterkraft.kraftrpg.api.roles.aspects;
 
 import com.google.common.base.Optional;
 
+import com.afterkraft.kraftrpg.api.roles.RoleAspect;
+
 /**
- * Default implementaiton of a {@link DataContainer} being used in memory.
+ * Represents a resource aspect associated with a resource
+ * @param <T>
  */
-public class MemoryDataContainer extends MemoryDataView implements DataContainer {
+public interface ResourceAspect<T extends Number> extends RoleAspect {
 
-    private final DataOptions options = new MemoryDataOptions(this);
+    /**
+     * Gets the resource at level 1.
+     *
+     * @return The resource at level 1
+     */
+    T getBaseResource();
 
-    public MemoryDataContainer() {
-    }
+    /**
+     * Gets the resource regeneration rate at level 1.
+     *
+     * @return The resource regeneration rate at level 1
+     */
+    T getBaseResourceRegeneration();
 
-    @Override
-    public Optional<DataView> getParent() {
-        return Optional.absent();
-    }
+    /**
+     * Gets the resource increase per level
+     *
+     * @return The resource increase per level
+     */
+    T getResourceIncreasePerLevel();
 
-    @Override
-    public DataContainer getContainer() {
-        return this;
-    }
+    /**
+     * Gets the resource regeneration increase per level.
+     *
+     * @return The resource regeneration increase per level
+     */
+    T getResourceRegenerationIncreasePerLevel();
 
-    @Override
-    public DataOptions getOptions() {
-        return this.options;
-    }
+    /**
+     * Gets the resource available at the desired level.
+     *
+     * @param level The level
+     * @return The resource at the desired level, if available
+     */
+    Optional<T> getResourceAtLevel(int level);
+
+
 }
