@@ -46,7 +46,6 @@ import com.afterkraft.kraftrpg.api.Manager;
 import com.afterkraft.kraftrpg.api.entity.Insentient;
 import com.afterkraft.kraftrpg.api.entity.Monster;
 import com.afterkraft.kraftrpg.common.DamageCause;
-import com.afterkraft.kraftrpg.common.Enchantment;
 
 /**
  * The generalized manager for calculating and fetching damages for entities and items alike.
