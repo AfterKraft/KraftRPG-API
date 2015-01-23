@@ -1,30 +1,27 @@
 KraftRPG-API
 ============
 
-An RPG plugin API for Bukkit.
-
-Supports the following server mod APIs:
-* Bukkit [http://bukkit.org](http://bukkit.org)
-* Spigot [http://spigotmc.org](http://spigotmc.org)
-* Tweakkit [https://afterkraft.com](https://afterkraft.com)
+An RPG plugin API for [SpongeAPI](https://github.com/SpongePowered/SpongeAPI).
 
 Website: [https://afterkraft.com/forum/forums/kraftrpg/](https://afterkraft.com/forum/forums/kraftrpg/)
-Bugs/Suggestions: [http://git.afterkraft.com/afterkraft/kraftrpg/issues](http://git.afterkraft.com/afterkraft/kraftrpg/issues)
+Bugs/Suggestions: [http://bugs.afterkraft.com/browse/RPGAPI/](http://bugs.afterkraft.com/browse/RPGAPI/?selectedTab=com.atlassian.jira.jira-projects-plugin:summary-panel)
 
 Compilation
 -----------
 
-We use maven to handle our dependencies and compatibility modules.
+We use [Gradle](http://www.gradle.org) to handle our dependencies and
+compatibility modules.
 
-* Install [Maven 3](http://maven.apache.org/download.html)
-* Check out this repo and: `mvn clean install`
+* Check out this repo
+* Run `./gradlew` for Linux/Mac and `gradlew` for Windows
 
 Importing to Eclipse
 --------------------
 
-Unlike KraftRPG (the plugin), KraftRPG-API easily imports into Eclipse just fine with m2e.
+Unlike KraftRPG (the plugin), KraftRPG-API easily imports into Eclipse just
+fine with the gradle plugin.
 
 Importing to IntelliJ
 ---------------------
 
-IntelliJ imports the porject as a Maven project just fine.
+IntelliJ imports the project as a Gradle project just fine.
