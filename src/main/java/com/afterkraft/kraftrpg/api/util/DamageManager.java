@@ -35,6 +35,7 @@ import org.spongepowered.api.entity.projectile.fireball.LargeFireball;
 import org.spongepowered.api.entity.projectile.fireball.SmallFireball;
 import org.spongepowered.api.entity.projectile.fireball.WitherSkull;
 import org.spongepowered.api.event.cause.Cause;
+import org.spongepowered.api.item.Enchantment;
 import org.spongepowered.api.item.ItemType;
 import org.spongepowered.api.item.inventory.ItemStack;
 import org.spongepowered.api.world.Location;

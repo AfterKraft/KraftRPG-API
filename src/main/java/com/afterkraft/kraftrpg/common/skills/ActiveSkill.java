@@ -41,7 +41,7 @@ import com.afterkraft.kraftrpg.api.skills.SkillCastResult;
  * See {@link Active}.
  */
 public abstract class ActiveSkill extends Skill implements Active {
-    SkillArgument<?>[] skillArguments = new SkillArgument[] {};
+    SkillArgument<?>[] skillArguments = new SkillArgument<?>[] {};
     private String usage = "";
     private SkillCaster parsedCaster;
 

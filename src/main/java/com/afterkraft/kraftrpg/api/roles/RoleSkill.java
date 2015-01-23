@@ -28,7 +28,6 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import org.spongepowered.api.service.persistence.data.DataContainer;
-import org.spongepowered.api.service.persistence.data.DataQuery;
 import org.spongepowered.api.service.persistence.data.DataView;
 
 import com.google.common.base.Optional;
@@ -46,10 +45,9 @@ public final class RoleSkill {
     private DataContainer section;
 
     /**
-     * Creates a representation of a skill with a sepecific configuration for
-     * a role.
+     * Creates a representation of a skill with a sepecific configuration for a role.
      *
-     * @param skill The skill being configured
+     * @param skill   The skill being configured
      * @param section The configuration
      */
     public RoleSkill(String skill, DataView section) {
@@ -66,8 +64,9 @@ public final class RoleSkill {
     /**
      * Checks if this {@link RoleSkill} is equal to the given {@link ISkill}.
      *
-     * @param other
-     * @return
+     * @param other The other skill to check
+     *
+     * @return True if the skill is the same as the stored skill
      */
     public boolean skillEquals(ISkill other) {
         return this.skill.equalsIgnoreCase(other.getName());
@@ -86,13 +85,17 @@ public final class RoleSkill {
     /**
      * Gets the level at which the skill is made available.
      *
-     * @return
+     * @return The level at which the skill is available
      */
     public int getLevel() {
-        return this.section.getInt(new DataQuery(".", SkillSetting.LEVEL.node
-                ())).get();
+        return this.section.getInt(SkillSetting.LEVEL.node()).get();
     }
 
+    /**
+     * Gets the desired {@link DataContainer} configuration for the skill.
+     *
+     * @return The desired skill configuration for the role
+     */
     public DataContainer getConfig() {
         return DataUtil.containerFromExisting(this.section).get();
     }

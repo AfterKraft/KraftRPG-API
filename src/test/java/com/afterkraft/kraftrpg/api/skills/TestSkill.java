@@ -46,6 +46,6 @@ public class TestSkill extends ActiveSkill {
 
     @Override
     public Collection<SkillSetting> getUsedConfigNodes() {
-        return new ArrayList<SkillSetting>();
+        return new ArrayList<>();
     }
 }

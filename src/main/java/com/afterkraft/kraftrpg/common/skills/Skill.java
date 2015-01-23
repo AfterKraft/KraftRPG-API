@@ -36,25 +36,25 @@ import java.util.Set;
 import org.spongepowered.api.entity.Entity;
 import org.spongepowered.api.entity.living.Living;
 import org.spongepowered.api.item.inventory.ItemStack;
+import org.spongepowered.api.service.persistence.data.DataQuery;
 import org.spongepowered.api.service.persistence.data.DataView;
 
 import com.google.common.base.Function;
 import com.google.common.base.Functions;
-import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.Sets;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Maps;
 
 import com.afterkraft.kraftrpg.api.RPGPlugin;
+import com.afterkraft.kraftrpg.api.RpgCommon;
 import com.afterkraft.kraftrpg.api.entity.Champion;
 import com.afterkraft.kraftrpg.api.entity.Insentient;
 import com.afterkraft.kraftrpg.api.entity.SkillCaster;
-import com.afterkraft.kraftrpg.api.handler.ServerInternals;
 import com.afterkraft.kraftrpg.api.skills.ISkill;
 import com.afterkraft.kraftrpg.api.skills.SkillSetting;
 import com.afterkraft.kraftrpg.api.skills.SkillType;
 import com.afterkraft.kraftrpg.api.util.Utilities;
 import com.afterkraft.kraftrpg.common.DamageCause;
 import com.afterkraft.kraftrpg.common.DamageType;
-import com.afterkraft.kraftrpg.common.DamageTypes;
 
 /**
  * Represents an intended implementation of ISkill.
@@ -64,14 +64,12 @@ public abstract class Skill implements ISkill {
     private static final Function<? super Double, Double> ZERO = Functions.constant(-0.0);
 
     public final RPGPlugin plugin;
-    private final Map<SkillSetting, Object> settings = new HashMap<>();
     private final Set<SkillType> skillTypes = EnumSet.noneOf(SkillType.class);
     private final String name;
     private String description = "";
     private boolean isEnabled = false;
     private DataView defaultConfig;
     private Set<SkillSetting> usedSettings = new HashSet<>();
-    private Set<String> usedNodes = new HashSet<>();
 
     /**
      * Creates a new instance of a Skill, the default implementation of
@@ -83,7 +81,7 @@ public abstract class Skill implements ISkill {
     protected Skill(RPGPlugin plugin, String name) {
         this.plugin = plugin;
         this.name = name;
-        this.defaultConfig = new MemoryDataContainer();
+        this.defaultConfig = null;
     }
 
     public static void knockback(Insentient target, Insentient attacker, double damage) {
@@ -91,7 +89,7 @@ public abstract class Skill implements ISkill {
     }
 
     public static void knockback(Living target, Living attacker, double damage) {
-        ServerInternals.getInterface().knockBack(target, attacker, damage);
+        RpgCommon.knockBack(target, attacker, damage);
     }
 
     public static boolean damageEntity(Living target, SkillCaster attacker, ISkill skill,
@@ -107,8 +105,8 @@ public abstract class Skill implements ISkill {
     public static boolean damageEntity(Living target, SkillCaster attacker, ISkill skill,
                                        double damage, DamageCause cause, boolean knockback,
                                        boolean ignoreDamageCheck) {
-        return ServerInternals.getInterface().damageEntity(target, attacker, skill, damage,
-                cause, knockback);
+        return RpgCommon.damageEntity(target, attacker, skill, damage,
+                                      cause, knockback);
     }
 
     public static boolean damageEntity(Insentient target, SkillCaster attacker, ISkill skill,
@@ -124,19 +122,16 @@ public abstract class Skill implements ISkill {
     public static boolean damageEntity(Insentient target, SkillCaster attacker, ISkill skill,
                                        double damage, DamageCause cause, boolean knockback,
                                        boolean ignoreDamageCheck) {
-        Map<DamageType, Double> modifiers =
-                new EnumMap<>(
-                        ImmutableMap.of(DamageTypes.PHYSICAL, damage));
+        Map<DamageType, Double> modifiers = Maps.newHashMap();
         return damageEntity(target, attacker, skill, modifiers, cause, knockback,
                 ignoreDamageCheck);
     }
 
     public static boolean damageEntity(Insentient target, Insentient attacker, ISkill skill,
-                                       Map<DamageType, Double> modifiers,
-                                       DamageCause cause,
+                                       Map<DamageType, Double> modifiers, DamageCause cause,
                                        boolean knockback, boolean ignoreDamageCheck) {
-        return ServerInternals.getInterface().damageEntity(target, attacker, skill, modifiers,
-                cause, knockback);
+        return RpgCommon.damageEntity(target, attacker, skill, modifiers, cause, knockback,
+                                      ignoreDamageCheck);
     }
 
     public static boolean damageEntity(Insentient target, Insentient attacker, ISkill skill,
@@ -231,8 +226,8 @@ public abstract class Skill implements ISkill {
      */
     protected void setDefault(String node, Object value) {
         DataView section = getDefaultConfig();
-        section.set(node, value);
-        this.usedNodes.add(node);
+        section.set(new DataQuery(node), value);
+        this.usedSettings.add(new InnerSkillSetting(node));
     }
 
     /**
@@ -268,8 +263,8 @@ public abstract class Skill implements ISkill {
      */
     protected void setDefault(String node, boolean value) {
         DataView section = getDefaultConfig();
-        section.set(node, value);
-        this.usedNodes.add(node);
+        section.set(new DataQuery(node), value);
+        this.usedSettings.add(new InnerSkillSetting(node));
     }
 
     /**
@@ -303,8 +298,8 @@ public abstract class Skill implements ISkill {
      */
     protected void setDefault(String node, double value) {
         DataView section = getDefaultConfig();
-        section.set(node, value);
-        this.usedNodes.add(node);
+        section.set(new DataQuery(node), value);
+        this.usedSettings.add(new InnerSkillSetting(node));
     }
 
     /**
@@ -342,10 +337,9 @@ public abstract class Skill implements ISkill {
      */
     protected void setDefault(String node, double value, double valuePerLevel) {
         DataView section = getDefaultConfig();
-        section.set(node, value);
-        section.set(node + "-per-level", valuePerLevel);
-        this.usedNodes.add(node);
-        this.usedNodes.add(node + "-per-level");
+        section.set(new DataQuery(node), value);
+        section.set(new DataQuery(node + "-per-level"), valuePerLevel);
+        this.usedSettings.add(new InnerSkillSetting(node, true));
     }
 
     /**
@@ -381,8 +375,8 @@ public abstract class Skill implements ISkill {
      */
     protected void setDefault(String node, String value) {
         DataView section = getDefaultConfig();
-        section.set(node, value);
-        this.usedNodes.add(node);
+        section.set(new DataQuery(node), value);
+        this.usedSettings.add(new InnerSkillSetting(node));
     }
 
 
@@ -419,8 +413,8 @@ public abstract class Skill implements ISkill {
      */
     protected void setDefault(String node, List<?> value) {
         DataView section = getDefaultConfig();
-        section.set(node, value);
-        this.usedNodes.add(node);
+        section.set(new DataQuery(node), value);
+        this.usedSettings.add(new InnerSkillSetting(node));
     }
 
     /**
@@ -455,8 +449,8 @@ public abstract class Skill implements ISkill {
      */
     protected void setDefault(String node, ItemStack value) {
         DataView section = getDefaultConfig();
-        section.set(node, Utilities.copyOf(value));
-        this.usedNodes.add(node);
+        section.set(new DataQuery(node), Utilities.copyOf(value));
+        this.usedSettings.add(new InnerSkillSetting(node));
     }
 
     /**
@@ -502,10 +496,7 @@ public abstract class Skill implements ISkill {
 
     @Override
     public Collection<SkillSetting> getUsedConfigNodes() {
-        for (String string : this.usedNodes) {
-            this.usedSettings.add(new SkillSetting(string));
-        }
-        return Sets.newHashSet(this.usedSettings);
+        return ImmutableList.<SkillSetting>builder().addAll(this.usedSettings).build();
     }
 
     @Override
@@ -531,7 +522,8 @@ public abstract class Skill implements ISkill {
 
     @Override
     public boolean isInMessageRange(SkillCaster broadcaster, Champion receiver) {
-        return broadcaster.getLocation().distanceSquared(receiver.getLocation()) < (20 * 20);
+        return broadcaster.getLocation().getPosition()
+                .distanceSquared(receiver.getLocation().getPosition()) < (20 * 20);
     }
 
     /**
@@ -556,5 +548,15 @@ public abstract class Skill implements ISkill {
         return this == obj
                 || this.getClass() == obj.getClass() && obj instanceof Skill
                 && this.name.equals(((Skill) obj).name);
+    }
+
+    private static final class InnerSkillSetting extends SkillSetting {
+        private InnerSkillSetting(String node) {
+            super(node);
+        }
+
+        private InnerSkillSetting(String node, boolean scaled) {
+            super(node, scaled);
+        }
     }
 }

@@ -30,10 +30,12 @@ import static com.google.common.base.Preconditions.checkArgument;
 
 import org.spongepowered.api.potion.PotionEffect;
 
+import com.google.common.collect.Sets;
+
 import com.afterkraft.kraftrpg.api.effects.EffectType;
 import com.afterkraft.kraftrpg.api.effects.common.Healing;
-import com.afterkraft.kraftrpg.common.effects.PeriodicExpirableEffect;
 import com.afterkraft.kraftrpg.api.entity.Insentient;
+import com.afterkraft.kraftrpg.common.effects.PeriodicExpirableEffect;
 import com.afterkraft.kraftrpg.common.skills.Skill;
 
 /**
@@ -46,7 +48,8 @@ public class HealingEffect extends PeriodicExpirableEffect implements Healing {
 
     public HealingEffect(Skill skill, Insentient applier, String name, long duration,
                          EnumSet<EffectType> types, long period, double tickHealth) {
-        this(skill, applier, name, null, false, types, "", "", duration, period, tickHealth);
+        this(skill, applier, name, Sets.<PotionEffect>newHashSet(), false, types, "", "",
+             duration, period, tickHealth);
     }
 
     public HealingEffect(Skill skill, Insentient applier, String name,
@@ -54,15 +57,15 @@ public class HealingEffect extends PeriodicExpirableEffect implements Healing {
                          EnumSet<EffectType> types, String applyText, String expireText,
                          long duration, long period, double tickHealth) {
         super(skill, applier, name, potionEffects, persistent, types, applyText, expireText,
-                duration, period);
+              duration, period);
         this.tickHealth = tickHealth;
     }
 
     public HealingEffect(Skill skill, Insentient applier, String name, long duration,
                          String applyText, String expireText, EnumSet<EffectType> types,
                          long period, double tickHealth) {
-        this(skill, applier, name, null, false, types, applyText, expireText, duration, period,
-                tickHealth);
+        this(skill, applier, name, Sets.<PotionEffect>newHashSet(), false, types, applyText,
+             expireText, duration, period, tickHealth);
     }
 
     @Override
@@ -84,7 +87,7 @@ public class HealingEffect extends PeriodicExpirableEffect implements Healing {
      */
     @Override
     public void tick(Insentient being) {
-        if (!being.isEntityValid() || !getApplier().isEntityValid()) {
+        if (!being.isEntityValid() || !getApplier().isPresent()) {
             return;
         }
         /*

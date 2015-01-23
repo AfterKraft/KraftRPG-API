@@ -22,7 +22,41 @@
  * THE SOFTWARE.
  */
 
-package com.afterkraft.kraftrpg.common;
+package com.afterkraft.kraftrpg.api.util;
 
-public interface Enchantment {
+import org.spongepowered.api.item.ItemType;
+import org.spongepowered.api.text.translation.Translation;
+
+public class TestItemType implements ItemType {
+
+    private final String id;
+
+    public TestItemType(String id) {
+        this.id = id;
+    }
+
+    @Override
+    public String getId() {
+        return null;
+    }
+
+    @Override
+    public int getMaxStackQuantity() {
+        return 0;
+    }
+
+    @Override
+    public boolean isDamageable() {
+        return false;
+    }
+
+    @Override
+    public int getMaxDamage() {
+        return 0;
+    }
+
+    @Override
+    public Translation getTranslation() {
+        return null;
+    }
 }

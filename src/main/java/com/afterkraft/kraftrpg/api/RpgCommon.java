@@ -43,17 +43,16 @@ import com.google.common.base.Optional;
 import com.afterkraft.kraftrpg.api.entity.Champion;
 import com.afterkraft.kraftrpg.api.entity.IEntity;
 import com.afterkraft.kraftrpg.api.entity.Insentient;
-import com.afterkraft.kraftrpg.api.events.entity.damage.InsentientDamageEvent.DamageType;
-import com.afterkraft.kraftrpg.api.handler.ServerInternals;
 import com.afterkraft.kraftrpg.api.skills.ISkill;
 import com.afterkraft.kraftrpg.api.util.PermissionsManager;
 import com.afterkraft.kraftrpg.common.DamageCause;
+import com.afterkraft.kraftrpg.common.DamageType;
+import com.afterkraft.kraftrpg.common.handler.ServerInternals;
 
 /**
  * Utility class providing simple and fast method calls to various managers.
  */
 public final class RpgCommon {
-
     private static Server server;
     private static Game game;
     private static PermissionsManager permissionsManager;
@@ -70,13 +69,9 @@ public final class RpgCommon {
         isPluginEnabled = true;
     }
 
-    public static boolean damageCheck(Insentient attacker, Insentient victim) {
-        return getHandler().damageCheck(attacker, victim);
-    }
-
     public static ServerInternals getHandler() {
-        checkArgument(RpgCommon.serverInternals != null,
-                "The plugin has not been initialized yet!");
+        checkArgument(RpgCommon.serverInternals != null, "The plugin has not been initialized "
+                + "yet!");
         return RpgCommon.serverInternals;
     }
 
@@ -89,12 +84,49 @@ public final class RpgCommon {
         return RpgCommon.game;
     }
 
+    public static void setGame(Game game) {
+        check();
+        RpgCommon.game = game;
+    }
+
+    public static Server getServer() {
+        checkArgument(RpgCommon.server != null, "The server has not been set yet!");
+        return RpgCommon.server;
+    }
+
+    public static void setCommonServer(Server bukkitServer) {
+        check();
+        RpgCommon.server = bukkitServer;
+    }
+
+    public static RPGPlugin getPlugin() {
+        return RpgCommon.rpgPlugin;
+    }
+
+    public static void setPlugin(RPGPlugin plugin) {
+        check();
+        RpgCommon.rpgPlugin = plugin;
+    }
+
+    public static PermissionsManager getPermissionManager() {
+        return RpgCommon.permissionsManager;
+    }
+
+    public static void setPermissionManager(PermissionsManager permissionManager) {
+        check();
+        RpgCommon.permissionsManager = permissionManager;
+    }
+
     private static void check() {
         checkState(!isPluginEnabled, "RPGPlugin is already enabled!");
     }
 
     public static void setProjectileDamage(IEntity arrow, double damage) {
         getHandler().setProjectileDamage(arrow, damage);
+    }
+
+    public static boolean damageCheck(Insentient attacker, Insentient victim) {
+        return getHandler().damageCheck(attacker, victim);
     }
 
     public static boolean damageEntity(Insentient target, Insentient attacker, ISkill skill,
@@ -114,22 +146,10 @@ public final class RpgCommon {
         return getHandler().healEntity(being, tickHealth, skill, applier);
     }
 
-    @SuppressWarnings("deprecated")
     public static Optional<Player> getPlayerByName(String name) {
         return getServer().getPlayer(name);
     }
 
-    public static Server getServer() {
-        checkArgument(RpgCommon.server != null, "The server has not been set yet!");
-        return RpgCommon.server;
-    }
-
-    public static void setCommonServer(Server bukkitServer) {
-        check();
-        RpgCommon.server = bukkitServer;
-    }
-
-    @SuppressWarnings("deprecated")
     public static Optional<Player> getPlayerExact(String name) {
         return getServer().getPlayer(name);
     }
@@ -138,34 +158,20 @@ public final class RpgCommon {
         return getServer().getOnlinePlayers();
     }
 
-    public static Optional<Champion> getChampion(Player player) {
+    public static Optional<? extends Champion> getChampion(Player player) {
         return getPlugin().getEntityManager().getChampion(player);
     }
 
-    public static RPGPlugin getPlugin() {
-        return RpgCommon.rpgPlugin;
-    }
-
-    public static void setPlugin(RPGPlugin plugin) {
-        check();
-        RpgCommon.rpgPlugin = plugin;
+    public static Optional<? extends IEntity> getEntity(Entity entity) {
+        return getPlugin().getEntityManager().getEntity(entity);
     }
 
     public static void hideInsentient(Insentient being) {
-        getHandler().hidePlayer(being);
+        getHandler().hideInsentient(being);
     }
 
     public static boolean isOp(final IEntity entity) {
         return getPermissionManager().isOp(entity);
-    }
-
-    public static PermissionsManager getPermissionManager() {
-        return RpgCommon.permissionsManager;
-    }
-
-    public static void setPermissionManager(PermissionsManager permissionManager) {
-        check();
-        RpgCommon.permissionsManager = permissionManager;
     }
 
     public static boolean hasPermission(final IEntity entity, final String permission) {
@@ -237,10 +243,6 @@ public final class RpgCommon {
     public static void removeTransientWorldPermission(final IEntity entity, final String worldName,
                                                       final String permission) {
         getPermissionManager().removeTransientWorldPermission(entity, worldName, permission);
-    }
-
-    public static Optional<IEntity> getEntity(Entity entity) {
-        return getPlugin().getEntityManager().getEntity(entity);
     }
 
     public static void knockback(Insentient target, Insentient attacker, double damage) {

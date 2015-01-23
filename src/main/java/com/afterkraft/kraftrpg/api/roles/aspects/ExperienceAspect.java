@@ -28,8 +28,6 @@ import java.util.List;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import org.spongepowered.api.item.ItemType;
-
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 
@@ -37,8 +35,8 @@ import com.afterkraft.kraftrpg.api.roles.ExperienceType;
 import com.afterkraft.kraftrpg.api.roles.RoleAspect;
 
 /**
- * Represents a {@link RoleAspect} that can determine whether a role may gain
- * specific experience types.
+ * Represents a {@link RoleAspect} that can determine whether a role may gain specific experience
+ * types.
  */
 public final class ExperienceAspect implements RoleAspect {
     private final ExperienceType[] experienceTypes;
@@ -107,7 +105,7 @@ public final class ExperienceAspect implements RoleAspect {
          * @return This bulider for chaining
          */
         public ExperienceAspectBuilder reset() {
-            this.experienceTypes.clear();
+            this.experienceTypes = Lists.newArrayList();
             return this;
         }
 

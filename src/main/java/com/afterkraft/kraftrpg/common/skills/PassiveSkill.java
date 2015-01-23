@@ -29,7 +29,6 @@ import com.afterkraft.kraftrpg.api.RPGPlugin;
 import com.afterkraft.kraftrpg.api.entity.Champion;
 import com.afterkraft.kraftrpg.api.entity.SkillCaster;
 import com.afterkraft.kraftrpg.api.skills.Passive;
-import com.afterkraft.kraftrpg.common.persistence.data.MemoryDataContainer;
 
 /**
  * Default implementation of a Skill with the Passive interface
@@ -53,7 +52,7 @@ public abstract class PassiveSkill extends Skill implements Passive {
     @Override
     public DataView getDefaultConfig() {
         // TODO Auto-generated method stub
-        return new MemoryDataContainer();
+        return null;
     }
 
     @Override

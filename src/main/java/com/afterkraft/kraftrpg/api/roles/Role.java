@@ -24,41 +24,31 @@
 package com.afterkraft.kraftrpg.api.roles;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 
-import org.spongepowered.api.item.ItemType;
-import org.spongepowered.api.service.persistence.data.DataQuery;
-import org.spongepowered.api.service.persistence.data.DataView;
-
 import com.google.common.base.Objects;
 import com.google.common.base.Optional;
-import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 
 import com.afterkraft.kraftrpg.api.RPGPlugin;
-import com.afterkraft.kraftrpg.api.entity.resource.ResourceType;
-import com.afterkraft.kraftrpg.api.entity.resource.Resources;
 import com.afterkraft.kraftrpg.api.roles.aspects.HealthAspect;
 import com.afterkraft.kraftrpg.api.roles.aspects.ResourceAspect;
+import com.afterkraft.kraftrpg.api.roles.aspects.RestrictedSkillAspect;
+import com.afterkraft.kraftrpg.api.roles.aspects.SkillAspect;
 import com.afterkraft.kraftrpg.api.skills.ISkill;
-import com.afterkraft.kraftrpg.api.skills.SkillSetting;
 
 /**
  * A Role is an Immutable object representing the skill tree and damage values that a {@link
- * com.afterkraft.kraftrpg.api.entity.Sentient} may have. All {@link ISkill}s
- * are granted for use to {@link
- * com.afterkraft.kraftrpg.api.entity.SkillCaster}s and experience is gained by {@link
- * com.afterkraft.kraftrpg.api.entity.Sentient}s.  To construct a Role, use
- * the linked {@link Builder}
+ * com.afterkraft.kraftrpg.api.entity.Sentient} may have. All {@link ISkill}s are granted for use to
+ * {@link com.afterkraft.kraftrpg.api.entity.SkillCaster}s and experience is gained by {@link
+ * com.afterkraft.kraftrpg.api.entity.Sentient}s.  To construct a Role, use the linked {@link
+ * Builder}
  */
 public final class Role {
 
@@ -98,34 +88,8 @@ public final class Role {
      * @return This builder
      */
     public static Builder builder(RPGPlugin plugin) {
+        checkNotNull(plugin);
         return new Builder(plugin);
-    }
-
-    /**
-     * Creates a builder using a role as a template for further modification.
-     *
-     * @param role The role to copy
-     * @return This builder
-     */
-    public static Builder copyOf(Role role) {
-        checkNotNull(role);
-        Builder builder = new Builder(role.plugin)
-                .setName(role.name)
-                .setAdvancementLevel(role.advancementLevel)
-                .setMaxLevel(role.maxLevel)
-                .setChoosable(role.choosable)
-                .setDescription(role.description)
-                .setType(role.type);
-        for (String child : role.children) {
-            builder.addChild(role.plugin.getRoleManager().getRole(child).get());
-        }
-        for (String parent : role.parents) {
-            builder.addParent(role.plugin.getRoleManager().getRole(parent).get());
-        }
-        for (RoleAspect aspect : role.aspects) {
-            builder.addAspect(aspect);
-        }
-        return builder;
     }
 
     /**
@@ -148,22 +112,14 @@ public final class Role {
     }
 
     /**
-     * Return the configured name for this Role
-     *
-     * @return The name for this role
-     */
-    public String getName() {
-        return this.name;
-    }
-
-    /**
      * Gets the desired {@link RoleAspect} of this role if available.
      *
      * @param clazz The resource class
-     * @param <T> The type of resource
+     * @param <T>   The type of resource
+     *
      * @return The resource aspect, if available
      */
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({ "unchecked", "unused" })
     public <T extends RoleAspect> Optional<T> getAspect(Class<T> clazz) {
         checkNotNull(clazz);
         checkArgument(!RoleAspect.class.equals(clazz)
@@ -211,7 +167,7 @@ public final class Role {
      */
     @SuppressWarnings("unused")
     public boolean isDefault() {
-        if (this.type == RoleType.PRIMARY ) {
+        if (this.type == RoleType.PRIMARY) {
             return this == this.plugin.getRoleManager().getDefaultPrimaryRole();
         } else if (this.type == RoleType.SECONDARY
                 && this.plugin.getRoleManager()
@@ -278,14 +234,23 @@ public final class Role {
         Role role = (Role) obj;
 
         return Objects.equal(this.name, role.getName())
-                &&  Objects.equal(this.description, role.description)
-                &&  Objects.equal(this.maxLevel, role.maxLevel)
-                &&  Objects.equal(this.type, role.type)
-                &&  Objects.equal(this.choosable, role.choosable)
-                &&  Objects.equal(this.advancementLevel, role.advancementLevel)
-                &&  Objects.equal(this.aspects, role.aspects)
-                &&  Objects.equal(this.children, role.children)
-                &&  Objects.equal(this.parents, role.parents);
+                && Objects.equal(this.description, role.description)
+                && Objects.equal(this.maxLevel, role.maxLevel)
+                && Objects.equal(this.type, role.type)
+                && Objects.equal(this.choosable, role.choosable)
+                && Objects.equal(this.advancementLevel, role.advancementLevel)
+                && Objects.equal(this.aspects, role.aspects)
+                && Objects.equal(this.children, role.children)
+                && Objects.equal(this.parents, role.parents);
+    }
+
+    /**
+     * Return the configured name for this Role
+     *
+     * @return The name for this role
+     */
+    public String getName() {
+        return this.name;
     }
 
     /**
@@ -296,6 +261,34 @@ public final class Role {
     @SuppressWarnings("unused")
     public Role asNewCopy() {
         return copyOf(this).build();
+    }
+
+    /**
+     * Creates a builder using a role as a template for further modification.
+     *
+     * @param role The role to copy
+     *
+     * @return This builder
+     */
+    public static Builder copyOf(Role role) {
+        checkNotNull(role);
+        Builder builder = new Builder(role.plugin)
+                .setName(role.name)
+                .setAdvancementLevel(role.advancementLevel)
+                .setMaxLevel(role.maxLevel)
+                .setChoosable(role.choosable)
+                .setDescription(role.description)
+                .setType(role.type);
+        for (String child : role.children) {
+            builder.addChild(role.plugin.getRoleManager().getRole(child).get());
+        }
+        for (String parent : role.parents) {
+            builder.addParent(role.plugin.getRoleManager().getRole(parent).get());
+        }
+        for (RoleAspect aspect : role.aspects) {
+            builder.addAspect(aspect);
+        }
+        return builder;
     }
 
     /**
@@ -363,6 +356,7 @@ public final class Role {
          * Sets the description for the role.
          *
          * @param description The description
+         *
          * @return This builder for chaining
          */
         public Builder setDescription(String description) {
@@ -373,12 +367,12 @@ public final class Role {
         }
 
         /**
-         * Sets the role to be choosable by players in game.
-         * <p>A choosable role means that it can be chosen by players
-         * without assistance of admin commands or external plugin
+         * Sets the role to be choosable by players in game. <p>A choosable role means that it can
+         * be chosen by players without assistance of admin commands or external plugin
          * behaviors.</p>
          *
          * @param choosable Whether the role is choosable in game
+         *
          * @return This builder for chaining
          */
         public Builder setChoosable(boolean choosable) {
@@ -390,20 +384,21 @@ public final class Role {
          * Sets the maximum level of the role.
          *
          * @param maxLevel The maximum level of the role
+         *
          * @return This builder for chaining
          */
         public Builder setMaxLevel(int maxLevel) {
             checkArgument(maxLevel > 0 && maxLevel >= this.advancementLevel,
-                    "Cannot have a max level lower than the advancement level or less than zero!");
+                          "Cannot have a max level lower than the advancement level or less than zero!");
             this.maxLevel = maxLevel;
             return this;
         }
 
         /**
-         * Sets the level of which the role qualifies for advancement to a
-         * child role.
+         * Sets the level of which the role qualifies for advancement to a child role.
          *
          * @param advancementLevel The advancement level
+         *
          * @return This builder for chaining
          */
         public Builder setAdvancementLevel(int advancementLevel) {
@@ -416,6 +411,7 @@ public final class Role {
          * Sets the name of the role.
          *
          * @param name The name of the role
+         *
          * @return This builder for chaining
          */
         public Builder setName(String name) {
@@ -426,20 +422,30 @@ public final class Role {
         }
 
         /**
-         * Adds the given aspect to the role.
-         * <p>Aspects further customize Roles to perform various tasks and
-         * calculations, such as skill granting, skill restriction, item
-         * damage, and health benefits.</p>
-         * <p>{@link RoleAspect} is considered immutble, so once created,
-         * they can not be modified.</p>
+         * Adds the given aspect to the role. <p>Aspects further customize Roles to perform various
+         * tasks and calculations, such as skill granting, skill restriction, item damage, and
+         * health benefits.</p> <p>{@link RoleAspect} is considered immutble, so once created, they
+         * can not be modified.</p>
          *
          * @param aspect The role aspect
+         *
          * @return This builder for chaining
          */
         public Builder addAspect(RoleAspect aspect) {
             checkNotNull(aspect);
             if (aspect instanceof HealthAspect) {
                 checkArgument(((HealthAspect) aspect).getBaseHealth() > 0);
+            }
+            if (aspect instanceof RestrictedSkillAspect) {
+                for (RoleAspect roleAspect : this.aspects) {
+                    if (roleAspect instanceof SkillAspect) {
+                        SkillAspect skillAspect = (SkillAspect) roleAspect;
+                        for (ISkill skill : skillAspect.getAllSkills()) {
+                            checkArgument(!((RestrictedSkillAspect) aspect)
+                                    .isSkillRestricted(skill));
+                        }
+                    }
+                }
             }
             this.aspects.add(aspect);
             return this;
@@ -456,7 +462,7 @@ public final class Role {
         public Builder addChild(Role child) {
             checkNotNull(child);
             checkArgument(!this.parents.contains(child.getName()),
-                    "Cannot add a child role when it is already a parent role!");
+                          "Cannot add a child role when it is already a parent role!");
             this.children.add(child.getName());
             return this;
         }
@@ -472,7 +478,7 @@ public final class Role {
         public Builder addParent(Role parent) {
             checkNotNull(parent);
             checkArgument(!this.children.contains(parent.getName()),
-                    "Cannot add a parent role when it is already a child role!");
+                          "Cannot add a parent role when it is already a child role!");
             this.parents.add(parent.getName());
             return this;
         }
@@ -505,7 +511,7 @@ public final class Role {
         public Builder removeParent(Role parent) {
             checkNotNull(parent);
             checkArgument(!this.children.contains(parent.getName()),
-                    "Cannot remove a parent role when it is already a child role!");
+                          "Cannot remove a parent role when it is already a child role!");
             this.parents.remove(parent.getName());
             return this;
         }
@@ -526,6 +532,7 @@ public final class Role {
         public Role build() {
             checkState(this.advancementLevel > 0, "Cannot have a zero advancement level!");
             checkState(this.maxLevel > 0, "Cannot have a zero max level!");
+            checkState(!this.name.isEmpty());
             return new Role(this);
         }
 

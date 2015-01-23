@@ -29,32 +29,54 @@ import java.util.List;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import org.spongepowered.api.service.persistence.data.DataQuery;
 import org.spongepowered.api.service.persistence.data.DataView;
 
 import com.google.common.base.Optional;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 
+import com.afterkraft.kraftrpg.api.RpgCommon;
 import com.afterkraft.kraftrpg.api.roles.RoleAspect;
 import com.afterkraft.kraftrpg.api.roles.RoleSkill;
 import com.afterkraft.kraftrpg.api.skills.ISkill;
 import com.afterkraft.kraftrpg.api.skills.SkillSetting;
 
 /**
- *
+ * Represents a {@link RoleAspect} that deals specifically with {@link ISkill} granting and usage.
  */
 public final class SkillAspect implements RoleAspect {
     private final RoleSkill[] skills;
+
     private SkillAspect(SkillAspectBuilder builder) {
         this.skills = builder.skills
                 .toArray(new RoleSkill[builder.skills.size()]);
     }
 
+    /**
+     * Creates a new {@link SkillAspectBuilder} for use.
+     *
+     * @return A new builder
+     */
+    public static SkillAspectBuilder builder() {
+        return new SkillAspectBuilder();
+    }
+
+    /**
+     * Checks if this role has the defined {@link ISkill} at any level
+     *
+     * @param skill to check
+     *
+     * @return true if the skill is defined
+     */
+    public boolean hasSkill(ISkill skill) {
+        return getRoleSkill(skill).isPresent();
+    }
 
     /**
      * Gets the underlying {@link RoleSkill} for the given {@link ISkill}.
      *
      * @param skill The skill to get the configuration of
+     *
      * @return The role skill configuration
      */
     public Optional<RoleSkill> getRoleSkill(ISkill skill) {
@@ -67,20 +89,7 @@ public final class SkillAspect implements RoleAspect {
     }
 
     /**
-     * Checks if this role has the defined {@link ISkill} at any
-     * level
-     *
-     * @param skill to check
-     *
-     * @return true if the skill is defined
-     */
-    public boolean hasSkill(ISkill skill) {
-        return getRoleSkill(skill).isPresent();
-    }
-
-    /**
-     * Check if the specified skill is granted at the specified level,
-     * if not before the level.
+     * Check if the specified skill is granted at the specified level, if not before the level.
      *
      * @param skill The skill to query
      * @param level The level to check
@@ -89,10 +98,7 @@ public final class SkillAspect implements RoleAspect {
      */
     public boolean hasSkillAtLevel(ISkill skill, int level) {
         Optional<RoleSkill> roleSkillOptional = getRoleSkill(skill);
-        if (roleSkillOptional.isPresent()) {
-            return roleSkillOptional.get().getLevel() <= level;
-        }
-        return false;
+        return roleSkillOptional.isPresent() && roleSkillOptional.get().getLevel() <= level;
     }
 
     /**
@@ -112,9 +118,8 @@ public final class SkillAspect implements RoleAspect {
     }
 
     /**
-     * Return a copy of the skill configuration for the specified skill
-     * at the desired level, if the skill is granted at the specified level
-     * or before.
+     * Return a copy of the skill configuration for the specified skill at the desired level, if the
+     * skill is granted at the specified level or before.
      *
      * @param skill to get the configuration of
      * @param level to check if the skill is granted at that level
@@ -139,20 +144,43 @@ public final class SkillAspect implements RoleAspect {
      * @return An immutable set of all defined skills
      */
     public List<ISkill> getAllSkills() {
+        ImmutableList.Builder<ISkill> builder = ImmutableList.builder();
+        for (RoleSkill roleSkill : this.skills) {
+            Optional<ISkill> optional = RpgCommon.getPlugin().getSkillManager()
+                    .getSkill(roleSkill.getSkillName());
+            if (optional.isPresent()) {
+                builder.add(optional.get());
+            }
+        }
+        return builder.build();
 
     }
 
     /**
-     * Gets an immutable set of {@link ISkill}s that are granted
-     * below or at the specified level
+     * Gets an immutable set of {@link ISkill}s that are granted below or at the specified level
      *
      * @param level at which the skills have been granted
      *
      * @return the skills granted up to the specified level.
      * @throws IllegalArgumentException if the level is negative
      */
-    public List<ISkill> getAllSkillsAtLevel(int level);
+    public List<ISkill> getAllSkillsAtLevel(int level) {
+        ImmutableList.Builder<ISkill> builder = ImmutableList.builder();
+        for (RoleSkill roleSkill : this.skills) {
+            if (roleSkill.getLevel() >= level) {
+                Optional<ISkill> optional = RpgCommon.getPlugin().getSkillManager()
+                        .getSkill(roleSkill.getSkillName());
+                if (optional.isPresent()) {
+                    builder.add(optional.get());
+                }
+            }
+        }
+        return builder.build();
+    }
 
+    /**
+     * A builder for a new {@link SkillAspect}.
+     */
     public static final class SkillAspectBuilder {
         List<RoleSkill> skills = Lists.newArrayList();
 
@@ -176,14 +204,31 @@ public final class SkillAspect implements RoleAspect {
             checkNotNull(skill);
             checkNotNull(section);
             checkArgument(!skill.getName().isEmpty(), "Cannot have an empty Skill name!");
-            checkArgument(section.getInt(
-                                  new DataQuery(".",
-                                                SkillSetting.LEVEL.node()))
-                                  .isPresent(),
+            checkArgument(section.getInt(SkillSetting.LEVEL.node()).isPresent(),
                           "Level not specified in the skill configuration!");
             this.skills.add(new RoleSkill(skill.getName(), section));
             return this;
         }
 
+        /**
+         * Resets this builder to a blank state.
+         *
+         * @return This builder, for chaining
+         */
+        public SkillAspectBuilder reset() {
+            this.skills = Lists.newArrayList();
+            return this;
+        }
+
+        /**
+         * Creates a new {@link SkillAspect} ready for use.
+         *
+         * <p>Note that skill aspects are immutable by default.</p>
+         *
+         * @return The newly created SkillAspect
+         */
+        public SkillAspect build() {
+            return new SkillAspect(this);
+        }
     }
 }

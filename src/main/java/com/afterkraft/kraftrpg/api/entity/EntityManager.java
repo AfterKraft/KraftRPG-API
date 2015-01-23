@@ -51,7 +51,7 @@ public interface EntityManager extends Manager {
      * @return The KraftRPG proxy object for the entity
      * @throws IllegalArgumentException If the entity is null or invalid
      */
-    Optional<IEntity> getEntity(Entity entity);
+    Optional<? extends IEntity> getEntity(Entity entity);
 
     /**
      * Retrieve the {@link com.afterkraft.kraftrpg.api.entity.Monster} object for this Player.
@@ -61,7 +61,7 @@ public interface EntityManager extends Manager {
      * @return the Monster object
      * @throws IllegalArgumentException If the entity is null or invalid
      */
-    Optional<Monster> getMonster(Living entity);
+    Optional<? extends Monster> getMonster(Living entity);
 
     /**
      * Retrieve the {@link com.afterkraft.kraftrpg.api.entity.Champion} object for this Player.
@@ -71,7 +71,7 @@ public interface EntityManager extends Manager {
      * @return the Champion object, or null if the player is not valid
      * @throws IllegalArgumentException If the player is null or invalid
      */
-    Optional<Champion> getChampion(Player player);
+    Optional<? extends Champion> getChampion(Player player);
 
     /**
      * Attempts to load a {@link com.afterkraft.kraftrpg.api.entity.Champion} with a link to a
@@ -84,7 +84,7 @@ public interface EntityManager extends Manager {
      *
      * @return The loaded Champion belonging to the UUID, if available
      */
-    Optional<Champion> getChampion(UUID uuid);
+    Optional<? extends Champion> getChampion(UUID uuid);
 
     /**
      * Check if the given {@link Entity} is already managed by this EntityManager.

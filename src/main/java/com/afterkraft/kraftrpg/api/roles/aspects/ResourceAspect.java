@@ -30,6 +30,7 @@ import com.afterkraft.kraftrpg.api.roles.RoleAspect;
 
 /**
  * Represents a resource aspect associated with a resource
+ *
  * @param <T>
  */
 public interface ResourceAspect<T extends Number> extends RoleAspect {
@@ -66,6 +67,7 @@ public interface ResourceAspect<T extends Number> extends RoleAspect {
      * Gets the resource available at the desired level.
      *
      * @param level The level
+     *
      * @return The resource at the desired level, if available
      */
     Optional<T> getResourceAtLevel(int level);

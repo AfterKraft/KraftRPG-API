@@ -136,13 +136,8 @@ public abstract class StorageFrontend {
                 return Optional.absent();
             } else {
                 data = Optional.of(new PlayerData());
-                if (this.plugin.getRoleManager().getDefaultPrimaryRole()
-                        .isPresent()) {
-                    data.get().primary = this.plugin.getRoleManager()
-                            .getDefaultPrimaryRole().get();
-                }
-                if (this.plugin.getRoleManager().getDefaultSecondaryRole()
-                        .isPresent()) {
+                data.get().primary = this.plugin.getRoleManager().getDefaultPrimaryRole();
+                if (this.plugin.getRoleManager().getDefaultSecondaryRole().isPresent()) {
                     data.get().profession = this.plugin.getRoleManager()
                             .getDefaultSecondaryRole().get();
                 }

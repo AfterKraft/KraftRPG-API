@@ -47,6 +47,16 @@ public final class RestrictedSkillAspect implements RoleAspect {
                 .toArray(new String[builder.restrictedSkills.size()]);
     }
 
+
+    /**
+     * Creates a new {@link RestrictedSkillAspectBuilder} for use.
+     *
+     * @return A new builder
+     */
+    public static RestrictedSkillAspectBuilder builder() {
+        return new RestrictedSkillAspectBuilder();
+    }
+
     /**
      * Returns whether this aspect limits the use of the given skill.
      *
@@ -87,15 +97,13 @@ public final class RestrictedSkillAspect implements RoleAspect {
         List<String> restrictedSkills = Lists.newArrayList();
 
         /**
-         * Adds a skill to the restricted list. Skills in the restricted list
-         * are uncastable while a {@link com.afterkraft.kraftrpg.api.entity.SkillCaster}
-         * has this role active.
+         * Adds a skill to the restricted list. Skills in the restricted list are uncastable while a
+         * {@link com.afterkraft.kraftrpg.api.entity.SkillCaster} has this role active.
          *
          * @param skill The skill to restrict
          *
          * @return This builder for chaining
-         * @throws IllegalArgumentException If the skill is already in the
-         *                                  granted skills list
+         * @throws IllegalArgumentException If the skill is already in the granted skills list
          */
         public RestrictedSkillAspectBuilder addRestirctedSkill(ISkill skill) {
             checkNotNull(skill);
@@ -104,9 +112,8 @@ public final class RestrictedSkillAspect implements RoleAspect {
         }
 
         /**
-         * Removes a skill from the restricted list. Skills in the restricted
-         * list are uncastable while a {@link com.afterkraft.kraftrpg.api.entity.SkillCaster}
-         * has this role active.
+         * Removes a skill from the restricted list. Skills in the restricted list are uncastable
+         * while a {@link com.afterkraft.kraftrpg.api.entity.SkillCaster} has this role active.
          *
          * @param skill The skill to un-restrict
          *
@@ -126,6 +133,16 @@ public final class RestrictedSkillAspect implements RoleAspect {
          */
         public RestrictedSkillAspect build() {
             return new RestrictedSkillAspect(this);
+        }
+
+        /**
+         * Resets this builder to a clean state.
+         *
+         * @return This builder, for chaining
+         */
+        public RestrictedSkillAspectBuilder reset() {
+            this.restrictedSkills = Lists.newArrayList();
+            return this;
         }
     }
 }

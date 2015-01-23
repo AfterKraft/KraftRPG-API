@@ -90,14 +90,6 @@ public enum SkillCastResult {
      */
     FAIL,
     /**
-     * XXX what is this
-     */
-    REMOVED_EFFECT,
-    /**
-     * XXX what is this
-     */
-    SKIP_POST_USAGE,
-    /**
      * The skill has decided that the provided target is invalid.
      */
     INVALID_TARGET,

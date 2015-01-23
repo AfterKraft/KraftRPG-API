@@ -22,5 +22,29 @@
  * THE SOFTWARE.
  */
 
-@org.spongepowered.api.util.annotation.NonnullByDefault
-package com.afterkraft.kraftrpg.api.handler;
+package com.afterkraft.kraftrpg.api.skills;
+
+/**
+ * An exception that occurs when a skill configuration was requested but does not exist by
+ * default or configuration.
+ */
+public class SkillConfigurationException extends RuntimeException {
+
+    private static final long serialVersionUID = -4709218650508572955L;
+
+    /**
+     * Generates a new SkillConfigurationException.
+     */
+    public SkillConfigurationException() {
+        super();
+    }
+
+    /**
+     * Generates a new SkillConfigurationSection with a message.
+     *
+     * @param message The message to include in the exception
+     */
+    public SkillConfigurationException(String message) {
+        super(message);
+    }
+}

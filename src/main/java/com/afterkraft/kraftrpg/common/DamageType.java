@@ -22,36 +22,7 @@
  * THE SOFTWARE.
  */
 
-package com.afterkraft.kraftrpg.api.roles.aspects;
+package com.afterkraft.kraftrpg.common;
 
-import java.util.Map;
-
-import org.spongepowered.api.item.ItemType;
-
-import com.google.common.base.Optional;
-
-import com.afterkraft.kraftrpg.api.roles.RoleAspect;
-
-public final class ItemDamage implements RoleAspect {
-    private final ItemType[] itemTypes;
-    private final double[] baseDamages;
-    private final double[] damageIncreases;
-
-    public Optional<Double> getItemBaseDamage(ItemType type);
-
-    public Optional<Double> getItemDamageAtLevel(ItemType type, int level);
-
-    /**
-     *
-     * @param type
-     * @return
-     */
-    public Optional<Double> getItemDamagePerLevel(ItemType type);
-
-    /**
-     * Gets a map of all configured item damages by {@link ItemType}.
-     *
-     * @return A map of all item types and their prescribed damages
-     */
-    public Map<ItemType, Double> getItemDamages();
+public class DamageType {
 }

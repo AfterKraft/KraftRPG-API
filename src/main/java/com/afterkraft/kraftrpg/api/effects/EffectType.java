@@ -485,14 +485,12 @@ public enum EffectType {
     }
 
     public static void deserialize(DataView section) {
-        for (String key : section.getKeys(false)) {
-            EffectType type = EffectType.valueOf(key);
+        for (DataQuery key : section.getKeys(false)) {
+            EffectType type = EffectType.valueOf(key.asString('.'));
             if (type != null) {
-                List<String> types = section
-                        .getStringList(new DataQuery(".", key)).get();
+                List<String> types = section.getStringList(key).get();
                 for (String resistTypeString : types) {
-                    EffectType resistType = EffectType
-                            .valueOf(resistTypeString);
+                    EffectType resistType = EffectType.valueOf(resistTypeString);
                     if (resistType != null) {
                         type.addResistance(resistType);
                     }

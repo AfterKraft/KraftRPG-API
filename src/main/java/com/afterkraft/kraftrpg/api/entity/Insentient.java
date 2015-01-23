@@ -249,12 +249,11 @@ public interface Insentient extends IEntity {
 
     /**
      * Provided as a utility method to get a copy of the being's armor. Implementations may vary,
-     * but this should be assured to follow the index representation provided by the following
-     * methods: <ul> <li>{@link com.afterkraft.kraftrpg.api.handler.ServerInternals#getArmorIndexHelmet()}</li>
-     * <li>{@link com.afterkraft.kraftrpg.api.handler.ServerInternals#getArmorIndexChestPlate()}</li>
-     * <li>{@link com.afterkraft.kraftrpg.api.handler.ServerInternals#getArmorIndexLeggings()} </li>
-     * <li>{@link com.afterkraft.kraftrpg.api.handler.ServerInternals#getArmorIndexBoots()} </li>
-     * </ul>
+     * but this should be assured to follow the index of:
+     * <ol><li>0 - Boots</li><li>1 - Leggings</li><li>2 - Chestplate</li><li>3 - Helmet</li></ol>.
+     *
+     * <p>Any customized armor pieces not covered by this array should be handled on a case by
+     * case basis.</p>
      *
      * @return The copy of the ItemStack list of the armor for this being
      */

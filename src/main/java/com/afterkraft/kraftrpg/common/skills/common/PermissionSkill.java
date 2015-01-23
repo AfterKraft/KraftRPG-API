@@ -27,26 +27,17 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Map;
 
-import static com.google.common.base.Preconditions.checkArgument;
-
-import org.bukkit.configuration.Configuration;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.Player;
-import org.bukkit.permissions.Permission;
 import org.spongepowered.api.entity.Entity;
-import org.spongepowered.api.entity.player.Player;
+import org.spongepowered.api.service.persistence.data.DataView;
 
 import com.google.common.collect.ImmutableMap;
 
 import com.afterkraft.kraftrpg.api.RPGPlugin;
-import com.afterkraft.kraftrpg.api.RpgCommon;
 import com.afterkraft.kraftrpg.api.entity.Champion;
 import com.afterkraft.kraftrpg.api.entity.Sentient;
 import com.afterkraft.kraftrpg.api.entity.SkillCaster;
-import com.afterkraft.kraftrpg.common.persistence.data.DataView;
-import com.afterkraft.kraftrpg.common.persistence.data.MemoryDataContainer;
-import com.afterkraft.kraftrpg.common.skills.Skill;
 import com.afterkraft.kraftrpg.api.skills.SkillSetting;
+import com.afterkraft.kraftrpg.common.skills.Skill;
 
 /**
  * PermissionSkill allows setting any other Plugin's permission to become a Skill through permission
@@ -55,7 +46,7 @@ import com.afterkraft.kraftrpg.api.skills.SkillSetting;
  */
 public final class PermissionSkill extends Skill implements Permissible {
     private Map<String, Boolean> permissions;
-    private Permission permission;
+//    private Permission permission;
 
     public PermissionSkill(RPGPlugin plugin, String name) {
         super(plugin, name);
@@ -63,7 +54,7 @@ public final class PermissionSkill extends Skill implements Permissible {
 
     @Override
     public DataView getDefaultConfig() {
-        return new MemoryDataContainer();
+        return null;
     }
 
     @Override
@@ -96,36 +87,36 @@ public final class PermissionSkill extends Skill implements Permissible {
 
     @Override
     public void setPermissions(Map<String, Boolean> permissions) {
-        checkArgument(permissions != null, "Cannot set the permissions to a null mapping!");
+        /*checkArgument(permissions != null, "Cannot set the permissions to a null mapping!");
         this.permissions = permissions;
         this.permission = RpgCommon.getGame().getPluginManager().getPermission
                 (this
                                                                               .getName
                 ());
         if (this.permission != null) {
-            this.plugin.getServer().getPluginManager().removePermission(this.permission);
+            RpgCommon.getServer().getPluginManager().removePermission(this.permission);
         }
 
         this.permission = new Permission(getName(), "PermissionSkill " + getName(),
                 this.permissions);
-        this.plugin.getServer().getPluginManager().addPermission(this.permission);
+        this.plugin.getServer().getPluginManager().addPermission(this.permission);*/
     }
 
     @Override
     public void tryLearning(Sentient being) {
-        checkArgument(being != null, "Cannot tell a null Sentient being to learn a skill!");
+        /*checkArgument(being != null, "Cannot tell a null Sentient being to learn a skill!");
         if (being.getEntity() instanceof Player) {
             RpgCommon.getPermissionManager().addTransientGlobalPermission(being,
                     this.permission.getName());
-        }
+        }*/
     }
 
     @Override
     public void tryUnlearning(Sentient being) {
-        checkArgument(being != null, "Cannot tell a null Sentient being to unlearn a skill!");
+        /*checkArgument(being != null, "Cannot tell a null Sentient being to unlearn a skill!");
         if (being.getEntity() instanceof Player) {
             RpgCommon.getPermissionManager().addTransientGlobalPermission(being,
                     this.permission.getName());
-        }
+        }*/
     }
 }

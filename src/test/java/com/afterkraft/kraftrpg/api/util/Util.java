@@ -23,32 +23,17 @@
  */
 package com.afterkraft.kraftrpg.api.util;
 
-import java.util.logging.ConsoleHandler;
-import java.util.logging.Handler;
 import java.util.logging.Level;
-import java.util.logging.LogRecord;
-import java.util.logging.Logger;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Various utilities for testing.
  */
 public class Util {
 
-
-    public static final Logger logger = Logger.getLogger("RPG-Test");
-
-    static {
-        logger.setUseParentHandlers(false);
-
-        Handler handler = new ConsoleHandler();
-        Handler[] handlers = logger.getHandlers();
-
-        for (Handler h : handlers) {
-            logger.removeHandler(h);
-        }
-
-        logger.addHandler(handler);
-    }
+    public static final Logger logger = LoggerFactory.getLogger("RPG-Test");
 
     private Util() {
     }
@@ -58,9 +43,7 @@ public class Util {
     }
 
     public static void log(Level level, String message, Throwable t) {
-        LogRecord record = new LogRecord(level, message);
-        record.setThrown(t);
-        logger.log(record);
+        logger.debug(message, t);
     }
 
     public static void log(Level level, Throwable t) {
@@ -76,7 +59,7 @@ public class Util {
     }
 
     public static void log(Level level, String message) {
-        logger.log(level, message);
+        logger.debug(message);
     }
 
 }

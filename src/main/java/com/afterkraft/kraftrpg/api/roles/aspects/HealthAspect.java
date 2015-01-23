@@ -30,8 +30,8 @@ import static com.google.common.base.Preconditions.checkState;
 import com.google.common.base.Optional;
 
 /**
- * Represents a {@link ResourceAspect} for a role that involves health at
- * specific levels and benefits.
+ * Represents a {@link ResourceAspect} for a role that involves health at specific levels and
+ * benefits.
  */
 public final class HealthAspect implements ResourceAspect<Double> {
 
@@ -44,38 +44,26 @@ public final class HealthAspect implements ResourceAspect<Double> {
     }
 
     /**
+     * Gets a new builder for building a {@link HealthAspect}.
+     *
+     * @return A new builder
+     */
+    public static HealthAspectBuilder builder() {
+        return new HealthAspectBuilder();
+    }
+
+    @Override
+    public Double getBaseResource() {
+        return getBaseHealth();
+    }
+
+    /**
      * Gets the health at level 0.
      *
      * @return The health at level 0
      */
     public double getBaseHealth() {
         return this.baseHealth;
-    }
-
-    /**
-     * Gets the health increase per level
-     *
-     * @return The health increase per level
-     */
-    public double getHealthIncrasePerLevel() {
-        return this.healthPerLevel;
-    }
-
-    /**
-     * Gets the health available at the desired level.
-     *
-     * @param level The level
-     * @return The health at the desired level, if available
-     */
-    public Optional<Double> getHealthAtLevel(int level) {
-        checkArgument(level > 1);
-        return Optional.of(this.baseHealth
-                                   + (this.healthPerLevel * (level - 1)));
-    }
-
-    @Override
-    public Double getBaseResource() {
-        return getBaseHealth();
     }
 
     @Override
@@ -88,6 +76,15 @@ public final class HealthAspect implements ResourceAspect<Double> {
         return this.getHealthIncrasePerLevel();
     }
 
+    /**
+     * Gets the health increase per level
+     *
+     * @return The health increase per level
+     */
+    public double getHealthIncrasePerLevel() {
+        return this.healthPerLevel;
+    }
+
     @Override
     public Double getResourceRegenerationIncreasePerLevel() {
         return 0D;
@@ -96,6 +93,19 @@ public final class HealthAspect implements ResourceAspect<Double> {
     @Override
     public Optional<Double> getResourceAtLevel(int level) {
         return this.getHealthAtLevel(level);
+    }
+
+    /**
+     * Gets the health available at the desired level.
+     *
+     * @param level The level
+     *
+     * @return The health at the desired level, if available
+     */
+    public Optional<Double> getHealthAtLevel(int level) {
+        checkArgument(level > 1);
+        return Optional.of(this.baseHealth
+                                   + (this.healthPerLevel * (level - 1)));
     }
 
     /**
@@ -113,6 +123,7 @@ public final class HealthAspect implements ResourceAspect<Double> {
          * Sets the given resource base value at level zero.
          *
          * @param minimum The minimum value
+         *
          * @return This builder for chaining
          */
         public HealthAspectBuilder setHealthAtZero(double minimum) {
@@ -125,6 +136,7 @@ public final class HealthAspect implements ResourceAspect<Double> {
          * Sets the resource increase per level.
          *
          * @param increase The amount to increase
+         *
          * @return This builder for chaining
          */
         public HealthAspectBuilder setHealthPerLevel(double increase) {

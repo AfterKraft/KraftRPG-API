@@ -25,6 +25,8 @@ package com.afterkraft.kraftrpg.api.skills;
 
 import java.util.Set;
 
+import org.spongepowered.api.service.persistence.data.DataQuery;
+
 import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableSet;
 
@@ -181,15 +183,26 @@ public class SkillSetting {
      */
     public static final SkillSetting CUSTOM_PER_CASTER =
             new SkillSetting("custom");
-    private final String node;
+    private final DataQuery node;
     private final boolean scaled;
 
+    /**
+     * Creates a new {@link SkillSetting} with the given string as a node.
+     *
+     * @param node The node of the setting
+     */
     protected SkillSetting(String node) {
         this(node, false);
     }
 
+    /**
+     * Creates a new {@link SkillSetting} that has a scaling node.
+     *
+     * @param node The node of the setting
+     * @param scaled Whether there is a scaling node or not
+     */
     protected SkillSetting(String node, boolean scaled) {
-        this.node = node;
+        this.node = new DataQuery(node);
         this.scaled = scaled;
     }
 
@@ -198,7 +211,16 @@ public class SkillSetting {
      *
      * @return The string node for this setting
      */
-    public String node() {
+    public String nodeAsString() {
+        return this.node.asString('.');
+    }
+
+    /**
+     * Gets the prescribed {@link DataQuery} node for this setting
+     *
+     * @return The prescribed data query
+     */
+    public DataQuery node() {
         return this.node;
     }
 
@@ -209,15 +231,15 @@ public class SkillSetting {
      *
      * @return The 'per-level' string node for this setting
      */
-    public Optional<String> scalingNode() {
+    public Optional<DataQuery> scalingNode() {
         if (!this.scaled) {
             return Optional.absent();
         }
-        return Optional.of(this.node + "-per-level");
+        return Optional.of(new DataQuery(this.nodeAsString() + "-per-level"));
     }
 
     @Override
     public String toString() {
-        return this.node;
+        return this.nodeAsString();
     }
 }

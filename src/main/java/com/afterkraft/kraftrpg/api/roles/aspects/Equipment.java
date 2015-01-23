@@ -36,8 +36,8 @@ import com.google.common.collect.Lists;
 import com.afterkraft.kraftrpg.api.roles.RoleAspect;
 
 /**
- * Represents a {@link RoleAspect} that determines whether an {@link
- * ItemStack} or {@link ItemType} is equippable as weapon and/or armor.
+ * Represents a {@link RoleAspect} that determines whether an {@link ItemStack} or {@link ItemType}
+ * is equippable as weapon and/or armor.
  */
 public final class Equipment implements RoleAspect {
     private final ItemType[] allowedWeapons;
@@ -147,6 +147,7 @@ public final class Equipment implements RoleAspect {
          * Adds the given item type as an allowed weapon.
          *
          * @param type The item type
+         *
          * @return This buidler for chaining
          */
         @SuppressWarnings("unused")
@@ -162,8 +163,8 @@ public final class Equipment implements RoleAspect {
          * @return This bulider for chaining
          */
         public EquipmentAspectBuilder reset() {
-            this.allowedArmor.clear();
-            this.allowedWeapons.clear();
+            this.allowedArmor = Lists.newArrayList();
+            this.allowedWeapons = Lists.newArrayList();
             return this;
         }
 

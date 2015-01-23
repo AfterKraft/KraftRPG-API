@@ -31,18 +31,19 @@ import static com.google.common.base.Preconditions.checkArgument;
 
 import org.spongepowered.api.potion.PotionEffect;
 
+import com.google.common.collect.Sets;
+
 import com.afterkraft.kraftrpg.api.effects.EffectType;
 import com.afterkraft.kraftrpg.api.effects.common.Damaging;
-import com.afterkraft.kraftrpg.common.effects.PeriodicExpirableEffect;
 import com.afterkraft.kraftrpg.api.entity.Insentient;
 import com.afterkraft.kraftrpg.api.entity.SkillCaster;
-import com.afterkraft.kraftrpg.api.events.entity.damage.InsentientDamageEvent.DamageType;
+import com.afterkraft.kraftrpg.common.effects.PeriodicExpirableEffect;
 import com.afterkraft.kraftrpg.common.skills.Skill;
 
 /**
  * Standard implementation of a {@link com.afterkraft.kraftrpg.api.effects.Periodic} and {@link
- * Damaging}. Consider that this effect will damage the {@link com.afterkraft.kraftrpg.api.entity.Insentient}
- * being every tick based on {@link #getTickDamage()}
+ * Damaging}. Consider that this effect will damage the {@link Insentient} being every tick based on
+ * {@link #getTickDamage()}
  */
 public class DamagingEffect extends PeriodicExpirableEffect implements Damaging {
 
@@ -51,8 +52,10 @@ public class DamagingEffect extends PeriodicExpirableEffect implements Damaging 
 
     public DamagingEffect(Skill skill, Insentient applier, String name, long duration,
                           EnumSet<EffectType> types, long period, double tickDamage) {
-        this(skill, applier, name, null, false, types, "", "", duration, period, false,
-                tickDamage);
+        this(skill, applier, name, Sets.<PotionEffect>newHashSet(), false, types, "", "", duration,
+             period,
+             false,
+             tickDamage);
     }
 
     public DamagingEffect(Skill skill, Insentient applier, String name,
@@ -60,7 +63,7 @@ public class DamagingEffect extends PeriodicExpirableEffect implements Damaging 
                           Collection<EffectType> types, String applyText, String expireText,
                           long duration, long period, boolean knockback, double tickDamage) {
         super(skill, applier, name, potionEffects, persistent, types, applyText, expireText,
-                duration, period);
+              duration, period);
         this.knockback = knockback;
         this.tickDamage = tickDamage;
         this.types.add(EffectType.HARMFUL);
@@ -70,22 +73,22 @@ public class DamagingEffect extends PeriodicExpirableEffect implements Damaging 
     public DamagingEffect(Skill skill, Insentient applier, String name, long duration,
                           EnumSet<EffectType> types, long period, boolean knockback,
                           double tickDamage) {
-        this(skill, applier, name, null, false, types, "", "", duration, period, knockback,
-                tickDamage);
+        this(skill, applier, name, Sets.<PotionEffect>newHashSet(), false, types, "", "", duration,
+             period, knockback, tickDamage);
     }
 
     public DamagingEffect(Skill skill, Insentient applier, String name, long duration,
                           String applyText, String expireText, Collection<EffectType> types,
                           long period, double tickDamage) {
-        this(skill, applier, name, null, false, types, applyText, expireText, duration,
-                period, false, tickDamage);
+        this(skill, applier, name, Sets.<PotionEffect>newHashSet(), false, types, applyText,
+             expireText, duration, period, false, tickDamage);
     }
 
     public DamagingEffect(Skill skill, Insentient applier, String name, long duration,
                           String applyText, String expireText, Collection<EffectType> types,
                           long period, boolean knockback, double tickDamage) {
-        this(skill, applier, name, null, false, types, applyText, expireText, duration,
-                period, knockback, tickDamage);
+        this(skill, applier, name, Sets.<PotionEffect>newHashSet(), false, types, applyText,
+             expireText, duration, period, knockback, tickDamage);
     }
 
     public DamagingEffect(Skill skill, Insentient applier, String name,
@@ -93,7 +96,7 @@ public class DamagingEffect extends PeriodicExpirableEffect implements Damaging 
                           Collection<EffectType> types, String applyText, String expireText,
                           long duration, long period, double tickDamage) {
         this(skill, applier, name, potionEffects, persistent, types, applyText, expireText,
-                duration, period, false, tickDamage);
+             duration, period, false, tickDamage);
     }
 
     @Override
@@ -120,8 +123,8 @@ public class DamagingEffect extends PeriodicExpirableEffect implements Damaging 
      */
     @Override
     public void tick(Insentient being) {
-        if (being.isEntityValid() && getApplier().isEntityValid()) {
-            if (!Skill.damageCheck(being, getApplier().getEntity().get())) {
+        if (being.isEntityValid() && getApplier().isPresent()) {
+            if (!Skill.damageCheck(being, getApplier().get())) {
                 return;
             }
             if (being instanceof SkillCaster) {

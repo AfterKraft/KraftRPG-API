@@ -54,7 +54,8 @@ public interface Champion extends SkillCaster {
      */
     void setPlayer(Player player);
 
-    @Override Optional<? extends Player> getEntity();
+    @Override
+    Optional<? extends Player> getEntity();
 
     /**
      * Attempt to reset the linked {@link Player} in the event the player is not

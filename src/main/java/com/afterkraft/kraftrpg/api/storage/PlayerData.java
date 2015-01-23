@@ -33,6 +33,8 @@ import java.util.UUID;
 import org.spongepowered.api.item.ItemType;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 
 import com.afterkraft.kraftrpg.api.roles.Role;
 import com.afterkraft.kraftrpg.api.skills.SkillBind;
@@ -45,24 +47,24 @@ public final class PlayerData implements Cloneable {
     /**
      * Extra roles - these grant skills, but no hp/mana.
      */
-    public final Set<Role> additionalRoles = new HashSet<>();
+    public final Set<Role> additionalRoles = Sets.newHashSet();
     /**
      * Inactive roles - these have experience numbers, but no benefits.
      */
-    public final Set<Role> pastRoles = new HashSet<>();
+    public final Set<Role> pastRoles = Sets.newHashSet();
     /**
      * Experience data.
      */
-    public final Map<Role, FixedPoint> exp = new HashMap<>();
+    public final Map<Role, FixedPoint> exp = Maps.newHashMap();
     /**
      * Raw bind data.
      */
-    public final Map<ItemType, SkillBind> binds = new HashMap<>();
+    public final Map<ItemType, SkillBind> binds = Maps.newHashMap();
     /**
      * Map from cooldown name to expiry time, in UNIX time.
      */
-    public final Map<String, Long> cooldowns = new HashMap<>();
-    public final Set<String> ignoredSkills = new HashSet<>();
+    public final Map<String, Long> cooldowns = Maps.newHashMap();
+    public final Set<String> ignoredSkills = Sets.newHashSet();
     /**
      * Main Roles.
      */

@@ -23,36 +23,59 @@
  */
 package com.afterkraft.kraftrpg.api.roles;
 
-import java.util.Set;
+import java.util.List;
 
+import static org.easymock.EasyMock.anyObject;
+import static org.easymock.EasyMock.createMock;
+import static org.easymock.EasyMock.expect;
+import static org.easymock.EasyMock.notNull;
+import static org.easymock.EasyMock.replay;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
+import static org.powermock.api.easymock.PowerMock.mockStatic;
 
-import org.easymock.EasyMockRunner;
+import org.easymock.EasyMock;
 import org.hamcrest.CoreMatchers;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.spongepowered.api.item.ItemTypes;
+import org.powermock.api.easymock.PowerMock;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
+import org.spongepowered.api.service.persistence.data.DataContainer;
+import org.spongepowered.api.service.persistence.data.DataView;
 
-import com.google.common.collect.ImmutableSet;
+import com.google.common.base.Optional;
+import com.google.common.collect.ImmutableList;
 
 import com.afterkraft.kraftrpg.api.RPGPlugin;
 import com.afterkraft.kraftrpg.api.RPGTestCreator;
-import com.afterkraft.kraftrpg.api.entity.resource.Resources;
+import com.afterkraft.kraftrpg.api.RpgCommon;
+import com.afterkraft.kraftrpg.api.roles.aspects.HealthAspect;
+import com.afterkraft.kraftrpg.api.roles.aspects.HealthAspect.HealthAspectBuilder;
+import com.afterkraft.kraftrpg.api.roles.aspects.ManaAspect;
+import com.afterkraft.kraftrpg.api.roles.aspects.ManaAspect.ManaAspectBuilder;
+import com.afterkraft.kraftrpg.api.roles.aspects.RestrictedSkillAspect;
+import com.afterkraft.kraftrpg.api.roles.aspects.RestrictedSkillAspect.RestrictedSkillAspectBuilder;
+import com.afterkraft.kraftrpg.api.roles.aspects.SkillAspect;
+import com.afterkraft.kraftrpg.api.roles.aspects.SkillAspect.SkillAspectBuilder;
 import com.afterkraft.kraftrpg.api.skills.ISkill;
+import com.afterkraft.kraftrpg.api.skills.SkillSetting;
 import com.afterkraft.kraftrpg.api.skills.TestSkill;
-import com.afterkraft.kraftrpg.common.persistence.data.MemoryDataContainer;
+import com.afterkraft.kraftrpg.api.util.DataUtil;
+import com.afterkraft.kraftrpg.api.util.NullDataContainer;
 
 /**
  * Performs all tests on the Role object directly.
  */
-@RunWith(EasyMockRunner.class)
+@RunWith(PowerMockRunner.class)
+@PrepareForTest({RpgCommon.class, DataUtil.class})
 public class RoleTest {
     private RPGPlugin plugin;
     private RPGTestCreator creator;
     private ISkill testSkill;
+    private DataContainer mockContainer;
 
     @Before
     public void setUp() {
@@ -60,6 +83,14 @@ public class RoleTest {
         assertTrue(this.creator.setup());
         this.plugin = this.creator.getMockPlugin();
         this.testSkill = this.creator.getMockSkill();
+
+        this.mockContainer = createMock(DataContainer.class);
+        expect(this.mockContainer.getInt(SkillSetting.LEVEL.node())).andReturn(Optional.of(1)).times(1);
+        replay(this.mockContainer);
+        mockStatic(DataUtil.class);
+        expect(DataUtil.containerFromExisting(notNull(DataContainer.class)))
+                .andStubReturn(Optional.of(this.mockContainer));
+        PowerMock.replay(DataUtil.class);
     }
 
     @After
@@ -67,7 +98,7 @@ public class RoleTest {
         this.creator.cleanUp();
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = NullPointerException.class)
     public void testNullBuilder() {
         Role.builder(null);
     }
@@ -85,20 +116,11 @@ public class RoleTest {
                 .setDescription("A test role for KraftRPG-API Unit Tests.")
                 .setAdvancementLevel(1)
                 .setMaxLevel(1)
-                .setResourceAtZero(Resources.MANA, 100)
-                .setResourceBaseRegeneration(Resources.MANA, 1)
-                .setResourcePerLevel(Resources.MANA, 10)
-                .setResourceRegenerationPerLevel(Resources.MANA, 1)
-                .setResourceAtZero(Resources.HEALTH, 100)
-                .setResourcePerLevel(Resources.HEALTH, 10)
                 .setChoosable(true)
-                .setItemDamage(ItemTypes.DIAMOND_HOE, 10)
-                .setItemDamagePerLevel(ItemTypes.DIAMOND_HOE, 10)
-                .setItemDamageVaries(ItemTypes.DIAMOND_HOE, true)
                 .build();
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = NullPointerException.class)
     public void testNullType() {
         Role.builder(this.plugin).setType(null);
     }
@@ -108,33 +130,37 @@ public class RoleTest {
         Role.builder(this.plugin).build();
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = NullPointerException.class)
     public void testNullName() {
         Role.builder(this.plugin).setName(null);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testNegativeMpPerLevel() {
-        Role.builder(this.plugin).setResourcePerLevel(Resources.MANA, -1);
+        ManaAspectBuilder builder = ManaAspect.builder();
+        builder.manaPerLevel(-1);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testSetMpAt0() {
-        Role.builder(this.plugin).setResourceAtZero(Resources.MANA, 0);
+        ManaAspectBuilder builder = ManaAspect.builder();
+        builder.baseMana(0);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testSetHpAt0() {
-        Role.builder(this.plugin).setResourceAtZero(Resources.HEALTH, 0);
+        HealthAspectBuilder builder = HealthAspect.builder();
+        builder.setHealthAtZero(0);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testSetHpAt0WithMaxNegative() {
-        Role.builder(this.plugin).setResourceAtZero(Resources.HEALTH, Integer
-                                                            .MIN_VALUE);
+        HealthAspectBuilder builder = HealthAspect.builder();
+        builder.setHealthAtZero(0).setHealthPerLevel(-1);
+        Role.builder(this.plugin).addAspect(builder.build());
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = NullPointerException.class)
     public void testNullDescription() {
         Role.builder(this.plugin).setDescription(null);
     }
@@ -149,101 +175,86 @@ public class RoleTest {
         Role.builder(this.plugin).setMaxLevel(0);
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void testNullItemDamage() {
-        Role.builder(this.plugin).setItemDamage(null, 0);
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void testZeroItemDamage() {
-        Role.builder(this.plugin).setItemDamage(ItemTypes.DIAMOND_HOE, 0);
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void testNullItemDamagePerLevel() {
-        Role.builder(this.plugin).setItemDamagePerLevel(null, 0);
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void testZeroItemDamagePerLevel() {
-        Role.builder(this.plugin).setItemDamagePerLevel(ItemTypes.DIAMOND_HOE, 0);
-    }
-
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = NullPointerException.class)
     public void testNullChild() {
         Role.builder(this.plugin).addChild(null);
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = NullPointerException.class)
     public void testNullParent() {
         Role.builder(this.plugin).addParent(null);
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = NullPointerException.class)
     public void testNullRemoveChild() {
         Role.builder(this.plugin).removeChild(null);
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = NullPointerException.class)
     public void testNullRemoveParent() {
         Role.builder(this.plugin).removeParent(null);
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = NullPointerException.class)
     public void testAddNullSkill() {
-        Role.builder(this.plugin).addRoleSkill(null, new MemoryDataContainer());
+        SkillAspectBuilder builder = SkillAspect.builder();
+        builder.addRoleSkill(null, null);
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = NullPointerException.class)
     public void testAddSkillNullConfiguration() {
-        Role.builder(this.plugin).addRoleSkill(this.testSkill, null);
+        SkillAspectBuilder builder = SkillAspect.builder();
+        builder.addRoleSkill(this.testSkill, null);
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = NullPointerException.class)
     public void testAddNullRestrictedSkill() {
-        Role.builder(this.plugin).addRestirctedSkill(null);
+        RestrictedSkillAspectBuilder builder = RestrictedSkillAspect.builder();
+        builder.addRestirctedSkill(null);
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = NullPointerException.class)
     public void testRemoveNullRestrictedSkill() {
-        Role.builder(this.plugin).removeRestrictedSkill(null);
+        RestrictedSkillAspectBuilder builder = RestrictedSkillAspect.builder();
+        builder.removeRestrictedSkill(null);
     }
 
     @Test
     public void testValidAddSkill() {
-        Role.builder(this.plugin).addRoleSkill(this.testSkill, new MemoryDataContainer());
+        SkillAspectBuilder builder = SkillAspect.builder();
+        builder.addRoleSkill(this.testSkill, this.mockContainer);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testAddRestrictedAndSkill() {
+        SkillAspectBuilder builder = SkillAspect.builder();
+
+        builder.addRoleSkill(this.testSkill, this.mockContainer);
+        RestrictedSkillAspectBuilder restrictedBuilder = RestrictedSkillAspect.builder();
+        restrictedBuilder.addRestirctedSkill(this.testSkill);
         Role.builder(this.plugin)
-                .addRoleSkill(this.testSkill, new MemoryDataContainer())
-                .addRestirctedSkill(this.testSkill);
+                .addAspect(builder.build())
+                .addAspect(restrictedBuilder.build()) // Should fail HERE
+                .build();
     }
 
     @Test
     public void testGetSkill() {
+        SkillAspectBuilder builder = SkillAspect.builder();
+        builder.addRoleSkill(this.testSkill, this.mockContainer);
         Role test = Role.builder(this.plugin)
                 .setName("TestRole")
                 .setType(Role.RoleType.PRIMARY)
                 .setDescription("A test role for KraftRPG-API Unit Tests.")
                 .setAdvancementLevel(1)
                 .setMaxLevel(1)
-                .setResourceAtZero(Resources.MANA, 100)
-                .setResourceBaseRegeneration(Resources.MANA, 1)
-                .setResourcePerLevel(Resources.MANA, 10)
-                .setResourceRegenerationPerLevel(Resources.MANA, 1)
-                .setResourceAtZero(Resources.HEALTH, 100)
-                .setResourcePerLevel(Resources.HEALTH, 10)
-                .setChoosable(true)
-                .setItemDamage(ItemTypes.DIAMOND_HOE, 10)
-                .setItemDamagePerLevel(ItemTypes.DIAMOND_HOE, 10)
-                .setItemDamageVaries(ItemTypes.DIAMOND_HOE, true)
-                .addRoleSkill(this.testSkill, new MemoryDataContainer())
+                .addAspect(builder.build())
                 .build();
-        test.getAllSkills();
-        Set<ISkill> skills = ImmutableSet.<ISkill>builder().add(new TestSkill(this.plugin)).build();
-        assertThat(test.getAllSkills(), CoreMatchers.is(skills));
+        Optional<SkillAspect> aspectOptional = test.getAspect(SkillAspect.class);
+        assertTrue(aspectOptional.isPresent());
+        List<ISkill> skills = ImmutableList.<ISkill>builder().add(this.testSkill)
+                .build();
+        assertThat(aspectOptional.get().getAllSkills(), CoreMatchers.is(skills));
     }
 
 }

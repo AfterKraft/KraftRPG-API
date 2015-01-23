@@ -21,23 +21,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.afterkraft.kraftrpg.api.handler;
 
-/**
- * An ItemAttribute is used for processing items that enable use of skills when wielded.
- */
-public enum ItemAttributeType {
-    // Note to maintainer: New additions need a corresponding line in KraftRPGPlugin
-    GRANT_SKILL,
-    BOOST_SKILL;
-
-    private String attrName;
-
-    private ItemAttributeType() {
-        this.attrName = "kraftrpg." + name();
-    }
-
-    public String getAttributeName() {
-        return this.attrName;
-    }
-}
+@org.spongepowered.api.util.annotation.NonnullByDefault
+package com.afterkraft.kraftrpg.api.entity.resource;

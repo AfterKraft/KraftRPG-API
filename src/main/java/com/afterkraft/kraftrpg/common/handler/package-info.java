@@ -22,11 +22,5 @@
  * THE SOFTWARE.
  */
 
-package com.afterkraft.kraftrpg.api.roles;
-
-/**
- * Represents an aspect built for a {@link Role}. RoleAspects are encouraged to be immutable once
- * created by a builder, this is to avoid potentially causing problems while the aspect is in use.
- */
-public interface RoleAspect {
-}
+@org.spongepowered.api.util.annotation.NonnullByDefault
+package com.afterkraft.kraftrpg.common.handler;

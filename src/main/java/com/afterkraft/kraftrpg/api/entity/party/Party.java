@@ -76,7 +76,7 @@ public interface Party {
 
     /**
      * Removes the queried member if it is possible. This should be considered as throwing an event
-     * of {@link com.afterkraft.kraftrpg.api.events.entity.party.PartyLeaveEvent} that may be
+     * of PartyLeaveEvent that may be
      * cancelled for various reasons. If the event is cancelled, the {@link
      * com.afterkraft.kraftrpg.api.entity.PartyMember} is not removed.
      *

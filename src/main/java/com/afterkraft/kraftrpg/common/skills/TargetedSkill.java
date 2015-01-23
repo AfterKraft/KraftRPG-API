@@ -54,23 +54,30 @@ import com.afterkraft.kraftrpg.common.skills.arguments.EntitySkillArgument;
  */
 public abstract class TargetedSkill<E extends Entity> extends ActiveSkill implements Targeted<E> {
 
+    /**
+     * Creates a new {@link Targeted} skill.
+     *
+     * @param plugin The plugin
+     * @param name The name of the skill
+     * @param entityClass The target entity class
+     */
     protected TargetedSkill(RPGPlugin plugin, String name, Class<E> entityClass) {
         this(plugin, name, entityClass, 10);
     }
 
+    /**
+     * Creates a new {@link Targeted} skill with a maximum raytracing targeting distance.
+     *
+     * @param plugin Theplugin
+     * @param name The name of this skill
+     * @param entityClass The targeting entity class
+     * @param maxDistance The maximum distance
+     */
     protected TargetedSkill(RPGPlugin plugin, String name, Class<E> entityClass, int maxDistance) {
         super(plugin, name);
-        this.skillArguments = new SkillArgument[]
+        this.skillArguments = new SkillArgument<?>[]
                 { new EntitySkillArgument<>(maxDistance, entityClass)};
         setDefault(SkillSetting.MAX_DISTANCE, maxDistance);
-    }
-
-    protected void setTargetArgument(EntitySkillArgument<E> argument) {
-        if (this.plugin.isEnabled()) {
-            throw new IllegalStateException("KraftRPG is already enabled! Cannot modify Skill "
-                    + "Arguments after being enabled.");
-        }
-        this.skillArguments[0] = argument;
     }
 
     @Override

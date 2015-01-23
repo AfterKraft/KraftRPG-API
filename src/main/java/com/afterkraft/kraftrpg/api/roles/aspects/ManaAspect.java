@@ -25,9 +25,13 @@
 package com.afterkraft.kraftrpg.api.roles.aspects;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkState;
 
 import com.google.common.base.Optional;
 
+/**
+ * Represents a mana aspect
+ */
 public final class ManaAspect implements ResourceAspect<Integer> {
     private final int baseMana;
     private final int baseManaRegen;
@@ -39,6 +43,15 @@ public final class ManaAspect implements ResourceAspect<Integer> {
         this.baseManaRegen = builder.baseManaRegen;
         this.manaPerLevel = builder.manaPerLevel;
         this.manaRegenPerLevel = builder.manaRegenPerLevel;
+    }
+
+    /**
+     * Gets a new builder for creating a {@link ManaAspect}.
+     *
+     * @return The mana builder
+     */
+    public static ManaAspectBuilder builder() {
+        return new ManaAspectBuilder();
     }
 
     @Override
@@ -64,9 +77,12 @@ public final class ManaAspect implements ResourceAspect<Integer> {
     @Override
     public Optional<Integer> getResourceAtLevel(int level) {
         checkArgument(level > 0);
-        return Optional.of(this.baseMana + (this.manaPerLevel * (level -1)));
+        return Optional.of(this.baseMana + (this.manaPerLevel * (level - 1)));
     }
 
+    /**
+     * Represents a builder for {@link ManaAspect}s.
+     */
     public static final class ManaAspectBuilder {
         int baseMana;
         int baseManaRegen;
@@ -77,8 +93,82 @@ public final class ManaAspect implements ResourceAspect<Integer> {
 
         }
 
+        /**
+         * Sets the base mana.
+         *
+         * @param mana The base mana
+         *
+         * @return This builder, for chaining
+         */
+        public ManaAspectBuilder baseMana(int mana) {
+            checkArgument(mana > 0);
+            this.baseMana = mana;
+            return this;
+        }
 
+        /**
+         * Sets the base mana regeneration.
+         *
+         * @param manaRegen The base mana regeneration
+         *
+         * @return This builder, for chaining
+         */
+        public ManaAspectBuilder baseManaRegen(int manaRegen) {
+            checkArgument(manaRegen > 0);
+            this.baseManaRegen = manaRegen;
+            return this;
+        }
 
+        /**
+         * Sets the mana increase per level.
+         *
+         * <p>Mana increases can be zero or greater, but never less than zero.</p>
+         *
+         * @param manaPerLevel The increase per level
+         *
+         * @return This builder, for chaining
+         */
+        public ManaAspectBuilder manaPerLevel(int manaPerLevel) {
+            checkArgument(manaPerLevel >= 0);
+            this.manaPerLevel = manaPerLevel;
+            return this;
+        }
 
+        /**
+         * Sets the mana regeneration increase per level.
+         *
+         * @param manaRegenPerLevel The mana regeneration increase per level
+         *
+         * @return This builder, for chaining
+         */
+        public ManaAspectBuilder manaRegenPerLevel(int manaRegenPerLevel) {
+            checkArgument(manaRegenPerLevel >= 0);
+            this.manaRegenPerLevel = manaRegenPerLevel;
+            return this;
+        }
+
+        /**
+         * Creates a new {@link ManaAspect} based on the current state of this builder.
+         *
+         * @return The newly created mana aspect
+         */
+        public ManaAspect build() {
+            checkState(this.baseMana > 0);
+            checkState(this.baseManaRegen >= 0);
+            return new ManaAspect(this);
+        }
+
+        /**
+         * Resets this builder to a clean state.
+         *
+         * @return This builder, for chaining
+         */
+        public ManaAspectBuilder reset() {
+            this.baseMana = 0;
+            this.baseManaRegen = 0;
+            this.manaPerLevel = 0;
+            this.manaRegenPerLevel = 0;
+            return this;
+        }
     }
 }

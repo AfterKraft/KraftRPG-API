@@ -21,48 +21,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.afterkraft.kraftrpg.api.handler;
+
+package com.afterkraft.kraftrpg.api.entity.resource;
 
 /**
- * Standard attribute mapping for ServerInternals.
+ * Represents a tracker for a given {@link Resource}.
  */
-public enum EntityAttributeType {
-    DAMAGE,
-    EXPERIENCE,
-    SPAWNX,
-    SPAWNY,
-    SPAWNZ,
-    SPAWNREASON(0, 1);
+public interface ResourceTracker {
 
-    private String attrName;
-    private double minValue;
-    private double maxValue;
-
-    private EntityAttributeType() {
-        this(-Double.MAX_VALUE, Double.MAX_VALUE);
-    }
-
-    private EntityAttributeType(double minValue, double maxValue) {
-        this.attrName = "kraftrpg-" + name();
-        this.minValue = minValue;
-        this.maxValue = maxValue;
-    }
-
-    private EntityAttributeType(String attributeName, double minValue, double maxValue) {
-        this.attrName = attributeName;
-        this.minValue = minValue;
-        this.maxValue = maxValue;
-    }
-
-    public double getMin() {
-        return this.minValue;
-    }
-
-    public double getMax() {
-        return this.maxValue;
-    }
-
-    public String getIdentifier() {
-        return this.attrName;
-    }
 }
