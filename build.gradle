@@ -22,14 +22,13 @@ apply plugin: 'license'
 apply plugin: 'checkstyle'
 apply plugin: 'eclipse'
 apply plugin: 'idea'
-apply plugin: 'maven-publish-auth'
 apply plugin: 'signing'
 
 defaultTasks 'clean', 'licenseFormat', 'check', 'build'
 
 group 'com.afterkraft.kraftrpg'
 archivesBaseName = 'KraftRPG-API'
-version '0.0.2-SNAPSHOT'
+version '0.0.2'
 
 // Minimum version of Java required
 sourceCompatibility = 1.7
@@ -145,6 +144,9 @@ uploadArchives {
         }
     }
 }
+
+// We need this AFTER the configuration of the uploadArchives task for maven-publish-auth to work
+apply plugin: 'maven-publish-auth'
 
 signing {
     required {
