@@ -23,6 +23,8 @@
  */
 package com.afterkraft.kraftrpg.common.skills;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import org.spongepowered.api.entity.Entity;
 
 import com.google.common.base.Optional;
@@ -75,6 +77,7 @@ public abstract class TargetedSkill<E extends Entity> extends ActiveSkill implem
      */
     protected TargetedSkill(RPGPlugin plugin, String name, Class<E> entityClass, int maxDistance) {
         super(plugin, name);
+        checkNotNull(entityClass);
         this.skillArguments = new SkillArgument<?>[]
                 { new EntitySkillArgument<>(maxDistance, entityClass)};
         setDefault(SkillSetting.MAX_DISTANCE, maxDistance);
@@ -82,6 +85,7 @@ public abstract class TargetedSkill<E extends Entity> extends ActiveSkill implem
 
     @Override
     public final SkillCastResult useSkill(SkillCaster caster) {
+        checkNotNull(caster);
         if (caster.hasEffectType(EffectType.BLIND)) {
             caster.sendMessage("You cannot target anything while blinded!");
             return SkillCastResult.INVALID_TARGET;

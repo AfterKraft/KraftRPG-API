@@ -37,6 +37,7 @@ import com.afterkraft.kraftrpg.api.entity.Champion;
 import com.afterkraft.kraftrpg.api.entity.Sentient;
 import com.afterkraft.kraftrpg.api.entity.SkillCaster;
 import com.afterkraft.kraftrpg.api.skills.SkillSetting;
+import com.afterkraft.kraftrpg.api.skills.common.Permissible;
 import com.afterkraft.kraftrpg.common.skills.Skill;
 
 /**

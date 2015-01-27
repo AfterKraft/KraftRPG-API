@@ -23,7 +23,10 @@
  */
 package com.afterkraft.kraftrpg.common.skills.common;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import com.afterkraft.kraftrpg.api.RPGPlugin;
+import com.afterkraft.kraftrpg.api.skills.common.ImbuingSkill;
 import com.afterkraft.kraftrpg.common.effects.common.ProjectileShotEffect;
 import com.afterkraft.kraftrpg.api.entity.SkillCaster;
 import com.afterkraft.kraftrpg.common.skills.ActiveSkill;
@@ -53,6 +56,7 @@ public abstract class ArrowSkill extends ActiveSkill implements ImbuingSkill {
 
     @Override
     public void addImbueEffect(SkillCaster caster, int maxUses) {
+        checkNotNull(caster);
         ProjectileShotEffect effect = new ProjectileShotEffect(this, caster,
                 "ArrowShotImbueEffect");
         caster.addEffect(effect);

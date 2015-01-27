@@ -21,11 +21,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.afterkraft.kraftrpg.common.skills.common;
+package com.afterkraft.kraftrpg.api.skills.common;
 
 import com.afterkraft.kraftrpg.api.effects.common.Imbuing;
 import com.afterkraft.kraftrpg.api.entity.SkillCaster;
 import com.afterkraft.kraftrpg.api.skills.Active;
+import com.afterkraft.kraftrpg.common.skills.common.ArrowSkill;
 
 /**
  * A standard {@link com.afterkraft.kraftrpg.api.skills.ISkill} that will apply a {@link

@@ -26,6 +26,9 @@ package com.afterkraft.kraftrpg.common.skills;
 import java.util.concurrent.Delayed;
 import java.util.concurrent.TimeUnit;
 
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import com.afterkraft.kraftrpg.api.entity.SkillCaster;
 import com.afterkraft.kraftrpg.api.skills.Active;
 import com.afterkraft.kraftrpg.api.skills.Stalled;
@@ -49,6 +52,9 @@ public class StalledSkill implements Stalled {
 
     public StalledSkill(Active skill, String[] args, SkillCaster caster, long startTime,
                         long warmup) {
+        checkNotNull(skill);
+        checkNotNull(caster);
+        checkArgument(startTime + warmup < Long.MAX_VALUE);
         this.argument = args;
         this.startTime = startTime;
         this.skill = skill;

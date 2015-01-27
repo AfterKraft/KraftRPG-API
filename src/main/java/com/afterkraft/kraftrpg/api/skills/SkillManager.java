@@ -31,7 +31,7 @@ import com.google.common.base.Optional;
 
 import com.afterkraft.kraftrpg.api.Manager;
 import com.afterkraft.kraftrpg.api.entity.SkillCaster;
-import com.afterkraft.kraftrpg.common.skills.common.Permissible;
+import com.afterkraft.kraftrpg.api.skills.common.Permissible;
 
 /**
  * Manages skills with both skill loading and skill management.

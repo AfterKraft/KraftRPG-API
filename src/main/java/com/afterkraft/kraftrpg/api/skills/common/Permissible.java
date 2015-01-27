@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.afterkraft.kraftrpg.common.skills.common;
+package com.afterkraft.kraftrpg.api.skills.common;
 
 import java.util.Map;
 

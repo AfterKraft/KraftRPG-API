@@ -33,6 +33,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import org.spongepowered.api.entity.Entity;
 import org.spongepowered.api.entity.living.Living;
 import org.spongepowered.api.item.inventory.ItemStack;
@@ -79,6 +82,9 @@ public abstract class Skill implements ISkill {
      * @param name The name of the skill
      */
     protected Skill(RPGPlugin plugin, String name) {
+        checkNotNull(plugin);
+        checkNotNull(name);
+        checkArgument(!name.isEmpty());
         this.plugin = plugin;
         this.name = name;
         this.defaultConfig = null;

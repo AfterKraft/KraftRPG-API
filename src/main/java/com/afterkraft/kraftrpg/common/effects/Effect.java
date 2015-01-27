@@ -25,10 +25,10 @@ package com.afterkraft.kraftrpg.common.effects;
 
 import java.util.Collection;
 import java.util.EnumSet;
-import java.util.HashSet;
 import java.util.Set;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 import org.spongepowered.api.entity.player.Player;
 import org.spongepowered.api.potion.PotionEffect;
@@ -73,11 +73,16 @@ public class Effect implements IEffect {
     public Effect(Skill skill, String name, Set<PotionEffect> potionEffects, boolean persistent,
                   Collection<EffectType> types, String applyText, String expireText) {
         checkArgument(!name.isEmpty(), "Cannot create an effect with an empty name!");
+        checkNotNull(skill);
+        checkNotNull(potionEffects);
+        checkNotNull(types);
+        checkNotNull(applyText);
+        checkNotNull(expireText);
         this.name = name;
         this.skill = skill;
         this.persistent = persistent;
         this.types.addAll(types);
-        this.potionEffects = new HashSet<>();
+        this.potionEffects = Sets.newHashSet();
         if (!potionEffects.isEmpty()) {
             for (PotionEffect effect : potionEffects) {
                 this.potionEffects.add(Utilities.copyPotion(effect));
@@ -152,7 +157,7 @@ public class Effect implements IEffect {
 
     /**
      * Adds the given potion effect.
-     * @param effect
+     * @param effect The potion effect to add
      */
     protected void addPotionEffect(PotionEffect effect) {
         this.potionEffects.add(Utilities.copyPotion(effect));

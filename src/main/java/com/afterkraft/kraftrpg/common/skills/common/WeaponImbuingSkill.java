@@ -25,6 +25,7 @@ package com.afterkraft.kraftrpg.common.skills.common;
 
 import com.afterkraft.kraftrpg.api.RPGPlugin;
 import com.afterkraft.kraftrpg.api.effects.common.Imbuing;
+import com.afterkraft.kraftrpg.api.skills.common.ImbuingSkill;
 import com.afterkraft.kraftrpg.common.effects.common.WeaponImbuingEffect;
 import com.afterkraft.kraftrpg.api.entity.SkillCaster;
 import com.afterkraft.kraftrpg.common.skills.ActiveSkill;
