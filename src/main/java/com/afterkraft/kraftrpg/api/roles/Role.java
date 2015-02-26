@@ -81,7 +81,7 @@ public final class Role {
 
     /**
      * Construct a Role. It is necessary to provide the link to {@link
-     * com.afterkraft.kraftrpg.api.RPGPlugin} as many of the operations performed in a Role use it.
+     * RPGPlugin} as many of the operations performed in a Role use it.
      *
      * @param plugin The implementation of KraftRPG
      *

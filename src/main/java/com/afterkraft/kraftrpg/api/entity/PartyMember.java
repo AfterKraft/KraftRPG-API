@@ -33,23 +33,16 @@ import com.afterkraft.kraftrpg.api.entity.party.Party;
 public interface PartyMember extends IEntity {
 
     /**
-     * Check if this being is currently in a party
-     *
-     * @return true if the being is in a party
-     */
-    boolean hasParty();
-
-    /**
      * Get the currently attached Party for this being.
      *
-     * @return the party
+     * @return The party, if available
      */
     Optional<Party> getParty();
 
     /**
      * Set this member's current party.
      *
-     * @param party to set
+     * @param party The party to join
      */
     void setParty(Party party);
 

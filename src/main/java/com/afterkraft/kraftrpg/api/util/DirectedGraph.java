@@ -27,6 +27,10 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
+import com.google.common.collect.Maps;
+
 import com.afterkraft.kraftrpg.api.CircularDependencyException;
 
 /**
@@ -56,18 +60,31 @@ public class DirectedGraph<T> {
 
     protected final LinkedHashMap<T, Vertex<T>> vertexes;
 
+    /**
+     * Creates a new directed graph.
+     */
     public DirectedGraph() {
-        this.vertexes = new LinkedHashMap<>();
+        this.vertexes = Maps.newLinkedHashMap();
     }
 
+    /**
+     * Adds the given vertex to this graph.
+     *
+     * @param data The data
+     */
     public void addVertex(T data) {
+        checkNotNull(data);
         this.vertexes.put(data, new Vertex<>(data));
     }
 
+    /**
+     * Removes the vertex from this graph. This performs a full
+     * check of all edges for removing linkage to the given vertex.
+     *
+     * @param data The data to remove
+     */
     public void removeVertex(T data) {
-        if (data == null) {
-            return;
-        }
+        checkNotNull(data);
         Vertex<T> vertex = this.vertexes.get(data);
         for (Map.Entry<Vertex<T>, Edge<T>> entry : vertex.fromNodes.entrySet()) {
             Vertex<T> parent = entry.getKey();
@@ -85,7 +102,18 @@ public class DirectedGraph<T> {
         this.vertexes.remove(data);
     }
 
+    /**
+     * Adds an edge between the two vertexes.
+     *
+     * @param from The vertex being depended upon
+     * @param to The vertex depending on the from vertex
+     * @return True if successful
+     * @throws CircularDependencyException If there is a circular dependency
+     * occuring, an exception is thrown
+     */
     public boolean addEdge(T from, T to) throws CircularDependencyException {
+        checkNotNull(from);
+        checkNotNull(to);
         Vertex<T> vertex = this.vertexes.get(from);
         if (vertex == null) {
             vertex = new Vertex<>(from);
@@ -102,7 +130,15 @@ public class DirectedGraph<T> {
         return true;
     }
 
+    /**
+     * Removes the given dependency between the two edges.
+     *
+     * @param from The vertex being depended on
+     * @param to The vertex depending on the from vertex
+     */
     public void removeEdge(T from, T to) {
+        checkNotNull(from);
+        checkNotNull(to);
         if (this.vertexes.get(from) == null || this.vertexes.get(to) == null) {
             return;
         }
@@ -136,6 +172,8 @@ public class DirectedGraph<T> {
     }
 
     private void visit(Vertex<T> v, ArrayList<Edge<T>> cycleEdges) {
+        checkNotNull(v);
+        checkNotNull(cycleEdges);
         v.setMarkState(VISIT_COLOR_GREY);
         for (Map.Entry<Vertex<T>, Edge<T>> entry : v.toNodes.entrySet()) {
             Edge<T> e = entry.getValue();
@@ -159,6 +197,7 @@ public class DirectedGraph<T> {
         private int markState;
 
         Vertex(T data) {
+            checkNotNull(data);
             this.data = data;
             this.name = data.toString();
             this.fromNodes = new LinkedHashMap<>();
@@ -166,6 +205,7 @@ public class DirectedGraph<T> {
         }
 
         public Vertex<T> addEdge(Vertex<T> vertex) {
+            checkNotNull(vertex);
             Edge<T> edge = new Edge<>(this, vertex);
             this.toNodes.put(vertex, edge);
             vertex.fromNodes.put(this, edge);
@@ -173,6 +213,7 @@ public class DirectedGraph<T> {
         }
 
         public Vertex<T> removeEdge(Vertex<T> vertex) {
+            checkNotNull(vertex);
             this.toNodes.remove(vertex);
             vertex.fromNodes.remove(this);
             return this;
@@ -242,6 +283,8 @@ public class DirectedGraph<T> {
         protected Vertex<T> to;
 
         Edge(Vertex<T> from, Vertex<T> to) {
+            checkNotNull(from);
+            checkNotNull(to);
             this.from = from;
             this.to = to;
         }

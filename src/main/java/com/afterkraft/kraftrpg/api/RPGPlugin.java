@@ -23,15 +23,12 @@
  */
 package com.afterkraft.kraftrpg.api;
 
-import java.util.logging.Level;
-
 import com.afterkraft.kraftrpg.api.effects.EffectManager;
 import com.afterkraft.kraftrpg.api.entity.CombatTracker;
 import com.afterkraft.kraftrpg.api.entity.EntityManager;
 import com.afterkraft.kraftrpg.api.entity.party.PartyManager;
 import com.afterkraft.kraftrpg.api.listeners.ListenerManager;
 import com.afterkraft.kraftrpg.api.roles.RoleManager;
-import com.afterkraft.kraftrpg.api.skills.ISkill;
 import com.afterkraft.kraftrpg.api.skills.SkillConfigManager;
 import com.afterkraft.kraftrpg.api.skills.SkillManager;
 import com.afterkraft.kraftrpg.api.storage.StorageFrontend;
@@ -51,37 +48,94 @@ public interface RPGPlugin {
      */
     void cancelEnable();
 
+    /**
+     * Gets the currently used {@link SkillConfigManager}.
+     *
+     * @return The currently used skill configuration manager
+     */
     SkillConfigManager getSkillConfigManager();
 
+    /**
+     * Gets the currently used {@link CombatTracker}.
+     *
+     * @return The currently used combat manager
+     */
     CombatTracker getCombatTracker();
 
+    /**
+     * Gets the currently used {@link EntityManager}.
+     *
+     * @return The currently used entity manager
+     */
     EntityManager getEntityManager();
 
+    /**
+     * Gets the currently used {@link EffectManager}.
+     *
+     * @return The currently used effect manager
+     */
     EffectManager getEffectManager();
 
+    /**
+     * Gets the currently used {@link SkillConfigManager}.
+     *
+     * @return The currently used skill configuration manager
+     */
     StorageFrontend getStorage();
 
+    /**
+     * Gets the currently used {@link ConfigManager}.
+     *
+     * @return The currently used configuration manager
+     */
     ConfigManager getConfigurationManager();
 
+    /**
+     * Gets the currently used {@link DamageManager}.
+     *
+     * @return The currently used damage manager
+     */
     DamageManager getDamageManager();
 
+    /**
+     * Gets the currently used {@link SkillManager}.
+     *
+     * @return The currently used skill manager
+     */
     SkillManager getSkillManager();
 
+    /**
+     * Gets the currently used {@link RoleManager}.
+     *
+     * @return The currently used role manager
+     */
     RoleManager getRoleManager();
 
+    /**
+     * Gets the currently used {@link PartyManager}.
+     *
+     * @return The currently used party manager
+     */
     PartyManager getPartyManager();
 
+    /**
+     * Gets the currently used {@link Properties}.
+     *
+     * @return The currently used properties manager
+     */
     Properties getProperties();
 
+    /**
+     * Gets the currently used {@link ListenerManager}.
+     *
+     * @return The currently used skill configuration manager
+     */
     ListenerManager getListenerManager();
 
-    void log(Level level, String msg);
-
-    void logSkillThrowing(ISkill skill, String action, Throwable thrown, Object extraContext);
-
-    void debugLog(Level level, String msg);
-
-    void debugThrow(String sourceClass, String sourceMethod, Throwable thrown);
-
+    /**
+     * Checks that the plugin is enabled and ready for everything.
+     *
+     * @return Whether the plugin is enabled or not ready for use
+     */
     boolean isEnabled();
 }

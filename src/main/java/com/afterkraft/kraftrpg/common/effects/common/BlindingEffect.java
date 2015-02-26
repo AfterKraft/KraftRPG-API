@@ -28,6 +28,9 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
+import org.spongepowered.api.text.message.Message;
+import org.spongepowered.api.text.message.Messages;
+
 import com.afterkraft.kraftrpg.api.effects.EffectType;
 import com.afterkraft.kraftrpg.common.effects.ExpirableEffect;
 import com.afterkraft.kraftrpg.api.entity.Insentient;
@@ -39,8 +42,10 @@ import com.afterkraft.kraftrpg.common.skills.Skill;
  */
 public class BlindingEffect extends ExpirableEffect {
 
-    public static final String DEFAULT_APPLY_TEXT = "You've become invisible to the world.";
-    public static final String DEFAULT_EXPIRE_TEXT = "You are now visible to the world.";
+    public static final Message DEFAULT_APPLY_TEXT = Messages
+            .of("You've become invisible to the world.");
+    public static final Message DEFAULT_EXPIRE_TEXT = Messages.of("You are now "
+            + "visible to the world.");
     public static final Set<EffectType> DEFAULT_Blinding_EFFECTTYPES =
             EnumSet.of(EffectType.BLIND, EffectType.HARMFUL);
 
@@ -51,7 +56,7 @@ public class BlindingEffect extends ExpirableEffect {
     }
 
     public BlindingEffect(Skill skill, Insentient applier, String name, long duration,
-                          String applyText, String expireText) {
+                          Message applyText, Message expireText) {
         super(skill, applier, name, duration, applyText, expireText, DEFAULT_Blinding_EFFECTTYPES);
 //        addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS,
 //                (int) ((duration / 1000) * 20), 0, false));

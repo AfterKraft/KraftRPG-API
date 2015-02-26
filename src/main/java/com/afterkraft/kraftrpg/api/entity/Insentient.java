@@ -27,6 +27,7 @@ import javax.annotation.Nullable;
 import java.util.Set;
 
 import org.spongepowered.api.entity.living.Living;
+import org.spongepowered.api.item.inventory.Inventory;
 import org.spongepowered.api.item.inventory.ItemStack;
 import org.spongepowered.api.potion.PotionEffect;
 import org.spongepowered.api.potion.PotionEffectType;
@@ -36,11 +37,9 @@ import com.google.common.base.Optional;
 import com.afterkraft.kraftrpg.api.effects.EffectType;
 import com.afterkraft.kraftrpg.api.effects.IEffect;
 import com.afterkraft.kraftrpg.api.entity.resource.Resource;
-import com.afterkraft.kraftrpg.api.entity.resource.ResourceType;
 import com.afterkraft.kraftrpg.api.listeners.DamageWrapper;
 import com.afterkraft.kraftrpg.api.skills.ISkill;
 import com.afterkraft.kraftrpg.api.util.FixedPoint;
-import com.afterkraft.kraftrpg.common.Inventory;
 
 /**
  * Represents an Insentient being that allows retreival of the being's status and handles the basic

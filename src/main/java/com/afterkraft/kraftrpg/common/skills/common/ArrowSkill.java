@@ -48,8 +48,9 @@ public abstract class ArrowSkill extends ActiveSkill implements ImbuingSkill {
 
     @Override
     public SkillCastResult useSkill(SkillCaster caster) {
-        int maxShots = this.plugin.getSkillConfigManager().getUsedIntSetting(caster, this,
-                CommonSettings.IMBUED_MAX_USE_COUNT);
+        int maxShots = this.plugin.getSkillConfigManager()
+                .getUsedIntSetting(caster, this,
+                                   CommonSettings.IMBUED_MAX_USE_COUNT);
         this.addImbueEffect(caster, maxShots);
         return SkillCastResult.NORMAL;
     }

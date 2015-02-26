@@ -27,6 +27,7 @@ import java.util.Collection;
 import java.util.Set;
 
 import org.spongepowered.api.potion.PotionEffect;
+import org.spongepowered.api.text.message.Message;
 
 import com.afterkraft.kraftrpg.api.effects.EffectType;
 import com.afterkraft.kraftrpg.api.effects.Expirable;
@@ -51,7 +52,7 @@ public abstract class PeriodicExpirableEffect extends ExpirableEffect implements
     }
 
     protected PeriodicExpirableEffect(Skill skill, Insentient applier, String name, long duration,
-                                      String applyText, String expireText,
+                                      Message applyText, Message expireText,
                                       Collection<EffectType> types, long period) {
         super(skill, applier, name, duration, applyText, expireText, types);
         this.period = period;
@@ -59,8 +60,8 @@ public abstract class PeriodicExpirableEffect extends ExpirableEffect implements
 
     protected PeriodicExpirableEffect(Skill skill, Insentient applier, String name,
                                       Set<PotionEffect> potionEffects, boolean persistent,
-                                      Collection<EffectType> types, String applyText,
-                                      String expireText, long duration, long period) {
+                                      Collection<EffectType> types, Message applyText,
+                                      Message expireText, long duration, long period) {
         super(skill, applier, name, potionEffects, persistent, types, applyText,
                 expireText, duration);
         this.period = period;

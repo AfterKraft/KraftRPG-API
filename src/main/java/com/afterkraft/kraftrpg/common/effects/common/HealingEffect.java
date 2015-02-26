@@ -29,6 +29,8 @@ import java.util.Set;
 import static com.google.common.base.Preconditions.checkArgument;
 
 import org.spongepowered.api.potion.PotionEffect;
+import org.spongepowered.api.text.message.Message;
+import org.spongepowered.api.text.message.Messages;
 
 import com.google.common.collect.Sets;
 
@@ -48,13 +50,14 @@ public class HealingEffect extends PeriodicExpirableEffect implements Healing {
 
     public HealingEffect(Skill skill, Insentient applier, String name, long duration,
                          EnumSet<EffectType> types, long period, double tickHealth) {
-        this(skill, applier, name, Sets.<PotionEffect>newHashSet(), false, types, "", "",
+        this(skill, applier, name, Sets.<PotionEffect>newHashSet(), false,
+             types, Messages.of(""), Messages.of(""),
              duration, period, tickHealth);
     }
 
     public HealingEffect(Skill skill, Insentient applier, String name,
                          Set<PotionEffect> potionEffects, boolean persistent,
-                         EnumSet<EffectType> types, String applyText, String expireText,
+                         EnumSet<EffectType> types, Message applyText, Message expireText,
                          long duration, long period, double tickHealth) {
         super(skill, applier, name, potionEffects, persistent, types, applyText, expireText,
               duration, period);
@@ -62,7 +65,7 @@ public class HealingEffect extends PeriodicExpirableEffect implements Healing {
     }
 
     public HealingEffect(Skill skill, Insentient applier, String name, long duration,
-                         String applyText, String expireText, EnumSet<EffectType> types,
+                         Message applyText, Message expireText, EnumSet<EffectType> types,
                          long period, double tickHealth) {
         this(skill, applier, name, Sets.<PotionEffect>newHashSet(), false, types, applyText,
              expireText, duration, period, tickHealth);

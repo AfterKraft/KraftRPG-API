@@ -24,6 +24,7 @@
 package com.afterkraft.kraftrpg.api.entity;
 
 import javax.annotation.Nullable;
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
@@ -49,7 +50,7 @@ public interface Sentient extends Insentient {
      *
      * @param role to check the current experience of
      *
-     * @return the FixedPoint value of the designated role.
+     * @return The FixedPoint value of the designated role.
      * @throws IllegalArgumentException If the role is null
      */
     Optional<FixedPoint> getExperience(Role role);
@@ -60,7 +61,7 @@ public interface Sentient extends Insentient {
      *
      * @param type of experience
      *
-     * @return true if the experience type can be gained
+     * @return If the experience type can be gained
      * @throws IllegalArgumentException If the type is null
      */
     boolean canGainExperience(ExperienceType type);
@@ -70,11 +71,11 @@ public interface Sentient extends Insentient {
      * It will also return the final {@link com.afterkraft.kraftrpg.api.util.FixedPoint} value of
      * experience gained by this method.
      *
-     * @param exp      to gain
-     * @param type     of experience
-     * @param location of experience
+     * @param exp The amount of experience being gained
+     * @param type The type of experience
+     * @param location The location of the experience source
      *
-     * @return the final experience gained
+     * @return The final amount of experience gained
      * @throws IllegalArgumentException If the experience is null
      * @throws IllegalArgumentException If the type is null
      * @throws IllegalArgumentException If the location is null
@@ -85,8 +86,8 @@ public interface Sentient extends Insentient {
      * Tells this being to lose the prescribed experience from all {@link
      * com.afterkraft.kraftrpg.api.roles.Role}s of which if configured, looses experience on death.
      *
-     * @param multiplier percentage of the current level to lose in experience
-     * @param byPVP      if true, has some alternate modifications to the total loss
+     * @param multiplier Percentage of the current level to lose in experience
+     * @param byPVP If true, has some alternate modifications to the total loss
      *
      * @throws IllegalArgumentException If the multiplier is negative
      */
@@ -95,14 +96,14 @@ public interface Sentient extends Insentient {
     /**
      * Get the currently active Primary {@link Role} that this sentient being has
      *
-     * @return the current primary role this sentient being has activated
+     * @return The current primary role this sentient being has activated
      */
     Optional<Role> getPrimaryRole();
 
     /**
      * Get the currently active Secondary {@link Role} that this sentient being has
      *
-     * @return the current secondary role this sentient being has activated
+     * @return The current secondary role this sentient being has activated
      */
     Optional<Role> getSecondaryRole();
 
@@ -125,7 +126,7 @@ public interface Sentient extends Insentient {
      *
      * @param role the Secondary role to set this sentient being's secondary role to
      *
-     * @return true if the set was successful
+     * @return True if the set was successful
      * @throws IllegalArgumentException If the role is not of the Secondary type
      */
     boolean setSecondaryRole(@Nullable Role role);
@@ -134,17 +135,17 @@ public interface Sentient extends Insentient {
      * Get a Set of {@link Role}s that are marked as {@link com.afterkraft.kraftrpg.api.roles.Role.RoleType#ADDITIONAL}
      * that are active on this sentient being.
      *
-     * @return an unmodifiable set of additional Roles this sentient being has activated
+     * @return An immutable collection of additional roles
      */
-    Set<Role> getAdditionalRoles();
+    Collection<Role> getAdditionalRoles();
 
     /**
      * Attempts to add the given {@link Role} provided that the {@link
      * com.afterkraft.kraftrpg.api.roles.Role.RoleType} is ADDITIONAL.
      *
-     * @param role the additional role to add to this sentient being
+     * @param role The additional role to add to this sentient being
      *
-     * @return true if the role was added successfully
+     * @return True if the role was added successfully
      */
     boolean addAdditionalRole(Role role);
 
@@ -154,9 +155,9 @@ public interface Sentient extends Insentient {
      * skill permission refreshes, nor does it check for any passive skills refreshes. This would
      * need to be checked manually by the caller of this method.
      *
-     * @param role the additional role to remove from this sentient being
+     * @param role The additional role to remove from this sentient being
      *
-     * @return true if the role was removed successfully
+     * @return True if the role was removed successfully
      */
     boolean removeAdditionalRole(Role role);
 
@@ -166,7 +167,7 @@ public interface Sentient extends Insentient {
      * (additional roles are in an unspecified order). (This can be accomplished with an
      * ImmutableSet.)
      *
-     * @return an immutable list of all roles
+     * @return An immutable list of all roles
      */
     List<Role> getAllRoles();
 
@@ -176,8 +177,7 @@ public interface Sentient extends Insentient {
      *
      * @param role to get the current level
      *
-     * @return the current calculated level of this Role if not 0
-     * @throws IllegalArgumentException If the role is null
+     * @return The current calculated level of this Role, if available
      */
     Optional<Integer> getLevel(Role role);
 }

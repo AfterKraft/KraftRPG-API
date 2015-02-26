@@ -56,7 +56,7 @@ public final class RpgCommon {
     private static Server server;
     private static Game game;
     private static PermissionsManager permissionsManager;
-    private static RPGPlugin rpgPlugin;
+    private static RPGPlugin plugin;
     private static ServerInternals serverInternals;
 
     private static boolean isPluginEnabled = false;
@@ -100,12 +100,12 @@ public final class RpgCommon {
     }
 
     public static RPGPlugin getPlugin() {
-        return RpgCommon.rpgPlugin;
+        return RpgCommon.plugin;
     }
 
     public static void setPlugin(RPGPlugin plugin) {
         check();
-        RpgCommon.rpgPlugin = plugin;
+        RpgCommon.plugin = plugin;
     }
 
     public static PermissionsManager getPermissionManager() {

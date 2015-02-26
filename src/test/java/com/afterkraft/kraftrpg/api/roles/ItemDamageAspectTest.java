@@ -31,7 +31,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
-import org.spongepowered.api.item.ItemType;
+import org.spongepowered.api.text.message.Messages;
 
 import com.afterkraft.kraftrpg.api.RPGPlugin;
 import com.afterkraft.kraftrpg.api.RPGTestCreator;
@@ -42,7 +42,7 @@ import com.afterkraft.kraftrpg.api.skills.ISkill;
 import com.afterkraft.kraftrpg.api.util.TestItemType;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest(RpgCommon.class)
+@PrepareForTest({RpgCommon.class, Messages.class})
 public class ItemDamageAspectTest {
 
     private RPGPlugin plugin;

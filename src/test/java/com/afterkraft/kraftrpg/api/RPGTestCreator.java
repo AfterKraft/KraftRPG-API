@@ -25,7 +25,7 @@ package com.afterkraft.kraftrpg.api;
 
 import java.io.File;
 
-import static org.easymock.EasyMock.createMock;
+import static org.easymock.EasyMock.anyString;
 import static org.easymock.EasyMock.createNiceMock;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.replay;
@@ -36,10 +36,9 @@ import static org.junit.Assert.assertTrue;
 import org.powermock.api.easymock.PowerMock;
 import org.spongepowered.api.Game;
 import org.spongepowered.api.Server;
-import org.spongepowered.api.item.ItemType;
-import org.spongepowered.api.item.ItemTypes;
+import org.spongepowered.api.text.message.Message.Text;
+import org.spongepowered.api.text.message.Messages;
 
-import com.google.common.base.Function;
 import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableList;
 
@@ -47,8 +46,6 @@ import com.afterkraft.kraftrpg.api.skills.ISkill;
 import com.afterkraft.kraftrpg.api.skills.SkillManager;
 import com.afterkraft.kraftrpg.api.skills.TestSkill;
 import com.afterkraft.kraftrpg.api.util.FileUtils;
-import com.afterkraft.kraftrpg.api.util.RegistryHelper;
-import com.afterkraft.kraftrpg.api.util.TestItemType;
 import com.afterkraft.kraftrpg.api.util.Util;
 
 /**
@@ -80,7 +77,7 @@ public class RPGTestCreator {
 
             Server mockServer = createNiceMock(Server.class);
             Game mockGame = createNiceMock(Game.class);
-            expect(mockGame.getAPIVersion()).andStubReturn("1");
+            expect(mockGame.getApiVersion()).andStubReturn("1");
             expect(mockGame.getServer()).andStubReturn(Optional.of(mockServer));
 
             // Set up mockPlugin prep
@@ -90,6 +87,11 @@ public class RPGTestCreator {
             expect(RpgCommon.getLogger()).andStubReturn(Util.logger);
             expect(RpgCommon.getPlugin()).andStubReturn(this.mockPlugin);
 
+            PowerMock.mockStatic(Messages.class);
+            Text mockText = createNiceMock(Text.class);
+            expect(Messages.of(anyString())).andStubReturn(mockText);
+            replay(mockText);
+            PowerMock.replay(Messages.class);
             // Create test skill
             this.mockSkill = new TestSkill(this.mockPlugin);
 

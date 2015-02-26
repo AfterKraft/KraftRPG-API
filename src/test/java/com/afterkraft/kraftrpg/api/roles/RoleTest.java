@@ -34,7 +34,6 @@ import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 import static org.powermock.api.easymock.PowerMock.mockStatic;
 
-import org.easymock.EasyMock;
 import org.hamcrest.CoreMatchers;
 import org.junit.After;
 import org.junit.Before;
@@ -44,7 +43,7 @@ import org.powermock.api.easymock.PowerMock;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.spongepowered.api.service.persistence.data.DataContainer;
-import org.spongepowered.api.service.persistence.data.DataView;
+import org.spongepowered.api.text.message.Messages;
 
 import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableList;
@@ -62,15 +61,13 @@ import com.afterkraft.kraftrpg.api.roles.aspects.SkillAspect;
 import com.afterkraft.kraftrpg.api.roles.aspects.SkillAspect.SkillAspectBuilder;
 import com.afterkraft.kraftrpg.api.skills.ISkill;
 import com.afterkraft.kraftrpg.api.skills.SkillSetting;
-import com.afterkraft.kraftrpg.api.skills.TestSkill;
 import com.afterkraft.kraftrpg.api.util.DataUtil;
-import com.afterkraft.kraftrpg.api.util.NullDataContainer;
 
 /**
  * Performs all tests on the Role object directly.
  */
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({RpgCommon.class, DataUtil.class})
+@PrepareForTest({RpgCommon.class, DataUtil.class, Messages.class})
 public class RoleTest {
     private RPGPlugin plugin;
     private RPGTestCreator creator;

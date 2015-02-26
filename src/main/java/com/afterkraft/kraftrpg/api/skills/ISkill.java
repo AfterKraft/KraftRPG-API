@@ -27,6 +27,7 @@ import java.util.Collection;
 
 import org.spongepowered.api.entity.Entity;
 import org.spongepowered.api.service.persistence.data.DataView;
+import org.spongepowered.api.text.message.Message;
 
 import com.afterkraft.kraftrpg.api.entity.Champion;
 import com.afterkraft.kraftrpg.api.entity.SkillCaster;
@@ -71,14 +72,15 @@ public interface ISkill {
      *
      * @return the description for this skill
      */
-    String getDescription();
+
+    Message getDescription();
 
     /**
      * Set the description for this skill.
      *
      * @param description the description for this skill
      */
-    void setDescription(String description);
+    void setDescription(Message description);
 
     /**
      * Should be used to register any necessary listeners and managers for
@@ -120,7 +122,13 @@ public interface ISkill {
      */
     boolean isInMessageRange(SkillCaster broadcaster, Champion receiver);
 
+    /**
+     * {@inheritDoc}
+     */
     int hashCode();
 
+    /**
+     * {@inheritDoc}
+     */
     boolean equals(Object other);
 }

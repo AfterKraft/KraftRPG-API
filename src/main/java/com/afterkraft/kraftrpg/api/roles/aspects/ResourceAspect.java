@@ -31,7 +31,7 @@ import com.afterkraft.kraftrpg.api.roles.RoleAspect;
 /**
  * Represents a resource aspect associated with a resource
  *
- * @param <T>
+ * @param <T> The type of resource number to represent
  */
 public interface ResourceAspect<T extends Number> extends RoleAspect {
 

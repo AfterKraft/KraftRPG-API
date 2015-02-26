@@ -25,8 +25,6 @@ package com.afterkraft.kraftrpg.api.listeners;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import com.google.common.base.Preconditions;
-
 import com.afterkraft.kraftrpg.api.Manager;
 import com.afterkraft.kraftrpg.api.RPGPlugin;
 

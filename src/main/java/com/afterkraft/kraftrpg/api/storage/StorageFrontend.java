@@ -31,7 +31,6 @@ import java.util.Set;
 import java.util.UUID;
 
 import org.spongepowered.api.entity.player.Player;
-import org.spongepowered.api.plugin.PluginContainer;
 
 import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableMap;
@@ -70,8 +69,8 @@ public abstract class StorageFrontend {
         this.toSave = new HashMap<>();
         this.offlineToSave = new HashMap<>();
 
-        RpgCommon.getGame().getScheduler()
-                .runRepeatingTask((PluginContainer) this.plugin,
+        RpgCommon.getGame().getSyncScheduler()
+                .runRepeatingTask(this.plugin,
                                   new SavingStarterTask(), 20 * 60);
     }
 
@@ -241,9 +240,8 @@ public abstract class StorageFrontend {
             StorageFrontend.this.toSave.clear();
             StorageFrontend.this.offlineToSave.clear();
 
-            RpgCommon.getGame().getScheduler()
-                    .runTask((PluginContainer) RpgCommon.getPlugin(), new
-                            SavingWorker(data));
+            RpgCommon.getGame().getSyncScheduler()
+                    .runTask(RpgCommon.getPlugin(), new SavingWorker(data));
         }
     }
 

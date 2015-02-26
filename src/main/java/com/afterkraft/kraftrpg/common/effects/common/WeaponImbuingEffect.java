@@ -28,6 +28,8 @@ import java.util.Set;
 
 import org.spongepowered.api.item.inventory.ItemStack;
 import org.spongepowered.api.potion.PotionEffect;
+import org.spongepowered.api.text.message.Message;
+import org.spongepowered.api.text.message.Messages;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
@@ -55,11 +57,12 @@ public class WeaponImbuingEffect extends ImbuingEffect implements
 
     public WeaponImbuingEffect(Skill skill, Insentient applier, String name,
                                Collection<EffectType> types, int maxHits) {
-        this(skill, applier, name, types, "", "", maxHits);
+        this(skill, applier, name, types, Messages.of(""), Messages.of(""),
+             maxHits);
     }
 
     public WeaponImbuingEffect(Skill skill, Insentient applier, String name,
-                               Collection<EffectType> types, String applyText, String expireText,
+                               Collection<EffectType> types, Message applyText, Message expireText,
                                int maxHits) {
         this(skill, applier, name, types, Sets.<PotionEffect>newHashSet(), false,
              applyText,
@@ -68,7 +71,8 @@ public class WeaponImbuingEffect extends ImbuingEffect implements
 
     public WeaponImbuingEffect(Skill skill, Insentient applier, String name,
                                Collection<EffectType> types, Set<PotionEffect> potionEffects,
-                               boolean persistent, String applyText, String expireText,
+                               boolean persistent, Message applyText, Message
+                                       expireText,
                                int maxHits) {
         super(skill, applier, name, potionEffects, persistent, types, applyText, expireText);
         this.maxHits = maxHits;

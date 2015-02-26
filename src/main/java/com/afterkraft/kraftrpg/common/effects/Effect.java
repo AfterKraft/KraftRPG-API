@@ -32,6 +32,8 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import org.spongepowered.api.entity.player.Player;
 import org.spongepowered.api.potion.PotionEffect;
+import org.spongepowered.api.text.message.Message;
+import org.spongepowered.api.text.message.Messages;
 import org.spongepowered.api.world.Location;
 
 import com.google.common.collect.ImmutableSet;
@@ -56,8 +58,8 @@ public class Effect implements IEffect {
     private final String name;
     private final Set<PotionEffect> potionEffects;
     private final boolean persistent;
-    private final String applyText;
-    private final String expireText;
+    private final Message applyText;
+    private final Message expireText;
     protected long applyTime;
 
     public Effect(Skill skill, String name) {
@@ -65,13 +67,15 @@ public class Effect implements IEffect {
              Lists.<EffectType>newArrayList());
     }
 
-    public Effect(Skill skill, String name, Set<PotionEffect> potionEffects, boolean persistent,
-                  Collection<EffectType> types) {
-        this(skill, name, potionEffects, persistent, types, "", "");
+    public Effect(Skill skill, String name, Set<PotionEffect> potionEffects,
+                  boolean persistent, Collection<EffectType> types) {
+        this(skill, name, potionEffects, persistent, types,
+             Messages.of(""), Messages.of(""));
     }
 
-    public Effect(Skill skill, String name, Set<PotionEffect> potionEffects, boolean persistent,
-                  Collection<EffectType> types, String applyText, String expireText) {
+    public Effect(Skill skill, String name, Set<PotionEffect> potionEffects,
+                  boolean persistent, Collection<EffectType> types,
+                  Message applyText, Message expireText) {
         checkArgument(!name.isEmpty(), "Cannot create an effect with an empty name!");
         checkNotNull(skill);
         checkNotNull(potionEffects);
@@ -146,12 +150,12 @@ public class Effect implements IEffect {
     }
 
     @Override
-    public String getApplyText() {
+    public Message getApplyText() {
         return this.applyText;
     }
 
     @Override
-    public String getExpireText() {
+    public Message getExpireText() {
         return this.expireText;
     }
 

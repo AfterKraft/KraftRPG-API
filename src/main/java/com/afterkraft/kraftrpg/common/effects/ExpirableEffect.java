@@ -32,6 +32,8 @@ import java.util.concurrent.TimeUnit;
 import static com.google.common.base.Preconditions.checkArgument;
 
 import org.spongepowered.api.potion.PotionEffect;
+import org.spongepowered.api.text.message.Message;
+import org.spongepowered.api.text.message.Messages;
 
 import com.google.common.base.Optional;
 import com.google.common.collect.Sets;
@@ -66,7 +68,7 @@ public class ExpirableEffect extends Effect implements Expirable {
      */
     public ExpirableEffect(Skill skill, Insentient applier, String name, long duration,
                            Collection<EffectType> types) {
-        this(skill, applier, name, duration, "", "", types);
+        this(skill, applier, name, duration, Messages.of(""), Messages.of(""), types);
     }
 
     /**
@@ -81,7 +83,7 @@ public class ExpirableEffect extends Effect implements Expirable {
      * @param types The types of this effect
      */
     public ExpirableEffect(Skill skill, Insentient applier, String name, long duration,
-                           String applyText, String expireText, Collection<EffectType> types) {
+                           Message applyText, Message expireText, Collection<EffectType> types) {
         this(skill, applier, name, Sets.<PotionEffect>newHashSet(), false, types,
              applyText,
              expireText, duration);
@@ -102,7 +104,7 @@ public class ExpirableEffect extends Effect implements Expirable {
      */
     public ExpirableEffect(Skill skill, Insentient applier, String name,
                            Set<PotionEffect> potionEffects, boolean persistent,
-                           Collection<EffectType> types, String applyText, String expireText,
+                           Collection<EffectType> types, Message applyText, Message expireText,
                            long duration) {
         super(skill, name, potionEffects, persistent, types, applyText, expireText);
         checkArgument(applier.isEntityValid(), "Cannot create an ExpirableEffect with a "

@@ -29,6 +29,11 @@ package com.afterkraft.kraftrpg.api;
 public class CircularDependencyException extends RuntimeException {
     private static final long serialVersionUID = 6924360924388448810L;
 
+    /**
+     * Creates a new exception with the provided message.
+     *
+     * @param message The message to provide with the exception
+     */
     public CircularDependencyException(String message) {
         super(message);
     }

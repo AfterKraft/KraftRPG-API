@@ -26,6 +26,7 @@ package com.afterkraft.kraftrpg.api.effects;
 import java.util.Set;
 
 import org.spongepowered.api.potion.PotionEffect;
+import org.spongepowered.api.text.message.Message;
 
 import com.afterkraft.kraftrpg.api.entity.Insentient;
 import com.afterkraft.kraftrpg.api.skills.ISkill;
@@ -107,12 +108,12 @@ public interface IEffect {
      *
      * @return the message when this effect is applied
      */
-    String getApplyText();
+    Message getApplyText();
 
     /**
      * Get the message that should be sent to players when this effect expires
      *
      * @return the message when this effect expires
      */
-    String getExpireText();
+    Message getExpireText();
 }

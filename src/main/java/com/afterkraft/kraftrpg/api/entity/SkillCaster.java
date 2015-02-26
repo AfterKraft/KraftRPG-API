@@ -43,7 +43,7 @@ public interface SkillCaster extends Sentient, PartyMember {
      *
      * @param key name of the cooldown being checked
      *
-     * @return the time in milliseconds that the cooldown expires
+     * @return The time in milliseconds that the cooldown expires
      * @throws IllegalArgumentException If the key is null
      */
     Optional<Long> getCooldown(String key);
@@ -52,7 +52,7 @@ public interface SkillCaster extends Sentient, PartyMember {
      * Get the global cooldown.  The global cooldown is the cooldown applied for a caster using
      * skills. A Skill may not be used if the global cooldown has not expired.
      *
-     * @return the global cooldown if not 0
+     * @return The global cooldown if not 0
      */
     long getGlobalCooldown();
 
@@ -60,7 +60,7 @@ public interface SkillCaster extends Sentient, PartyMember {
      * Sets the global cooldown.  The global cooldown is the cooldown applied for a caster using
      * skills. A Skill may not be used if the global cooldown has not expired.
      *
-     * @param duration of the global cooldown
+     * @param duration The duration of the global cooldown
      *
      * @throws IllegalArgumentException If the duration is negative
      */
@@ -69,8 +69,8 @@ public interface SkillCaster extends Sentient, PartyMember {
     /**
      * Sets the cooldown for anything of a required key.
      *
-     * @param key      of the cooldown
-     * @param duration of the cooldown, if not 0
+     * @param key The name cooldown
+     * @param duration The duration of the cooldown
      *
      * @throws IllegalArgumentException If the duration is negative
      */

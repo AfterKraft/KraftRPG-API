@@ -29,6 +29,8 @@ import java.util.Set;
 import java.util.UUID;
 
 import org.spongepowered.api.entity.player.Player;
+import org.spongepowered.api.text.message.Message;
+import org.spongepowered.api.text.message.Messages;
 
 import com.google.common.collect.ImmutableSet;
 
@@ -48,8 +50,10 @@ import com.afterkraft.kraftrpg.common.skills.Skill;
  */
 public class InvisibiliytEffect extends ExpirableEffect {
 
-    public static final String DEFAULT_APPLY_TEXT = "You've become invisible to the world.";
-    public static final String DEFAULT_EXPIRE_TEXT = "You are now visible to the world.";
+    public static final Message DEFAULT_APPLY_TEXT = Messages
+            .of("You've become invisible to the world.");
+    public static final Message DEFAULT_EXPIRE_TEXT = Messages.of("You are now "
+            + "visible to the world.");
     public static final Set<EffectType> DEFAULT_INVISIBLE_EFFECTTYPES =
             EnumSet.of(EffectType.INVISIBILITY, EffectType.BENEFICIAL, EffectType.UNTARGETABLE,
                        EffectType.SILENT_ACTIONS);
@@ -61,7 +65,7 @@ public class InvisibiliytEffect extends ExpirableEffect {
     }
 
     public InvisibiliytEffect(Skill skill, Insentient applier, String name, long duration,
-                              String applyText, String expireText) {
+                              Message applyText, Message expireText) {
         super(skill, applier, name, duration, applyText, expireText, DEFAULT_INVISIBLE_EFFECTTYPES);
     }
 

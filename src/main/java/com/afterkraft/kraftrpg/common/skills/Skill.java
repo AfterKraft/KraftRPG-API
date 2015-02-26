@@ -25,9 +25,7 @@ package com.afterkraft.kraftrpg.common.skills;
 
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.EnumMap;
 import java.util.EnumSet;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -41,15 +39,19 @@ import org.spongepowered.api.entity.living.Living;
 import org.spongepowered.api.item.inventory.ItemStack;
 import org.spongepowered.api.service.persistence.data.DataQuery;
 import org.spongepowered.api.service.persistence.data.DataView;
+import org.spongepowered.api.text.message.Message;
+import org.spongepowered.api.text.message.Messages;
 
 import com.google.common.base.Function;
 import com.google.common.base.Functions;
+import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Maps;
 
 import com.afterkraft.kraftrpg.api.RPGPlugin;
 import com.afterkraft.kraftrpg.api.RpgCommon;
 import com.afterkraft.kraftrpg.api.entity.Champion;
+import com.afterkraft.kraftrpg.api.entity.IEntity;
 import com.afterkraft.kraftrpg.api.entity.Insentient;
 import com.afterkraft.kraftrpg.api.entity.SkillCaster;
 import com.afterkraft.kraftrpg.api.skills.ISkill;
@@ -69,7 +71,7 @@ public abstract class Skill implements ISkill {
     public final RPGPlugin plugin;
     private final Set<SkillType> skillTypes = EnumSet.noneOf(SkillType.class);
     private final String name;
-    private String description = "";
+    private Message description = Messages.of("");
     private boolean isEnabled = false;
     private DataView defaultConfig;
     private Set<SkillSetting> usedSettings = new HashSet<>();
@@ -91,7 +93,8 @@ public abstract class Skill implements ISkill {
     }
 
     public static void knockback(Insentient target, Insentient attacker, double damage) {
-        knockback(target.getEntity().get(), attacker.getEntity().get(), damage);
+        Skill.knockback(target.getEntity().get(), attacker.getEntity().get(),
+                        damage);
     }
 
     public static void knockback(Living target, Living attacker, double damage) {
@@ -100,37 +103,49 @@ public abstract class Skill implements ISkill {
 
     public static boolean damageEntity(Living target, SkillCaster attacker, ISkill skill,
                                        double damage, DamageCause cause) {
-        return damageEntity(target, attacker, skill, damage, cause, true);
+        return Skill.damageEntity(target, attacker, skill, damage, cause, true);
     }
 
     public static boolean damageEntity(Living target, SkillCaster attacker, ISkill skill,
                                        double damage, DamageCause cause, boolean knockback) {
-        return damageEntity(target, attacker, skill, damage, cause, knockback, false);
+        return Skill.damageEntity(target, attacker, skill, damage, cause,
+                                  knockback, false);
     }
 
     public static boolean damageEntity(Living target, SkillCaster attacker, ISkill skill,
                                        double damage, DamageCause cause, boolean knockback,
                                        boolean ignoreDamageCheck) {
-        return RpgCommon.damageEntity(target, attacker, skill, damage,
-                                      cause, knockback);
+        Optional<? extends IEntity> insentientOptional =
+                RpgCommon.getEntity(target);
+        checkArgument(insentientOptional.isPresent());
+        if (insentientOptional.get() instanceof Insentient) {
+
+            return Skill.damageEntity((Insentient) insentientOptional.get(),
+                                      attacker, skill,
+                                      damage, cause, knockback,
+                                      ignoreDamageCheck);
+        }
+        return false;
     }
 
     public static boolean damageEntity(Insentient target, SkillCaster attacker, ISkill skill,
                                        double damage, DamageCause cause) {
-        return damageEntity(target, attacker, skill, damage, cause, true);
+        return Skill.damageEntity(target, attacker, skill, damage, cause, true);
     }
 
     public static boolean damageEntity(Insentient target, SkillCaster attacker, ISkill skill,
                                        double damage, DamageCause cause, boolean knockback) {
-        return damageEntity(target, attacker, skill, damage, cause, knockback, false);
+        return Skill.damageEntity(target, attacker, skill, damage, cause,
+                                  knockback, false);
     }
 
     public static boolean damageEntity(Insentient target, SkillCaster attacker, ISkill skill,
                                        double damage, DamageCause cause, boolean knockback,
                                        boolean ignoreDamageCheck) {
         Map<DamageType, Double> modifiers = Maps.newHashMap();
-        return damageEntity(target, attacker, skill, modifiers, cause, knockback,
-                ignoreDamageCheck);
+        return Skill.damageEntity(target, attacker, skill, modifiers, cause,
+                                  knockback,
+                                  ignoreDamageCheck);
     }
 
     public static boolean damageEntity(Insentient target, Insentient attacker, ISkill skill,
@@ -142,13 +157,15 @@ public abstract class Skill implements ISkill {
 
     public static boolean damageEntity(Insentient target, Insentient attacker, ISkill skill,
                                        Map<DamageType, Double> modifiers, DamageCause cause) {
-        return damageEntity(target, attacker, skill, modifiers, cause, true);
+        return Skill.damageEntity(target, attacker, skill, modifiers, cause,
+                                  true);
     }
 
     public static boolean damageEntity(Insentient target, Insentient attacker, ISkill skill,
                                        Map<DamageType, Double> modifiers, DamageCause cause,
                                        boolean knockback) {
-        return damageEntity(target, attacker, skill, modifiers, cause, knockback, false);
+        return Skill.damageEntity(target, attacker, skill, modifiers, cause,
+                                  knockback, false);
     }
 
     /**
@@ -506,12 +523,13 @@ public abstract class Skill implements ISkill {
     }
 
     @Override
-    public final String getDescription() {
+    public final Message getDescription() {
         return this.description;
     }
 
     @Override
-    public final void setDescription(String description) {
+    public final void setDescription(Message description) {
+        checkNotNull(description);
         this.description = description;
     }
 
