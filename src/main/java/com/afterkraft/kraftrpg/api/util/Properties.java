@@ -84,11 +84,4 @@ public interface Properties {
 
     String getStorageType();
 
-    /**
-     * Third party plugin, VanishNoPacket, checks if the use of VanishNoPacket is configured to be
-     * enabled or disabled.
-     *
-     * @return True if VanishNoPacket is configured to be used for invisibility
-     */
-    boolean useVanishIfAvailable();
 }

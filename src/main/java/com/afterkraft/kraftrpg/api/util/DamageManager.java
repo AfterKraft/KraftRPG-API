@@ -40,7 +40,7 @@ import org.spongepowered.api.item.ItemType;
 import org.spongepowered.api.item.inventory.ItemStack;
 import org.spongepowered.api.world.Location;
 
-import com.typesafe.config.Config;
+import ninja.leaping.configurate.ConfigurationNode;
 
 import com.afterkraft.kraftrpg.api.Manager;
 import com.afterkraft.kraftrpg.api.entity.Insentient;
@@ -149,7 +149,7 @@ public interface DamageManager extends Manager {
      *
      * @param config repsective for this manager
      */
-    void load(Config config);
+    void load(ConfigurationNode config);
 
     /**
      * Standard projectile type enum for use by the DamageManager.

@@ -72,7 +72,6 @@ public interface ISkill {
      *
      * @return the description for this skill
      */
-
     Message getDescription();
 
     /**

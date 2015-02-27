@@ -28,6 +28,7 @@ import java.util.UUID;
 
 import org.spongepowered.api.entity.Entity;
 import org.spongepowered.api.entity.EntityType;
+import org.spongepowered.api.text.message.Message;
 import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
 
@@ -44,14 +45,14 @@ public interface IEntity {
      *
      * @return the Bukkit name of this Entity
      */
-    String getName();
+    Message getName();
 
     /**
      * Get the cleansed name for this Entity. It may be a customized name.
      *
      * @return The customized display name for this Entity
      */
-    String getDisplayName();
+    Message getDisplayName();
 
     /**
      * Check if the attached entity is still valid and not null
