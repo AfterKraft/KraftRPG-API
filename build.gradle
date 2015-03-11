@@ -28,7 +28,7 @@ defaultTasks 'clean', 'licenseFormat', 'check', 'build'
 
 group 'com.afterkraft.kraftrpg'
 archivesBaseName = 'KraftRPG-API'
-version '0.0.4'
+version '0.0.5-SNAPSHOT'
 
 // Minimum version of Java required
 sourceCompatibility = 1.7
