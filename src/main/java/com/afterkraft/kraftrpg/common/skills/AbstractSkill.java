@@ -26,7 +26,6 @@ package com.afterkraft.kraftrpg.common.skills;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.EnumSet;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -34,8 +33,8 @@ import java.util.Set;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import org.spongepowered.api.entity.Entity;
 import org.spongepowered.api.entity.living.Living;
+import org.spongepowered.api.event.cause.Cause;
 import org.spongepowered.api.item.inventory.ItemStack;
 import org.spongepowered.api.service.persistence.data.DataQuery;
 import org.spongepowered.api.service.persistence.data.DataView;
@@ -47,26 +46,27 @@ import com.google.common.base.Functions;
 import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 
 import com.afterkraft.kraftrpg.api.RPGPlugin;
 import com.afterkraft.kraftrpg.api.RpgCommon;
+import com.afterkraft.kraftrpg.api.entity.Being;
 import com.afterkraft.kraftrpg.api.entity.Champion;
-import com.afterkraft.kraftrpg.api.entity.IEntity;
 import com.afterkraft.kraftrpg.api.entity.Insentient;
 import com.afterkraft.kraftrpg.api.entity.SkillCaster;
-import com.afterkraft.kraftrpg.api.skills.ISkill;
+import com.afterkraft.kraftrpg.api.skills.Skill;
 import com.afterkraft.kraftrpg.api.skills.SkillSetting;
 import com.afterkraft.kraftrpg.api.skills.SkillType;
 import com.afterkraft.kraftrpg.api.util.Utilities;
-import com.afterkraft.kraftrpg.common.DamageCause;
 import com.afterkraft.kraftrpg.common.DamageType;
 
 /**
  * Represents an intended implementation of ISkill.
  */
-public abstract class Skill implements ISkill {
+public abstract class AbstractSkill implements Skill {
 
-    private static final Function<? super Double, Double> ZERO = Functions.constant(-0.0);
+    private static final Function<? super Double, Double> ZERO =
+            Functions.constant(-0.0);
 
     public final RPGPlugin plugin;
     private final Set<SkillType> skillTypes = EnumSet.noneOf(SkillType.class);
@@ -74,16 +74,15 @@ public abstract class Skill implements ISkill {
     private Message description = Messages.of("");
     private boolean isEnabled = false;
     private DataView defaultConfig;
-    private Set<SkillSetting> usedSettings = new HashSet<>();
+    private Set<SkillSetting> usedSettings = Sets.newHashSet();
 
     /**
-     * Creates a new instance of a Skill, the default implementation of
-     * {@link ISkill}.
+     * Creates a new instance of a Skill, the default implementation of {@link Skill}.
      *
      * @param plugin The instance of the RPGPlugin
-     * @param name The name of the skill
+     * @param name   The name of the skill
      */
-    protected Skill(RPGPlugin plugin, String name) {
+    protected AbstractSkill(RPGPlugin plugin, String name) {
         checkNotNull(plugin);
         checkNotNull(name);
         checkArgument(!name.isEmpty());
@@ -92,80 +91,100 @@ public abstract class Skill implements ISkill {
         this.defaultConfig = null;
     }
 
-    public static void knockback(Insentient target, Insentient attacker, double damage) {
-        Skill.knockback(target.getEntity().get(), attacker.getEntity().get(),
-                        damage);
+    public static void knockback(Insentient target, Insentient attacker,
+                                 double damage) {
+        AbstractSkill.knockback(target.getEntity().get(), attacker.getEntity().get(),
+                                damage);
     }
 
-    public static void knockback(Living target, Living attacker, double damage) {
+    public static void knockback(Living target, Living attacker,
+                                 double damage) {
         RpgCommon.knockBack(target, attacker, damage);
     }
 
-    public static boolean damageEntity(Living target, SkillCaster attacker, ISkill skill,
-                                       double damage, DamageCause cause) {
-        return Skill.damageEntity(target, attacker, skill, damage, cause, true);
+    public static boolean damageEntity(Living target, SkillCaster attacker,
+                                       Skill skill,
+                                       double damage, Cause cause) {
+        return AbstractSkill.damageEntity(target, attacker, skill, damage, cause, true);
     }
 
-    public static boolean damageEntity(Living target, SkillCaster attacker, ISkill skill,
-                                       double damage, DamageCause cause, boolean knockback) {
-        return Skill.damageEntity(target, attacker, skill, damage, cause,
-                                  knockback, false);
+    public static boolean damageEntity(Living target, SkillCaster attacker,
+                                       Skill skill,
+                                       double damage, Cause cause,
+                                       boolean knockback) {
+        return AbstractSkill.damageEntity(target, attacker, skill, damage, cause,
+                                          knockback, false);
     }
 
-    public static boolean damageEntity(Living target, SkillCaster attacker, ISkill skill,
-                                       double damage, DamageCause cause, boolean knockback,
+    public static boolean damageEntity(Living target, SkillCaster attacker,
+                                       Skill skill,
+                                       double damage, Cause cause,
+                                       boolean knockback,
                                        boolean ignoreDamageCheck) {
-        Optional<? extends IEntity> insentientOptional =
+        Optional<? extends Being> insentientOptional =
                 RpgCommon.getEntity(target);
         checkArgument(insentientOptional.isPresent());
         if (insentientOptional.get() instanceof Insentient) {
 
-            return Skill.damageEntity((Insentient) insentientOptional.get(),
-                                      attacker, skill,
-                                      damage, cause, knockback,
-                                      ignoreDamageCheck);
+            return AbstractSkill.damageEntity((Insentient) insentientOptional.get(),
+                                              attacker, skill,
+                                              damage, cause, knockback,
+                                              ignoreDamageCheck);
         }
         return false;
     }
 
-    public static boolean damageEntity(Insentient target, SkillCaster attacker, ISkill skill,
-                                       double damage, DamageCause cause) {
-        return Skill.damageEntity(target, attacker, skill, damage, cause, true);
-    }
-
-    public static boolean damageEntity(Insentient target, SkillCaster attacker, ISkill skill,
-                                       double damage, DamageCause cause, boolean knockback) {
-        return Skill.damageEntity(target, attacker, skill, damage, cause,
-                                  knockback, false);
-    }
-
-    public static boolean damageEntity(Insentient target, SkillCaster attacker, ISkill skill,
-                                       double damage, DamageCause cause, boolean knockback,
+    public static boolean damageEntity(Insentient target, SkillCaster attacker,
+                                       Skill skill,
+                                       double damage, Cause cause,
+                                       boolean knockback,
                                        boolean ignoreDamageCheck) {
         Map<DamageType, Double> modifiers = Maps.newHashMap();
-        return Skill.damageEntity(target, attacker, skill, modifiers, cause,
-                                  knockback,
-                                  ignoreDamageCheck);
+        return AbstractSkill.damageEntity(target, attacker, skill, modifiers, cause,
+                                          knockback,
+                                          ignoreDamageCheck);
     }
 
-    public static boolean damageEntity(Insentient target, Insentient attacker, ISkill skill,
-                                       Map<DamageType, Double> modifiers, DamageCause cause,
-                                       boolean knockback, boolean ignoreDamageCheck) {
-        return RpgCommon.damageEntity(target, attacker, skill, modifiers, cause, knockback,
+    public static boolean damageEntity(Insentient target, Insentient attacker,
+                                       Skill skill,
+                                       Map<DamageType, Double> modifiers,
+                                       Cause cause,
+                                       boolean knockback,
+                                       boolean ignoreDamageCheck) {
+        return RpgCommon.damageEntity(target, attacker, skill, modifiers, cause,
+                                      knockback,
                                       ignoreDamageCheck);
     }
 
-    public static boolean damageEntity(Insentient target, Insentient attacker, ISkill skill,
-                                       Map<DamageType, Double> modifiers, DamageCause cause) {
-        return Skill.damageEntity(target, attacker, skill, modifiers, cause,
-                                  true);
+    public static boolean damageEntity(Insentient target, SkillCaster attacker,
+                                       Skill skill,
+                                       double damage, Cause cause) {
+        return AbstractSkill.damageEntity(target, attacker, skill, damage, cause, true);
     }
 
-    public static boolean damageEntity(Insentient target, Insentient attacker, ISkill skill,
-                                       Map<DamageType, Double> modifiers, DamageCause cause,
+    public static boolean damageEntity(Insentient target, SkillCaster attacker,
+                                       Skill skill,
+                                       double damage, Cause cause,
                                        boolean knockback) {
-        return Skill.damageEntity(target, attacker, skill, modifiers, cause,
-                                  knockback, false);
+        return AbstractSkill.damageEntity(target, attacker, skill, damage, cause,
+                                          knockback, false);
+    }
+
+    public static boolean damageEntity(Insentient target, Insentient attacker,
+                                       Skill skill,
+                                       Map<DamageType, Double> modifiers,
+                                       Cause cause) {
+        return AbstractSkill.damageEntity(target, attacker, skill, modifiers, cause,
+                                          true);
+    }
+
+    public static boolean damageEntity(Insentient target, Insentient attacker,
+                                       Skill skill,
+                                       Map<DamageType, Double> modifiers,
+                                       Cause cause,
+                                       boolean knockback) {
+        return AbstractSkill.damageEntity(target, attacker, skill, modifiers, cause,
+                                          knockback, false);
     }
 
     /**
@@ -206,7 +225,7 @@ public abstract class Skill implements ISkill {
         }
         EntityDamageByEntityEvent damageEntityEvent =
                 new EntityDamageByEntityEvent(attacking.getEntity(), defenderLE,
-                        DamageCause.CUSTOM, new EnumMap<>(
+                        Cause.CUSTOM, new EnumMap<>(
                         ImmutableMap.of(DamageModifier.BASE, 1.0D)),
                         new EnumMap<DamageModifier, Function<? super Double, Double>>(
                                 ImmutableMap.of(DamageModifier.BASE, ZERO)));
@@ -230,7 +249,7 @@ public abstract class Skill implements ISkill {
         if (node.getClass().equals(SkillSetting.class)
                 && !SkillSetting.LIST_SETTINGS.contains(node)) {
             throw new IllegalArgumentException("Attempt to set string default "
-                    + "of a non-string SkillSetting");
+                                                       + "of a non-string SkillSetting");
         }
         DataView section = getDefaultConfig();
         section.set(node.node(), value);
@@ -267,7 +286,7 @@ public abstract class Skill implements ISkill {
         if (node.getClass().equals(SkillSetting.class)
                 && !SkillSetting.BOOLEAN_SETTINGS.contains(node)) {
             throw new IllegalArgumentException("Attempt to set boolean "
-                    + "default of a non-boolean SkillSetting");
+                                                       + "default of a non-boolean SkillSetting");
         }
         DataView section = getDefaultConfig();
         section.set(node.node(), value);
@@ -336,10 +355,12 @@ public abstract class Skill implements ISkill {
      *
      * @throws IllegalArgumentException If the setting is null
      */
-    protected void setDefault(SkillSetting node, double value, double valuePerLevel) {
+    protected void setDefault(SkillSetting node, double value,
+                              double valuePerLevel) {
         if (node.scalingNode().isPresent()) {
-            throw new IllegalArgumentException("Attempt to set scaling default of "
-                    + "a non-scaling SkillSetting");
+            throw new IllegalArgumentException(
+                    "Attempt to set scaling default of "
+                            + "a non-scaling SkillSetting");
         }
         DataView section = getDefaultConfig();
         section.set(node.node(), value);
@@ -378,8 +399,9 @@ public abstract class Skill implements ISkill {
     protected void setDefault(SkillSetting node, String value) {
         if (node.getClass().equals(SkillSetting.class)
                 && !SkillSetting.STRING_SETTINGS.contains(node)) {
-            throw new IllegalArgumentException("Attempt to set string default of "
-                    + "a non-string SkillSetting");
+            throw new IllegalArgumentException(
+                    "Attempt to set string default of "
+                            + "a non-string SkillSetting");
         }
         DataView section = getDefaultConfig();
         section.set(node.node(), value);
@@ -416,8 +438,9 @@ public abstract class Skill implements ISkill {
     protected void setDefault(SkillSetting node, List<?> value) {
         if (node.getClass().equals(SkillSetting.class)
                 && !SkillSetting.LIST_SETTINGS.contains(node)) {
-            throw new IllegalArgumentException("Attempt to set string default of "
-                    + "a non-list SkillSetting");
+            throw new IllegalArgumentException(
+                    "Attempt to set string default of "
+                            + "a non-list SkillSetting");
         }
         DataView section = getDefaultConfig();
         section.set(node.node(), value);
@@ -451,9 +474,10 @@ public abstract class Skill implements ISkill {
      * @throws IllegalArgumentException If the setting is null
      */
     protected void setDefault(SkillSetting node, ItemStack value) {
-        if (node.getClass().equals(SkillSetting.class) && node != SkillSetting.REAGENT) {
+        if (node.getClass().equals(SkillSetting.class)
+                && node != SkillSetting.REAGENT) {
             throw new IllegalArgumentException("Attempt to set item default of "
-                    + "a non-item SkillSetting");
+                                                       + "a non-item SkillSetting");
         }
         DataView section = getDefaultConfig();
         section.set(node.node(), Utilities.copyOf(value));
@@ -519,7 +543,8 @@ public abstract class Skill implements ISkill {
 
     @Override
     public Collection<SkillSetting> getUsedConfigNodes() {
-        return ImmutableList.<SkillSetting>builder().addAll(this.usedSettings).build();
+        return ImmutableList.<SkillSetting>builder().addAll(this.usedSettings)
+                .build();
     }
 
     @Override
@@ -534,7 +559,7 @@ public abstract class Skill implements ISkill {
     }
 
     @Override
-    public boolean addSkillTarget(Entity entity, SkillCaster caster) {
+    public boolean addSkillTarget(org.spongepowered.api.entity.Entity entity, SkillCaster caster) {
         this.plugin.getSkillManager().addSkillTarget(entity, caster, this);
         return true;
     }
@@ -545,9 +570,11 @@ public abstract class Skill implements ISkill {
     }
 
     @Override
-    public boolean isInMessageRange(SkillCaster broadcaster, Champion receiver) {
+    public boolean isInMessageRange(SkillCaster broadcaster,
+                                    Champion receiver) {
         return broadcaster.getLocation().getPosition()
-                .distanceSquared(receiver.getLocation().getPosition()) < (20 * 20);
+                .distanceSquared(receiver.getLocation().getPosition()) < (20
+                * 20);
     }
 
     /**
@@ -570,8 +597,8 @@ public abstract class Skill implements ISkill {
     @Override
     public boolean equals(Object obj) {
         return this == obj
-                || this.getClass() == obj.getClass() && obj instanceof Skill
-                && this.name.equals(((Skill) obj).name);
+                || this.getClass() == obj.getClass() && obj instanceof AbstractSkill
+                && this.name.equals(((AbstractSkill) obj).name);
     }
 
     private static final class InnerSkillSetting extends SkillSetting {

@@ -47,5 +47,11 @@ public interface EffectManager extends Manager {
      */
     void manageEffect(Insentient being, Timed effect);
 
+    /**
+     * Queues the removal of the {@link Timed} effect from the {@link Insentient} being.
+     *
+     * @param being  The being removing the effect
+     * @param effect The effect to remove
+     */
     void queueRemoval(Insentient being, Timed effect);
 }

@@ -25,24 +25,26 @@ package com.afterkraft.kraftrpg.api.listeners;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import org.spongepowered.api.event.cause.Cause;
+
 import com.google.common.base.Optional;
-import com.google.common.base.Preconditions;
 
 import com.afterkraft.kraftrpg.api.entity.SkillCaster;
-import com.afterkraft.kraftrpg.api.skills.ISkill;
-import com.afterkraft.kraftrpg.common.DamageCause;
+import com.afterkraft.kraftrpg.api.skills.Skill;
 
 /**
  * A standard wrapper referencing the skill used to damage the associated Insentient being.
  */
 public class SkillDamageWrapper extends AttackDamageWrapper {
 
-    private final ISkill skillUsed;
+    private final Skill skillUsed;
 
-    public SkillDamageWrapper(SkillCaster attackingIEntity, ISkill skill,
-                              DamageCause originalCause, double originalDamage,
-                              double modifiedDamage, DamageCause modifiedCause) {
-        super(attackingIEntity, originalCause, originalDamage, modifiedDamage, modifiedCause);
+    public SkillDamageWrapper(SkillCaster attackingIEntity, Skill skill,
+                              Cause originalCause, double originalDamage,
+                              double modifiedDamage,
+                              Cause modifiedCause) {
+        super(attackingIEntity, originalCause, originalDamage, modifiedDamage,
+              modifiedCause);
         checkNotNull(skill);
         this.skillUsed = skill;
     }
@@ -50,10 +52,12 @@ public class SkillDamageWrapper extends AttackDamageWrapper {
     @Override
     public Optional<? extends SkillCaster> getAttackingIEntity() {
         return Optional.fromNullable(super.getAttackingIEntity().isPresent()
-                ? (SkillCaster) super.getAttackingIEntity().get() : null);
+                                             ? (SkillCaster) super
+                .getAttackingIEntity().get()
+                                             : null);
     }
 
-    public final ISkill getSkillUsed() {
+    public final Skill getSkillUsed() {
         return this.skillUsed;
     }
 }

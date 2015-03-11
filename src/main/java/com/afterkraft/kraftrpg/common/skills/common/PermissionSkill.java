@@ -24,28 +24,30 @@
 package com.afterkraft.kraftrpg.common.skills.common;
 
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.Map;
 
 import org.spongepowered.api.entity.Entity;
+import org.spongepowered.api.service.permission.PermissionService;
 import org.spongepowered.api.service.persistence.data.DataView;
 
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Sets;
 
 import com.afterkraft.kraftrpg.api.RPGPlugin;
+import com.afterkraft.kraftrpg.api.RpgCommon;
 import com.afterkraft.kraftrpg.api.entity.Champion;
 import com.afterkraft.kraftrpg.api.entity.Sentient;
 import com.afterkraft.kraftrpg.api.entity.SkillCaster;
 import com.afterkraft.kraftrpg.api.skills.SkillSetting;
 import com.afterkraft.kraftrpg.api.skills.common.Permissible;
-import com.afterkraft.kraftrpg.common.skills.Skill;
+import com.afterkraft.kraftrpg.common.skills.AbstractSkill;
 
 /**
  * PermissionSkill allows setting any other Plugin's permission to become a Skill through permission
  * restrictions. A PermissionSkill does not allow any type of SkillArguments and it will always
- * return true on Skill use.  PermissionSkill can apply Permissions with both true and false
+ * return true on Skill use. PermissionSkill can apply Permissions with both true and false
  */
-public final class PermissionSkill extends Skill implements Permissible {
+public final class PermissionSkill extends AbstractSkill implements Permissible {
     private Map<String, Boolean> permissions;
 //    private Permission permission;
 
@@ -60,7 +62,7 @@ public final class PermissionSkill extends Skill implements Permissible {
 
     @Override
     public Collection<SkillSetting> getUsedConfigNodes() {
-        return new HashSet<>();
+        return Sets.newHashSet();
     }
 
     @Override
@@ -69,7 +71,8 @@ public final class PermissionSkill extends Skill implements Permissible {
     }
 
     @Override
-    public boolean isInMessageRange(SkillCaster broadcaster, Champion receiver) {
+    public boolean isInMessageRange(SkillCaster broadcaster,
+                                    Champion receiver) {
         return false;
     }
 
@@ -88,6 +91,8 @@ public final class PermissionSkill extends Skill implements Permissible {
 
     @Override
     public void setPermissions(Map<String, Boolean> permissions) {
+        PermissionService service =
+                RpgCommon.getGame().getServiceManager().provide(PermissionService.class).get();
         /*checkArgument(permissions != null, "Cannot set the permissions to a null mapping!");
         this.permissions = permissions;
         this.permission = RpgCommon.getGame().getPluginManager().getPermission

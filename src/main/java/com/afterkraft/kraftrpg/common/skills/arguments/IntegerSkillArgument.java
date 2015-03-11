@@ -29,7 +29,6 @@ import com.google.common.base.Optional;
 import com.google.common.collect.Lists;
 
 import com.afterkraft.kraftrpg.api.entity.SkillCaster;
-import com.afterkraft.kraftrpg.api.skills.SkillArgument;
 import com.afterkraft.kraftrpg.common.skills.AbstractSkillArgument;
 
 /**
@@ -49,17 +48,6 @@ public class IntegerSkillArgument extends AbstractSkillArgument<Integer> {
     }
 
     @Override
-    public Optional<Integer> getValue() {
-        return Optional.fromNullable(this.value);
-    }
-
-    public void setValue(int val) {
-        this.value = val;
-    }
-
-    // --------------------------------------------------------------
-
-    @Override
     public String getUsageString(boolean optional) {
         if (optional) {
             return '[' + this.desc + ']';
@@ -69,7 +57,8 @@ public class IntegerSkillArgument extends AbstractSkillArgument<Integer> {
     }
 
     @Override
-    public int matches(SkillCaster caster, String[] allArgs, int startPosition) {
+    public int matches(SkillCaster caster, String[] allArgs,
+                       int startPosition) {
         String arg = allArgs[startPosition];
         try {
             Integer.parseInt(arg);
@@ -78,6 +67,8 @@ public class IntegerSkillArgument extends AbstractSkillArgument<Integer> {
             return -1;
         }
     }
+
+    // --------------------------------------------------------------
 
     @Override
     public void parse(SkillCaster caster, String[] allArgs, int startPosition) {
@@ -95,12 +86,22 @@ public class IntegerSkillArgument extends AbstractSkillArgument<Integer> {
     }
 
     @Override
+    public Optional<Integer> getValue() {
+        return Optional.fromNullable(this.value);
+    }
+
+    public void setValue(int val) {
+        this.value = val;
+    }
+
+    @Override
     public void clean() {
         this.value = -Integer.MAX_VALUE;
     }
 
     @Override
-    public List<String> tabComplete(SkillCaster caster, String[] allArgs, int startPosition) {
+    public List<String> tabComplete(SkillCaster caster, String[] allArgs,
+                                    int startPosition) {
         return Lists.newArrayList();
     }
 

@@ -27,7 +27,8 @@ package com.afterkraft.kraftrpg.common;
 public final class DamageModifiers {
 
     public static final DamageModifier BASE = new DamageModifier() {
-        @Override public String toString() {
+        @Override
+        public String toString() {
             return super.toString();
         }
     };

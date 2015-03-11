@@ -48,8 +48,7 @@ public interface SkillArgument<T> {
     boolean isOptional();
 
     /**
-     * Checks whether this argument is validated and ready for use in skill
-     * casting.
+     * Checks whether this argument is validated and ready for use in skill casting.
      *
      * @return Whether this argument is ready for use
      */
@@ -105,8 +104,8 @@ public interface SkillArgument<T> {
     /**
      * Gets the parsed and validated value of this argument.
      *
-     * <p>If the argument has not processed or the input is invalid, {@link
-     * Optional#absent()} will be returned.</p>
+     * <p>If the argument has not processed or the input is invalid, {@link Optional#absent()} will
+     * be returned.</p>
      *
      * @return The validated value, if available
      */
@@ -127,5 +126,6 @@ public interface SkillArgument<T> {
      *
      * @return completion suggestions for the last item in allArgs
      */
-    List<String> tabComplete(SkillCaster caster, String[] allArgs, int startPosition);
+    List<String> tabComplete(SkillCaster caster, String[] allArgs,
+                             int startPosition);
 }

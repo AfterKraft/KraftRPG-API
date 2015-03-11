@@ -35,8 +35,8 @@ import com.afterkraft.kraftrpg.api.util.FixedPoint;
 /**
  * Party is a grouping of {@link com.afterkraft.kraftrpg.api.entity.PartyMember}. Useful for
  * maintaining close contact with friendly Champions and the ability to apply buffing effects to the
- * Party. Parties add a new chat channel.  Parties are not permanent and will be removed when
- * one Champion remains.
+ * Party. Parties add a new chat channel. Parties are not permanent and will be removed when one
+ * Champion remains.
  */
 public interface Party {
 
@@ -76,9 +76,8 @@ public interface Party {
 
     /**
      * Removes the queried member if it is possible. This should be considered as throwing an event
-     * of PartyLeaveEvent that may be
-     * cancelled for various reasons. If the event is cancelled, the {@link
-     * com.afterkraft.kraftrpg.api.entity.PartyMember} is not removed.
+     * of PartyLeaveEvent that may be cancelled for various reasons. If the event is cancelled, the
+     * {@link com.afterkraft.kraftrpg.api.entity.PartyMember} is not removed.
      *
      * @param member to remove
      *
@@ -138,6 +137,7 @@ public interface Party {
 
     void logOffMember(PartyMember member);
 
-    void gainExperience(FixedPoint experience, ExperienceType type, Location location);
+    void gainExperience(FixedPoint experience, ExperienceType type,
+                        Location location);
 
 }

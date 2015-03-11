@@ -24,7 +24,6 @@
 package com.afterkraft.kraftrpg.common.skills.arguments;
 
 import javax.annotation.Nullable;
-
 import java.lang.ref.WeakReference;
 import java.util.Collection;
 import java.util.List;
@@ -55,42 +54,44 @@ public class EntitySkillArgument<E extends Entity> extends
     protected WeakReference<E> matchedEntity = new WeakReference<E>(null);
 
     /**
-     * Creates a new EntitySkillArgument with a desired predicate and
-     * requirements.
+     * Creates a new EntitySkillArgument with a desired predicate and requirements.
      *
      * @param maxDistance The maximum distance to ray cast
-     * @param clazz The class to match the entities
+     * @param clazz       The class to match the entities
      */
     public EntitySkillArgument(double maxDistance, Class<E> clazz) {
         this(maxDistance, clazz, new Predicate<E>() {
-            @Override public boolean apply(@Nullable E input) {
+            @Override
+            public boolean apply(
+                    @Nullable
+                    E input) {
                 return true;
             }
         });
     }
 
     /**
-     * Creates a new EntitySkillArgument with a desired predicate and
-     * requirements.
+     * Creates a new EntitySkillArgument with a desired predicate and requirements.
      *
      * @param maxDistance The maximum distance to ray cast
-     * @param clazz The class to match the entities
-     * @param condition A special predicate to require as well
+     * @param clazz       The class to match the entities
+     * @param condition   A special predicate to require as well
      */
-    public EntitySkillArgument(double maxDistance, Class<E> clazz, Predicate<E> condition) {
+    public EntitySkillArgument(double maxDistance, Class<E> clazz,
+                               Predicate<E> condition) {
         this(true, maxDistance, clazz, condition);
     }
 
     /**
-     * Creates a new EntitySkillArgument with a desired predicate and
-     * requirements.
+     * Creates a new EntitySkillArgument with a desired predicate and requirements.
      *
-     * @param required Whether the argument is required or not
+     * @param required    Whether the argument is required or not
      * @param maxDistance The maximum distance to ray cast
-     * @param clazz The class to match the entities
-     * @param condition A special predicate to require as well
+     * @param clazz       The class to match the entities
+     * @param condition   A special predicate to require as well
      */
-    protected EntitySkillArgument(boolean required, double maxDistance, Class<E> clazz,
+    protected EntitySkillArgument(boolean required, double maxDistance,
+                                  Class<E> clazz,
                                   Predicate<E> condition) {
         super(required);
         this.maxDistance = maxDistance;
@@ -99,17 +100,13 @@ public class EntitySkillArgument<E extends Entity> extends
     }
 
     @Override
-    public Optional<E> getValue() {
-        return Optional.fromNullable(this.matchedEntity.get());
-    }
-
-    @Override
     public String getUsageString(boolean optional) {
         return "";
     }
 
     @Override
-    public int matches(SkillCaster caster, String[] allArgs, int startPosition) {
+    public int matches(SkillCaster caster, String[] allArgs,
+                       int startPosition) {
         return 0;
     }
 
@@ -118,7 +115,10 @@ public class EntitySkillArgument<E extends Entity> extends
                       final int startPosition) {
         Collection<Entity> nearby = caster.getWorld().getEntities(
                 new Predicate<Entity>() {
-                    @Override public boolean apply(@Nullable Entity input) {
+                    @Override
+                    public boolean apply(
+                            @Nullable
+                            Entity input) {
                         if (input == null) {
                             return false;
                         }
@@ -134,7 +134,8 @@ public class EntitySkillArgument<E extends Entity> extends
         Vector3f middle = actor.getEyeLocation();
 
         double closestDistance = this.maxDistance;
-        @Nullable E closest = null;
+        @Nullable
+        E closest = null;
 
         for (Entity entity : nearby) {
             if (!this.clazz.isInstance(entity)) {
@@ -180,12 +181,18 @@ public class EntitySkillArgument<E extends Entity> extends
     }
 
     @Override
+    public Optional<E> getValue() {
+        return Optional.fromNullable(this.matchedEntity.get());
+    }
+
+    @Override
     public void clean() {
         this.matchedEntity = new WeakReference<>(null);
     }
 
     @Override
-    public List<String> tabComplete(SkillCaster caster, String[] allArgs, int startPosition) {
+    public List<String> tabComplete(SkillCaster caster, String[] allArgs,
+                                    int startPosition) {
         return Lists.newArrayList();
     }
 

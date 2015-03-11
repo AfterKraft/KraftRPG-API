@@ -33,7 +33,6 @@ import com.google.common.base.Optional;
 
 import com.afterkraft.kraftrpg.api.RpgCommon;
 import com.afterkraft.kraftrpg.api.entity.SkillCaster;
-import com.afterkraft.kraftrpg.api.skills.SkillArgument;
 import com.afterkraft.kraftrpg.common.skills.AbstractSkillArgument;
 
 /**
@@ -65,7 +64,8 @@ public class ExplicitPlayerArgument extends AbstractSkillArgument<Player> {
 
     @Override
     @SuppressWarnings("deprecation")
-    public int matches(SkillCaster caster, String[] allArgs, int startPosition) {
+    public int matches(SkillCaster caster, String[] allArgs,
+                       int startPosition) {
         String arg = allArgs[startPosition];
         Optional<Player> p = RpgCommon.getServer().getPlayer(arg);
         if (p.isPresent()) {
@@ -77,7 +77,8 @@ public class ExplicitPlayerArgument extends AbstractSkillArgument<Player> {
     @Override
     @SuppressWarnings("deprecation")
     public void parse(SkillCaster caster, String[] allArgs, int startPosition) {
-        Optional<Player> option = RpgCommon.getServer().getPlayer(allArgs[startPosition]);
+        Optional<Player> option =
+                RpgCommon.getServer().getPlayer(allArgs[startPosition]);
         if (option.isPresent()) {
             this.matchedPlayer = new WeakReference<>(option.get());
         }
@@ -93,7 +94,8 @@ public class ExplicitPlayerArgument extends AbstractSkillArgument<Player> {
         }
     }
 
-    @Override public Optional<Player> getValue() {
+    @Override
+    public Optional<Player> getValue() {
         return this.matchedPlayer != null
                 ? Optional.fromNullable(this.matchedPlayer.get())
                 : Optional.<Player>absent();
@@ -105,7 +107,8 @@ public class ExplicitPlayerArgument extends AbstractSkillArgument<Player> {
     }
 
     @Override
-    public List<String> tabComplete(SkillCaster caster, String[] allArgs, int startPosition) {
+    public List<String> tabComplete(SkillCaster caster, String[] allArgs,
+                                    int startPosition) {
         // TODO Auto-generated method stub
         return null;
     }

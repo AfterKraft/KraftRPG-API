@@ -30,7 +30,7 @@ import com.afterkraft.kraftrpg.common.skills.PassiveSkill;
  * Represents a passive skill that can not be activated by command or bind. The recommended use of
  * implementation is {@link PassiveSkill}
  */
-public interface Passive extends ISkill {
+public interface Passive extends Skill {
 
     /**
      * Attempts to apply this passive skill to the given {@link com.afterkraft.kraftrpg.api.entity.SkillCaster}

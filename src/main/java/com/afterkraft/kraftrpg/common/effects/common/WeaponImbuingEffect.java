@@ -37,7 +37,7 @@ import com.google.common.collect.Sets;
 import com.afterkraft.kraftrpg.api.effects.EffectType;
 import com.afterkraft.kraftrpg.api.effects.common.WeaponImbuing;
 import com.afterkraft.kraftrpg.api.entity.Insentient;
-import com.afterkraft.kraftrpg.common.skills.Skill;
+import com.afterkraft.kraftrpg.common.skills.AbstractSkill;
 
 /**
  * {@inheritDoc}
@@ -47,39 +47,44 @@ public class WeaponImbuingEffect extends ImbuingEffect implements
     private final int maxHits;
     private int totalHits;
 
-    public WeaponImbuingEffect(Skill skill, Insentient applier, String name) {
+    public WeaponImbuingEffect(AbstractSkill skill, Insentient applier, String name) {
         this(skill, applier, name, 1);
     }
 
-    public WeaponImbuingEffect(Skill skill, Insentient applier, String name, int maxHits) {
+    public WeaponImbuingEffect(AbstractSkill skill, Insentient applier, String name,
+                               int maxHits) {
         this(skill, applier, name, Lists.<EffectType>newArrayList(), maxHits);
     }
 
-    public WeaponImbuingEffect(Skill skill, Insentient applier, String name,
+    public WeaponImbuingEffect(AbstractSkill skill, Insentient applier, String name,
                                Collection<EffectType> types, int maxHits) {
         this(skill, applier, name, types, Messages.of(""), Messages.of(""),
              maxHits);
     }
 
-    public WeaponImbuingEffect(Skill skill, Insentient applier, String name,
-                               Collection<EffectType> types, Message applyText, Message expireText,
+    public WeaponImbuingEffect(AbstractSkill skill, Insentient applier, String name,
+                               Collection<EffectType> types, Message applyText,
+                               Message expireText,
                                int maxHits) {
-        this(skill, applier, name, types, Sets.<PotionEffect>newHashSet(), false,
+        this(skill, applier, name, types, Sets.<PotionEffect>newHashSet(),
+             false,
              applyText,
              expireText, maxHits);
     }
 
-    public WeaponImbuingEffect(Skill skill, Insentient applier, String name,
-                               Collection<EffectType> types, Set<PotionEffect> potionEffects,
+    public WeaponImbuingEffect(AbstractSkill skill, Insentient applier, String name,
+                               Collection<EffectType> types,
+                               Set<PotionEffect> potionEffects,
                                boolean persistent, Message applyText, Message
                                        expireText,
                                int maxHits) {
-        super(skill, applier, name, potionEffects, persistent, types, applyText, expireText);
+        super(skill, applier, name, potionEffects, persistent, types, applyText,
+              expireText);
         this.maxHits = maxHits;
         this.types.add(EffectType.PHYSICAL);
     }
 
-    public WeaponImbuingEffect(Skill skill, Insentient applier, String name,
+    public WeaponImbuingEffect(AbstractSkill skill, Insentient applier, String name,
                                Collection<EffectType> types) {
         this(skill, applier, name, types, 1);
     }
@@ -90,7 +95,8 @@ public class WeaponImbuingEffect extends ImbuingEffect implements
     }
 
     @Override
-    public void onEntityHit(Insentient victim, Insentient attacker, ItemStack weapon) {
+    public void onEntityHit(Insentient victim, Insentient attacker,
+                            ItemStack weapon) {
 
     }
 

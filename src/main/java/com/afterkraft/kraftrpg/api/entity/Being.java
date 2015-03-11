@@ -23,10 +23,9 @@
  */
 package com.afterkraft.kraftrpg.api.entity;
 
-import java.util.List;
+import java.util.Collection;
 import java.util.UUID;
 
-import org.spongepowered.api.entity.Entity;
 import org.spongepowered.api.entity.EntityType;
 import org.spongepowered.api.text.message.Message;
 import org.spongepowered.api.world.Location;
@@ -35,10 +34,10 @@ import org.spongepowered.api.world.World;
 import com.google.common.base.Optional;
 
 /**
- * Represents an {@link Entity} linked with KraftRPG. This is the base for all entities in
- * KraftRPG.
+ * Represents an {@link org.spongepowered.api.entity.Entity} linked with KraftRPG. This is the base
+ * for all entities in KraftRPG.
  */
-public interface IEntity {
+public interface Being {
 
     /**
      * Get the Bukkit name of this Entity
@@ -62,8 +61,8 @@ public interface IEntity {
     boolean isValid();
 
     /**
-     * Check if the Entity is valid. This also checks if the reference of
-     * the entity {@link #isValid()}.
+     * Check if the Entity is valid. This also checks if the reference of the entity {@link
+     * #isValid()}.
      *
      * @return true if the LivingEntity is alive and valid
      */
@@ -74,7 +73,7 @@ public interface IEntity {
      *
      * @return the linked Entity if not null
      */
-    Optional<? extends Entity> getEntity();
+    Optional<? extends org.spongepowered.api.entity.Entity> getEntity();
 
     /**
      * Gets the type of Entity this IEntity is wrapping.
@@ -84,15 +83,15 @@ public interface IEntity {
     Optional<EntityType> getEntityType();
 
     /**
-     * Reset the linked Entity to the provided {@link Entity} if the {@link
-     * java.util.UUID} match for the old reference and the provided reference
+     * Reset the linked Entity to the provided {@link org.spongepowered.api.entity.Entity} if the
+     * {@link java.util.UUID} match for the old reference and the provided reference
      *
      * @param entity the Entity to re-attach this IEntity to
      *
      * @return true if successful, false if UUID did not match
      * @throws IllegalArgumentException If the entity is null
      */
-    boolean setEntity(Entity entity);
+    boolean setEntity(org.spongepowered.api.entity.Entity entity);
 
     /**
      * Returns the linked Entity's UUID provided by the server.
@@ -109,33 +108,32 @@ public interface IEntity {
     Location getLocation();
 
     /**
-     * Teleports this being to the provided Location. This uses the provided
-     * location's yaw and pitch and may be different than this being's current
-     * yaw and pitch.
+     * Teleports this being to the provided Location. This uses the provided location's yaw and
+     * pitch and may be different than this being's current yaw and pitch.
      *
      * @param location the location to teleport to
      */
     void teleport(Location location);
 
     /**
-     * Attempts to teleport this being to the provided Location while maintaining this
-     * being's current yaw and pitch if possible.
+     * Attempts to teleport this being to the provided Location while maintaining this being's
+     * current yaw and pitch if possible.
      *
-     * @param location the location to teleport to
+     * @param location        the location to teleport to
      * @param keepYawAndPitch whether to maintain the yaw and pitch
      */
     void teleport(Location location, boolean keepYawAndPitch);
 
     /**
-     * Gets a list of entities within a bounding box centered around this IEntity.
+     * Gets a collection of entities within a bounding box centered around this IEntity.
      *
      * @param x Half the size of the box along the x axis
      * @param y Half the size of the box along the y axis
      * @param z Half the size of the box along the z axis
      *
-     * @return The List of entities nearby
+     * @return A collection of entities nearby
      */
-    List<Entity> getNearbyEntities(double x, double y, double z);
+    Collection<org.spongepowered.api.entity.Entity> getNearbyEntities(double x, double y, double z);
 
     /**
      * Shortcut method for getting the entity and then the world.

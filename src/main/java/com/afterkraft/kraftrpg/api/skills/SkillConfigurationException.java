@@ -25,8 +25,8 @@
 package com.afterkraft.kraftrpg.api.skills;
 
 /**
- * An exception that occurs when a skill configuration was requested but does not exist by
- * default or configuration.
+ * An exception that occurs when a skill configuration was requested but does not exist by default
+ * or configuration.
  */
 public class SkillConfigurationException extends RuntimeException {
 

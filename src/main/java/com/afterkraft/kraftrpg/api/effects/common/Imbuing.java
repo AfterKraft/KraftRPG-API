@@ -23,13 +23,18 @@
  */
 package com.afterkraft.kraftrpg.api.effects.common;
 
-import com.afterkraft.kraftrpg.api.effects.IEffect;
+import com.afterkraft.kraftrpg.api.effects.Effect;
 import com.afterkraft.kraftrpg.api.entity.Insentient;
 
 /**
  * A singleton stateful effect.
  */
-public interface Imbuing extends IEffect {
+public interface Imbuing extends Effect {
 
+    /**
+     * Gets the applier of the effect.
+     *
+     * @return The applier
+     */
     Insentient getApplier();
 }

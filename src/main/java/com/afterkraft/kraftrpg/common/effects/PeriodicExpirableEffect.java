@@ -33,7 +33,7 @@ import com.afterkraft.kraftrpg.api.effects.EffectType;
 import com.afterkraft.kraftrpg.api.effects.Expirable;
 import com.afterkraft.kraftrpg.api.effects.Periodic;
 import com.afterkraft.kraftrpg.api.entity.Insentient;
-import com.afterkraft.kraftrpg.common.skills.Skill;
+import com.afterkraft.kraftrpg.common.skills.AbstractSkill;
 
 /**
  * Standard implementation of a {@link com.afterkraft.kraftrpg.api.effects.Periodic} and {@link
@@ -45,25 +45,34 @@ public abstract class PeriodicExpirableEffect extends ExpirableEffect implements
     private final long period;
     protected long lastTickTime = 0;
 
-    protected PeriodicExpirableEffect(Skill skill, Insentient applier, String name,
-                                      long duration, Collection<EffectType> types, long period) {
+    protected PeriodicExpirableEffect(AbstractSkill skill, Insentient applier,
+                                      String name,
+                                      long duration,
+                                      Collection<EffectType> types,
+                                      long period) {
         super(skill, applier, name, duration, types);
         this.period = period;
     }
 
-    protected PeriodicExpirableEffect(Skill skill, Insentient applier, String name, long duration,
+    protected PeriodicExpirableEffect(AbstractSkill skill, Insentient applier,
+                                      String name, long duration,
                                       Message applyText, Message expireText,
-                                      Collection<EffectType> types, long period) {
+                                      Collection<EffectType> types,
+                                      long period) {
         super(skill, applier, name, duration, applyText, expireText, types);
         this.period = period;
     }
 
-    protected PeriodicExpirableEffect(Skill skill, Insentient applier, String name,
-                                      Set<PotionEffect> potionEffects, boolean persistent,
-                                      Collection<EffectType> types, Message applyText,
-                                      Message expireText, long duration, long period) {
+    protected PeriodicExpirableEffect(AbstractSkill skill, Insentient applier,
+                                      String name,
+                                      Set<PotionEffect> potionEffects,
+                                      boolean persistent,
+                                      Collection<EffectType> types,
+                                      Message applyText,
+                                      Message expireText, long duration,
+                                      long period) {
         super(skill, applier, name, potionEffects, persistent, types, applyText,
-                expireText, duration);
+              expireText, duration);
         this.period = period;
     }
 

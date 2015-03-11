@@ -31,12 +31,13 @@ import org.spongepowered.api.text.message.Message;
 
 import com.afterkraft.kraftrpg.api.entity.Champion;
 import com.afterkraft.kraftrpg.api.entity.SkillCaster;
-import com.afterkraft.kraftrpg.common.skills.Skill;
+import com.afterkraft.kraftrpg.common.skills.AbstractSkill;
 
 /**
- * Represents a usable Skill for KraftRPG. The recommended use of implementation is {@link Skill}
+ * Represents a usable Skill for KraftRPG. The recommended use of implementation is {@link
+ * AbstractSkill}
  */
-public interface ISkill {
+public interface Skill {
 
     /**
      * Returns the generated permission node as a string for this ISkill.
@@ -82,8 +83,7 @@ public interface ISkill {
     void setDescription(Message description);
 
     /**
-     * Should be used to register any necessary listeners and managers for
-     * active use.
+     * Should be used to register any necessary listeners and managers for active use.
      */
     void initialize();
 

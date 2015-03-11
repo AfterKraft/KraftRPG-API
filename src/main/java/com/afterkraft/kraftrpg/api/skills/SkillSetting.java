@@ -47,11 +47,13 @@ public class SkillSetting {
     /**
      * An immutable set of SkillSettings that are normally considered lists.
      */
-    public static final Set<SkillSetting> LIST_SETTINGS = ImmutableSet.of(DEPENDS);
+    public static final Set<SkillSetting> LIST_SETTINGS =
+            ImmutableSet.of(DEPENDS);
     /**
      * Cooldown, in milliseconds, before the skill can be used a second time.
      */
-    public static final SkillSetting COOLDOWN = new SkillSetting("cooldown", true);
+    public static final SkillSetting COOLDOWN =
+            new SkillSetting("cooldown", true);
     /**
      * Delay between when the skill is used and when it is cast, in milliseconds.
      */
@@ -63,19 +65,23 @@ public class SkillSetting {
     /**
      * HP deducted for each use of the skill.
      */
-    public static final SkillSetting HEALTH_COST = new SkillSetting("health-cost", true);
+    public static final SkillSetting HEALTH_COST =
+            new SkillSetting("health-cost", true);
     /**
      * MP deducted for each use of the skill.
      */
-    public static final SkillSetting MANA_COST = new SkillSetting("mana-cost", true);
+    public static final SkillSetting MANA_COST =
+            new SkillSetting("mana-cost", true);
     /**
      * Hunger deducted for each use of the skill.
      */
-    public static final SkillSetting STAMINA_COST = new SkillSetting("stamina-cost", true);
+    public static final SkillSetting STAMINA_COST =
+            new SkillSetting("stamina-cost", true);
     /**
      * Experience removed for each use of the skill.
      */
-    public static final SkillSetting EXP_ON_CAST = new SkillSetting("xp-on-cast", false);
+    public static final SkillSetting EXP_ON_CAST =
+            new SkillSetting("xp-on-cast", false);
     /**
      * An ItemStack's name, as defined by VaultAPI's Items, to consume on skill cast
      */
@@ -83,19 +89,23 @@ public class SkillSetting {
     /**
      * How many items are deducted. This will always be converted to a whole number before use.
      */
-    public static final SkillSetting REAGENT_QUANTITY = new SkillSetting("reagent-amount", true);
+    public static final SkillSetting REAGENT_QUANTITY =
+            new SkillSetting("reagent-amount", true);
     /**
      * If true, the skill cannot be used while in combat.
      */
-    public static final SkillSetting NO_COMBAT_USE = new SkillSetting("no-combat-use");
+    public static final SkillSetting NO_COMBAT_USE =
+            new SkillSetting("no-combat-use");
     /**
      * Default boolean settings provided by SkillSetting
      */
-    public static final Set<SkillSetting> BOOLEAN_SETTINGS = ImmutableSet.of(NO_COMBAT_USE);
+    public static final Set<SkillSetting> BOOLEAN_SETTINGS =
+            ImmutableSet.of(NO_COMBAT_USE);
     /**
      * How many skill points it costs to learn the skill once the level requirement is met. (TODO)
      */
-    public static final SkillSetting SKILL_POINT_COST = new SkillSetting("skill-point-cost");
+    public static final SkillSetting SKILL_POINT_COST =
+            new SkillSetting("skill-point-cost");
     /**
      * Default automatic settings applied for any skill
      */
@@ -110,7 +120,8 @@ public class SkillSetting {
     /**
      * Duration in ticks that an Expirable effect will last on an Insentient being.
      */
-    public static final SkillSetting DURATION = new SkillSetting("duration", true);
+    public static final SkillSetting DURATION =
+            new SkillSetting("duration", true);
     /**
      * Damage to deal on skill use
      */
@@ -118,24 +129,29 @@ public class SkillSetting {
     /**
      * Damage to deal per tick for a skill based effect
      */
-    public static final SkillSetting DAMAGE_PER_TICK = new SkillSetting("damage-per-tick", true);
+    public static final SkillSetting DAMAGE_PER_TICK =
+            new SkillSetting("damage-per-tick", true);
     /**
      * Amount of health to heal based on skill use
      */
-    public static final SkillSetting HEALING = new SkillSetting("healing", true);
+    public static final SkillSetting HEALING =
+            new SkillSetting("healing", true);
     /**
      * Amount of health to heal per tick for a skill based effect
      */
-    public static final SkillSetting HEALTH_PER_TICK = new SkillSetting("healing-per-tick", true);
+    public static final SkillSetting HEALTH_PER_TICK =
+            new SkillSetting("healing-per-tick", true);
     /**
      * Maximum distance that the skill will search.
      */
-    public static final SkillSetting MAX_DISTANCE = new SkillSetting("max-distance", true);
+    public static final SkillSetting MAX_DISTANCE =
+            new SkillSetting("max-distance", true);
     /**
      * Amount of ticks between a {@link com.afterkraft.kraftrpg.api.effects.Periodic} effect's
      * ticks.
      */
-    public static final SkillSetting RECURRENCE_PERIOD = new SkillSetting("period", true);
+    public static final SkillSetting RECURRENCE_PERIOD =
+            new SkillSetting("period", true);
     /**
      * The distance, centered on the player, that the skill affects.
      */
@@ -143,27 +159,33 @@ public class SkillSetting {
     /**
      * A text to broadcast when an effect is applied to an Insentient being
      */
-    public static final SkillSetting APPLY_TEXT = new SkillSetting("apply-text");
+    public static final SkillSetting APPLY_TEXT =
+            new SkillSetting("apply-text");
     /**
      * A text to broadcast when an Insentient being dies while an effect was active.
      */
-    public static final SkillSetting DEATH_TEXT = new SkillSetting("death-text");
+    public static final SkillSetting DEATH_TEXT =
+            new SkillSetting("death-text");
     /**
      * A text to broadcast when a SkillCaster's cast of a skill is delayed and warming up.
      */
-    public static final SkillSetting DELAY_TEXT = new SkillSetting("delay-text");
+    public static final SkillSetting DELAY_TEXT =
+            new SkillSetting("delay-text");
     /**
      * A text to broadcast when an effect expires on an Insentient being.
      */
-    public static final SkillSetting EXPIRE_TEXT = new SkillSetting("expire-text");
+    public static final SkillSetting EXPIRE_TEXT =
+            new SkillSetting("expire-text");
     /**
      * A text to broadcast when a delayed skill cast is interrupted.
      */
-    public static final SkillSetting INTERRUPT_TEXT = new SkillSetting("interrupt-text");
+    public static final SkillSetting INTERRUPT_TEXT =
+            new SkillSetting("interrupt-text");
     /**
      * A text to broadcast when an effect is removed (not expired) from an Insentient being.
      */
-    public static final SkillSetting UNAPPLY_TEXT = new SkillSetting("unapply-text");
+    public static final SkillSetting UNAPPLY_TEXT =
+            new SkillSetting("unapply-text");
     /**
      * A text to broadcast when a skill is casted
      */
@@ -198,21 +220,12 @@ public class SkillSetting {
     /**
      * Creates a new {@link SkillSetting} that has a scaling node.
      *
-     * @param node The node of the setting
+     * @param node   The node of the setting
      * @param scaled Whether there is a scaling node or not
      */
     protected SkillSetting(String node, boolean scaled) {
         this.node = new DataQuery(node);
         this.scaled = scaled;
-    }
-
-    /**
-     * Gets the prescribed string node for this setting.
-     *
-     * @return The string node for this setting
-     */
-    public String nodeAsString() {
-        return this.node.asString('.');
     }
 
     /**
@@ -225,9 +238,8 @@ public class SkillSetting {
     }
 
     /**
-     * Gets the 'per-level' string node for this setting if applicable.
-     * <p>If the node is not a scaling node, the this will return {@link
-     * Optional#absent()}</p>
+     * Gets the 'per-level' string node for this setting if applicable. <p>If the node is not a
+     * scaling node, the this will return {@link Optional#absent()}</p>
      *
      * @return The 'per-level' string node for this setting
      */
@@ -236,6 +248,15 @@ public class SkillSetting {
             return Optional.absent();
         }
         return Optional.of(new DataQuery(this.nodeAsString() + "-per-level"));
+    }
+
+    /**
+     * Gets the prescribed string node for this setting.
+     *
+     * @return The string node for this setting
+     */
+    public String nodeAsString() {
+        return this.node.asString('.');
     }
 
     @Override

@@ -37,11 +37,11 @@ import com.afterkraft.kraftrpg.api.entity.SkillCaster;
 public final class SkillUseObject {
 
     private final WeakReference<SkillCaster> entity;
-    private final WeakReference<ISkill> skill;
+    private final WeakReference<Skill> skill;
     private final WeakReference<List<SkillArgument<?>>> argument;
 
 
-    public SkillUseObject(SkillCaster entity, ISkill skill,
+    public SkillUseObject(SkillCaster entity, Skill skill,
                           List<SkillArgument<?>> argument) {
         this.entity = new WeakReference<>(entity);
         this.skill = new WeakReference<>(skill);
@@ -52,7 +52,7 @@ public final class SkillUseObject {
         return Optional.fromNullable(this.entity.get());
     }
 
-    public Optional<ISkill> getSkill() {
+    public Optional<Skill> getSkill() {
         return Optional.fromNullable(this.skill.get());
     }
 

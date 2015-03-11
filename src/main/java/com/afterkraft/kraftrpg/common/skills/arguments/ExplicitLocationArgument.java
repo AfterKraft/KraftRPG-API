@@ -42,7 +42,8 @@ import com.afterkraft.kraftrpg.common.skills.AbstractSkillArgument;
  * CommandBlocks parsing locations.
  */
 public class ExplicitLocationArgument extends AbstractSkillArgument<Location> {
-    private static final Location nullLocation = new Location(null, new Vector3d());
+    private static final Location nullLocation =
+            new Location(null, new Vector3d());
     @Nullable
     private Location location = nullLocation;
 
@@ -55,16 +56,11 @@ public class ExplicitLocationArgument extends AbstractSkillArgument<Location> {
         super(required);
     }
 
-    @Override
-    public Optional<Location> getValue() {
-        return Optional.fromNullable(this.location);
-    }
-
-    public void setLocation(@Nullable Location loc) {
+    public void setLocation(
+            @Nullable
+            Location loc) {
         this.location = loc;
     }
-
-    // --------------------------------------------------------------
 
     @Override
     public String getUsageString(boolean optional) {
@@ -75,8 +71,11 @@ public class ExplicitLocationArgument extends AbstractSkillArgument<Location> {
         }
     }
 
+    // --------------------------------------------------------------
+
     @Override
-    public int matches(SkillCaster caster, String[] allArgs, int startPosition) {
+    public int matches(SkillCaster caster, String[] allArgs,
+                       int startPosition) {
         String firstArg = allArgs[startPosition];
         if (firstArg.equalsIgnoreCase("$")) {
             this.location = caster.getLocation();
@@ -87,7 +86,8 @@ public class ExplicitLocationArgument extends AbstractSkillArgument<Location> {
         }
 
         for (int i = 0; i < 3; i++) {
-            Matcher matcher = Utilities.locationRegex.matcher(allArgs[startPosition + i]);
+            Matcher matcher =
+                    Utilities.locationRegex.matcher(allArgs[startPosition + i]);
             if (!matcher.matches()) {
                 return -1;
             }
@@ -145,12 +145,18 @@ public class ExplicitLocationArgument extends AbstractSkillArgument<Location> {
     }
 
     @Override
+    public Optional<Location> getValue() {
+        return Optional.fromNullable(this.location);
+    }
+
+    @Override
     public void clean() {
         this.location = nullLocation;
     }
 
     @Override
-    public List<String> tabComplete(SkillCaster caster, String[] allArgs, int startPosition) {
+    public List<String> tabComplete(SkillCaster caster, String[] allArgs,
+                                    int startPosition) {
         int argsProvided = allArgs.length - startPosition;
         switch (argsProvided) {
             case 0:

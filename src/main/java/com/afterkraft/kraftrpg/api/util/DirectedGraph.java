@@ -24,11 +24,11 @@
 package com.afterkraft.kraftrpg.api.util;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.Map;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 import com.afterkraft.kraftrpg.api.CircularDependencyException;
@@ -58,7 +58,7 @@ public class DirectedGraph<T> {
      */
     public static final int VISIT_COLOR_BLACK = 3;
 
-    protected final LinkedHashMap<T, Vertex<T>> vertexes;
+    protected final Map<T, Vertex<T>> vertexes;
 
     /**
      * Creates a new directed graph.
@@ -78,20 +78,22 @@ public class DirectedGraph<T> {
     }
 
     /**
-     * Removes the vertex from this graph. This performs a full
-     * check of all edges for removing linkage to the given vertex.
+     * Removes the vertex from this graph. This performs a full check of all edges for removing
+     * linkage to the given vertex.
      *
      * @param data The data to remove
      */
     public void removeVertex(T data) {
         checkNotNull(data);
         Vertex<T> vertex = this.vertexes.get(data);
-        for (Map.Entry<Vertex<T>, Edge<T>> entry : vertex.fromNodes.entrySet()) {
+        for (Map.Entry<Vertex<T>, Edge<T>> entry : vertex.fromNodes
+                .entrySet()) {
             Vertex<T> parent = entry.getKey();
             parent.toNodes.remove(vertex);
             // Here we have to re-assign the previous children of the node
             // being deleted to each of the parent nodes of this node.
-            for (Map.Entry<Vertex<T>, Edge<T>> childEntries : vertex.toNodes.entrySet()) {
+            for (Map.Entry<Vertex<T>, Edge<T>> childEntries : vertex.toNodes
+                    .entrySet()) {
                 parent.addEdge(childEntries.getKey());
             }
         }
@@ -106,10 +108,11 @@ public class DirectedGraph<T> {
      * Adds an edge between the two vertexes.
      *
      * @param from The vertex being depended upon
-     * @param to The vertex depending on the from vertex
+     * @param to   The vertex depending on the from vertex
+     *
      * @return True if successful
-     * @throws CircularDependencyException If there is a circular dependency
-     * occuring, an exception is thrown
+     * @throws CircularDependencyException If there is a circular dependency occuring, an exception
+     *                                     is thrown
      */
     public boolean addEdge(T from, T to) throws CircularDependencyException {
         checkNotNull(from);
@@ -124,8 +127,9 @@ public class DirectedGraph<T> {
         vertex.addEdge(new Vertex<>(to));
         this.vertexes.put(from, vertex);
         if (doesCycleExist()) { // We can't allow the creation of a cycle
-            throw new CircularDependencyException("Could not add " + from.toString()
-                    + " as a parent of " + to.toString());
+            throw new CircularDependencyException(
+                    "Could not add " + from.toString()
+                            + " as a parent of " + to.toString());
         }
         return true;
     }
@@ -134,7 +138,7 @@ public class DirectedGraph<T> {
      * Removes the given dependency between the two edges.
      *
      * @param from The vertex being depended on
-     * @param to The vertex depending on the from vertex
+     * @param to   The vertex depending on the from vertex
      */
     public void removeEdge(T from, T to) {
         checkNotNull(from);
@@ -150,13 +154,12 @@ public class DirectedGraph<T> {
     /**
      * Checks whether this graph contains a path that cycles itself.
      *
-     * <p>The performance costs of this method involves a full depth first
-     * search.</p>
+     * <p>The performance costs of this method involves a full depth first search.</p>
      *
      * @return True if there is a cycle that exists
      */
     public boolean doesCycleExist() {
-        ArrayList<Edge<T>> cycleEdges = new ArrayList<>();
+        ArrayList<Edge<T>> cycleEdges = Lists.newArrayList();
         // Mark all verticies as white
         for (Map.Entry<T, Vertex<T>> entry : this.vertexes.entrySet()) {
             Vertex<T> v = entry.getValue();
@@ -191,8 +194,8 @@ public class DirectedGraph<T> {
     static class Vertex<T> {
         protected final T data;
         protected final String name;
-        protected final LinkedHashMap<Vertex<T>, Edge<T>> fromNodes;
-        protected final LinkedHashMap<Vertex<T>, Edge<T>> toNodes;
+        protected final Map<Vertex<T>, Edge<T>> fromNodes;
+        protected final Map<Vertex<T>, Edge<T>> toNodes;
         private boolean mark;
         private int markState;
 
@@ -200,8 +203,8 @@ public class DirectedGraph<T> {
             checkNotNull(data);
             this.data = data;
             this.name = data.toString();
-            this.fromNodes = new LinkedHashMap<>();
-            this.toNodes = new LinkedHashMap<>();
+            this.fromNodes = Maps.newLinkedHashMap();
+            this.toNodes = Maps.newLinkedHashMap();
         }
 
         public Vertex<T> addEdge(Vertex<T> vertex) {

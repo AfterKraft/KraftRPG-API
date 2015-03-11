@@ -22,5 +22,4 @@
  * THE SOFTWARE.
  */
 
-@org.spongepowered.api.util.annotation.NonnullByDefault
-package com.afterkraft.kraftrpg.common.skills.arguments;
+@org.spongepowered.api.util.annotation.NonnullByDefault package com.afterkraft.kraftrpg.common.skills.arguments;

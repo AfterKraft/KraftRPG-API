@@ -26,7 +26,6 @@ package com.afterkraft.kraftrpg.api.entity;
 import javax.annotation.Nullable;
 import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 
 import org.spongepowered.api.world.Location;
 
@@ -34,13 +33,14 @@ import com.google.common.base.Optional;
 
 import com.afterkraft.kraftrpg.api.roles.ExperienceType;
 import com.afterkraft.kraftrpg.api.roles.Role;
+import com.afterkraft.kraftrpg.api.skills.Skill;
 import com.afterkraft.kraftrpg.api.util.FixedPoint;
 
 /**
  * Represents a being that is able to obtain experience and advance through {@link Role}s. A
  * Sentient being can gain experience and have various effects applied to it. Usually, this type of
  * being is applied to entities that are to be interacted with but not interfered with in regards to
- * {@link com.afterkraft.kraftrpg.api.skills.ISkill}.
+ * {@link Skill}.
  */
 public interface Sentient extends Insentient {
 
@@ -67,12 +67,11 @@ public interface Sentient extends Insentient {
     boolean canGainExperience(ExperienceType type);
 
     /**
-     * Tells this being to gain experience of the determined {@link com.afterkraft.kraftrpg.api.roles.ExperienceType}
-     * It will also return the final {@link com.afterkraft.kraftrpg.api.util.FixedPoint} value of
-     * experience gained by this method.
+     * Tells this being to gain experience of the determined {@link ExperienceType} It will also
+     * return the final {@link FixedPoint} value of experience gained by this method.
      *
-     * @param exp The amount of experience being gained
-     * @param type The type of experience
+     * @param exp      The amount of experience being gained
+     * @param type     The type of experience
      * @param location The location of the experience source
      *
      * @return The final amount of experience gained
@@ -80,14 +79,15 @@ public interface Sentient extends Insentient {
      * @throws IllegalArgumentException If the type is null
      * @throws IllegalArgumentException If the location is null
      */
-    FixedPoint gainExperience(FixedPoint exp, ExperienceType type, Location location);
+    FixedPoint gainExperience(FixedPoint exp, ExperienceType type,
+                              Location location);
 
     /**
      * Tells this being to lose the prescribed experience from all {@link
      * com.afterkraft.kraftrpg.api.roles.Role}s of which if configured, looses experience on death.
      *
      * @param multiplier Percentage of the current level to lose in experience
-     * @param byPVP If true, has some alternate modifications to the total loss
+     * @param byPVP      If true, has some alternate modifications to the total loss
      *
      * @throws IllegalArgumentException If the multiplier is negative
      */
@@ -117,7 +117,9 @@ public interface Sentient extends Insentient {
      * @return True if successful
      * @throws IllegalArgumentException If the role is not of the Primary type
      */
-    boolean setPrimaryRole(@Nullable Role role);
+    boolean setPrimaryRole(
+            @Nullable
+            Role role);
 
     /**
      * Set the current {@link com.afterkraft.kraftrpg.api.roles.Role.RoleType#SECONDARY} {@link
@@ -129,7 +131,9 @@ public interface Sentient extends Insentient {
      * @return True if the set was successful
      * @throws IllegalArgumentException If the role is not of the Secondary type
      */
-    boolean setSecondaryRole(@Nullable Role role);
+    boolean setSecondaryRole(
+            @Nullable
+            Role role);
 
     /**
      * Get a Set of {@link Role}s that are marked as {@link com.afterkraft.kraftrpg.api.roles.Role.RoleType#ADDITIONAL}

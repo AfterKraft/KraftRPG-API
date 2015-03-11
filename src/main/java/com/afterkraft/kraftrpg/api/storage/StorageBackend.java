@@ -31,8 +31,8 @@ import com.google.common.base.Optional;
 /**
  * A backend for storage of player data. All methods in this class may be assumed to take a long
  * time, and will be called off of the main thread. (Therefore, no Bukkit API except the Scheduler
- * is safe to access.)  The PlayerData objects you are provided in savePlayer() will be
- * snapshots, not the live data objects.
+ * is safe to access.)  The PlayerData objects you are provided in savePlayer() will be snapshots,
+ * not the live data objects.
  */
 public interface StorageBackend {
 
@@ -45,8 +45,7 @@ public interface StorageBackend {
     void initialize() throws Throwable;
 
     /**
-     * Stop any long-running or maintenance tasks, cleanly terminate connections.  (Main
-     * thread)
+     * Stop any long-running or maintenance tasks, cleanly terminate connections.  (Main thread)
      */
     void shutdown();
 
@@ -71,8 +70,8 @@ public interface StorageBackend {
 
     /**
      * Load the data for the player with the given UUID. If shouldCreate is true, this may not
-     * return null.  Assume different thread. (The implementation does not do this yet, however,
-     * so try to keep the time down, please.)
+     * return null.  Assume different thread. (The implementation does not do this yet, however, so
+     * try to keep the time down, please.)
      *
      * @param uuid         UUID of player to load
      * @param shouldCreate whether to allocate space for the player if not present

@@ -34,6 +34,7 @@ public class DataUtil {
     public static Optional<DataContainer> containerFromExisting(DataView data) {
         return Optional.absent();
     }
+
     public static Optional<DataView> copyFromExisting(DataView data) {
         return Optional.absent();
     }

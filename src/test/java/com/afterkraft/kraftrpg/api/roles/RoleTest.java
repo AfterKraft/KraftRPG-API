@@ -59,7 +59,7 @@ import com.afterkraft.kraftrpg.api.roles.aspects.RestrictedSkillAspect;
 import com.afterkraft.kraftrpg.api.roles.aspects.RestrictedSkillAspect.RestrictedSkillAspectBuilder;
 import com.afterkraft.kraftrpg.api.roles.aspects.SkillAspect;
 import com.afterkraft.kraftrpg.api.roles.aspects.SkillAspect.SkillAspectBuilder;
-import com.afterkraft.kraftrpg.api.skills.ISkill;
+import com.afterkraft.kraftrpg.api.skills.Skill;
 import com.afterkraft.kraftrpg.api.skills.SkillSetting;
 import com.afterkraft.kraftrpg.api.util.DataUtil;
 
@@ -71,7 +71,7 @@ import com.afterkraft.kraftrpg.api.util.DataUtil;
 public class RoleTest {
     private RPGPlugin plugin;
     private RPGTestCreator creator;
-    private ISkill testSkill;
+    private Skill testSkill;
     private DataContainer mockContainer;
 
     @Before
@@ -249,7 +249,7 @@ public class RoleTest {
                 .build();
         Optional<SkillAspect> aspectOptional = test.getAspect(SkillAspect.class);
         assertTrue(aspectOptional.isPresent());
-        List<ISkill> skills = ImmutableList.<ISkill>builder().add(this.testSkill)
+        List<Skill> skills = ImmutableList.<Skill>builder().add(this.testSkill)
                 .build();
         assertThat(aspectOptional.get().getAllSkills(), CoreMatchers.is(skills));
     }

@@ -24,17 +24,18 @@
 package com.afterkraft.kraftrpg.common.effects.common;
 
 import java.util.EnumSet;
-import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
 import org.spongepowered.api.text.message.Message;
 import org.spongepowered.api.text.message.Messages;
 
+import com.google.common.collect.Sets;
+
 import com.afterkraft.kraftrpg.api.effects.EffectType;
-import com.afterkraft.kraftrpg.common.effects.ExpirableEffect;
 import com.afterkraft.kraftrpg.api.entity.Insentient;
-import com.afterkraft.kraftrpg.common.skills.Skill;
+import com.afterkraft.kraftrpg.common.effects.ExpirableEffect;
+import com.afterkraft.kraftrpg.common.skills.AbstractSkill;
 
 /**
  * Standard blinding effect that applies a Blinding potion effect to the victim. This is usually
@@ -45,19 +46,23 @@ public class BlindingEffect extends ExpirableEffect {
     public static final Message DEFAULT_APPLY_TEXT = Messages
             .of("You've become invisible to the world.");
     public static final Message DEFAULT_EXPIRE_TEXT = Messages.of("You are now "
-            + "visible to the world.");
+                                                                          + "visible to the world.");
     public static final Set<EffectType> DEFAULT_Blinding_EFFECTTYPES =
             EnumSet.of(EffectType.BLIND, EffectType.HARMFUL);
 
-    private static final Set<UUID> invisiblePlayers = new HashSet<>();
+    private static final Set<UUID> invisiblePlayers = Sets.newHashSet();
 
-    public BlindingEffect(Skill skill, Insentient applier, String name, long duration) {
-        this(skill, applier, name, duration, DEFAULT_APPLY_TEXT, DEFAULT_EXPIRE_TEXT);
+    public BlindingEffect(AbstractSkill skill, Insentient applier, String name,
+                          long duration) {
+        this(skill, applier, name, duration, DEFAULT_APPLY_TEXT,
+             DEFAULT_EXPIRE_TEXT);
     }
 
-    public BlindingEffect(Skill skill, Insentient applier, String name, long duration,
+    public BlindingEffect(AbstractSkill skill, Insentient applier, String name,
+                          long duration,
                           Message applyText, Message expireText) {
-        super(skill, applier, name, duration, applyText, expireText, DEFAULT_Blinding_EFFECTTYPES);
+        super(skill, applier, name, duration, applyText, expireText,
+              DEFAULT_Blinding_EFFECTTYPES);
 //        addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS,
 //                (int) ((duration / 1000) * 20), 0, false));
     }

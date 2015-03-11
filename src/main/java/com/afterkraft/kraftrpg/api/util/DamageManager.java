@@ -31,9 +31,9 @@ import org.spongepowered.api.entity.projectile.Egg;
 import org.spongepowered.api.entity.projectile.EnderPearl;
 import org.spongepowered.api.entity.projectile.Snowball;
 import org.spongepowered.api.entity.projectile.ThrownExpBottle;
-import org.spongepowered.api.entity.projectile.fireball.LargeFireball;
-import org.spongepowered.api.entity.projectile.fireball.SmallFireball;
-import org.spongepowered.api.entity.projectile.fireball.WitherSkull;
+import org.spongepowered.api.entity.projectile.explosive.WitherSkull;
+import org.spongepowered.api.entity.projectile.explosive.fireball.LargeFireball;
+import org.spongepowered.api.entity.projectile.explosive.fireball.SmallFireball;
 import org.spongepowered.api.event.cause.Cause;
 import org.spongepowered.api.item.Enchantment;
 import org.spongepowered.api.item.ItemType;
@@ -45,7 +45,6 @@ import ninja.leaping.configurate.ConfigurationNode;
 import com.afterkraft.kraftrpg.api.Manager;
 import com.afterkraft.kraftrpg.api.entity.Insentient;
 import com.afterkraft.kraftrpg.api.entity.Monster;
-import com.afterkraft.kraftrpg.common.DamageCause;
 
 /**
  * The generalized manager for calculating and fetching damages for entities and items alike.
@@ -66,7 +65,8 @@ public interface DamageManager extends Manager {
      *
      * @return the highest possible damage for the item from any possible modifications
      */
-    double getHighestItemDamage(Insentient being, Insentient defender, double defaultDamage);
+    double getHighestItemDamage(Insentient being, Insentient defender,
+                                double defaultDamage);
 
     double getHighestProjectileDamage(Insentient champion, ProjectileType type);
 
@@ -89,7 +89,7 @@ public interface DamageManager extends Manager {
      */
     double getEntityDamage(EntityType type);
 
-    double getEnvironmentalDamage(DamageCause cause);
+    double getEnvironmentalDamage(Cause cause);
 
     double getEnchantmentDamage(Enchantment enchantment, int enchantmentLevel);
 
@@ -129,7 +129,8 @@ public interface DamageManager extends Manager {
      *
      * @return the calculated customized damage for the Monster
      */
-    double getModifiedEntityDamage(final Monster monster, final Location location,
+    double getModifiedEntityDamage(final Monster monster,
+                                   final Location location,
                                    final double baseDamage,
                                    final Cause fromSpawner);
 

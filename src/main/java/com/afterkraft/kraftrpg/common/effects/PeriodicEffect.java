@@ -24,24 +24,25 @@
 package com.afterkraft.kraftrpg.common.effects;
 
 import com.afterkraft.kraftrpg.api.effects.Periodic;
-import com.afterkraft.kraftrpg.common.skills.Skill;
+import com.afterkraft.kraftrpg.common.skills.AbstractSkill;
 
 /**
  * Standard implementation of a {@link com.afterkraft.kraftrpg.api.effects.Periodic} effect that
  * performs some operations with {@link #tick(com.afterkraft.kraftrpg.api.entity.Insentient)}
  */
-public abstract class PeriodicEffect extends Effect implements Periodic {
+public abstract class PeriodicEffect extends AbstractEffect implements Periodic {
 
     private final long period;
     protected long lastTickTime = 0;
 
     /**
      * TODO Write Javadocs
+     *
      * @param skill
      * @param name
      * @param period
      */
-    protected PeriodicEffect(Skill skill, String name, long period) {
+    protected PeriodicEffect(AbstractSkill skill, String name, long period) {
         super(skill, name);
         this.period = period;
     }

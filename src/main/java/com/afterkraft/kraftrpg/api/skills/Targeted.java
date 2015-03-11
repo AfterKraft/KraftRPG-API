@@ -23,23 +23,21 @@
  */
 package com.afterkraft.kraftrpg.api.skills;
 
-import org.spongepowered.api.entity.Entity;
-
-import com.afterkraft.kraftrpg.api.entity.IEntity;
+import com.afterkraft.kraftrpg.api.entity.Being;
 import com.afterkraft.kraftrpg.api.entity.SkillCaster;
 import com.afterkraft.kraftrpg.common.skills.TargetedSkill;
 
 /**
- * A Targeted skill is an Active skill that requires an {@link IEntity} target. The skill will
- * usually perform some sort of special effect at the targeted entity, however, special note should
- * be taken care of: Targeted uses the type E to allow refinement as to the types of Entities are
- * valid for the skill. If the skill requires a Creature, {@link #useSkill(SkillCaster, IEntity,
- * Entity)} will only be called when the SkillCaster has targeted a Creature.  The default
- * implementation is a {@link TargetedSkill}.
+ * A Targeted skill is an Active skill that requires an {@link Being} target. The skill will usually
+ * perform some sort of special effect at the targeted entity, however, special note should be taken
+ * care of: Targeted uses the type E to allow refinement as to the types of Entities are valid for
+ * the skill. If the skill requires a Creature, {@link #useSkill(SkillCaster, Being,
+ * org.spongepowered.api.entity.Entity)} will only be called when the SkillCaster has targeted a
+ * Creature. The default implementation is a {@link TargetedSkill}.
  *
  * @param <E> The entity type to target
  */
-public interface Targeted<E extends Entity> extends Active {
+public interface Targeted<E extends org.spongepowered.api.entity.Entity> extends Active {
 
     /**
      * Apply this skill using the previously parsed state and includes the defined Entity target
@@ -53,5 +51,5 @@ public interface Targeted<E extends Entity> extends Active {
      *
      * @return final SkillCastResults
      */
-    SkillCastResult useSkill(SkillCaster caster, IEntity target, E entity);
+    SkillCastResult useSkill(SkillCaster caster, Being target, E entity);
 }

@@ -33,7 +33,7 @@ import com.afterkraft.kraftrpg.api.skills.Passive;
 /**
  * Default implementation of a Skill with the Passive interface
  */
-public abstract class PassiveSkill extends Skill implements Passive {
+public abstract class PassiveSkill extends AbstractSkill implements Passive {
 
     protected PassiveSkill(RPGPlugin plugin, String name) {
         super(plugin, name);
@@ -56,7 +56,8 @@ public abstract class PassiveSkill extends Skill implements Passive {
     }
 
     @Override
-    public boolean isInMessageRange(SkillCaster broadcaster, Champion receiver) {
+    public boolean isInMessageRange(SkillCaster broadcaster,
+                                    Champion receiver) {
         return false;
     }
 

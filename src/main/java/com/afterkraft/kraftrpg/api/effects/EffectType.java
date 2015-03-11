@@ -25,17 +25,20 @@ package com.afterkraft.kraftrpg.api.effects;
 
 
 import javax.annotation.Nullable;
-import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import org.spongepowered.api.service.persistence.data.DataQuery;
 import org.spongepowered.api.service.persistence.data.DataView;
 
+import com.google.common.collect.Maps;
+
 import com.afterkraft.kraftrpg.api.entity.Insentient;
-import com.afterkraft.kraftrpg.api.skills.ISkill;
+import com.afterkraft.kraftrpg.api.skills.Skill;
 import com.afterkraft.kraftrpg.api.skills.SkillType;
 
 /**
@@ -472,12 +475,14 @@ public enum EffectType {
         this(null);
     }
 
-    EffectType(@Nullable SkillType resistance) {
+    EffectType(
+            @Nullable
+            SkillType resistance) {
         this.resistance = resistance;
     }
 
     public static Map<String, Object> serialize() {
-        Map<String, Object> map = new HashMap<>();
+        Map<String, Object> map = Maps.newHashMap();
         for (EffectType type : EffectType.values()) {
             map.put(type.name(), type.effectResists);
         }
@@ -485,12 +490,14 @@ public enum EffectType {
     }
 
     public static void deserialize(DataView section) {
+        checkNotNull(section);
         for (DataQuery key : section.getKeys(false)) {
             EffectType type = EffectType.valueOf(key.asString('.'));
             if (type != null) {
                 List<String> types = section.getStringList(key).get();
                 for (String resistTypeString : types) {
-                    EffectType resistType = EffectType.valueOf(resistTypeString);
+                    EffectType resistType =
+                            EffectType.valueOf(resistTypeString);
                     if (resistType != null) {
                         type.addResistance(resistType);
                     }
@@ -505,7 +512,7 @@ public enum EffectType {
     }
 
     /**
-     * Checks if this EffectType restricted the {@link SkillType} active to the {@link ISkill} and
+     * Checks if this EffectType restricted the {@link SkillType} active to the {@link Skill} and
      * {@link Insentient} being.
      *
      * @param being That is being checked
@@ -515,7 +522,7 @@ public enum EffectType {
      * @throws IllegalArgumentException If the being is null
      * @throws IllegalArgumentException If the skill is null
      */
-    public boolean isSkillResisted(Insentient being, ISkill skill) {
+    public boolean isSkillResisted(Insentient being, Skill skill) {
         return (this.resistance != null && being.hasEffectType(this)
                 && skill.isType(this.resistance));
     }
@@ -532,7 +539,7 @@ public enum EffectType {
      * @throws IllegalArgumentException If the being is null
      * @throws IllegalArgumentException If the effect is null
      */
-    public boolean isEffectResisted(Insentient being, IEffect effect) {
+    public boolean isEffectResisted(Insentient being, Effect effect) {
         if (!being.hasEffectType(this)) {
             return false;
         }

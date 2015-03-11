@@ -34,11 +34,11 @@ import com.afterkraft.kraftrpg.api.entity.Insentient;
 public interface Managed extends Delayed {
 
     /**
-     * Return the instance of the {@link IEffect}
+     * Return the instance of the {@link Effect}
      *
      * @return the Effect
      */
-    IEffect getEffect();
+    Effect getEffect();
 
     /**
      * Return the IEntity attached to this Managed

@@ -26,13 +26,13 @@ package com.afterkraft.kraftrpg.api.skills.common;
 import java.util.Map;
 
 import com.afterkraft.kraftrpg.api.entity.Sentient;
-import com.afterkraft.kraftrpg.api.skills.ISkill;
+import com.afterkraft.kraftrpg.api.skills.Skill;
 
 /**
  * Represents a bundle of permisson nodes that are granted as though they are skills. This has uses
  * for granting/denying permissions from external plugins.
  */
-public interface Permissible extends ISkill {
+public interface Permissible extends Skill {
 
     /**
      * Gets a copy of the current permissions attached to this permissible skill.

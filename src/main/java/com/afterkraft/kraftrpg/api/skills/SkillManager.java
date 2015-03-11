@@ -43,7 +43,7 @@ public interface SkillManager extends Manager {
      *
      * @param skill The skill in question to add
      */
-    void addSkill(ISkill skill);
+    void addSkill(Skill skill);
 
     /**
      * Checks if a skill by the skill name exists.
@@ -63,7 +63,7 @@ public interface SkillManager extends Manager {
      *
      * @return The skill
      */
-    Optional<ISkill> getSkill(String name);
+    Optional<Skill> getSkill(String name);
 
     /**
      * Attempt to load the requested skill name that is to represent a {@link Permissible} skill.
@@ -79,7 +79,7 @@ public interface SkillManager extends Manager {
      *
      * @return a live collection of all loaded skills
      */
-    Collection<ISkill> getSkills();
+    Collection<Skill> getSkills();
 
     /**
      * Checks if a skill has already been loaded
@@ -95,7 +95,7 @@ public interface SkillManager extends Manager {
      *
      * @param skill to remove
      */
-    void removeSkill(ISkill skill);
+    void removeSkill(Skill skill);
 
     /**
      * Gets the currently stalled skill the caster is about to cast.
@@ -108,11 +108,11 @@ public interface SkillManager extends Manager {
 
     void setCompletedSkill(SkillCaster caster);
 
-    void addSkillTarget(Entity entity, SkillCaster caster, ISkill skill);
+    void addSkillTarget(Entity entity, SkillCaster caster, Skill skill);
 
     Optional<SkillUseObject> getSkillTargetInfo(Entity o);
 
     boolean isSkillTarget(Entity entity);
 
-    void removeSkillTarget(Entity entity, SkillCaster caster, ISkill skill);
+    void removeSkillTarget(Entity entity, SkillCaster caster, Skill skill);
 }

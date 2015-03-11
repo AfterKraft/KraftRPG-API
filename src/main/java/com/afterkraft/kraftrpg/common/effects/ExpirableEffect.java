@@ -41,16 +41,14 @@ import com.google.common.collect.Sets;
 import com.afterkraft.kraftrpg.api.effects.EffectType;
 import com.afterkraft.kraftrpg.api.effects.Expirable;
 import com.afterkraft.kraftrpg.api.entity.Insentient;
-import com.afterkraft.kraftrpg.common.skills.Skill;
+import com.afterkraft.kraftrpg.common.skills.AbstractSkill;
 
 /**
- * Implementation of an {@link Expirable} based on {@link Effect}
- * <p>Utilizing an ExpirableEffect alone will not have any custom behaviors.
- * If a custom behavior is desired, extending this class is recommended and
- * customized to perform custom behaviors.
- * </p>
+ * Implementation of an {@link Expirable} based on {@link AbstractEffect} <p>Utilizing an
+ * ExpirableEffect alone will not have any custom behaviors. If a custom behavior is desired,
+ * extending this class is recommended and customized to perform custom behaviors. </p>
  */
-public class ExpirableEffect extends Effect implements Expirable {
+public class ExpirableEffect extends AbstractEffect implements Expirable {
 
     private final long duration;
     @Nullable
@@ -60,31 +58,36 @@ public class ExpirableEffect extends Effect implements Expirable {
     /**
      * Creates a new expiring effect.
      *
-     * @param skill The skill granting this effect
-     * @param applier The being that this effect is being applied to
-     * @param name The name of this effect
+     * @param skill    The skill granting this effect
+     * @param applier  The being that this effect is being applied to
+     * @param name     The name of this effect
      * @param duration The duration in milliseconds
-     * @param types The types of this effect
+     * @param types    The types of this effect
      */
-    public ExpirableEffect(Skill skill, Insentient applier, String name, long duration,
+    public ExpirableEffect(AbstractSkill skill, Insentient applier, String name,
+                           long duration,
                            Collection<EffectType> types) {
-        this(skill, applier, name, duration, Messages.of(""), Messages.of(""), types);
+        this(skill, applier, name, duration, Messages.of(""), Messages.of(""),
+             types);
     }
 
     /**
      * Creates a new expiring effect.
      *
-     * @param skill The skill granting this effect
-     * @param applier The being that this effect is being applied to
-     * @param name The name of this effect
-     * @param duration The duration in milliseconds
-     * @param applyText The text to display when this effect is applied
+     * @param skill      The skill granting this effect
+     * @param applier    The being that this effect is being applied to
+     * @param name       The name of this effect
+     * @param duration   The duration in milliseconds
+     * @param applyText  The text to display when this effect is applied
      * @param expireText The text to display when this effect expires
-     * @param types The types of this effect
+     * @param types      The types of this effect
      */
-    public ExpirableEffect(Skill skill, Insentient applier, String name, long duration,
-                           Message applyText, Message expireText, Collection<EffectType> types) {
-        this(skill, applier, name, Sets.<PotionEffect>newHashSet(), false, types,
+    public ExpirableEffect(AbstractSkill skill, Insentient applier, String name,
+                           long duration,
+                           Message applyText, Message expireText,
+                           Collection<EffectType> types) {
+        this(skill, applier, name, Sets.<PotionEffect>newHashSet(), false,
+             types,
              applyText,
              expireText, duration);
     }
@@ -92,23 +95,26 @@ public class ExpirableEffect extends Effect implements Expirable {
     /**
      * Creates a new expiring effect.
      *
-     * @param skill The skill granting this effect
-     * @param applier The being that this effect is being applied to
-     * @param name The name of this effect
+     * @param skill         The skill granting this effect
+     * @param applier       The being that this effect is being applied to
+     * @param name          The name of this effect
      * @param potionEffects The potion effects to add to the being
-     * @param persistent Whether this effect persists
-     * @param duration The duration in milliseconds
-     * @param applyText The text to display when this effect is applied
-     * @param expireText The text to display when this effect expires
-     * @param types The types of this effect
+     * @param persistent    Whether this effect persists
+     * @param duration      The duration in milliseconds
+     * @param applyText     The text to display when this effect is applied
+     * @param expireText    The text to display when this effect expires
+     * @param types         The types of this effect
      */
-    public ExpirableEffect(Skill skill, Insentient applier, String name,
+    public ExpirableEffect(AbstractSkill skill, Insentient applier, String name,
                            Set<PotionEffect> potionEffects, boolean persistent,
-                           Collection<EffectType> types, Message applyText, Message expireText,
+                           Collection<EffectType> types, Message applyText,
+                           Message expireText,
                            long duration) {
-        super(skill, name, potionEffects, persistent, types, applyText, expireText);
-        checkArgument(applier.isEntityValid(), "Cannot create an ExpirableEffect with a "
-                + "null applier!");
+        super(skill, name, potionEffects, persistent, types, applyText,
+              expireText);
+        checkArgument(applier.isEntityValid(),
+                      "Cannot create an ExpirableEffect with a "
+                              + "null applier!");
         checkArgument(duration > 0, "Cannot have a negative Effect duration!");
         this.applier = applier;
         this.duration = duration;
@@ -137,7 +143,8 @@ public class ExpirableEffect extends Effect implements Expirable {
 
     @Override
     public boolean isExpired() {
-        return !this.isPersistent() && System.currentTimeMillis() >= this.getExpiry();
+        return !this.isPersistent() && System.currentTimeMillis() >= this
+                .getExpiry();
     }
 
     @Override
@@ -157,12 +164,14 @@ public class ExpirableEffect extends Effect implements Expirable {
 
     @Override
     public int compareTo(Delayed other) {
-        long d = (getDelay(TimeUnit.MILLISECONDS) - other.getDelay(TimeUnit.MILLISECONDS));
+        long d = (getDelay(TimeUnit.MILLISECONDS) - other
+                .getDelay(TimeUnit.MILLISECONDS));
         return ((d == 0) ? 0 : ((d < 0) ? -1 : 1));
     }
 
     @Override
     public long getDelay(TimeUnit unit) {
-        return unit.convert(this.expireTime - System.currentTimeMillis(), TimeUnit.MILLISECONDS);
+        return unit.convert(this.expireTime - System.currentTimeMillis(),
+                            TimeUnit.MILLISECONDS);
     }
 }

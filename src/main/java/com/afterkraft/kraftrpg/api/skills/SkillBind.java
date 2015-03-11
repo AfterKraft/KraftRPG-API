@@ -31,6 +31,8 @@ import org.spongepowered.api.service.persistence.DataSerializable;
 import org.spongepowered.api.service.persistence.DataSource;
 import org.spongepowered.api.service.persistence.data.DataContainer;
 
+import com.google.common.collect.Maps;
+
 /**
  * Represents a binding of a Skill to an item type with prescribed skill arguments as a single
  * string. This can be serialized and saved to any form of database. This is primarily used by
@@ -60,7 +62,7 @@ public final class SkillBind implements DataSerializable {
     }
 
     public Map<String, Object> serialize() {
-        HashMap<String, Object> ret = new HashMap<>();
+        HashMap<String, Object> ret = Maps.newHashMap();
         ret.put("material", this.material.getId());
         ret.put("skill", this.skillName);
         ret.put("args", this.arguments);

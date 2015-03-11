@@ -57,7 +57,8 @@ public interface CombatTracker extends Manager {
      * @throws IllegalArgumentException if the attacker is null
      * @throws IllegalArgumentException if the reason is null
      */
-    void enterCombatWith(Insentient target, Insentient attacker, EnterCombatReason reason);
+    void enterCombatWith(Insentient target, Insentient attacker,
+                         EnterCombatReason reason);
 
     /**
      * Performs the leave combat operation on the target by the attacker. Depending on the reason,
@@ -71,7 +72,8 @@ public interface CombatTracker extends Manager {
      * @throws IllegalArgumentException if the attacker is null
      * @throws IllegalArgumentException if the reason is null
      */
-    void leaveCombatWith(Insentient target, Insentient attacker, LeaveCombatReason reason);
+    void leaveCombatWith(Insentient target, Insentient attacker,
+                         LeaveCombatReason reason);
 
     /**
      * Notifies all combatants that the specified target is leaving combat with the specified

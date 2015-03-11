@@ -37,11 +37,11 @@ import com.afterkraft.kraftrpg.api.roles.Role;
 
 /**
  * A manager providing skill configurations for all skills. There may be more than one skill manager
- * provided at any time, provided that the implementing skill is defined to use more than one.
- * All Role settings are performed for the role specifically and does not take into account any
- * other role settings, or alternative settings provided by other means.  All use settings, such
- * as {@link #getUsedSetting(SkillCaster, ISkill, SkillSetting)} have the following priority in
- * terms of role skill definitions: <ol> <li>{@link com.afterkraft.kraftrpg.api.roles.Role.RoleType#PRIMARY}</li>
+ * provided at any time, provided that the implementing skill is defined to use more than one. All
+ * Role settings are performed for the role specifically and does not take into account any other
+ * role settings, or alternative settings provided by other means.  All use settings, such as {@link
+ * #getUsedSetting(SkillCaster, Skill, SkillSetting)} have the following priority in terms of role
+ * skill definitions: <ol> <li>{@link com.afterkraft.kraftrpg.api.roles.Role.RoleType#PRIMARY}</li>
  * <li>{@link com.afterkraft.kraftrpg.api.roles.Role.RoleType#SECONDARY}</li> <li>{@link
  * com.afterkraft.kraftrpg.api.roles.Role.RoleType#ADDITIONAL}</li> </ol>
  */
@@ -63,7 +63,7 @@ public interface SkillConfigManager extends Manager {
     void addRoleSkillSettings(String roleName, String skillName,
                               DataView section);
 
-    void loadSkillDefaults(ISkill skill);
+    void loadSkillDefaults(Skill skill);
 
     /**
      * Applies a customized skill configuration for the specified skill and skill caster. The
@@ -79,7 +79,7 @@ public interface SkillConfigManager extends Manager {
      * @throws IllegalArgumentException If the caster is null
      * @throws IllegalArgumentException If the section is null or empty
      */
-    void addTemporarySkillConfigurations(ISkill skill, SkillCaster caster,
+    void addTemporarySkillConfigurations(Skill skill, SkillCaster caster,
                                          DataView section);
 
     /**
@@ -97,10 +97,10 @@ public interface SkillConfigManager extends Manager {
      * @param caster The caster using the defaults
      * @param skill  The skill for the defaults
      */
-    void clearTemporarySkillConfigurations(SkillCaster caster, ISkill skill);
+    void clearTemporarySkillConfigurations(SkillCaster caster, Skill skill);
 
     /**
-     * Gets the global {@link ISkill} setting defined by the {@link SkillSetting} setting.
+     * Gets the global {@link Skill} setting defined by the {@link SkillSetting} setting.
      *
      * @param skill   The skill to get the settings of
      * @param setting The node to use
@@ -110,10 +110,10 @@ public interface SkillConfigManager extends Manager {
      * @throws IllegalArgumentException If the setting is null
      * @throws IllegalStateException    If the setting was not configured with a default
      */
-    String getRawString(ISkill skill, SkillSetting setting);
+    String getRawString(Skill skill, SkillSetting setting);
 
     /**
-     * Gets the global {@link ISkill} setting defined by the {@link DataQuery} setting.
+     * Gets the global {@link Skill} setting defined by the {@link DataQuery} setting.
      *
      * @param skill   The skill to get the settings of
      * @param setting The node to use
@@ -123,10 +123,10 @@ public interface SkillConfigManager extends Manager {
      * @throws IllegalArgumentException If the setting is null
      * @throws IllegalStateException    If the setting was not configured with a default
      */
-    String getRawString(ISkill skill, DataQuery setting);
+    String getRawString(Skill skill, DataQuery setting);
 
     /**
-     * Gets the global {@link ISkill} setting defined by the {@link SkillSetting} setting.
+     * Gets the global {@link Skill} setting defined by the {@link SkillSetting} setting.
      *
      * @param skill   The skill to get the settings of
      * @param setting The node to use
@@ -136,10 +136,10 @@ public interface SkillConfigManager extends Manager {
      * @throws IllegalArgumentException If the setting is null
      * @throws IllegalStateException    If the setting was not configured with a default
      */
-    Boolean getRawBoolean(ISkill skill, SkillSetting setting);
+    Boolean getRawBoolean(Skill skill, SkillSetting setting);
 
     /**
-     * Gets the global {@link ISkill} setting defined by the {@link DataQuery} setting.
+     * Gets the global {@link Skill} setting defined by the {@link DataQuery} setting.
      *
      * @param skill   The skill to get the settings of
      * @param setting The node to use
@@ -149,10 +149,10 @@ public interface SkillConfigManager extends Manager {
      * @throws IllegalArgumentException If the setting is null
      * @throws IllegalStateException    If the setting was not configured with a default
      */
-    Boolean getRawBoolean(ISkill skill, DataQuery setting);
+    Boolean getRawBoolean(Skill skill, DataQuery setting);
 
     /**
-     * Gets the global {@link ISkill}'s setting keys.
+     * Gets the global {@link Skill}'s setting keys.
      *
      * @param skill   The skill to get the settings of
      * @param setting The node to use
@@ -162,7 +162,7 @@ public interface SkillConfigManager extends Manager {
      * @throws IllegalArgumentException If the setting is null
      * @throws IllegalStateException    If the setting was not configured with a default
      */
-    Set<DataQuery> getRawKeys(ISkill skill, DataQuery setting);
+    Set<DataQuery> getRawKeys(Skill skill, DataQuery setting);
 
     /**
      * Checks if the queried skill has a default for the desired {@link SkillSetting}
@@ -174,7 +174,7 @@ public interface SkillConfigManager extends Manager {
      * @throws IllegalArgumentException If the skill is null
      * @throws IllegalArgumentException If the setting is null
      */
-    boolean isSettingConfigured(ISkill skill, SkillSetting setting);
+    boolean isSettingConfigured(Skill skill, SkillSetting setting);
 
     /**
      * Checks if the queried skill has a default for the desired {@link SkillSetting}
@@ -186,713 +186,773 @@ public interface SkillConfigManager extends Manager {
      * @throws IllegalArgumentException If the skill is null
      * @throws IllegalArgumentException If the setting is null
      */
-    boolean isSettingConfigured(ISkill skill, DataQuery setting);
+    boolean isSettingConfigured(Skill skill, DataQuery setting);
 
     /**
-     * Gets the raw value of the specific configuration according to the global skill configuration.
+     * Gets the raw value of the specific configuration according to the global skill
+     * configuration.
      *
      * <p>Skill settings have a contract that if a requested setting is not available either by
-     * default or not provided by the skill defaults, an exception is thrown. It is imperative
-     * that all skill configurations have defaults available by {@link
-     * ISkill#getUsedConfigNodes}.</p>
+     * default or not provided by the skill defaults, an exception is thrown. It is imperative that
+     * all skill configurations have defaults available by {@link Skill#getUsedConfigNodes}.</p>
      *
-     * @param skill The skill to use the settings of
+     * @param skill   The skill to use the settings of
      * @param setting The query to the setting object value
+     *
      * @return The requested object
      * @throws SkillConfigurationException If the requested setting is not configured
      */
-    Object getRawSetting(ISkill skill, DataQuery setting);
+    Object getRawSetting(Skill skill, DataQuery setting);
 
     /**
-     * Gets the raw value of the specific configuration according to the global skill configuration.
+     * Gets the raw value of the specific configuration according to the global skill
+     * configuration.
      *
      * <p>Skill settings have a contract that if a requested setting is not available either by
-     * default or not provided by the skill defaults, an exception is thrown. It is imperative
-     * that all skill configurations have defaults available by {@link
-     * ISkill#getUsedConfigNodes}.</p>
+     * default or not provided by the skill defaults, an exception is thrown. It is imperative that
+     * all skill configurations have defaults available by {@link Skill#getUsedConfigNodes}.</p>
      *
-     * @param skill The skill to use the settings of
+     * @param skill   The skill to use the settings of
      * @param setting The query to the setting object value
+     *
      * @return The requested object
      * @throws SkillConfigurationException If the requested setting is not configured
      */
-    Object getRawSetting(ISkill skill, SkillSetting setting);
+    Object getRawSetting(Skill skill, SkillSetting setting);
 
     /**
-     * Gets the raw value of the specific configuration according to the global skill configuration.
+     * Gets the raw value of the specific configuration according to the global skill
+     * configuration.
      *
      * <p>Skill settings have a contract that if a requested setting is not available either by
-     * default or not provided by the skill defaults, an exception is thrown. It is imperative
-     * that all skill configurations have defaults available by {@link
-     * ISkill#getUsedConfigNodes}.</p>
+     * default or not provided by the skill defaults, an exception is thrown. It is imperative that
+     * all skill configurations have defaults available by {@link Skill#getUsedConfigNodes}.</p>
      *
-     * @param skill The skill to use the settings of
+     * @param skill   The skill to use the settings of
      * @param setting The query to the setting object value
+     *
      * @return The requested integer
      * @throws SkillConfigurationException If the requested setting is not configured
      */
-    int getRawIntSetting(ISkill skill, DataQuery setting);
+    int getRawIntSetting(Skill skill, DataQuery setting);
 
     /**
-     * Gets the raw value of the specific configuration according to the global skill configuration.
+     * Gets the raw value of the specific configuration according to the global skill
+     * configuration.
      *
      * <p>Skill settings have a contract that if a requested setting is not available either by
-     * default or not provided by the skill defaults, an exception is thrown. It is imperative
-     * that all skill configurations have defaults available by {@link
-     * ISkill#getUsedConfigNodes}.</p>
+     * default or not provided by the skill defaults, an exception is thrown. It is imperative that
+     * all skill configurations have defaults available by {@link Skill#getUsedConfigNodes}.</p>
      *
-     * @param skill The skill to use the settings of
+     * @param skill   The skill to use the settings of
      * @param setting The query to the setting object value
+     *
      * @return The requested object
      * @throws SkillConfigurationException If the requested setting is not configured
      */
-    int getRawIntSetting(ISkill skill, SkillSetting setting);
+    int getRawIntSetting(Skill skill, SkillSetting setting);
 
     /**
-     * Gets the raw value of the specific configuration according to the global skill configuration.
+     * Gets the raw value of the specific configuration according to the global skill
+     * configuration.
      *
      * <p>Skill settings have a contract that if a requested setting is not available either by
-     * default or not provided by the skill defaults, an exception is thrown. It is imperative
-     * that all skill configurations have defaults available by {@link
-     * ISkill#getUsedConfigNodes}.</p>
+     * default or not provided by the skill defaults, an exception is thrown. It is imperative that
+     * all skill configurations have defaults available by {@link Skill#getUsedConfigNodes}.</p>
      *
-     * @param skill The skill to use the settings of
+     * @param skill   The skill to use the settings of
      * @param setting The query to the setting object value
+     *
      * @return The requested double
      * @throws SkillConfigurationException If the requested setting is not configured
      */
-    double getRawDoubleSetting(ISkill skill, DataQuery setting);
+    double getRawDoubleSetting(Skill skill, DataQuery setting);
 
     /**
-     * Gets the raw value of the specific configuration according to the global skill configuration.
+     * Gets the raw value of the specific configuration according to the global skill
+     * configuration.
      *
      * <p>Skill settings have a contract that if a requested setting is not available either by
-     * default or not provided by the skill defaults, an exception is thrown. It is imperative
-     * that all skill configurations have defaults available by {@link
-     * ISkill#getUsedConfigNodes}.</p>
+     * default or not provided by the skill defaults, an exception is thrown. It is imperative that
+     * all skill configurations have defaults available by {@link Skill#getUsedConfigNodes}.</p>
      *
-     * @param skill The skill to use the settings of
+     * @param skill   The skill to use the settings of
      * @param setting The query to the setting object value
+     *
      * @return The requested object
      * @throws SkillConfigurationException If the requested setting is not configured
      */
-    double getRawDoubleSetting(ISkill skill, SkillSetting setting);
+    double getRawDoubleSetting(Skill skill, SkillSetting setting);
 
     /**
-     * Gets the raw value of the specific configuration according to the global skill configuration.
+     * Gets the raw value of the specific configuration according to the global skill
+     * configuration.
      *
      * <p>Skill settings have a contract that if a requested setting is not available either by
-     * default or not provided by the skill defaults, an exception is thrown. It is imperative
-     * that all skill configurations have defaults available by {@link
-     * ISkill#getUsedConfigNodes}.</p>
+     * default or not provided by the skill defaults, an exception is thrown. It is imperative that
+     * all skill configurations have defaults available by {@link Skill#getUsedConfigNodes}.</p>
      *
-     * @param skill The skill to use the settings of
+     * @param skill   The skill to use the settings of
      * @param setting The query to the setting object value
+     *
      * @return The requested object
      * @throws SkillConfigurationException If the requested setting is not configured
      */
-    String getRawStringSetting(ISkill skill, DataQuery setting);
+    String getRawStringSetting(Skill skill, DataQuery setting);
 
     /**
-     * Gets the raw value of the specific configuration according to the global skill configuration.
+     * Gets the raw value of the specific configuration according to the global skill
+     * configuration.
      *
      * <p>Skill settings have a contract that if a requested setting is not available either by
-     * default or not provided by the skill defaults, an exception is thrown. It is imperative
-     * that all skill configurations have defaults available by {@link
-     * ISkill#getUsedConfigNodes}.</p>
+     * default or not provided by the skill defaults, an exception is thrown. It is imperative that
+     * all skill configurations have defaults available by {@link Skill#getUsedConfigNodes}.</p>
      *
-     * @param skill The skill to use the settings of
+     * @param skill   The skill to use the settings of
      * @param setting The query to the setting object value
+     *
      * @return The requested object
      * @throws SkillConfigurationException If the requested setting is not configured
      */
-    String getRawStringSetting(ISkill skill, SkillSetting setting);
+    String getRawStringSetting(Skill skill, SkillSetting setting);
 
     /**
-     * Gets the raw value of the specific configuration according to the global skill configuration.
+     * Gets the raw value of the specific configuration according to the global skill
+     * configuration.
      *
      * <p>Skill settings have a contract that if a requested setting is not available either by
-     * default or not provided by the skill defaults, an exception is thrown. It is imperative
-     * that all skill configurations have defaults available by {@link
-     * ISkill#getUsedConfigNodes}.</p>
+     * default or not provided by the skill defaults, an exception is thrown. It is imperative that
+     * all skill configurations have defaults available by {@link Skill#getUsedConfigNodes}.</p>
      *
-     * @param skill The skill to use the settings of
+     * @param skill   The skill to use the settings of
      * @param setting The query to the setting object value
+     *
      * @return The requested object
      * @throws SkillConfigurationException If the requested setting is not configured
      */
-    Boolean getRawBooleanSetting(ISkill skill, DataQuery setting);
+    Boolean getRawBooleanSetting(Skill skill, DataQuery setting);
 
     /**
-     * Gets the raw value of the specific configuration according to the global skill configuration.
+     * Gets the raw value of the specific configuration according to the global skill
+     * configuration.
      *
      * <p>Skill settings have a contract that if a requested setting is not available either by
-     * default or not provided by the skill defaults, an exception is thrown. It is imperative
-     * that all skill configurations have defaults available by {@link
-     * ISkill#getUsedConfigNodes}.</p>
+     * default or not provided by the skill defaults, an exception is thrown. It is imperative that
+     * all skill configurations have defaults available by {@link Skill#getUsedConfigNodes}.</p>
      *
-     * @param skill The skill to use the settings of
+     * @param skill   The skill to use the settings of
      * @param setting The query to the setting object value
+     *
      * @return The requested object
      * @throws SkillConfigurationException If the requested setting is not configured
      */
-    Boolean getRawBooleanSetting(ISkill skill, SkillSetting setting);
+    Boolean getRawBooleanSetting(Skill skill, SkillSetting setting);
 
     /**
-     * Gets the raw value of the specific configuration according to the global skill configuration.
+     * Gets the raw value of the specific configuration according to the global skill
+     * configuration.
      *
      * <p>Skill settings have a contract that if a requested setting is not available either by
-     * default or not provided by the skill defaults, an exception is thrown. It is imperative
-     * that all skill configurations have defaults available by {@link
-     * ISkill#getUsedConfigNodes}.</p>
+     * default or not provided by the skill defaults, an exception is thrown. It is imperative that
+     * all skill configurations have defaults available by {@link Skill#getUsedConfigNodes}.</p>
      *
-     * @param skill The skill to use the settings of
+     * @param skill   The skill to use the settings of
      * @param setting The query to the setting object value
+     *
      * @return The requested object
      * @throws SkillConfigurationException If the requested setting is not configured
      */
-    List<String> getRawStringListSetting(ISkill skill, DataQuery setting);
+    List<String> getRawStringListSetting(Skill skill, DataQuery setting);
 
     /**
-     * Gets the raw value of the specific configuration according to the global skill configuration.
+     * Gets the raw value of the specific configuration according to the global skill
+     * configuration.
      *
      * <p>Skill settings have a contract that if a requested setting is not available either by
-     * default or not provided by the skill defaults, an exception is thrown. It is imperative
-     * that all skill configurations have defaults available by {@link
-     * ISkill#getUsedConfigNodes}.</p>
+     * default or not provided by the skill defaults, an exception is thrown. It is imperative that
+     * all skill configurations have defaults available by {@link Skill#getUsedConfigNodes}.</p>
      *
-     * @param skill The skill to use the settings of
+     * @param skill   The skill to use the settings of
      * @param setting The query to the setting object value
+     *
      * @return The requested object
      * @throws SkillConfigurationException If the requested setting is not configured
      */
-    List<String> getRawStringListSetting(ISkill skill, SkillSetting setting);
+    List<String> getRawStringListSetting(Skill skill, SkillSetting setting);
 
     /**
-     * Gets the raw value of the specific configuration according to the global skill configuration.
+     * Gets the raw value of the specific configuration according to the global skill
+     * configuration.
      *
      * <p>Skill settings have a contract that if a requested setting is not available either by
-     * default or not provided by the skill defaults, an exception is thrown. It is imperative
-     * that all skill configurations have defaults available by {@link
-     * ISkill#getUsedConfigNodes}.</p>
+     * default or not provided by the skill defaults, an exception is thrown. It is imperative that
+     * all skill configurations have defaults available by {@link Skill#getUsedConfigNodes}.</p>
      *
-     * @param skill The skill to use the settings of
+     * @param skill   The skill to use the settings of
      * @param setting The query to the setting object value
+     *
      * @return The requested object
      * @throws SkillConfigurationException If the requested setting is not configured
      */
-    ItemStack getRawItemStackSetting(ISkill skill, DataQuery setting);
+    ItemStack getRawItemStackSetting(Skill skill, DataQuery setting);
 
     /**
-     * Gets the raw value of the specific configuration according to the global skill configuration.
+     * Gets the raw value of the specific configuration according to the global skill
+     * configuration.
      *
      * <p>Skill settings have a contract that if a requested setting is not available either by
-     * default or not provided by the skill defaults, an exception is thrown. It is imperative
-     * that all skill configurations have defaults available by {@link
-     * ISkill#getUsedConfigNodes}.</p>
+     * default or not provided by the skill defaults, an exception is thrown. It is imperative that
+     * all skill configurations have defaults available by {@link Skill#getUsedConfigNodes}.</p>
      *
-     * @param skill The skill to use the settings of
+     * @param skill   The skill to use the settings of
      * @param setting The query to the setting object value
+     *
      * @return The requested object
      * @throws SkillConfigurationException If the requested setting is not configured
      */
-    ItemStack getRawItemStackSetting(ISkill skill, SkillSetting setting);
+    ItemStack getRawItemStackSetting(Skill skill, SkillSetting setting);
 
     /**
-     * Gets the raw value of the specific configuration according to the global skill configuration.
+     * Gets the raw value of the specific configuration according to the global skill
+     * configuration.
      *
      * <p>Skill settings have a contract that if a requested setting is not available either by
-     * default or not provided by the skill defaults, an exception is thrown. It is imperative
-     * that all skill configurations have defaults available by {@link
-     * ISkill#getUsedConfigNodes}.</p>
+     * default or not provided by the skill defaults, an exception is thrown. It is imperative that
+     * all skill configurations have defaults available by {@link Skill#getUsedConfigNodes}.</p>
      *
-     * @param role The role to check for specific configurations of
-     * @param skill The skill to use the settings of
+     * @param role    The role to check for specific configurations of
+     * @param skill   The skill to use the settings of
      * @param setting The query to the setting object value
+     *
      * @return The requested object
      * @throws SkillConfigurationException If the requested setting is not configured
      */
-    Object getSetting(Role role, ISkill skill, SkillSetting setting);
+    Object getSetting(Role role, Skill skill, SkillSetting setting);
 
     /**
-     * Gets the raw value of the specific configuration according to the global skill configuration.
+     * Gets the raw value of the specific configuration according to the global skill
+     * configuration.
      *
      * <p>Skill settings have a contract that if a requested setting is not available either by
-     * default or not provided by the skill defaults, an exception is thrown. It is imperative
-     * that all skill configurations have defaults available by {@link
-     * ISkill#getUsedConfigNodes}.</p>
+     * default or not provided by the skill defaults, an exception is thrown. It is imperative that
+     * all skill configurations have defaults available by {@link Skill#getUsedConfigNodes}.</p>
      *
-     * @param role The role to check for specific configurations of
-     * @param skill The skill to use the settings of
+     * @param role    The role to check for specific configurations of
+     * @param skill   The skill to use the settings of
      * @param setting The query to the setting object value
+     *
      * @return The requested object
      * @throws SkillConfigurationException If the requested setting is not configured
      */
-    Object getSetting(Role role, ISkill skill, DataQuery setting);
+    Object getSetting(Role role, Skill skill, DataQuery setting);
 
     /**
-     * Gets the raw value of the specific configuration according to the global skill configuration.
+     * Gets the raw value of the specific configuration according to the global skill
+     * configuration.
      *
      * <p>Skill settings have a contract that if a requested setting is not available either by
-     * default or not provided by the skill defaults, an exception is thrown. It is imperative
-     * that all skill configurations have defaults available by {@link
-     * ISkill#getUsedConfigNodes}.</p>
+     * default or not provided by the skill defaults, an exception is thrown. It is imperative that
+     * all skill configurations have defaults available by {@link Skill#getUsedConfigNodes}.</p>
      *
-     * @param role The role to check for specific configurations of
-     * @param skill The skill to use the settings of
+     * @param role    The role to check for specific configurations of
+     * @param skill   The skill to use the settings of
      * @param setting The query to the setting object value
+     *
      * @return The requested object
      * @throws SkillConfigurationException If the requested setting is not configured
      */
-    int getIntSetting(Role role, ISkill skill, SkillSetting setting);
+    int getIntSetting(Role role, Skill skill, SkillSetting setting);
 
     /**
-     * Gets the raw value of the specific configuration according to the global skill configuration.
+     * Gets the raw value of the specific configuration according to the global skill
+     * configuration.
      *
      * <p>Skill settings have a contract that if a requested setting is not available either by
-     * default or not provided by the skill defaults, an exception is thrown. It is imperative
-     * that all skill configurations have defaults available by {@link
-     * ISkill#getUsedConfigNodes}.</p>
+     * default or not provided by the skill defaults, an exception is thrown. It is imperative that
+     * all skill configurations have defaults available by {@link Skill#getUsedConfigNodes}.</p>
      *
-     * @param role The role to check for specific configurations of
-     * @param skill The skill to use the settings of
+     * @param role    The role to check for specific configurations of
+     * @param skill   The skill to use the settings of
      * @param setting The query to the setting object value
+     *
      * @return The requested object
      * @throws SkillConfigurationException If the requested setting is not configured
      */
-    int getIntSetting(Role role, ISkill skill, DataQuery setting);
+    int getIntSetting(Role role, Skill skill, DataQuery setting);
 
     /**
-     * Gets the raw value of the specific configuration according to the global skill configuration.
+     * Gets the raw value of the specific configuration according to the global skill
+     * configuration.
      *
      * <p>Skill settings have a contract that if a requested setting is not available either by
-     * default or not provided by the skill defaults, an exception is thrown. It is imperative
-     * that all skill configurations have defaults available by {@link
-     * ISkill#getUsedConfigNodes}.</p>
+     * default or not provided by the skill defaults, an exception is thrown. It is imperative that
+     * all skill configurations have defaults available by {@link Skill#getUsedConfigNodes}.</p>
      *
-     * @param role The role to check for specific configurations of
-     * @param skill The skill to use the settings of
+     * @param role    The role to check for specific configurations of
+     * @param skill   The skill to use the settings of
      * @param setting The query to the setting object value
+     *
      * @return The requested object
      * @throws SkillConfigurationException If the requested setting is not configured
      */
-    double getDoubleSetting(Role role, ISkill skill, SkillSetting setting);
+    double getDoubleSetting(Role role, Skill skill, SkillSetting setting);
 
     /**
-     * Gets the raw value of the specific configuration according to the global skill configuration.
+     * Gets the raw value of the specific configuration according to the global skill
+     * configuration.
      *
      * <p>Skill settings have a contract that if a requested setting is not available either by
-     * default or not provided by the skill defaults, an exception is thrown. It is imperative
-     * that all skill configurations have defaults available by {@link
-     * ISkill#getUsedConfigNodes}.</p>
+     * default or not provided by the skill defaults, an exception is thrown. It is imperative that
+     * all skill configurations have defaults available by {@link Skill#getUsedConfigNodes}.</p>
      *
-     * @param role The role to check for specific configurations of
-     * @param skill The skill to use the settings of
+     * @param role    The role to check for specific configurations of
+     * @param skill   The skill to use the settings of
      * @param setting The query to the setting object value
+     *
      * @return The requested object
      * @throws SkillConfigurationException If the requested setting is not configured
      */
-    double getDoubleSetting(Role role, ISkill skill, DataQuery setting);
+    double getDoubleSetting(Role role, Skill skill, DataQuery setting);
 
     /**
-     * Gets the raw value of the specific configuration according to the global skill configuration.
+     * Gets the raw value of the specific configuration according to the global skill
+     * configuration.
      *
      * <p>Skill settings have a contract that if a requested setting is not available either by
-     * default or not provided by the skill defaults, an exception is thrown. It is imperative
-     * that all skill configurations have defaults available by {@link
-     * ISkill#getUsedConfigNodes}.</p>
+     * default or not provided by the skill defaults, an exception is thrown. It is imperative that
+     * all skill configurations have defaults available by {@link Skill#getUsedConfigNodes}.</p>
      *
-     * @param role The role to check for specific configurations of
-     * @param skill The skill to use the settings of
+     * @param role    The role to check for specific configurations of
+     * @param skill   The skill to use the settings of
      * @param setting The query to the setting object value
+     *
      * @return The requested object
      * @throws SkillConfigurationException If the requested setting is not configured
      */
-    String getStringSetting(Role role, ISkill skill, SkillSetting setting);
+    String getStringSetting(Role role, Skill skill, SkillSetting setting);
 
     /**
-     * Gets the raw value of the specific configuration according to the global skill configuration.
+     * Gets the raw value of the specific configuration according to the global skill
+     * configuration.
      *
      * <p>Skill settings have a contract that if a requested setting is not available either by
-     * default or not provided by the skill defaults, an exception is thrown. It is imperative
-     * that all skill configurations have defaults available by {@link
-     * ISkill#getUsedConfigNodes}.</p>
+     * default or not provided by the skill defaults, an exception is thrown. It is imperative that
+     * all skill configurations have defaults available by {@link Skill#getUsedConfigNodes}.</p>
      *
-     * @param role The role to check for specific configurations of
-     * @param skill The skill to use the settings of
+     * @param role    The role to check for specific configurations of
+     * @param skill   The skill to use the settings of
      * @param setting The query to the setting object value
+     *
      * @return The requested object
      * @throws SkillConfigurationException If the requested setting is not configured
      */
-    String getStringSetting(Role role, ISkill skill, DataQuery setting);
+    String getStringSetting(Role role, Skill skill, DataQuery setting);
 
     /**
-     * Gets the raw value of the specific configuration according to the global skill configuration.
+     * Gets the raw value of the specific configuration according to the global skill
+     * configuration.
      *
      * <p>Skill settings have a contract that if a requested setting is not available either by
-     * default or not provided by the skill defaults, an exception is thrown. It is imperative
-     * that all skill configurations have defaults available by {@link
-     * ISkill#getUsedConfigNodes}.</p>
+     * default or not provided by the skill defaults, an exception is thrown. It is imperative that
+     * all skill configurations have defaults available by {@link Skill#getUsedConfigNodes}.</p>
      *
-     * @param role The role to check for specific configurations of
-     * @param skill The skill to use the settings of
+     * @param role    The role to check for specific configurations of
+     * @param skill   The skill to use the settings of
      * @param setting The query to the setting object value
+     *
      * @return The requested object
      * @throws SkillConfigurationException If the requested setting is not configured
      */
-    Boolean getBooleanSetting(Role role, ISkill skill, SkillSetting setting);
+    Boolean getBooleanSetting(Role role, Skill skill, SkillSetting setting);
 
     /**
-     * Gets the raw value of the specific configuration according to the global skill configuration.
+     * Gets the raw value of the specific configuration according to the global skill
+     * configuration.
      *
      * <p>Skill settings have a contract that if a requested setting is not available either by
-     * default or not provided by the skill defaults, an exception is thrown. It is imperative
-     * that all skill configurations have defaults available by {@link
-     * ISkill#getUsedConfigNodes}.</p>
+     * default or not provided by the skill defaults, an exception is thrown. It is imperative that
+     * all skill configurations have defaults available by {@link Skill#getUsedConfigNodes}.</p>
      *
-     * @param role The role to check for specific configurations of
-     * @param skill The skill to use the settings of
+     * @param role    The role to check for specific configurations of
+     * @param skill   The skill to use the settings of
      * @param setting The query to the setting object value
+     *
      * @return The requested object
      * @throws SkillConfigurationException If the requested setting is not configured
      */
-    Boolean getBooleanSetting(Role role, ISkill skill, DataQuery setting);
+    Boolean getBooleanSetting(Role role, Skill skill, DataQuery setting);
 
     /**
-     * Gets the raw value of the specific configuration according to the global skill configuration.
+     * Gets the raw value of the specific configuration according to the global skill
+     * configuration.
      *
      * <p>Skill settings have a contract that if a requested setting is not available either by
-     * default or not provided by the skill defaults, an exception is thrown. It is imperative
-     * that all skill configurations have defaults available by {@link
-     * ISkill#getUsedConfigNodes}.</p>
+     * default or not provided by the skill defaults, an exception is thrown. It is imperative that
+     * all skill configurations have defaults available by {@link Skill#getUsedConfigNodes}.</p>
      *
-     * @param role The role to check for specific configurations of
-     * @param skill The skill to use the settings of
+     * @param role    The role to check for specific configurations of
+     * @param skill   The skill to use the settings of
      * @param setting The query to the setting object value
+     *
      * @return The requested object
      * @throws SkillConfigurationException If the requested setting is not configured
      */
-    List<String> getStringListSetting(Role role, ISkill skill, SkillSetting setting);
-
-    /**
-     * Gets the raw value of the specific configuration according to the global skill configuration.
-     *
-     * <p>Skill settings have a contract that if a requested setting is not available either by
-     * default or not provided by the skill defaults, an exception is thrown. It is imperative
-     * that all skill configurations have defaults available by {@link
-     * ISkill#getUsedConfigNodes}.</p>
-     *
-     * @param role The role to check for specific configurations of
-     * @param skill The skill to use the settings of
-     * @param setting The query to the setting object value
-     * @return The requested object
-     * @throws SkillConfigurationException If the requested setting is not configured
-     */
-    List<String> getStringListSetting(Role role, ISkill skill, DataQuery setting);
-
-    /**
-     * Gets the raw value of the specific configuration according to the global skill configuration.
-     *
-     * <p>Skill settings have a contract that if a requested setting is not available either by
-     * default or not provided by the skill defaults, an exception is thrown. It is imperative
-     * that all skill configurations have defaults available by {@link
-     * ISkill#getUsedConfigNodes}.</p>
-     *
-     * @param role The role to check for specific configurations of
-     * @param skill The skill to use the settings of
-     * @param setting The query to the setting object value
-     * @return The requested object
-     * @throws SkillConfigurationException If the requested setting is not configured
-     */
-    ItemStack getItemStackSetting(Role role, ISkill skill, SkillSetting setting);
-
-    /**
-     * Gets the raw value of the specific configuration according to the global skill configuration.
-     *
-     * <p>Skill settings have a contract that if a requested setting is not available either by
-     * default or not provided by the skill defaults, an exception is thrown. It is imperative
-     * that all skill configurations have defaults available by {@link
-     * ISkill#getUsedConfigNodes}.</p>
-     *
-     * @param role The role to check for specific configurations of
-     * @param skill The skill to use the settings of
-     * @param setting The query to the setting object value
-     * @return The requested object
-     * @throws SkillConfigurationException If the requested setting is not configured
-     */
-    ItemStack getItemStackSetting(Role role, ISkill skill, DataQuery setting);
-
-    /**
-     * Gets the raw value of the specific configuration according to the global skill configuration.
-     *
-     * <p>Skill settings have a contract that if a requested setting is not available either by
-     * default or not provided by the skill defaults, an exception is thrown. It is imperative
-     * that all skill configurations have defaults available by {@link
-     * ISkill#getUsedConfigNodes}.</p>
-     *
-     * @param caster The caster to find all available roles granting the skill
-     * @param skill The skill to use the settings of
-     * @return The requested object
-     * @throws SkillConfigurationException If the requested setting is not configured
-     */
-    int getLevel(SkillCaster caster, ISkill skill);
-
-    /**
-     * Gets the raw value of the specific configuration according to the global skill configuration.
-     *
-     * <p>Skill settings have a contract that if a requested setting is not available either by
-     * default or not provided by the skill defaults, an exception is thrown. It is imperative
-     * that all skill configurations have defaults available by {@link
-     * ISkill#getUsedConfigNodes}.</p>
-     *
-     * @param caster The {@link SkillCaster} to find available roles granting use of the skill
-     * @param skill The skill to use the settings of
-     * @param setting The query to the setting object value
-     * @return The requested object
-     * @throws SkillConfigurationException If the requested setting is not configured
-     */
-    Object getUsedSetting(SkillCaster caster, ISkill skill, SkillSetting setting);
-
-    /**
-     * Gets the raw value of the specific configuration according to the global skill configuration.
-     *
-     * <p>Skill settings have a contract that if a requested setting is not available either by
-     * default or not provided by the skill defaults, an exception is thrown. It is imperative
-     * that all skill configurations have defaults available by {@link
-     * ISkill#getUsedConfigNodes}.</p>
-     *
-     * @param caster The {@link SkillCaster} to find available roles granting use of the skill
-     * @param skill The skill to use the settings of
-     * @param setting The query to the setting object value
-     * @return The requested object
-     * @throws SkillConfigurationException If the requested setting is not configured
-     */
-    Object getUsedSetting(SkillCaster caster, ISkill skill, DataQuery setting);
-
-    /**
-     * Gets the raw value of the specific configuration according to the global skill configuration.
-     *
-     * <p>Skill settings have a contract that if a requested setting is not available either by
-     * default or not provided by the skill defaults, an exception is thrown. It is imperative
-     * that all skill configurations have defaults available by {@link
-     * ISkill#getUsedConfigNodes}.</p>
-     *
-     * @param caster The {@link SkillCaster} to find available roles granting use of the skill
-     * @param skill The skill to use the settings of
-     * @param setting The query to the setting object value
-     * @return The requested object
-     * @throws SkillConfigurationException If the requested setting is not configured
-     */
-    int getUsedIntSetting(SkillCaster caster, ISkill skill, SkillSetting setting);
-
-    /**
-     * Gets the raw value of the specific configuration according to the global skill configuration.
-     *
-     * <p>Skill settings have a contract that if a requested setting is not available either by
-     * default or not provided by the skill defaults, an exception is thrown. It is imperative
-     * that all skill configurations have defaults available by {@link
-     * ISkill#getUsedConfigNodes}.</p>
-     *
-     * @param caster The {@link SkillCaster} to find available roles granting use of the skill
-     * @param skill The skill to use the settings of
-     * @param setting The query to the setting object value
-     * @return The requested object
-     * @throws SkillConfigurationException If the requested setting is not configured
-     */
-    int getUsedIntSetting(SkillCaster caster, ISkill skill, DataQuery setting);
-
-    /**
-     * Gets the raw value of the specific configuration according to the global skill configuration.
-     *
-     * <p>Skill settings have a contract that if a requested setting is not available either by
-     * default or not provided by the skill defaults, an exception is thrown. It is imperative
-     * that all skill configurations have defaults available by {@link
-     * ISkill#getUsedConfigNodes}.</p>
-     *
-     * @param caster The {@link SkillCaster} to find available roles granting use of the skill
-     * @param skill The skill to use the settings of
-     * @param setting The query to the setting object value
-     * @return The requested object
-     * @throws SkillConfigurationException If the requested setting is not configured
-     */
-    double getUsedDoubleSetting(SkillCaster caster, ISkill skill, SkillSetting setting);
-
-    /**
-     * Gets the raw value of the specific configuration according to the global skill configuration.
-     *
-     * <p>Skill settings have a contract that if a requested setting is not available either by
-     * default or not provided by the skill defaults, an exception is thrown. It is imperative
-     * that all skill configurations have defaults available by {@link
-     * ISkill#getUsedConfigNodes}.</p>
-     *
-     * @param caster The {@link SkillCaster} to find available roles granting use of the skill
-     * @param skill The skill to use the settings of
-     * @param setting The query to the setting object value
-     * @return The requested object
-     * @throws SkillConfigurationException If the requested setting is not configured
-     */
-    double getUsedDoubleSetting(SkillCaster caster, ISkill skill, DataQuery setting);
-
-    /**
-     * Gets the raw value of the specific configuration according to the global skill configuration.
-     *
-     * <p>Skill settings have a contract that if a requested setting is not available either by
-     * default or not provided by the skill defaults, an exception is thrown. It is imperative
-     * that all skill configurations have defaults available by {@link
-     * ISkill#getUsedConfigNodes}.</p>
-     *
-     * @param caster The {@link SkillCaster} to find available roles granting use of the skill
-     * @param skill The skill to use the settings of
-     * @param setting The query to the setting object value
-     * @return The requested object
-     * @throws SkillConfigurationException If the requested setting is not configured
-     */
-    boolean getUsedBooleanSetting(SkillCaster caster, ISkill skill, SkillSetting setting);
-
-    /**
-     * Gets the raw value of the specific configuration according to the global skill configuration.
-     *
-     * <p>Skill settings have a contract that if a requested setting is not available either by
-     * default or not provided by the skill defaults, an exception is thrown. It is imperative
-     * that all skill configurations have defaults available by {@link
-     * ISkill#getUsedConfigNodes}.</p>
-     *
-     * @param caster The {@link SkillCaster} to find available roles granting use of the skill
-     * @param skill The skill to use the settings of
-     * @param setting The query to the setting object value
-     * @return The requested object
-     * @throws SkillConfigurationException If the requested setting is not configured
-     */
-    boolean getUsedBooleanSetting(SkillCaster caster, ISkill skill, DataQuery setting);
-
-    /**
-     * Gets the raw value of the specific configuration according to the global skill configuration.
-     *
-     * <p>Skill settings have a contract that if a requested setting is not available either by
-     * default or not provided by the skill defaults, an exception is thrown. It is imperative
-     * that all skill configurations have defaults available by {@link
-     * ISkill#getUsedConfigNodes}.</p>
-     *
-     * @param caster The {@link SkillCaster} to find available roles granting use of the skill
-     * @param skill The skill to use the settings of
-     * @param setting The query to the setting object value
-     * @return The requested object
-     * @throws SkillConfigurationException If the requested setting is not configured
-     */
-    String getUsedStringSetting(SkillCaster caster, ISkill skill, SkillSetting setting);
-
-    /**
-     * Gets the raw value of the specific configuration according to the global skill configuration.
-     *
-     * <p>Skill settings have a contract that if a requested setting is not available either by
-     * default or not provided by the skill defaults, an exception is thrown. It is imperative
-     * that all skill configurations have defaults available by {@link
-     * ISkill#getUsedConfigNodes}.</p>
-     *
-     * @param caster The {@link SkillCaster} to find available roles granting use of the skill
-     * @param skill The skill to use the settings of
-     * @param setting The query to the setting object value
-     * @return The requested object
-     * @throws SkillConfigurationException If the requested setting is not configured
-     */
-    String getUsedStringSetting(SkillCaster caster, ISkill skill, DataQuery setting);
-
-    /**
-     * Gets the raw value of the specific configuration according to the global skill configuration.
-     *
-     * <p>Skill settings have a contract that if a requested setting is not available either by
-     * default or not provided by the skill defaults, an exception is thrown. It is imperative
-     * that all skill configurations have defaults available by {@link
-     * ISkill#getUsedConfigNodes}.</p>
-     *
-     * @param caster The {@link SkillCaster} to find available roles granting use of the skill
-     * @param skill The skill to use the settings of
-     * @param setting The query to the setting object value
-     * @return The requested object
-     * @throws SkillConfigurationException If the requested setting is not configured
-     */
-    List<?> getUsedListSetting(SkillCaster caster, ISkill skill, SkillSetting setting);
-
-    /**
-     * Gets the raw value of the specific configuration according to the global skill configuration.
-     *
-     * <p>Skill settings have a contract that if a requested setting is not available either by
-     * default or not provided by the skill defaults, an exception is thrown. It is imperative
-     * that all skill configurations have defaults available by {@link
-     * ISkill#getUsedConfigNodes}.</p>
-     *
-     * @param caster The {@link SkillCaster} to find available roles granting use of the skill
-     * @param skill The skill to use the settings of
-     * @param setting The query to the setting object value
-     * @return The requested object
-     * @throws SkillConfigurationException If the requested setting is not configured
-     */
-    List<?> getUsedListSetting(SkillCaster caster, ISkill skill, DataQuery setting);
-
-    /**
-     * Gets the raw value of the specific configuration according to the global skill configuration.
-     *
-     * <p>Skill settings have a contract that if a requested setting is not available either by
-     * default or not provided by the skill defaults, an exception is thrown. It is imperative
-     * that all skill configurations have defaults available by {@link
-     * ISkill#getUsedConfigNodes}.</p>
-     *
-     * @param caster The {@link SkillCaster} to find available roles granting use of the skill
-     * @param skill The skill to use the settings of
-     * @param setting The query to the setting object value
-     * @return The requested object
-     * @throws SkillConfigurationException If the requested setting is not configured
-     */
-    List<String> getUsedStringListSetting(SkillCaster caster, ISkill skill,
-                                          SkillSetting setting);
-
-    /**
-     * Gets the raw value of the specific configuration according to the global skill configuration.
-     *
-     * <p>Skill settings have a contract that if a requested setting is not available either by
-     * default or not provided by the skill defaults, an exception is thrown. It is imperative
-     * that all skill configurations have defaults available by {@link
-     * ISkill#getUsedConfigNodes}.</p>
-     *
-     * @param caster The {@link SkillCaster} to find available roles granting use of the skill
-     * @param skill The skill to use the settings of
-     * @param setting The query to the setting object value
-     * @return The requested object
-     * @throws SkillConfigurationException If the requested setting is not configured
-     */
-    List<String> getUsedStringListSetting(SkillCaster caster, ISkill skill, DataQuery setting);
-
-    /**
-     * Gets the raw value of the specific configuration according to the global skill configuration.
-     *
-     * <p>Skill settings have a contract that if a requested setting is not available either by
-     * default or not provided by the skill defaults, an exception is thrown. It is imperative
-     * that all skill configurations have defaults available by {@link
-     * ISkill#getUsedConfigNodes}.</p>
-     *
-     * @param caster The {@link SkillCaster} to find available roles granting use of the skill
-     * @param skill The skill to use the settings of
-     * @param setting The query to the setting object value
-     * @return The requested object
-     * @throws SkillConfigurationException If the requested setting is not configured
-     */
-    ItemStack getUsedItemStackSetting(SkillCaster caster, ISkill skill,
+    List<String> getStringListSetting(Role role, Skill skill,
                                       SkillSetting setting);
 
     /**
-     * Gets the raw value of the specific configuration according to the global skill configuration.
+     * Gets the raw value of the specific configuration according to the global skill
+     * configuration.
      *
      * <p>Skill settings have a contract that if a requested setting is not available either by
-     * default or not provided by the skill defaults, an exception is thrown. It is imperative
-     * that all skill configurations have defaults available by {@link
-     * ISkill#getUsedConfigNodes}.</p>
+     * default or not provided by the skill defaults, an exception is thrown. It is imperative that
+     * all skill configurations have defaults available by {@link Skill#getUsedConfigNodes}.</p>
      *
-     * @param caster The {@link SkillCaster} to find available roles granting use of the skill
-     * @param skill The skill to use the settings of
+     * @param role    The role to check for specific configurations of
+     * @param skill   The skill to use the settings of
      * @param setting The query to the setting object value
+     *
      * @return The requested object
      * @throws SkillConfigurationException If the requested setting is not configured
      */
-    ItemStack getUsedItemStackSetting(SkillCaster caster, ISkill skill, DataQuery setting);
+    List<String> getStringListSetting(Role role, Skill skill,
+                                      DataQuery setting);
+
+    /**
+     * Gets the raw value of the specific configuration according to the global skill
+     * configuration.
+     *
+     * <p>Skill settings have a contract that if a requested setting is not available either by
+     * default or not provided by the skill defaults, an exception is thrown. It is imperative that
+     * all skill configurations have defaults available by {@link Skill#getUsedConfigNodes}.</p>
+     *
+     * @param role    The role to check for specific configurations of
+     * @param skill   The skill to use the settings of
+     * @param setting The query to the setting object value
+     *
+     * @return The requested object
+     * @throws SkillConfigurationException If the requested setting is not configured
+     */
+    ItemStack getItemStackSetting(Role role, Skill skill,
+                                  SkillSetting setting);
+
+    /**
+     * Gets the raw value of the specific configuration according to the global skill
+     * configuration.
+     *
+     * <p>Skill settings have a contract that if a requested setting is not available either by
+     * default or not provided by the skill defaults, an exception is thrown. It is imperative that
+     * all skill configurations have defaults available by {@link Skill#getUsedConfigNodes}.</p>
+     *
+     * @param role    The role to check for specific configurations of
+     * @param skill   The skill to use the settings of
+     * @param setting The query to the setting object value
+     *
+     * @return The requested object
+     * @throws SkillConfigurationException If the requested setting is not configured
+     */
+    ItemStack getItemStackSetting(Role role, Skill skill, DataQuery setting);
+
+    /**
+     * Gets the raw value of the specific configuration according to the global skill
+     * configuration.
+     *
+     * <p>Skill settings have a contract that if a requested setting is not available either by
+     * default or not provided by the skill defaults, an exception is thrown. It is imperative that
+     * all skill configurations have defaults available by {@link Skill#getUsedConfigNodes}.</p>
+     *
+     * @param caster The caster to find all available roles granting the skill
+     * @param skill  The skill to use the settings of
+     *
+     * @return The requested object
+     * @throws SkillConfigurationException If the requested setting is not configured
+     */
+    int getLevel(SkillCaster caster, Skill skill);
+
+    /**
+     * Gets the raw value of the specific configuration according to the global skill
+     * configuration.
+     *
+     * <p>Skill settings have a contract that if a requested setting is not available either by
+     * default or not provided by the skill defaults, an exception is thrown. It is imperative that
+     * all skill configurations have defaults available by {@link Skill#getUsedConfigNodes}.</p>
+     *
+     * @param caster  The {@link SkillCaster} to find available roles granting use of the skill
+     * @param skill   The skill to use the settings of
+     * @param setting The query to the setting object value
+     *
+     * @return The requested object
+     * @throws SkillConfigurationException If the requested setting is not configured
+     */
+    Object getUsedSetting(SkillCaster caster, Skill skill,
+                          SkillSetting setting);
+
+    /**
+     * Gets the raw value of the specific configuration according to the global skill
+     * configuration.
+     *
+     * <p>Skill settings have a contract that if a requested setting is not available either by
+     * default or not provided by the skill defaults, an exception is thrown. It is imperative that
+     * all skill configurations have defaults available by {@link Skill#getUsedConfigNodes}.</p>
+     *
+     * @param caster  The {@link SkillCaster} to find available roles granting use of the skill
+     * @param skill   The skill to use the settings of
+     * @param setting The query to the setting object value
+     *
+     * @return The requested object
+     * @throws SkillConfigurationException If the requested setting is not configured
+     */
+    Object getUsedSetting(SkillCaster caster, Skill skill, DataQuery setting);
+
+    /**
+     * Gets the raw value of the specific configuration according to the global skill
+     * configuration.
+     *
+     * <p>Skill settings have a contract that if a requested setting is not available either by
+     * default or not provided by the skill defaults, an exception is thrown. It is imperative that
+     * all skill configurations have defaults available by {@link Skill#getUsedConfigNodes}.</p>
+     *
+     * @param caster  The {@link SkillCaster} to find available roles granting use of the skill
+     * @param skill   The skill to use the settings of
+     * @param setting The query to the setting object value
+     *
+     * @return The requested object
+     * @throws SkillConfigurationException If the requested setting is not configured
+     */
+    int getUsedIntSetting(SkillCaster caster, Skill skill,
+                          SkillSetting setting);
+
+    /**
+     * Gets the raw value of the specific configuration according to the global skill
+     * configuration.
+     *
+     * <p>Skill settings have a contract that if a requested setting is not available either by
+     * default or not provided by the skill defaults, an exception is thrown. It is imperative that
+     * all skill configurations have defaults available by {@link Skill#getUsedConfigNodes}.</p>
+     *
+     * @param caster  The {@link SkillCaster} to find available roles granting use of the skill
+     * @param skill   The skill to use the settings of
+     * @param setting The query to the setting object value
+     *
+     * @return The requested object
+     * @throws SkillConfigurationException If the requested setting is not configured
+     */
+    int getUsedIntSetting(SkillCaster caster, Skill skill, DataQuery setting);
+
+    /**
+     * Gets the raw value of the specific configuration according to the global skill
+     * configuration.
+     *
+     * <p>Skill settings have a contract that if a requested setting is not available either by
+     * default or not provided by the skill defaults, an exception is thrown. It is imperative that
+     * all skill configurations have defaults available by {@link Skill#getUsedConfigNodes}.</p>
+     *
+     * @param caster  The {@link SkillCaster} to find available roles granting use of the skill
+     * @param skill   The skill to use the settings of
+     * @param setting The query to the setting object value
+     *
+     * @return The requested object
+     * @throws SkillConfigurationException If the requested setting is not configured
+     */
+    double getUsedDoubleSetting(SkillCaster caster, Skill skill,
+                                SkillSetting setting);
+
+    /**
+     * Gets the raw value of the specific configuration according to the global skill
+     * configuration.
+     *
+     * <p>Skill settings have a contract that if a requested setting is not available either by
+     * default or not provided by the skill defaults, an exception is thrown. It is imperative that
+     * all skill configurations have defaults available by {@link Skill#getUsedConfigNodes}.</p>
+     *
+     * @param caster  The {@link SkillCaster} to find available roles granting use of the skill
+     * @param skill   The skill to use the settings of
+     * @param setting The query to the setting object value
+     *
+     * @return The requested object
+     * @throws SkillConfigurationException If the requested setting is not configured
+     */
+    double getUsedDoubleSetting(SkillCaster caster, Skill skill,
+                                DataQuery setting);
+
+    /**
+     * Gets the raw value of the specific configuration according to the global skill
+     * configuration.
+     *
+     * <p>Skill settings have a contract that if a requested setting is not available either by
+     * default or not provided by the skill defaults, an exception is thrown. It is imperative that
+     * all skill configurations have defaults available by {@link Skill#getUsedConfigNodes}.</p>
+     *
+     * @param caster  The {@link SkillCaster} to find available roles granting use of the skill
+     * @param skill   The skill to use the settings of
+     * @param setting The query to the setting object value
+     *
+     * @return The requested object
+     * @throws SkillConfigurationException If the requested setting is not configured
+     */
+    boolean getUsedBooleanSetting(SkillCaster caster, Skill skill,
+                                  SkillSetting setting);
+
+    /**
+     * Gets the raw value of the specific configuration according to the global skill
+     * configuration.
+     *
+     * <p>Skill settings have a contract that if a requested setting is not available either by
+     * default or not provided by the skill defaults, an exception is thrown. It is imperative that
+     * all skill configurations have defaults available by {@link Skill#getUsedConfigNodes}.</p>
+     *
+     * @param caster  The {@link SkillCaster} to find available roles granting use of the skill
+     * @param skill   The skill to use the settings of
+     * @param setting The query to the setting object value
+     *
+     * @return The requested object
+     * @throws SkillConfigurationException If the requested setting is not configured
+     */
+    boolean getUsedBooleanSetting(SkillCaster caster, Skill skill,
+                                  DataQuery setting);
+
+    /**
+     * Gets the raw value of the specific configuration according to the global skill
+     * configuration.
+     *
+     * <p>Skill settings have a contract that if a requested setting is not available either by
+     * default or not provided by the skill defaults, an exception is thrown. It is imperative that
+     * all skill configurations have defaults available by {@link Skill#getUsedConfigNodes}.</p>
+     *
+     * @param caster  The {@link SkillCaster} to find available roles granting use of the skill
+     * @param skill   The skill to use the settings of
+     * @param setting The query to the setting object value
+     *
+     * @return The requested object
+     * @throws SkillConfigurationException If the requested setting is not configured
+     */
+    String getUsedStringSetting(SkillCaster caster, Skill skill,
+                                SkillSetting setting);
+
+    /**
+     * Gets the raw value of the specific configuration according to the global skill
+     * configuration.
+     *
+     * <p>Skill settings have a contract that if a requested setting is not available either by
+     * default or not provided by the skill defaults, an exception is thrown. It is imperative that
+     * all skill configurations have defaults available by {@link Skill#getUsedConfigNodes}.</p>
+     *
+     * @param caster  The {@link SkillCaster} to find available roles granting use of the skill
+     * @param skill   The skill to use the settings of
+     * @param setting The query to the setting object value
+     *
+     * @return The requested object
+     * @throws SkillConfigurationException If the requested setting is not configured
+     */
+    String getUsedStringSetting(SkillCaster caster, Skill skill,
+                                DataQuery setting);
+
+    /**
+     * Gets the raw value of the specific configuration according to the global skill
+     * configuration.
+     *
+     * <p>Skill settings have a contract that if a requested setting is not available either by
+     * default or not provided by the skill defaults, an exception is thrown. It is imperative that
+     * all skill configurations have defaults available by {@link Skill#getUsedConfigNodes}.</p>
+     *
+     * @param caster  The {@link SkillCaster} to find available roles granting use of the skill
+     * @param skill   The skill to use the settings of
+     * @param setting The query to the setting object value
+     *
+     * @return The requested object
+     * @throws SkillConfigurationException If the requested setting is not configured
+     */
+    List<?> getUsedListSetting(SkillCaster caster, Skill skill,
+                               SkillSetting setting);
+
+    /**
+     * Gets the raw value of the specific configuration according to the global skill
+     * configuration.
+     *
+     * <p>Skill settings have a contract that if a requested setting is not available either by
+     * default or not provided by the skill defaults, an exception is thrown. It is imperative that
+     * all skill configurations have defaults available by {@link Skill#getUsedConfigNodes}.</p>
+     *
+     * @param caster  The {@link SkillCaster} to find available roles granting use of the skill
+     * @param skill   The skill to use the settings of
+     * @param setting The query to the setting object value
+     *
+     * @return The requested object
+     * @throws SkillConfigurationException If the requested setting is not configured
+     */
+    List<?> getUsedListSetting(SkillCaster caster, Skill skill,
+                               DataQuery setting);
+
+    /**
+     * Gets the raw value of the specific configuration according to the global skill
+     * configuration.
+     *
+     * <p>Skill settings have a contract that if a requested setting is not available either by
+     * default or not provided by the skill defaults, an exception is thrown. It is imperative that
+     * all skill configurations have defaults available by {@link Skill#getUsedConfigNodes}.</p>
+     *
+     * @param caster  The {@link SkillCaster} to find available roles granting use of the skill
+     * @param skill   The skill to use the settings of
+     * @param setting The query to the setting object value
+     *
+     * @return The requested object
+     * @throws SkillConfigurationException If the requested setting is not configured
+     */
+    List<String> getUsedStringListSetting(SkillCaster caster, Skill skill,
+                                          SkillSetting setting);
+
+    /**
+     * Gets the raw value of the specific configuration according to the global skill
+     * configuration.
+     *
+     * <p>Skill settings have a contract that if a requested setting is not available either by
+     * default or not provided by the skill defaults, an exception is thrown. It is imperative that
+     * all skill configurations have defaults available by {@link Skill#getUsedConfigNodes}.</p>
+     *
+     * @param caster  The {@link SkillCaster} to find available roles granting use of the skill
+     * @param skill   The skill to use the settings of
+     * @param setting The query to the setting object value
+     *
+     * @return The requested object
+     * @throws SkillConfigurationException If the requested setting is not configured
+     */
+    List<String> getUsedStringListSetting(SkillCaster caster, Skill skill,
+                                          DataQuery setting);
+
+    /**
+     * Gets the raw value of the specific configuration according to the global skill
+     * configuration.
+     *
+     * <p>Skill settings have a contract that if a requested setting is not available either by
+     * default or not provided by the skill defaults, an exception is thrown. It is imperative that
+     * all skill configurations have defaults available by {@link Skill#getUsedConfigNodes}.</p>
+     *
+     * @param caster  The {@link SkillCaster} to find available roles granting use of the skill
+     * @param skill   The skill to use the settings of
+     * @param setting The query to the setting object value
+     *
+     * @return The requested object
+     * @throws SkillConfigurationException If the requested setting is not configured
+     */
+    ItemStack getUsedItemStackSetting(SkillCaster caster, Skill skill,
+                                      SkillSetting setting);
+
+    /**
+     * Gets the raw value of the specific configuration according to the global skill
+     * configuration.
+     *
+     * <p>Skill settings have a contract that if a requested setting is not available either by
+     * default or not provided by the skill defaults, an exception is thrown. It is imperative that
+     * all skill configurations have defaults available by {@link Skill#getUsedConfigNodes}.</p>
+     *
+     * @param caster  The {@link SkillCaster} to find available roles granting use of the skill
+     * @param skill   The skill to use the settings of
+     * @param setting The query to the setting object value
+     *
+     * @return The requested object
+     * @throws SkillConfigurationException If the requested setting is not configured
+     */
+    ItemStack getUsedItemStackSetting(SkillCaster caster, Skill skill,
+                                      DataQuery setting);
 
 }

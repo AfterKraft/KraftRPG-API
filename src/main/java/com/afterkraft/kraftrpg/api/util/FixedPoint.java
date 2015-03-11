@@ -30,16 +30,13 @@ public final class FixedPoint extends Number implements Cloneable {
     private static final long serialVersionUID = -6313518365999400363L;
 
     private static final int FRAC_SIZE = 16;
+    public static final long MAX_VALUE = Long.MAX_VALUE >>> FRAC_SIZE;
     private static final int ONE = 1 << FRAC_SIZE;
     private static final int HALF = ONE >> 1;
     private static final int MAX_FRAC_VAL = ONE - 1;
-
     // 2 ^ -16
     private static final double twoPowNegSize = Math.pow(2, -FRAC_SIZE);
-
     public static final double ulp = twoPowNegSize;
-    public static final long MAX_VALUE = Long.MAX_VALUE >>> FRAC_SIZE;
-
     private final long val;
 
     public FixedPoint() {
@@ -114,7 +111,8 @@ public final class FixedPoint extends Number implements Cloneable {
         }
 
         //Remove trailing zeroes
-        String str = (disp >> FRAC_SIZE) + "." + fracPart.toString().replaceFirst("0*$", "");
+        String str = (disp >> FRAC_SIZE) + "." + fracPart.toString()
+                .replaceFirst("0*$", "");
         if (this.val < 0) {
             str = "-" + str;
         }

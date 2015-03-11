@@ -30,12 +30,12 @@ import org.spongepowered.api.potion.PotionEffect;
 import org.spongepowered.api.text.message.Message;
 import org.spongepowered.api.text.message.Messages;
 
-import com.afterkraft.kraftrpg.api.effects.common.Imbuing;
-import com.afterkraft.kraftrpg.common.effects.Effect;
+import com.afterkraft.kraftrpg.api.effects.Effect;
 import com.afterkraft.kraftrpg.api.effects.EffectType;
-import com.afterkraft.kraftrpg.api.effects.IEffect;
+import com.afterkraft.kraftrpg.api.effects.common.Imbuing;
 import com.afterkraft.kraftrpg.api.entity.Insentient;
-import com.afterkraft.kraftrpg.common.skills.Skill;
+import com.afterkraft.kraftrpg.common.effects.AbstractEffect;
+import com.afterkraft.kraftrpg.common.skills.AbstractSkill;
 
 /**
  * A standard effect that focuses on behaviors for applying to a weapon or object related to the
@@ -43,24 +43,27 @@ import com.afterkraft.kraftrpg.common.skills.Skill;
  * weapon wielded by the attacking Insentient being, applying an effect to the Insentient being
  * while a certain weapon is equipped, etc.
  */
-public class ImbuingEffect extends Effect implements Imbuing {
+public class ImbuingEffect extends AbstractEffect implements Imbuing {
 
     protected final Insentient applier;
 
-    public ImbuingEffect(Skill skill, Insentient applier, String name,
+    public ImbuingEffect(AbstractSkill skill, Insentient applier, String name,
                          Collection<EffectType> types) {
         this(skill, applier, name, Messages.of(""), Messages.of(""), types);
     }
 
-    public ImbuingEffect(Skill skill, Insentient applier, String name, Message applyText,
+    public ImbuingEffect(AbstractSkill skill, Insentient applier, String name,
+                         Message applyText,
                          Message expireText, Collection<EffectType> types) {
         this(skill, applier, name, null, false, types, applyText, expireText);
     }
 
-    public ImbuingEffect(Skill skill, Insentient applier, String name,
+    public ImbuingEffect(AbstractSkill skill, Insentient applier, String name,
                          Set<PotionEffect> potionEffects, boolean persistent,
-                         Collection<EffectType> types, Message applyText, Message expireText) {
-        super(skill, name, potionEffects, persistent, types, applyText, expireText);
+                         Collection<EffectType> types, Message applyText,
+                         Message expireText) {
+        super(skill, name, potionEffects, persistent, types, applyText,
+              expireText);
         super.types.add(EffectType.IMBUE);
         this.applier = applier;
     }
@@ -73,7 +76,7 @@ public class ImbuingEffect extends Effect implements Imbuing {
     @Override
     public void apply(Insentient being) {
         super.apply(being);
-        for (IEffect effect : being.getEffects()) {
+        for (Effect effect : being.getEffects()) {
             if (effect.equals(this)) {
                 continue;
             }

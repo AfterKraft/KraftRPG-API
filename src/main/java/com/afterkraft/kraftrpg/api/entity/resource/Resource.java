@@ -25,8 +25,8 @@
 package com.afterkraft.kraftrpg.api.entity.resource;
 
 /**
- * Represents a resource made availalbe on entities that can be used by
- * skills and various other interactions.
+ * Represents a resource made availalbe on entities that can be used by skills and various other
+ * interactions.
  */
 public interface Resource {
 

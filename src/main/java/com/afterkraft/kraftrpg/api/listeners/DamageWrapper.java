@@ -25,7 +25,7 @@ package com.afterkraft.kraftrpg.api.listeners;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import com.afterkraft.kraftrpg.common.DamageCause;
+import org.spongepowered.api.event.cause.Cause;
 
 /**
  * This is a simple wrapper for the damage dealt to an entity. It wraps the various necessary
@@ -33,13 +33,14 @@ import com.afterkraft.kraftrpg.common.DamageCause;
  */
 public class DamageWrapper {
 
-    final DamageCause originalCause;
+    final Cause originalCause;
     final double originalDamage;
     final double modifiedDamage;
-    final DamageCause modifiedCause;
+    final Cause modifiedCause;
 
-    public DamageWrapper(DamageCause originalCause, double originalDamage, double modifiedDamage,
-                         DamageCause modifiedCause) {
+    public DamageWrapper(Cause originalCause, double originalDamage,
+                         double modifiedDamage,
+                         Cause modifiedCause) {
         checkNotNull(originalCause);
         checkNotNull(modifiedCause);
         this.originalCause = originalCause;
@@ -48,7 +49,7 @@ public class DamageWrapper {
         this.modifiedCause = modifiedCause;
     }
 
-    public final DamageCause getOriginalCause() {
+    public final Cause getOriginalCause() {
         return this.originalCause;
     }
 
@@ -60,7 +61,7 @@ public class DamageWrapper {
         return this.modifiedDamage;
     }
 
-    public final DamageCause getModifiedCause() {
+    public final Cause getModifiedCause() {
         return this.modifiedCause;
     }
 

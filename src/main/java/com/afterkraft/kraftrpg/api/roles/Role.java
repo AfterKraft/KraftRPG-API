@@ -23,8 +23,6 @@
  */
 package com.afterkraft.kraftrpg.api.roles;
 
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -35,19 +33,20 @@ import static com.google.common.base.Preconditions.checkState;
 import com.google.common.base.Objects;
 import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Lists;
 
 import com.afterkraft.kraftrpg.api.RPGPlugin;
 import com.afterkraft.kraftrpg.api.roles.aspects.HealthAspect;
 import com.afterkraft.kraftrpg.api.roles.aspects.ResourceAspect;
 import com.afterkraft.kraftrpg.api.roles.aspects.RestrictedSkillAspect;
 import com.afterkraft.kraftrpg.api.roles.aspects.SkillAspect;
-import com.afterkraft.kraftrpg.api.skills.ISkill;
+import com.afterkraft.kraftrpg.api.skills.Skill;
 
 /**
  * A Role is an Immutable object representing the skill tree and damage values that a {@link
- * com.afterkraft.kraftrpg.api.entity.Sentient} may have. All {@link ISkill}s are granted for use to
+ * com.afterkraft.kraftrpg.api.entity.Sentient} may have. All {@link Skill}s are granted for use to
  * {@link com.afterkraft.kraftrpg.api.entity.SkillCaster}s and experience is gained by {@link
- * com.afterkraft.kraftrpg.api.entity.Sentient}s.  To construct a Role, use the linked {@link
+ * com.afterkraft.kraftrpg.api.entity.Sentient}s. To construct a Role, use the linked {@link
  * Builder}
  */
 public final class Role {
@@ -80,8 +79,8 @@ public final class Role {
     }
 
     /**
-     * Construct a Role. It is necessary to provide the link to {@link
-     * RPGPlugin} as many of the operations performed in a Role use it.
+     * Construct a Role. It is necessary to provide the link to {@link RPGPlugin} as many of the
+     * operations performed in a Role use it.
      *
      * @param plugin The implementation of KraftRPG
      *
@@ -119,7 +118,7 @@ public final class Role {
      *
      * @return The resource aspect, if available
      */
-    @SuppressWarnings({ "unchecked", "unused" })
+    @SuppressWarnings({"unchecked", "unused"})
     public <T extends RoleAspect> Optional<T> getAspect(Class<T> clazz) {
         checkNotNull(clazz);
         checkArgument(!RoleAspect.class.equals(clazz)
@@ -283,7 +282,8 @@ public final class Role {
             builder.addChild(role.plugin.getRoleManager().getRole(child).get());
         }
         for (String parent : role.parents) {
-            builder.addParent(role.plugin.getRoleManager().getRole(parent).get());
+            builder.addParent(
+                    role.plugin.getRoleManager().getRole(parent).get());
         }
         for (RoleAspect aspect : role.aspects) {
             builder.addAspect(aspect);
@@ -326,10 +326,10 @@ public final class Role {
     public static final class Builder {
         RPGPlugin plugin;
         String name;
-        List<RoleAspect> aspects = new ArrayList<>();
+        List<RoleAspect> aspects = Lists.newArrayList();
         RoleType type = RoleType.PRIMARY;
-        Set<String> children = new HashSet<>();
-        Set<String> parents = new HashSet<>();
+        List<String> children = Lists.newArrayList();
+        List<String> parents = Lists.newArrayList();
         int advancementLevel;
         int maxLevel = 1;
         boolean choosable = true;
@@ -402,7 +402,8 @@ public final class Role {
          * @return This builder for chaining
          */
         public Builder setAdvancementLevel(int advancementLevel) {
-            checkArgument(advancementLevel >= 0, "Cannot have a less than zero advancement level!");
+            checkArgument(advancementLevel >= 0,
+                          "Cannot have a less than zero advancement level!");
             this.advancementLevel = advancementLevel;
             return this;
         }
@@ -440,7 +441,7 @@ public final class Role {
                 for (RoleAspect roleAspect : this.aspects) {
                     if (roleAspect instanceof SkillAspect) {
                         SkillAspect skillAspect = (SkillAspect) roleAspect;
-                        for (ISkill skill : skillAspect.getAllSkills()) {
+                        for (Skill skill : skillAspect.getAllSkills()) {
                             checkArgument(!((RestrictedSkillAspect) aspect)
                                     .isSkillRestricted(skill));
                         }
@@ -530,7 +531,8 @@ public final class Role {
          *                               zero
          */
         public Role build() {
-            checkState(this.advancementLevel > 0, "Cannot have a zero advancement level!");
+            checkState(this.advancementLevel > 0,
+                       "Cannot have a zero advancement level!");
             checkState(this.maxLevel > 0, "Cannot have a zero max level!");
             checkState(!this.name.isEmpty());
             return new Role(this);

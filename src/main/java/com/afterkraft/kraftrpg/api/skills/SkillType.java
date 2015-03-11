@@ -49,8 +49,7 @@ public enum SkillType {
      */
     EXCLUSIVE,
     /**
-     * A Healing skill tends to increase your health.  Causes combat entry if not used on
-     * yourself.
+     * A Healing skill tends to increase your health.  Causes combat entry if not used on yourself.
      */
     HEALING,
     /**

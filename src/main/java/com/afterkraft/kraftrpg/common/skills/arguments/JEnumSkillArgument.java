@@ -30,7 +30,6 @@ import java.util.List;
 import com.google.common.base.Optional;
 
 import com.afterkraft.kraftrpg.api.entity.SkillCaster;
-import com.afterkraft.kraftrpg.api.skills.SkillArgument;
 import com.afterkraft.kraftrpg.api.util.Utilities;
 import com.afterkraft.kraftrpg.common.skills.AbstractSkillArgument;
 
@@ -46,7 +45,8 @@ public class JEnumSkillArgument<T extends Enum<T>> extends
     private final List<String> names;
     private T choice = null;
 
-    public JEnumSkillArgument(boolean required, Class<T> clazz, T def) throws Exception {
+    public JEnumSkillArgument(boolean required, Class<T> clazz, T def) throws
+            Exception {
         super(required);
         this.def = def;
 
@@ -65,15 +65,9 @@ public class JEnumSkillArgument<T extends Enum<T>> extends
         }
     }
 
-    @Override public Optional<T> getValue() {
-        return Optional.fromNullable(this.choice);
-    }
-
     public void setChoice(T c) {
         this.choice = c;
     }
-
-    // --------------------------------------------------------------
 
     @Override
     public String getUsageString(boolean optional) {
@@ -84,8 +78,11 @@ public class JEnumSkillArgument<T extends Enum<T>> extends
         }
     }
 
+    // --------------------------------------------------------------
+
     @Override
-    public int matches(SkillCaster caster, String[] allArgs, int startPosition) {
+    public int matches(SkillCaster caster, String[] allArgs,
+                       int startPosition) {
         String arg = allArgs[startPosition];
         try {
             Enum.valueOf(this.clazz, arg);
@@ -111,12 +108,18 @@ public class JEnumSkillArgument<T extends Enum<T>> extends
     }
 
     @Override
+    public Optional<T> getValue() {
+        return Optional.fromNullable(this.choice);
+    }
+
+    @Override
     public void clean() {
         this.choice = this.def;
     }
 
     @Override
-    public List<String> tabComplete(SkillCaster caster, String[] allArgs, int startPosition) {
+    public List<String> tabComplete(SkillCaster caster, String[] allArgs,
+                                    int startPosition) {
         return Utilities.findMatches(allArgs[startPosition], this.names);
     }
 }

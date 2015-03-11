@@ -26,12 +26,13 @@ package com.afterkraft.kraftrpg.api.skills.common;
 import com.afterkraft.kraftrpg.api.effects.common.Imbuing;
 import com.afterkraft.kraftrpg.api.entity.SkillCaster;
 import com.afterkraft.kraftrpg.api.skills.Active;
+import com.afterkraft.kraftrpg.api.skills.Skill;
 import com.afterkraft.kraftrpg.common.skills.common.ArrowSkill;
 
 /**
- * A standard {@link com.afterkraft.kraftrpg.api.skills.ISkill} that will apply a {@link
- * com.afterkraft.kraftrpg.api.effects.common.Imbuing} effect on skill use. It has a default
- * implementation with the following common abstract skills: <ul> <li>{@link ArrowSkill}</li> </ul>
+ * A standard {@link Skill} that will apply a {@link com.afterkraft.kraftrpg.api.effects.common.Imbuing}
+ * effect on skill use. It has a default implementation with the following common abstract skills:
+ * <ul> <li>{@link ArrowSkill}</li> </ul>
  */
 public interface ImbuingSkill extends Active {
 

@@ -46,11 +46,13 @@ public class StalledSkill implements Stalled {
     private final long delay;
 
 
-    public StalledSkill(Active skill, String[] args, SkillCaster caster, long warmup) {
+    public StalledSkill(Active skill, String[] args, SkillCaster caster,
+                        long warmup) {
         this(skill, args, caster, System.currentTimeMillis(), warmup);
     }
 
-    public StalledSkill(Active skill, String[] args, SkillCaster caster, long startTime,
+    public StalledSkill(Active skill, String[] args, SkillCaster caster,
+                        long startTime,
                         long warmup) {
         checkNotNull(skill);
         checkNotNull(caster);
@@ -90,12 +92,14 @@ public class StalledSkill implements Stalled {
 
     @Override
     public int compareTo(Delayed o) {
-        long d = getDelay(TimeUnit.MILLISECONDS) - o.getDelay(TimeUnit.MILLISECONDS);
+        long d = getDelay(TimeUnit.MILLISECONDS) - o
+                .getDelay(TimeUnit.MILLISECONDS);
         return ((d == 0) ? 0 : ((d < 0) ? -1 : 1));
     }
 
     @Override
     public long getDelay(TimeUnit unit) {
-        return unit.convert(this.delay - System.currentTimeMillis(), TimeUnit.MILLISECONDS);
+        return unit.convert(this.delay - System.currentTimeMillis(),
+                            TimeUnit.MILLISECONDS);
     }
 }

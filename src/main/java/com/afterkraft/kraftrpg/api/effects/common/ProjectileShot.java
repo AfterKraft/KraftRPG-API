@@ -26,6 +26,7 @@ package com.afterkraft.kraftrpg.api.effects.common;
 import org.spongepowered.api.entity.projectile.Projectile;
 import org.spongepowered.api.world.Location;
 
+import com.afterkraft.kraftrpg.api.effects.Effect;
 import com.afterkraft.kraftrpg.api.entity.Insentient;
 
 /**
@@ -34,6 +35,11 @@ import com.afterkraft.kraftrpg.api.entity.Insentient;
  */
 public interface ProjectileShot extends Imbuing {
 
+    /**
+     * Gets the number of shots remaining on this {@link ProjectileShot} effect.
+     *
+     * @return The amount of shots left
+     */
     int getShotsLeft();
 
     /**
@@ -57,8 +63,7 @@ public interface ProjectileShot extends Imbuing {
 
     /**
      * A simple callback method for when the imbued projectile has hit an {@link Insentient} being.
-     * Typically this should be when the imbued projectile should add a new {@link
-     * com.afterkraft.kraftrpg.api.effects.IEffect}.
+     * Typically this should be when the imbued projectile should add a new {@link Effect}.
      *
      * @param projectile The projectile that is damaging the victim
      * @param victim     The victim being damaged

@@ -42,7 +42,7 @@ import org.spongepowered.api.text.message.Messages;
 import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableList;
 
-import com.afterkraft.kraftrpg.api.skills.ISkill;
+import com.afterkraft.kraftrpg.api.skills.Skill;
 import com.afterkraft.kraftrpg.api.skills.SkillManager;
 import com.afterkraft.kraftrpg.api.skills.TestSkill;
 import com.afterkraft.kraftrpg.api.util.FileUtils;
@@ -56,13 +56,13 @@ public class RPGTestCreator {
     public static final File pluginDirectory = new File("bin/test/server/plugins/rpgtest");
     public static final File serverDirectory = new File("bin/test/server");
     private RPGPlugin mockPlugin;
-    private ISkill mockSkill;
+    private Skill mockSkill;
 
     public RPGPlugin getMockPlugin() {
         return this.mockPlugin;
     }
 
-    public ISkill getMockSkill() {
+    public Skill getMockSkill() {
         return this.mockSkill;
     }
 
@@ -101,7 +101,7 @@ public class RPGTestCreator {
                     .times
                             (3);
             expect(mockSkillManager.getSkills())
-                    .andStubReturn(ImmutableList.<ISkill>builder().add(this.mockSkill).build());
+                    .andStubReturn(ImmutableList.<Skill>builder().add(this.mockSkill).build());
             expect(mockSkillManager.hasSkill("TestSkill")).andStubReturn(true);
 
             // Finalize mockSkillManager

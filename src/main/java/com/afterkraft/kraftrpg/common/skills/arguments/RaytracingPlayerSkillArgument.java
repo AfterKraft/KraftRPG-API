@@ -41,7 +41,8 @@ import com.afterkraft.kraftrpg.api.util.Utilities;
  */
 public class RaytracingPlayerSkillArgument extends EntitySkillArgument<Player> {
 
-    public RaytracingPlayerSkillArgument(double maxDistance, Predicate<Player> condition) {
+    public RaytracingPlayerSkillArgument(double maxDistance,
+                                         Predicate<Player> condition) {
         super(false, maxDistance, Player.class, condition);
     }
 
@@ -51,7 +52,8 @@ public class RaytracingPlayerSkillArgument extends EntitySkillArgument<Player> {
     }
 
     @Override
-    public int matches(SkillCaster caster, String[] allArgs, int startPosition) {
+    public int matches(SkillCaster caster, String[] allArgs,
+                       int startPosition) {
         String arg = allArgs[startPosition];
         if (RpgCommon.getPlayerExact(arg).isPresent()) {
             return 1;
@@ -73,11 +75,13 @@ public class RaytracingPlayerSkillArgument extends EntitySkillArgument<Player> {
     @Override
     public void skippedOptional(SkillCaster caster) {
         // do raytracing if arg not specified
-        super.parse(caster, new String[] { "" }, 0);
+        super.parse(caster, new String[]{""}, 0);
     }
 
     @Override
-    public List<String> tabComplete(SkillCaster caster, String[] allArgs, int startPosition) {
-        return Utilities.matchPlayers(allArgs[startPosition], (Player) caster.getEntity());
+    public List<String> tabComplete(SkillCaster caster, String[] allArgs,
+                                    int startPosition) {
+        return Utilities.matchPlayers(allArgs[startPosition],
+                                      (Player) caster.getEntity());
     }
 }

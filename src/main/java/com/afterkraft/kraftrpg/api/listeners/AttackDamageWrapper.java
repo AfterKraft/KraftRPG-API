@@ -26,12 +26,12 @@ package com.afterkraft.kraftrpg.api.listeners;
 import javax.annotation.Nullable;
 import java.lang.ref.WeakReference;
 
+import org.spongepowered.api.event.cause.Cause;
 import org.spongepowered.api.item.inventory.ItemStack;
 
 import com.google.common.base.Optional;
 
 import com.afterkraft.kraftrpg.api.entity.Insentient;
-import com.afterkraft.kraftrpg.common.DamageCause;
 
 /**
  * Standard wrapper for attack damage dealt with an ItemStack
@@ -41,9 +41,10 @@ public class AttackDamageWrapper extends DamageWrapper {
     @Nullable
     private final ItemStack weaponUsed;
 
-    public AttackDamageWrapper(Insentient attackingIEntity, DamageCause originalCause,
+    public AttackDamageWrapper(Insentient attackingIEntity,
+                               Cause originalCause,
                                double originalDamage, double modifiedDamage,
-                               DamageCause modifiedCause) {
+                               Cause modifiedCause) {
         super(originalCause, originalDamage, modifiedDamage, modifiedCause);
         this.attackingIEntity = new WeakReference<>(attackingIEntity);
         this.weaponUsed = attackingIEntity.getItemInHand().isPresent()
@@ -51,8 +52,8 @@ public class AttackDamageWrapper extends DamageWrapper {
     }
 
     /**
-     * Gets the attacking {@link Insentient}. If the insentient is still
-     * available, then the attacker is still online/loaded in the game.
+     * Gets the attacking {@link Insentient}. If the insentient is still available, then the
+     * attacker is still online/loaded in the game.
      *
      * @return The instance of the attacking entity, if available
      */

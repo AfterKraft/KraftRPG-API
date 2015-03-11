@@ -32,7 +32,7 @@ import org.spongepowered.api.service.persistence.data.DataView;
 
 import com.google.common.base.Optional;
 
-import com.afterkraft.kraftrpg.api.skills.ISkill;
+import com.afterkraft.kraftrpg.api.skills.Skill;
 import com.afterkraft.kraftrpg.api.skills.SkillSetting;
 import com.afterkraft.kraftrpg.api.util.DataUtil;
 
@@ -62,13 +62,13 @@ public final class RoleSkill {
     }
 
     /**
-     * Checks if this {@link RoleSkill} is equal to the given {@link ISkill}.
+     * Checks if this {@link RoleSkill} is equal to the given {@link Skill}.
      *
      * @param other The other skill to check
      *
      * @return True if the skill is the same as the stored skill
      */
-    public boolean skillEquals(ISkill other) {
+    public boolean skillEquals(Skill other) {
         return this.skill.equalsIgnoreCase(other.getName());
 
     }

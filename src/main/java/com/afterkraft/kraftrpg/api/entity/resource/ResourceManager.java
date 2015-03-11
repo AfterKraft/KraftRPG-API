@@ -37,12 +37,12 @@ public interface ResourceManager extends Manager {
      * Gets the resource by name.
      *
      * @param name The name of the resource
+     *
      * @return The found resource, if available
      */
     Optional<ResourceType> getResource(String name);
 
     /**
-     *
      * @param resource
      */
     void registerResource(Resource resource);

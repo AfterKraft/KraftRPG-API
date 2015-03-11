@@ -30,8 +30,7 @@ import com.google.common.base.Optional;
 import com.afterkraft.kraftrpg.api.storage.PlayerData;
 
 /**
- * {@inheritDoc} Represents a {@link SkillCaster} that is specially linked to
- * a {@link Player}.
+ * {@inheritDoc} Represents a {@link SkillCaster} that is specially linked to a {@link Player}.
  */
 public interface Champion extends SkillCaster {
 
@@ -44,8 +43,7 @@ public interface Champion extends SkillCaster {
 
     /**
      * Set the Bukkit {@link Player} object for this Champion. This should automatically call {@link
-     * #setEntity(Player)} as long as the original UUID matches the new Player's
-     * UUID.
+     * #setEntity(Player)} as long as the original UUID matches the new Player's UUID.
      *
      * @param player the Bukkit Player for this Champion to attach to
      *
@@ -58,10 +56,9 @@ public interface Champion extends SkillCaster {
     Optional<? extends Player> getEntity();
 
     /**
-     * Attempt to reset the linked {@link Player} in the event the player is not
-     * valid or duplicate players have been detected. This will NOT allow changing the player when
-     * the currently linked Player is still valid and/or if the {@link java.util.UUID} of the two
-     * differ.
+     * Attempt to reset the linked {@link Player} in the event the player is not valid or duplicate
+     * players have been detected. This will NOT allow changing the player when the currently linked
+     * Player is still valid and/or if the {@link java.util.UUID} of the two differ.
      *
      * @param player to re-link this Champion to
      *

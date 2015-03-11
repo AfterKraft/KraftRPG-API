@@ -34,7 +34,7 @@ import com.google.common.collect.Lists;
 
 import com.afterkraft.kraftrpg.api.RpgCommon;
 import com.afterkraft.kraftrpg.api.roles.RoleAspect;
-import com.afterkraft.kraftrpg.api.skills.ISkill;
+import com.afterkraft.kraftrpg.api.skills.Skill;
 
 /**
  * Represents a {@link RoleAspect} that limits the use of skills.
@@ -64,7 +64,7 @@ public final class RestrictedSkillAspect implements RoleAspect {
      *
      * @return True if the skill is restricted
      */
-    public boolean isSkillRestricted(ISkill skill) {
+    public boolean isSkillRestricted(Skill skill) {
         for (String skillName : this.restrictedSkills) {
             if (skillName.equalsIgnoreCase(skill.getName())) {
                 return true;
@@ -78,10 +78,10 @@ public final class RestrictedSkillAspect implements RoleAspect {
      *
      * @return A list of skills restricted by this aspect
      */
-    List<ISkill> getRestrictedSkills() {
-        ImmutableList.Builder<ISkill> builder = ImmutableList.builder();
+    List<Skill> getRestrictedSkills() {
+        ImmutableList.Builder<Skill> builder = ImmutableList.builder();
         for (String skillName : this.restrictedSkills) {
-            Optional<ISkill> optional = RpgCommon.getPlugin()
+            Optional<Skill> optional = RpgCommon.getPlugin()
                     .getSkillManager().getSkill(skillName);
             if (optional.isPresent()) {
                 builder.add(optional.get());
@@ -105,7 +105,7 @@ public final class RestrictedSkillAspect implements RoleAspect {
          * @return This builder for chaining
          * @throws IllegalArgumentException If the skill is already in the granted skills list
          */
-        public RestrictedSkillAspectBuilder addRestirctedSkill(ISkill skill) {
+        public RestrictedSkillAspectBuilder addRestirctedSkill(Skill skill) {
             checkNotNull(skill);
             this.restrictedSkills.add(skill.getName());
             return this;
@@ -120,7 +120,7 @@ public final class RestrictedSkillAspect implements RoleAspect {
          * @return This builder for chaining
          */
         public RestrictedSkillAspectBuilder removeRestrictedSkill(
-                ISkill skill) {
+                Skill skill) {
             checkNotNull(skill);
             this.restrictedSkills.remove(skill.getName());
             return this;

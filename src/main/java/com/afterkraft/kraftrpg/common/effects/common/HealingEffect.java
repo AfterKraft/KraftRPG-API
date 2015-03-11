@@ -38,7 +38,7 @@ import com.afterkraft.kraftrpg.api.effects.EffectType;
 import com.afterkraft.kraftrpg.api.effects.common.Healing;
 import com.afterkraft.kraftrpg.api.entity.Insentient;
 import com.afterkraft.kraftrpg.common.effects.PeriodicExpirableEffect;
-import com.afterkraft.kraftrpg.common.skills.Skill;
+import com.afterkraft.kraftrpg.common.skills.AbstractSkill;
 
 /**
  * Standard implementation of a {@link com.afterkraft.kraftrpg.api.effects.Periodic} and {@link
@@ -48,26 +48,33 @@ import com.afterkraft.kraftrpg.common.skills.Skill;
 public class HealingEffect extends PeriodicExpirableEffect implements Healing {
     private double tickHealth;
 
-    public HealingEffect(Skill skill, Insentient applier, String name, long duration,
-                         EnumSet<EffectType> types, long period, double tickHealth) {
+    public HealingEffect(AbstractSkill skill, Insentient applier, String name,
+                         long duration,
+                         EnumSet<EffectType> types, long period,
+                         double tickHealth) {
         this(skill, applier, name, Sets.<PotionEffect>newHashSet(), false,
              types, Messages.of(""), Messages.of(""),
              duration, period, tickHealth);
     }
 
-    public HealingEffect(Skill skill, Insentient applier, String name,
+    public HealingEffect(AbstractSkill skill, Insentient applier, String name,
                          Set<PotionEffect> potionEffects, boolean persistent,
-                         EnumSet<EffectType> types, Message applyText, Message expireText,
+                         EnumSet<EffectType> types, Message applyText,
+                         Message expireText,
                          long duration, long period, double tickHealth) {
-        super(skill, applier, name, potionEffects, persistent, types, applyText, expireText,
+        super(skill, applier, name, potionEffects, persistent, types, applyText,
+              expireText,
               duration, period);
         this.tickHealth = tickHealth;
     }
 
-    public HealingEffect(Skill skill, Insentient applier, String name, long duration,
-                         Message applyText, Message expireText, EnumSet<EffectType> types,
+    public HealingEffect(AbstractSkill skill, Insentient applier, String name,
+                         long duration,
+                         Message applyText, Message expireText,
+                         EnumSet<EffectType> types,
                          long period, double tickHealth) {
-        this(skill, applier, name, Sets.<PotionEffect>newHashSet(), false, types, applyText,
+        this(skill, applier, name, Sets.<PotionEffect>newHashSet(), false,
+             types, applyText,
              expireText, duration, period, tickHealth);
     }
 
@@ -78,7 +85,8 @@ public class HealingEffect extends PeriodicExpirableEffect implements Healing {
 
     @Override
     public void setTickHealth(double tickHealth) {
-        checkArgument(tickHealth > 0, "Cannot set a negative/zero health per tick!");
+        checkArgument(tickHealth > 0,
+                      "Cannot set a negative/zero health per tick!");
         this.tickHealth = tickHealth;
     }
 

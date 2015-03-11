@@ -41,20 +41,20 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
 import com.afterkraft.kraftrpg.api.RpgCommon;
+import com.afterkraft.kraftrpg.api.effects.Effect;
 import com.afterkraft.kraftrpg.api.effects.EffectType;
-import com.afterkraft.kraftrpg.api.effects.IEffect;
 import com.afterkraft.kraftrpg.api.entity.Champion;
 import com.afterkraft.kraftrpg.api.entity.Insentient;
 import com.afterkraft.kraftrpg.api.util.Utilities;
-import com.afterkraft.kraftrpg.common.skills.Skill;
+import com.afterkraft.kraftrpg.common.skills.AbstractSkill;
 
 /**
- * Standard implementation of an {@link com.afterkraft.kraftrpg.api.effects.IEffect}.
+ * Standard implementation of an {@link Effect}.
  */
-public class Effect implements IEffect {
+public abstract class AbstractEffect implements Effect {
 
     protected final Set<EffectType> types = EnumSet.noneOf(EffectType.class);
-    protected final Skill skill;
+    protected final AbstractSkill skill;
     private final String name;
     private final Set<PotionEffect> potionEffects;
     private final boolean persistent;
@@ -62,21 +62,22 @@ public class Effect implements IEffect {
     private final Message expireText;
     protected long applyTime;
 
-    public Effect(Skill skill, String name) {
+    protected AbstractEffect(AbstractSkill skill, String name) {
         this(skill, name, Sets.<PotionEffect>newHashSet(), false,
              Lists.<EffectType>newArrayList());
     }
 
-    public Effect(Skill skill, String name, Set<PotionEffect> potionEffects,
-                  boolean persistent, Collection<EffectType> types) {
+    protected AbstractEffect(AbstractSkill skill, String name, Set<PotionEffect> potionEffects,
+                             boolean persistent, Collection<EffectType> types) {
         this(skill, name, potionEffects, persistent, types,
              Messages.of(""), Messages.of(""));
     }
 
-    public Effect(Skill skill, String name, Set<PotionEffect> potionEffects,
-                  boolean persistent, Collection<EffectType> types,
-                  Message applyText, Message expireText) {
-        checkArgument(!name.isEmpty(), "Cannot create an effect with an empty name!");
+    protected AbstractEffect(AbstractSkill skill, String name, Set<PotionEffect> potionEffects,
+                             boolean persistent, Collection<EffectType> types,
+                             Message applyText, Message expireText) {
+        checkArgument(!name.isEmpty(),
+                      "Cannot create an effect with an empty name!");
         checkNotNull(skill);
         checkNotNull(potionEffects);
         checkNotNull(types);
@@ -97,7 +98,7 @@ public class Effect implements IEffect {
     }
 
     @Override
-    public final Skill getSkill() {
+    public final AbstractSkill getSkill() {
         return this.skill;
     }
 
@@ -161,6 +162,7 @@ public class Effect implements IEffect {
 
     /**
      * Adds the given potion effect.
+     *
      * @param effect The potion effect to add
      */
     protected void addPotionEffect(PotionEffect effect) {
@@ -203,7 +205,7 @@ public class Effect implements IEffect {
 
     @Override
     public boolean equals(Object obj) {
-        return this == obj || obj instanceof Effect
-                && this.name.equals(((Effect) obj).name);
+        return this == obj || obj instanceof AbstractEffect
+                && this.name.equals(((AbstractEffect) obj).name);
     }
 }

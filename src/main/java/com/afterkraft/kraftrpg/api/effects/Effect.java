@@ -23,29 +23,28 @@
  */
 package com.afterkraft.kraftrpg.api.effects;
 
-import java.util.Set;
+import java.util.Collection;
 
 import org.spongepowered.api.potion.PotionEffect;
 import org.spongepowered.api.text.message.Message;
 
 import com.afterkraft.kraftrpg.api.entity.Insentient;
-import com.afterkraft.kraftrpg.api.skills.ISkill;
+import com.afterkraft.kraftrpg.api.skills.Skill;
 
 /**
  * The base of KraftPRG's Effect system. An effect can perform various operations on an {@link
  * com.afterkraft.kraftrpg.api.entity.Insentient} being. While it is recommended to utilize the
- * {@link com.afterkraft.kraftrpg.api.effects.IEffect} as the standard implementation, various other
- * interfaces have different implementations.
+ * {@link Effect} as the standard implementation, various other interfaces have different
+ * implementations.
  */
-public interface IEffect {
+public interface Effect {
 
     /**
-     * Returns the associated {@link com.afterkraft.kraftrpg.api.skills.ISkill} that created this
-     * effect.
+     * Returns the associated {@link Skill} that created this effect.
      *
      * @return the Skill that created this effect
      */
-    ISkill getSkill();
+    Skill getSkill();
 
     /**
      * Returns this individual Effect's name. (Should be as unique and recognizable as possible).
@@ -70,7 +69,7 @@ public interface IEffect {
      *
      * @return An immutable set of potion effects
      */
-    Set<PotionEffect> getPotionEffects();
+    Collection<PotionEffect> getPotionEffects();
 
     /**
      * Check if this Effect is persistent. A Persistent effect will never expire until the Effect is
@@ -86,7 +85,7 @@ public interface IEffect {
     long getApplyTime();
 
     /**
-     * Attempts to apply this effect to the provided {@link com.afterkraft.kraftrpg.api.entity.Insentient}.
+     * Attempts to apply this effect to the provided {@link Insentient}.
      *
      * @param being this effect is being applied on to.
      *

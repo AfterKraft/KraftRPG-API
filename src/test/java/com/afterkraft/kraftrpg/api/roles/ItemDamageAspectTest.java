@@ -38,7 +38,7 @@ import com.afterkraft.kraftrpg.api.RPGTestCreator;
 import com.afterkraft.kraftrpg.api.RpgCommon;
 import com.afterkraft.kraftrpg.api.roles.aspects.ItemDamageAspect;
 import com.afterkraft.kraftrpg.api.roles.aspects.ItemDamageAspect.ItemDamageAspectBuilder;
-import com.afterkraft.kraftrpg.api.skills.ISkill;
+import com.afterkraft.kraftrpg.api.skills.Skill;
 import com.afterkraft.kraftrpg.api.util.TestItemType;
 
 @RunWith(PowerMockRunner.class)
@@ -47,7 +47,7 @@ public class ItemDamageAspectTest {
 
     private RPGPlugin plugin;
     private RPGTestCreator creator;
-    private ISkill testSkill;
+    private Skill testSkill;
 
     @Before
     public void setUp() {

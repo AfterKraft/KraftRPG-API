@@ -23,8 +23,6 @@
  */
 package com.afterkraft.kraftrpg.api.storage;
 
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -34,6 +32,8 @@ import org.spongepowered.api.entity.player.Player;
 
 import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 
 import com.afterkraft.kraftrpg.api.RPGPlugin;
 import com.afterkraft.kraftrpg.api.RpgCommon;
@@ -61,13 +61,13 @@ public abstract class StorageFrontend {
     /**
      * Players in this set are silently dropped by saveChampion().
      */
-    protected final Set<UUID> ignoredPlayers = new HashSet<>();
+    protected final Set<UUID> ignoredPlayers = Sets.newHashSet();
 
     protected StorageFrontend(RPGPlugin plugin, StorageBackend backend) {
         this.plugin = plugin;
         this.backend = backend;
-        this.toSave = new HashMap<>();
-        this.offlineToSave = new HashMap<>();
+        this.toSave = Maps.newHashMap();
+        this.offlineToSave = Maps.newHashMap();
 
         RpgCommon.getGame().getSyncScheduler()
                 .runRepeatingTask(this.plugin,
@@ -82,7 +82,8 @@ public abstract class StorageFrontend {
      * @param plugin  The plugin instance
      * @param backend The backend storage instance
      */
-    protected StorageFrontend(RPGPlugin plugin, StorageBackend backend, boolean ignored) {
+    protected StorageFrontend(RPGPlugin plugin, StorageBackend backend,
+                              boolean ignored) {
         this.plugin = plugin;
         this.backend = backend;
         this.toSave = ImmutableMap.of();
@@ -113,7 +114,8 @@ public abstract class StorageFrontend {
      *
      * @return the loaded Champion instance if data exists, else returns null
      */
-    public Optional<Champion> loadChampion(Player player, boolean shouldCreate) {
+    public Optional<Champion> loadChampion(Player player,
+                                           boolean shouldCreate) {
         UUID uuid = player.getUniqueId();
 
         // Check the saving queue for this player
@@ -135,8 +137,10 @@ public abstract class StorageFrontend {
                 return Optional.absent();
             } else {
                 data = Optional.of(new PlayerData());
-                data.get().primary = this.plugin.getRoleManager().getDefaultPrimaryRole();
-                if (this.plugin.getRoleManager().getDefaultSecondaryRole().isPresent()) {
+                data.get().primary =
+                        this.plugin.getRoleManager().getDefaultPrimaryRole();
+                if (this.plugin.getRoleManager().getDefaultSecondaryRole()
+                        .isPresent()) {
                     data.get().profession = this.plugin.getRoleManager()
                             .getDefaultSecondaryRole().get();
                 }
@@ -157,7 +161,8 @@ public abstract class StorageFrontend {
      * @param champion The champion to save
      */
     public void saveChampion(Champion champion) {
-        if (this.ignoredPlayers.contains(champion.getPlayer().get().getUniqueId())) {
+        if (this.ignoredPlayers
+                .contains(champion.getPlayer().get().getUniqueId())) {
             return;
         }
 
@@ -194,10 +199,11 @@ public abstract class StorageFrontend {
     public void flush() {
         for (Champion champion : this.toSave.values()) {
             this.backend.savePlayer(champion.getPlayer().get().getUniqueId(),
-                    champion.getData());
+                                    champion.getData());
         }
         this.toSave.clear();
-        for (Map.Entry<UUID, PlayerData> entry : this.offlineToSave.entrySet()) {
+        for (Map.Entry<UUID, PlayerData> entry : this.offlineToSave
+                .entrySet()) {
             this.backend.savePlayer(entry.getKey(), entry.getValue());
         }
         this.offlineToSave.clear();
@@ -231,10 +237,11 @@ public abstract class StorageFrontend {
         // Main thread, just like everything else
         @Override
         public void run() {
-            Map<UUID, PlayerData> data = new HashMap<>();
+            Map<UUID, PlayerData> data = Maps.newHashMap();
 
             data.putAll(StorageFrontend.this.offlineToSave);
-            for (Map.Entry<UUID, Champion> entry : StorageFrontend.this.toSave.entrySet()) {
+            for (Map.Entry<UUID, Champion> entry : StorageFrontend.this.toSave
+                    .entrySet()) {
                 data.put(entry.getKey(), entry.getValue().getDataClone());
             }
             StorageFrontend.this.toSave.clear();
@@ -259,7 +266,8 @@ public abstract class StorageFrontend {
         @Override
         public void run() {
             for (Map.Entry<UUID, PlayerData> entry : this.data.entrySet()) {
-                StorageFrontend.this.backend.savePlayer(entry.getKey(), entry.getValue());
+                StorageFrontend.this.backend
+                        .savePlayer(entry.getKey(), entry.getValue());
             }
         }
     }

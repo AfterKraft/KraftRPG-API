@@ -54,7 +54,8 @@ public final class ItemDamageAspect implements RoleAspect {
         for (Map.Entry<ItemType, Double> entry : baseDamages.entrySet()) {
             this.itemTypes[counter] = entry.getKey();
             this.baseDamages[counter] = entry.getValue();
-            this.damageIncreases[counter] = builder.damageIncreases.get(entry.getKey());
+            this.damageIncreases[counter] =
+                    builder.damageIncreases.get(entry.getKey());
             counter++;
         }
 
@@ -144,7 +145,8 @@ public final class ItemDamageAspect implements RoleAspect {
          *
          * @return This builder, for chaining
          */
-        public ItemDamageAspectBuilder setBaseDamage(ItemType type, double damage) {
+        public ItemDamageAspectBuilder setBaseDamage(ItemType type,
+                                                     double damage) {
             checkNotNull(type);
             checkArgument(damage > 0);
             this.baseDamages.put(type, damage);
@@ -159,7 +161,8 @@ public final class ItemDamageAspect implements RoleAspect {
          *
          * @return This builder, for chaining
          */
-        public ItemDamageAspectBuilder setDamageIncrease(ItemType type, double damageIncrease) {
+        public ItemDamageAspectBuilder setDamageIncrease(ItemType type,
+                                                         double damageIncrease) {
             checkNotNull(type);
             checkState(this.baseDamages.containsKey(type));
             checkArgument(damageIncrease >= 0);

@@ -26,7 +26,7 @@ package com.afterkraft.kraftrpg.api.util;
 import org.spongepowered.api.world.World;
 
 import com.afterkraft.kraftrpg.api.Manager;
-import com.afterkraft.kraftrpg.api.entity.IEntity;
+import com.afterkraft.kraftrpg.api.entity.Being;
 
 /**
  * Standard permissions manager. This is provided to reduce dependency on Vault if and when
@@ -35,45 +35,55 @@ import com.afterkraft.kraftrpg.api.entity.IEntity;
  */
 public interface PermissionsManager extends Manager {
 
-    static final String ADMIN_INVENTORY_BYPASS_PERMISSION = "kraftrpg.admin.bypass.inventory";
-    static final String ADMIN_NO_GLOBAL_COOLDOWN_PERMISSION = "kraftrpg.admin.bypass.cooldown";
+    static final String ADMIN_INVENTORY_BYPASS_PERMISSION =
+            "kraftrpg.admin.bypass.inventory";
+    static final String ADMIN_NO_GLOBAL_COOLDOWN_PERMISSION =
+            "kraftrpg.admin.bypass.cooldown";
 
-    boolean isOp(final IEntity entity);
+    boolean isOp(final Being being);
 
-    boolean hasPermission(final IEntity entity, final String permission);
+    boolean hasPermission(final Being being, final String permission);
 
-    boolean hasWorldPermission(final IEntity entity, final World world, final String permission);
-
-    boolean hasWorldPermission(final IEntity entity, final String worldName,
+    boolean hasWorldPermission(final Being being, final World world,
                                final String permission);
 
-    void addGlobalPermission(final IEntity entity, final String permission);
-
-    void addWorldPermission(final IEntity entity, final World world, final String permission);
-
-    void addWorldPermission(final IEntity entity, final String worldName, final String permission);
-
-    void addTransientGlobalPermission(final IEntity entity, final String permission);
-
-    void addTransientWorldPermission(final IEntity entity, final World world,
-                                     final String permission);
-
-    void addTransientWorldPermission(final IEntity entity, final String worldName,
-                                     final String permission);
-
-    void removeGlobalPermission(final IEntity entity, final String permission);
-
-    void removeWorldPermission(final IEntity entity, final World world, final String permission);
-
-    void removeWorldPermission(final IEntity entity, final String worldName,
+    boolean hasWorldPermission(final Being being, final String worldName,
                                final String permission);
 
-    void removeTransientGlobalPermission(final IEntity entity, final String permission);
+    void addGlobalPermission(final Being being, final String permission);
 
-    void removeTransientWorldPermission(final IEntity entity, final World world,
+    void addWorldPermission(final Being being, final World world,
+                            final String permission);
+
+    void addWorldPermission(final Being being, final String worldName,
+                            final String permission);
+
+    void addTransientGlobalPermission(final Being being,
+                                      final String permission);
+
+    void addTransientWorldPermission(final Being being, final World world,
+                                     final String permission);
+
+    void addTransientWorldPermission(final Being being,
+                                     final String worldName,
+                                     final String permission);
+
+    void removeGlobalPermission(final Being being, final String permission);
+
+    void removeWorldPermission(final Being being, final World world,
+                               final String permission);
+
+    void removeWorldPermission(final Being being, final String worldName,
+                               final String permission);
+
+    void removeTransientGlobalPermission(final Being being,
+                                         final String permission);
+
+    void removeTransientWorldPermission(final Being being, final World world,
                                         final String permission);
 
-    void removeTransientWorldPermission(final IEntity entity, final String worldName,
+    void removeTransientWorldPermission(final Being being,
+                                        final String worldName,
                                         final String permission);
 
 }

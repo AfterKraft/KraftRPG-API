@@ -23,27 +23,27 @@
  */
 package com.afterkraft.kraftrpg.api;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
 import java.util.Set;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.base.Function;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 
 import com.afterkraft.kraftrpg.api.entity.party.PartyManager;
-import com.afterkraft.kraftrpg.api.skills.ISkill;
-import com.afterkraft.kraftrpg.common.skills.Skill;
+import com.afterkraft.kraftrpg.api.skills.Skill;
 import com.afterkraft.kraftrpg.api.storage.StorageBackend;
 import com.afterkraft.kraftrpg.api.storage.StorageFrontendFactory;
 import com.afterkraft.kraftrpg.common.DamageModifier;
-import com.afterkraft.kraftrpg.common.DamageModifiers;
+import com.afterkraft.kraftrpg.common.skills.AbstractSkill;
 
 /**
  * On load registration for various external providers of various services to further customize the
@@ -55,13 +55,14 @@ public final class ExternalProviderRegistration {
     private static RPGPlugin plugin;
 
     private static Map<String, StorageBackend> storageBackends =
-            new HashMap<>();
-    private static Map<DamageModifier, Function<? super Double, Double>> modifiers =
-            new HashMap<>();
+            Maps.newHashMap();
+    private static Map<DamageModifier, Function<? super Double, Double>>
+            modifiers =
+            Maps.newHashMap();
     private static StorageFrontendFactory storageFrontend =
             new StorageFrontendFactory.DefaultFactory();
-    private static Set<String> providedSkillNames = new HashSet<>();
-    private static List<ISkill> providedSkills = new ArrayList<>();
+    private static Set<String> providedSkillNames = Sets.newHashSet();
+    private static List<Skill> providedSkills = Lists.newArrayList();
     private static PartyManager partyManager;
 
     /**
@@ -71,7 +72,8 @@ public final class ExternalProviderRegistration {
      *
      * @throws LateRegistrationException if called after KraftRPG has been loaded
      */
-    public static void overrideStorageFrontend(StorageFrontendFactory newQueueManager)
+    public static void overrideStorageFrontend(
+            StorageFrontendFactory newQueueManager)
             throws LateRegistrationException {
         check();
         if (newQueueManager == null) {
@@ -83,17 +85,10 @@ public final class ExternalProviderRegistration {
 
     private static void check() throws LateRegistrationException {
         if (pluginEnabled) {
-            throw new LateRegistrationException("KraftRPG is already loaded and enabled."
-                    + " Please do your registrations in onLoad().");
+            throw new LateRegistrationException(
+                    "KraftRPG is already loaded and enabled."
+                            + " Please do your registrations in onLoad().");
         }
-    }
-
-    public static <T extends Function<? super Double, Double>> void registerDamageModifierFunction(
-            DamageModifier modifier, T function) throws LateRegistrationException {
-        check();
-        checkArgument(modifier != DamageModifiers.BASE,
-                "Cannot register a BASE DamageModifier function!");
-        modifiers.put(modifier, function);
     }
 
     /**
@@ -105,11 +100,13 @@ public final class ExternalProviderRegistration {
      * @return True if successful
      * @throws LateRegistrationException If called after KraftRPG has been loaded
      */
-    public static boolean registerStorageBackend(StorageBackend storage, String... identifiers)
+    public static boolean registerStorageBackend(StorageBackend storage,
+                                                 String... identifiers)
             throws LateRegistrationException {
         check();
-        checkArgument(identifiers.length != 0, "Need to provide a config file identifier");
-        checkArgument(storage != null, "Attempt to register a null StorageBackend");
+        checkArgument(identifiers.length != 0,
+                      "Need to provide a config file identifier");
+        checkNotNull(storage, "Attempt to register a null StorageBackend");
 
         for (String ident : identifiers) {
             storageBackends.put(ident.toLowerCase(), storage);
@@ -119,7 +116,7 @@ public final class ExternalProviderRegistration {
 
     public static void registerPartyManager(PartyManager manager) {
         check();
-        checkArgument(manager != null, "Attempt to register a null PartyManager");
+        checkNotNull(manager, "Attempt to register a null PartyManager");
         partyManager = manager;
     }
 
@@ -131,11 +128,13 @@ public final class ExternalProviderRegistration {
      * @return True if the skill does not have a duplicate name
      * @throws LateRegistrationException if called after KraftRPG has been loaded
      */
-    public static boolean registerSkill(ISkill skill) throws LateRegistrationException {
+    public static boolean registerSkill(Skill skill) throws
+            LateRegistrationException {
         check();
-        String name = Skill.getNormalizedName(skill.getName());
+        String name = AbstractSkill.getNormalizedName(skill.getName());
         if (!providedSkillNames.add(name)) {
-            new IllegalArgumentException("Duplicate skill registration with name " + name)
+            new IllegalArgumentException(
+                    "Duplicate skill registration with name " + name)
                     .printStackTrace();
             return false;
         }
@@ -154,16 +153,17 @@ public final class ExternalProviderRegistration {
      * generally be ignored)
      * @throws LateRegistrationException if called after KraftRPG has been loaded
      */
-    public static boolean overrideSkill(ISkill skill) throws LateRegistrationException {
+    public static boolean overrideSkill(Skill skill) throws
+            LateRegistrationException {
         check();
 
-        String name = Skill.getNormalizedName(skill.getName());
+        String name = AbstractSkill.getNormalizedName(skill.getName());
         if (providedSkillNames.contains(name)) {
             // Remove previous definitions
-            ListIterator<ISkill> iter = providedSkills.listIterator();
+            ListIterator<Skill> iter = providedSkills.listIterator();
             while (iter.hasNext()) {
-                ISkill sk = iter.next();
-                if (Skill.getNormalizedName(sk.getName()).equals(name)) {
+                Skill sk = iter.next();
+                if (AbstractSkill.getNormalizedName(sk.getName()).equals(name)) {
                     iter.remove();
                 }
             }
@@ -204,7 +204,7 @@ public final class ExternalProviderRegistration {
         return modifiers;
     }
 
-    public static List<ISkill> getRegisteredSkills() {
+    public static List<Skill> getRegisteredSkills() {
         return providedSkills;
     }
 

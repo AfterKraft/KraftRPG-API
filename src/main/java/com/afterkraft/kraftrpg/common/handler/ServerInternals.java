@@ -26,12 +26,12 @@ package com.afterkraft.kraftrpg.common.handler;
 import java.util.Map;
 
 import org.spongepowered.api.entity.living.Living;
+import org.spongepowered.api.event.cause.Cause;
 
 import com.afterkraft.kraftrpg.api.RPGPlugin;
-import com.afterkraft.kraftrpg.api.entity.IEntity;
+import com.afterkraft.kraftrpg.api.entity.Being;
 import com.afterkraft.kraftrpg.api.entity.Insentient;
-import com.afterkraft.kraftrpg.api.skills.ISkill;
-import com.afterkraft.kraftrpg.common.DamageCause;
+import com.afterkraft.kraftrpg.api.skills.Skill;
 import com.afterkraft.kraftrpg.common.DamageType;
 
 /**
@@ -48,35 +48,46 @@ public abstract class ServerInternals {
     }
 
 
-    public abstract boolean damageCheck(Insentient attacker, IEntity victim);
+    public abstract boolean damageCheck(Insentient attacker, Being victim);
 
-    public abstract void knockBack(Insentient target, Insentient attacker, double damage);
+    public abstract void knockBack(Insentient target, Insentient attacker,
+                                   double damage);
 
-    public abstract void knockBack(Living target, Living attacker, double damage);
+    public abstract void knockBack(Living target, Living attacker,
+                                   double damage);
 
-    public abstract boolean healEntity(Insentient being, double tickHealth, ISkill skill,
+    public abstract boolean healEntity(Insentient being, double tickHealth,
+                                       Skill skill,
                                        Insentient applier);
 
     public abstract boolean damageEntity(Living target, Insentient attacker,
-                                         ISkill skill,
-                                         double damage, DamageCause cause, boolean knockback);
-
-    public abstract boolean damageEntity(Insentient target, Insentient attacker, ISkill skill,
-                                         double damage, DamageCause cause, boolean knockback);
-
-    public abstract boolean damageEntity(Insentient target, Insentient attacker, ISkill skill,
-                                         Map<DamageType, Double> modifiers, DamageCause cause,
+                                         Skill skill,
+                                         double damage, Cause cause,
                                          boolean knockback);
 
-    public abstract boolean damageEntity(Insentient target, Insentient attacker, ISkill skill,
-                                         Map<DamageType, Double> modifiers, DamageCause cause,
-                                         boolean knockback, boolean ignoreDamageCheck);
+    public abstract boolean damageEntity(Insentient target, Insentient attacker,
+                                         Skill skill,
+                                         double damage, Cause cause,
+                                         boolean knockback);
+
+    public abstract boolean damageEntity(Insentient target, Insentient attacker,
+                                         Skill skill,
+                                         Map<DamageType, Double> modifiers,
+                                         Cause cause,
+                                         boolean knockback);
+
+    public abstract boolean damageEntity(Insentient target, Insentient attacker,
+                                         Skill skill,
+                                         Map<DamageType, Double> modifiers,
+                                         Cause cause,
+                                         boolean knockback,
+                                         boolean ignoreDamageCheck);
 
 
     //NMS methods required by effects
     public abstract void hideInsentient(Insentient player);
 
     //Bukkit specific NMS Requirements to fulfill deficiencies in API
-    public abstract void setProjectileDamage(IEntity arrow, double damage);
+    public abstract void setProjectileDamage(Being arrow, double damage);
 
 }

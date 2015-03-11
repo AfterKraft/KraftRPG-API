@@ -23,8 +23,6 @@
  */
 package com.afterkraft.kraftrpg.api.util;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -45,8 +43,8 @@ import com.afterkraft.kraftrpg.api.RpgCommon;
 
 
 /**
- * A standard utilities class containing various methods that are useful enough
- * to simplify code and calculations.
+ * A standard utilities class containing various methods that are useful enough to simplify code and
+ * calculations.
  */
 public class Utilities {
 

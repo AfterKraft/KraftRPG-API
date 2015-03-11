@@ -71,7 +71,9 @@ public interface RoleManager extends Manager {
      *
      * @param role The secondary role, can be null
      */
-    void setDefaultSecondaryRole(@Nullable Role role);
+    void setDefaultSecondaryRole(
+            @Nullable
+            Role role);
 
     /**
      * Gets the role by name.
@@ -144,7 +146,8 @@ public interface RoleManager extends Manager {
      * @throws CircularDependencyException If the resulting dependency results in a circular
      *                                     dependency
      */
-    boolean addRoleDependency(Role parent, Role child) throws CircularDependencyException;
+    boolean addRoleDependency(Role parent, Role child) throws
+            CircularDependencyException;
 
     /**
      * Removes the given role dependencies between the parent {@link Role} and the child {@link

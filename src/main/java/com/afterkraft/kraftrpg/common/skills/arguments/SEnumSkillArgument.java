@@ -60,11 +60,6 @@ public class SEnumSkillArgument extends AbstractSkillArgument<String> {
         this.usage = sb.toString();
     }
 
-    @Override
-    public Optional<String> getValue() {
-        return Optional.fromNullable(this.choice);
-    }
-
     public boolean setChoice(String s) {
         if (Utilities.arrayContains(this.choices, s)) {
             this.choice = s;
@@ -73,15 +68,16 @@ public class SEnumSkillArgument extends AbstractSkillArgument<String> {
         return false;
     }
 
-    // --------------------------------------------------------------
-
     @Override
     public String getUsageString(boolean optional) {
         return this.usage;
     }
 
+    // --------------------------------------------------------------
+
     @Override
-    public int matches(SkillCaster caster, String[] allArgs, int startPosition) {
+    public int matches(SkillCaster caster, String[] allArgs,
+                       int startPosition) {
         String arg = allArgs[startPosition];
         if (Utilities.arrayContains(this.choices, arg)) {
             return 1;
@@ -105,12 +101,19 @@ public class SEnumSkillArgument extends AbstractSkillArgument<String> {
     }
 
     @Override
+    public Optional<String> getValue() {
+        return Optional.fromNullable(this.choice);
+    }
+
+    @Override
     public void clean() {
         this.choice = this.def;
     }
 
     @Override
-    public List<String> tabComplete(SkillCaster caster, String[] allArgs, int startPosition) {
-        return Utilities.findMatches(allArgs[startPosition], Arrays.asList(this.choices));
+    public List<String> tabComplete(SkillCaster caster, String[] allArgs,
+                                    int startPosition) {
+        return Utilities.findMatches(allArgs[startPosition],
+                                     Arrays.asList(this.choices));
     }
 }

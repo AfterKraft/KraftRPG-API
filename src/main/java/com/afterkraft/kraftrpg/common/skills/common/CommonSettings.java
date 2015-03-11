@@ -30,7 +30,8 @@ import com.afterkraft.kraftrpg.api.skills.SkillSetting;
  */
 public class CommonSettings extends SkillSetting {
 
-    public static final CommonSettings IMBUED_MAX_USE_COUNT = new CommonSettings("max-imbued");
+    public static final CommonSettings IMBUED_MAX_USE_COUNT =
+            new CommonSettings("max-imbued");
 
 
     protected CommonSettings(String node, boolean scaled) {

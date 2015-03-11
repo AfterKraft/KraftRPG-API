@@ -25,11 +25,11 @@ package com.afterkraft.kraftrpg.api.effects;
 
 import java.util.concurrent.Delayed;
 
-import com.afterkraft.kraftrpg.common.effects.common.DamagingEffect;
-import com.afterkraft.kraftrpg.common.effects.common.HealingEffect;
 import com.afterkraft.kraftrpg.common.effects.ExpirableEffect;
 import com.afterkraft.kraftrpg.common.effects.PeriodicEffect;
 import com.afterkraft.kraftrpg.common.effects.PeriodicExpirableEffect;
+import com.afterkraft.kraftrpg.common.effects.common.DamagingEffect;
+import com.afterkraft.kraftrpg.common.effects.common.HealingEffect;
 
 /**
  * A utility interface to deal with effects that implement {@link java.util.concurrent.Delayed} It

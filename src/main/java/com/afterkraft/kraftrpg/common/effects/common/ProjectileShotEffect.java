@@ -32,13 +32,12 @@ import org.spongepowered.api.text.message.Message;
 import org.spongepowered.api.text.message.Messages;
 import org.spongepowered.api.world.Location;
 
-import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
 import com.afterkraft.kraftrpg.api.effects.EffectType;
 import com.afterkraft.kraftrpg.api.effects.common.ProjectileShot;
 import com.afterkraft.kraftrpg.api.entity.Insentient;
-import com.afterkraft.kraftrpg.common.skills.Skill;
+import com.afterkraft.kraftrpg.common.skills.AbstractSkill;
 
 /**
  * Standard implementation of the {@link com.afterkraft.kraftrpg.api.effects.common.ProjectileShot}.
@@ -50,45 +49,50 @@ public class ProjectileShotEffect extends ImbuingEffect implements
     private final int maxShots;
     private int currentShots;
 
-    public ProjectileShotEffect(Skill skill, Insentient applier, String name) {
+    public ProjectileShotEffect(AbstractSkill skill, Insentient applier, String name) {
         this(skill, applier, name, 1);
     }
 
-    public ProjectileShotEffect(Skill skill, Insentient applier, String name, int maxShots) {
+    public ProjectileShotEffect(AbstractSkill skill, Insentient applier, String name,
+                                int maxShots) {
         this(skill, applier, name, Sets.<EffectType>newHashSet(), maxShots);
     }
 
-    public ProjectileShotEffect(Skill skill, Insentient applier, String name,
+    public ProjectileShotEffect(AbstractSkill skill, Insentient applier, String name,
                                 Collection<EffectType> types, int maxShots) {
         this(skill, applier, name, Sets.<PotionEffect>newHashSet(), false,
              types,
-                Messages.of(""),
+             Messages.of(""),
              Messages.of(""),
              maxShots);
     }
 
-    public ProjectileShotEffect(Skill skill, Insentient applier, String name,
-                                Set<PotionEffect> potionEffects, boolean persistent,
+    public ProjectileShotEffect(AbstractSkill skill, Insentient applier, String name,
+                                Set<PotionEffect> potionEffects,
+                                boolean persistent,
                                 Collection<EffectType> types, Message applyText,
                                 Message expireText, int maxShots) {
-        super(skill, applier, name, potionEffects, persistent, types, applyText, expireText);
+        super(skill, applier, name, potionEffects, persistent, types, applyText,
+              expireText);
         super.types.add(EffectType.BENEFICIAL);
         super.types.add(EffectType.PHYSICAL);
         super.types.add(EffectType.IMBUE);
         this.maxShots = maxShots;
     }
 
-    public ProjectileShotEffect(Skill skill, Insentient applier, String name,
+    public ProjectileShotEffect(AbstractSkill skill, Insentient applier, String name,
                                 Collection<EffectType> types) {
         this(skill, applier, name, null, false, types, Messages.of(""),
              Messages.of(""));
     }
 
-    public ProjectileShotEffect(Skill skill, Insentient applier, String name,
-                                Set<PotionEffect> potionEffects, boolean persistent,
+    public ProjectileShotEffect(AbstractSkill skill, Insentient applier, String name,
+                                Set<PotionEffect> potionEffects,
+                                boolean persistent,
                                 Collection<EffectType> types, Message applyText,
                                 Message expireText) {
-        this(skill, applier, name, potionEffects, persistent, types, applyText, expireText, 1);
+        this(skill, applier, name, potionEffects, persistent, types, applyText,
+             expireText, 1);
     }
 
     @Override

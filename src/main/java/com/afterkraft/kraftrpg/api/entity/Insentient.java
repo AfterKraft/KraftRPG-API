@@ -34,27 +34,27 @@ import org.spongepowered.api.potion.PotionEffectType;
 
 import com.google.common.base.Optional;
 
+import com.afterkraft.kraftrpg.api.effects.Effect;
 import com.afterkraft.kraftrpg.api.effects.EffectType;
-import com.afterkraft.kraftrpg.api.effects.IEffect;
 import com.afterkraft.kraftrpg.api.entity.resource.Resource;
 import com.afterkraft.kraftrpg.api.listeners.DamageWrapper;
-import com.afterkraft.kraftrpg.api.skills.ISkill;
+import com.afterkraft.kraftrpg.api.skills.Skill;
 import com.afterkraft.kraftrpg.api.util.FixedPoint;
 
 /**
  * Represents an Insentient being that allows retreival of the being's status and handles the basic
- * {@link com.afterkraft.kraftrpg.api.effects.IEffect}.  It is important to note that an Insentient,
- * and it's subclasses, may not always be attached to a {@link Living}. This
- * is why these methods are provided to assure that Effects and Skills may still function and apply
- * themselves to Insentient beings.  It is advisable that the following method may return null:
- * <code> {@link #getEntity()} </code> and therefor any common information retrieval should be
- * performed using the supplied methods instead of assuming the LivingEntity methods.
+ * {@link Effect}. It is important to note that an Insentient, and it's subclasses, may not always
+ * be attached to a {@link Living}. This is why these methods are provided to assure that Effects
+ * and Skills may still function and apply themselves to Insentient beings.  It is advisable that
+ * the following method may return null: <code> {@link #getEntity()} </code> and therefor any common
+ * information retrieval should be performed using the supplied methods instead of assuming the
+ * LivingEntity methods.
  */
-public interface Insentient extends IEntity {
+public interface Insentient extends Being {
 
     /**
-     * Attempts to fetch the attached LivingEntity of this Insentient Being,
-     * unless a Living is not attached, to which this will return null.
+     * Attempts to fetch the attached LivingEntity of this Insentient Being, unless a Living is not
+     * attached, to which this will return null.
      *
      * @return the attached LivingEntity, if there is no LivingEntity, then null.
      */
@@ -62,11 +62,11 @@ public interface Insentient extends IEntity {
     Optional<? extends Living> getEntity();
 
     /**
-     * Gets the container of the resource desired. A resource wraps the
-     * values
+     * Gets the container of the resource desired. A resource wraps the values
      *
      * @param clazz The class of the resource needing to be gotten
-     * @param <T> The type of resource
+     * @param <T>   The type of resource
+     *
      * @return
      */
     <T extends Resource> Optional<T> getResource(Class<T> clazz);
@@ -143,8 +143,7 @@ public interface Insentient extends IEntity {
 
     /**
      * Removes an additional health modifier from the calculations for the {@link
-     * Living#getMaxHealth()}. Removing KraftRPG specific mappings may have
-     * unknown side-effects.
+     * Living#getMaxHealth()}. Removing KraftRPG specific mappings may have unknown side-effects.
      *
      * @param key linking to the additional health bonus for this being
      *
@@ -154,17 +153,17 @@ public interface Insentient extends IEntity {
     boolean removeMaxHealth(String key);
 
     /**
-     * Forcefully recalculates the total max health the linked {@link Living}
-     * should have and applies it. This will also apply the current percentage of total health the
-     * entity has compared to their current max health.
+     * Forcefully recalculates the total max health the linked {@link Living} should have and
+     * applies it. This will also apply the current percentage of total health the entity has
+     * compared to their current max health.
      *
      * @return the newly recalculated max health
      */
     double recalculateMaxHealth();
 
     /**
-     * Attempts to heal the {@link Living} the defined amount of health.
-     * This will not allow healing past the current max health
+     * Attempts to heal the {@link Living} the defined amount of health. This will not allow healing
+     * past the current max health
      *
      * @param amount to heal
      */
@@ -178,7 +177,9 @@ public interface Insentient extends IEntity {
 
     Optional<DamageWrapper> getDamageWrapper();
 
-    void setDamageWrapper(@Nullable DamageWrapper wrapper);
+    void setDamageWrapper(
+            @Nullable
+            DamageWrapper wrapper);
 
     /**
      * Check if this being is dead
@@ -231,16 +232,16 @@ public interface Insentient extends IEntity {
     void updateInventory();
 
     /**
-     * Assumes this being has a functional hand, this will return the {@link
-     * ItemStack} in said hand.
+     * Assumes this being has a functional hand, this will return the {@link ItemStack} in said
+     * hand.
      *
      * @return the ItemStack in the hand of the being.
      */
     Optional<ItemStack> getItemInHand();
 
     /**
-     * Returns a proper {@link Inventory} that belongs to this being. It can be
-     * modified and queried without exception.
+     * Returns a proper {@link Inventory} that belongs to this being. It can be modified and queried
+     * without exception.
      *
      * @return the inventory belonging to this being.
      */
@@ -248,11 +249,11 @@ public interface Insentient extends IEntity {
 
     /**
      * Provided as a utility method to get a copy of the being's armor. Implementations may vary,
-     * but this should be assured to follow the index of:
-     * <ol><li>0 - Boots</li><li>1 - Leggings</li><li>2 - Chestplate</li><li>3 - Helmet</li></ol>.
+     * but this should be assured to follow the index of: <ol><li>0 - Boots</li><li>1 -
+     * Leggings</li><li>2 - Chestplate</li><li>3 - Helmet</li></ol>.
      *
-     * <p>Any customized armor pieces not covered by this array should be handled on a case by
-     * case basis.</p>
+     * <p>Any customized armor pieces not covered by this array should be handled on a case by case
+     * basis.</p>
      *
      * @return The copy of the ItemStack list of the armor for this being
      */
@@ -267,9 +268,8 @@ public interface Insentient extends IEntity {
     void setArmor(ItemStack item, int armorSlot);
 
     /**
-     * Check if this being is capable of equipping the {@link ItemStack}. This
-     * is primarily used for damage listeners and other logic that may be needed throughout
-     * KraftRPG
+     * Check if this being is capable of equipping the {@link ItemStack}. This is primarily used for
+     * damage listeners and other logic that may be needed throughout KraftRPG
      *
      * @param itemStack to check
      *
@@ -278,20 +278,20 @@ public interface Insentient extends IEntity {
     boolean canEquipItem(ItemStack itemStack);
 
     /**
-     * Returns (if available) the named {@link com.afterkraft.kraftrpg.api.effects.IEffect}
+     * Returns (if available) the named {@link Effect}
      *
      * @param name the name of the desired Effect
      *
      * @return the named Effect if not null
      */
-    Optional<IEffect> getEffect(String name);
+    Optional<Effect> getEffect(String name);
 
     /**
      * Returns an unmodifiable set of Effects this Insentient being has active.
      *
      * @return an unmodifiable set of Effects this Insentient being has active.
      */
-    Set<IEffect> getEffects();
+    Set<Effect> getEffects();
 
     /**
      * Adds the given Effect to this Insentient being. Added Effects will be applied on the next
@@ -301,12 +301,12 @@ public interface Insentient extends IEntity {
      *
      * @throws IllegalArgumentException If the effect is null
      */
-    void addEffect(IEffect effect);
+    void addEffect(Effect effect);
 
     /**
-     * Add the {@link PotionEffect} to this Insentient being.  This method is
-     * provided with the assurance that the entity would not have a {@link
-     * java.util.ConcurrentModificationException} caused by multiple sources.
+     * Add the {@link PotionEffect} to this Insentient being.  This method is provided with the
+     * assurance that the entity would not have a {@link java.util.ConcurrentModificationException}
+     * caused by multiple sources.
      *
      * @param potion the effect to be applied
      *
@@ -315,9 +315,9 @@ public interface Insentient extends IEntity {
     void addPotionEffect(PotionEffect potion);
 
     /**
-     * Remove the {@link PotionEffectType} from this Insentient.  This method is
-     * provided with the assurance that the entity would not have a {@link
-     * java.util.ConcurrentModificationException} caused by multiple sources.
+     * Remove the {@link PotionEffectType} from this Insentient.  This method is provided with the
+     * assurance that the entity would not have a {@link java.util.ConcurrentModificationException}
+     * caused by multiple sources.
      *
      * @param type of PotionEffect to remove
      *
@@ -336,8 +336,7 @@ public interface Insentient extends IEntity {
     boolean hasPotionEffect(PotionEffectType type);
 
     /**
-     * Check if this Insentient being has an {@link com.afterkraft.kraftrpg.api.effects.IEffect}
-     * with the given name.
+     * Check if this Insentient being has an {@link Effect} with the given name.
      *
      * @param name of the effect
      *
@@ -357,25 +356,25 @@ public interface Insentient extends IEntity {
     boolean hasEffectType(EffectType type);
 
     /**
-     * Safely removes the {@link IEffect} from this being. This will call {@link
-     * IEffect#remove(Insentient)} as effects may perform various actions accordingly.
+     * Safely removes the {@link Effect} from this being. This will call {@link
+     * Effect#remove(Insentient)} as effects may perform various actions accordingly.
      *
      * @param effect to be removed.
      *
      * @throws IllegalArgumentException If the effect is null
      */
-    void removeEffect(IEffect effect);
+    void removeEffect(Effect effect);
 
     /**
      * Unsafely removes the IEffect from this being. It will not call {@link
-     * IEffect#remove(Insentient)} and may leave behind some unintended {@link
-     * PotionEffect}s on the being.
+     * Effect#remove(Insentient)} and may leave behind some unintended {@link PotionEffect}s on the
+     * being.
      *
      * @param effect being removed.
      *
      * @throws IllegalArgumentException If the effect is null
      */
-    void manualRemoveEffect(IEffect effect);
+    void manualRemoveEffect(Effect effect);
 
     /**
      * Safely removes all active effects on this being.
@@ -383,7 +382,7 @@ public interface Insentient extends IEntity {
     void clearEffects();
 
     /**
-     * Unsafely removes all active effects without calling {@link IEffect#remove(Insentient)}
+     * Unsafely removes all active effects without calling {@link Effect#remove(Insentient)}
      */
     void manualClearEffects();
 
@@ -413,12 +412,11 @@ public interface Insentient extends IEntity {
     void sendMessage(String message, Object... args);
 
     /**
-     * Check if this insentient is ignoring messages from the specified {@link
-     * com.afterkraft.kraftrpg.api.skills.ISkill}
+     * Check if this insentient is ignoring messages from the specified {@link Skill}
      *
      * @param skill that is possibly being ignored
      *
      * @return true if this being does not wish to listen to the skill messages
      */
-    boolean isIgnoringSkill(ISkill skill);
+    boolean isIgnoringSkill(Skill skill);
 }

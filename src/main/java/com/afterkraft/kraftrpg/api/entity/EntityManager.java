@@ -26,7 +26,6 @@ package com.afterkraft.kraftrpg.api.entity;
 import java.util.Set;
 import java.util.UUID;
 
-import org.spongepowered.api.entity.Entity;
 import org.spongepowered.api.entity.EntityType;
 import org.spongepowered.api.entity.living.Living;
 import org.spongepowered.api.entity.player.Player;
@@ -38,20 +37,20 @@ import com.afterkraft.kraftrpg.api.storage.PlayerData;
 
 /**
  * A standard entity manager. Centralized manager to maintain links for the proxy objects known as
- * {@link IEntity} and it's sub classes to the original objects represented by the Bukkit API.
+ * {@link Being} and it's sub classes to the original objects represented by the Bukkit API.
  */
 public interface EntityManager extends Manager {
 
     /**
-     * Return the {@link IEntity} for the designated Entity. The
-     * IEntity is guaranteed to be affected by KraftRPG if it is not returned by null
+     * Return the {@link Being} for the designated Entity. The IEntity is guaranteed to be affected
+     * by KraftRPG if it is not returned by null
      *
      * @param entity The bukkit entity to get the proxy object of
      *
      * @return The KraftRPG proxy object for the entity
      * @throws IllegalArgumentException If the entity is null or invalid
      */
-    Optional<? extends IEntity> getEntity(Entity entity);
+    Optional<? extends Being> getEntity(org.spongepowered.api.entity.Entity entity);
 
     /**
      * Retrieve the {@link com.afterkraft.kraftrpg.api.entity.Monster} object for this Player.
@@ -76,28 +75,27 @@ public interface EntityManager extends Manager {
     /**
      * Attempts to load a {@link com.afterkraft.kraftrpg.api.entity.Champion} with a link to a
      * Player and {@link com.afterkraft.kraftrpg.api.storage.PlayerData} that allows interaction
-     * with the rest of KraftRPG.  When needing data regarding a Player who is offline and the
-     * data is not intended to be modified, fetching the PlayerData directly
-     * from Storage is recommended.
+     * with the rest of KraftRPG.  When needing data regarding a Player who is offline and the data
+     * is not intended to be modified, fetching the PlayerData directly from Storage is
+     * recommended.
      *
-     * @param uuid          of the Player in question
+     * @param uuid of the Player in question
      *
      * @return The loaded Champion belonging to the UUID, if available
      */
     Optional<? extends Champion> getChampion(UUID uuid);
 
     /**
-     * Check if the given {@link Entity} is already managed by this EntityManager.
-     * If true, attempting to add a new {@link IEntity} via
-     * {@link #addEntity(IEntity)} will fail. This is provided as a utility check for extending the
-     * functionality of KraftRPG.
+     * Check if the given {@link org.spongepowered.api.entity.Entity} is already managed by this
+     * EntityManager. If true, attempting to add a new {@link Being} via {@link #addEntity(Being)}
+     * will fail. This is provided as a utility check for extending the functionality of KraftRPG.
      *
      * @param entity to check
      *
      * @return true if the entity's UUID is already added to the managed entities
      * @throws IllegalArgumentException If the entity is null or invalid
      */
-    boolean isEntityManaged(Entity entity);
+    boolean isEntityManaged(org.spongepowered.api.entity.Entity entity);
 
     /**
      * Create a new Champion instance from the given player and data from the database.
@@ -111,21 +109,21 @@ public interface EntityManager extends Manager {
 
     /**
      * Add the given entity to be managed by KraftRPG. This is to allow custom IEntities to exist in
-     * the world that normally would not be considered an {@link com.afterkraft.kraftrpg.api.entity.IEntity}.
-     * This can be used to add customized {@link com.afterkraft.kraftrpg.api.entity.Monster}s and
-     * possibly {@link com.afterkraft.kraftrpg.api.entity.SkillCaster}s. It will perform checks
-     * against the current map of managed {@link Entity} and return false if the
-     * entity is already registered. If the entity is registered, killing the entity and spawning a
-     * new one in it's place is possible.  It is important that any custom entities are added
-     * through this method so that KraftRPG can function as intended.
+     * the world that normally would not be considered an {@link Being}. This can be used to add
+     * customized {@link com.afterkraft.kraftrpg.api.entity.Monster}s and possibly {@link
+     * com.afterkraft.kraftrpg.api.entity.SkillCaster}s. It will perform checks against the current
+     * map of managed {@link org.spongepowered.api.entity.Entity} and return false if the entity is
+     * already registered. If the entity is registered, killing the entity and spawning a new one in
+     * it's place is possible.  It is important that any custom entities are added through this
+     * method so that KraftRPG can function as intended.
      *
-     * @param entity to be managed by KraftRPG
+     * @param being to be managed by KraftRPG
      *
      * @return true if the entity's {@link java.util.UUID} did not exist and adding the entity was
      * successful.
      * @throws IllegalArgumentException If the entity is not valid
      */
-    boolean addEntity(IEntity entity);
+    boolean addEntity(Being being);
 
     /**
      * Spawns a new LivingEntity of the type given and automatically assigned to the owner.

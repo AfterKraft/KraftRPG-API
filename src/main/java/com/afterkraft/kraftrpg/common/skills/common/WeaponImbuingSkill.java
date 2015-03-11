@@ -25,11 +25,11 @@ package com.afterkraft.kraftrpg.common.skills.common;
 
 import com.afterkraft.kraftrpg.api.RPGPlugin;
 import com.afterkraft.kraftrpg.api.effects.common.Imbuing;
+import com.afterkraft.kraftrpg.api.entity.SkillCaster;
+import com.afterkraft.kraftrpg.api.skills.SkillCastResult;
 import com.afterkraft.kraftrpg.api.skills.common.ImbuingSkill;
 import com.afterkraft.kraftrpg.common.effects.common.WeaponImbuingEffect;
-import com.afterkraft.kraftrpg.api.entity.SkillCaster;
 import com.afterkraft.kraftrpg.common.skills.ActiveSkill;
-import com.afterkraft.kraftrpg.api.skills.SkillCastResult;
 
 /**
  * A default implementation of an {@link ImbuingSkill} that applies a default {@link
@@ -39,7 +39,8 @@ import com.afterkraft.kraftrpg.api.skills.SkillCastResult;
  * applying a customized {@link Imbuing} effect on a weapon and handle the various uses cases of
  * events and such.
  */
-public abstract class WeaponImbuingSkill extends ActiveSkill implements ImbuingSkill {
+public abstract class WeaponImbuingSkill extends ActiveSkill
+        implements ImbuingSkill {
 
     protected WeaponImbuingSkill(RPGPlugin plugin, String name) {
         super(plugin, name);
@@ -49,8 +50,9 @@ public abstract class WeaponImbuingSkill extends ActiveSkill implements ImbuingS
 
     @Override
     public SkillCastResult useSkill(SkillCaster caster) {
-        int maxShots = this.plugin.getSkillConfigManager().getUsedIntSetting(caster, this,
-                CommonSettings.IMBUED_MAX_USE_COUNT);
+        int maxShots = this.plugin.getSkillConfigManager()
+                .getUsedIntSetting(caster, this,
+                                   CommonSettings.IMBUED_MAX_USE_COUNT);
         this.addImbueEffect(caster, maxShots);
         return SkillCastResult.NORMAL;
     }

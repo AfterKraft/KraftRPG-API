@@ -41,8 +41,8 @@ import com.afterkraft.kraftrpg.api.skills.SkillCastResult;
 /**
  * See {@link Active}.
  */
-public abstract class ActiveSkill extends Skill implements Active {
-    SkillArgument<?>[] skillArguments = new SkillArgument<?>[] {};
+public abstract class ActiveSkill extends AbstractSkill implements Active {
+    SkillArgument<?>[] skillArguments = new SkillArgument<?>[]{};
     private String usage = "";
     private SkillCaster parsedCaster;
 
@@ -94,7 +94,8 @@ public abstract class ActiveSkill extends Skill implements Active {
         int stringIndex = 0;
         int argIndex = 0;
 
-        while (stringIndex < strings.length && argIndex < this.skillArguments.length) {
+        while (stringIndex < strings.length
+                && argIndex < this.skillArguments.length) {
             SkillArgument<?> current = this.skillArguments[argIndex];
 
             int width = current.matches(caster, strings, stringIndex);
@@ -127,12 +128,14 @@ public abstract class ActiveSkill extends Skill implements Active {
     }
 
     @Override
-    public List<String> tabComplete(SkillCaster caster, String[] strings, int startIndex) {
+    public List<String> tabComplete(SkillCaster caster, String[] strings,
+                                    int startIndex) {
         this.parsedCaster = caster;
 
         int stringIndex = startIndex;
         int argIndex = 0;
-        while (stringIndex < strings.length - 1 && argIndex < this.skillArguments.length) {
+        while (stringIndex < strings.length - 1
+                && argIndex < this.skillArguments.length) {
             SkillArgument<?> current = this.skillArguments[argIndex];
 
             int width = current.matches(caster, strings, stringIndex);
@@ -153,7 +156,8 @@ public abstract class ActiveSkill extends Skill implements Active {
     }
 
     @Override
-    public SkillCastResult checkCustomRestrictions(SkillCaster caster, boolean forced) {
+    public SkillCastResult checkCustomRestrictions(SkillCaster caster,
+                                                   boolean forced) {
         return SkillCastResult.NORMAL;
     }
 
@@ -167,10 +171,12 @@ public abstract class ActiveSkill extends Skill implements Active {
     }
 
     protected void addSkillArgument(SkillArgument<?> argument) {
-        checkState(!this.plugin.isEnabled(), "KraftRPG is already enabled! " + "Cannot modify "
-                + "Skill Arguments after being enabled.");
+        checkState(!this.plugin.isEnabled(),
+                   "KraftRPG is already enabled! " + "Cannot modify "
+                           + "Skill Arguments after being enabled.");
         SkillArgument<?>[] newArgs = Arrays.copyOf(this.skillArguments,
-                this.skillArguments.length + 1);
+                                                   this.skillArguments.length
+                                                           + 1);
         newArgs[this.skillArguments.length] = argument;
         this.skillArguments = newArgs;
     }

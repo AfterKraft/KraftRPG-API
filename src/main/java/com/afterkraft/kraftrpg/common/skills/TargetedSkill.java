@@ -25,13 +25,11 @@ package com.afterkraft.kraftrpg.common.skills;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import org.spongepowered.api.entity.Entity;
-
 import com.google.common.base.Optional;
 
 import com.afterkraft.kraftrpg.api.RPGPlugin;
 import com.afterkraft.kraftrpg.api.effects.EffectType;
-import com.afterkraft.kraftrpg.api.entity.IEntity;
+import com.afterkraft.kraftrpg.api.entity.Being;
 import com.afterkraft.kraftrpg.api.entity.Insentient;
 import com.afterkraft.kraftrpg.api.entity.PartyMember;
 import com.afterkraft.kraftrpg.api.entity.SkillCaster;
@@ -49,37 +47,41 @@ import com.afterkraft.kraftrpg.common.skills.arguments.EntitySkillArgument;
  * targeting distance of 10. It should be noted that {@link #useSkill(SkillCaster)} is final because
  * of initial target handling checks, if the target is an {@link Insentient} being and if that being
  * has {@link EffectType}s that prevent it from being damaged, the {@link #useSkill(SkillCaster,
- * IEntity, Entity)} is not used.  Only experienced developers wishing to add further
- * customizations
+ * Being, org.spongepowered.api.entity.Entity)} is not used.  Only experienced developers wishing to
+ * add further customizations
  *
  * @param <E> The entity type to target
  */
-public abstract class TargetedSkill<E extends Entity> extends ActiveSkill implements Targeted<E> {
+public abstract class TargetedSkill<E extends org.spongepowered.api.entity.Entity>
+        extends ActiveSkill
+        implements Targeted<E> {
 
     /**
      * Creates a new {@link Targeted} skill.
      *
-     * @param plugin The plugin
-     * @param name The name of the skill
+     * @param plugin      The plugin
+     * @param name        The name of the skill
      * @param entityClass The target entity class
      */
-    protected TargetedSkill(RPGPlugin plugin, String name, Class<E> entityClass) {
+    protected TargetedSkill(RPGPlugin plugin, String name,
+                            Class<E> entityClass) {
         this(plugin, name, entityClass, 10);
     }
 
     /**
      * Creates a new {@link Targeted} skill with a maximum raytracing targeting distance.
      *
-     * @param plugin Theplugin
-     * @param name The name of this skill
+     * @param plugin      Theplugin
+     * @param name        The name of this skill
      * @param entityClass The targeting entity class
      * @param maxDistance The maximum distance
      */
-    protected TargetedSkill(RPGPlugin plugin, String name, Class<E> entityClass, int maxDistance) {
+    protected TargetedSkill(RPGPlugin plugin, String name, Class<E> entityClass,
+                            int maxDistance) {
         super(plugin, name);
         checkNotNull(entityClass);
         this.skillArguments = new SkillArgument<?>[]
-                { new EntitySkillArgument<>(maxDistance, entityClass)};
+                {new EntitySkillArgument<>(maxDistance, entityClass)};
         setDefault(SkillSetting.MAX_DISTANCE, maxDistance);
     }
 
@@ -90,22 +92,24 @@ public abstract class TargetedSkill<E extends Entity> extends ActiveSkill implem
             caster.sendMessage("You cannot target anything while blinded!");
             return SkillCastResult.INVALID_TARGET;
         }
-        Optional<E> targetOption = this.<EntitySkillArgument<E>>getArgument(0).get().getValue();
+        Optional<E> targetOption =
+                this.<EntitySkillArgument<E>>getArgument(0).get().getValue();
         if (!targetOption.isPresent()) {
             return SkillCastResult.INVALID_TARGET_NO_MESSAGE;
         }
         E target = targetOption.get();
 
-        double distance = this.plugin.getSkillConfigManager().getUsedIntSetting(caster, this,
-                SkillSetting.MAX_DISTANCE);
+        double distance = this.plugin.getSkillConfigManager()
+                .getUsedIntSetting(caster, this,
+                                   SkillSetting.MAX_DISTANCE);
         if (target.getLocation()
                 .getPosition()
                 .distance(caster.getLocation().getPosition()) > distance) {
             return SkillCastResult.INVALID_TARGET_NO_MESSAGE;
         }
-        IEntity entity = this.plugin.getEntityManager().getEntity(target).get();
-        if (entity instanceof Insentient) {
-            Insentient insentient = (Insentient) entity;
+        Being being = this.plugin.getEntityManager().getEntity(target).get();
+        if (being instanceof Insentient) {
+            Insentient insentient = (Insentient) being;
             if (caster.equals(insentient)) {
                 if (this.isType(SkillType.AGGRESSIVE)
                         || this.isType(SkillType.NO_SELF_TARGETTING)) {
@@ -117,8 +121,10 @@ public abstract class TargetedSkill<E extends Entity> extends ActiveSkill implem
                 return SkillCastResult.UNTARGETABLE_TARGET;
             }
 
-            if (caster.getParty().isPresent() && insentient instanceof PartyMember) {
-                if (this.plugin.getPartyManager().isFriendly(caster, (PartyMember) insentient)) {
+            if (caster.getParty().isPresent()
+                    && insentient instanceof PartyMember) {
+                if (this.plugin.getPartyManager()
+                        .isFriendly(caster, (PartyMember) insentient)) {
                     return SkillCastResult.INVALID_TARGET_NO_MESSAGE;
                 }
             }
@@ -126,14 +132,15 @@ public abstract class TargetedSkill<E extends Entity> extends ActiveSkill implem
             if (this.isType(SkillType.DAMAGING)) {
                 if (!damageCheck(caster, insentient.getEntity().get())
                         || (insentient instanceof Summon
-                        && (caster.equals(((Summon) insentient).getSummoner())))) {
+                        && (caster
+                        .equals(((Summon) insentient).getSummoner())))) {
                     caster.sendMessage("You cannot damage that target!");
                     return SkillCastResult.INVALID_TARGET_NO_MESSAGE;
                 }
             }
 
         }
-        return useSkill(caster, entity, target);
+        return useSkill(caster, being, target);
     }
 
 }

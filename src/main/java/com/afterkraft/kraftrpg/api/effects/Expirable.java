@@ -30,7 +30,7 @@ import com.afterkraft.kraftrpg.api.entity.Insentient;
 /**
  * An effect that will expire after a certain amount of time passing by.
  */
-public interface Expirable extends IEffect, Timed {
+public interface Expirable extends Effect, Timed {
 
     /**
      * Fetch the duration of this Expirable Effect.
@@ -66,8 +66,7 @@ public interface Expirable extends IEffect, Timed {
     void expire();
 
     /**
-     * Get the {@link com.afterkraft.kraftrpg.api.entity.SkillCaster} applying this expirable
-     * effect.
+     * Get the {@link Insentient} applying this expirable effect.
      *
      * @return the SkillCaster applying this effect
      */
