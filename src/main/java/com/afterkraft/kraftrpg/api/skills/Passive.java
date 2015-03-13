@@ -27,13 +27,17 @@ import com.afterkraft.kraftrpg.api.entity.SkillCaster;
 import com.afterkraft.kraftrpg.common.skills.PassiveSkill;
 
 /**
- * Represents a passive skill that can not be activated by command or bind. The recommended use of
- * implementation is {@link PassiveSkill}
+ * Represents a passive skill that can not be activated by command or bind, but rather . The
+ * recommended default implementation to extend is {@link PassiveSkill}.
+ *
+ * <p>A passive skill can perform various operations when it deems needed. Examples can include but
+ * are not limited to: Adding effects based on some interaction, removing effects based on some
+ * interaction, performing an operation on another interaction, etc.</p>
  */
 public interface Passive extends Skill {
 
     /**
-     * Attempts to apply this passive skill to the given {@link com.afterkraft.kraftrpg.api.entity.SkillCaster}
+     * Attempts to apply this passive skill to the given {@link SkillCaster}
      *
      * @param caster to attempt to apply this passive skill to
      *

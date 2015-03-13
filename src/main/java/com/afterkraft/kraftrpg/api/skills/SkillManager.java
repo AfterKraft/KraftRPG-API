@@ -31,19 +31,11 @@ import com.google.common.base.Optional;
 
 import com.afterkraft.kraftrpg.api.Manager;
 import com.afterkraft.kraftrpg.api.entity.SkillCaster;
-import com.afterkraft.kraftrpg.api.skills.common.Permissible;
 
 /**
  * Manages skills with both skill loading and skill management.
  */
 public interface SkillManager extends Manager {
-
-    /**
-     * Adds a skill to the skill mapping
-     *
-     * @param skill The skill in question to add
-     */
-    void addSkill(Skill skill);
 
     /**
      * Checks if a skill by the skill name exists.
@@ -66,15 +58,6 @@ public interface SkillManager extends Manager {
     Optional<Skill> getSkill(String name);
 
     /**
-     * Attempt to load the requested skill name that is to represent a {@link Permissible} skill.
-     *
-     * @param name to create
-     *
-     * @return true if successful
-     */
-    boolean loadPermissionSkill(String name);
-
-    /**
      * Returns a collection of all skills loaded in the skill manager
      *
      * @return a live collection of all loaded skills
@@ -91,13 +74,6 @@ public interface SkillManager extends Manager {
     boolean isLoaded(String name);
 
     /**
-     * Removes a skill from the skill mapping
-     *
-     * @param skill to remove
-     */
-    void removeSkill(Skill skill);
-
-    /**
      * Gets the currently stalled skill the caster is about to cast.
      *
      * @param caster The caster in question
@@ -110,9 +86,9 @@ public interface SkillManager extends Manager {
 
     void addSkillTarget(Entity entity, SkillCaster caster, Skill skill);
 
-    Optional<SkillUseObject> getSkillTargetInfo(Entity o);
+    void removeSkillTarget(Entity entity, SkillCaster caster, Skill skill);
 
     boolean isSkillTarget(Entity entity);
 
-    void removeSkillTarget(Entity entity, SkillCaster caster, Skill skill);
+    Optional<SkillUseObject> getSkillTargetInfo(Entity o);
 }

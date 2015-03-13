@@ -28,6 +28,7 @@ import java.lang.ref.WeakReference;
 import java.util.List;
 
 import org.spongepowered.api.entity.player.Player;
+import org.spongepowered.api.text.message.Message;
 
 import com.google.common.base.Optional;
 
@@ -107,7 +108,7 @@ public class ExplicitPlayerArgument extends AbstractSkillArgument<Player> {
     }
 
     @Override
-    public List<String> tabComplete(SkillCaster caster, String[] allArgs,
+    public List<Message> tabComplete(SkillCaster caster, String[] allArgs,
                                     int startPosition) {
         // TODO Auto-generated method stub
         return null;

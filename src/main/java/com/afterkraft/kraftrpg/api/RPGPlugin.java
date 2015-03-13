@@ -23,8 +23,7 @@
  */
 package com.afterkraft.kraftrpg.api;
 
-import com.afterkraft.kraftrpg.api.effects.EffectManager;
-import com.afterkraft.kraftrpg.api.entity.CombatTracker;
+import com.afterkraft.kraftrpg.api.entity.combat.CombatTracker;
 import com.afterkraft.kraftrpg.api.entity.EntityManager;
 import com.afterkraft.kraftrpg.api.entity.party.PartyManager;
 import com.afterkraft.kraftrpg.api.listeners.ListenerManager;
@@ -68,13 +67,6 @@ public interface RPGPlugin {
      * @return The currently used entity manager
      */
     EntityManager getEntityManager();
-
-    /**
-     * Gets the currently used {@link EffectManager}.
-     *
-     * @return The currently used effect manager
-     */
-    EffectManager getEffectManager();
 
     /**
      * Gets the currently used {@link SkillConfigManager}.

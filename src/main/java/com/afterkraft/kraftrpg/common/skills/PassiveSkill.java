@@ -23,7 +23,7 @@
  */
 package com.afterkraft.kraftrpg.common.skills;
 
-import org.spongepowered.api.service.persistence.data.DataView;
+import org.spongepowered.api.text.message.Message;
 
 import com.afterkraft.kraftrpg.api.RPGPlugin;
 import com.afterkraft.kraftrpg.api.entity.Champion;
@@ -35,8 +35,15 @@ import com.afterkraft.kraftrpg.api.skills.Passive;
  */
 public abstract class PassiveSkill extends AbstractSkill implements Passive {
 
-    protected PassiveSkill(RPGPlugin plugin, String name) {
-        super(plugin, name);
+    /**
+     * Creates a new passive skill with the given description, name and plugin.
+     *
+     * @param plugin The plugin
+     * @param name The name of this passive skill
+     * @param description The description of this passive skill
+     */
+    protected PassiveSkill(RPGPlugin plugin, String name, Message description) {
+        super(plugin, name, description);
     }
 
     @Override
@@ -47,12 +54,6 @@ public abstract class PassiveSkill extends AbstractSkill implements Passive {
     @Override
     public void remove(SkillCaster caster) {
 
-    }
-
-    @Override
-    public DataView getDefaultConfig() {
-        // TODO Auto-generated method stub
-        return null;
     }
 
     @Override

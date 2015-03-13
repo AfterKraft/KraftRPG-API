@@ -27,6 +27,8 @@ import javax.annotation.Nullable;
 import java.util.List;
 import java.util.regex.Matcher;
 
+import org.spongepowered.api.text.message.Message;
+import org.spongepowered.api.text.message.Messages;
 import org.spongepowered.api.world.Location;
 
 import com.flowpowered.math.vector.Vector3d;
@@ -155,7 +157,7 @@ public class ExplicitLocationArgument extends AbstractSkillArgument<Location> {
     }
 
     @Override
-    public List<String> tabComplete(SkillCaster caster, String[] allArgs,
+    public List<Message> tabComplete(SkillCaster caster, String[] allArgs,
                                     int startPosition) {
         int argsProvided = allArgs.length - startPosition;
         switch (argsProvided) {
@@ -163,7 +165,7 @@ public class ExplicitLocationArgument extends AbstractSkillArgument<Location> {
             case 1:
             case 2:
             case 3:
-                return ImmutableList.of("~");
+                return ImmutableList.<Message>of(Messages.of("~"));
             default:
                 return ImmutableList.of();
         }

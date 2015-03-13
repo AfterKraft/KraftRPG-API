@@ -44,7 +44,7 @@ import com.google.common.collect.ImmutableList;
 
 import com.afterkraft.kraftrpg.api.skills.Skill;
 import com.afterkraft.kraftrpg.api.skills.SkillManager;
-import com.afterkraft.kraftrpg.api.skills.TestSkill;
+import com.afterkraft.kraftrpg.api.skills.TestSkillAbstract;
 import com.afterkraft.kraftrpg.api.util.FileUtils;
 import com.afterkraft.kraftrpg.api.util.Util;
 
@@ -93,7 +93,7 @@ public class RPGTestCreator {
             replay(mockText);
             PowerMock.replay(Messages.class);
             // Create test skill
-            this.mockSkill = new TestSkill(this.mockPlugin);
+            this.mockSkill = new TestSkillAbstract(this.mockPlugin);
 
             // Set up mockSkillManager
             SkillManager mockSkillManager = createNiceMock(SkillManager.class);

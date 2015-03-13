@@ -126,9 +126,7 @@ public abstract class StorageFrontend {
                                                                          data));
         }
         if (this.toSave.containsKey(uuid)) {
-            Champion ret = this.toSave.get(uuid);
-            ret.setPlayer(player);
-            return Optional.of(ret);
+            return Optional.of(this.toSave.get(uuid));
         }
 
         Optional<PlayerData> data = this.backend.loadPlayer(uuid, shouldCreate);
@@ -242,7 +240,7 @@ public abstract class StorageFrontend {
             data.putAll(StorageFrontend.this.offlineToSave);
             for (Map.Entry<UUID, Champion> entry : StorageFrontend.this.toSave
                     .entrySet()) {
-                data.put(entry.getKey(), entry.getValue().getDataClone());
+                data.put(entry.getKey(), entry.getValue().getData());
             }
             StorageFrontend.this.toSave.clear();
             StorageFrontend.this.offlineToSave.clear();

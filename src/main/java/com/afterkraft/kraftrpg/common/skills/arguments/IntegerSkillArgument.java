@@ -25,6 +25,8 @@ package com.afterkraft.kraftrpg.common.skills.arguments;
 
 import java.util.List;
 
+import org.spongepowered.api.text.message.Message;
+
 import com.google.common.base.Optional;
 import com.google.common.collect.Lists;
 
@@ -100,7 +102,7 @@ public class IntegerSkillArgument extends AbstractSkillArgument<Integer> {
     }
 
     @Override
-    public List<String> tabComplete(SkillCaster caster, String[] allArgs,
+    public List<Message> tabComplete(SkillCaster caster, String[] allArgs,
                                     int startPosition) {
         return Lists.newArrayList();
     }

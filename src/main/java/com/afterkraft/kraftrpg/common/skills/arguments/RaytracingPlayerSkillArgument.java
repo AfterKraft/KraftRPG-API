@@ -27,9 +27,12 @@ import java.lang.ref.WeakReference;
 import java.util.List;
 
 import org.spongepowered.api.entity.player.Player;
+import org.spongepowered.api.text.message.Message;
+import org.spongepowered.api.text.message.Messages;
 
 import com.google.common.base.Optional;
 import com.google.common.base.Predicate;
+import com.google.common.collect.ImmutableList;
 
 import com.afterkraft.kraftrpg.api.RpgCommon;
 import com.afterkraft.kraftrpg.api.entity.SkillCaster;
@@ -79,9 +82,13 @@ public class RaytracingPlayerSkillArgument extends EntitySkillArgument<Player> {
     }
 
     @Override
-    public List<String> tabComplete(SkillCaster caster, String[] allArgs,
+    public List<Message> tabComplete(SkillCaster caster, String[] allArgs,
                                     int startPosition) {
-        return Utilities.matchPlayers(allArgs[startPosition],
-                                      (Player) caster.getEntity());
+        ImmutableList.Builder<Message> builder = ImmutableList.builder();
+        for (String message : Utilities.matchPlayers(allArgs[startPosition], (Player) caster
+                .getEntity())) {
+            builder.add(Messages.of(message));
+        }
+        return builder.build();
     }
 }

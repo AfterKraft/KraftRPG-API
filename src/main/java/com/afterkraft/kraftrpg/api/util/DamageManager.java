@@ -44,7 +44,6 @@ import ninja.leaping.configurate.ConfigurationNode;
 
 import com.afterkraft.kraftrpg.api.Manager;
 import com.afterkraft.kraftrpg.api.entity.Insentient;
-import com.afterkraft.kraftrpg.api.entity.Monster;
 
 /**
  * The generalized manager for calculating and fetching damages for entities and items alike.
@@ -129,7 +128,7 @@ public interface DamageManager extends Manager {
      *
      * @return the calculated customized damage for the Monster
      */
-    double getModifiedEntityDamage(final Monster monster,
+    double getModifiedEntityDamage(final Insentient monster,
                                    final Location location,
                                    final double baseDamage,
                                    final Cause fromSpawner);

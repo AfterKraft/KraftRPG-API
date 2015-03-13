@@ -74,7 +74,5 @@ public final class SkillBind implements DataSerializable {
         return null;
     }
 
-    @Override
-    public void serialize(DataSource source) {
-    }
+
 }

@@ -32,6 +32,7 @@ import org.spongepowered.api.item.inventory.ItemStack;
 import com.google.common.base.Optional;
 
 import com.afterkraft.kraftrpg.api.entity.Insentient;
+import com.afterkraft.kraftrpg.api.entity.component.CarrierComponent;
 
 /**
  * Standard wrapper for attack damage dealt with an ItemStack
@@ -47,8 +48,14 @@ public class AttackDamageWrapper extends DamageWrapper {
                                Cause modifiedCause) {
         super(originalCause, originalDamage, modifiedDamage, modifiedCause);
         this.attackingIEntity = new WeakReference<>(attackingIEntity);
-        this.weaponUsed = attackingIEntity.getItemInHand().isPresent()
-                ? attackingIEntity.getItemInHand().get() : null;
+        Optional<CarrierComponent> component = attackingIEntity.getComponent(CarrierComponent
+                                                                                     .class);
+        if (component.isPresent()) {
+            this.weaponUsed = component.get().getItemInHand().isPresent()
+                    ? component.get().getItemInHand().get() : null;
+        } else {
+            this.weaponUsed = null;
+        }
     }
 
     /**

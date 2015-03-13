@@ -24,18 +24,16 @@
 package com.afterkraft.kraftrpg.api.entity.party;
 
 import com.afterkraft.kraftrpg.api.Manager;
-import com.afterkraft.kraftrpg.api.entity.PartyMember;
+import com.afterkraft.kraftrpg.api.entity.Being;
 
 /**
- * A basic manager that which manages {@link com.afterkraft.kraftrpg.api.entity.party.Party} for
- * various {@link com.afterkraft.kraftrpg.api.entity.PartyMember}
+ * A basic manager that which manages {@link Party} for various {@link Being}s
  */
 public interface PartyManager extends Manager {
 
     /**
-     * Creates a new {@link com.afterkraft.kraftrpg.api.entity.party.Party} with the given {@link
-     * com.afterkraft.kraftrpg.api.entity.PartyMember} leader as the leader and automatically adds
-     * the given members to the party.
+     * Creates a new {@link Party} with the given {@link Being} leader as the leader and
+     * automatically adds the given members to the party.
      *
      * @param partyLeader leader of the Party
      * @param members     to add to the party after creation
@@ -43,14 +41,13 @@ public interface PartyManager extends Manager {
      * @return the party after members have been added
      * @throws IllegalArgumentException If the leader is null
      */
-    Party createParty(PartyMember partyLeader, PartyMember... members);
+    Party createParty(Being partyLeader, Being... members);
 
     /**
      * Check if two PartyMembers are considered friendly to each other.  This method should be
      * symmetrical and reflexive, but not necessarily transitive.  If this method returns false,
-     * {@link #isEnemy(com.afterkraft.kraftrpg.api.entity.PartyMember,
-     * com.afterkraft.kraftrpg.api.entity.PartyMember)} should not return false. (They may both,
-     * however, return true. Consider this a "neutral" state.)
+     * {@link #isEnemy(Being, Being)} should not return false. (They may both, however, return true.
+     * Consider this a "neutral" state.)
      *
      * @param a One PartyMember
      * @param b Another PartyMember
@@ -58,14 +55,13 @@ public interface PartyManager extends Manager {
      * @return if friendly - e.g., can heal
      * @throws IllegalArgumentException If either PartyMember is null
      */
-    boolean isFriendly(PartyMember a, PartyMember b);
+    boolean isFriendly(Being a, Being b);
 
     /**
      * Check if two PartyMembers are considered hostile to each other.  This method should be
      * symmetrical and reflexive, but not necessarily transitive.  If this method returns false,
-     * {@link #isFriendly(com.afterkraft.kraftrpg.api.entity.PartyMember,
-     * com.afterkraft.kraftrpg.api.entity.PartyMember)} should not return false. (They may both,
-     * however, return true. Consider this a "neutral" state.)
+     * {@link #isFriendly(Being, Being)} should not return false. (They may both, however, return
+     * true. Consider this a "neutral" state.)
      *
      * @param a One PartyMember
      * @param b Another PartyMember
@@ -73,5 +69,5 @@ public interface PartyManager extends Manager {
      * @return if hostile - e.g., can hurt
      * @throws IllegalArgumentException If either PartyMember is null
      */
-    boolean isEnemy(PartyMember a, PartyMember b);
+    boolean isEnemy(Being a, Being b);
 }

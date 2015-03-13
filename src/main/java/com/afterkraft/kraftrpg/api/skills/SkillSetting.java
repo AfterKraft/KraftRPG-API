@@ -147,8 +147,7 @@ public class SkillSetting {
     public static final SkillSetting MAX_DISTANCE =
             new SkillSetting("max-distance", true);
     /**
-     * Amount of ticks between a {@link com.afterkraft.kraftrpg.api.effects.Periodic} effect's
-     * ticks.
+     * Amount of ticks between a periodic effect's ticks.
      */
     public static final SkillSetting RECURRENCE_PERIOD =
             new SkillSetting("period", true);

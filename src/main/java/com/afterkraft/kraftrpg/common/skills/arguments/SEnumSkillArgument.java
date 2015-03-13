@@ -26,7 +26,11 @@ package com.afterkraft.kraftrpg.common.skills.arguments;
 import java.util.Arrays;
 import java.util.List;
 
+import org.spongepowered.api.text.message.Message;
+import org.spongepowered.api.text.message.Messages;
+
 import com.google.common.base.Optional;
+import com.google.common.collect.ImmutableList;
 
 import com.afterkraft.kraftrpg.api.entity.SkillCaster;
 import com.afterkraft.kraftrpg.api.util.Utilities;
@@ -111,9 +115,13 @@ public class SEnumSkillArgument extends AbstractSkillArgument<String> {
     }
 
     @Override
-    public List<String> tabComplete(SkillCaster caster, String[] allArgs,
-                                    int startPosition) {
-        return Utilities.findMatches(allArgs[startPosition],
-                                     Arrays.asList(this.choices));
+    public List<Message> tabComplete(SkillCaster caster, String[] allArgs,
+                                     int startPosition) {
+        ImmutableList.Builder<Message> builder = ImmutableList.builder();
+        for (String message : Utilities
+                .findMatches(allArgs[startPosition], Arrays.asList(this.choices))) {
+            builder.add(Messages.of(message));
+        }
+        return builder.build();
     }
 }

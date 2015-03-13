@@ -25,6 +25,8 @@ package com.afterkraft.kraftrpg.api.skills;
 
 import java.util.List;
 
+import org.spongepowered.api.text.message.Message;
+
 import com.google.common.base.Optional;
 
 import com.afterkraft.kraftrpg.api.entity.SkillCaster;
@@ -126,6 +128,6 @@ public interface SkillArgument<T> {
      *
      * @return completion suggestions for the last item in allArgs
      */
-    List<String> tabComplete(SkillCaster caster, String[] allArgs,
+    List<Message> tabComplete(SkillCaster caster, String[] allArgs,
                              int startPosition);
 }

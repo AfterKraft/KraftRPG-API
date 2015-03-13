@@ -23,28 +23,20 @@
  */
 package com.afterkraft.kraftrpg.api.effects;
 
-import java.util.Collection;
+import java.util.Set;
 
-import org.spongepowered.api.potion.PotionEffect;
 import org.spongepowered.api.text.message.Message;
 
+import com.google.common.base.Optional;
+
 import com.afterkraft.kraftrpg.api.entity.Insentient;
-import com.afterkraft.kraftrpg.api.skills.Skill;
 
 /**
  * The base of KraftPRG's Effect system. An effect can perform various operations on an {@link
- * com.afterkraft.kraftrpg.api.entity.Insentient} being. While it is recommended to utilize the
- * {@link Effect} as the standard implementation, various other interfaces have different
- * implementations.
+ * Insentient} being. While it is recommended to utilize the {@link Effect} as the standard
+ * implementation, various other interfaces have different implementations.
  */
 public interface Effect {
-
-    /**
-     * Returns the associated {@link Skill} that created this effect.
-     *
-     * @return the Skill that created this effect
-     */
-    Skill getSkill();
 
     /**
      * Returns this individual Effect's name. (Should be as unique and recognizable as possible).
@@ -59,48 +51,39 @@ public interface Effect {
      * @param queryType The type of effect to query
      *
      * @return True if this Effect is of the queried EffectType
-     * @throws IllegalArgumentException If the query type is null
      */
     boolean isType(EffectType queryType);
 
     /**
-     * Gets an immutable set of the potion effects that are applied when {@link #apply(Insentient)}
-     * is called.
+     * Gets the time of application on an {@link Insentient} being.
      *
-     * @return An immutable set of potion effects
-     */
-    Collection<PotionEffect> getPotionEffects();
-
-    /**
-     * Check if this Effect is persistent. A Persistent effect will never expire until the Effect is
-     * removed.
-     *
-     * @return true if this Effect is persistent
-     */
-    boolean isPersistent();
-
-    /**
-     * @return the applyTime
+     * @return The time this effect was applied
      */
     long getApplyTime();
 
     /**
-     * Attempts to apply this effect to the provided {@link Insentient}.
+     * Gets the desired property of this effect.
      *
-     * @param being this effect is being applied on to.
+     * <p>As effects are immutable upon creation, the properties too are immutable once created.
+     * </p>
      *
-     * @throws IllegalArgumentException If the being is null or invalid
+     * @param propertyClass The property class to get
+     * @param <T>           The type of effect property
+     *
+     * @return The effect property, if available
      */
-    void apply(Insentient being);
+    <T extends EffectProperty<?>> Optional<T> getProperty(Class<T> propertyClass);
 
     /**
-     * Attempts to remove this effect from the given Insentient being
+     * Gets all applicable operations that are executed on an {@link Insentient} being when this
+     * effect is applied.
      *
-     * @param being this effect is being removed by.
+     * <p>Note that some abstract effects provide basic functions such as applying potion effects.
+     * If further customization is needed, implementing an individual function is recommended.</p>
      *
-     * @throws IllegalArgumentException If the being is null or invalid
+     * @return An unmodifiable set of functions to apply to an insentient being
      */
-    void remove(Insentient being);
+    Set<ApplyEffectOperation> getApplicationOperations();
 
     /**
      * Get the message that should be sent to players when this effect is applied
@@ -110,9 +93,33 @@ public interface Effect {
     Message getApplyText();
 
     /**
-     * Get the message that should be sent to players when this effect expires
+     * Represents an operation of an effect being applied on an {@link Insentient} being.
      *
-     * @return the message when this effect expires
+     * <p>If the operation fails for any of the possible many operations, the effect application is
+     * </p>
      */
-    Message getExpireText();
+    interface ApplyEffectOperation extends EffectOperation {
+
+        /**
+         * A simple check if the target {@link Insentient} being is able to have the owning effect
+         * applied. If any {@link ApplyEffectOperation}s of an effect are incompatible with the
+         * target, the effect is not applied.
+         *
+         * @param being The insentient being the effect is being applied to
+         *
+         * @return Whether this operation is compatible with the being
+         */
+        boolean isApplicableTo(Insentient being);
+
+        /**
+         * Performs an operation on the {@link Insentient} being when the owning effect is applied.
+         *
+         * @param being The insentient being
+         *
+         * @return The operation result
+         */
+        EffectOperationResult apply(Insentient being);
+    }
+
+
 }

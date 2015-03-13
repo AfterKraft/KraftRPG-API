@@ -28,15 +28,14 @@ import java.util.UUID;
 
 import org.spongepowered.api.world.Location;
 
-import com.afterkraft.kraftrpg.api.entity.PartyMember;
+import com.afterkraft.kraftrpg.api.entity.Being;
 import com.afterkraft.kraftrpg.api.roles.ExperienceType;
 import com.afterkraft.kraftrpg.api.util.FixedPoint;
 
 /**
- * Party is a grouping of {@link com.afterkraft.kraftrpg.api.entity.PartyMember}. Useful for
- * maintaining close contact with friendly Champions and the ability to apply buffing effects to the
- * Party. Parties add a new chat channel. Parties are not permanent and will be removed when one
- * Champion remains.
+ * Party is a grouping of {@link Being}. Useful for maintaining close contact with friendly
+ * Champions and the ability to apply buffing effects to the Party. Parties add a new chat channel.
+ * Parties are not permanent and will be removed when one Champion remains.
  */
 public interface Party {
 
@@ -45,25 +44,23 @@ public interface Party {
      *
      * @return an unmodifiable list of Champions in this party.
      */
-    List<PartyMember> getMembers();
+    List<Being> getMembers();
 
     /**
-     * Attempts to add the requested {@link com.afterkraft.kraftrpg.api.entity.Champion}. This will
-     * check if the Champion is not already in a party, and if they are, the Champion's party will
-     * not be changed.
+     * Attempts to add the requested {@link Being}. This will check if the Champion is not already
+     * in a party, and if they are, the Champion's party will not be changed.
      *
      * @param member being added to this party.
      *
      * @return true if successful, false if the Champion could not be added for any reason
      * @throws IllegalArgumentException If the member is null
      */
-    boolean addMember(PartyMember member);
+    boolean addMember(Being member);
 
     /**
-     * Attempts to add the requested {@link com.afterkraft.kraftrpg.api.entity.Champion} to this
-     * Party. If forced, the Champion's previous party (if any) will be removed and the Champion
-     * will be added to this party. If not, the same behavior of {@link
-     * #addMember(com.afterkraft.kraftrpg.api.entity.PartyMember)} will take place.
+     * Attempts to add the requested {@link Being} to this Party. If forced, the Champion's previous
+     * party (if any) will be removed and the Champion will be added to this party. If not, the same
+     * behavior of {@link #addMember(Being)} will take place.
      *
      * @param member being added to this party.
      * @param forced if true, ignore any existing parties the Champion is part of and re-assign the
@@ -72,22 +69,22 @@ public interface Party {
      * @return true if successful, false if the Champion could not be added
      * @throws IllegalArgumentException If the member is null
      */
-    boolean addMember(PartyMember member, boolean forced);
+    boolean addMember(Being member, boolean forced);
 
     /**
      * Removes the queried member if it is possible. This should be considered as throwing an event
      * of PartyLeaveEvent that may be cancelled for various reasons. If the event is cancelled, the
-     * {@link com.afterkraft.kraftrpg.api.entity.PartyMember} is not removed.
+     * {@link Being} is not removed.
      *
      * @param member to remove
      *
      * @throws IllegalArgumentException if the member is null
      */
-    void removeMember(PartyMember member);
+    void removeMember(Being member);
 
     /**
-     * Just like {@link #removeMember(com.afterkraft.kraftrpg.api.entity.PartyMember)}, except that
-     * the PartyLeaveEvent being cancelled will have no effect if forced is true
+     * Just like {@link #removeMember(Being)}, except that the PartyLeaveEvent being cancelled will
+     * have no effect if forced is true
      *
      * @param member to remove
      * @param forced true if the member will be removed without considering the PartyLeaveEvent's
@@ -95,18 +92,17 @@ public interface Party {
      *
      * @throws IllegalArgumentException If the member is null
      */
-    void removeMember(PartyMember member, boolean forced);
+    void removeMember(Being member, boolean forced);
 
     /**
      * Add an invite to this party for the supplied member. Usually, this will result in a message
-     * to the {@link com.afterkraft.kraftrpg.api.entity.PartyMember} noting of the invite taking
-     * place.
+     * to the {@link Being} noting of the invite taking place.
      *
      * @param member to invite
      *
      * @throws IllegalArgumentException If the member is null
      */
-    void addMemberInvite(PartyMember member);
+    void addMemberInvite(Being member);
 
     /**
      * Removes the invite for the member, if it exists.
@@ -115,7 +111,7 @@ public interface Party {
      *
      * @throws IllegalArgumentException If the member is null
      */
-    void removeMemberInvite(PartyMember member);
+    void removeMemberInvite(Being member);
 
     /**
      * @param member The member to check whether they have an invite.
@@ -123,7 +119,7 @@ public interface Party {
      * @return True if the party member has an invite
      * @throws IllegalArgumentException If the member is null
      */
-    boolean hasMemberInvite(PartyMember member);
+    boolean hasMemberInvite(Being member);
 
     int size();
 
@@ -131,11 +127,11 @@ public interface Party {
 
     boolean emptyParty();
 
-    boolean hasMember(PartyMember member);
+    boolean hasMember(Being member);
 
-    List<UUID> getPartyMemberUUIDs();
+    List<UUID> getMemberUniqueIds();
 
-    void logOffMember(PartyMember member);
+    void logOffMember(Being member);
 
     void gainExperience(FixedPoint experience, ExperienceType type,
                         Location location);

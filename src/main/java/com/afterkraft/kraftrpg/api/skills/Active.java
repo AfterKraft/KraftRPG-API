@@ -25,29 +25,31 @@ package com.afterkraft.kraftrpg.api.skills;
 
 import java.util.List;
 
+import org.spongepowered.api.text.message.Message;
+
 import com.google.common.base.Optional;
 
 import com.afterkraft.kraftrpg.api.entity.SkillCaster;
-import com.afterkraft.kraftrpg.common.skills.ActiveSkill;
+import com.afterkraft.kraftrpg.common.skills.AbstractActiveSkill;
 
 /**
  * Represents a Skill that only has results on activation through command or binding. As this is an
  * active skill that requires some possible binding or targetting, usage should be included by the
  * implementation for players to understand how to use this active skill.  Recommended use of this
- * interface is {@link ActiveSkill}.  The methods {@link #getUsage()}, {@link
- * #tabComplete(com.afterkraft.kraftrpg.api.entity.SkillCaster, String[], int)} The methods that do
- * rely on parser state shall be called in the following order: <ol> <li>{@link
- * #checkCustomRestrictions(SkillCaster, boolean)}</li> <li>{@link #parse(SkillCaster,
- * String[])}</li> <li>{@link #checkCustomRestrictions(SkillCaster, boolean)}</li> <li>If
- * checkCustomRestrictions() returns ON_WARMUP, then {@link #onWarmUp(SkillCaster)}. If it returns
- * NORMAL, then {@link #useSkill(SkillCaster)}.</li> <li>And finally, even if any throw an
- * exception, {@link #cleanState(SkillCaster)}.</li> </ol>
+ * interface is {@link AbstractActiveSkill}.  The methods {@link #getUsage()}, {@link
+ * #tabComplete(SkillCaster, String[], int)} The methods that do rely on parser state shall be
+ * called in the following order: <ol> <li>{@link #checkCustomRestrictions(SkillCaster,
+ * boolean)}</li> <li>{@link #parse(SkillCaster, String[])}</li> <li>{@link
+ * #checkCustomRestrictions(SkillCaster, boolean)}</li> <li>If checkCustomRestrictions() returns
+ * ON_WARMUP, then {@link #onWarmUp(SkillCaster)}. If it returns NORMAL, then {@link
+ * #useSkill(SkillCaster)}.</li> <li>And finally, even if any throw an exception, {@link
+ * #cleanState(SkillCaster)}.</li> </ol>
  */
 public interface Active extends Skill {
 
     /**
      * Returns the instructional usage for this skill, including various accepted arguments handled
-     * in {@link #parse(com.afterkraft.kraftrpg.api.entity.SkillCaster, String[])}
+     * in {@link #parse(SkillCaster, String[])}
      *
      * @return the instructional usage for this skill
      */
@@ -101,7 +103,7 @@ public interface Active extends Skill {
      *
      * @return A string list of available completable entries
      */
-    List<String> tabComplete(SkillCaster caster, String[] args, int startIndex);
+    List<Message> tabComplete(SkillCaster caster, String[] args, int startIndex);
 
     /**
      * Without parsed state, check if the given SkillCaster is permitted to cast this skill.

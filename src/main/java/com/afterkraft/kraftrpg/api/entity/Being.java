@@ -26,18 +26,22 @@ package com.afterkraft.kraftrpg.api.entity;
 import java.util.Collection;
 import java.util.UUID;
 
+import org.spongepowered.api.entity.Entity;
 import org.spongepowered.api.entity.EntityType;
+import org.spongepowered.api.service.persistence.data.DataHolder;
 import org.spongepowered.api.text.message.Message;
 import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
 
 import com.google.common.base.Optional;
 
+import com.afterkraft.kraftrpg.api.entity.component.Component;
+
 /**
- * Represents an {@link org.spongepowered.api.entity.Entity} linked with KraftRPG. This is the base
+ * Represents an {@link Entity} linked with KraftRPG. This is the base
  * for all entities in KraftRPG.
  */
-public interface Being {
+public interface Being extends DataHolder {
 
     /**
      * Get the Bukkit name of this Entity
@@ -61,19 +65,11 @@ public interface Being {
     boolean isValid();
 
     /**
-     * Check if the Entity is valid. This also checks if the reference of the entity {@link
-     * #isValid()}.
-     *
-     * @return true if the LivingEntity is alive and valid
-     */
-    boolean isEntityValid();
-
-    /**
-     * Returns the Entity if the Entity {@link #isEntityValid()}.
+     * Returns the Entity if the Entity {@link #isValid()}.
      *
      * @return the linked Entity if not null
      */
-    Optional<? extends org.spongepowered.api.entity.Entity> getEntity();
+    Optional<? extends Entity> getEntity();
 
     /**
      * Gets the type of Entity this IEntity is wrapping.
@@ -81,17 +77,6 @@ public interface Being {
      * @return The type of entity this IEntity is wrapping
      */
     Optional<EntityType> getEntityType();
-
-    /**
-     * Reset the linked Entity to the provided {@link org.spongepowered.api.entity.Entity} if the
-     * {@link java.util.UUID} match for the old reference and the provided reference
-     *
-     * @param entity the Entity to re-attach this IEntity to
-     *
-     * @return true if successful, false if UUID did not match
-     * @throws IllegalArgumentException If the entity is null
-     */
-    boolean setEntity(org.spongepowered.api.entity.Entity entity);
 
     /**
      * Returns the linked Entity's UUID provided by the server.
@@ -133,7 +118,7 @@ public interface Being {
      *
      * @return A collection of entities nearby
      */
-    Collection<org.spongepowered.api.entity.Entity> getNearbyEntities(double x, double y, double z);
+    Collection<Entity> getNearbyEntities(double x, double y, double z);
 
     /**
      * Shortcut method for getting the entity and then the world.
@@ -148,5 +133,19 @@ public interface Being {
      * @return true if the being is not in the air
      */
     boolean isOnGround();
+
+    /**
+     * Gets the desired component for this {@link Being}. Components are a way to wrap various
+     * information without specifying that information as available in the implementing objects.
+     *
+     * <p>Examples of components may include health, effects, roles, mana, and other resources.</p>
+     *
+     * @param clazz The component class
+     * @param <T> The type of component class
+     * @return The component, if available
+     */
+    <T extends Component<T>> Optional<T> getComponent(Class<T> clazz);
+
+
 
 }

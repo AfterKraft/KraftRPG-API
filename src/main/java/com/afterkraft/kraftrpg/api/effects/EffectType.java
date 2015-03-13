@@ -25,19 +25,27 @@ package com.afterkraft.kraftrpg.api.effects;
 
 
 import javax.annotation.Nullable;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import org.spongepowered.api.service.persistence.DataSerializable;
+import org.spongepowered.api.service.persistence.DataSerializableBuilder;
+import org.spongepowered.api.service.persistence.InvalidDataException;
+import org.spongepowered.api.service.persistence.data.DataContainer;
 import org.spongepowered.api.service.persistence.data.DataQuery;
 import org.spongepowered.api.service.persistence.data.DataView;
+import org.spongepowered.api.service.persistence.data.MemoryDataContainer;
 
+import com.google.common.base.Optional;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 
 import com.afterkraft.kraftrpg.api.entity.Insentient;
+import com.afterkraft.kraftrpg.api.entity.component.EffectsComponent;
 import com.afterkraft.kraftrpg.api.skills.Skill;
 import com.afterkraft.kraftrpg.api.skills.SkillType;
 
@@ -45,7 +53,7 @@ import com.afterkraft.kraftrpg.api.skills.SkillType;
  * A basic effect and affect enum. Various effects require different settings, and sometimes, some
  * videos or tv shows are annoying as shit anyway.
  */
-public enum EffectType {
+public enum EffectType implements DataSerializable, DataSerializableBuilder<EffectType> {
 
     /**
      * An arid effect usually causing some sort of flight.
@@ -469,7 +477,7 @@ public enum EffectType {
 
     @Nullable
     private final SkillType resistance;
-    private final Set<EffectType> effectResists = new LinkedHashSet<>();
+    private final Set<EffectType> effectResists = Sets.newLinkedHashSet();
 
     EffectType() {
         this(null);
@@ -479,31 +487,6 @@ public enum EffectType {
             @Nullable
             SkillType resistance) {
         this.resistance = resistance;
-    }
-
-    public static Map<String, Object> serialize() {
-        Map<String, Object> map = Maps.newHashMap();
-        for (EffectType type : EffectType.values()) {
-            map.put(type.name(), type.effectResists);
-        }
-        return map;
-    }
-
-    public static void deserialize(DataView section) {
-        checkNotNull(section);
-        for (DataQuery key : section.getKeys(false)) {
-            EffectType type = EffectType.valueOf(key.asString('.'));
-            if (type != null) {
-                List<String> types = section.getStringList(key).get();
-                for (String resistTypeString : types) {
-                    EffectType resistType =
-                            EffectType.valueOf(resistTypeString);
-                    if (resistType != null) {
-                        type.addResistance(resistType);
-                    }
-                }
-            }
-        }
     }
 
     private EffectType addResistance(EffectType type) {
@@ -523,8 +506,13 @@ public enum EffectType {
      * @throws IllegalArgumentException If the skill is null
      */
     public boolean isSkillResisted(Insentient being, Skill skill) {
-        return (this.resistance != null && being.hasEffectType(this)
-                && skill.isType(this.resistance));
+        if (this.resistance == null) {
+            return false;
+        }
+        Optional<EffectsComponent> optional = being.getComponent(EffectsComponent.class);
+        return optional.isPresent() && optional.get().hasEffectType(this) && skill
+                .isType(this.resistance);
+
     }
 
     /**
@@ -540,8 +528,9 @@ public enum EffectType {
      * @throws IllegalArgumentException If the effect is null
      */
     public boolean isEffectResisted(Insentient being, Effect effect) {
-        if (!being.hasEffectType(this)) {
-            return false;
+        Optional<EffectsComponent> optional = being.getComponent(EffectsComponent.class);
+        if (optional.isPresent()) {
+            return !optional.get().hasEffectType(this);
         }
         for (EffectType type : this.effectResists) {
             if (effect.isType(type)) {
@@ -551,4 +540,40 @@ public enum EffectType {
         return false;
     }
 
+    @Override
+    public DataContainer toContainer() {
+        DataContainer container = new MemoryDataContainer();
+        ImmutableList.Builder<String> builder = ImmutableList.builder();
+        for (EffectType type : this.effectResists) {
+            builder.add(type.name());
+        }
+        container.set(new DataQuery(this.name()), builder.build());
+        return container;
+    }
+
+    @Override
+    public Optional<EffectType> build(DataView container) throws InvalidDataException {
+        Set<DataQuery> keys = container.getKeys(false);
+        for (DataQuery key : keys) {
+            EffectType type = EffectType.valueOf(key.asString("."));
+            if (type == null) {
+                throw new InvalidDataException("Expecting an EffectType name, got: " + key
+                        .asString("."));
+            } else {
+                Optional<List<String>> option = container.getStringList(key);
+                if (!option.isPresent()) {
+                    throw new InvalidDataException("Expecting an EffectTypes list!");
+                }
+                for (String effectName : container.getStringList(key).get()) {
+                    EffectType resist = EffectType.valueOf(effectName);
+                    if (resist == null) {
+                        throw new InvalidDataException("Expecting an EffectType name, got: "
+                                                               + effectName);
+                    }
+                    type.addResistance(resist);
+                }
+            }
+        }
+        return Optional.of(EffectType.AIR);
+    }
 }

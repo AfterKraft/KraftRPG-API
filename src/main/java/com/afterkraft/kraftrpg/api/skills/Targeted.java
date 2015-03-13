@@ -25,7 +25,7 @@ package com.afterkraft.kraftrpg.api.skills;
 
 import com.afterkraft.kraftrpg.api.entity.Being;
 import com.afterkraft.kraftrpg.api.entity.SkillCaster;
-import com.afterkraft.kraftrpg.common.skills.TargetedSkill;
+import com.afterkraft.kraftrpg.common.skills.TargetedSkillAbstract;
 
 /**
  * A Targeted skill is an Active skill that requires an {@link Being} target. The skill will usually
@@ -33,7 +33,7 @@ import com.afterkraft.kraftrpg.common.skills.TargetedSkill;
  * care of: Targeted uses the type E to allow refinement as to the types of Entities are valid for
  * the skill. If the skill requires a Creature, {@link #useSkill(SkillCaster, Being,
  * org.spongepowered.api.entity.Entity)} will only be called when the SkillCaster has targeted a
- * Creature. The default implementation is a {@link TargetedSkill}.
+ * Creature. The default implementation is a {@link TargetedSkillAbstract}.
  *
  * @param <E> The entity type to target
  */

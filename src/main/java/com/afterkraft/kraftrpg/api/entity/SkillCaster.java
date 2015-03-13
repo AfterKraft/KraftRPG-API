@@ -35,7 +35,7 @@ import com.afterkraft.kraftrpg.api.skills.Stalled;
  * SkillCaster is the core interface that {@link Skill}s use when casting. A SkillCaster is able to
  * cast skills and may have cooldowns for various types of skills and effects.
  */
-public interface SkillCaster extends Sentient, PartyMember {
+public interface SkillCaster extends Sentient {
 
     /**
      * Get the key'ed cooldown. Used by skills to mark individual cooldowns

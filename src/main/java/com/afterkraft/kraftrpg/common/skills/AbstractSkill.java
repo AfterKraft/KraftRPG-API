@@ -33,11 +33,13 @@ import java.util.Set;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import org.spongepowered.api.entity.Entity;
 import org.spongepowered.api.entity.living.Living;
 import org.spongepowered.api.event.cause.Cause;
 import org.spongepowered.api.item.inventory.ItemStack;
 import org.spongepowered.api.service.persistence.data.DataQuery;
 import org.spongepowered.api.service.persistence.data.DataView;
+import org.spongepowered.api.service.persistence.data.MemoryDataContainer;
 import org.spongepowered.api.text.message.Message;
 import org.spongepowered.api.text.message.Messages;
 
@@ -65,13 +67,10 @@ import com.afterkraft.kraftrpg.common.DamageType;
  */
 public abstract class AbstractSkill implements Skill {
 
-    private static final Function<? super Double, Double> ZERO =
-            Functions.constant(-0.0);
-
     public final RPGPlugin plugin;
     private final Set<SkillType> skillTypes = EnumSet.noneOf(SkillType.class);
     private final String name;
-    private Message description = Messages.of("");
+    private final Message description;
     private boolean isEnabled = false;
     private DataView defaultConfig;
     private Set<SkillSetting> usedSettings = Sets.newHashSet();
@@ -81,14 +80,16 @@ public abstract class AbstractSkill implements Skill {
      *
      * @param plugin The instance of the RPGPlugin
      * @param name   The name of the skill
+     * @param description The description of this skill
      */
-    protected AbstractSkill(RPGPlugin plugin, String name) {
+    protected AbstractSkill(RPGPlugin plugin, String name, Message description) {
         checkNotNull(plugin);
         checkNotNull(name);
         checkArgument(!name.isEmpty());
         this.plugin = plugin;
         this.name = name;
-        this.defaultConfig = null;
+        this.description = description;
+        this.defaultConfig = new MemoryDataContainer();
     }
 
     public static void knockback(Insentient target, Insentient attacker,
@@ -245,14 +246,13 @@ public abstract class AbstractSkill implements Skill {
      *
      * @throws IllegalArgumentException If the setting is null
      */
-    protected void setDefault(SkillSetting node, Object value) {
+    protected final void setDefault(SkillSetting node, Object value) {
         if (node.getClass().equals(SkillSetting.class)
                 && !SkillSetting.LIST_SETTINGS.contains(node)) {
             throw new IllegalArgumentException("Attempt to set string default "
                                                        + "of a non-string SkillSetting");
         }
-        DataView section = getDefaultConfig();
-        section.set(node.node(), value);
+        this.defaultConfig.set(node.node(), value);
         this.usedSettings.add(node);
     }
 
@@ -266,9 +266,8 @@ public abstract class AbstractSkill implements Skill {
      *
      * @throws IllegalArgumentException If the setting is null
      */
-    protected void setDefault(String node, Object value) {
-        DataView section = getDefaultConfig();
-        section.set(new DataQuery(node), value);
+    protected final void setDefault(String node, Object value) {
+        this.defaultConfig.set(new DataQuery(node), value);
         this.usedSettings.add(new InnerSkillSetting(node));
     }
 
@@ -282,14 +281,13 @@ public abstract class AbstractSkill implements Skill {
      *
      * @throws IllegalArgumentException If the setting is null
      */
-    protected void setDefault(SkillSetting node, boolean value) {
+    protected final void setDefault(SkillSetting node, boolean value) {
         if (node.getClass().equals(SkillSetting.class)
                 && !SkillSetting.BOOLEAN_SETTINGS.contains(node)) {
             throw new IllegalArgumentException("Attempt to set boolean "
                                                        + "default of a non-boolean SkillSetting");
         }
-        DataView section = getDefaultConfig();
-        section.set(node.node(), value);
+        this.defaultConfig.set(node.node(), value);
         this.usedSettings.add(node);
     }
 
@@ -303,9 +301,8 @@ public abstract class AbstractSkill implements Skill {
      *
      * @throws IllegalArgumentException If the setting is null
      */
-    protected void setDefault(String node, boolean value) {
-        DataView section = getDefaultConfig();
-        section.set(new DataQuery(node), value);
+    protected final void setDefault(String node, boolean value) {
+        this.defaultConfig.set(new DataQuery(node), value);
         this.usedSettings.add(new InnerSkillSetting(node));
     }
 
@@ -319,12 +316,11 @@ public abstract class AbstractSkill implements Skill {
      *
      * @throws IllegalArgumentException If the setting is null
      */
-    protected void setDefault(SkillSetting node, double value) {
-        DataView section = getDefaultConfig();
-        section.set(node.node(), value);
+    protected final void setDefault(SkillSetting node, double value) {
+        this.defaultConfig.set(node.node(), value);
         this.usedSettings.add(node);
         if (node.scalingNode().isPresent()) {
-            section.set(node.scalingNode().get(), 0);
+            this.defaultConfig.set(node.scalingNode().get(), 0);
         }
     }
 
@@ -338,9 +334,8 @@ public abstract class AbstractSkill implements Skill {
      *
      * @throws IllegalArgumentException If the setting is null
      */
-    protected void setDefault(String node, double value) {
-        DataView section = getDefaultConfig();
-        section.set(new DataQuery(node), value);
+    protected final void setDefault(String node, double value) {
+        this.defaultConfig.set(new DataQuery(node), value);
         this.usedSettings.add(new InnerSkillSetting(node));
     }
 
@@ -355,16 +350,15 @@ public abstract class AbstractSkill implements Skill {
      *
      * @throws IllegalArgumentException If the setting is null
      */
-    protected void setDefault(SkillSetting node, double value,
+    protected final void setDefault(SkillSetting node, double value,
                               double valuePerLevel) {
         if (node.scalingNode().isPresent()) {
             throw new IllegalArgumentException(
                     "Attempt to set scaling default of "
                             + "a non-scaling SkillSetting");
         }
-        DataView section = getDefaultConfig();
-        section.set(node.node(), value);
-        section.set(node.scalingNode().get(), valuePerLevel);
+        this.defaultConfig.set(node.node(), value);
+        this.defaultConfig.set(node.scalingNode().get(), valuePerLevel);
         this.usedSettings.add(node);
     }
 
@@ -379,10 +373,9 @@ public abstract class AbstractSkill implements Skill {
      *
      * @throws IllegalArgumentException If the setting is null
      */
-    protected void setDefault(String node, double value, double valuePerLevel) {
-        DataView section = getDefaultConfig();
-        section.set(new DataQuery(node), value);
-        section.set(new DataQuery(node + "-per-level"), valuePerLevel);
+    protected final void setDefault(String node, double value, double valuePerLevel) {
+        this.defaultConfig.set(new DataQuery(node), value);
+        this.defaultConfig.set(new DataQuery(node + "-per-level"), valuePerLevel);
         this.usedSettings.add(new InnerSkillSetting(node, true));
     }
 
@@ -396,15 +389,14 @@ public abstract class AbstractSkill implements Skill {
      *
      * @throws IllegalArgumentException If the setting is null
      */
-    protected void setDefault(SkillSetting node, String value) {
+    protected final void setDefault(SkillSetting node, String value) {
         if (node.getClass().equals(SkillSetting.class)
                 && !SkillSetting.STRING_SETTINGS.contains(node)) {
             throw new IllegalArgumentException(
                     "Attempt to set string default of "
                             + "a non-string SkillSetting");
         }
-        DataView section = getDefaultConfig();
-        section.set(node.node(), value);
+        this.defaultConfig.set(node.node(), value);
         this.usedSettings.add(node);
     }
 
@@ -418,9 +410,8 @@ public abstract class AbstractSkill implements Skill {
      *
      * @throws IllegalArgumentException If the setting is null
      */
-    protected void setDefault(String node, String value) {
-        DataView section = getDefaultConfig();
-        section.set(new DataQuery(node), value);
+    protected final void setDefault(String node, String value) {
+        this.defaultConfig.set(new DataQuery(node), value);
         this.usedSettings.add(new InnerSkillSetting(node));
     }
 
@@ -435,15 +426,14 @@ public abstract class AbstractSkill implements Skill {
      *
      * @throws IllegalArgumentException If the setting is null
      */
-    protected void setDefault(SkillSetting node, List<?> value) {
+    protected final void setDefault(SkillSetting node, List<?> value) {
         if (node.getClass().equals(SkillSetting.class)
                 && !SkillSetting.LIST_SETTINGS.contains(node)) {
             throw new IllegalArgumentException(
                     "Attempt to set string default of "
                             + "a non-list SkillSetting");
         }
-        DataView section = getDefaultConfig();
-        section.set(node.node(), value);
+        this.defaultConfig.set(node.node(), value);
         this.usedSettings.add(node);
     }
 
@@ -457,9 +447,8 @@ public abstract class AbstractSkill implements Skill {
      *
      * @throws IllegalArgumentException If the setting is null
      */
-    protected void setDefault(String node, List<?> value) {
-        DataView section = getDefaultConfig();
-        section.set(new DataQuery(node), value);
+    protected final void setDefault(String node, List<?> value) {
+        this.defaultConfig.set(new DataQuery(node), value);
         this.usedSettings.add(new InnerSkillSetting(node));
     }
 
@@ -473,14 +462,13 @@ public abstract class AbstractSkill implements Skill {
      *
      * @throws IllegalArgumentException If the setting is null
      */
-    protected void setDefault(SkillSetting node, ItemStack value) {
+    protected final void setDefault(SkillSetting node, ItemStack value) {
         if (node.getClass().equals(SkillSetting.class)
                 && node != SkillSetting.REAGENT) {
             throw new IllegalArgumentException("Attempt to set item default of "
                                                        + "a non-item SkillSetting");
         }
-        DataView section = getDefaultConfig();
-        section.set(node.node(), Utilities.copyOf(value));
+        this.defaultConfig.set(node.node(), Utilities.copyOf(value));
         this.usedSettings.add(node);
     }
 
@@ -494,9 +482,8 @@ public abstract class AbstractSkill implements Skill {
      *
      * @throws IllegalArgumentException If the setting is null
      */
-    protected void setDefault(String node, ItemStack value) {
-        DataView section = getDefaultConfig();
-        section.set(new DataQuery(node), Utilities.copyOf(value));
+    protected final void setDefault(String node, ItemStack value) {
+        this.defaultConfig.set(new DataQuery(node), Utilities.copyOf(value));
         this.usedSettings.add(new InnerSkillSetting(node));
     }
 
@@ -537,12 +524,13 @@ public abstract class AbstractSkill implements Skill {
     }
 
     @Override
-    public DataView getDefaultConfig() {
-        return this.defaultConfig;
+    public final DataView getDefaultConfig() {
+        DataView clone = new MemoryDataContainer();
+        return clone.createView(new DataQuery(), this.defaultConfig.getValues(true));
     }
 
     @Override
-    public Collection<SkillSetting> getUsedConfigNodes() {
+    public final Collection<SkillSetting> getUsedConfigNodes() {
         return ImmutableList.<SkillSetting>builder().addAll(this.usedSettings)
                 .build();
     }
@@ -553,13 +541,7 @@ public abstract class AbstractSkill implements Skill {
     }
 
     @Override
-    public final void setDescription(Message description) {
-        checkNotNull(description);
-        this.description = description;
-    }
-
-    @Override
-    public boolean addSkillTarget(org.spongepowered.api.entity.Entity entity, SkillCaster caster) {
+    public boolean addSkillTarget(Entity entity, SkillCaster caster) {
         this.plugin.getSkillManager().addSkillTarget(entity, caster, this);
         return true;
     }

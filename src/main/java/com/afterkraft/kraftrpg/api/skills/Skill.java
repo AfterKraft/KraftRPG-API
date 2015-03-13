@@ -76,13 +76,6 @@ public interface Skill {
     Message getDescription();
 
     /**
-     * Set the description for this skill.
-     *
-     * @param description the description for this skill
-     */
-    void setDescription(Message description);
-
-    /**
      * Should be used to register any necessary listeners and managers for active use.
      */
     void initialize();

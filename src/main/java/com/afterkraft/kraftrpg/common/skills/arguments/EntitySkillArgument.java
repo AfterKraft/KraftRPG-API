@@ -30,6 +30,7 @@ import java.util.List;
 
 import org.spongepowered.api.entity.Entity;
 import org.spongepowered.api.entity.living.Living;
+import org.spongepowered.api.text.message.Message;
 
 import com.flowpowered.math.vector.Vector3d;
 import com.flowpowered.math.vector.Vector3f;
@@ -191,7 +192,7 @@ public class EntitySkillArgument<E extends Entity> extends
     }
 
     @Override
-    public List<String> tabComplete(SkillCaster caster, String[] allArgs,
+    public List<Message> tabComplete(SkillCaster caster, String[] allArgs,
                                     int startPosition) {
         return Lists.newArrayList();
     }
