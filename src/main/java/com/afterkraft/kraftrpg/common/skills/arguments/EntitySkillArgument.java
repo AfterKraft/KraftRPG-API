@@ -30,10 +30,9 @@ import java.util.List;
 
 import org.spongepowered.api.entity.Entity;
 import org.spongepowered.api.entity.living.Living;
-import org.spongepowered.api.text.message.Message;
+import org.spongepowered.api.text.Text;
 
 import com.flowpowered.math.vector.Vector3d;
-import com.flowpowered.math.vector.Vector3f;
 import com.google.common.base.Optional;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Lists;
@@ -132,7 +131,7 @@ public class EntitySkillArgument<E extends Entity> extends
                     }
                 });
         Living actor = caster.getEntity().get();
-        Vector3f middle = actor.getEyeLocation();
+        Vector3d middle = actor.getEyeLocation();
 
         double closestDistance = this.maxDistance;
         @Nullable
@@ -147,22 +146,15 @@ public class EntitySkillArgument<E extends Entity> extends
 
             Vector3d otherMiddle = entity.getLocation().getPosition();
             if (entity instanceof Living) {
-                Vector3f eyeVec = ((Living) entity).getEyeLocation();
-                otherMiddle = new Vector3d(eyeVec.getX(), eyeVec.getY(),
-                                           eyeVec.getZ());
+                otherMiddle = ((Living) entity).getEyeLocation();
             }
-            Vector3d diff = otherMiddle.sub(new Vector3d(middle.getX(),
-                                                         middle.getY(),
-                                                         middle.getZ()));
+            final Vector3d diff = otherMiddle.sub(middle);
             // Algorithm: Make a triangle
-            Vector3d doubleDirection = new Vector3d(middle.getX(),
-                                                    middle.getY(),
-                                                    middle.getZ());
-            double b = diff.dot(doubleDirection);
-            double c = middle.distanceSquared(new Vector3f(otherMiddle.getX()
-                    , otherMiddle.getY(), otherMiddle.getZ()));
+            final Vector3d doubleDirection = middle.clone();
+            final double b = diff.dot(doubleDirection);
+            final double c = middle.distanceSquared(otherMiddle);
 
-            double a = Math.sqrt(c - b * b);
+            final double a = Math.sqrt(c - b * b);
             if (a < closestDistance) {
                 if (this.condition.apply(ent)) {
                     closestDistance = a;
@@ -192,8 +184,8 @@ public class EntitySkillArgument<E extends Entity> extends
     }
 
     @Override
-    public List<Message> tabComplete(SkillCaster caster, String[] allArgs,
-                                    int startPosition) {
+    public List<Text> tabComplete(SkillCaster caster, String[] allArgs,
+                                  int startPosition) {
         return Lists.newArrayList();
     }
 

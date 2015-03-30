@@ -25,7 +25,7 @@ package com.afterkraft.kraftrpg.api.skills;
 
 import java.util.List;
 
-import org.spongepowered.api.text.message.Message;
+import org.spongepowered.api.text.Text;
 
 import com.google.common.base.Optional;
 
@@ -103,7 +103,7 @@ public interface Active extends Skill {
      *
      * @return A string list of available completable entries
      */
-    List<Message> tabComplete(SkillCaster caster, String[] args, int startIndex);
+    List<Text> tabComplete(SkillCaster caster, String[] args, int startIndex);
 
     /**
      * Without parsed state, check if the given SkillCaster is permitted to cast this skill.

@@ -27,8 +27,8 @@ import java.lang.ref.WeakReference;
 import java.util.List;
 
 import org.spongepowered.api.entity.player.Player;
-import org.spongepowered.api.text.message.Message;
-import org.spongepowered.api.text.message.Messages;
+import org.spongepowered.api.text.Text;
+import org.spongepowered.api.text.Texts;
 
 import com.google.common.base.Optional;
 import com.google.common.base.Predicate;
@@ -82,12 +82,12 @@ public class RaytracingPlayerSkillArgument extends EntitySkillArgument<Player> {
     }
 
     @Override
-    public List<Message> tabComplete(SkillCaster caster, String[] allArgs,
-                                    int startPosition) {
-        ImmutableList.Builder<Message> builder = ImmutableList.builder();
+    public List<Text> tabComplete(SkillCaster caster, String[] allArgs,
+                                  int startPosition) {
+        ImmutableList.Builder<Text> builder = ImmutableList.builder();
         for (String message : Utilities.matchPlayers(allArgs[startPosition], (Player) caster
                 .getEntity())) {
-            builder.add(Messages.of(message));
+            builder.add(Texts.of(message));
         }
         return builder.build();
     }

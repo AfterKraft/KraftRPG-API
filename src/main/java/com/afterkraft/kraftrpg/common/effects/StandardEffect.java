@@ -29,8 +29,8 @@ import java.util.Set;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import org.spongepowered.api.text.message.Message;
-import org.spongepowered.api.text.message.Messages;
+import org.spongepowered.api.text.Text;
+import org.spongepowered.api.text.Texts;
 import org.spongepowered.api.world.Location;
 
 import com.google.common.base.Objects;
@@ -45,31 +45,31 @@ import com.afterkraft.kraftrpg.api.effects.EffectType;
 import com.afterkraft.kraftrpg.api.entity.Insentient;
 
 /**
- * Standard implementation of an {@link Effect}. The standard effect can be used to create
- * effects without worrying about extending implementing many methods.
+ * Standard implementation of an {@link Effect}. The standard effect can be used to create effects
+ * without worrying about extending implementing many methods.
  *
- * As the contract of {@link Effect} dictates, the standard effect is immutable upon creation.
- * The effect should not change once created, and can not be modified in any way.
+ * As the contract of {@link Effect} dictates, the standard effect is immutable upon creation. The
+ * effect should not change once created, and can not be modified in any way.
  */
 public class StandardEffect implements Effect {
     protected final Set<EffectProperty<?>> properties;
     protected final Set<EffectType> types;
     private final Set<ApplyEffectOperation> applyOperations;
     private final String name;
-    private final Message applyText;
+    private final Text applyText;
     protected long applyTime;
 
     /**
      * Creates a new {@link StandardEffect} with the desired operations, name and effect types.
      *
-     * @param name The name of this standard effect
+     * @param name            The name of this standard effect
      * @param applyOperations The many standard operations when the effect is applied
-     * @param types The various effect types
+     * @param types           The various effect types
      */
     public StandardEffect(String name,
-                             Set<ApplyEffectOperation> applyOperations,
-                             Collection<EffectType> types) {
-        this(name, applyOperations, types, Messages.of(""), Sets.<EffectProperty<?>>newHashSet());
+                          Set<ApplyEffectOperation> applyOperations,
+                          Collection<EffectType> types) {
+        this(name, applyOperations, types, Texts.of(""), Sets.<EffectProperty<?>>newHashSet());
     }
 
     /**
@@ -78,17 +78,19 @@ public class StandardEffect implements Effect {
      *
      * <p>The application properties are copied and can not be changed once added to the effect
      * .</p>
-     * @param name The name of this standard effect
-     * @param applyOperations The many operations that will be performed when this effect is applied
-     * @param types The effect types
-     * @param applyText The message that is shown on application
-     * @param properties The effect properties, further customizing what this effect does
+     *
+     * @param name            The name of this standard effect
+     * @param applyOperations The many operations that will be performed when this effect is
+     *                        applied
+     * @param types           The effect types
+     * @param applyText       The message that is shown on application
+     * @param properties      The effect properties, further customizing what this effect does
      */
     public StandardEffect(String name,
-                             Set<ApplyEffectOperation> applyOperations,
-                             Collection<EffectType> types,
-                             Message applyText,
-                             Set<EffectProperty<?>> properties) {
+                          Set<ApplyEffectOperation> applyOperations,
+                          Collection<EffectType> types,
+                          Text applyText,
+                          Set<EffectProperty<?>> properties) {
         checkArgument(!name.isEmpty(),
                       "Cannot create an effect with an empty name!");
         checkNotNull(applyOperations);
@@ -143,7 +145,7 @@ public class StandardEffect implements Effect {
     }
 
     @Override
-    public final Message getApplyText() {
+    public final Text getApplyText() {
         return this.applyText;
     }
 

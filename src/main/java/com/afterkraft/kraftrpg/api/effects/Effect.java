@@ -25,7 +25,7 @@ package com.afterkraft.kraftrpg.api.effects;
 
 import java.util.Set;
 
-import org.spongepowered.api.text.message.Message;
+import org.spongepowered.api.text.Text;
 
 import com.google.common.base.Optional;
 
@@ -70,7 +70,7 @@ public interface Effect {
      * @param propertyClass The property class to get
      * @param <T>           The type of effect property
      *
-     * @return The effect property, if available
+     * @return The effect property, if not {@link Optional#absent()}
      */
     <T extends EffectProperty<?>> Optional<T> getProperty(Class<T> propertyClass);
 
@@ -90,7 +90,7 @@ public interface Effect {
      *
      * @return the message when this effect is applied
      */
-    Message getApplyText();
+    Text getApplyText();
 
     /**
      * Represents an operation of an effect being applied on an {@link Insentient} being.

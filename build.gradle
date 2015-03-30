@@ -61,6 +61,9 @@ dependencies {
 task javadocJar(type: Jar, dependsOn: javadoc) {
     classifier 'javadoc'
     from javadoc.destinationDir
+    javadoc.options.links("http://docs.guava-libraries.googlecode.com/git-history/v18.0/javadoc/",
+            "http://spongepowered.github.io/SpongeAPI/",
+            "http://docs.oracle.com/javase/7/docs/api/")
 }
 // Generates sources.jar
 task sourceJar(type: Jar) {

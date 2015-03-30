@@ -40,7 +40,7 @@ public interface MessagingComponent extends Component<MessagingComponent> {
      * Send a message with the given object array as arguments to replace.
      *
      * @param message The message
-     * @param args The arguments to populate the message
+     * @param args    The arguments to populate the message
      */
     void sendMessage(String message, Object... args);
 

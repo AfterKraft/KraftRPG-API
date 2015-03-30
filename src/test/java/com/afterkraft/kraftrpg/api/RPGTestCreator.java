@@ -36,8 +36,8 @@ import static org.junit.Assert.assertTrue;
 import org.powermock.api.easymock.PowerMock;
 import org.spongepowered.api.Game;
 import org.spongepowered.api.Server;
-import org.spongepowered.api.text.message.Message.Text;
-import org.spongepowered.api.text.message.Messages;
+import org.spongepowered.api.text.Text;
+import org.spongepowered.api.text.Texts;
 
 import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableList;
@@ -87,11 +87,6 @@ public class RPGTestCreator {
             expect(RpgCommon.getLogger()).andStubReturn(Util.logger);
             expect(RpgCommon.getPlugin()).andStubReturn(this.mockPlugin);
 
-            PowerMock.mockStatic(Messages.class);
-            Text mockText = createNiceMock(Text.class);
-            expect(Messages.of(anyString())).andStubReturn(mockText);
-            replay(mockText);
-            PowerMock.replay(Messages.class);
             // Create test skill
             this.mockSkill = new TestSkillAbstract(this.mockPlugin);
 

@@ -27,8 +27,8 @@ import javax.annotation.Nullable;
 import java.util.List;
 import java.util.regex.Matcher;
 
-import org.spongepowered.api.text.message.Message;
-import org.spongepowered.api.text.message.Messages;
+import org.spongepowered.api.text.Text;
+import org.spongepowered.api.text.Texts;
 import org.spongepowered.api.world.Location;
 
 import com.flowpowered.math.vector.Vector3d;
@@ -46,7 +46,6 @@ import com.afterkraft.kraftrpg.common.skills.AbstractSkillArgument;
 public class ExplicitLocationArgument extends AbstractSkillArgument<Location> {
     private static final Location nullLocation =
             new Location(null, new Vector3d());
-    @Nullable
     private Location location = nullLocation;
 
     /**
@@ -61,7 +60,11 @@ public class ExplicitLocationArgument extends AbstractSkillArgument<Location> {
     public void setLocation(
             @Nullable
             Location loc) {
-        this.location = loc;
+        if (loc == null) {
+            this.location = nullLocation;
+        } else {
+            this.location = loc;
+        }
     }
 
     @Override
@@ -105,8 +108,8 @@ public class ExplicitLocationArgument extends AbstractSkillArgument<Location> {
             return;
         }
 
-        /*
-        this.location = caster.getLocation().clone();
+
+        this.location = caster.getLocation();
 
         double diffX = 0;
         double diffY = 0;
@@ -118,7 +121,7 @@ public class ExplicitLocationArgument extends AbstractSkillArgument<Location> {
             String number = curArg.substring(1);
             diffX = tryParseNum(number);
         } else {
-            this.location.setX(tryParseNum(curArg));
+            this.location.add(tryParseNum(curArg), 0, 0);
         }
 
         curArg = allArgs[startPosition + 1];
@@ -126,7 +129,7 @@ public class ExplicitLocationArgument extends AbstractSkillArgument<Location> {
             String number = curArg.substring(1);
             diffY = tryParseNum(number);
         } else {
-            this.location.setY(tryParseNum(curArg));
+            this.location.add(0, tryParseNum(curArg), 0);
         }
 
         curArg = allArgs[startPosition + 2];
@@ -134,11 +137,10 @@ public class ExplicitLocationArgument extends AbstractSkillArgument<Location> {
             String number = curArg.substring(1);
             diffZ = tryParseNum(number);
         } else {
-            this.location.setZ(tryParseNum(curArg));
+            this.location.add(0, 0, tryParseNum(curArg));
         }
 
         this.location.add(diffX, diffY, diffZ);
-        */
     }
 
     @Override
@@ -157,15 +159,15 @@ public class ExplicitLocationArgument extends AbstractSkillArgument<Location> {
     }
 
     @Override
-    public List<Message> tabComplete(SkillCaster caster, String[] allArgs,
-                                    int startPosition) {
+    public List<Text> tabComplete(SkillCaster caster, String[] allArgs,
+                                  int startPosition) {
         int argsProvided = allArgs.length - startPosition;
         switch (argsProvided) {
             case 0:
             case 1:
             case 2:
             case 3:
-                return ImmutableList.<Message>of(Messages.of("~"));
+                return ImmutableList.<Text>of(Texts.of("~"));
             default:
                 return ImmutableList.of();
         }

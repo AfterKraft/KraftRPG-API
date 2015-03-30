@@ -23,6 +23,7 @@
  */
 package com.afterkraft.kraftrpg.common.skills;
 
+import javax.annotation.Nullable;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.EnumSet;
@@ -40,11 +41,9 @@ import org.spongepowered.api.item.inventory.ItemStack;
 import org.spongepowered.api.service.persistence.data.DataQuery;
 import org.spongepowered.api.service.persistence.data.DataView;
 import org.spongepowered.api.service.persistence.data.MemoryDataContainer;
-import org.spongepowered.api.text.message.Message;
-import org.spongepowered.api.text.message.Messages;
+import org.spongepowered.api.text.Text;
 
 import com.google.common.base.Function;
-import com.google.common.base.Functions;
 import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Maps;
@@ -70,7 +69,7 @@ public abstract class AbstractSkill implements Skill {
     public final RPGPlugin plugin;
     private final Set<SkillType> skillTypes = EnumSet.noneOf(SkillType.class);
     private final String name;
-    private final Message description;
+    private final Text description;
     private boolean isEnabled = false;
     private DataView defaultConfig;
     private Set<SkillSetting> usedSettings = Sets.newHashSet();
@@ -78,11 +77,11 @@ public abstract class AbstractSkill implements Skill {
     /**
      * Creates a new instance of a Skill, the default implementation of {@link Skill}.
      *
-     * @param plugin The instance of the RPGPlugin
-     * @param name   The name of the skill
+     * @param plugin      The instance of the RPGPlugin
+     * @param name        The name of the skill
      * @param description The description of this skill
      */
-    protected AbstractSkill(RPGPlugin plugin, String name, Message description) {
+    protected AbstractSkill(RPGPlugin plugin, String name, Text description) {
         checkNotNull(plugin);
         checkNotNull(name);
         checkArgument(!name.isEmpty());
@@ -351,7 +350,7 @@ public abstract class AbstractSkill implements Skill {
      * @throws IllegalArgumentException If the setting is null
      */
     protected final void setDefault(SkillSetting node, double value,
-                              double valuePerLevel) {
+                                    double valuePerLevel) {
         if (node.scalingNode().isPresent()) {
             throw new IllegalArgumentException(
                     "Attempt to set scaling default of "
@@ -536,7 +535,7 @@ public abstract class AbstractSkill implements Skill {
     }
 
     @Override
-    public final Message getDescription() {
+    public final Text getDescription() {
         return this.description;
     }
 
@@ -552,11 +551,9 @@ public abstract class AbstractSkill implements Skill {
     }
 
     @Override
-    public boolean isInMessageRange(SkillCaster broadcaster,
-                                    Champion receiver) {
+    public boolean isInMessageRange(SkillCaster broadcaster, Champion receiver) {
         return broadcaster.getLocation().getPosition()
-                .distanceSquared(receiver.getLocation().getPosition()) < (20
-                * 20);
+                .distanceSquared(receiver.getLocation().getPosition()) < (20 * 20);
     }
 
     /**
@@ -586,6 +583,13 @@ public abstract class AbstractSkill implements Skill {
     private static final class InnerSkillSetting extends SkillSetting {
         private InnerSkillSetting(String node) {
             super(node);
+            Function<String, Boolean> function = new Function<String, Boolean>() {
+                @Nullable
+                @Override
+                public Boolean apply(String input) {
+                    return null;
+                }
+            };
         }
 
         private InnerSkillSetting(String node, boolean scaled) {

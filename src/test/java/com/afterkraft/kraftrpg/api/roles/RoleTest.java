@@ -25,7 +25,6 @@ package com.afterkraft.kraftrpg.api.roles;
 
 import java.util.List;
 
-import static org.easymock.EasyMock.anyObject;
 import static org.easymock.EasyMock.createMock;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.notNull;
@@ -43,7 +42,6 @@ import org.powermock.api.easymock.PowerMock;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.spongepowered.api.service.persistence.data.DataContainer;
-import org.spongepowered.api.text.message.Messages;
 
 import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableList;
@@ -67,7 +65,7 @@ import com.afterkraft.kraftrpg.api.util.DataUtil;
  * Performs all tests on the Role object directly.
  */
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({RpgCommon.class, DataUtil.class, Messages.class})
+@PrepareForTest({RpgCommon.class, DataUtil.class})
 public class RoleTest {
     private RPGPlugin plugin;
     private RPGTestCreator creator;

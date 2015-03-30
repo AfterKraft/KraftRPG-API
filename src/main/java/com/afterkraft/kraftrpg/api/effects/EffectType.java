@@ -26,10 +26,7 @@ package com.afterkraft.kraftrpg.api.effects;
 
 import javax.annotation.Nullable;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
-
-import static com.google.common.base.Preconditions.checkNotNull;
 
 import org.spongepowered.api.service.persistence.DataSerializable;
 import org.spongepowered.api.service.persistence.DataSerializableBuilder;
@@ -41,7 +38,6 @@ import org.spongepowered.api.service.persistence.data.MemoryDataContainer;
 
 import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
 import com.afterkraft.kraftrpg.api.entity.Insentient;
@@ -489,11 +485,6 @@ public enum EffectType implements DataSerializable, DataSerializableBuilder<Effe
         this.resistance = resistance;
     }
 
-    private EffectType addResistance(EffectType type) {
-        this.effectResists.add(type);
-        return this;
-    }
-
     /**
      * Checks if this EffectType restricted the {@link SkillType} active to the {@link Skill} and
      * {@link Insentient} being.
@@ -575,5 +566,10 @@ public enum EffectType implements DataSerializable, DataSerializableBuilder<Effe
             }
         }
         return Optional.of(EffectType.AIR);
+    }
+
+    private EffectType addResistance(EffectType type) {
+        this.effectResists.add(type);
+        return this;
     }
 }

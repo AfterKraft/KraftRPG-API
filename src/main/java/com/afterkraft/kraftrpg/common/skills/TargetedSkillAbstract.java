@@ -26,7 +26,7 @@ package com.afterkraft.kraftrpg.common.skills;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import org.spongepowered.api.entity.Entity;
-import org.spongepowered.api.text.message.Message;
+import org.spongepowered.api.text.Text;
 
 import com.google.common.base.Optional;
 
@@ -68,7 +68,7 @@ public abstract class TargetedSkillAbstract<E extends Entity>
      * @param description The description of this skill
      * @param entityClass The target entity class
      */
-    protected TargetedSkillAbstract(RPGPlugin plugin, String name, Message description,
+    protected TargetedSkillAbstract(RPGPlugin plugin, String name, Text description,
                                     Class<E> entityClass) {
         this(plugin, name, description, entityClass, 10);
     }
@@ -82,7 +82,7 @@ public abstract class TargetedSkillAbstract<E extends Entity>
      * @param entityClass The targeting entity class
      * @param maxDistance The maximum distance
      */
-    protected TargetedSkillAbstract(RPGPlugin plugin, String name, Message description,
+    protected TargetedSkillAbstract(RPGPlugin plugin, String name, Text description,
                                     Class<E> entityClass, int maxDistance) {
         super(plugin, name, description);
         checkNotNull(entityClass);

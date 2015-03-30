@@ -30,11 +30,37 @@ public class LateRegistrationException extends RuntimeException {
     private static final long serialVersionUID = -3147116935352263037L;
 
     /**
-     * Creates a new LateRegistrationException to be thrown.
+     * Creates a new {@link LateRegistrationException}.
+     */
+    public LateRegistrationException() {
+        super();
+    }
+
+    /**
+     * Creates a new {@link LateRegistrationException} to be thrown.
      *
      * @param message The message to include in the exception
      */
     public LateRegistrationException(String message) {
         super(message);
+    }
+
+    /**
+     * Creates a new {@link LateRegistrationException} to be thrown.
+     *
+     * @param cause The cause
+     */
+    public LateRegistrationException(Throwable cause) {
+        super(cause);
+    }
+
+    /**
+     * Creates a new {@link LateRegistrationException} to be thrown.
+     *
+     * @param message The message to include in the exception
+     * @param cause   The cause
+     */
+    public LateRegistrationException(String message, Throwable cause) {
+        super(message, cause);
     }
 }

@@ -23,10 +23,6 @@
  */
 package com.afterkraft.kraftrpg.api.entity;
 
-import javax.annotation.Nullable;
-import java.util.Collection;
-import java.util.List;
-
 import org.spongepowered.api.world.Location;
 
 import com.google.common.base.Optional;

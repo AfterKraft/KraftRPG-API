@@ -27,7 +27,7 @@ package com.afterkraft.kraftrpg.api.effects.properties;
 import java.util.Set;
 
 import org.spongepowered.api.potion.PotionEffect;
-import org.spongepowered.api.text.message.Message;
+import org.spongepowered.api.text.Text;
 
 import com.afterkraft.kraftrpg.api.effects.EffectOperation;
 import com.afterkraft.kraftrpg.api.effects.EffectOperationResult;
@@ -53,7 +53,7 @@ public interface RemovableProperty extends EffectProperty<RemovableProperty> {
      *
      * @return the message when this effect expires
      */
-    Message getRemovalText();
+    Text getRemovalText();
 
     /**
      * Represents an operation that is executed when an effect is being removed from an {@link

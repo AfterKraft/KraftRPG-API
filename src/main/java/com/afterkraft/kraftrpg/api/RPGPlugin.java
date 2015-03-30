@@ -23,8 +23,8 @@
  */
 package com.afterkraft.kraftrpg.api;
 
-import com.afterkraft.kraftrpg.api.entity.combat.CombatTracker;
 import com.afterkraft.kraftrpg.api.entity.EntityManager;
+import com.afterkraft.kraftrpg.api.entity.combat.CombatTracker;
 import com.afterkraft.kraftrpg.api.entity.party.PartyManager;
 import com.afterkraft.kraftrpg.api.listeners.ListenerManager;
 import com.afterkraft.kraftrpg.api.roles.RoleManager;

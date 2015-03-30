@@ -29,7 +29,7 @@ import java.util.List;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkState;
 
-import org.spongepowered.api.text.message.Message;
+import org.spongepowered.api.text.Text;
 
 import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableList;
@@ -48,7 +48,7 @@ public abstract class AbstractActiveSkill extends AbstractSkill implements Activ
     private String usage = "";
     private SkillCaster parsedCaster;
 
-    protected AbstractActiveSkill(RPGPlugin plugin, String name, Message description) {
+    protected AbstractActiveSkill(RPGPlugin plugin, String name, Text description) {
         super(plugin, name, description);
     }
 
@@ -130,8 +130,8 @@ public abstract class AbstractActiveSkill extends AbstractSkill implements Activ
     }
 
     @Override
-    public List<Message> tabComplete(SkillCaster caster, String[] strings,
-                                    int startIndex) {
+    public List<Text> tabComplete(SkillCaster caster, String[] strings,
+                                  int startIndex) {
         this.parsedCaster = caster;
 
         int stringIndex = startIndex;

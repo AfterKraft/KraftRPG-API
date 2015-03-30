@@ -54,13 +54,9 @@ public final class ExternalProviderRegistration {
 
     private static RPGPlugin plugin;
 
-    private static Map<String, StorageBackend> storageBackends =
-            Maps.newHashMap();
-    private static Map<DamageModifier, Function<? super Double, Double>>
-            modifiers =
-            Maps.newHashMap();
-    private static StorageFrontendFactory storageFrontend =
-            new StorageFrontendFactory.DefaultFactory();
+    private static Map<String, StorageBackend> storageBackends = Maps.newHashMap();
+    private static Map<DamageModifier, Function<? super Double, Double>> modifiers = Maps.newHashMap();
+    private static StorageFrontendFactory storageFrontend = new StorageFrontendFactory.DefaultFactory();
     private static Set<String> providedSkillNames = Sets.newHashSet();
     private static List<Skill> providedSkills = Lists.newArrayList();
     private static PartyManager partyManager;
@@ -100,12 +96,10 @@ public final class ExternalProviderRegistration {
      * @return True if successful
      * @throws LateRegistrationException If called after KraftRPG has been loaded
      */
-    public static boolean registerStorageBackend(StorageBackend storage,
-                                                 String... identifiers)
+    public static boolean registerStorageBackend(StorageBackend storage, String... identifiers)
             throws LateRegistrationException {
         check();
-        checkArgument(identifiers.length != 0,
-                      "Need to provide a config file identifier");
+        checkArgument(identifiers.length != 0, "Need to provide a config file identifier");
         checkNotNull(storage, "Attempt to register a null StorageBackend");
 
         for (String ident : identifiers) {
@@ -116,8 +110,7 @@ public final class ExternalProviderRegistration {
 
     public static void registerPartyManager(PartyManager manager) {
         check();
-        checkNotNull(manager, "Attempt to register a null PartyManager");
-        partyManager = manager;
+        partyManager = checkNotNull(manager, "Attempt to register a null PartyManager");
     }
 
     /**
@@ -128,8 +121,7 @@ public final class ExternalProviderRegistration {
      * @return True if the skill does not have a duplicate name
      * @throws LateRegistrationException if called after KraftRPG has been loaded
      */
-    public static boolean registerSkill(Skill skill) throws
-            LateRegistrationException {
+    public static boolean registerSkill(Skill skill) throws LateRegistrationException {
         check();
         String name = AbstractSkill.getNormalizedName(skill.getName());
         if (!providedSkillNames.add(name)) {
@@ -153,8 +145,7 @@ public final class ExternalProviderRegistration {
      * generally be ignored)
      * @throws LateRegistrationException if called after KraftRPG has been loaded
      */
-    public static boolean overrideSkill(Skill skill) throws
-            LateRegistrationException {
+    public static boolean overrideSkill(Skill skill) throws LateRegistrationException {
         check();
 
         String name = AbstractSkill.getNormalizedName(skill.getName());
@@ -185,10 +176,6 @@ public final class ExternalProviderRegistration {
         plugin = p;
     }
 
-    public static RPGPlugin getPlugin() {
-        return plugin;
-    }
-
     /**
      * You should not call this - KraftRPG will call this in its onEnable(), which closes any new
      * registrations.
@@ -200,9 +187,6 @@ public final class ExternalProviderRegistration {
         modifiers = ImmutableMap.copyOf(modifiers);
     }
 
-    public static Map<DamageModifier, Function<? super Double, Double>> getDamageFunctions() {
-        return modifiers;
-    }
 
     public static List<Skill> getRegisteredSkills() {
         return providedSkills;

@@ -27,7 +27,7 @@ import java.util.Collection;
 
 import org.spongepowered.api.entity.Entity;
 import org.spongepowered.api.service.persistence.data.DataView;
-import org.spongepowered.api.text.message.Message;
+import org.spongepowered.api.text.Text;
 
 import com.afterkraft.kraftrpg.api.entity.Champion;
 import com.afterkraft.kraftrpg.api.entity.SkillCaster;
@@ -73,7 +73,7 @@ public interface Skill {
      *
      * @return the description for this skill
      */
-    Message getDescription();
+    Text getDescription();
 
     /**
      * Should be used to register any necessary listeners and managers for active use.

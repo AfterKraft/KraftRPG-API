@@ -29,7 +29,7 @@ import java.util.UUID;
 import org.spongepowered.api.entity.Entity;
 import org.spongepowered.api.entity.EntityType;
 import org.spongepowered.api.service.persistence.data.DataHolder;
-import org.spongepowered.api.text.message.Message;
+import org.spongepowered.api.text.Text;
 import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
 
@@ -38,24 +38,24 @@ import com.google.common.base.Optional;
 import com.afterkraft.kraftrpg.api.entity.component.Component;
 
 /**
- * Represents an {@link Entity} linked with KraftRPG. This is the base
- * for all entities in KraftRPG.
+ * Represents an {@link Entity} linked with KraftRPG. This is the base for all entities in
+ * KraftRPG.
  */
 public interface Being extends DataHolder {
 
     /**
-     * Get the Bukkit name of this Entity
+     * Get the normalized name of this Entity
      *
-     * @return the Bukkit name of this Entity
+     * @return The normalized name of this Entity
      */
-    Message getName();
+    Text getName();
 
     /**
      * Get the cleansed name for this Entity. It may be a customized name.
      *
      * @return The customized display name for this Entity
      */
-    Message getDisplayName();
+    Text getDisplayName();
 
     /**
      * Check if the attached entity is still valid and not null
@@ -141,11 +141,11 @@ public interface Being extends DataHolder {
      * <p>Examples of components may include health, effects, roles, mana, and other resources.</p>
      *
      * @param clazz The component class
-     * @param <T> The type of component class
+     * @param <T>   The type of component class
+     *
      * @return The component, if available
      */
     <T extends Component<T>> Optional<T> getComponent(Class<T> clazz);
-
 
 
 }

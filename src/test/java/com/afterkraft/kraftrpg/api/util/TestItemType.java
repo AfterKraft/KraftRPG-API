@@ -25,7 +25,10 @@
 package com.afterkraft.kraftrpg.api.util;
 
 import org.spongepowered.api.item.ItemType;
+import org.spongepowered.api.item.properties.ItemProperty;
 import org.spongepowered.api.text.translation.Translation;
+
+import com.google.common.base.Optional;
 
 public class TestItemType implements ItemType {
 
@@ -46,13 +49,8 @@ public class TestItemType implements ItemType {
     }
 
     @Override
-    public boolean isDamageable() {
-        return false;
-    }
-
-    @Override
-    public int getMaxDamage() {
-        return 0;
+    public <T extends ItemProperty<?, ?>> Optional<T> getDefaultProperty(Class<T> propertyClass) {
+        return Optional.absent();
     }
 
     @Override

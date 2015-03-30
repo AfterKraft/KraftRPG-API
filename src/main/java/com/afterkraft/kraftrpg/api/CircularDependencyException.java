@@ -30,11 +30,38 @@ public class CircularDependencyException extends RuntimeException {
     private static final long serialVersionUID = 6924360924388448810L;
 
     /**
-     * Creates a new exception with the provided message.
+     * Creates a new {@link CircularDependencyException}.
+     */
+    public CircularDependencyException() {
+        super();
+    }
+
+    /**
+     * Creates a new {@link CircularDependencyException} with the provided message.
      *
      * @param message The message to provide with the exception
      */
     public CircularDependencyException(String message) {
         super(message);
     }
+
+    /**
+     * Creates a new {@link CircularDependencyException} with the provided message and cause.
+     *
+     * @param message The message to provide with the exception
+     * @param cause   The cause
+     */
+    public CircularDependencyException(String message, Throwable cause) {
+        super(message, cause);
+    }
+
+    /**
+     * Creates a new {@link CircularDependencyException} with the provided cause.
+     *
+     * @param cause The cause
+     */
+    public CircularDependencyException(Throwable cause) {
+        super(cause);
+    }
+
 }

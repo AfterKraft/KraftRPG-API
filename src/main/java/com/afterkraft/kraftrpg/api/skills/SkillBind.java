@@ -28,7 +28,6 @@ import java.util.Map;
 
 import org.spongepowered.api.item.ItemType;
 import org.spongepowered.api.service.persistence.DataSerializable;
-import org.spongepowered.api.service.persistence.DataSource;
 import org.spongepowered.api.service.persistence.data.DataContainer;
 
 import com.google.common.collect.Maps;

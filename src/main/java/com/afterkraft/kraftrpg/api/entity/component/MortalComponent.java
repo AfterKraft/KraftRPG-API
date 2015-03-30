@@ -34,8 +34,9 @@ public interface MortalComponent extends Component<MortalComponent> {
 
     Optional<DamageWrapper> getDamageWrapper();
 
-    void setDamageWrapper(@Nullable
-                          DamageWrapper wrapper);
+    void setDamageWrapper(
+            @Nullable
+            DamageWrapper wrapper);
 
     /**
      * Check if this being is dead

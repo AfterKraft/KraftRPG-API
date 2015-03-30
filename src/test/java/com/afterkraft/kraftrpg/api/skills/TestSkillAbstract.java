@@ -23,10 +23,8 @@
  */
 package com.afterkraft.kraftrpg.api.skills;
 
-import java.util.ArrayList;
-import java.util.Collection;
 
-import org.spongepowered.api.text.message.Messages;
+import org.spongepowered.api.text.Texts;
 
 import com.afterkraft.kraftrpg.api.RPGPlugin;
 import com.afterkraft.kraftrpg.api.entity.SkillCaster;
@@ -38,7 +36,7 @@ import com.afterkraft.kraftrpg.common.skills.AbstractActiveSkill;
 public class TestSkillAbstract extends AbstractActiveSkill {
 
     public TestSkillAbstract(RPGPlugin plugin) {
-        super(plugin, "TestSkill", Messages.of("This is a test skill."));
+        super(plugin, "TestSkill", Texts.of("This is a test skill."));
     }
 
     @Override
