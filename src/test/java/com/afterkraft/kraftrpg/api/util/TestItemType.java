@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2014 Gabriel Harris-Rouquette
+ * Copyright (c) 2014-2015 Gabriel Harris-Rouquette
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,11 +21,11 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
 package com.afterkraft.kraftrpg.api.util;
 
+import org.spongepowered.api.data.DataManipulator;
+import org.spongepowered.api.data.Property;
 import org.spongepowered.api.item.ItemType;
-import org.spongepowered.api.item.properties.ItemProperty;
 import org.spongepowered.api.text.translation.Translation;
 
 import com.google.common.base.Optional;
@@ -40,16 +40,21 @@ public class TestItemType implements ItemType {
 
     @Override
     public String getId() {
-        return null;
+        return this.id;
+    }
+
+    @Override
+    public String getName() {
+        return this.id;
     }
 
     @Override
     public int getMaxStackQuantity() {
-        return 0;
+        return 10;
     }
 
     @Override
-    public <T extends ItemProperty<?, ?>> Optional<T> getDefaultProperty(Class<T> propertyClass) {
+    public <T extends Property<?, ?>> Optional<T> getDefaultProperty(Class<T> propertyClass) {
         return Optional.absent();
     }
 

@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2014 Gabriel Harris-Rouquette
+ * Copyright (c) 2014-2015 Gabriel Harris-Rouquette
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,7 +21,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
 package com.afterkraft.kraftrpg.api.roles.aspects;
 
 import java.util.List;
@@ -29,7 +28,7 @@ import java.util.List;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import org.spongepowered.api.service.persistence.data.DataView;
+import org.spongepowered.api.data.DataView;
 
 import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableList;

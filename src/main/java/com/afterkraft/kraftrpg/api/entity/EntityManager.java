@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2014 Gabriel Harris-Rouquette
+ * Copyright (c) 2014-2015 Gabriel Harris-Rouquette
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -125,6 +125,17 @@ public interface EntityManager extends Manager {
      * @throws IllegalArgumentException If the type is not a living type
      */
     Being createSummon(SkillCaster owner, EntityType type);
+
+    /**
+     * Assigns the given {@link Entity} to become the {@link SkillCaster}'s summon.
+     *
+     * <p>Special note should be taken that the given {@link Entity} should not be spawned into
+     * the world yet, but created.</p>
+     * @param owner
+     * @param summon
+     * @return
+     */
+    Being assignSummon(SkillCaster owner, Entity summon);
 
     Set<Being> getSummons(SkillCaster owner);
 

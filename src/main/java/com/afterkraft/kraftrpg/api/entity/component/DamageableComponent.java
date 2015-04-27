@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2014 Gabriel Harris-Rouquette
+ * Copyright (c) 2014-2015 Gabriel Harris-Rouquette
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,13 +21,31 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
 package com.afterkraft.kraftrpg.api.entity.component;
 
+/**
+ * A component that handles base damage not modified by held items,
+ * weapons, armor, buffs, etc.
+ *
+ * This can be considered as "fist" damage.
+ */
 public interface DamageableComponent extends Component<DamageableComponent> {
 
+    /**
+     * Gets the base damage the owning being will deal on attacking.
+     *
+     * @return The base damage
+     */
     double getBaseDamage();
 
+    /**
+     * Gets the modified damage according to various sources.
+     *
+     * <p>For some monsters, this might be modified based on the spawn position compared to the
+     * "spawn" of the world.</p>
+     *
+     * @return The modified damage to deal
+     */
     double getModifiedDamage();
 
     /**

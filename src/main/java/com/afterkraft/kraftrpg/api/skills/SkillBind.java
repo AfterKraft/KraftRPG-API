@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2014 Gabriel Harris-Rouquette
+ * Copyright (c) 2014-2015 Gabriel Harris-Rouquette
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,14 +23,17 @@
  */
 package com.afterkraft.kraftrpg.api.skills;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+import static org.spongepowered.api.data.DataQuery.of;
+
+import org.spongepowered.api.data.DataContainer;
+import org.spongepowered.api.data.DataSerializable;
+import org.spongepowered.api.data.MemoryDataContainer;
 import org.spongepowered.api.item.ItemType;
-import org.spongepowered.api.service.persistence.DataSerializable;
-import org.spongepowered.api.service.persistence.data.DataContainer;
 
-import com.google.common.collect.Maps;
+import com.google.common.collect.ImmutableList;
 
 /**
  * Represents a binding of a Skill to an item type with prescribed skill arguments as a single
@@ -40,12 +43,12 @@ import com.google.common.collect.Maps;
 public final class SkillBind implements DataSerializable {
     private final ItemType material;
     private final String skillName;
-    private final String arguments;
+    private final List<String> arguments;
 
-    public SkillBind(ItemType material, String skillName, String argument) {
-        this.material = material;
-        this.skillName = skillName;
-        this.arguments = argument;
+    public SkillBind(ItemType material, String skillName, List<String> argument) {
+        this.material = checkNotNull(material);
+        this.skillName = checkNotNull(skillName);
+        this.arguments = ImmutableList.copyOf(argument);
     }
 
     public ItemType getMaterial() {
@@ -56,21 +59,17 @@ public final class SkillBind implements DataSerializable {
         return this.skillName;
     }
 
-    public String getSkillArgument() {
+    public List<String> getSkillArgument() {
         return this.arguments;
-    }
-
-    public Map<String, Object> serialize() {
-        HashMap<String, Object> ret = Maps.newHashMap();
-        ret.put("material", this.material.getId());
-        ret.put("skill", this.skillName);
-        ret.put("args", this.arguments);
-        return ret;
     }
 
     @Override
     public DataContainer toContainer() {
-        return null;
+        DataContainer container = new MemoryDataContainer();
+        container.set(of("ItemType"), this.material.getId());
+        container.set(of("SkillName"), this.skillName);
+        container.set(of("SkillArgs"), this.arguments);
+        return container;
     }
 
 

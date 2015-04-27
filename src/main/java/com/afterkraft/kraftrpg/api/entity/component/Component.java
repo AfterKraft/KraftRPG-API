@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2014 Gabriel Harris-Rouquette
+ * Copyright (c) 2014-2015 Gabriel Harris-Rouquette
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,8 +21,25 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
 package com.afterkraft.kraftrpg.api.entity.component;
 
-public interface Component<T extends Component<T>> extends Comparable<T> {
+import org.spongepowered.api.data.DataManipulator;
+
+/**
+ * A component is a specific functional aspect of a being such that the component is specific to
+ * itself and only to itself. There are various systems that can manipulate a component, however,
+ * a component returned from a being is always live and should be considered to have immediate
+ * effects on changing.
+ *
+ * @param <T> The type of component, for comparison reasons
+ */
+public interface Component<T extends Component<T>> extends DataManipulator<T> {
+
+    /**
+     * Gets the identifiable name of this {@link Component}.
+     *
+     * @return The identifiable name of this component
+     */
+    String getId();
+
 }

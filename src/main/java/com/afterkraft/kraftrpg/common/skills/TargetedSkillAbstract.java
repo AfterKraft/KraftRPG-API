@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2014 Gabriel Harris-Rouquette
+ * Copyright (c) 2014-2015 Gabriel Harris-Rouquette
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -128,9 +128,8 @@ public abstract class TargetedSkillAbstract<E extends Entity>
             }
 
             Optional<PartyComponent> party = caster.getComponent(PartyComponent.class);
-            if (party.isPresent() && party.get().getParty().isPresent()) {
-                if (this.plugin.getPartyManager()
-                        .isFriendly(caster, insentient)) {
+            if (party.isPresent()) {
+                if (this.plugin.getPartyManager().isFriendly(caster, insentient)) {
                     return SkillCastResult.INVALID_TARGET_NO_MESSAGE;
                 }
             }

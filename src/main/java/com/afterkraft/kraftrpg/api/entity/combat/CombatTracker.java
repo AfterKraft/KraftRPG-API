@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2014 Gabriel Harris-Rouquette
+ * Copyright (c) 2014-2015 Gabriel Harris-Rouquette
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -26,12 +26,12 @@ package com.afterkraft.kraftrpg.api.entity.combat;
 import java.util.Map;
 
 import com.afterkraft.kraftrpg.api.Manager;
+import com.afterkraft.kraftrpg.api.entity.Champion;
 import com.afterkraft.kraftrpg.api.entity.Insentient;
 
 /**
- * Simple manager handling combat for various {@link com.afterkraft.kraftrpg.api.entity.Insentient}
- * beings. This is mostly used to manage {@link com.afterkraft.kraftrpg.api.entity.Champion}
- * combat.
+ * Simple manager handling combat for various {@link Insentient} beings. This is mostly used to
+ * manage {@link Champion} combat.
  */
 public interface CombatTracker extends Manager {
 
@@ -58,8 +58,7 @@ public interface CombatTracker extends Manager {
      * @throws IllegalArgumentException if the attacker is null
      * @throws IllegalArgumentException if the reason is null
      */
-    void enterCombatWith(Insentient target, Insentient attacker,
-                         EnterCombatReason reason);
+    void enterCombatWith(Insentient target, Insentient attacker, EnterCombatReason reason);
 
     /**
      * Performs the leave combat operation on the target by the attacker. Depending on the reason,
@@ -73,8 +72,7 @@ public interface CombatTracker extends Manager {
      * @throws IllegalArgumentException if the attacker is null
      * @throws IllegalArgumentException if the reason is null
      */
-    void leaveCombatWith(Insentient target, Insentient attacker,
-                         LeaveCombatReason reason);
+    void leaveCombatWith(Insentient target, Insentient attacker, LeaveCombatReason reason);
 
     /**
      * Notifies all combatants that the specified target is leaving combat with the specified

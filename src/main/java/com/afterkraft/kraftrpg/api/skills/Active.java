@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2014 Gabriel Harris-Rouquette
+ * Copyright (c) 2014-2015 Gabriel Harris-Rouquette
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -53,7 +53,7 @@ public interface Active extends Skill {
      *
      * @return the instructional usage for this skill
      */
-    public String getUsage();
+    String getUsage();
 
     /**
      * Get the typed SkillArgument at the given index. This method is intended for use by the Skill,
@@ -64,14 +64,14 @@ public interface Active extends Skill {
      *
      * @return a casted SkillArgument
      */
-    public <T extends SkillArgument<?>> Optional<T> getArgument(int index);
+    <T extends SkillArgument<?>> Optional<T> getArgument(int index);
 
     /**
      * Get the active array of SkillArguments currently in use.
      *
      * @return array of SkillArguments
      */
-    public SkillArgument<?>[] getSkillArguments();
+    SkillArgument<?>[] getSkillArguments();
 
     /**
      * Any necessary warmup process for an Active Skill should be done here. This is called after
@@ -79,7 +79,7 @@ public interface Active extends Skill {
      *
      * @param caster caster
      */
-    public void onWarmUp(SkillCaster caster);
+    void onWarmUp(SkillCaster caster);
 
     /**
      * Try to parse the given arguments into an internally stored state for use with other calls. If

@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2014 Gabriel Harris-Rouquette
+ * Copyright (c) 2014-2015 Gabriel Harris-Rouquette
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -24,13 +24,21 @@
 package com.afterkraft.kraftrpg.api.storage;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
+import static org.spongepowered.api.data.DataQuery.of;
+
+import org.spongepowered.api.data.DataContainer;
+import org.spongepowered.api.data.DataSerializable;
+import org.spongepowered.api.data.DataView;
+import org.spongepowered.api.data.MemoryDataContainer;
 import org.spongepowered.api.item.ItemType;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
@@ -41,7 +49,7 @@ import com.afterkraft.kraftrpg.api.util.FixedPoint;
 /**
  * This class is not a stable API.
  */
-public final class PlayerData implements Cloneable {
+public final class PlayerData implements DataSerializable, Cloneable {
     /**
      * Extra roles - these grant skills, but no hp/mana.
      */
@@ -68,15 +76,10 @@ public final class PlayerData implements Cloneable {
      */
     public Role primary;
     public Role profession;
-    public int currentMana;
-    public int maxStamina;
-    public int currentStamina;
+    public final Map<String, DataContainer> componentContainers = Maps.newConcurrentMap();
     public String lastKnownName;
     public UUID playerID;
-    public boolean displayPrimaryRole;
-    public boolean isManaVerbose;
-    public boolean isStaminaVerbose;
-    public boolean isSkillVerbose;
+    public final Map<String, Boolean> ignoring = Maps.newHashMap();
 
     private Collection<Role> allRoles = Sets.newHashSet();
 
@@ -96,13 +99,6 @@ public final class PlayerData implements Cloneable {
             ret.binds.putAll(this.binds);
             ret.cooldowns.putAll(this.cooldowns);
             ret.lastKnownName = this.lastKnownName;
-            ret.currentMana = this.currentMana;
-            ret.currentStamina = this.currentStamina;
-            ret.maxStamina = this.maxStamina;
-            ret.isManaVerbose = this.isManaVerbose;
-            ret.isSkillVerbose = this.isSkillVerbose;
-            ret.isStaminaVerbose = this.isStaminaVerbose;
-            ret.displayPrimaryRole = this.displayPrimaryRole;
             ret.ignoredSkills.addAll(this.ignoredSkills);
             return ret;
         } catch (CloneNotSupportedException e) {
@@ -133,5 +129,31 @@ public final class PlayerData implements Cloneable {
         this.allRoles = b.build();
 
         return this.allRoles;
+    }
+
+    @Override
+    public DataContainer toContainer() {
+        DataContainer container = new MemoryDataContainer();
+        container.set(of("UUID"), this.playerID.toString());
+        List<DataView> roles = Lists.newArrayList();
+        for (Map.Entry<Role, FixedPoint> entry : this.exp.entrySet()) {
+            DataContainer roleContainer = new MemoryDataContainer();
+            roleContainer.set(of(entry.getKey().getName()), entry.getValue().longValue());
+            roles.add(roleContainer);
+        }
+        container.set(of("Roles"), roles);
+        List<DataView> cooldowns = Lists.newArrayList();
+        for (Map.Entry<String, Long> entry : this.cooldowns.entrySet()) {
+            DataContainer cooldownContainer = new MemoryDataContainer();
+            cooldownContainer.set(of(entry.getKey()), entry.getValue());
+        }
+        container.set(of("Cooldowns"), cooldowns);
+        container.set(of("SilcencedSkills"), this.ignoredSkills);
+        container.set(of("PrimaryRole"), this.primary.getName());
+        container.set(of("SecondaryRole"), this.profession != null ? this.profession.getName() :
+                      "NONE");
+
+        container.set(of("Components"), null);
+        return container;
     }
 }

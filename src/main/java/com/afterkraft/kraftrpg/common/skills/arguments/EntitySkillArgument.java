@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2014 Gabriel Harris-Rouquette
+ * Copyright (c) 2014-2015 Gabriel Harris-Rouquette
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -28,6 +28,7 @@ import java.lang.ref.WeakReference;
 import java.util.Collection;
 import java.util.List;
 
+import org.spongepowered.api.data.manipulators.entities.EyeLocationData;
 import org.spongepowered.api.entity.Entity;
 import org.spongepowered.api.entity.living.Living;
 import org.spongepowered.api.text.Text;
@@ -131,7 +132,7 @@ public class EntitySkillArgument<E extends Entity> extends
                     }
                 });
         Living actor = caster.getEntity().get();
-        Vector3d middle = actor.getEyeLocation();
+        Vector3d middle = actor.getData(EyeLocationData.class).get().getEyeLocation();
 
         double closestDistance = this.maxDistance;
         @Nullable
@@ -146,7 +147,7 @@ public class EntitySkillArgument<E extends Entity> extends
 
             Vector3d otherMiddle = entity.getLocation().getPosition();
             if (entity instanceof Living) {
-                otherMiddle = ((Living) entity).getEyeLocation();
+                otherMiddle = entity.getData(EyeLocationData.class).get().getEyeLocation();
             }
             final Vector3d diff = otherMiddle.sub(middle);
             // Algorithm: Make a triangle

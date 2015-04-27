@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2014 Gabriel Harris-Rouquette
+ * Copyright (c) 2014-2015 Gabriel Harris-Rouquette
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -28,13 +28,13 @@ import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Set;
 
-import org.spongepowered.api.service.persistence.DataSerializable;
-import org.spongepowered.api.service.persistence.DataSerializableBuilder;
+import org.spongepowered.api.data.DataContainer;
+import org.spongepowered.api.data.DataQuery;
+import org.spongepowered.api.data.DataSerializable;
+import org.spongepowered.api.data.DataView;
+import org.spongepowered.api.data.MemoryDataContainer;
+import org.spongepowered.api.service.persistence.DataBuilder;
 import org.spongepowered.api.service.persistence.InvalidDataException;
-import org.spongepowered.api.service.persistence.data.DataContainer;
-import org.spongepowered.api.service.persistence.data.DataQuery;
-import org.spongepowered.api.service.persistence.data.DataView;
-import org.spongepowered.api.service.persistence.data.MemoryDataContainer;
 
 import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableList;
@@ -49,7 +49,7 @@ import com.afterkraft.kraftrpg.api.skills.SkillType;
  * A basic effect and affect enum. Various effects require different settings, and sometimes, some
  * videos or tv shows are annoying as shit anyway.
  */
-public enum EffectType implements DataSerializable, DataSerializableBuilder<EffectType> {
+public enum EffectType implements DataSerializable, DataBuilder<EffectType> {
 
     /**
      * An arid effect usually causing some sort of flight.

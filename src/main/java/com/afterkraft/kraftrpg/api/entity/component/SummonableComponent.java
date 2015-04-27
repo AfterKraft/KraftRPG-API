@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2014 Gabriel Harris-Rouquette
+ * Copyright (c) 2014-2015 Gabriel Harris-Rouquette
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,10 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
 package com.afterkraft.kraftrpg.api.entity.component;
-
-import com.google.common.base.Optional;
 
 import com.afterkraft.kraftrpg.api.entity.SkillCaster;
 
@@ -35,14 +32,14 @@ public interface SummonableComponent extends Component<SummonableComponent> {
      *
      * @return The time left remaining in the world
      */
-    Optional<Long> getTimeLeftAlive();
+    long getTimeLeftAlive();
 
     /**
      * Gets the linked summoner that summoned this summon.
      *
      * @return The skillcaster that summoned this summon
      */
-    Optional<SkillCaster> getSummoner();
+    SkillCaster getSummoner();
 
     /**
      * Removes the summon from the world. This is a utility method primarily to reset the summon and

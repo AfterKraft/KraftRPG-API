@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2014 Gabriel Harris-Rouquette
+ * Copyright (c) 2014-2015 Gabriel Harris-Rouquette
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,12 +21,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
 package com.afterkraft.kraftrpg.common.effects;
 
 import java.util.Collection;
 import java.util.Set;
 
+import org.spongepowered.api.data.manipulators.PotionEffectData;
 import org.spongepowered.api.potion.PotionEffect;
 
 import com.google.common.collect.ImmutableSet;
@@ -74,9 +74,11 @@ public class StandardPotionAppliedProperty implements PotionAppliedProperty {
 
             @Override
             public EffectOperationResult apply(Insentient being) {
+                PotionEffectData data = being.getData(PotionEffectData.class).get();
                 for (PotionEffect effect : StandardPotionAppliedProperty.this.effects) {
-                    being.getEntity().get().addPotionEffect(effect, true);
+                    data.addPotionEffect(effect, true);
                 }
+                being.offer(data);
                 return EffectOperationResult.SUCCESS;
             }
         });

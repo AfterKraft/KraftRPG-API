@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2014 Gabriel Harris-Rouquette
+ * Copyright (c) 2014-2015 Gabriel Harris-Rouquette
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -78,7 +78,7 @@ public class RPGTestCreator {
             Server mockServer = createNiceMock(Server.class);
             Game mockGame = createNiceMock(Game.class);
             expect(mockGame.getApiVersion()).andStubReturn("1");
-            expect(mockGame.getServer()).andStubReturn(Optional.of(mockServer));
+            expect(mockGame.getServer()).andStubReturn(mockServer);
 
             // Set up mockPlugin prep
             this.mockPlugin = createNiceMock(RPGPlugin.class);

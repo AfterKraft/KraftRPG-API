@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2014 Gabriel Harris-Rouquette
+ * Copyright (c) 2014-2015 Gabriel Harris-Rouquette
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,7 +21,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
 package com.afterkraft.kraftrpg.api.entity.component;
 
 import javax.annotation.Nullable;
@@ -34,9 +33,7 @@ public interface MortalComponent extends Component<MortalComponent> {
 
     Optional<DamageWrapper> getDamageWrapper();
 
-    void setDamageWrapper(
-            @Nullable
-            DamageWrapper wrapper);
+    void setDamageWrapper(@Nullable DamageWrapper wrapper);
 
     /**
      * Check if this being is dead

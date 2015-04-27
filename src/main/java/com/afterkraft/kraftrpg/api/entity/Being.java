@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2014 Gabriel Harris-Rouquette
+ * Copyright (c) 2014-2015 Gabriel Harris-Rouquette
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -26,13 +26,14 @@ package com.afterkraft.kraftrpg.api.entity;
 import java.util.Collection;
 import java.util.UUID;
 
+import org.spongepowered.api.data.DataHolder;
 import org.spongepowered.api.entity.Entity;
 import org.spongepowered.api.entity.EntityType;
-import org.spongepowered.api.service.persistence.data.DataHolder;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
 
+import com.flowpowered.math.vector.Vector3d;
 import com.google.common.base.Optional;
 
 import com.afterkraft.kraftrpg.api.entity.component.Component;
@@ -110,7 +111,7 @@ public interface Being extends DataHolder {
     void teleport(Location location, boolean keepYawAndPitch);
 
     /**
-     * Gets a collection of entities within a bounding box centered around this IEntity.
+     * Gets a collection of entities within a bounding box centered around this {@link Being}.
      *
      * @param x Half the size of the box along the x axis
      * @param y Half the size of the box along the y axis
@@ -119,6 +120,38 @@ public interface Being extends DataHolder {
      * @return A collection of entities nearby
      */
     Collection<Entity> getNearbyEntities(double x, double y, double z);
+
+    /**
+     * Gets a {@link Collection} of {@link Entity} within a bounding box centered around this
+     * {@link Being}.
+     *
+     * @param distanceVector The vector distance
+     *
+     * @return A collection of entities nearby
+     */
+    Collection<Entity> getNearbyEntities(Vector3d distanceVector);
+
+    /**
+     * Gets a {@link Collection} of {@link Being}s within a bounding box centered around this
+     * {@link Being}.
+     *
+     * @param x Half the size of the box along the x axis
+     * @param y Half the size of the box along the y axis
+     * @param z Half the size of the box along the z axis
+     *
+     * @return A collection of beings nearby
+     */
+    Collection<Being> getNearbyBeings(double x, double y, double z);
+
+    /**
+     * Gets a {@link Collection} of {@link Being}s within a bounding box centered around this
+     * {@link Being}.
+     *
+     * @param distanceVector The vector distance
+     *
+     * @return A collection of beings nearby
+     */
+    Collection<Being> getNearbyBeings(Vector3d distanceVector);
 
     /**
      * Shortcut method for getting the entity and then the world.

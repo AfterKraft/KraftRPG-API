@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2014 Gabriel Harris-Rouquette
+ * Copyright (c) 2014-2015 Gabriel Harris-Rouquette
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,9 +21,9 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
 package com.afterkraft.kraftrpg.api.entity.component;
 
+import org.spongepowered.api.data.manipulators.entities.HealthData;
 import org.spongepowered.api.entity.living.Living;
 
 public interface HealthComponent extends Component<HealthComponent> {
@@ -67,8 +67,9 @@ public interface HealthComponent extends Component<HealthComponent> {
     boolean addMaxHealth(String key, double value);
 
     /**
-     * Removes an additional health modifier from the calculations for the {@link
-     * Living#getMaxHealth()}. Removing KraftRPG specific mappings may have unknown side-effects.
+     * Removes an additional health modifier from the calculations for the
+     * {@link HealthData#getMaxHealth()}. Removing KraftRPG specific mappings may have unknown
+     * side-effects.
      *
      * @param key linking to the additional health bonus for this being
      *

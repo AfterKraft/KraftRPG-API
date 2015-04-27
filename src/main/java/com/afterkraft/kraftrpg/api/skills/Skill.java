@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2014 Gabriel Harris-Rouquette
+ * Copyright (c) 2014-2015 Gabriel Harris-Rouquette
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -25,8 +25,8 @@ package com.afterkraft.kraftrpg.api.skills;
 
 import java.util.Collection;
 
+import org.spongepowered.api.data.DataView;
 import org.spongepowered.api.entity.Entity;
-import org.spongepowered.api.service.persistence.data.DataView;
 import org.spongepowered.api.text.Text;
 
 import com.afterkraft.kraftrpg.api.entity.Champion;

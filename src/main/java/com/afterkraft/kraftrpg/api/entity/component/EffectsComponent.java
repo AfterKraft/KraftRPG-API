@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2014 Gabriel Harris-Rouquette
+ * Copyright (c) 2014-2015 Gabriel Harris-Rouquette
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,20 +21,20 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
 package com.afterkraft.kraftrpg.api.entity.component;
 
-import java.util.Set;
-
 import org.spongepowered.api.potion.PotionEffect;
-import org.spongepowered.api.potion.PotionEffectType;
 
 import com.google.common.base.Optional;
 
 import com.afterkraft.kraftrpg.api.effects.Effect;
 import com.afterkraft.kraftrpg.api.effects.EffectType;
 
-public interface EffectsComponent extends Component<EffectsComponent> {
+/**
+ * A component that deals in {@link Effect}s. {@link Effect}s are managed by systems to interact
+ * with the owner of this component.
+ */
+public interface EffectsComponent extends ListComponent<Effect, EffectsComponent> {
 
     /**
      * Returns (if available) the named {@link Effect}
@@ -44,13 +44,6 @@ public interface EffectsComponent extends Component<EffectsComponent> {
      * @return the named Effect if not null
      */
     Optional<Effect> getEffect(String name);
-
-    /**
-     * Returns an unmodifiable set of Effects this Insentient being has active.
-     *
-     * @return an unmodifiable set of Effects this Insentient being has active.
-     */
-    Set<Effect> getEffects();
 
     /**
      * Adds the given Effect to this Insentient being. Added Effects will be applied on the next
@@ -63,38 +56,6 @@ public interface EffectsComponent extends Component<EffectsComponent> {
     void addEffect(Effect effect);
 
     /**
-     * Add the {@link PotionEffect} to this Insentient being.  This method is provided with the
-     * assurance that the entity would not have a {@link java.util.ConcurrentModificationException}
-     * caused by multiple sources.
-     *
-     * @param potion the effect to be applied
-     *
-     * @throws IllegalArgumentException If the potion effect is null
-     */
-    void addPotionEffect(PotionEffect potion);
-
-    /**
-     * Remove the {@link PotionEffectType} from this Insentient.  This method is provided with the
-     * assurance that the entity would not have a {@link java.util.ConcurrentModificationException}
-     * caused by multiple sources.
-     *
-     * @param type of PotionEffect to remove
-     *
-     * @throws IllegalArgumentException If the potioneffect type is null
-     */
-    void removePotionEffect(PotionEffectType type);
-
-    /**
-     * Checks if this being has a specific PotionEffectType
-     *
-     * @param type to check
-     *
-     * @return true if the being has the queried type of potion effect
-     * @throws IllegalArgumentException If the potion effect type is null
-     */
-    boolean hasPotionEffect(PotionEffectType type);
-
-    /**
      * Check if this Insentient being has an {@link Effect} with the given name.
      *
      * @param name of the effect
@@ -105,7 +66,7 @@ public interface EffectsComponent extends Component<EffectsComponent> {
     boolean hasEffect(String name);
 
     /**
-     * Check if this being has an effect of the given {@link com.afterkraft.kraftrpg.api.effects.EffectType}.
+     * Check if this being has an effect of the given {@link EffectType}.
      *
      * @param type of effect
      *
