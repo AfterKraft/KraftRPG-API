@@ -24,7 +24,6 @@
 package com.afterkraft.kraftrpg.api;
 
 import java.util.Collection;
-import java.util.Map;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkState;
@@ -43,9 +42,8 @@ import com.google.common.base.Optional;
 import com.afterkraft.kraftrpg.api.entity.Being;
 import com.afterkraft.kraftrpg.api.entity.Champion;
 import com.afterkraft.kraftrpg.api.entity.Insentient;
-import com.afterkraft.kraftrpg.api.skills.Skill;
+import com.afterkraft.kraftrpg.api.skill.Skill;
 import com.afterkraft.kraftrpg.api.util.PermissionsManager;
-import com.afterkraft.kraftrpg.common.DamageType;
 import com.afterkraft.kraftrpg.common.handler.ServerInternals;
 
 /**
@@ -100,30 +98,6 @@ public final class RpgCommon {
     public static void setHandler(ServerInternals handler) {
         check();
         RpgCommon.serverInternals = handler;
-    }
-
-    public static boolean damageCheck(Insentient attacker, Insentient victim) {
-        return getHandler().damageCheck(attacker, victim);
-    }
-
-    public static boolean damageEntity(Insentient target, Insentient attacker,
-                                       Skill skill,
-                                       double damage, Cause cause,
-                                       boolean knockback) {
-        return getHandler().damageEntity(target, attacker, skill, damage, cause,
-                                         knockback);
-    }
-
-    public static boolean damageEntity(Insentient target, Insentient attacker,
-                                       Skill skill,
-                                       Map<DamageType, Double> modifiers,
-                                       Cause cause,
-                                       boolean knockback,
-                                       boolean ignoreDamageCheck) {
-        return getHandler()
-                .damageEntity(target, attacker, skill, modifiers, cause,
-                              knockback,
-                              ignoreDamageCheck);
     }
 
     public static boolean healEntity(Insentient being, double tickHealth,
@@ -188,117 +162,6 @@ public final class RpgCommon {
     public static boolean hasPermission(final Being being,
                                         final String permission) {
         return getPermissionManager().hasPermission(being, permission);
-    }
-
-    public static boolean hasWorldPermission(final Being being,
-                                             final World world,
-                                             final String permission) {
-        return getPermissionManager()
-                .hasWorldPermission(being, world, permission);
-    }
-
-    public static boolean hasWorldPermission(final Being being,
-                                             final String worldName,
-                                             final String permission) {
-        return getPermissionManager()
-                .hasWorldPermission(being, worldName, permission);
-    }
-
-    public static void addGlobalPermission(final Being being,
-                                           final String permission) {
-        getPermissionManager().addGlobalPermission(being, permission);
-    }
-
-    public static void addWorldPermission(final Being being,
-                                          final World world,
-                                          final String permission) {
-        getPermissionManager().addWorldPermission(being, world, permission);
-    }
-
-    public static void addWorldPermission(final Being being,
-                                          final String worldName,
-                                          final String permission) {
-        getPermissionManager()
-                .addWorldPermission(being, worldName, permission);
-    }
-
-    public static void addTransientGlobalPermission(final Being being,
-                                                    final String permission) {
-        getPermissionManager().addTransientGlobalPermission(being, permission);
-    }
-
-    public static void addTransientWorldPermission(final Being being,
-                                                   final World world,
-                                                   final String permission) {
-        getPermissionManager()
-                .addTransientWorldPermission(being, world, permission);
-    }
-
-    public static void addTransientWorldPermission(final Being being,
-                                                   final String worldName,
-                                                   final String permission) {
-        getPermissionManager()
-                .addTransientWorldPermission(being, worldName, permission);
-    }
-
-    public static void removeGlobalPermission(final Being being,
-                                              final String permission) {
-        getPermissionManager().removeGlobalPermission(being, permission);
-    }
-
-    public static void removeWorldPermission(final Being being,
-                                             final World world,
-                                             final String permission) {
-        getPermissionManager().removeWorldPermission(being, world, permission);
-    }
-
-    public static void removeWorldPermission(final Being being,
-                                             final String worldName,
-                                             final String permission) {
-        getPermissionManager()
-                .removeWorldPermission(being, worldName, permission);
-    }
-
-    public static void removeTransientGlobalPermission(final Being being,
-                                                       final String permission) {
-        getPermissionManager()
-                .removeTransientGlobalPermission(being, permission);
-    }
-
-    public static void removeTransientWorldPermission(final Being being,
-                                                      final World world,
-                                                      final String permission) {
-        getPermissionManager()
-                .removeTransientWorldPermission(being, world, permission);
-    }
-
-    public static void removeTransientWorldPermission(final Being being,
-                                                      final String worldName,
-                                                      final String permission) {
-        getPermissionManager()
-                .removeTransientWorldPermission(being, worldName, permission);
-    }
-
-    public static void knockBack(Living target, Living attacker,
-                                 double damage) {
-        knockback((Insentient) getPlugin().getEntityManager().getEntity(target),
-                  (Insentient) getPlugin().getEntityManager()
-                          .getEntity(attacker), damage);
-    }
-
-    public static void knockback(Insentient target, Insentient attacker,
-                                 double damage) {
-        getHandler().knockBack(target, attacker, damage);
-    }
-
-    public static boolean damageEntity(Living target, Insentient attacker,
-                                       Skill skill,
-                                       double damage, Cause cause,
-                                       boolean knockback) {
-        return getHandler().damageEntity(
-                (Insentient) getPlugin().getEntityManager().getEntity(target),
-                attacker, skill,
-                damage, cause, knockback);
     }
 
     public static Logger getLogger() {

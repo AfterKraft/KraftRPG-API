@@ -32,18 +32,6 @@ import com.afterkraft.kraftrpg.api.RPGPlugin;
  */
 public abstract class StorageFrontendFactory {
 
-    public abstract StorageFrontend construct(RPGPlugin plugin,
-                                              StorageBackend backend);
+    public abstract StorageFrontend construct(RPGPlugin plugin, StorageBackend backend);
 
-    /**
-     * A default factory without customization
-     */
-    public static class DefaultFactory extends StorageFrontendFactory {
-        @Override
-        public StorageFrontend construct(RPGPlugin plugin,
-                                         StorageBackend backend) {
-            return new StorageFrontend(plugin, backend) {
-            };
-        }
-    }
 }

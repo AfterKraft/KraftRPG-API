@@ -23,16 +23,12 @@
  */
 package com.afterkraft.kraftrpg.common.handler;
 
-import java.util.Map;
-
 import org.spongepowered.api.entity.living.Living;
-import org.spongepowered.api.event.cause.Cause;
 
 import com.afterkraft.kraftrpg.api.RPGPlugin;
 import com.afterkraft.kraftrpg.api.entity.Being;
 import com.afterkraft.kraftrpg.api.entity.Insentient;
-import com.afterkraft.kraftrpg.api.skills.Skill;
-import com.afterkraft.kraftrpg.common.DamageType;
+import com.afterkraft.kraftrpg.api.skill.Skill;
 
 /**
  * Standard utility class for handling version and platform specific code.
@@ -59,29 +55,6 @@ public abstract class ServerInternals {
     public abstract boolean healEntity(Insentient being, double tickHealth,
                                        Skill skill,
                                        Insentient applier);
-
-    public abstract boolean damageEntity(Living target, Insentient attacker,
-                                         Skill skill,
-                                         double damage, Cause cause,
-                                         boolean knockback);
-
-    public abstract boolean damageEntity(Insentient target, Insentient attacker,
-                                         Skill skill,
-                                         double damage, Cause cause,
-                                         boolean knockback);
-
-    public abstract boolean damageEntity(Insentient target, Insentient attacker,
-                                         Skill skill,
-                                         Map<DamageType, Double> modifiers,
-                                         Cause cause,
-                                         boolean knockback);
-
-    public abstract boolean damageEntity(Insentient target, Insentient attacker,
-                                         Skill skill,
-                                         Map<DamageType, Double> modifiers,
-                                         Cause cause,
-                                         boolean knockback,
-                                         boolean ignoreDamageCheck);
 
 
     //NMS methods required by effects

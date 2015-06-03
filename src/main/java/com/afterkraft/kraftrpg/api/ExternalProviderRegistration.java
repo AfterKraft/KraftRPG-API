@@ -31,7 +31,6 @@ import java.util.Set;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import com.google.common.base.Function;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
@@ -39,11 +38,10 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
 import com.afterkraft.kraftrpg.api.entity.party.PartyManager;
-import com.afterkraft.kraftrpg.api.skills.Skill;
+import com.afterkraft.kraftrpg.api.skill.Skill;
 import com.afterkraft.kraftrpg.api.storage.StorageBackend;
 import com.afterkraft.kraftrpg.api.storage.StorageFrontendFactory;
-import com.afterkraft.kraftrpg.common.DamageModifier;
-import com.afterkraft.kraftrpg.common.skills.AbstractSkill;
+import com.afterkraft.kraftrpg.common.skill.AbstractSkill;
 
 /**
  * On load registration for various external providers of various services to further customize the
@@ -55,8 +53,7 @@ public final class ExternalProviderRegistration {
     private static RPGPlugin plugin;
 
     private static Map<String, StorageBackend> storageBackends = Maps.newHashMap();
-    private static Map<DamageModifier, Function<? super Double, Double>> modifiers = Maps.newHashMap();
-    private static StorageFrontendFactory storageFrontend = new StorageFrontendFactory.DefaultFactory();
+    private static StorageFrontendFactory storageFrontend = null; // todo figure out storage
     private static Set<String> providedSkillNames = Sets.newHashSet();
     private static List<Skill> providedSkills = Lists.newArrayList();
     private static PartyManager partyManager;
@@ -72,11 +69,7 @@ public final class ExternalProviderRegistration {
             StorageFrontendFactory newQueueManager)
             throws LateRegistrationException {
         check();
-        if (newQueueManager == null) {
-            storageFrontend = new StorageFrontendFactory.DefaultFactory();
-        } else {
-            storageFrontend = newQueueManager;
-        }
+        storageFrontend = checkNotNull(newQueueManager);
     }
 
     private static void check() throws LateRegistrationException {
@@ -183,7 +176,6 @@ public final class ExternalProviderRegistration {
         pluginEnabled = true;
         providedSkills = ImmutableList.copyOf(providedSkills);
         storageBackends = ImmutableMap.copyOf(storageBackends);
-        modifiers = ImmutableMap.copyOf(modifiers);
     }
 
 

@@ -27,6 +27,7 @@ import org.spongepowered.api.entity.player.Player;
 
 import com.google.common.base.Optional;
 
+import com.afterkraft.kraftrpg.api.skill.Skill;
 import com.afterkraft.kraftrpg.api.storage.PlayerData;
 
 /**
@@ -50,5 +51,30 @@ public interface Champion extends SkillCaster {
      * @return PlayerData snapshot
      */
     PlayerData getData();
+
+    /**
+     * Sends a message to this being. A helper method to avoid having to cast check the being or the
+     * entity this being belongs to to send server messages.
+     *
+     * @param message to be sent
+     */
+    void sendMessage(String message);
+
+    /**
+     * Send a message with the given object array as arguments to replace.
+     *
+     * @param message The message
+     * @param args    The arguments to populate the message
+     */
+    void sendMessage(String message, Object... args);
+
+    /**
+     * Check if this insentient is ignoring messages from the specified {@link Skill}
+     *
+     * @param skill that is possibly being ignored
+     *
+     * @return true if this being does not wish to listen to the skill messages
+     */
+    boolean isIgnoringSkill(Skill skill);
 
 }

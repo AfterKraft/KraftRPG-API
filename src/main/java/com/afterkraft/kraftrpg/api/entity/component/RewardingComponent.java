@@ -23,6 +23,7 @@
  */
 package com.afterkraft.kraftrpg.api.entity.component;
 
+import com.afterkraft.kraftrpg.api.entity.Sentient;
 import com.afterkraft.kraftrpg.api.util.FixedPoint;
 
 /**
@@ -32,8 +33,8 @@ import com.afterkraft.kraftrpg.api.util.FixedPoint;
 public interface RewardingComponent extends Component<RewardingComponent> {
 
     /**
-     * Return the {@link com.afterkraft.kraftrpg.api.util.FixedPoint} this being should grant as a
-     * reward for being killed by a {@link com.afterkraft.kraftrpg.api.entity.Sentient} being.
+     * Return the {@link FixedPoint} this being should grant as a reward for being killed by a
+     * {@link Sentient} being.
      *
      * @return the customized experience to grant to a killer
      */

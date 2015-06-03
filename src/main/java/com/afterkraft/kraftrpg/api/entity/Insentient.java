@@ -27,7 +27,7 @@ import org.spongepowered.api.entity.living.Living;
 
 import com.google.common.base.Optional;
 
-import com.afterkraft.kraftrpg.api.effects.Effect;
+import com.afterkraft.kraftrpg.api.effect.Effect;
 
 /**
  * Represents an Insentient being that allows retreival of the being's status and handles the basic

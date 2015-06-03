@@ -24,8 +24,7 @@
 package com.afterkraft.kraftrpg.api.entity.component;
 
 /**
- * A component that handles base damage not modified by held items,
- * weapons, armor, buffs, etc.
+ * A component that handles base damage not modified by held items, weapons, armor, buffs, etc.
  *
  * This can be considered as "fist" damage.
  */

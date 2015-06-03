@@ -114,44 +114,7 @@ public abstract class StorageFrontend {
      *
      * @return the loaded Champion instance if data exists, else returns null
      */
-    public Optional<Champion> loadChampion(Player player,
-                                           boolean shouldCreate) {
-        UUID uuid = player.getUniqueId();
-
-        // Check the saving queue for this player
-        if (this.offlineToSave.containsKey(uuid)) {
-            PlayerData data = this.offlineToSave.get(uuid);
-            return Optional.fromNullable(this.plugin.getEntityManager()
-                                                 .createChampionWithData(player,
-                                                                         data));
-        }
-        if (this.toSave.containsKey(uuid)) {
-            return Optional.of(this.toSave.get(uuid));
-        }
-
-        Optional<PlayerData> data = this.backend.loadPlayer(uuid, shouldCreate);
-        if (!data.isPresent()) {
-            if (!shouldCreate) {
-                return Optional.absent();
-            } else {
-                data = Optional.of(new PlayerData());
-                data.get().primary =
-                        this.plugin.getRoleManager().getDefaultPrimaryRole();
-                if (this.plugin.getRoleManager().getDefaultSecondaryRole()
-                        .isPresent()) {
-                    data.get().profession = this.plugin.getRoleManager()
-                            .getDefaultSecondaryRole().get();
-                }
-            }
-        }
-        data.get().playerID = player.getUniqueId();
-        data.get().lastKnownName = player.getName();
-
-        return Optional.of(this.plugin
-                                   .getEntityManager()
-                                   .createChampionWithData(player, data.get()));
-    }
-
+    public abstract Optional<Champion> loadChampion(Player player, boolean shouldCreate);
     /**
      * Saves the given {@link com.afterkraft.kraftrpg.api.entity.Champion} data at some later
      * point.

@@ -27,9 +27,9 @@ import org.spongepowered.api.world.Location;
 
 import com.google.common.base.Optional;
 
-import com.afterkraft.kraftrpg.api.roles.ExperienceType;
-import com.afterkraft.kraftrpg.api.roles.Role;
-import com.afterkraft.kraftrpg.api.skills.Skill;
+import com.afterkraft.kraftrpg.api.role.ExperienceType;
+import com.afterkraft.kraftrpg.api.role.Role;
+import com.afterkraft.kraftrpg.api.skill.Skill;
 import com.afterkraft.kraftrpg.api.util.FixedPoint;
 
 /**
@@ -53,7 +53,7 @@ public interface Sentient extends Insentient {
 
     /**
      * Check if this being can gain experience of the designated type. This will check with all
-     * active {@link com.afterkraft.kraftrpg.api.roles.Role}s
+     * active {@link com.afterkraft.kraftrpg.api.role.Role}s
      *
      * @param type of experience
      *
@@ -80,7 +80,7 @@ public interface Sentient extends Insentient {
 
     /**
      * Tells this being to lose the prescribed experience from all {@link
-     * com.afterkraft.kraftrpg.api.roles.Role}s of which if configured, looses experience on death.
+     * com.afterkraft.kraftrpg.api.role.Role}s of which if configured, looses experience on death.
      *
      * @param multiplier Percentage of the current level to lose in experience
      * @param byPVP      If true, has some alternate modifications to the total loss

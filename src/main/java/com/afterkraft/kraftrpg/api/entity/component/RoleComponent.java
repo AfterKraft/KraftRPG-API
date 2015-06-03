@@ -29,7 +29,7 @@ import java.util.List;
 
 import com.google.common.base.Optional;
 
-import com.afterkraft.kraftrpg.api.roles.Role;
+import com.afterkraft.kraftrpg.api.role.Role;
 
 public interface RoleComponent extends Component<RoleComponent> {
 
@@ -48,8 +48,8 @@ public interface RoleComponent extends Component<RoleComponent> {
     Optional<Role> getSecondaryRole();
 
     /**
-     * Set the current {@link com.afterkraft.kraftrpg.api.roles.Role.RoleType#PRIMARY} {@link Role}
-     * . The {@link com.afterkraft.kraftrpg.api.roles.Role.RoleType} is checked prior to setting. A
+     * Set the current {@link com.afterkraft.kraftrpg.api.role.Role.RoleType#PRIMARY} {@link Role}
+     * . The {@link com.afterkraft.kraftrpg.api.role.Role.RoleType} is checked prior to setting. A
      * sentient being may only have one Primary active role at any given time.
      *
      * @param role the Primary role to set this sentient being's primary role to
@@ -57,11 +57,13 @@ public interface RoleComponent extends Component<RoleComponent> {
      * @return True if successful
      * @throws IllegalArgumentException If the role is not of the Primary type
      */
-    boolean setPrimaryRole(@Nullable Role role);
+    boolean setPrimaryRole(
+            @Nullable
+            Role role);
 
     /**
-     * Set the current {@link com.afterkraft.kraftrpg.api.roles.Role.RoleType#SECONDARY} {@link
-     * Role}. The {@link com.afterkraft.kraftrpg.api.roles.Role.RoleType} is checked prior to
+     * Set the current {@link com.afterkraft.kraftrpg.api.role.Role.RoleType#SECONDARY} {@link
+     * Role}. The {@link com.afterkraft.kraftrpg.api.role.Role.RoleType} is checked prior to
      * setting. A sentient being may only have one Secondary active role at any given time.
      *
      * @param role the Secondary role to set this sentient being's secondary role to
@@ -69,20 +71,21 @@ public interface RoleComponent extends Component<RoleComponent> {
      * @return True if the set was successful
      * @throws IllegalArgumentException If the role is not of the Secondary type
      */
-    boolean setSecondaryRole(@Nullable Role role);
+    boolean setSecondaryRole(
+            @Nullable
+            Role role);
 
     /**
-     * Get a Set of {@link Role}s that are marked as
-     * {@link com.afterkraft.kraftrpg.api.roles.Role.RoleType#ADDITIONAL} that are active on this
-     * sentient being.
+     * Get a Set of {@link Role}s that are marked as {@link com.afterkraft.kraftrpg.api.role.Role.RoleType#ADDITIONAL}
+     * that are active on this sentient being.
      *
      * @return An immutable collection of additional roles
      */
     Collection<Role> getAdditionalRoles();
 
     /**
-     * Attempts to add the given {@link Role} provided that the
-     * {@link com.afterkraft.kraftrpg .api.roles.Role.RoleType} is ADDITIONAL.
+     * Attempts to add the given {@link Role} provided that the {@link com.afterkraft.kraftrpg
+     * .api.roles.Role.RoleType} is ADDITIONAL.
      *
      * @param role The additional role to add to this sentient being
      *
@@ -91,10 +94,10 @@ public interface RoleComponent extends Component<RoleComponent> {
     boolean addAdditionalRole(Role role);
 
     /**
-     * Attempts to remove the given {@link Role} provided that the
-     * {@link com.afterkraft.kraftrpg.api.roles.Role.RoleType} is ADDITIONAL. This does NOT
-     * perform any skill permission refreshes, nor does it check for any passive skills refreshes.
-     * This would need to be checked manually by the caller of this method.
+     * Attempts to remove the given {@link Role} provided that the {@link
+     * com.afterkraft.kraftrpg.api.role.Role.RoleType} is ADDITIONAL. This does NOT perform any
+     * skill permission refreshes, nor does it check for any passive skills refreshes. This would
+     * need to be checked manually by the caller of this method.
      *
      * @param role The additional role to remove from this sentient being
      *

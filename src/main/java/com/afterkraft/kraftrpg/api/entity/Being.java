@@ -122,8 +122,8 @@ public interface Being extends DataHolder {
     Collection<Entity> getNearbyEntities(double x, double y, double z);
 
     /**
-     * Gets a {@link Collection} of {@link Entity} within a bounding box centered around this
-     * {@link Being}.
+     * Gets a {@link Collection} of {@link Entity} within a bounding box centered around this {@link
+     * Being}.
      *
      * @param distanceVector The vector distance
      *
@@ -132,8 +132,8 @@ public interface Being extends DataHolder {
     Collection<Entity> getNearbyEntities(Vector3d distanceVector);
 
     /**
-     * Gets a {@link Collection} of {@link Being}s within a bounding box centered around this
-     * {@link Being}.
+     * Gets a {@link Collection} of {@link Being}s within a bounding box centered around this {@link
+     * Being}.
      *
      * @param x Half the size of the box along the x axis
      * @param y Half the size of the box along the y axis
@@ -144,8 +144,8 @@ public interface Being extends DataHolder {
     Collection<Being> getNearbyBeings(double x, double y, double z);
 
     /**
-     * Gets a {@link Collection} of {@link Being}s within a bounding box centered around this
-     * {@link Being}.
+     * Gets a {@link Collection} of {@link Being}s within a bounding box centered around this {@link
+     * Being}.
      *
      * @param distanceVector The vector distance
      *

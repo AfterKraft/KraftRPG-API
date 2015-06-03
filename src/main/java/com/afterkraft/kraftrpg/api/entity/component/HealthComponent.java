@@ -67,8 +67,8 @@ public interface HealthComponent extends Component<HealthComponent> {
     boolean addMaxHealth(String key, double value);
 
     /**
-     * Removes an additional health modifier from the calculations for the
-     * {@link HealthData#getMaxHealth()}. Removing KraftRPG specific mappings may have unknown
+     * Removes an additional health modifier from the calculations for the {@link
+     * HealthData#getMaxHealth()}. Removing KraftRPG specific mappings may have unknown
      * side-effects.
      *
      * @param key linking to the additional health bonus for this being

@@ -25,7 +25,6 @@ package com.afterkraft.kraftrpg.api;
 
 import java.io.File;
 
-import static org.easymock.EasyMock.anyString;
 import static org.easymock.EasyMock.createNiceMock;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.replay;
@@ -35,16 +34,15 @@ import static org.junit.Assert.assertTrue;
 
 import org.powermock.api.easymock.PowerMock;
 import org.spongepowered.api.Game;
+import org.spongepowered.api.Platform;
 import org.spongepowered.api.Server;
-import org.spongepowered.api.text.Text;
-import org.spongepowered.api.text.Texts;
 
 import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableList;
 
-import com.afterkraft.kraftrpg.api.skills.Skill;
-import com.afterkraft.kraftrpg.api.skills.SkillManager;
-import com.afterkraft.kraftrpg.api.skills.TestSkillAbstract;
+import com.afterkraft.kraftrpg.api.skill.Skill;
+import com.afterkraft.kraftrpg.api.skill.SkillManager;
+import com.afterkraft.kraftrpg.api.skill.TestSkillAbstract;
 import com.afterkraft.kraftrpg.api.util.FileUtils;
 import com.afterkraft.kraftrpg.api.util.Util;
 
@@ -77,7 +75,8 @@ public class RPGTestCreator {
 
             Server mockServer = createNiceMock(Server.class);
             Game mockGame = createNiceMock(Game.class);
-            expect(mockGame.getApiVersion()).andStubReturn("1");
+            Platform mockPlatform = createNiceMock(Platform.class);
+            expect(mockGame.getPlatform()).andStubReturn(mockPlatform);
             expect(mockGame.getServer()).andStubReturn(mockServer);
 
             // Set up mockPlugin prep

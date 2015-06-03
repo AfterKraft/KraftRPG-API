@@ -25,11 +25,24 @@ package com.afterkraft.kraftrpg.api.entity.component;
 
 import org.spongepowered.api.data.DataManipulator;
 
+import com.afterkraft.kraftrpg.api.effect.Effect;
+import com.afterkraft.kraftrpg.api.role.Role;
+import com.afterkraft.kraftrpg.api.skill.Skill;
+import com.afterkraft.kraftrpg.api.storage.ComponentStorage;
+
 /**
- * A component is a specific functional aspect of a being such that the component is specific to
- * itself and only to itself. There are various systems that can manipulate a component, however,
- * a component returned from a being is always live and should be considered to have immediate
- * effects on changing.
+ * A {@link Component} is a more customized {@link DataManipulator} for
+ * <strong>KraftRPG-API</strong> such that components can not be misunderstood for external {@link
+ * DataManipulator}s. While the common use of {@link Component}s is for rudimentary use of custom
+ * data related to {@link Effect}s, {@link Skill}s, {@link Role}s, etc., the power of the {@link
+ * Component} system is that a {@link Component} will always have an attached {@link
+ * ComponentStorage}.
+ *
+ * <p>The benefits of segregating external {@link DataManipulator}s from {@link Component}s is that
+ * a {@link Component}'s {@link ComponentStorage} will always be able to serialize and deserialize
+ * the {@link Component} to the storage strategy provided at runtime. Advanced use of {@link
+ * Component}s in tandem with {@link DataManipulator}s from <strong>SpongeAPI</strong> unleashes the
+ * ultimat compatibility with both API's.</p>
  *
  * @param <T> The type of component, for comparison reasons
  */

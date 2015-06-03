@@ -129,10 +129,12 @@ public interface EntityManager extends Manager {
     /**
      * Assigns the given {@link Entity} to become the {@link SkillCaster}'s summon.
      *
-     * <p>Special note should be taken that the given {@link Entity} should not be spawned into
-     * the world yet, but created.</p>
+     * <p>Special note should be taken that the given {@link Entity} should not be spawned into the
+     * world yet, but created.</p>
+     *
      * @param owner
      * @param summon
+     *
      * @return
      */
     Being assignSummon(SkillCaster owner, Entity summon);

@@ -27,8 +27,8 @@ import org.spongepowered.api.potion.PotionEffect;
 
 import com.google.common.base.Optional;
 
-import com.afterkraft.kraftrpg.api.effects.Effect;
-import com.afterkraft.kraftrpg.api.effects.EffectType;
+import com.afterkraft.kraftrpg.api.effect.Effect;
+import com.afterkraft.kraftrpg.api.effect.EffectType;
 
 /**
  * A component that deals in {@link Effect}s. {@link Effect}s are managed by systems to interact

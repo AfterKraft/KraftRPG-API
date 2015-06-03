@@ -54,7 +54,7 @@ public interface DamageManager extends Manager {
      * Attempts to calculate the highest damage given for the given ItemStack. This will check all
      * possibilities of damage modification if the Insentient is a {@link
      * com.afterkraft.kraftrpg.api.entity.SkillCaster} or {@link com.afterkraft.kraftrpg.api.entity.Sentient}
-     * to which {@link com.afterkraft.kraftrpg.api.roles.Role}s will be allowed to modify the damage
+     * to which {@link com.afterkraft.kraftrpg.api.role.Role}s will be allowed to modify the damage
      * dealt from the Item.  If the Insentient has no default damages for the Item, the damage
      * returned will be 0.
      *
@@ -95,7 +95,7 @@ public interface DamageManager extends Manager {
     /**
      * Utility method to calculate the modified damage from an Enchantment damage caused by an Armor
      * piece or Weapon. The {@link com.afterkraft.kraftrpg.api.entity.Insentient} is used to check
-     * for any possible {@link com.afterkraft.kraftrpg.api.roles.Role} damage modifications
+     * for any possible {@link com.afterkraft.kraftrpg.api.role.Role} damage modifications
      * necessary.  If varying damage is enabled, the damage will already take this into account.
      *
      * @param being       wearing/using the enchanted ItemStack

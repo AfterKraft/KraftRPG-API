@@ -27,9 +27,9 @@ import java.util.Collection;
 
 import com.google.common.base.Optional;
 
-import com.afterkraft.kraftrpg.api.roles.Role;
-import com.afterkraft.kraftrpg.api.skills.Skill;
-import com.afterkraft.kraftrpg.api.skills.Stalled;
+import com.afterkraft.kraftrpg.api.role.Role;
+import com.afterkraft.kraftrpg.api.skill.Skill;
+import com.afterkraft.kraftrpg.api.skill.Stalled;
 
 /**
  * SkillCaster is the core interface that {@link Skill}s use when casting. A SkillCaster is able to
@@ -76,7 +76,7 @@ public interface SkillCaster extends Sentient {
     void setCooldown(String key, long duration);
 
     /**
-     * Fetch the highest level of all active {@link com.afterkraft.kraftrpg.api.roles.Role}s that
+     * Fetch the highest level of all active {@link com.afterkraft.kraftrpg.api.role.Role}s that
      * provide the designated {@link Skill}.
      *
      * @param skill the skill in question
@@ -103,7 +103,7 @@ public interface SkillCaster extends Sentient {
 
     /**
      * Same as {@link #getAvailableSkills()}, except return the names, and only of {@link
-     * com.afterkraft.kraftrpg.api.skills.Active} skills.
+     * com.afterkraft.kraftrpg.api.skill.Active} skills.
      *
      * @return names of all skills currently accessible
      */

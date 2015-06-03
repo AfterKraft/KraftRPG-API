@@ -29,7 +29,7 @@ import java.util.UUID;
 import org.spongepowered.api.world.Location;
 
 import com.afterkraft.kraftrpg.api.entity.Being;
-import com.afterkraft.kraftrpg.api.roles.ExperienceType;
+import com.afterkraft.kraftrpg.api.role.ExperienceType;
 import com.afterkraft.kraftrpg.api.util.FixedPoint;
 
 /**

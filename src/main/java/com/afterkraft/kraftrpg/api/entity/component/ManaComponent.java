@@ -23,7 +23,9 @@
  */
 package com.afterkraft.kraftrpg.api.entity.component;
 
-public interface ManaComponent extends Component<ManaComponent> {
+import org.spongepowered.api.data.manipulator.IntData;
+
+public interface ManaComponent extends Component<ManaComponent>, IntData<ManaComponent> {
 
     /**
      * Get the current mana this being has.
