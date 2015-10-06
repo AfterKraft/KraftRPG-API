@@ -31,11 +31,12 @@ import com.google.common.base.Optional;
 
 import com.afterkraft.kraftrpg.api.Manager;
 import com.afterkraft.kraftrpg.api.entity.SkillCaster;
+import com.afterkraft.kraftrpg.api.service.Service;
 
 /**
  * Manages skills with both skill loading and skill management.
  */
-public interface SkillManager extends Manager {
+public interface SkillService extends Service {
 
     /**
      * Checks if a skill by the skill name exists.

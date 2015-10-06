@@ -181,18 +181,49 @@ public final class FixedPoint extends Number implements Cloneable {
         return multRaw(param.val);
     }
 
+    /**
+     * Gets a new {@link FixedPoint} where the underlying value is the result of the passed int
+     * parameter.
+     *
+     * @param param The number to divide
+     *
+     * @return The new fixed point of the result
+     */
     public FixedPoint div(int param) {
         return fromRaw(this.val / param);
     }
 
+    /**
+     * Gets a new {@link FixedPoint} where the underlying value is the result of the passed int
+     * parameter.
+     *
+     * @param param The number to divide
+     *
+     * @return The new fixed point of the result
+     */
     public FixedPoint div(long param) {
         return fromRaw(this.val / param);
     }
 
+    /**
+     * Gets a new {@link FixedPoint} where the underlying value is the result of the passed int
+     * parameter.
+     *
+     * @param param The number to divide
+     *
+     * @return The new fixed point of the result
+     */
     public FixedPoint div(double param) {
         return divRaw(toFixed(param));
     }
 
+    /**
+     * Gets a new {@link FixedPoint} where the underlying value is the result
+     *
+     * @param fixedVal The number to divide
+     *
+     * @return The new fixed point of the result
+     */
     public FixedPoint divRaw(long fixedVal) {
         long t = this.val << FRAC_SIZE;
         t += (fixedVal >> 1);
@@ -219,6 +250,11 @@ public final class FixedPoint extends Number implements Cloneable {
         return fromRaw(toFixed(param));
     }
 
+    /**
+     * @param param
+     *
+     * @return
+     */
     public FixedPoint set(FixedPoint param) {
         return fromRaw(param.val);
     }

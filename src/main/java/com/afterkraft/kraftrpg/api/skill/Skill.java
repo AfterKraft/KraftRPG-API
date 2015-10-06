@@ -34,8 +34,8 @@ import com.afterkraft.kraftrpg.api.entity.SkillCaster;
 import com.afterkraft.kraftrpg.common.skill.AbstractSkill;
 
 /**
- * Represents a usable Skill for KraftRPG. The recommended use of implementation is {@link
- * AbstractSkill}
+ * Represents a usable Skill for RpgCommon. The recommended use of implementation is
+ * {@link AbstractSkill}
  */
 public interface Skill {
 

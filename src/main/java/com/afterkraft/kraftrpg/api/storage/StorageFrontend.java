@@ -35,8 +35,8 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
-import com.afterkraft.kraftrpg.api.RPGPlugin;
 import com.afterkraft.kraftrpg.api.RpgCommon;
+import com.afterkraft.kraftrpg.api.RpgPlugin;
 import com.afterkraft.kraftrpg.api.entity.Champion;
 
 /**
@@ -45,7 +45,7 @@ import com.afterkraft.kraftrpg.api.entity.Champion;
  * and conversion between two StorageBackends.
  */
 public abstract class StorageFrontend {
-    protected final RPGPlugin plugin;
+    protected final RpgPlugin plugin;
     protected final StorageBackend backend;
 
     /**
@@ -63,7 +63,7 @@ public abstract class StorageFrontend {
      */
     protected final Set<UUID> ignoredPlayers = Sets.newHashSet();
 
-    protected StorageFrontend(RPGPlugin plugin, StorageBackend backend) {
+    protected StorageFrontend(RpgPlugin plugin, StorageBackend backend) {
         this.plugin = plugin;
         this.backend = backend;
         this.toSave = Maps.newHashMap();
@@ -82,7 +82,7 @@ public abstract class StorageFrontend {
      * @param plugin  The plugin instance
      * @param backend The backend storage instance
      */
-    protected StorageFrontend(RPGPlugin plugin, StorageBackend backend,
+    protected StorageFrontend(RpgPlugin plugin, StorageBackend backend,
                               boolean ignored) {
         this.plugin = plugin;
         this.backend = backend;
@@ -136,8 +136,8 @@ public abstract class StorageFrontend {
         } else if (this.toSave.containsKey(uuid)) {
             return Optional.of(this.toSave.get(uuid).getData());
         } else if (RpgCommon.getServer().getPlayer(uuid).isPresent()) {
-            if (this.plugin.getEntityManager().getChampion(uuid).isPresent()) {
-                return Optional.of(this.plugin.getEntityManager()
+            if (RpgCommon.getEntityManager().getChampion(uuid).isPresent()) {
+                return Optional.of(RpgCommon.getEntityManager()
                                            .getChampion(uuid).get().getData());
             }
         }

@@ -26,14 +26,14 @@ package com.afterkraft.kraftrpg.api.listener;
 import com.afterkraft.kraftrpg.api.Manager;
 
 /**
- * Standard manager for handling listeners in KraftRPG. This is primarily useful for registering
- * non-standard listeners that are associated with KraftRPG.
+ * Standard manager for handling listeners in RpgCommon. This is primarily useful for registering
+ * non-standard listeners that are associated with RpgCommon.
  */
 public interface ListenerManager extends Manager {
 
     /**
      * Adds an AbstractListener to be managed by the plugin. The listener being added should NOT
-     * include events already handled by the implementation, KraftRPG.  The added listener must be
+     * include events already handled by the implementation, RpgCommon.  The added listener must be
      * able to initialize and shutdown in the event of full plugin reload.
      *
      * @param listener the listener being added to the list of managed Listeners

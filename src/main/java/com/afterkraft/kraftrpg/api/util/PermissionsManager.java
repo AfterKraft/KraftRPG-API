@@ -25,12 +25,14 @@ package com.afterkraft.kraftrpg.api.util;
 
 import org.spongepowered.api.world.World;
 
+import com.afterkraft.kraftrpg.api.RpgCommon;
 import com.afterkraft.kraftrpg.api.Manager;
 import com.afterkraft.kraftrpg.api.entity.Being;
 
 /**
  * Standard permissions manager. This is provided to reduce dependency on Vault if and when
- * necessary. This is meant to be provided through RpgCommon and should be considered to be used
+ * necessary. This is meant to be provided through {@link RpgCommon} and should be considered to be
+ * used
  * instead of being managed by Vault.
  */
 public interface PermissionsManager extends Manager {

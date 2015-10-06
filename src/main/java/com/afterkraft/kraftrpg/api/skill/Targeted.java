@@ -42,11 +42,11 @@ public interface Targeted<E extends org.spongepowered.api.entity.Entity> extends
     /**
      * Apply this skill using the previously parsed state and includes the defined Entity target
      * that is found with ray-tracing. The IEntity is provided as a convenience to avoid having to
-     * fetch it from the EntityManager. Likewise, the targeted Bukkit entity is provided for
+     * fetch it from the EntityService. Likewise, the targeted Bukkit entity is provided for
      * convenience as well.
      *
      * @param caster The caster using this skill
-     * @param target The KraftRPG entity targeted
+     * @param target The RpgCommon entity targeted
      * @param entity The raw bukkit entity targeted
      *
      * @return final SkillCastResults

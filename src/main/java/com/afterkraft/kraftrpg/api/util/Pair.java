@@ -21,40 +21,51 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.afterkraft.kraftrpg.api.effect;
-
-import java.util.Set;
-
-import org.spongepowered.api.data.DataSerializable;
-
-import com.afterkraft.kraftrpg.api.entity.Being;
+package com.afterkraft.kraftrpg.api.util;
 
 /**
- * Represents a property of the effect. Properties define whether an effect is created by a skill,
- * immediate, or persisting, etc.
+ * A Connected pair of values. Named here as a key and value.
  *
- * <p>Note that effect properties do not define whether an effect is damaging, periodic, or imbuing
- * etc.</p>
- *
- * @param <T> The implementing property must be comparable to itself
+ * @param <K> the first type
+ * @param <V> the second type
  */
-public interface EffectProperty<T extends EffectProperty<T>> extends Comparable<T>,
-        DataSerializable {
+public class Pair<K, V> {
 
     /**
-     * Gets the {@link String} identifier of this {@link EffectProperty}. Consider that each
-     * instance of an {@link EffectProperty} is commonly created by various plugins, the
-     * serialization must be able to re-create the {@link Effect} with all {@link EffectProperty}(s)
-     * applied to a {@link Being}.
-     *
-     * @return The unique identifier of the effect property
+     * The first value.
      */
-    String getId();
+    private K key;
+    /**
+     * The second value.
+     */
+    private V value;
 
     /**
-     * Gets all applicable operations of this property.
+     * Creates a new part.
      *
-     * @return The various operations associated with this property
+     * @param k the first value
+     * @param v the second value
      */
-    Set<EffectOperation> getOperations();
+    public Pair(K k, V v) {
+        this.key = k;
+        this.value = v;
+    }
+
+    /**
+     * Returns the first value
+     *
+     * @return the first
+     */
+    public K getKey() {
+        return this.key;
+    }
+
+    /**
+     * Returns the second value
+     *
+     * @return the second
+     */
+    public V getValue() {
+        return this.value;
+    }
 }

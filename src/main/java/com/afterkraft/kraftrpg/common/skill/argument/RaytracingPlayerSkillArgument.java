@@ -58,7 +58,7 @@ public class RaytracingPlayerSkillArgument extends EntitySkillArgument<Player> {
     public int matches(SkillCaster caster, String[] allArgs,
                        int startPosition) {
         String arg = allArgs[startPosition];
-        if (RpgCommon.getPlayerExact(arg).isPresent()) {
+        if (RpgCommon.getServer().getPlayer(arg).isPresent()) {
             return 1;
         }
         return 0;
@@ -67,7 +67,7 @@ public class RaytracingPlayerSkillArgument extends EntitySkillArgument<Player> {
     @Override
     public void parse(SkillCaster caster, String[] allArgs, int startPosition) {
         String arg = allArgs[startPosition];
-        Optional<Player> p = RpgCommon.getPlayerExact(arg);
+        Optional<Player> p = RpgCommon.getServer().getPlayer(arg);
         if (p.isPresent()) {
             this.matchedEntity = new WeakReference<>(p.get());
         } else {

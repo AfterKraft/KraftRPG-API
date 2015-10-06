@@ -23,6 +23,7 @@
  */
 package com.afterkraft.kraftrpg.api.entity.component;
 
+import org.spongepowered.api.data.manipulator.mutable.entity.HealthData;
 import org.spongepowered.api.data.manipulators.entities.HealthData;
 import org.spongepowered.api.entity.living.Living;
 
@@ -54,7 +55,7 @@ public interface HealthComponent extends Component<HealthComponent> {
 
     /**
      * Add a fixed health bonus that does not get reset when {@link #recalculateMaxHealth()} is
-     * called. The health bonus, unless provided specifically by KraftRPG, does not survive between
+     * called. The health bonus, unless provided specifically by RpgCommon, does not survive between
      * reloads, restarts, relogging and other times when the entity is stored and loaded back into
      * memory.
      *
@@ -68,7 +69,7 @@ public interface HealthComponent extends Component<HealthComponent> {
 
     /**
      * Removes an additional health modifier from the calculations for the {@link
-     * HealthData#getMaxHealth()}. Removing KraftRPG specific mappings may have unknown
+     * HealthData#maxHealth()} ()}. Removing RpgCommon specific mappings may have unknown
      * side-effects.
      *
      * @param key linking to the additional health bonus for this being
@@ -97,7 +98,7 @@ public interface HealthComponent extends Component<HealthComponent> {
 
     /**
      * Clears out all health bonuses to the max health except the necessary provided by the default
-     * implementation of KraftRPG.
+     * implementation of RpgCommon.
      */
     void clearHealthBonuses();
 }

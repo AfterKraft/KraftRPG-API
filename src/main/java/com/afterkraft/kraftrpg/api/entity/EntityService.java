@@ -33,21 +33,22 @@ import org.spongepowered.api.entity.player.Player;
 import com.google.common.base.Optional;
 
 import com.afterkraft.kraftrpg.api.Manager;
+import com.afterkraft.kraftrpg.api.service.Service;
 import com.afterkraft.kraftrpg.api.storage.PlayerData;
 
 /**
  * A standard entity manager. Centralized manager to maintain links for the proxy objects known as
  * {@link Being} and it's sub classes to the original objects represented by the Bukkit API.
  */
-public interface EntityManager extends Manager {
+public interface EntityService extends Service {
 
     /**
      * Return the {@link Being} for the designated Entity. The IEntity is guaranteed to be affected
-     * by KraftRPG if it is not returned by null
+     * by RpgCommon if it is not returned by null
      *
      * @param entity The bukkit entity to get the proxy object of
      *
-     * @return The KraftRPG proxy object for the entity
+     * @return The RpgCommon proxy object for the entity
      * @throws IllegalArgumentException If the entity is null or invalid
      */
     Optional<? extends Being> getEntity(Entity entity);
@@ -64,7 +65,7 @@ public interface EntityManager extends Manager {
 
     /**
      * Attempts to load a {@link Champion} with a link to a Player and {@link PlayerData} that
-     * allows interaction with the rest of KraftRPG.  When needing data regarding a Player who is
+     * allows interaction with the rest of RpgCommon.  When needing data regarding a Player who is
      * offline and the data is not intended to be modified, fetching the PlayerData directly from
      * Storage is recommended.
      *
@@ -75,9 +76,9 @@ public interface EntityManager extends Manager {
     Optional<? extends Champion> getChampion(UUID uuid);
 
     /**
-     * Check if the given {@link Entity} is already managed by this EntityManager. If true,
+     * Check if the given {@link Entity} is already managed by this EntityService. If true,
      * attempting to add a new {@link Being} via {@link #addEntity(Being)} will fail. This is
-     * provided as a utility check for extending the functionality of KraftRPG.
+     * provided as a utility check for extending the functionality of RpgCommon.
      *
      * @param entity to check
      *
@@ -97,15 +98,15 @@ public interface EntityManager extends Manager {
     Champion createChampionWithData(Player player, PlayerData data);
 
     /**
-     * Add the given entity to be managed by KraftRPG. This is to allow custom IEntities to exist in
+     * Add the given entity to be managed by RpgCommon. This is to allow custom IEntities to exist in
      * the world that normally would not be considered an {@link Being}. This can be used to add
      * customized {@link SkillCaster}s and possibly {@link Insentient}s. It will perform checks
      * against the current map of managed {@link Entity} and return false if the entity is already
      * registered. If the entity is registered, killing the entity and spawning a new one in it's
      * place is possible. It is important that any custom entities are added through this method so
-     * that KraftRPG can function as intended.
+     * that RpgCommon can function as intended.
      *
-     * @param being to be managed by KraftRPG
+     * @param being to be managed by RpgCommon
      *
      * @return true if the entity's {@link java.util.UUID} did not exist and adding the entity was
      * successful.

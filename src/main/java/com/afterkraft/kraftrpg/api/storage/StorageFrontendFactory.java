@@ -23,7 +23,7 @@
  */
 package com.afterkraft.kraftrpg.api.storage;
 
-import com.afterkraft.kraftrpg.api.RPGPlugin;
+import com.afterkraft.kraftrpg.api.RpgPlugin;
 
 /**
  * This class constructs a StorageFrontend once the StorageBackend is known. Your implementation
@@ -32,6 +32,6 @@ import com.afterkraft.kraftrpg.api.RPGPlugin;
  */
 public abstract class StorageFrontendFactory {
 
-    public abstract StorageFrontend construct(RPGPlugin plugin, StorageBackend backend);
+    public abstract StorageFrontend construct(RpgPlugin plugin, StorageBackend backend);
 
 }

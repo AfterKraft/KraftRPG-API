@@ -21,4 +21,13 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-@org.spongepowered.api.util.annotation.NonnullByDefault package com.afterkraft.kraftrpg.common.handler;
+package com.afterkraft.kraftrpg.api.platform;
+
+import java.util.Collection;
+
+public interface PlatformManager {
+
+    void registerPlatform(Platform platform);
+
+    Collection<Platform> getPlatforms();
+}

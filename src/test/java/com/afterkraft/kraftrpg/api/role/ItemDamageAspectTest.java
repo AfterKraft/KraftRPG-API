@@ -25,15 +25,14 @@ package com.afterkraft.kraftrpg.api.role;
 
 import static org.junit.Assert.assertTrue;
 
-import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
-import com.afterkraft.kraftrpg.api.RPGPlugin;
-import com.afterkraft.kraftrpg.api.RPGTestCreator;
 import com.afterkraft.kraftrpg.api.RpgCommon;
+import com.afterkraft.kraftrpg.api.RpgPlugin;
 import com.afterkraft.kraftrpg.api.role.aspect.ItemDamageAspect;
 import com.afterkraft.kraftrpg.api.role.aspect.ItemDamageAspect.ItemDamageAspectBuilder;
 import com.afterkraft.kraftrpg.api.skill.Skill;
@@ -43,16 +42,14 @@ import com.afterkraft.kraftrpg.api.util.TestItemType;
 @PrepareForTest({RpgCommon.class})
 public class ItemDamageAspectTest {
 
-    private RPGPlugin plugin;
-    private RPGTestCreator creator;
+    private RpgPlugin plugin;
     private Skill testSkill;
 
-    @Before
-    public void setUp() {
-        this.creator = new RPGTestCreator();
-        assertTrue(this.creator.setup());
-        this.plugin = this.creator.getMockPlugin();
-        this.testSkill = this.creator.getMockSkill();
+    @BeforeClass
+    public static void setUp() {
+        if (!RpgCommon.getServiceManager().isTesting()) {
+            RpgCommon.getServiceManager().setTesting(new CoreServiceProvider());
+        }
     }
 
     @Test(expected = NullPointerException.class)

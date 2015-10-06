@@ -45,7 +45,8 @@ import com.google.common.base.Function;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Sets;
 
-import com.afterkraft.kraftrpg.api.RPGPlugin;
+import com.afterkraft.kraftrpg.api.RpgCommon;
+import com.afterkraft.kraftrpg.api.RpgPlugin;
 import com.afterkraft.kraftrpg.api.entity.Champion;
 import com.afterkraft.kraftrpg.api.entity.Insentient;
 import com.afterkraft.kraftrpg.api.entity.SkillCaster;
@@ -59,7 +60,7 @@ import com.afterkraft.kraftrpg.api.util.Utilities;
  */
 public abstract class AbstractSkill implements Skill {
 
-    public final RPGPlugin plugin;
+    public final RpgPlugin plugin;
     private final Set<SkillType> skillTypes = EnumSet.noneOf(SkillType.class);
     private final String name;
     private final Text description;
@@ -70,11 +71,11 @@ public abstract class AbstractSkill implements Skill {
     /**
      * Creates a new instance of a Skill, the default implementation of {@link Skill}.
      *
-     * @param plugin      The instance of the RPGPlugin
+     * @param plugin      The instance of the RpgPlugin
      * @param name        The name of the skill
      * @param description The description of this skill
      */
-    protected AbstractSkill(RPGPlugin plugin, String name, Text description) {
+    protected AbstractSkill(RpgPlugin plugin, String name, Text description) {
         checkNotNull(plugin);
         checkNotNull(name);
         checkArgument(!name.isEmpty());
@@ -438,7 +439,7 @@ public abstract class AbstractSkill implements Skill {
 
     @Override
     public boolean addSkillTarget(Entity entity, SkillCaster caster) {
-        this.plugin.getSkillManager().addSkillTarget(entity, caster, this);
+        RpgCommon.getSkillManager().addSkillTarget(entity, caster, this);
         return true;
     }
 

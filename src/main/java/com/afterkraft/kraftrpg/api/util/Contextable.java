@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2014-2015 Gabriel Harris-Rouquette
+ * Copyright (c) 2014 Gabriel Harris-Rouquette
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,27 +21,11 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.afterkraft.kraftrpg.api.skill;
-
-
-import org.spongepowered.api.text.Texts;
-
-import com.afterkraft.kraftrpg.api.RpgPlugin;
-import com.afterkraft.kraftrpg.api.entity.SkillCaster;
-import com.afterkraft.kraftrpg.common.skill.AbstractActiveSkill;
+package com.afterkraft.kraftrpg.api.util;
 
 /**
- * Default skill for Test Skill
+ * An object which may be added to a {@link Context}.
  */
-public class TestSkillAbstract extends AbstractActiveSkill {
-
-    public TestSkillAbstract(RpgPlugin plugin) {
-        super(plugin, "TestSkill", Texts.of("This is a test skill."));
-    }
-
-    @Override
-    public SkillCastResult useSkill(SkillCaster caster) {
-        return SkillCastResult.NORMAL;
-    }
+public interface Contextable {
 
 }

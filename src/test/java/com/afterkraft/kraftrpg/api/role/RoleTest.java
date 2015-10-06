@@ -32,21 +32,18 @@ import static org.junit.Assert.assertTrue;
 import static org.powermock.api.easymock.PowerMock.mockStatic;
 
 import org.hamcrest.CoreMatchers;
-import org.junit.After;
-import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.spongepowered.api.data.DataContainer;
-import org.spongepowered.api.data.MemoryDataContainer;
 
 import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableList;
 
-import com.afterkraft.kraftrpg.api.RPGPlugin;
-import com.afterkraft.kraftrpg.api.RPGTestCreator;
 import com.afterkraft.kraftrpg.api.RpgCommon;
+import com.afterkraft.kraftrpg.api.RpgPlugin;
 import com.afterkraft.kraftrpg.api.role.aspect.HealthAspect;
 import com.afterkraft.kraftrpg.api.role.aspect.HealthAspect.HealthAspectBuilder;
 import com.afterkraft.kraftrpg.api.role.aspect.ManaAspect;
@@ -56,7 +53,6 @@ import com.afterkraft.kraftrpg.api.role.aspect.RestrictedSkillAspect.RestrictedS
 import com.afterkraft.kraftrpg.api.role.aspect.SkillAspect;
 import com.afterkraft.kraftrpg.api.role.aspect.SkillAspect.SkillAspectBuilder;
 import com.afterkraft.kraftrpg.api.skill.Skill;
-import com.afterkraft.kraftrpg.api.skill.SkillSetting;
 
 /**
  * Performs all tests on the Role object directly.
@@ -64,42 +60,28 @@ import com.afterkraft.kraftrpg.api.skill.SkillSetting;
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({RpgCommon.class})
 public class RoleTest {
-    private RPGPlugin plugin;
-    private RPGTestCreator creator;
+    private RpgPlugin plugin;
     private Skill testSkill;
     private DataContainer mockContainer;
 
-    @Before
-    public void setUp() {
-        this.creator = new RPGTestCreator();
-        assertTrue(this.creator.setup());
-        this.plugin = this.creator.getMockPlugin();
-        this.testSkill = this.creator.getMockSkill();
-
-        this.mockContainer = new MemoryDataContainer().set(SkillSetting.LEVEL.node(), 1);
-    }
-
-    @After
-    public void cleanUp() {
-        this.creator.cleanUp();
-    }
-
-    @Test(expected = NullPointerException.class)
-    public void testNullBuilder() {
-        Role.builder(null);
+    @BeforeClass
+    public static void setUp() {
+        if (!RpgCommon.getServiceManager().isTesting()) {
+            RpgCommon.getServiceManager().setTesting(new CoreServiceProvider());
+        }
     }
 
     @Test
     public void testWithBuilder() {
-        Role.builder(this.plugin);
+        Role.builder();
     }
 
     @Test
     public void testCleanRoleBuild() {
-        Role.builder(this.plugin)
+        Role.builder()
                 .setName("TestRole")
                 .setType(Role.RoleType.PRIMARY)
-                .setDescription("A test role for KraftRPG-API Unit Tests.")
+                .setDescription("A test role for RpgCommon-API Unit Tests.")
                 .setAdvancementLevel(1)
                 .setMaxLevel(1)
                 .setChoosable(true)
@@ -108,17 +90,17 @@ public class RoleTest {
 
     @Test(expected = NullPointerException.class)
     public void testNullType() {
-        Role.builder(this.plugin).setType(null);
+        Role.builder().setType(null);
     }
 
     @Test(expected = IllegalStateException.class)
     public void testIncompleteBuilder() {
-        Role.builder(this.plugin).build();
+        Role.builder().build();
     }
 
     @Test(expected = NullPointerException.class)
     public void testNullName() {
-        Role.builder(this.plugin).setName(null);
+        Role.builder().setName(null);
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -143,42 +125,42 @@ public class RoleTest {
     public void testSetHpAt0WithMaxNegative() {
         HealthAspectBuilder builder = HealthAspect.builder();
         builder.setHealthAtZero(0).setHealthPerLevel(-1);
-        Role.builder(this.plugin).addAspect(builder.build());
+        Role.builder().addAspect(builder.build());
     }
 
     @Test(expected = NullPointerException.class)
     public void testNullDescription() {
-        Role.builder(this.plugin).setDescription(null);
+        Role.builder().setDescription(null);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testNegativeAdvancementLevel() {
-        Role.builder(this.plugin).setAdvancementLevel(-1);
+        Role.builder().setAdvancementLevel(-1);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testZeroMaxLevel() {
-        Role.builder(this.plugin).setMaxLevel(0);
+        Role.builder().setMaxLevel(0);
     }
 
     @Test(expected = NullPointerException.class)
     public void testNullChild() {
-        Role.builder(this.plugin).addChild(null);
+        Role.builder().addChild(null);
     }
 
     @Test(expected = NullPointerException.class)
     public void testNullParent() {
-        Role.builder(this.plugin).addParent(null);
+        Role.builder().addParent(null);
     }
 
     @Test(expected = NullPointerException.class)
     public void testNullRemoveChild() {
-        Role.builder(this.plugin).removeChild(null);
+        Role.builder().removeChild(null);
     }
 
     @Test(expected = NullPointerException.class)
     public void testNullRemoveParent() {
-        Role.builder(this.plugin).removeParent(null);
+        Role.builder().removeParent(null);
     }
 
     @Test(expected = NullPointerException.class)
@@ -218,7 +200,7 @@ public class RoleTest {
         builder.addRoleSkill(this.testSkill, this.mockContainer);
         RestrictedSkillAspectBuilder restrictedBuilder = RestrictedSkillAspect.builder();
         restrictedBuilder.addRestirctedSkill(this.testSkill);
-        Role.builder(this.plugin)
+        Role.builder()
                 .addAspect(builder.build())
                 .addAspect(restrictedBuilder.build()) // Should fail HERE
                 .build();
@@ -228,10 +210,10 @@ public class RoleTest {
     public void testGetSkill() {
         SkillAspectBuilder builder = SkillAspect.builder();
         builder.addRoleSkill(this.testSkill, this.mockContainer);
-        Role test = Role.builder(this.plugin)
+        Role test = Role.builder()
                 .setName("TestRole")
                 .setType(Role.RoleType.PRIMARY)
-                .setDescription("A test role for KraftRPG-API Unit Tests.")
+                .setDescription("A test role for RpgCommon-API Unit Tests.")
                 .setAdvancementLevel(1)
                 .setMaxLevel(1)
                 .addAspect(builder.build())

@@ -29,15 +29,15 @@ import java.util.List;
 import com.google.common.base.Optional;
 
 import com.afterkraft.kraftrpg.api.CircularDependencyException;
-import com.afterkraft.kraftrpg.api.Manager;
 import com.afterkraft.kraftrpg.api.role.Role.RoleType;
+import com.afterkraft.kraftrpg.api.service.Service;
 import com.afterkraft.kraftrpg.api.util.FixedPoint;
 
 /**
  * Manages all interactions with roles and entities. Roles can be assigned, created, and swapped
  * with this manager.
  */
-public interface RoleManager extends Manager {
+public interface RoleManager extends Service {
 
     /**
      * Gets the current default primary role assigned to champions upon initial creation.
@@ -132,11 +132,12 @@ public interface RoleManager extends Manager {
 
     /**
      * Attempts to add a dependency for the two involving roles. This may cause a re-assignment of
-     * roles for all sentient beings with either of the roles being swapped out. <p>Note that it is
-     * inherently illegal for any instance of a circular dependency to exist with roles. This is
-     * designed to avoid issues of a player attempting to select a role that has a dependency of
-     * other roles that depend on the given role, preventing the player from actually selecting the
-     * given role. </p>
+     * roles for all sentient beings with either of the roles being swapped out.
+     *
+     * <p>Note that it is inherently illegal for any instance of a circular dependency to exist with
+     * roles. This is designed to avoid issues of a player attempting to select a role that has a
+     * dependency of other roles that depend on the given role, preventing the player from actually
+     * selecting the given role. </p>
      *
      * @param parent The parent role adding the dependency
      * @param child  The child role adding the parent dependency

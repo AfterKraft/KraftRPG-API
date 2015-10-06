@@ -23,148 +23,434 @@
  */
 package com.afterkraft.kraftrpg.api;
 
+import java.lang.reflect.Method;
+import java.text.SimpleDateFormat;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.EnumMap;
+import java.util.List;
+import java.util.Map;
 
-import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkState;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 import org.slf4j.Logger;
 import org.spongepowered.api.Game;
 import org.spongepowered.api.Server;
-import org.spongepowered.api.entity.living.Living;
-import org.spongepowered.api.entity.player.Player;
-import org.spongepowered.api.event.cause.Cause;
-import org.spongepowered.api.plugin.PluginContainer;
-import org.spongepowered.api.world.World;
 
+import com.google.common.base.Function;
 import com.google.common.base.Optional;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 
-import com.afterkraft.kraftrpg.api.entity.Being;
-import com.afterkraft.kraftrpg.api.entity.Champion;
-import com.afterkraft.kraftrpg.api.entity.Insentient;
-import com.afterkraft.kraftrpg.api.skill.Skill;
-import com.afterkraft.kraftrpg.api.util.PermissionsManager;
-import com.afterkraft.kraftrpg.common.handler.ServerInternals;
+import com.afterkraft.kraftrpg.api.entity.EntityService;
+import com.afterkraft.kraftrpg.api.entity.combat.CombatTracker;
+import com.afterkraft.kraftrpg.api.entity.party.PartyManager;
+import com.afterkraft.kraftrpg.api.platform.Platform;
+import com.afterkraft.kraftrpg.api.platform.PlatformManager;
+import com.afterkraft.kraftrpg.api.role.RoleManager;
+import com.afterkraft.kraftrpg.api.service.Service;
+import com.afterkraft.kraftrpg.api.service.ServiceManager;
+import com.afterkraft.kraftrpg.api.service.ServiceProvider.Type;
+import com.afterkraft.kraftrpg.api.skill.SkillConfigManager;
+import com.afterkraft.kraftrpg.api.skill.SkillService;
+import com.afterkraft.kraftrpg.api.storage.StorageFrontend;
+import com.afterkraft.kraftrpg.api.util.ConfigManager;
+import com.afterkraft.kraftrpg.api.util.DamageManager;
+import com.afterkraft.kraftrpg.api.util.Pair;
+import com.afterkraft.kraftrpg.api.util.init.AnnotationCacheHelper;
 
 /**
  * Utility class providing simple and fast method calls to various managers.
  */
-public final class RpgCommon {
-    private static Server server;
-    private static Game game;
-    private static PermissionsManager permissionsManager;
-    private static RPGPlugin plugin;
-    private static ServerInternals serverInternals;
+public class RpgCommon implements PlatformManager {
 
-    private static boolean isPluginEnabled = false;
+    private Thread mainThread;
+    private ClassLoader classloader;
+    private Map<Type, List<ServiceProvider>> providers;
+    private Map<Class<?>, List<Pair<Object, Method>>> initHooks;
+    private Map<Class<?>, Service> services;
+    private List<Class<?>> stoppedServices;
+    private State state;
+    private boolean testing = false;
+    private ServiceProvider testingProvider = null;
+    private Map<Class<?>, Service> testingServices = null;
+    // BEGIN ExpansionManager
+    private List<Platform> expansions;
 
     private RpgCommon() {
-
+        this.mainThread = Thread.currentThread();
+        this.classloader = RpgCommon.class.getClassLoader();
+        initServiceManager();
+        initPlatformManager();
     }
 
-    public static void finish() {
-        isPluginEnabled = true;
+    private void initServiceManager() {
+        this.providers = new EnumMap<>(ServiceProvider.Type.class);
+        this.stoppedServices = Lists.newArrayList();
+        this.state = State.STOPPED;
+        this.services = Maps.newHashMap();
+        this.initHooks = Maps.newHashMap();
     }
 
-    public static Game getGame() {
-        return RpgCommon.game;
+    private void initPlatformManager() {
+        this.expansions = Lists.newArrayList();
     }
 
-    public static void setGame(Game game) {
-        check();
-        RpgCommon.game = game;
+
+    public static PlatformManager getPlatformManager() {
+        return InstanceHolder.INSTANCE;
     }
 
-    private static void check() {
-        checkState(!isPluginEnabled, "RPGPlugin is already enabled!");
+    /**
+     * Gets the currently used {@link SkillConfigManager}.
+     *
+     * @return The currently used skill configuration manager
+     */
+    public static SkillConfigManager getSkillConfigManager() {
+        return InstanceHolder.INSTANCE.getService(SkillConfigManager.class).get();
     }
 
-    public static void setCommonServer(Server bukkitServer) {
-        check();
-        RpgCommon.server = bukkitServer;
+    /**
+     * Gets the currently used {@link CombatTracker}.
+     *
+     * @return The currently used combat manager
+     */
+    public static CombatTracker getCombatTracker() {
+        return InstanceHolder.INSTANCE.getService(CombatTracker.class).get();
     }
 
-    public static void setProjectileDamage(Being arrow, double damage) {
-        getHandler().setProjectileDamage(arrow, damage);
+    /**
+     * Gets the currently used {@link EntityService}.
+     *
+     * @return The currently used entity manager
+     */
+    public static EntityService getEntityManager() {
+        return InstanceHolder.INSTANCE.getService(EntityService.class).get();
     }
 
-    public static ServerInternals getHandler() {
-        checkArgument(RpgCommon.serverInternals != null,
-                      "The plugin has not been initialized "
-                              + "yet!");
-        return RpgCommon.serverInternals;
+    /**
+     * Gets the currently used {@link SkillConfigManager}.
+     *
+     * @return The currently used skill configuration manager
+     */
+    public static StorageFrontend getStorage() {
+        return InstanceHolder.INSTANCE.getService(StorageFrontend.class).get();
     }
 
-    public static void setHandler(ServerInternals handler) {
-        check();
-        RpgCommon.serverInternals = handler;
+    /**
+     * Gets the currently used {@link ConfigManager}.
+     *
+     * @return The currently used configuration manager
+     */
+    public static ConfigManager getConfigurationManager() {
+        return InstanceHolder.INSTANCE.getService(ConfigManager.class).get();
     }
 
-    public static boolean healEntity(Insentient being, double tickHealth,
-                                     Skill skill,
-                                     Insentient applier) {
-        return getHandler().healEntity(being, tickHealth, skill, applier);
+    /**
+     * Gets the currently used {@link DamageManager}.
+     *
+     * @return The currently used damage manager
+     */
+    public static DamageManager getDamageManager() {
+        return InstanceHolder.INSTANCE.getService(DamageManager.class).get();
     }
 
-    public static Optional<Player> getPlayerByName(String name) {
-        return getServer().getPlayer(name);
+    /**
+     * Gets the currently used {@link SkillService}.
+     *
+     * @return The currently used skill manager
+     */
+    public static SkillService getSkillManager() {
+        return InstanceHolder.INSTANCE.getService(SkillService.class).get();
+    }
+
+    /**
+     * Gets the currently used {@link RoleManager}.
+     *
+     * @return The currently used role manager
+     */
+    public static RoleManager getRoleManager() {
+        return InstanceHolder.INSTANCE.getService(RoleManager.class).get();
+    }
+
+    /**
+     * Gets the currently used {@link PartyManager}.
+     *
+     * @return The currently used party manager
+     */
+    public static PartyManager getPartyManager() {
+        return InstanceHolder.INSTANCE.getService(PartyManager.class).get();
     }
 
     public static Server getServer() {
-        checkArgument(RpgCommon.server != null,
-                      "The server has not been set yet!");
-        return RpgCommon.server;
+        return InstanceHolder.INSTANCE.getService(Server.class).get();
     }
 
-    public static Optional<Player> getPlayerExact(String name) {
-        return getServer().getPlayer(name);
+    public static Game getGame() {
+        return InstanceHolder.INSTANCE.getService(Game.class).get();
     }
 
-    public static Collection<? extends Player> getOnlinePlayers() {
-        return getServer().getOnlinePlayers();
+    public static RpgPlugin getPlugin() {
+        return InstanceHolder.INSTANCE.getService(RpgPlugin.class).get();
     }
 
-    public static Optional<? extends Champion> getChampion(Player player) {
-        return getPlugin().getEntityManager().getChampion(player);
+    @Override
+    public void initializeServices() {
+        AnnotationCacheHelper startup = new AnnotationCacheHelper();
+        if (this.state != State.STOPPED) {
+            throw new IllegalStateException();
+        }
+        synchronized (this.services) {
+            this.services.clear();
+        }
+        this.stoppedServices.clear();
+        this.providers.clear();
+        registerServiceProvider(new CoreServiceProvider());
+        this.state = State.STARTING_REGISTRATION;
+        String startTime = new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss Z")
+                .format(new Date(System.currentTimeMillis()));
+        System.out.println("Starting KraftRPG initialization process. (" + startTime + ")");
+
+        Function<Method, Boolean> noParamTest = new Function<Method, Boolean>() {
+
+            @Override
+            public Boolean apply(Method input) {
+                return input.getParameterTypes().length == 0;
+            }
+
+        };
+
+        // load expansions
+
+        synchronized (this.expansions) {
+            for (Platform ex : this.expansions) {
+                ex.init();
+            }
+        }
+
+        for (ServiceProvider.Type type : this.providers.keySet()) {
+            for (ServiceProvider provider : this.providers.get(type)) {
+                provider.registerNewServices(this);
+            }
+        }
+
+        this.state = State.STARTING_BUILDING;
+        synchronized (this.services) {
+            // search for builders in the order of first core, then platform,
+            // then expansions
+            for (ServiceProvider provider : this.providers.get(ServiceProvider.Type.CORE)) {
+                detectBuilders(provider, startup);
+            }
+            if (this.providers.containsKey(ServiceProvider.Type.PLATFORM)) {
+                for (ServiceProvider provider : this.providers.get(ServiceProvider.Type.PLATFORM)) {
+                    detectBuilders(provider, startup);
+                }
+            }
+            if (this.providers.containsKey(ServiceProvider.Type.EXPANSION)) {
+                for (ServiceProvider provider : this.providers
+                        .get(ServiceProvider.Type.EXPANSION)) {
+                    detectBuilders(provider, startup);
+                }
+            }
+
+            this.state = State.STARTING_INITIALIZING;
+            for (ServiceProvider.Type type : this.providers.keySet()) {
+                for (ServiceProvider provider : this.providers.get(type)) {
+                    for (Method m : startup
+                            .get(provider.getClass(), ServiceProvider.PreInit.class, noParamTest)) {
+                        try {
+                            m.invoke(provider, new Object[0]);
+                        } catch (Exception e) {
+                            System.err.println(
+                                    "Error calling pre init hook from " + m.toGenericString());
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }
+            List<Service> toInit = Lists.newArrayList();
+            for (Class<?> name : this.services.keySet()) {
+                toInit.add(this.services.get(name));
+            }
+            Collections.sort(toInit, new Comparator<Service>() {
+                @Override
+                public int compare(Service o1, Service o2) {
+                    return Integer.signum(o1.getPriority() - o2.getPriority());
+                }
+            });
+            for (Service service : toInit) {
+                try {
+                    service.start();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    service.stop();
+                    this.services.remove(service.getTargetedService());
+                    continue;
+                }
+                if (this.initHooks.containsKey(service.getTargetedService())) {
+                    for (Pair<Object, Method> hook : this.initHooks
+                            .get(service.getTargetedService())) {
+                        try {
+                            hook.getValue().invoke(hook.getKey(), service);
+                        } catch (Exception e) {
+                            System.err.println(
+                                    "Error calling init hook for " + service.getTargetedService()
+                                            .getName() + " from "
+                                            + hook.getValue().toGenericString());
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }
+            for (ServiceProvider.Type type : this.providers.keySet()) {
+                for (ServiceProvider provider : this.providers.get(type)) {
+
+                    for (Method m : startup.get(provider.getClass(), ServiceProvider.PostInit.class,
+                                                noParamTest)) {
+                        try {
+                            m.invoke(provider, new Object[0]);
+                        } catch (Exception e) {
+                            System.err.println(
+                                    "Error calling post init hook from " + m.toGenericString());
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }
+            if (!this.stoppedServices.isEmpty()) {
+                String unbuilt = "";
+                for (Class<?> stopped : this.stoppedServices) {
+                    unbuilt += " " + stopped.getSimpleName();
+                }
+                getLogger()
+                        .warn("Finished initialization process with the following services unbuilt:"
+                                      + unbuilt);
+            } else {
+                getLogger().info("Finished KraftRPG initialization process.");
+            }
+
+            this.state = State.RUNNING;
+        }
     }
 
-    public static RPGPlugin getPlugin() {
-        return RpgCommon.plugin;
-    }
+    private void detectBuilders(ServiceProvider provider, AnnotationCacheHelper startup) {
 
-    public static void setPlugin(RPGPlugin plugin) {
-        check();
-        RpgCommon.plugin = plugin;
-    }
+        Function<Method, Boolean> builderTest = new Function<Method, Boolean>() {
 
-    public static Optional<? extends Being> getEntity(org.spongepowered.api.entity.Entity entity) {
-        return getPlugin().getEntityManager().getEntity(entity);
-    }
+            @Override
+            public Boolean apply(Method input) {
+                return input.getParameterTypes().length == 0;
+            }
 
-    public static void hideInsentient(Insentient being) {
-        getHandler().hideInsentient(being);
-    }
+        };
+        for (Method m : startup
+                .get(provider.getClass(), ServiceProvider.Builder.class, builderTest)) {
+            ServiceProvider.Builder builder = m.getAnnotation(ServiceProvider.Builder.class);
+            if (this.stoppedServices.contains(builder.value()) || this.services
+                    .containsKey(builder.value())) {
+                try {
+                    this.services.put(builder.value(), (Service) m.invoke(provider, new Object[0]));
+                    this.stoppedServices.remove(builder.value());
+                } catch (Exception e) {
+                    System.err.println(
+                            "Failed to build " + builder.value() + " from " + m.toGenericString());
+                    e.printStackTrace();
+                }
+            }
+        }
+        Function<Method, Boolean> initTest = new Function<Method, Boolean>() {
 
-    public static boolean isOp(final Being being) {
-        return getPermissionManager().isOp(being);
-    }
+            @Override
+            public Boolean apply(Method input) {
+                return true;
+            }
 
-    public static PermissionsManager getPermissionManager() {
-        return RpgCommon.permissionsManager;
-    }
+        };
 
-    public static void setPermissionManager(
-            PermissionsManager permissionManager) {
-        check();
-        RpgCommon.permissionsManager = permissionManager;
-    }
-
-    public static boolean hasPermission(final Being being,
-                                        final String permission) {
-        return getPermissionManager().hasPermission(being, permission);
+        for (Method m : startup
+                .get(provider.getClass(), ServiceProvider.InitHook.class, initTest)) {
+            ServiceProvider.InitHook hook = m.getAnnotation(ServiceProvider.InitHook.class);
+            List<Pair<Object, Method>> target = null;
+            if (this.initHooks.containsKey(hook.value())) {
+                target = this.initHooks.get(hook.value());
+            } else {
+                this.initHooks.put(hook.value(), target = Lists.newArrayList());
+            }
+            target.add(new Pair<Object, Method>(provider, m));
+        }
     }
 
     public static Logger getLogger() {
-        return game.getPluginManager().getLogger((PluginContainer) getPlugin());
+        return InstanceHolder.INSTANCE.getService(Logger.class).get();
+    }
+
+    @Override
+    public void stopServices() {
+
+    }
+
+    @Override
+    public void registerServiceProvider(ServiceProvider provider) {
+        checkNotNull(provider);
+        List<ServiceProvider> target = null;
+        if (this.providers.containsKey(provider.getType())) {
+            target = this.providers.get(provider.getType());
+        }
+    }
+
+    @Override
+    public void registerService(Class<?> service) {
+
+    }
+
+    @Override
+    public boolean hasService(Class<?> service) {
+        return false;
+    }
+
+    @Override
+    public <T> Optional<T> getService(Class<T> service) {
+        return null;
+    }
+
+    @Override
+    public Iterable<Service> getServices() {
+        return null;
+    }
+
+    @Override
+    public void stopService(Service service) {
+
+    }
+
+    @Override
+    public boolean isTesting() {
+        return false;
+    }
+
+    @Override
+    public void setTesting(ServiceProvider provider) {
+
+    }
+
+    @Override
+    public void registerPlatform(Platform ex) {
+        checkNotNull(ex);
+        synchronized (this.expansions) {
+            if (!this.expansions.contains(ex)) {
+                this.expansions.add(ex);
+            }
+        }
+    }
+
+    @Override
+    public Collection<Platform> getPlatforms() {
+        return this.expansions;
+    }
+
+    private static class InstanceHolder {
+        protected static final RpgCommon INSTANCE = new RpgCommon();
     }
 }

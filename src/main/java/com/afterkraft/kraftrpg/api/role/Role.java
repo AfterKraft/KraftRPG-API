@@ -35,7 +35,8 @@ import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 
-import com.afterkraft.kraftrpg.api.RPGPlugin;
+import com.afterkraft.kraftrpg.api.RpgCommon;
+import com.afterkraft.kraftrpg.api.RpgPlugin;
 import com.afterkraft.kraftrpg.api.role.aspect.HealthAspect;
 import com.afterkraft.kraftrpg.api.role.aspect.ResourceAspect;
 import com.afterkraft.kraftrpg.api.role.aspect.RestrictedSkillAspect;
@@ -51,7 +52,6 @@ import com.afterkraft.kraftrpg.api.skill.Skill;
  */
 public final class Role {
 
-    private final transient RPGPlugin plugin;
     private final RoleAspect[] aspects;
     private final String name;
     private final String[] children;
@@ -63,7 +63,6 @@ public final class Role {
     private final String description;
 
     private Role(Builder builder) {
-        this.plugin = builder.plugin;
         this.name = builder.name;
         this.type = builder.type;
         this.choosable = builder.choosable;
@@ -79,16 +78,13 @@ public final class Role {
     }
 
     /**
-     * Construct a Role. It is necessary to provide the link to {@link RPGPlugin} as many of the
+     * Construct a Role. It is necessary to provide the link to {@link RpgPlugin} as many of the
      * operations performed in a Role use it.
-     *
-     * @param plugin The implementation of KraftRPG
      *
      * @return This builder
      */
-    public static Builder builder(RPGPlugin plugin) {
-        checkNotNull(plugin);
-        return new Builder(plugin);
+    public static Builder builder() {
+        return new Builder();
     }
 
     /**
@@ -140,7 +136,7 @@ public final class Role {
     public Set<Role> getParents() {
         ImmutableSet.Builder<Role> builder = ImmutableSet.builder();
         for (String roleName : this.parents) {
-            builder.add(this.plugin.getRoleManager().getRole(roleName).get());
+            builder.add(RpgCommon.getRoleManager().getRole(roleName).get());
         }
         return builder.build();
     }
@@ -154,24 +150,24 @@ public final class Role {
     public Set<Role> getChildren() {
         ImmutableSet.Builder<Role> builder = ImmutableSet.builder();
         for (String roleName : this.children) {
-            builder.add(this.plugin.getRoleManager().getRole(roleName).get());
+            builder.add(RpgCommon.getRoleManager().getRole(roleName).get());
         }
         return builder.build();
     }
 
     /**
-     * Check if this Role is defined as the default Role as configured in KraftRPG.
+     * Check if this Role is defined as the default Role as configured in RpgCommon.
      *
      * @return true if this role is the default role
      */
     @SuppressWarnings("unused")
     public boolean isDefault() {
         if (this.type == RoleType.PRIMARY) {
-            return this == this.plugin.getRoleManager().getDefaultPrimaryRole();
+            return this == RpgCommon.getRoleManager().getDefaultPrimaryRole();
         } else if (this.type == RoleType.SECONDARY
-                && this.plugin.getRoleManager()
+                && RpgCommon.getRoleManager()
                 .getDefaultSecondaryRole().isPresent()) {
-            return this == this.plugin.getRoleManager()
+            return this == RpgCommon.getRoleManager()
                     .getDefaultSecondaryRole().get();
         }
         return false;
@@ -271,7 +267,7 @@ public final class Role {
      */
     public static Builder copyOf(Role role) {
         checkNotNull(role);
-        Builder builder = new Builder(role.plugin)
+        Builder builder = new Builder()
                 .setName(role.name)
                 .setAdvancementLevel(role.advancementLevel)
                 .setMaxLevel(role.maxLevel)
@@ -279,11 +275,11 @@ public final class Role {
                 .setDescription(role.description)
                 .setType(role.type);
         for (String child : role.children) {
-            builder.addChild(role.plugin.getRoleManager().getRole(child).get());
+            builder.addChild(RpgCommon.getRoleManager().getRole(child).get());
         }
         for (String parent : role.parents) {
             builder.addParent(
-                    role.plugin.getRoleManager().getRole(parent).get());
+                    RpgCommon.getRoleManager().getRole(parent).get());
         }
         for (RoleAspect aspect : role.aspects) {
             builder.addAspect(aspect);
@@ -324,7 +320,6 @@ public final class Role {
      * This is a builder for Role.
      */
     public static final class Builder {
-        RPGPlugin plugin;
         String name;
         List<RoleAspect> aspects = Lists.newArrayList();
         RoleType type = RoleType.PRIMARY;
@@ -335,9 +330,7 @@ public final class Role {
         boolean choosable = true;
         String description;
 
-        Builder(RPGPlugin plugin) {
-            this.plugin = plugin;
-        }
+        Builder() { }
 
         /**
          * Set the specified RoleType

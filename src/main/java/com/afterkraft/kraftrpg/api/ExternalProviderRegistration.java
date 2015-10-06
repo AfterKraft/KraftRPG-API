@@ -45,12 +45,12 @@ import com.afterkraft.kraftrpg.common.skill.AbstractSkill;
 
 /**
  * On load registration for various external providers of various services to further customize the
- * implementation of KraftRPG.
+ * implementation of RpgCommon.
  */
 public final class ExternalProviderRegistration {
     private static boolean pluginEnabled = false;
 
-    private static RPGPlugin plugin;
+    private static RpgPlugin plugin;
 
     private static Map<String, StorageBackend> storageBackends = Maps.newHashMap();
     private static StorageFrontendFactory storageFrontend = null; // todo figure out storage
@@ -63,7 +63,7 @@ public final class ExternalProviderRegistration {
      *
      * @param newQueueManager custom StorageFrontend, or null for default
      *
-     * @throws LateRegistrationException if called after KraftRPG has been loaded
+     * @throws LateRegistrationException if called after RpgCommon has been loaded
      */
     public static void overrideStorageFrontend(
             StorageFrontendFactory newQueueManager)
@@ -75,7 +75,7 @@ public final class ExternalProviderRegistration {
     private static void check() throws LateRegistrationException {
         if (pluginEnabled) {
             throw new LateRegistrationException(
-                    "KraftRPG is already loaded and enabled. Please do your registrations prior "
+                    "RpgCommon is already loaded and enabled. Please do your registrations prior "
                             + "to ServerStartingEvent!");
         }
     }
@@ -87,7 +87,7 @@ public final class ExternalProviderRegistration {
      * @param identifiers Names it can be referenced by in config files and commands
      *
      * @return True if successful
-     * @throws LateRegistrationException If called after KraftRPG has been loaded
+     * @throws LateRegistrationException If called after RpgCommon has been loaded
      */
     public static boolean registerStorageBackend(StorageBackend storage, String... identifiers)
             throws LateRegistrationException {
@@ -107,12 +107,12 @@ public final class ExternalProviderRegistration {
     }
 
     /**
-     * Register a new skill for KraftRPG to use.
+     * Register a new skill for RpgCommon to use.
      *
      * @param skill Skill to register
      *
      * @return True if the skill does not have a duplicate name
-     * @throws LateRegistrationException if called after KraftRPG has been loaded
+     * @throws LateRegistrationException if called after RpgCommon has been loaded
      */
     public static boolean registerSkill(Skill skill) throws LateRegistrationException {
         check();
@@ -135,7 +135,7 @@ public final class ExternalProviderRegistration {
      *
      * @return True if there was a previous registration to override (NOT a success indicator - can
      * generally be ignored)
-     * @throws LateRegistrationException if called after KraftRPG has been loaded
+     * @throws LateRegistrationException if called after RpgCommon has been loaded
      */
     public static boolean overrideSkill(Skill skill) throws LateRegistrationException {
         check();
@@ -160,16 +160,16 @@ public final class ExternalProviderRegistration {
     }
 
     /**
-     * Store the RPGPlugin, for use in checks. KraftRPG will call this in its onLoad() method.
+     * Store the RpgPlugin, for use in checks. RpgCommon will call this in its onLoad() method.
      *
      * @param p plugin
      */
-    public static void pluginLoaded(RPGPlugin p) {
+    public static void pluginLoaded(RpgPlugin p) {
         plugin = p;
     }
 
     /**
-     * You should not call this - KraftRPG will call this in its onEnable(), which closes any new
+     * You should not call this - RpgCommon will call this in its onEnable(), which closes any new
      * registrations.
      */
     public static void finish() {

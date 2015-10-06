@@ -36,7 +36,7 @@ public enum LeaveCombatReason {
      */
     SUICIDE,
     /**
-     * Leaving combat due to an error on the server or KraftRPG
+     * Leaving combat due to an error on the server or RpgCommon
      */
     ERROR,
     /**

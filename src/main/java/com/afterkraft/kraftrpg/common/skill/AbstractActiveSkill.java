@@ -34,7 +34,7 @@ import org.spongepowered.api.text.Text;
 import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableList;
 
-import com.afterkraft.kraftrpg.api.RPGPlugin;
+import com.afterkraft.kraftrpg.api.RpgPlugin;
 import com.afterkraft.kraftrpg.api.entity.SkillCaster;
 import com.afterkraft.kraftrpg.api.skill.Active;
 import com.afterkraft.kraftrpg.api.skill.SkillArgument;
@@ -48,7 +48,7 @@ public abstract class AbstractActiveSkill extends AbstractSkill implements Activ
     private String usage = "";
     private SkillCaster parsedCaster;
 
-    protected AbstractActiveSkill(RPGPlugin plugin, String name, Text description) {
+    protected AbstractActiveSkill(RpgPlugin plugin, String name, Text description) {
         super(plugin, name, description);
     }
 
@@ -174,7 +174,7 @@ public abstract class AbstractActiveSkill extends AbstractSkill implements Activ
 
     protected final void addSkillArgument(SkillArgument<?> argument) {
         checkState(!this.plugin.isEnabled(),
-                   "KraftRPG is already enabled! " + "Cannot modify "
+                   "RpgCommon is already enabled! " + "Cannot modify "
                            + "Skill Arguments after being enabled.");
         SkillArgument<?>[] newArgs = Arrays.copyOf(this.skillArguments,
                                                    this.skillArguments.length

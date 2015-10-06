@@ -21,27 +21,13 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.afterkraft.kraftrpg.api.skill;
+package com.afterkraft.kraftrpg.api.platform;
 
+public interface Platform {
 
-import org.spongepowered.api.text.Texts;
+    void init();
 
-import com.afterkraft.kraftrpg.api.RpgPlugin;
-import com.afterkraft.kraftrpg.api.entity.SkillCaster;
-import com.afterkraft.kraftrpg.common.skill.AbstractActiveSkill;
-
-/**
- * Default skill for Test Skill
- */
-public class TestSkillAbstract extends AbstractActiveSkill {
-
-    public TestSkillAbstract(RpgPlugin plugin) {
-        super(plugin, "TestSkill", Texts.of("This is a test skill."));
-    }
-
-    @Override
-    public SkillCastResult useSkill(SkillCaster caster) {
-        return SkillCastResult.NORMAL;
-    }
+    void stop();
 
 }
+

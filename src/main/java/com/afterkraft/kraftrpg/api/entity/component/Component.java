@@ -32,7 +32,7 @@ import com.afterkraft.kraftrpg.api.storage.ComponentStorage;
 
 /**
  * A {@link Component} is a more customized {@link DataManipulator} for
- * <strong>KraftRPG-API</strong> such that components can not be misunderstood for external {@link
+ * <strong>RpgCommon-API</strong> such that components can not be misunderstood for external {@link
  * DataManipulator}s. While the common use of {@link Component}s is for rudimentary use of custom
  * data related to {@link Effect}s, {@link Skill}s, {@link Role}s, etc., the power of the {@link
  * Component} system is that a {@link Component} will always have an attached {@link

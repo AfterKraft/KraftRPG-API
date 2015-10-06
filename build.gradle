@@ -31,8 +31,8 @@ archivesBaseName = 'KraftRPG-API'
 version '0.0.5-SNAPSHOT'
 
 // Minimum version of Java required
-sourceCompatibility = 1.7
-targetCompatibility = 1.7
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
 
 // Project dependencies
 repositories {
@@ -71,11 +71,11 @@ task sourceJar(type: Jar) {
 }
 
 ext {
-    projectName = 'KraftRPG-API'
+    projectName = 'RpgCommon-API'
     inceptionYear = '2014'
     packaging = 'jar'
     url = 'http://afterkraft.com/'
-    description = "Common API for KraftRPG."
+    description = "Common API for RpgCommon."
     organization = 'AfterKraft KraftDev Team'
     pomFile = file("${project.projectDir}/pom.xml")
     buildNumber = project.hasProperty("buildNumber") ? buildNumber : '0'
@@ -121,12 +121,12 @@ uploadArchives {
             project {
                 name project.archivesBaseName
                 packaging 'jar'
-                description 'Common API for KraftRPG.'
+                description 'Common API for RpgCommon.'
                 url 'http://afterkraft.com/'
                 scm {
-                    url 'https://github.com/AfterKraft/KraftRPG-API'
+                    url 'https://github.com/AfterKraft/RpgCommon-API'
                     connection 'git'
-                    developerConnection 'git@github.com:AfterKraft/KraftRPG-API.git'
+                    developerConnection 'git@github.com:AfterKraft/RpgCommon-API.git'
                 }
                 licenses {
                     license {

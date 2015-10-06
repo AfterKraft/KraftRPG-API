@@ -25,7 +25,7 @@ package com.afterkraft.kraftrpg.common.skill;
 
 import org.spongepowered.api.text.Text;
 
-import com.afterkraft.kraftrpg.api.RPGPlugin;
+import com.afterkraft.kraftrpg.api.RpgPlugin;
 import com.afterkraft.kraftrpg.api.entity.Champion;
 import com.afterkraft.kraftrpg.api.entity.SkillCaster;
 import com.afterkraft.kraftrpg.api.skill.Passive;
@@ -42,7 +42,7 @@ public abstract class PassiveSkill extends AbstractSkill implements Passive {
      * @param name        The name of this passive skill
      * @param description The description of this passive skill
      */
-    protected PassiveSkill(RPGPlugin plugin, String name, Text description) {
+    protected PassiveSkill(RpgPlugin plugin, String name, Text description) {
         super(plugin, name, description);
     }
 

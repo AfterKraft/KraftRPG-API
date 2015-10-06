@@ -30,7 +30,8 @@ import org.spongepowered.api.text.Text;
 
 import com.google.common.base.Optional;
 
-import com.afterkraft.kraftrpg.api.RPGPlugin;
+import com.afterkraft.kraftrpg.api.RpgCommon;
+import com.afterkraft.kraftrpg.api.RpgPlugin;
 import com.afterkraft.kraftrpg.api.effect.EffectType;
 import com.afterkraft.kraftrpg.api.entity.Being;
 import com.afterkraft.kraftrpg.api.entity.Champion;
@@ -68,7 +69,7 @@ public abstract class TargetedSkillAbstract<E extends Entity>
      * @param description The description of this skill
      * @param entityClass The target entity class
      */
-    protected TargetedSkillAbstract(RPGPlugin plugin, String name, Text description,
+    protected TargetedSkillAbstract(RpgPlugin plugin, String name, Text description,
                                     Class<E> entityClass) {
         this(plugin, name, description, entityClass, 10);
     }
@@ -82,7 +83,7 @@ public abstract class TargetedSkillAbstract<E extends Entity>
      * @param entityClass The targeting entity class
      * @param maxDistance The maximum distance
      */
-    protected TargetedSkillAbstract(RPGPlugin plugin, String name, Text description,
+    protected TargetedSkillAbstract(RpgPlugin plugin, String name, Text description,
                                     Class<E> entityClass, int maxDistance) {
         super(plugin, name, description);
         checkNotNull(entityClass);
@@ -108,7 +109,7 @@ public abstract class TargetedSkillAbstract<E extends Entity>
         }
         E target = targetOption.get();
 
-        double distance = this.plugin.getSkillConfigManager()
+        double distance = RpgCommon.getSkillConfigManager()
                 .getUsedIntSetting(caster, this,
                                    SkillSetting.MAX_DISTANCE);
         if (target.getLocation()
@@ -116,7 +117,7 @@ public abstract class TargetedSkillAbstract<E extends Entity>
                 .distance(caster.getLocation().getPosition()) > distance) {
             return SkillCastResult.INVALID_TARGET_NO_MESSAGE;
         }
-        Being being = this.plugin.getEntityManager().getEntity(target).get();
+        Being being = RpgCommon.getEntityManager().getEntity(target).get();
         if (being instanceof Insentient) {
             Insentient insentient = (Insentient) being;
             if (caster.equals(insentient)) {
@@ -128,7 +129,7 @@ public abstract class TargetedSkillAbstract<E extends Entity>
 
             Optional<PartyComponent> party = caster.getComponent(PartyComponent.class);
             if (party.isPresent()) {
-                if (this.plugin.getPartyManager().isFriendly(caster, insentient)) {
+                if (RpgCommon.getPartyManager().isFriendly(caster, insentient)) {
                     return SkillCastResult.INVALID_TARGET_NO_MESSAGE;
                 }
             }

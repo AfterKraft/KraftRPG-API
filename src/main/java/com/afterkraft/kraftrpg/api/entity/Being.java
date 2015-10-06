@@ -24,7 +24,9 @@
 package com.afterkraft.kraftrpg.api.entity;
 
 import java.util.Collection;
+import java.util.Optional;
 import java.util.UUID;
+import java.util.function.Predicate;
 
 import org.spongepowered.api.data.DataHolder;
 import org.spongepowered.api.entity.Entity;
@@ -34,13 +36,12 @@ import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
 
 import com.flowpowered.math.vector.Vector3d;
-import com.google.common.base.Optional;
 
 import com.afterkraft.kraftrpg.api.entity.component.Component;
 
 /**
- * Represents an {@link Entity} linked with KraftRPG. This is the base for all entities in
- * KraftRPG.
+ * Represents an {@link Entity} linked with RpgCommon. This is the base for all entities in
+ * RpgCommon.
  */
 public interface Being extends DataHolder {
 
@@ -144,14 +145,26 @@ public interface Being extends DataHolder {
     Collection<Being> getNearbyBeings(double x, double y, double z);
 
     /**
-     * Gets a {@link Collection} of {@link Being}s within a bounding box centered around this {@link
-     * Being}.
+     * Gets a {@link Collection} of {@link Being}s within a bounding box
+     * centered around this {@link Being}.
      *
      * @param distanceVector The vector distance
      *
      * @return A collection of beings nearby
      */
     Collection<Being> getNearbyBeings(Vector3d distanceVector);
+
+    /**
+     * Gets a {@link Collection} of {@link Being}s within a bounding box
+     * centered aroudn this {@link Being} such that each one satisfies the
+     * provided {@link Predicate}. If the {@link Predicate#test(Object)}
+     * returns <code>true</code>, the {@link Being} is included.
+     *
+     * @param distanceVector The distance vector
+     * @param predicate The predicate
+     * @return The collection of nearby beings
+     */
+    Collection<Being> getNearbyBeings(Vector3d distanceVector, Predicate<Being> predicate);
 
     /**
      * Shortcut method for getting the entity and then the world.

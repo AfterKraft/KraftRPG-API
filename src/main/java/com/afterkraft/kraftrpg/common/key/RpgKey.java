@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2014-2015 Gabriel Harris-Rouquette
+ * Copyright (c) 2014 Gabriel Harris-Rouquette
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,28 +21,48 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.afterkraft.kraftrpg.api.listener;
 
+package com.afterkraft.kraftrpg.common.key;
+
+import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import com.afterkraft.kraftrpg.api.Manager;
-import com.afterkraft.kraftrpg.api.RpgPlugin;
+import org.spongepowered.api.data.DataQuery;
+import org.spongepowered.api.data.key.Key;
+import org.spongepowered.api.data.value.BaseValue;
 
 /**
- * An abstract listener object that automatically registers itself and unregisters itself with
- * Bukkit's event system.
+ * Represents a common implementation of a {@link Key} for use within
+ * KraftRPG.
+ *
+ * @param <E> The type of element
+ * @param <V> The type of value
  */
-public abstract class AbstractListener implements Manager {
+public class RpgKey<E, V extends BaseValue<E>> implements Key<V> {
 
-    protected RpgPlugin plugin;
+    private final Class<V> valueClass;
+    private final DataQuery query;
 
     /**
-     * Creates a new abstract listener.
+     * Constructs a new {@link RpgKey}.
      *
-     * @param plugin The instance of the rpg plugin to utilize.
+     * @param elementClass The element class
+     * @param valueClass The value class
+     * @param query The query
      */
-    protected AbstractListener(RpgPlugin plugin) {
-        checkNotNull(plugin);
-        this.plugin = plugin;
+    public RpgKey(Class<E> elementClass, Class<V> valueClass, DataQuery query) {
+        this.valueClass = checkNotNull(valueClass);
+        checkArgument(!query.getParts().isEmpty());
+        this.query = query;
+    }
+
+    @Override
+    public Class<V> getValueClass() {
+        return this.valueClass;
+    }
+
+    @Override
+    public DataQuery getQuery() {
+        return this.query;
     }
 }

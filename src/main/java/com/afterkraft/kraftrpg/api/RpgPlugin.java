@@ -21,40 +21,25 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.afterkraft.kraftrpg.api.effect;
-
-import java.util.Set;
-
-import org.spongepowered.api.data.DataSerializable;
-
-import com.afterkraft.kraftrpg.api.entity.Being;
+package com.afterkraft.kraftrpg.api;
 
 /**
- * Represents a property of the effect. Properties define whether an effect is created by a skill,
- * immediate, or persisting, etc.
- *
- * <p>Note that effect properties do not define whether an effect is damaging, periodic, or imbuing
- * etc.</p>
- *
- * @param <T> The implementing property must be comparable to itself
+ * Standard plugin for {@link RpgCommon}.
  */
-public interface EffectProperty<T extends EffectProperty<T>> extends Comparable<T>,
-        DataSerializable {
+public interface RpgPlugin {
 
     /**
-     * Gets the {@link String} identifier of this {@link EffectProperty}. Consider that each
-     * instance of an {@link EffectProperty} is commonly created by various plugins, the
-     * serialization must be able to re-create the {@link Effect} with all {@link EffectProperty}(s)
-     * applied to a {@link Being}.
-     *
-     * @return The unique identifier of the effect property
+     * Stop the plugin from enabling. This should be used when there is a fatal configuration
+     * error.
      */
-    String getId();
+    void cancelEnable();
+
+
 
     /**
-     * Gets all applicable operations of this property.
+     * Checks that the plugin is enabled and ready for everything.
      *
-     * @return The various operations associated with this property
+     * @return Whether the plugin is enabled or not ready for use
      */
-    Set<EffectOperation> getOperations();
+    boolean isEnabled();
 }

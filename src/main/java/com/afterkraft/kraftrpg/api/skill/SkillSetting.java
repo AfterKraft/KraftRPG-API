@@ -31,7 +31,7 @@ import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableSet;
 
 /**
- * Centralized Skill Setting table for KraftRPG-API
+ * Centralized Skill Setting table for RpgCommon-API
  */
 public class SkillSetting {
 

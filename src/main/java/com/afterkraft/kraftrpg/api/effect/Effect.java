@@ -25,6 +25,7 @@ package com.afterkraft.kraftrpg.api.effect;
 
 import java.util.Set;
 
+import org.spongepowered.api.data.DataSerializable;
 import org.spongepowered.api.text.Text;
 
 import com.google.common.base.Optional;
@@ -37,7 +38,7 @@ import com.afterkraft.kraftrpg.api.entity.Insentient;
  * Insentient} being. While it is recommended to utilize the {@link Effect} as the standard
  * implementation, various other interfaces have different implementations.
  */
-public interface Effect {
+public interface Effect extends DataSerializable {
 
     /**
      * Returns this individual Effect's name. (Should be as unique and recognizable as possible).

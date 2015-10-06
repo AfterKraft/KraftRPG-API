@@ -29,7 +29,7 @@ import org.spongepowered.api.event.cause.Cause;
 
 /**
  * This is a simple wrapper for the damage dealt to an entity. It wraps the various necessary
- * information required to handle KraftRPG events.
+ * information required to handle RpgCommon events.
  */
 public class DamageWrapper {
 

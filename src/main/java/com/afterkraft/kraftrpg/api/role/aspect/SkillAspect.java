@@ -146,7 +146,7 @@ public final class SkillAspect implements RoleAspect {
     public List<Skill> getAllSkills() {
         ImmutableList.Builder<Skill> builder = ImmutableList.builder();
         for (RoleSkill roleSkill : this.skills) {
-            Optional<Skill> optional = RpgCommon.getPlugin().getSkillManager()
+            Optional<Skill> optional = RpgCommon.getSkillManager()
                     .getSkill(roleSkill.getSkillName());
             if (optional.isPresent()) {
                 builder.add(optional.get());
@@ -168,9 +168,8 @@ public final class SkillAspect implements RoleAspect {
         ImmutableList.Builder<Skill> builder = ImmutableList.builder();
         for (RoleSkill roleSkill : this.skills) {
             if (roleSkill.getLevel() >= level) {
-                Optional<Skill> optional =
-                        RpgCommon.getPlugin().getSkillManager()
-                                .getSkill(roleSkill.getSkillName());
+                Optional<Skill> optional = RpgCommon.getSkillManager()
+                        .getSkill(roleSkill.getSkillName());
                 if (optional.isPresent()) {
                     builder.add(optional.get());
                 }

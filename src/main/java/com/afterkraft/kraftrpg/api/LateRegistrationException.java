@@ -24,7 +24,7 @@
 package com.afterkraft.kraftrpg.api;
 
 /**
- * Registration that failed due to the KraftRPG plugin having completed loading.
+ * Registration that failed due to the RpgCommon plugin having completed loading.
  */
 public class LateRegistrationException extends RuntimeException {
     private static final long serialVersionUID = -3147116935352263037L;

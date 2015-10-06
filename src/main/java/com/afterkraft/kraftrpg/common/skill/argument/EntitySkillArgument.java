@@ -46,8 +46,7 @@ import com.afterkraft.kraftrpg.common.skill.AbstractSkillArgument;
  *
  * @param <E> The type of Entity to isolate
  */
-public class EntitySkillArgument<E extends Entity> extends
-        AbstractSkillArgument<E> {
+public class EntitySkillArgument<E extends Entity> extends AbstractSkillArgument<E> {
     protected final double maxDistance;
     protected final Predicate<E> condition;
     private final Class<E> clazz;

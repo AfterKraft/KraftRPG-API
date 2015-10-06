@@ -80,8 +80,7 @@ public final class RestrictedSkillAspect implements RoleAspect {
     List<Skill> getRestrictedSkills() {
         ImmutableList.Builder<Skill> builder = ImmutableList.builder();
         for (String skillName : this.restrictedSkills) {
-            Optional<Skill> optional = RpgCommon.getPlugin()
-                    .getSkillManager().getSkill(skillName);
+            Optional<Skill> optional = RpgCommon.getSkillManager().getSkill(skillName);
             if (optional.isPresent()) {
                 builder.add(optional.get());
             }
