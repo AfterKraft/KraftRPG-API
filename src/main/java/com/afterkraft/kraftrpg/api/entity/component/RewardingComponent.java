@@ -24,7 +24,7 @@
 package com.afterkraft.kraftrpg.api.entity.component;
 
 import com.afterkraft.kraftrpg.api.entity.Sentient;
-import com.afterkraft.kraftrpg.api.util.FixedPoint;
+import com.afterkraft.kraftrpg.api.util.math.FixedPoint;
 
 /**
  * A component that marks a being as granting a reward, or {@link FixedPoint} experience to the

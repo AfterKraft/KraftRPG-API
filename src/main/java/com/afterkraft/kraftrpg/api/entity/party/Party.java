@@ -30,7 +30,7 @@ import org.spongepowered.api.world.Location;
 
 import com.afterkraft.kraftrpg.api.entity.Being;
 import com.afterkraft.kraftrpg.api.role.ExperienceType;
-import com.afterkraft.kraftrpg.api.util.FixedPoint;
+import com.afterkraft.kraftrpg.api.util.math.FixedPoint;
 
 /**
  * Party is a grouping of {@link Being}. Useful for maintaining close contact with friendly

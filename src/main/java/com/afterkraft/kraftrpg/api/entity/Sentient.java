@@ -30,7 +30,7 @@ import com.google.common.base.Optional;
 import com.afterkraft.kraftrpg.api.role.ExperienceType;
 import com.afterkraft.kraftrpg.api.role.Role;
 import com.afterkraft.kraftrpg.api.skill.Skill;
-import com.afterkraft.kraftrpg.api.util.FixedPoint;
+import com.afterkraft.kraftrpg.api.util.math.FixedPoint;
 
 /**
  * Represents a being that is able to obtain experience and advance through {@link Role}s. A

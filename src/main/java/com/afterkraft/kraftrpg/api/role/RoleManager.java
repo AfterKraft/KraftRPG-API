@@ -26,12 +26,11 @@ package com.afterkraft.kraftrpg.api.role;
 import javax.annotation.Nullable;
 import java.util.List;
 
+import com.afterkraft.kraftrpg.api.util.graph.CircularDependencyException;
 import com.google.common.base.Optional;
 
-import com.afterkraft.kraftrpg.api.CircularDependencyException;
 import com.afterkraft.kraftrpg.api.role.Role.RoleType;
-import com.afterkraft.kraftrpg.api.service.Service;
-import com.afterkraft.kraftrpg.api.util.FixedPoint;
+import com.afterkraft.kraftrpg.api.util.math.FixedPoint;
 
 /**
  * Manages all interactions with roles and entities. Roles can be assigned, created, and swapped
@@ -147,8 +146,7 @@ public interface RoleManager extends Service {
      * @throws CircularDependencyException If the resulting dependency results in a circular
      *                                     dependency
      */
-    boolean addRoleDependency(Role parent, Role child) throws
-            CircularDependencyException;
+    boolean addRoleDependency(Role parent, Role child);
 
     /**
      * Removes the given role dependencies between the parent {@link Role} and the child {@link
