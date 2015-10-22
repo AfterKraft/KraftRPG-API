@@ -143,29 +143,12 @@ public class Utilities {
         return transparentBlocks;
     }
 
-    public static List<String> findMatches(String partial,
-                                           List<String> candidates) {
+    public static List<String> findMatches(String partial, List<String> candidates) {
         return Lists.newArrayList();
     }
 
-    public static List<String> matchPlayers(String partial,
-                                            CommandSource sender) {
-
+    public static List<String> matchPlayers(String partial, CommandSource sender) {
         return Lists.newArrayList();
-    }
-
-    public static ItemStack copyOf(ItemStack itemStack) {
-        return RpgCommon.getGame().getRegistry().getItemBuilder()
-                .fromItemStack(itemStack).build();
-    }
-
-    public static PotionEffect copyPotion(PotionEffect potionEffect) {
-        return RpgCommon.getGame().getRegistry().getPotionEffectBuilder()
-                .potionType(potionEffect.getType())
-                .ambience(potionEffect.getShowParticles())
-                .amplifier(potionEffect.getAmplifier())
-                .duration(potionEffect.getDuration())
-                .build();
     }
 
     public static <T> boolean arrayContains(T[] array, T check) {

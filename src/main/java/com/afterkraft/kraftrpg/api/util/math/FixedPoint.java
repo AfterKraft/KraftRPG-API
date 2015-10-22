@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.afterkraft.kraftrpg.api.util;
+package com.afterkraft.kraftrpg.api.util.math;
 
 /**
  * Represents a fixed point value for Champion experience.

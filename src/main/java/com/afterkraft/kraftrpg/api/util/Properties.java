@@ -23,6 +23,7 @@
  */
 package com.afterkraft.kraftrpg.api.util;
 
+import com.afterkraft.kraftrpg.api.util.math.FixedPoint;
 import org.spongepowered.api.entity.EntityType;
 import org.spongepowered.api.entity.living.Living;
 import org.spongepowered.api.item.ItemType;

@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.afterkraft.kraftrpg.api;
+package com.afterkraft.kraftrpg.api.util.graph;
 
 import com.afterkraft.kraftrpg.api.util.graph.directed.DirectedGraph;
 

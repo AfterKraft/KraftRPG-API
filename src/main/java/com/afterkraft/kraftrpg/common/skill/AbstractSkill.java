@@ -365,7 +365,7 @@ public abstract class AbstractSkill implements Skill {
             throw new IllegalArgumentException("Attempt to set item default of "
                                                        + "a non-item SkillSetting");
         }
-        this.defaultConfig.set(node.node(), Utilities.copyOf(value));
+        this.defaultConfig.set(node.node(), value.copy());
         this.usedSettings.add(node);
     }
 
@@ -380,7 +380,7 @@ public abstract class AbstractSkill implements Skill {
      * @throws IllegalArgumentException If the setting is null
      */
     protected final void setDefault(String node, ItemStack value) {
-        this.defaultConfig.set(new DataQuery(node), Utilities.copyOf(value));
+        this.defaultConfig.set(new DataQuery(node), value.copy());
         this.usedSettings.add(new InnerSkillSetting(node));
     }
 

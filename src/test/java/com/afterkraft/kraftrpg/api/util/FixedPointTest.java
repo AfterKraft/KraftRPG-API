@@ -25,6 +25,7 @@ package com.afterkraft.kraftrpg.api.util;
 
 import static org.junit.Assert.assertEquals;
 
+import com.afterkraft.kraftrpg.api.util.math.FixedPoint;
 import org.junit.Test;
 
 /**
