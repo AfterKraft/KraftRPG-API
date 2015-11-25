@@ -21,39 +21,10 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.afterkraft.kraftrpg.api.entity.component;
+package com.afterkraft.kraftrpg.api.event.combat;
 
-/**
- * A component that handles base damage not modified by held items, weapons, armor, buffs, etc.
- *
- * This can be considered as "fist" damage.
- */
-public interface DamageableComponent extends Component<DamageableComponent> {
+import org.spongepowered.api.event.Event;
 
-    /**
-     * Gets the base damage the owning being will deal on attacking.
-     *
-     * @return The base damage
-     */
-    double getBaseDamage();
-
-    /**
-     * Gets the modified damage according to various sources.
-     *
-     * <p>For some monsters, this might be modified based on the spawn position compared to the
-     * "spawn" of the world.</p>
-     *
-     * @return The modified damage to deal
-     */
-    double getModifiedDamage();
-
-    /**
-     * Set the modified damage this Monster will deal to other Insentient beings when attacking.
-     *
-     * @param damage To deal when attacking
-     *
-     * @throws IllegalArgumentException If the damage is less than zero
-     */
-    void setModifiedDamage(double damage);
+public interface LeaveCombatEvent extends Event {
 
 }

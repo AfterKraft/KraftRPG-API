@@ -38,11 +38,11 @@ import com.afterkraft.kraftrpg.api.role.RoleAspect;
  * Represents a {@link RoleAspect} that determines whether an {@link ItemStack} or {@link ItemType}
  * is equippable as weapon and/or armor.
  */
-public final class Equipment implements RoleAspect {
+public final class EquipmentAspect implements RoleAspect {
     private final ItemType[] allowedWeapons;
     private final ItemType[] allowedArmor;
 
-    private Equipment(EquipmentAspectBuilder builder) {
+    private EquipmentAspect(EquipmentAspectBuilder builder) {
         this.allowedArmor = builder.allowedArmor
                 .toArray(new ItemType[builder.allowedArmor.size()]);
         this.allowedWeapons = builder.allowedWeapons
@@ -50,7 +50,7 @@ public final class Equipment implements RoleAspect {
     }
 
     /**
-     * Gets a builder for an Equipment aspect.
+     * Gets a builder for an EquipmentAspect aspect.
      *
      * @return A new builder
      */
@@ -116,7 +116,7 @@ public final class Equipment implements RoleAspect {
     }
 
     /**
-     * Represents a builder for an Equipment aspect
+     * Represents a builder for an EquipmentAspect aspect
      */
     public static class EquipmentAspectBuilder {
 
@@ -168,12 +168,12 @@ public final class Equipment implements RoleAspect {
         }
 
         /**
-         * Returns a new {@link Equipment}.
+         * Returns a new {@link EquipmentAspect}.
          *
          * @return A new equipment aspect
          */
-        public Equipment build() {
-            return new Equipment(this);
+        public EquipmentAspect build() {
+            return new EquipmentAspect(this);
         }
     }
 }

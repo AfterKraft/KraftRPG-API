@@ -26,11 +26,12 @@ package com.afterkraft.kraftrpg.api.role.aspect;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkState;
 
+import com.afterkraft.kraftrpg.api.role.Role;
 import com.google.common.base.Optional;
 
 /**
  * Represents a {@link ResourceAspect} for a role that involves health at specific levels and
- * benefits.
+ * benefits. Note that normally, {@link Role.RoleType#ADDITIONAL} {@link Role}s are
  */
 public final class HealthAspect implements ResourceAspect<Double> {
 

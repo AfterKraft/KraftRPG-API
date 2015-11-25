@@ -28,6 +28,7 @@ import java.util.Map;
 import com.afterkraft.kraftrpg.api.Manager;
 import com.afterkraft.kraftrpg.api.entity.Champion;
 import com.afterkraft.kraftrpg.api.entity.Insentient;
+import org.spongepowered.api.event.cause.Cause;
 
 /**
  * Simple manager handling combat for various {@link Insentient} beings. This is mostly used to
@@ -45,7 +46,7 @@ public interface CombatTracker extends Manager {
      * combat with them.
      * @throws IllegalArgumentException if the target is null
      */
-    Map<Insentient, EnterCombatReason> getCombatants(Insentient target);
+    Map<Insentient, Cause> getCombatants(Insentient target);
 
     /**
      * Adds the target to be in combat with the attacker.
@@ -58,7 +59,7 @@ public interface CombatTracker extends Manager {
      * @throws IllegalArgumentException if the attacker is null
      * @throws IllegalArgumentException if the reason is null
      */
-    void enterCombatWith(Insentient target, Insentient attacker, EnterCombatReason reason);
+    void enterCombatWith(Insentient target, Insentient attacker, Cause reason);
 
     /**
      * Performs the leave combat operation on the target by the attacker. Depending on the reason,
@@ -72,7 +73,7 @@ public interface CombatTracker extends Manager {
      * @throws IllegalArgumentException if the attacker is null
      * @throws IllegalArgumentException if the reason is null
      */
-    void leaveCombatWith(Insentient target, Insentient attacker, LeaveCombatReason reason);
+    void leaveCombatWith(Insentient target, Insentient attacker, Cause reason);
 
     /**
      * Notifies all combatants that the specified target is leaving combat with the specified
@@ -84,7 +85,7 @@ public interface CombatTracker extends Manager {
      * @throws IllegalArgumentException if the target is null
      * @throws IllegalArgumentException if the reason is null
      */
-    void leaveCombat(Insentient target, LeaveCombatReason reason);
+    void leaveCombat(Insentient target, Cause reason);
 
     /**
      * Check if the being is in combat with any entity for any reason.

@@ -21,42 +21,15 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.afterkraft.kraftrpg.api.entity.component;
+package com.afterkraft.kraftrpg.common;
 
-import org.spongepowered.api.data.manipulator.IntData;
+import org.spongepowered.api.data.DataQuery;
 
-public interface ManaComponent extends Component<ManaComponent>, IntData<ManaComponent> {
+public class DataQueries {
 
-    /**
-     * Get the current mana this being has.
-     *
-     * @return current mana
-     */
-    int getMana();
-
-    /**
-     * Set the total mana of the being.
-     *
-     * @param mana this being should have.
-     *
-     * @throws IllegalArgumentException If the mana is negative
-     */
-    void setMana(int mana);
-
-    /**
-     * Gets the current max mana
-     *
-     * @return the max mana for this being
-     */
-    int getMaxMana();
-
-    /**
-     * Sets the current maximum mana for this being.
-     *
-     * @param mana as the maximum
-     *
-     * @throws IllegalArgumentException If the new max mana is negative or zero
-     */
-    void setMaxMana(int mana);
-
+    public static final DataQuery EFFECT_NAME = DataQuery.of("EffectName");
+    public static final DataQuery APPLICATION_TEXT = DataQuery.of("ApplicationText");
+    public static final DataQuery PROPERTIES = DataQuery.of("Properties");
+    public static final DataQuery EFFECT_TYPES = DataQuery.of("EffectTypes");
+    public static final DataQuery APPLY_TIME = DataQuery.of("ApplicationTime");
 }

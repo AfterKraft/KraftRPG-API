@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2014 Gabriel Harris-Rouquette
+ * Copyright (c) 2014-2015 Gabriel Harris-Rouquette
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,48 +21,45 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+package com.afterkraft.kraftrpg.api.event.skill;
 
-package com.afterkraft.kraftrpg.common.key;
-
-import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import org.spongepowered.api.data.DataQuery;
-import org.spongepowered.api.data.key.Key;
-import org.spongepowered.api.data.value.BaseValue;
+import com.afterkraft.kraftrpg.api.entity.SkillCaster;
+import com.afterkraft.kraftrpg.api.skill.Skill;
+import org.spongepowered.api.event.Event;
+import org.spongepowered.api.event.cause.Cause;
+import org.spongepowered.api.event.cause.CauseTracked;
+import org.spongepowered.api.util.event.callback.CallbackList;
 
-/**
- * Represents a common implementation of a {@link Key} for use within
- * KraftRPG.
- *
- * @param <E> The type of element
- * @param <V> The type of value
- */
-public class RpgKey<E, V extends BaseValue<E>> implements Key<V> {
+public class SkillCastEvent implements Event, CauseTracked {
 
-    private final Class<V> valueClass;
-    private final DataQuery query;
+    private final Skill skill;
+    private final Cause cause;
+    private final SkillCaster skillCaster;
 
-    /**
-     * Constructs a new {@link RpgKey}.
-     *
-     * @param elementClass The element class
-     * @param valueClass The value class
-     * @param query The query
-     */
-    public RpgKey(Class<E> elementClass, Class<V> valueClass, DataQuery query) {
-        this.valueClass = checkNotNull(valueClass);
-        checkArgument(!query.getParts().isEmpty());
-        this.query = query;
+    public SkillCastEvent(Skill skill, Cause cause, SkillCaster skillCaster) {
+        this.skill = checkNotNull(skill);
+        this.cause = checkNotNull(cause);
+        this.skillCaster = checkNotNull(skillCaster);
+    }
+
+    public Skill getSkill() {
+        return this.skill;
+    }
+
+    public SkillCaster getSkillCaster() {
+        return this.skillCaster;
+    }
+
+    // This is being removed.
+    @Override
+    public CallbackList getCallbacks() {
+        return null;
     }
 
     @Override
-    public Class<V> getValueClass() {
-        return this.valueClass;
-    }
-
-    @Override
-    public DataQuery getQuery() {
-        return this.query;
+    public Cause getCause() {
+        return this.cause;
     }
 }

@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2014 Gabriel Harris-Rouquette
+ * Copyright (c) 2014-2015 Gabriel Harris-Rouquette
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,39 +21,30 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
 package com.afterkraft.kraftrpg.api;
-
-import java.util.Map;
-import java.util.Set;
 
 import static org.spongepowered.api.data.DataQuery.of;
 
-import org.spongepowered.api.data.DataQuery;
 import org.spongepowered.api.data.key.Key;
-import org.spongepowered.api.data.value.mutable.MapValue;
+import org.spongepowered.api.data.key.KeyFactory;
 import org.spongepowered.api.data.value.mutable.SetValue;
+import org.spongepowered.api.data.value.mutable.Value;
 
 import com.afterkraft.kraftrpg.api.effect.Effect;
-import com.afterkraft.kraftrpg.common.key.RpgKey;
 
 @SuppressWarnings("unchecked")
 public final class RpgKeys {
     private RpgKeys() {}
 
-    public static final Key<SetValue<Effect>> RPG_EFFECTS = makeSetKey(of("KraftRPG", "Effects"));
-    public static final Key<MapValue<String, Effect>> DEMO = makeMapKey(of("Herpington"));
-
-
-    private static <E> Key<SetValue<E>> makeSetKey(DataQuery query) {
-        return new RpgKey<>((Class<Set<E>>) (Class) Set.class,
-                            (Class<SetValue<E>>) (Class) SetValue.class, query);
-    }
-
-    private static <K, V> Key<MapValue<K, V>> makeMapKey(DataQuery query) {
-        return new RpgKey<>((Class<Map<K, V>>) (Class) Map.class,
-                            (Class<MapValue<K, V>>) (Class) MapValue.class,
-                            query);
-    }
+    public static final Key<SetValue<Effect>> RPG_EFFECTS = KeyFactory.makeSetKey(Effect.class, of("Kraf<tRPG", "Effects"));
+    public static final Key<Value<Double>> BASE_DAMAGE = KeyFactory.makeSingleKey(Double.class, (Class<Value<Double>>) (Class) Value.class, of("BaseDamage"));
+    public static final Key<Value<Double>>
+            DAMAGE_MODIFIER = KeyFactory.makeSingleKey(Double.class, (Class<Value<Double>>)
+            (Class) Value.class, of("DamageModifier"));
+    public static final Key<Value<Integer>> MANA = KeyFactory
+            .makeSingleKey(Integer.class, (Class<Value<Integer>>) (Class) Value.class, of("Mana"));
+    public static final Key<Value<Integer>> MAX_MANA = KeyFactory
+            .makeSingleKey(Integer.class, (Class<Value<Integer>>) (Class) Value.class, of
+                    ("MaxMana"));
 
 }

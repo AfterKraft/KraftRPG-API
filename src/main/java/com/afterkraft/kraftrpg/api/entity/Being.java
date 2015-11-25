@@ -92,45 +92,7 @@ public interface Being extends DataHolder {
      *
      * @return the location of the being.
      */
-    Location getLocation();
-
-    /**
-     * Teleports this being to the provided Location. This uses the provided location's yaw and
-     * pitch and may be different than this being's current yaw and pitch.
-     *
-     * @param location the location to teleport to
-     */
-    void teleport(Location location);
-
-    /**
-     * Attempts to teleport this being to the provided Location while maintaining this being's
-     * current yaw and pitch if possible.
-     *
-     * @param location        the location to teleport to
-     * @param keepYawAndPitch whether to maintain the yaw and pitch
-     */
-    void teleport(Location location, boolean keepYawAndPitch);
-
-    /**
-     * Gets a collection of entities within a bounding box centered around this {@link Being}.
-     *
-     * @param x Half the size of the box along the x axis
-     * @param y Half the size of the box along the y axis
-     * @param z Half the size of the box along the z axis
-     *
-     * @return A collection of entities nearby
-     */
-    Collection<Entity> getNearbyEntities(double x, double y, double z);
-
-    /**
-     * Gets a {@link Collection} of {@link Entity} within a bounding box centered around this {@link
-     * Being}.
-     *
-     * @param distanceVector The vector distance
-     *
-     * @return A collection of entities nearby
-     */
-    Collection<Entity> getNearbyEntities(Vector3d distanceVector);
+    Location<World> getLocation();
 
     /**
      * Gets a {@link Collection} of {@link Being}s within a bounding box centered around this {@link
@@ -172,26 +134,5 @@ public interface Being extends DataHolder {
      * @return The world of this being.
      */
     World getWorld();
-
-    /**
-     * Check if this being is on solid ground (not flying or jumping) in the air
-     *
-     * @return true if the being is not in the air
-     */
-    boolean isOnGround();
-
-    /**
-     * Gets the desired component for this {@link Being}. Components are a way to wrap various
-     * information without specifying that information as available in the implementing objects.
-     *
-     * <p>Examples of components may include health, effects, roles, mana, and other resources.</p>
-     *
-     * @param clazz The component class
-     * @param <T>   The type of component class
-     *
-     * @return The component, if available
-     */
-    <T extends Component<T>> Optional<T> getComponent(Class<T> clazz);
-
 
 }

@@ -23,12 +23,19 @@
  */
 package com.afterkraft.kraftrpg.common.effect;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import com.afterkraft.kraftrpg.common.DataQueries;
+import org.spongepowered.api.data.DataContainer;
+import org.spongepowered.api.data.DataQuery;
+import org.spongepowered.api.data.MemoryDataContainer;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.Texts;
 import org.spongepowered.api.world.Location;
@@ -53,6 +60,7 @@ import com.afterkraft.kraftrpg.api.entity.Insentient;
  * effect should not change once created, and can not be modified in any way.
  */
 public class StandardEffect implements Effect {
+
     protected final Set<EffectProperty<?>> properties;
     protected final Set<EffectType> types;
     private final Set<ApplyEffectOperation> applyOperations;
@@ -210,5 +218,15 @@ public class StandardEffect implements Effect {
                 && Objects.equal(this.name, other.name)
                 && Objects.equal(this.applyText, other.applyText)
                 && Objects.equal(this.applyTime, other.applyTime);
+    }
+
+    @Override
+    public DataContainer toContainer() {
+        return new MemoryDataContainer()
+            .set(DataQueries.EFFECT_NAME, this.name)
+            .set(DataQueries.APPLICATION_TEXT, Texts.json().to(this.applyText))
+            .set(DataQueries.PROPERTIES, this.properties)
+            .set(DataQueries.EFFECT_TYPES, this.types.stream().map(EffectType::name).collect(Collectors.toList()))
+            .set(DataQueries.APPLY_TIME, this.applyTime);
     }
 }

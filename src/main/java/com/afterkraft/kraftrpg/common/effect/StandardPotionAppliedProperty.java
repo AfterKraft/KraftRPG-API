@@ -24,17 +24,23 @@
 package com.afterkraft.kraftrpg.common.effect;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 
-import org.spongepowered.api.data.manipulators.PotionEffectData;
+import static com.google.common.base.Preconditions.checkNotNull;
+
+import org.spongepowered.api.data.DataContainer;
+import org.spongepowered.api.data.DataQuery;
+import org.spongepowered.api.data.MemoryDataContainer;
+import org.spongepowered.api.data.key.Keys;
 import org.spongepowered.api.potion.PotionEffect;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 
-import com.afterkraft.kraftrpg.api.effect.operation.ApplyEffectOperation;
 import com.afterkraft.kraftrpg.api.effect.EffectOperation;
 import com.afterkraft.kraftrpg.api.effect.EffectOperationResult;
+import com.afterkraft.kraftrpg.api.effect.operation.ApplyEffectOperation;
 import com.afterkraft.kraftrpg.api.effect.property.PotionAppliedProperty;
 import com.afterkraft.kraftrpg.api.entity.Insentient;
 
@@ -45,13 +51,15 @@ import com.afterkraft.kraftrpg.api.entity.Insentient;
 public class StandardPotionAppliedProperty implements PotionAppliedProperty {
 
     private final Set<PotionEffect> effects;
+    private final String id;
 
     /**
      * Constructs a new {@link PotionAppliedProperty} with the given potion effects.
      *
      * @param effects The potion effects to apply when an effect is applied
      */
-    public StandardPotionAppliedProperty(Set<PotionEffect> effects) {
+    public StandardPotionAppliedProperty(String id, Set<PotionEffect> effects) {
+        this.id = checkNotNull(id);
         this.effects = ImmutableSet.copyOf(effects);
     }
 
@@ -60,8 +68,14 @@ public class StandardPotionAppliedProperty implements PotionAppliedProperty {
      *
      * @param effects The potion effects to apply when an effect is applied
      */
-    public StandardPotionAppliedProperty(PotionEffect... effects) {
+    public StandardPotionAppliedProperty(String id, PotionEffect... effects) {
+        this.id = checkNotNull(id);
         this.effects = ImmutableSet.copyOf(effects);
+    }
+
+    @Override
+    public String getId() {
+        return this.id;
     }
 
     @Override
@@ -74,11 +88,11 @@ public class StandardPotionAppliedProperty implements PotionAppliedProperty {
 
             @Override
             public EffectOperationResult apply(Insentient being) {
-                PotionEffectData data = being.getData(PotionEffectData.class).get();
+                List<PotionEffect> potionEffects = being.get(Keys.POTION_EFFECTS).get();
                 for (PotionEffect effect : StandardPotionAppliedProperty.this.effects) {
-                    data.addPotionEffect(effect, true);
+                    potionEffects.add(effect);
                 }
-                being.offer(data);
+                being.offer(Keys.POTION_EFFECTS, potionEffects);
                 return EffectOperationResult.SUCCESS;
             }
         });
@@ -100,5 +114,12 @@ public class StandardPotionAppliedProperty implements PotionAppliedProperty {
             }
         }
         return otherEffects.size();
+    }
+
+    @Override
+    public DataContainer toContainer() {
+        return new MemoryDataContainer()
+            .set(DataQuery.of("PropertyId"), this.id)
+            .set(DataQuery.of("PotionEffects"), this.effects);
     }
 }

@@ -21,13 +21,4 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.afterkraft.kraftrpg.api.platform;
-
-public interface Platform {
-
-    void init();
-
-    void stop();
-
-}
-
+@org.spongepowered.api.util.annotation.NonnullByDefault package com.afterkraft.kraftrpg.common.data.manipulator.immutable;

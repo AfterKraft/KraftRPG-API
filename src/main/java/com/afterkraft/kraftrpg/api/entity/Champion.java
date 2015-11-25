@@ -23,9 +23,11 @@
  */
 package com.afterkraft.kraftrpg.api.entity;
 
-import org.spongepowered.api.entity.player.Player;
 
-import com.google.common.base.Optional;
+
+import java.util.Optional;
+
+import org.spongepowered.api.entity.living.player.Player;
 
 import com.afterkraft.kraftrpg.api.skill.Skill;
 import com.afterkraft.kraftrpg.api.storage.PlayerData;

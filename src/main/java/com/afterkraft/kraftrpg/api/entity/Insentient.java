@@ -23,9 +23,11 @@
  */
 package com.afterkraft.kraftrpg.api.entity;
 
-import org.spongepowered.api.entity.living.Living;
+import java.util.Optional;
 
-import com.google.common.base.Optional;
+import org.spongepowered.api.entity.living.Living;
+import org.spongepowered.api.entity.projectile.source.ProjectileSource;
+
 
 import com.afterkraft.kraftrpg.api.effect.Effect;
 
@@ -38,7 +40,7 @@ import com.afterkraft.kraftrpg.api.effect.Effect;
  * information retrieval should be performed using the supplied methods instead of assuming the
  * LivingEntity methods.
  */
-public interface Insentient extends Being {
+public interface Insentient extends Being, ProjectileSource {
 
     /**
      * Attempts to fetch the attached LivingEntity of this Insentient Being, unless a Living is not
