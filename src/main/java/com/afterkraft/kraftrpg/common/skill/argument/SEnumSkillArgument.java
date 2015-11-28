@@ -25,11 +25,11 @@ package com.afterkraft.kraftrpg.common.skill.argument;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.Texts;
 
-import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableList;
 
 import com.afterkraft.kraftrpg.api.entity.SkillCaster;
@@ -106,7 +106,7 @@ public class SEnumSkillArgument extends AbstractSkillArgument<String> {
 
     @Override
     public Optional<String> getValue() {
-        return Optional.fromNullable(this.choice);
+        return Optional.ofNullable(this.choice);
     }
 
     @Override

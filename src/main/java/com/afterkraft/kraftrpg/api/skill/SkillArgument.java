@@ -24,10 +24,9 @@
 package com.afterkraft.kraftrpg.api.skill;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.spongepowered.api.text.Text;
-
-import com.google.common.base.Optional;
 
 import com.afterkraft.kraftrpg.api.entity.SkillCaster;
 
@@ -106,7 +105,7 @@ public interface SkillArgument<T> {
     /**
      * Gets the parsed and validated value of this argument.
      *
-     * <p>If the argument has not processed or the input is invalid, {@link Optional#absent()} will
+     * <p>If the argument has not processed or the input is invalid, {@link Optional#empty()} will
      * be returned.</p>
      *
      * @return The validated value, if available

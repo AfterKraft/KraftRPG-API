@@ -39,8 +39,6 @@ import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 
-import com.afterkraft.kraftrpg.api.RpgCommon;
-
 
 /**
  * A standard utilities class containing various methods that are useful enough to simplify code and
@@ -152,20 +150,6 @@ public class Utilities {
                                             CommandSource sender) {
 
         return Lists.newArrayList();
-    }
-
-    public static ItemStack copyOf(ItemStack itemStack) {
-        return RpgCommon.getGame().getRegistry().getItemBuilder()
-                .fromItemStack(itemStack).build();
-    }
-
-    public static PotionEffect copyPotion(PotionEffect potionEffect) {
-        return RpgCommon.getGame().getRegistry().getPotionEffectBuilder()
-                .potionType(potionEffect.getType())
-                .ambience(potionEffect.getShowParticles())
-                .amplifier(potionEffect.getAmplifier())
-                .duration(potionEffect.getDuration())
-                .build();
     }
 
     public static <T> boolean arrayContains(T[] array, T check) {

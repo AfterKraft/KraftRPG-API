@@ -27,8 +27,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
-import org.spongepowered.api.entity.player.Player;
+import org.spongepowered.api.Sponge;
+import org.spongepowered.api.entity.living.player.Player;
 
 import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableMap;
@@ -69,9 +71,11 @@ public abstract class StorageFrontend {
         this.toSave = Maps.newHashMap();
         this.offlineToSave = Maps.newHashMap();
 
-        RpgCommon.getGame().getSyncScheduler()
-                .runRepeatingTask(this.plugin,
-                                  new SavingStarterTask(), 20 * 60);
+        Sponge.getGame().getScheduler().createTaskBuilder()
+            .interval(1, TimeUnit.MINUTES)
+            .execute(new SavingStarterTask())
+            .name("Saving task")
+            .submit(this.plugin);
     }
 
     /**
@@ -208,8 +212,10 @@ public abstract class StorageFrontend {
             StorageFrontend.this.toSave.clear();
             StorageFrontend.this.offlineToSave.clear();
 
-            RpgCommon.getGame().getSyncScheduler()
-                    .runTask(RpgCommon.getPlugin(), new SavingWorker(data));
+            Sponge.getScheduler().createTaskBuilder()
+                .name("Saving worker")
+                .execute(new SavingWorker(data))
+                .submit(RpgCommon.getPlugin());
         }
     }
 

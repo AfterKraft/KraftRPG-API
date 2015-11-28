@@ -26,11 +26,11 @@ package com.afterkraft.kraftrpg.common.skill.argument;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.Texts;
 
-import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableList;
 
 import com.afterkraft.kraftrpg.api.entity.SkillCaster;
@@ -113,7 +113,7 @@ public class JEnumSkillArgument<T extends Enum<T>> extends
 
     @Override
     public Optional<T> getValue() {
-        return Optional.fromNullable(this.choice);
+        return Optional.ofNullable(this.choice);
     }
 
     @Override

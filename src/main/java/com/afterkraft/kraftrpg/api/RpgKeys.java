@@ -34,17 +34,22 @@ import com.afterkraft.kraftrpg.api.effect.Effect;
 
 @SuppressWarnings("unchecked")
 public final class RpgKeys {
-    private RpgKeys() {}
 
-    public static final Key<SetValue<Effect>> RPG_EFFECTS = KeyFactory.makeSetKey(Effect.class, of("Kraf<tRPG", "Effects"));
-    public static final Key<Value<Double>> BASE_DAMAGE = KeyFactory.makeSingleKey(Double.class, (Class<Value<Double>>) (Class) Value.class, of("BaseDamage"));
-    public static final Key<Value<Double>>
-            DAMAGE_MODIFIER = KeyFactory.makeSingleKey(Double.class, (Class<Value<Double>>)
-            (Class) Value.class, of("DamageModifier"));
-    public static final Key<Value<Integer>> MANA = KeyFactory
-            .makeSingleKey(Integer.class, (Class<Value<Integer>>) (Class) Value.class, of("Mana"));
-    public static final Key<Value<Integer>> MAX_MANA = KeyFactory
-            .makeSingleKey(Integer.class, (Class<Value<Integer>>) (Class) Value.class, of
-                    ("MaxMana"));
+    private RpgKeys() {
+    }
+
+    public static final Key<SetValue<Effect>> RPG_EFFECTS;
+    public static final Key<Value<Double>> BASE_DAMAGE;
+    public static final Key<Value<Double>> DAMAGE_MODIFIER;
+    public static final Key<Value<Integer>> MANA;
+    public static final Key<Value<Integer>> MAX_MANA;
+
+    static {
+        RPG_EFFECTS = KeyFactory.makeSetKey(Effect.class, of("Kraf<tRPG", "Effects"));
+        BASE_DAMAGE = KeyFactory.makeSingleKey(Double.class, Value.class, of("BaseDamage"));
+        DAMAGE_MODIFIER = KeyFactory.makeSingleKey(Double.class, Value.class, of("DamageModifier"));
+        MANA = KeyFactory.makeSingleKey(Integer.class, Value.class, of("Mana"));
+        MAX_MANA = KeyFactory.makeSingleKey(Integer.class, Value.class, of("MaxMana"));
+    }
 
 }

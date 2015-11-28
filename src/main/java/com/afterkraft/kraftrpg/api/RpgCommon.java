@@ -23,85 +23,38 @@
  */
 package com.afterkraft.kraftrpg.api;
 
-import java.lang.reflect.Method;
-import java.text.SimpleDateFormat;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.EnumMap;
-import java.util.List;
-import java.util.Map;
-
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import org.slf4j.Logger;
-import org.spongepowered.api.Game;
 import org.spongepowered.api.Server;
+import org.spongepowered.api.Sponge;
 
-import com.google.common.base.Function;
-import com.google.common.base.Optional;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-
-import com.afterkraft.kraftrpg.api.entity.EntityService;
-import com.afterkraft.kraftrpg.api.entity.combat.CombatTracker;
+import com.afterkraft.kraftrpg.api.entity.EntityManager;
 import com.afterkraft.kraftrpg.api.entity.party.PartyManager;
-import com.afterkraft.kraftrpg.api.platform.Platform;
-import com.afterkraft.kraftrpg.api.platform.PlatformManager;
 import com.afterkraft.kraftrpg.api.role.RoleManager;
-import com.afterkraft.kraftrpg.api.service.Service;
-import com.afterkraft.kraftrpg.api.service.ServiceManager;
-import com.afterkraft.kraftrpg.api.service.ServiceProvider.Type;
 import com.afterkraft.kraftrpg.api.skill.SkillConfigManager;
-import com.afterkraft.kraftrpg.api.skill.SkillService;
+import com.afterkraft.kraftrpg.api.skill.SkillManager;
 import com.afterkraft.kraftrpg.api.storage.StorageFrontend;
 import com.afterkraft.kraftrpg.api.util.ConfigManager;
 import com.afterkraft.kraftrpg.api.util.DamageManager;
-import com.afterkraft.kraftrpg.api.util.Pair;
-import com.afterkraft.kraftrpg.api.util.init.AnnotationCacheHelper;
 
 /**
  * Utility class providing simple and fast method calls to various managers.
  */
-public class RpgCommon implements PlatformManager {
+public final class RpgCommon {
 
-    private Thread mainThread;
-    private ClassLoader classloader;
-    private Map<Type, List<ServiceProvider>> providers;
-    private Map<Class<?>, List<Pair<Object, Method>>> initHooks;
-    private Map<Class<?>, Service> services;
-    private List<Class<?>> stoppedServices;
-    private State state;
-    private boolean testing = false;
-    private ServiceProvider testingProvider = null;
-    private Map<Class<?>, Service> testingServices = null;
-    // BEGIN ExpansionManager
-    private List<Platform> expansions;
+    private SkillConfigManager skillConfigManager;
+    private EntityManager entityManager;
+    private StorageFrontend storageFrontend;
+    private ConfigManager configManager;
+    private DamageManager damageManager;
+    private SkillManager skillManager;
+    private RoleManager roleManager;
+    private PartyManager partyManager;
+    private RpgPlugin plugin;
+    private Logger logger;
 
-    private RpgCommon() {
-        this.mainThread = Thread.currentThread();
-        this.classloader = RpgCommon.class.getClassLoader();
-        initServiceManager();
-        initPlatformManager();
-    }
-
-    private void initServiceManager() {
-        this.providers = new EnumMap<>(ServiceProvider.Type.class);
-        this.stoppedServices = Lists.newArrayList();
-        this.state = State.STOPPED;
-        this.services = Maps.newHashMap();
-        this.initHooks = Maps.newHashMap();
-    }
-
-    private void initPlatformManager() {
-        this.expansions = Lists.newArrayList();
-    }
-
-
-    public static PlatformManager getPlatformManager() {
-        return InstanceHolder.INSTANCE;
-    }
+    private RpgCommon() {}
 
     /**
      * Gets the currently used {@link SkillConfigManager}.
@@ -109,25 +62,16 @@ public class RpgCommon implements PlatformManager {
      * @return The currently used skill configuration manager
      */
     public static SkillConfigManager getSkillConfigManager() {
-        return InstanceHolder.INSTANCE.getService(SkillConfigManager.class).get();
+        return Holder.INSTANCE.skillConfigManager;
     }
 
     /**
-     * Gets the currently used {@link CombatTracker}.
-     *
-     * @return The currently used combat manager
-     */
-    public static CombatTracker getCombatTracker() {
-        return InstanceHolder.INSTANCE.getService(CombatTracker.class).get();
-    }
-
-    /**
-     * Gets the currently used {@link EntityService}.
+     * Gets the currently used {@link EntityManager}.
      *
      * @return The currently used entity manager
      */
-    public static EntityService getEntityManager() {
-        return InstanceHolder.INSTANCE.getService(EntityService.class).get();
+    public static EntityManager getEntityManager() {
+        return Holder.INSTANCE.entityManager;
     }
 
     /**
@@ -136,7 +80,7 @@ public class RpgCommon implements PlatformManager {
      * @return The currently used skill configuration manager
      */
     public static StorageFrontend getStorage() {
-        return InstanceHolder.INSTANCE.getService(StorageFrontend.class).get();
+        return Holder.INSTANCE.storageFrontend;
     }
 
     /**
@@ -145,7 +89,7 @@ public class RpgCommon implements PlatformManager {
      * @return The currently used configuration manager
      */
     public static ConfigManager getConfigurationManager() {
-        return InstanceHolder.INSTANCE.getService(ConfigManager.class).get();
+        return Holder.INSTANCE.configManager;
     }
 
     /**
@@ -154,16 +98,16 @@ public class RpgCommon implements PlatformManager {
      * @return The currently used damage manager
      */
     public static DamageManager getDamageManager() {
-        return InstanceHolder.INSTANCE.getService(DamageManager.class).get();
+        return Holder.INSTANCE.damageManager;
     }
 
     /**
-     * Gets the currently used {@link SkillService}.
+     * Gets the currently used {@link SkillManager}.
      *
      * @return The currently used skill manager
      */
-    public static SkillService getSkillManager() {
-        return InstanceHolder.INSTANCE.getService(SkillService.class).get();
+    public static SkillManager getSkillManager() {
+        return Holder.INSTANCE.skillManager;
     }
 
     /**
@@ -172,7 +116,7 @@ public class RpgCommon implements PlatformManager {
      * @return The currently used role manager
      */
     public static RoleManager getRoleManager() {
-        return InstanceHolder.INSTANCE.getService(RoleManager.class).get();
+        return Holder.INSTANCE.roleManager;
     }
 
     /**
@@ -181,43 +125,22 @@ public class RpgCommon implements PlatformManager {
      * @return The currently used party manager
      */
     public static PartyManager getPartyManager() {
-        return InstanceHolder.INSTANCE.getService(PartyManager.class).get();
+        return Holder.INSTANCE.partyManager;
     }
 
     public static Server getServer() {
-        return InstanceHolder.INSTANCE.getService(Server.class).get();
-    }
-
-    public static Game getGame() {
-        return InstanceHolder.INSTANCE.getService(Game.class).get();
+        return Sponge.getGame().getServer();
     }
 
     public static RpgPlugin getPlugin() {
-        return InstanceHolder.INSTANCE.getService(RpgPlugin.class).get();
+        return checkNotNull(Holder.INSTANCE.plugin);
     }
-
-
 
     public static Logger getLogger() {
-        return InstanceHolder.INSTANCE.getService(Logger.class).get();
+        return checkNotNull(Holder.INSTANCE.logger);
     }
 
-    @Override
-    public void registerPlatform(Platform ex) {
-        checkNotNull(ex);
-        synchronized (this.expansions) {
-            if (!this.expansions.contains(ex)) {
-                this.expansions.add(ex);
-            }
-        }
-    }
-
-    @Override
-    public Collection<Platform> getPlatforms() {
-        return this.expansions;
-    }
-
-    private static class InstanceHolder {
-        protected static final RpgCommon INSTANCE = new RpgCommon();
+    private static final class Holder {
+        private static final RpgCommon INSTANCE = new RpgCommon();
     }
 }

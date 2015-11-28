@@ -21,37 +21,22 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.afterkraft.kraftrpg.api.effect;
+package com.afterkraft.kraftrpg.common.data.manipulator.immutable;
 
 import javax.annotation.Nullable;
+import java.util.Optional;
 
 import org.spongepowered.api.data.DataContainer;
-import org.spongepowered.api.data.DataHolder;
 import org.spongepowered.api.data.key.Key;
 import org.spongepowered.api.data.manipulator.ImmutableDataManipulator;
-import org.spongepowered.api.data.merge.MergeFunction;
 import org.spongepowered.api.data.value.BaseValue;
 import org.spongepowered.api.data.value.immutable.ImmutableValue;
 
-import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableSet;
 
+import com.afterkraft.kraftrpg.common.data.manipulator.mutable.EffectData;
+
 public class ImmutableEffectData implements ImmutableDataManipulator<ImmutableEffectData, EffectData> {
-
-    @Override
-    public Optional<ImmutableEffectData> fill(DataHolder dataHolder) {
-        return null;
-    }
-
-    @Override
-    public Optional<ImmutableEffectData> fill(DataHolder dataHolder, MergeFunction overlap) {
-        return null;
-    }
-
-    @Override
-    public Optional<ImmutableEffectData> from(DataContainer container) {
-        return null;
-    }
 
     @Override
     public <E> Optional<ImmutableEffectData> with(Key<? extends BaseValue<E>> key, E value) {

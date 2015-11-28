@@ -36,14 +36,15 @@ import com.google.common.collect.ComparisonChain;
 
 import com.afterkraft.kraftrpg.api.RpgKeys;
 import com.afterkraft.kraftrpg.common.data.manipulator.immutable.ImmutableModifiedDamageData;
-import com.afterkraft.kraftrpg.common.data.manipulator.mutable.AbstractDataManipulator;
+import com.afterkraft.kraftrpg.common.data.manipulator.common.AbstractData;
 
 /**
  * A component that handles base damage not modified by held items, weapons, armor, buffs, etc.
  *
  * This can be considered as "fist" damage.
  */
-public class ModifiedDamageData extends AbstractDataManipulator<ModifiedDamageData, ImmutableModifiedDamageData> {
+public class ModifiedDamageData extends
+        AbstractData<ModifiedDamageData, ImmutableModifiedDamageData> {
 
     private double modified;
     private double base;

@@ -25,12 +25,13 @@ package com.afterkraft.kraftrpg.api.event.skill;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import com.afterkraft.kraftrpg.api.entity.SkillCaster;
-import com.afterkraft.kraftrpg.api.skill.Skill;
 import org.spongepowered.api.event.Event;
 import org.spongepowered.api.event.cause.Cause;
 import org.spongepowered.api.event.cause.CauseTracked;
 import org.spongepowered.api.util.event.callback.CallbackList;
+
+import com.afterkraft.kraftrpg.api.entity.SkillCaster;
+import com.afterkraft.kraftrpg.api.skill.Skill;
 
 public class SkillCastEvent implements Event, CauseTracked {
 

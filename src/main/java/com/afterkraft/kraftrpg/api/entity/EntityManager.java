@@ -32,7 +32,6 @@ import org.spongepowered.api.entity.player.Player;
 
 import com.google.common.base.Optional;
 
-import com.afterkraft.kraftrpg.api.Manager;
 import com.afterkraft.kraftrpg.api.service.Service;
 import com.afterkraft.kraftrpg.api.storage.PlayerData;
 
@@ -40,7 +39,7 @@ import com.afterkraft.kraftrpg.api.storage.PlayerData;
  * A standard entity manager. Centralized manager to maintain links for the proxy objects known as
  * {@link Being} and it's sub classes to the original objects represented by the Bukkit API.
  */
-public interface EntityService extends Service {
+public interface EntityManager extends Service {
 
     /**
      * Return the {@link Being} for the designated Entity. The IEntity is guaranteed to be affected
@@ -76,7 +75,7 @@ public interface EntityService extends Service {
     Optional<? extends Champion> getChampion(UUID uuid);
 
     /**
-     * Check if the given {@link Entity} is already managed by this EntityService. If true,
+     * Check if the given {@link Entity} is already managed by this EntityManager. If true,
      * attempting to add a new {@link Being} via {@link #addEntity(Being)} will fail. This is
      * provided as a utility check for extending the functionality of RpgCommon.
      *

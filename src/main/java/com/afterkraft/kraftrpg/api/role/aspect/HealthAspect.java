@@ -26,8 +26,9 @@ package com.afterkraft.kraftrpg.api.role.aspect;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkState;
 
-import com.afterkraft.kraftrpg.api.role.Role;
 import com.google.common.base.Optional;
+
+import com.afterkraft.kraftrpg.api.role.Role;
 
 /**
  * Represents a {@link ResourceAspect} for a role that involves health at specific levels and

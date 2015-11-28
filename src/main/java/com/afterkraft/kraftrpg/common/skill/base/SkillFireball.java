@@ -24,7 +24,6 @@
 package com.afterkraft.kraftrpg.common.skill.base;
 
 import org.spongepowered.api.data.key.Keys;
-import org.spongepowered.api.entity.Entity;
 import org.spongepowered.api.entity.EntityTypes;
 import org.spongepowered.api.entity.projectile.explosive.fireball.Fireball;
 import org.spongepowered.api.text.Text;

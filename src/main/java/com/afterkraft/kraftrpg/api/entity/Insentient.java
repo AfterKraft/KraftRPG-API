@@ -28,7 +28,6 @@ import java.util.Optional;
 import org.spongepowered.api.entity.living.Living;
 import org.spongepowered.api.entity.projectile.source.ProjectileSource;
 
-
 import com.afterkraft.kraftrpg.api.effect.Effect;
 
 /**

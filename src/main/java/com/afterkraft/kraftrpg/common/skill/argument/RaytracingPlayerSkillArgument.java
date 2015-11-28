@@ -25,13 +25,13 @@ package com.afterkraft.kraftrpg.common.skill.argument;
 
 import java.lang.ref.WeakReference;
 import java.util.List;
+import java.util.Optional;
+import java.util.function.Predicate;
 
-import org.spongepowered.api.entity.player.Player;
+import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.Texts;
 
-import com.google.common.base.Optional;
-import com.google.common.base.Predicate;
 import com.google.common.collect.ImmutableList;
 
 import com.afterkraft.kraftrpg.api.RpgCommon;
@@ -86,7 +86,7 @@ public class RaytracingPlayerSkillArgument extends EntitySkillArgument<Player> {
                                   int startPosition) {
         ImmutableList.Builder<Text> builder = ImmutableList.builder();
         for (String message : Utilities.matchPlayers(allArgs[startPosition], (Player) caster
-                .getEntity())) {
+                .getEntity().get())) {
             builder.add(Texts.of(message));
         }
         return builder.build();

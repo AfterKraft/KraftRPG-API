@@ -25,10 +25,11 @@ package com.afterkraft.kraftrpg.api.entity.combat;
 
 import java.util.Map;
 
+import org.spongepowered.api.event.cause.Cause;
+
 import com.afterkraft.kraftrpg.api.Manager;
 import com.afterkraft.kraftrpg.api.entity.Champion;
 import com.afterkraft.kraftrpg.api.entity.Insentient;
-import org.spongepowered.api.event.cause.Cause;
 
 /**
  * Simple manager handling combat for various {@link Insentient} beings. This is mostly used to

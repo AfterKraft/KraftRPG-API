@@ -26,11 +26,10 @@ package com.afterkraft.kraftrpg.common.skill.argument;
 import javax.annotation.Nullable;
 import java.lang.ref.WeakReference;
 import java.util.List;
+import java.util.Optional;
 
-import org.spongepowered.api.entity.player.Player;
+import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.Text;
-
-import com.google.common.base.Optional;
 
 import com.afterkraft.kraftrpg.api.RpgCommon;
 import com.afterkraft.kraftrpg.api.entity.SkillCaster;
@@ -88,8 +87,7 @@ public class ExplicitPlayerArgument extends AbstractSkillArgument<Player> {
     @Override
     public void skippedOptional(SkillCaster caster) {
         if (this.defaultYou) {
-            this.matchedPlayer = new WeakReference<>((Player) caster
-                    .getEntity());
+            this.matchedPlayer = new WeakReference<>((Player) caster.getEntity().get());
         } else {
             this.matchedPlayer = null;
         }
@@ -98,8 +96,8 @@ public class ExplicitPlayerArgument extends AbstractSkillArgument<Player> {
     @Override
     public Optional<Player> getValue() {
         return this.matchedPlayer != null
-                ? Optional.fromNullable(this.matchedPlayer.get())
-                : Optional.<Player>absent();
+                ? Optional.ofNullable(this.matchedPlayer.get())
+                : Optional.<Player>empty();
     }
 
     @Override

@@ -25,8 +25,8 @@ package com.afterkraft.kraftrpg.api.util;
 
 import org.spongepowered.api.world.World;
 
-import com.afterkraft.kraftrpg.api.RpgCommon;
 import com.afterkraft.kraftrpg.api.Manager;
+import com.afterkraft.kraftrpg.api.RpgCommon;
 import com.afterkraft.kraftrpg.api.entity.Being;
 
 /**

@@ -25,6 +25,7 @@ package com.afterkraft.kraftrpg.common.skill.argument;
 
 import javax.annotation.Nullable;
 import java.util.List;
+import java.util.Optional;
 import java.util.regex.Matcher;
 
 import org.spongepowered.api.text.Text;
@@ -32,7 +33,6 @@ import org.spongepowered.api.text.Texts;
 import org.spongepowered.api.world.Location;
 
 import com.flowpowered.math.vector.Vector3d;
-import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableList;
 
 import com.afterkraft.kraftrpg.api.entity.SkillCaster;
@@ -150,7 +150,7 @@ public class ExplicitLocationArgument extends AbstractSkillArgument<Location> {
 
     @Override
     public Optional<Location> getValue() {
-        return Optional.fromNullable(this.location);
+        return Optional.ofNullable(this.location);
     }
 
     @Override

@@ -21,19 +21,4 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.afterkraft.kraftrpg.api.entity.component;
-
-import org.spongepowered.api.data.manipulator.SingleValueData;
-
-import com.afterkraft.kraftrpg.api.entity.Insentient;
-import com.afterkraft.kraftrpg.api.listener.DamageWrapper;
-
-/**
- * Represents a {@link Component} that marks an {@link Insentient} being having taken damage
- * recently such that there is an available {@link DamageWrapper} for the last source of damage to
- * the entity.
- */
-public interface DamagedComponent extends Component<DamagedComponent>,
-        SingleValueData<DamageWrapper, DamagedComponent> {
-
-}
+@org.spongepowered.api.util.annotation.NonnullByDefault package com.afterkraft.kraftrpg.common.data.manipulator.common;

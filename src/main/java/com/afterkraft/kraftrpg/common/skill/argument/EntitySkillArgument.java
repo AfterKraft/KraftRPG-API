@@ -27,15 +27,15 @@ import javax.annotation.Nullable;
 import java.lang.ref.WeakReference;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
+import java.util.function.Predicate;
 
-import org.spongepowered.api.data.manipulators.entities.EyeLocationData;
+import org.spongepowered.api.data.property.entity.EyeLocationProperty;
 import org.spongepowered.api.entity.Entity;
 import org.spongepowered.api.entity.living.Living;
 import org.spongepowered.api.text.Text;
 
 import com.flowpowered.math.vector.Vector3d;
-import com.google.common.base.Optional;
-import com.google.common.base.Predicate;
 import com.google.common.collect.Lists;
 
 import com.afterkraft.kraftrpg.api.entity.SkillCaster;
@@ -60,14 +60,7 @@ public class EntitySkillArgument<E extends Entity> extends AbstractSkillArgument
      * @param clazz       The class to match the entities
      */
     public EntitySkillArgument(double maxDistance, Class<E> clazz) {
-        this(maxDistance, clazz, new Predicate<E>() {
-            @Override
-            public boolean apply(
-                    @Nullable
-                    E input) {
-                return true;
-            }
-        });
+        this(maxDistance, clazz, input -> true);
     }
 
     /**
@@ -114,24 +107,19 @@ public class EntitySkillArgument<E extends Entity> extends AbstractSkillArgument
     public void parse(final SkillCaster caster, final String[] allArgs,
                       final int startPosition) {
         Collection<Entity> nearby = caster.getWorld().getEntities(
-                new Predicate<Entity>() {
-                    @Override
-                    public boolean apply(
-                            @Nullable
-                            Entity input) {
-                        if (input == null) {
-                            return false;
-                        }
-                        Vector3d targetCoords =
-                                input.getLocation().getPosition();
-                        Vector3d casterCoords = caster.getLocation()
-                                .getPosition();
-                        return targetCoords.distance(casterCoords)
-                                > EntitySkillArgument.this.maxDistance;
-                    }
-                });
+            (Predicate<Entity>) input -> {
+                if (input == null) {
+                    return false;
+                }
+                Vector3d targetCoords =
+                        input.getLocation().getPosition();
+                Vector3d casterCoords = caster.getLocation()
+                        .getPosition();
+                return targetCoords.distance(casterCoords)
+                        > EntitySkillArgument.this.maxDistance;
+            });
         Living actor = caster.getEntity().get();
-        Vector3d middle = actor.getData(EyeLocationData.class).get().getEyeLocation();
+        Vector3d middle = actor.getProperty(EyeLocationProperty.class).get().getValue();
 
         double closestDistance = this.maxDistance;
         @Nullable
@@ -146,7 +134,7 @@ public class EntitySkillArgument<E extends Entity> extends AbstractSkillArgument
 
             Vector3d otherMiddle = entity.getLocation().getPosition();
             if (entity instanceof Living) {
-                otherMiddle = entity.getData(EyeLocationData.class).get().getEyeLocation();
+                otherMiddle = entity.getProperty(EyeLocationProperty.class).get().getValue();
             }
             final Vector3d diff = otherMiddle.sub(middle);
             // Algorithm: Make a triangle
@@ -156,7 +144,7 @@ public class EntitySkillArgument<E extends Entity> extends AbstractSkillArgument
 
             final double a = Math.sqrt(c - b * b);
             if (a < closestDistance) {
-                if (this.condition.apply(ent)) {
+                if (this.condition.test(ent)) {
                     closestDistance = a;
                     closest = ent;
                 }
@@ -175,7 +163,7 @@ public class EntitySkillArgument<E extends Entity> extends AbstractSkillArgument
 
     @Override
     public Optional<E> getValue() {
-        return Optional.fromNullable(this.matchedEntity.get());
+        return Optional.ofNullable(this.matchedEntity.get());
     }
 
     @Override

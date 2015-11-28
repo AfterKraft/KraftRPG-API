@@ -25,7 +25,6 @@ package com.afterkraft.kraftrpg.api.util.init;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;

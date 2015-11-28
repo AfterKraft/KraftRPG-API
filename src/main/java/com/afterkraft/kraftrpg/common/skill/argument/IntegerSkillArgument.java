@@ -24,10 +24,10 @@
 package com.afterkraft.kraftrpg.common.skill.argument;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.spongepowered.api.text.Text;
 
-import com.google.common.base.Optional;
 import com.google.common.collect.Lists;
 
 import com.afterkraft.kraftrpg.api.entity.SkillCaster;
@@ -89,7 +89,7 @@ public class IntegerSkillArgument extends AbstractSkillArgument<Integer> {
 
     @Override
     public Optional<Integer> getValue() {
-        return Optional.fromNullable(this.value);
+        return Optional.ofNullable(this.value);
     }
 
     public void setValue(int val) {

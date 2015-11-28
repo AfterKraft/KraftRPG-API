@@ -37,8 +37,6 @@ import org.spongepowered.api.world.World;
 
 import com.flowpowered.math.vector.Vector3d;
 
-import com.afterkraft.kraftrpg.api.entity.component.Component;
-
 /**
  * Represents an {@link Entity} linked with RpgCommon. This is the base for all entities in
  * RpgCommon.

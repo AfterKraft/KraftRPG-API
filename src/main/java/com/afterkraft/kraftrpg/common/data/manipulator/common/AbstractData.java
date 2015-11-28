@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.afterkraft.kraftrpg.common.data.manipulator.mutable;
+package com.afterkraft.kraftrpg.common.data.manipulator.common;
 
 
 import java.util.Map;
@@ -52,7 +52,7 @@ import com.google.common.collect.Maps;
  * @param <T_Immutable>   The type of the ImmutableDatAManipulator from the API
  */
 @SuppressWarnings("unchecked")
-public abstract class AbstractDataManipulator<T_Manipulator extends
+public abstract class AbstractData<T_Manipulator extends
         DataManipulator<T_Manipulator, T_Immutable>, T_Immutable
         extends ImmutableDataManipulator<T_Immutable, T_Manipulator>>
         implements DataManipulator<T_Manipulator, T_Immutable> {
@@ -77,7 +77,7 @@ public abstract class AbstractDataManipulator<T_Manipulator extends
     private final Map<Key<?>, Supplier<?>> keyFieldGetterMap = Maps.newHashMap();
     private final Map<Key<?>, Consumer<Object>> keyFieldSetterMap = Maps.newHashMap();
 
-    protected AbstractDataManipulator(Class<T_Manipulator> manipulatorClass) {
+    protected AbstractData(Class<T_Manipulator> manipulatorClass) {
         this.manipulatorClass = checkNotNull(manipulatorClass);
     }
 
@@ -198,7 +198,7 @@ public abstract class AbstractDataManipulator<T_Manipulator extends
         if (obj == null || getClass() != obj.getClass()) {
             return false;
         }
-        final AbstractDataManipulator other = (AbstractDataManipulator) obj;
+        final AbstractData other = (AbstractData) obj;
         return Objects.equal(this.manipulatorClass, other.manipulatorClass);
     }
 

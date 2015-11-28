@@ -23,10 +23,7 @@
  */
 package com.afterkraft.kraftrpg.common.skill.base;
 
-import org.spongepowered.api.data.key.Keys;
-import org.spongepowered.api.entity.EntityTypes;
 import org.spongepowered.api.entity.living.Living;
-import org.spongepowered.api.entity.projectile.explosive.fireball.Fireball;
 import org.spongepowered.api.item.ItemTypes;
 import org.spongepowered.api.item.inventory.ItemStack;
 import org.spongepowered.api.text.Text;
@@ -38,7 +35,6 @@ import com.afterkraft.kraftrpg.api.entity.SkillCaster;
 import com.afterkraft.kraftrpg.api.skill.SkillCastResult;
 import com.afterkraft.kraftrpg.api.skill.SkillSetting;
 import com.afterkraft.kraftrpg.api.skill.SkillType;
-import com.afterkraft.kraftrpg.common.skill.AbstractActiveSkill;
 import com.afterkraft.kraftrpg.common.skill.TargetedSkillAbstract;
 
 public class SkillBolt extends TargetedSkillAbstract<Living> {
@@ -52,7 +48,6 @@ public class SkillBolt extends TargetedSkillAbstract<Living> {
         setDefault(SkillSetting.MAX_DISTANCE, 20);
         setDefault(SkillSetting.DAMAGE, 100, 10);
         setDefault(SkillSetting.REAGENT, REAGENT);
-        setDefault(SkillSetting.LIGHTNING_VOLUME, 1.0F);
         setSkillTypes(SkillType.DAMAGING, SkillType.ABILITY_PROPERTY_LIGHTNING,
                       SkillType.AREA_OF_EFFECT, SkillType.AGGRESSIVE);
     }

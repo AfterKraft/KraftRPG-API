@@ -23,18 +23,14 @@
  */
 package com.afterkraft.kraftrpg.common.effect;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import com.afterkraft.kraftrpg.common.DataQueries;
 import org.spongepowered.api.data.DataContainer;
-import org.spongepowered.api.data.DataQuery;
 import org.spongepowered.api.data.MemoryDataContainer;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.Texts;
@@ -51,6 +47,7 @@ import com.afterkraft.kraftrpg.api.effect.EffectProperty;
 import com.afterkraft.kraftrpg.api.effect.EffectType;
 import com.afterkraft.kraftrpg.api.effect.operation.ApplyEffectOperation;
 import com.afterkraft.kraftrpg.api.entity.Insentient;
+import com.afterkraft.kraftrpg.common.DataQueries;
 
 /**
  * Standard implementation of an {@link Effect}. The standard effect can be used to create effects
