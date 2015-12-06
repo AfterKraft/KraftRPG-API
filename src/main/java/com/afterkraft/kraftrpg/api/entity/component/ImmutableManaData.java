@@ -32,7 +32,6 @@ import org.spongepowered.api.data.value.BaseValue;
 import org.spongepowered.api.data.value.immutable.ImmutableValue;
 
 import com.afterkraft.kraftrpg.api.RpgKeys;
-import com.afterkraft.kraftrpg.common.data.manipulator.immutable.AbstractImmutableDataManipulator;
 
 public class ImmutableManaData extends AbstractImmutableDataManipulator<ImmutableManaData, ManaData> {
 

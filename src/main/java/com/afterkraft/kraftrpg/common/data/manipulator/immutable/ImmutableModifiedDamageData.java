@@ -29,13 +29,14 @@ import org.spongepowered.api.Sponge;
 import org.spongepowered.api.data.DataContainer;
 import org.spongepowered.api.data.MemoryDataContainer;
 import org.spongepowered.api.data.key.Key;
+import org.spongepowered.api.data.manipulator.immutable.common.AbstractImmutableData;
 import org.spongepowered.api.data.value.BaseValue;
 import org.spongepowered.api.data.value.immutable.ImmutableValue;
 
 import com.google.common.collect.ComparisonChain;
 
 import com.afterkraft.kraftrpg.api.RpgKeys;
-import com.afterkraft.kraftrpg.api.entity.component.ModifiedDamageData;
+import com.afterkraft.kraftrpg.common.data.manipulator.mutable.ModifiedDamageData;
 
 /**
  * A component that handles base damage not modified by held items, weapons, armor, buffs, etc.
@@ -43,7 +44,7 @@ import com.afterkraft.kraftrpg.api.entity.component.ModifiedDamageData;
  * This can be considered as "fist" damage.
  */
 public class ImmutableModifiedDamageData
-        extends AbstractImmutableDataManipulator<ImmutableModifiedDamageData, ModifiedDamageData> {
+        extends AbstractImmutableData<ImmutableModifiedDamageData, ModifiedDamageData> {
 
     private final double baseDamage;
     private final double modifiedDamage;
@@ -51,7 +52,6 @@ public class ImmutableModifiedDamageData
     private final ImmutableValue<Double> modifiedValue;
 
     public ImmutableModifiedDamageData(double baseDamage, double modifiedDamage) {
-        super(ImmutableModifiedDamageData.class);
         this.baseDamage = baseDamage;
         this.modifiedDamage = modifiedDamage;
         this.baseValue = Sponge.getGame().getRegistry()

@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.afterkraft.kraftrpg.api.entity.component;
+package com.afterkraft.kraftrpg.common.data.manipulator.mutable;
 
 import java.util.Optional;
 
@@ -29,6 +29,7 @@ import org.spongepowered.api.Sponge;
 import org.spongepowered.api.data.DataContainer;
 import org.spongepowered.api.data.DataHolder;
 import org.spongepowered.api.data.MemoryDataContainer;
+import org.spongepowered.api.data.manipulator.mutable.common.AbstractData;
 import org.spongepowered.api.data.merge.MergeFunction;
 import org.spongepowered.api.data.value.mutable.Value;
 
@@ -36,7 +37,6 @@ import com.google.common.collect.ComparisonChain;
 
 import com.afterkraft.kraftrpg.api.RpgKeys;
 import com.afterkraft.kraftrpg.common.data.manipulator.immutable.ImmutableModifiedDamageData;
-import com.afterkraft.kraftrpg.common.data.manipulator.common.AbstractData;
 
 /**
  * A component that handles base damage not modified by held items, weapons, armor, buffs, etc.
@@ -50,18 +50,18 @@ public class ModifiedDamageData extends
     private double base;
 
     public ModifiedDamageData(double base, double modified) {
-        super(ModifiedDamageData.class);
         this.modified = modified;
         this.base = base;
     }
 
     public Value<Double> baseDamage() {
-        return Sponge.getRegistry().getValueFactory().createValue(RpgKeys.BASE_DAMAGE, this.base);
+        return Sponge.getRegistry().getValueFactory()
+                .createValue(RpgKeys.BASE_DAMAGE, this.base);
     }
 
     public Value<Double> modifiedDamage() {
-        return Sponge.getRegistry().getValueFactory().createValue(RpgKeys.DAMAGE_MODIFIER, this
-                .modified);
+        return Sponge.getRegistry().getValueFactory()
+                .createValue(RpgKeys.DAMAGE_MODIFIER, this.modified);
     }
 
     private double getModified() {

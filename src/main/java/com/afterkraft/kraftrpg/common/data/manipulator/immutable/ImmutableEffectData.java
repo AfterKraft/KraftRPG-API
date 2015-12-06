@@ -23,89 +23,45 @@
  */
 package com.afterkraft.kraftrpg.common.data.manipulator.immutable;
 
-import javax.annotation.Nullable;
 import java.util.Optional;
+import java.util.Set;
 
-import org.spongepowered.api.data.DataContainer;
+import org.spongepowered.api.Sponge;
 import org.spongepowered.api.data.key.Key;
-import org.spongepowered.api.data.manipulator.ImmutableDataManipulator;
+import org.spongepowered.api.data.manipulator.immutable.common.collection.AbstractImmutableSingleSetData;
 import org.spongepowered.api.data.value.BaseValue;
-import org.spongepowered.api.data.value.immutable.ImmutableValue;
+import org.spongepowered.api.data.value.immutable.ImmutableSetValue;
 
-import com.google.common.collect.ImmutableSet;
-
+import com.afterkraft.kraftrpg.api.RpgKeys;
+import com.afterkraft.kraftrpg.api.effect.Effect;
 import com.afterkraft.kraftrpg.common.data.manipulator.mutable.EffectData;
 
-public class ImmutableEffectData implements ImmutableDataManipulator<ImmutableEffectData, EffectData> {
+public class ImmutableEffectData extends AbstractImmutableSingleSetData<Effect,
+        ImmutableEffectData, EffectData> {
 
+    public ImmutableEffectData(Set<Effect> value) {
+        super(value, RpgKeys.RPG_EFFECTS);
+    }
+
+    public ImmutableSetValue<Effect> effects() {
+        return Sponge.getRegistry()
+                .getValueFactory()
+                .createSetValue(RpgKeys.RPG_EFFECTS, this.value)
+                .asImmutable();
+    }
+
+    @SuppressWarnings("unchecked")
     @Override
     public <E> Optional<ImmutableEffectData> with(Key<? extends BaseValue<E>> key, E value) {
-        return null;
-    }
-
-    @Override
-    public Optional<ImmutableEffectData> with(BaseValue<?> value) {
-        return null;
-    }
-
-    @Override
-    public <E> Optional<E> get(Key<? extends BaseValue<E>> key) {
-        return null;
-    }
-
-    @Nullable
-    @Override
-    public <E> E getOrNull(Key<? extends BaseValue<E>> key) {
-        return null;
-    }
-
-    @Override
-    public <E> E getOrElse(Key<? extends BaseValue<E>> key, E defaultValue) {
-        return null;
-    }
-
-    @Override
-    public <E, V extends BaseValue<E>> Optional<V> getValue(Key<V> key) {
-        return null;
-    }
-
-    @Override
-    public boolean supports(Key<?> key) {
-        return false;
-    }
-
-    @Override
-    public boolean supports(BaseValue<?> baseValue) {
-        return false;
-    }
-
-    @Override
-    public ImmutableEffectData copy() {
-        return null;
-    }
-
-    @Override
-    public ImmutableSet<Key<?>> getKeys() {
-        return null;
-    }
-
-    @Override
-    public ImmutableSet<ImmutableValue<?>> getValues() {
-        return null;
+        if (key == RpgKeys.RPG_EFFECTS) {
+            return Optional.of(new ImmutableEffectData((Set<Effect>) value));
+        }
+        return Optional.empty();
     }
 
     @Override
     public EffectData asMutable() {
-        return null;
+        return new EffectData(this.value);
     }
 
-    @Override
-    public int compareTo(ImmutableEffectData o) {
-        return 0;
-    }
-
-    @Override
-    public DataContainer toContainer() {
-        return null;
-    }
 }
