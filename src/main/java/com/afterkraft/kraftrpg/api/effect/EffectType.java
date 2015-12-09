@@ -26,6 +26,7 @@ package com.afterkraft.kraftrpg.api.effect;
 
 import javax.annotation.Nullable;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 import org.spongepowered.api.data.DataContainer;
@@ -36,14 +37,13 @@ import org.spongepowered.api.data.MemoryDataContainer;
 import org.spongepowered.api.service.persistence.DataBuilder;
 import org.spongepowered.api.service.persistence.InvalidDataException;
 
-import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Sets;
 
 import com.afterkraft.kraftrpg.api.entity.Insentient;
-import com.afterkraft.kraftrpg.api.entity.component.EffectsComponent;
 import com.afterkraft.kraftrpg.api.skill.Skill;
 import com.afterkraft.kraftrpg.api.skill.SkillType;
+import com.afterkraft.kraftrpg.common.data.manipulator.mutable.EffectData;
 
 /**
  * A basic effect and affect enum. Various effects require different settings, and sometimes, some
@@ -500,7 +500,7 @@ public enum EffectType implements DataSerializable, DataBuilder<EffectType> {
         if (this.resistance == null) {
             return false;
         }
-        Optional<EffectsComponent> optional = being.getComponent(EffectsComponent.class);
+        Optional<EffectData> optional = being.get(EffectData.class);
         return optional.isPresent() && optional.get().hasEffectType(this) && skill
                 .isType(this.resistance);
 
@@ -519,7 +519,7 @@ public enum EffectType implements DataSerializable, DataBuilder<EffectType> {
      * @throws IllegalArgumentException If the effect is null
      */
     public boolean isEffectResisted(Insentient being, Effect effect) {
-        Optional<EffectsComponent> optional = being.getComponent(EffectsComponent.class);
+        Optional<EffectData> optional = being.get(EffectData.class);
         if (optional.isPresent()) {
             return !optional.get().hasEffectType(this);
         }

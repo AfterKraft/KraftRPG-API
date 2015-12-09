@@ -23,12 +23,12 @@
  */
 package com.afterkraft.kraftrpg.common.skill;
 
+import java.util.Optional;
+
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import org.spongepowered.api.entity.Entity;
 import org.spongepowered.api.text.Text;
-
-import com.google.common.base.Optional;
 
 import com.afterkraft.kraftrpg.api.RpgCommon;
 import com.afterkraft.kraftrpg.api.RpgPlugin;
@@ -37,13 +37,13 @@ import com.afterkraft.kraftrpg.api.entity.Being;
 import com.afterkraft.kraftrpg.api.entity.Champion;
 import com.afterkraft.kraftrpg.api.entity.Insentient;
 import com.afterkraft.kraftrpg.api.entity.SkillCaster;
-import com.afterkraft.kraftrpg.api.entity.component.EffectsComponent;
-import com.afterkraft.kraftrpg.api.entity.component.PartyComponent;
+import com.afterkraft.kraftrpg.common.data.manipulator.mutable.PartyData;
 import com.afterkraft.kraftrpg.api.skill.SkillArgument;
 import com.afterkraft.kraftrpg.api.skill.SkillCastResult;
 import com.afterkraft.kraftrpg.api.skill.SkillSetting;
 import com.afterkraft.kraftrpg.api.skill.SkillType;
 import com.afterkraft.kraftrpg.api.skill.Targeted;
+import com.afterkraft.kraftrpg.common.data.manipulator.mutable.EffectData;
 import com.afterkraft.kraftrpg.common.skill.argument.EntitySkillArgument;
 
 /**
@@ -95,7 +95,7 @@ public abstract class TargetedSkillAbstract<E extends Entity>
     @Override
     public final SkillCastResult useSkill(final SkillCaster caster) {
         checkNotNull(caster);
-        Optional<EffectsComponent> effect = caster.getComponent(EffectsComponent.class);
+        Optional<EffectData> effect = caster.get(EffectData.class);
         if (effect.get().hasEffectType(EffectType.BLIND)) {
             if (caster instanceof Champion) {
                 ((Champion) caster).sendMessage("You cannot target anything while blinded!");
@@ -127,7 +127,7 @@ public abstract class TargetedSkillAbstract<E extends Entity>
                 }
             }
 
-            Optional<PartyComponent> party = caster.getComponent(PartyComponent.class);
+            Optional<PartyData> party = caster.get(PartyData.class);
             if (party.isPresent()) {
                 if (RpgCommon.getPartyManager().isFriendly(caster, insentient)) {
                     return SkillCastResult.INVALID_TARGET_NO_MESSAGE;

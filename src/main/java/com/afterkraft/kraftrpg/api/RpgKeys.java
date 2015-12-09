@@ -27,13 +27,17 @@ import static org.spongepowered.api.data.DataQuery.of;
 
 import org.spongepowered.api.data.key.Key;
 import org.spongepowered.api.data.key.KeyFactory;
+import org.spongepowered.api.data.value.BaseValue;
 import org.spongepowered.api.data.value.mutable.SetValue;
 import org.spongepowered.api.data.value.mutable.Value;
 
 import com.afterkraft.kraftrpg.api.effect.Effect;
+import com.afterkraft.kraftrpg.api.entity.party.Party;
 
 @SuppressWarnings("unchecked")
 public final class RpgKeys {
+
+    public static final Key<Value<Party>> PARTY;
 
     private RpgKeys() {
     }
@@ -50,6 +54,7 @@ public final class RpgKeys {
         DAMAGE_MODIFIER = KeyFactory.makeSingleKey(Double.class, Value.class, of("DamageModifier"));
         MANA = KeyFactory.makeSingleKey(Integer.class, Value.class, of("Mana"));
         MAX_MANA = KeyFactory.makeSingleKey(Integer.class, Value.class, of("MaxMana"));
+        PARTY = KeyFactory.makeSingleKey(Party.class, Value.class, of("Party"));
     }
 
 }

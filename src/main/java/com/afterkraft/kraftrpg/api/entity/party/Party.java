@@ -39,6 +39,8 @@ import com.afterkraft.kraftrpg.api.util.FixedPoint;
  */
 public interface Party {
 
+    UUID getUniqueId();
+
     /**
      * Return an unmodifiable list of Champions within this Party.
      *

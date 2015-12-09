@@ -21,80 +21,65 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.afterkraft.kraftrpg.api.entity.component;
+package com.afterkraft.kraftrpg.common.data.manipulator.mutable;
 
 import java.util.Optional;
 
+import org.spongepowered.api.Sponge;
 import org.spongepowered.api.data.DataContainer;
 import org.spongepowered.api.data.DataHolder;
+import org.spongepowered.api.data.MemoryDataContainer;
+import org.spongepowered.api.data.manipulator.mutable.common.AbstractSingleData;
 import org.spongepowered.api.data.merge.MergeFunction;
+import org.spongepowered.api.data.value.mutable.Value;
 
-import com.afterkraft.kraftrpg.common.data.manipulator.common.AbstractData;
+import com.afterkraft.kraftrpg.api.RpgKeys;
+import com.afterkraft.kraftrpg.api.entity.party.Party;
+import com.afterkraft.kraftrpg.common.data.manipulator.immutable.ImmutablePartyData;
 
-public class ManaData extends AbstractData<ManaData, ImmutableManaData> {
+public class PartyData extends AbstractSingleData<Party, PartyData, ImmutablePartyData> {
 
-    private int mana;
-    private int maxMana;
-
-    public ManaData() {
-        this(100, 100);
+    public PartyData(Party value) {
+        super(value, RpgKeys.PARTY);
     }
 
-    public ManaData(int mana, int maxMana) {
-        super(ManaData.class);
-        this.mana = mana;
-        this.maxMana = maxMana;
-        registerGettersAndSetters();
-    }
-
-    private int getMana() {
-        return this.mana;
-    }
-
-    private void setMana(int mana) {
-        this.mana = mana;
-    }
-
-    private int getMaxMana() {
-        return this.maxMana;
-    }
-
-    private void setMaxMana(int maxMana) {
-        this.maxMana = maxMana;
+    public Value<Party> party() {
+        return Sponge.getRegistry().getValueFactory().createValue(RpgKeys.PARTY, getValue());
     }
 
     @Override
-    protected void registerGettersAndSetters() {
-        registerFieldGetter(RpgKeys);
+    protected Value<?> getValueGetter() {
+        return party();
     }
 
     @Override
-    public Optional<ManaData> fill(DataHolder dataHolder, MergeFunction overlap) {
+    public Optional<PartyData> fill(DataHolder dataHolder, MergeFunction overlap) {
         return null;
     }
 
     @Override
-    public Optional<ManaData> from(DataContainer container) {
+    public Optional<PartyData> from(DataContainer container) {
         return null;
     }
 
     @Override
-    public ManaData copy() {
+    public PartyData copy() {
+        return new PartyData(getValue());
+    }
+
+    @Override
+    public ImmutablePartyData asImmutable() {
         return null;
     }
 
     @Override
-    public ImmutableManaData asImmutable() {
-        return null;
-    }
-
-    @Override
-    public int compareTo(ManaData o) {
-        return 0;
+    public int compareTo(PartyData o) {
+        return o.party().get().getUniqueId().compareTo(getValue().getUniqueId());
     }
 
     @Override
     public DataContainer toContainer() {
-        return null;
+        return new MemoryDataContainer()
+                .set(RpgKeys.PARTY.getQuery(), getValue().getUniqueId().toString());
     }
 }

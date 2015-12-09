@@ -23,7 +23,6 @@
  */
 package com.afterkraft.kraftrpg.common.data.manipulator.mutable;
 
-import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 
@@ -31,6 +30,7 @@ import org.spongepowered.api.Sponge;
 import org.spongepowered.api.data.DataContainer;
 import org.spongepowered.api.data.DataHolder;
 import org.spongepowered.api.data.MemoryDataContainer;
+import org.spongepowered.api.data.manipulator.DataManipulator;
 import org.spongepowered.api.data.manipulator.mutable.common.collection.AbstractSingleSetData;
 import org.spongepowered.api.data.merge.MergeFunction;
 import org.spongepowered.api.data.value.mutable.SetValue;
@@ -39,6 +39,7 @@ import com.google.common.collect.ComparisonChain;
 
 import com.afterkraft.kraftrpg.api.RpgKeys;
 import com.afterkraft.kraftrpg.api.effect.Effect;
+import com.afterkraft.kraftrpg.api.effect.EffectType;
 import com.afterkraft.kraftrpg.common.data.manipulator.immutable.ImmutableEffectData;
 
 public class EffectData extends AbstractSingleSetData<Effect, EffectData, ImmutableEffectData> {
@@ -53,9 +54,18 @@ public class EffectData extends AbstractSingleSetData<Effect, EffectData, Immuta
                 .createSetValue(RpgKeys.RPG_EFFECTS, this.getValue());
     }
 
+    public boolean hasEffectType(EffectType effectType) {
+        for (Effect effect : effects().get()) {
+            if (effect.isType(effectType)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     @Override
     public ImmutableEffectData asImmutable() {
-        return new ImmutableEffectData();
+        return new ImmutableEffectData(getValue());
     }
 
     @Override

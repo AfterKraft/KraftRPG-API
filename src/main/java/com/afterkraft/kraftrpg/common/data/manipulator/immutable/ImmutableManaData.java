@@ -21,19 +21,22 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.afterkraft.kraftrpg.api.entity.component;
+package com.afterkraft.kraftrpg.common.data.manipulator.immutable;
 
 import java.util.Optional;
 
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.data.DataContainer;
+import org.spongepowered.api.data.MemoryDataContainer;
 import org.spongepowered.api.data.key.Key;
+import org.spongepowered.api.data.manipulator.immutable.common.AbstractImmutableData;
 import org.spongepowered.api.data.value.BaseValue;
 import org.spongepowered.api.data.value.immutable.ImmutableValue;
 
 import com.afterkraft.kraftrpg.api.RpgKeys;
+import com.afterkraft.kraftrpg.common.data.manipulator.mutable.ManaData;
 
-public class ImmutableManaData extends AbstractImmutableDataManipulator<ImmutableManaData, ManaData> {
+public class ImmutableManaData extends AbstractImmutableData<ImmutableManaData, ManaData> {
 
     private final int mana;
     private final int maxMana;
@@ -41,7 +44,7 @@ public class ImmutableManaData extends AbstractImmutableDataManipulator<Immutabl
     private final ImmutableValue<Integer> maxManaValue;
 
     public ImmutableManaData(int mana, int maxMana) {
-        super(ImmutableManaData.class);
+        super();
         this.mana = mana;
         this.maxMana = maxMana;
         this.manaValue = Sponge.getRegistry().getValueFactory()
@@ -73,18 +76,24 @@ public class ImmutableManaData extends AbstractImmutableDataManipulator<Immutabl
     protected void registerGetters() {
         registerFieldGetter(RpgKeys.MANA, this::getMana);
         registerKeyValue(RpgKeys.MANA, this::mana);
+
         registerFieldGetter(RpgKeys.MAX_MANA, this::getMaxMana);
         registerKeyValue(RpgKeys.MAX_MANA, this::maxMana);
     }
 
     @Override
     public <E> Optional<ImmutableManaData> with(Key<? extends BaseValue<E>> key, E value) {
-        return null;
+        if (key == RpgKeys.MANA) {
+            return Optional.of(new ImmutableManaData((Integer) value, this.maxMana));
+        } else if (key == RpgKeys.MAX_MANA) {
+            return Optional.of(new ImmutableManaData(this.mana, (Integer) value));
+        }
+        return Optional.empty();
     }
 
     @Override
     public ManaData asMutable() {
-        return null;
+        return new ManaData(this.mana, this.maxMana);
     }
 
     @Override
@@ -94,7 +103,9 @@ public class ImmutableManaData extends AbstractImmutableDataManipulator<Immutabl
 
     @Override
     public DataContainer toContainer() {
-        return null;
+        return new MemoryDataContainer()
+                .set(RpgKeys.MAX_MANA, this.maxMana)
+                .set(RpgKeys.MANA, this.mana);
     }
 
 }
