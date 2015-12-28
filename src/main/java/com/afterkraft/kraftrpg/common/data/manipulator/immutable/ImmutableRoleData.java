@@ -21,20 +21,40 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.afterkraft.kraftrpg.api.storage;
+package com.afterkraft.kraftrpg.common.data.manipulator.immutable;
 
-import java.util.UUID;
+import java.util.Optional;
 
-import com.google.common.base.Optional;
+import org.spongepowered.api.data.DataContainer;
+import org.spongepowered.api.data.key.Key;
+import org.spongepowered.api.data.manipulator.immutable.common.AbstractImmutableData;
+import org.spongepowered.api.data.value.BaseValue;
 
-import com.afterkraft.kraftrpg.api.entity.component.Component;
+import com.afterkraft.kraftrpg.common.data.manipulator.mutable.RoleData;
 
-public interface ComponentStorage<T extends Component<T>> {
+public final class ImmutableRoleData extends AbstractImmutableData<ImmutableRoleData, RoleData> {
+    @Override
+    protected void registerGetters() {
 
-    Optional<T> retrieveFor(UUID uuid);
+    }
 
-    StorageTransaction storeFor(UUID uuid, T component);
+    @Override
+    public <E> Optional<ImmutableRoleData> with(Key<? extends BaseValue<E>> key, E value) {
+        return null;
+    }
 
-    StorageTransaction storeDiff(UUID uuid, T component);
+    @Override
+    public RoleData asMutable() {
+        return null;
+    }
 
+    @Override
+    public int compareTo(ImmutableRoleData o) {
+        return 0;
+    }
+
+    @Override
+    public DataContainer toContainer() {
+        return null;
+    }
 }

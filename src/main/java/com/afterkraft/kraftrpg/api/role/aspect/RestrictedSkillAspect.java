@@ -24,10 +24,10 @@
 package com.afterkraft.kraftrpg.api.role.aspect;
 
 import java.util.List;
+import java.util.Optional;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 

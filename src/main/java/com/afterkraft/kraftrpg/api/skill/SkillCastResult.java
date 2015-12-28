@@ -32,7 +32,7 @@ public enum SkillCastResult {
     /**
      * Generic success. <b>(Success)</b>
      */
-    NORMAL,
+    SUCCESS,
     /**
      * The caster is dead.
      */

@@ -32,6 +32,7 @@ import com.afterkraft.kraftrpg.api.entity.Insentient;
  * Represents a ticked operation performed on an {@link Insentient} being for a recurring
  * effect. The operation may do whatever is necessary.
  */
+@FunctionalInterface
 public interface TickEffectOperation extends EffectOperation {
 
     /**

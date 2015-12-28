@@ -25,6 +25,7 @@ package com.afterkraft.kraftrpg.api.storage;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
@@ -32,7 +33,6 @@ import java.util.concurrent.TimeUnit;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.entity.living.player.Player;
 
-import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
@@ -106,7 +106,7 @@ public abstract class StorageFrontend {
      * @return name of storage format
      */
     public String getName() {
-        return "Default/" + backend.getClass().getSimpleName();
+        return "Default/" + this.backend.getClass().getSimpleName();
     }
 
     /**

@@ -28,6 +28,7 @@ package com.afterkraft.kraftrpg.api.entity;
 import java.util.Optional;
 
 import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.text.Text;
 
 import com.afterkraft.kraftrpg.api.skill.Skill;
 import com.afterkraft.kraftrpg.api.storage.PlayerData;
@@ -60,15 +61,7 @@ public interface Champion extends SkillCaster {
      *
      * @param message to be sent
      */
-    void sendMessage(String message);
-
-    /**
-     * Send a message with the given object array as arguments to replace.
-     *
-     * @param message The message
-     * @param args    The arguments to populate the message
-     */
-    void sendMessage(String message, Object... args);
+    void sendMessage(Text message);
 
     /**
      * Check if this insentient is ignoring messages from the specified {@link Skill}

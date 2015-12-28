@@ -49,7 +49,7 @@ public enum EffectOperationResult {
     FAIL,
 
     /**
-     * Something went terribly wrong. The effect probably errored or is not applicable.
+     * Something went terribly wrong. The effect probably threw an error or is not applicable.
      */
     INVALID
 }

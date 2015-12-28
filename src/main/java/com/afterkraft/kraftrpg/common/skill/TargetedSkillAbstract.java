@@ -29,6 +29,8 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import org.spongepowered.api.entity.Entity;
 import org.spongepowered.api.text.Text;
+import org.spongepowered.api.text.Texts;
+import org.spongepowered.api.text.format.TextColors;
 
 import com.afterkraft.kraftrpg.api.RpgCommon;
 import com.afterkraft.kraftrpg.api.RpgPlugin;
@@ -98,7 +100,8 @@ public abstract class TargetedSkillAbstract<E extends Entity>
         Optional<EffectData> effect = caster.get(EffectData.class);
         if (effect.get().hasEffectType(EffectType.BLIND)) {
             if (caster instanceof Champion) {
-                ((Champion) caster).sendMessage("You cannot target anything while blinded!");
+                ((Champion) caster).sendMessage(Texts.of(TextColors.GRAY, "You cannot target "
+                        + "anything while blinded!"));
             }
             return SkillCastResult.INVALID_TARGET;
         }
@@ -135,9 +138,10 @@ public abstract class TargetedSkillAbstract<E extends Entity>
             }
 
             if (this.isType(SkillType.DAMAGING)) {
-                if (!damageCheck(caster, insentient.getEntity().get())) {
+                if (!SkillUtils.damageCheck(caster, insentient.getEntity().get())) {
                     if (caster instanceof Champion) {
-                        ((Champion) caster).sendMessage("You cannot damage that target!");
+                        ((Champion) caster).sendMessage(Texts.of(TextColors.RED, "You cannot"
+                                + " damage that target!"));
                     }
                     return SkillCastResult.INVALID_TARGET_NO_MESSAGE;
                 }

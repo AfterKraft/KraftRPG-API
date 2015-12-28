@@ -35,7 +35,8 @@ import com.afterkraft.kraftrpg.api.RpgKeys;
 import com.afterkraft.kraftrpg.api.entity.party.Party;
 import com.afterkraft.kraftrpg.common.data.manipulator.mutable.PartyData;
 
-public class ImmutablePartyData extends AbstractImmutableSingleData<Party, ImmutablePartyData, PartyData> {
+public final class ImmutablePartyData extends AbstractImmutableSingleData<Party, ImmutablePartyData,
+        PartyData> {
 
     public ImmutablePartyData(Party value) {
         super(value, RpgKeys.PARTY);

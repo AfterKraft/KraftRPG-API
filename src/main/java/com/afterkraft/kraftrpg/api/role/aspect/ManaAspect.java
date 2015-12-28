@@ -23,10 +23,10 @@
  */
 package com.afterkraft.kraftrpg.api.role.aspect;
 
+import java.util.Optional;
+
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkState;
-
-import com.google.common.base.Optional;
 
 /**
  * Represents a mana aspect

@@ -23,11 +23,12 @@
  */
 package com.afterkraft.kraftrpg.api.listener;
 
+import java.util.Optional;
+
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import org.spongepowered.api.event.cause.Cause;
 
-import com.google.common.base.Optional;
 
 import com.afterkraft.kraftrpg.api.entity.SkillCaster;
 import com.afterkraft.kraftrpg.api.skill.Skill;
@@ -51,7 +52,7 @@ public class SkillDamageWrapper extends AttackDamageWrapper {
 
     @Override
     public Optional<? extends SkillCaster> getAttackingIEntity() {
-        return Optional.fromNullable(super.getAttackingIEntity().isPresent()
+        return Optional.ofNullable(super.getAttackingIEntity().isPresent()
                                              ? (SkillCaster) super
                 .getAttackingIEntity().get()
                                              : null);

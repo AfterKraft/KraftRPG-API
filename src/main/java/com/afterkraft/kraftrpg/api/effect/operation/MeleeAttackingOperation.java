@@ -41,6 +41,7 @@ import com.afterkraft.kraftrpg.api.entity.Insentient;
  * "cancel" the operation without reducing the {@link MeleeAttackingProperty#getHitsLeft()}
  * value by returning {@link EffectOperationResult#CANCELLED}.
  */
+@FunctionalInterface
 public interface MeleeAttackingOperation {
 
     /**

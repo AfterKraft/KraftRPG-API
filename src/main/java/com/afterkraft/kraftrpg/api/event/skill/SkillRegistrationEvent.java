@@ -27,28 +27,22 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import org.spongepowered.api.event.Event;
 import org.spongepowered.api.event.cause.Cause;
+import org.spongepowered.api.event.cause.NamedCause;
 
-import com.afterkraft.kraftrpg.api.entity.SkillCaster;
-import com.afterkraft.kraftrpg.api.skill.Skill;
+import com.afterkraft.kraftrpg.api.RpgPlugin;
 
-public class SkillCastEvent implements Event {
+public class SkillRegistrationEvent implements Event {
 
-    private final Skill skill;
+    private final RpgPlugin plugin;
     private final Cause cause;
-    private final SkillCaster skillCaster;
 
-    public SkillCastEvent(Skill skill, Cause cause, SkillCaster skillCaster) {
-        this.skill = checkNotNull(skill);
-        this.cause = checkNotNull(cause);
-        this.skillCaster = checkNotNull(skillCaster);
+    public SkillRegistrationEvent(RpgPlugin plugin) {
+        this.plugin = checkNotNull(plugin);
+        this.cause = Cause.of(NamedCause.source(plugin));
     }
 
-    public Skill getSkill() {
-        return this.skill;
-    }
-
-    public SkillCaster getSkillCaster() {
-        return this.skillCaster;
+    public RpgPlugin getPlugin() {
+        return this.plugin;
     }
 
     @Override

@@ -58,13 +58,12 @@ public class SkillFireball extends AbstractActiveSkill {
 
     @Override
     public SkillCastResult useSkill(SkillCaster caster) {
-        Fireball fireball = (Fireball) caster.getWorld().createEntity(EntityTypes.SNOWBALL, caster
-                .getLocation
-                ().getPosition()).get();
+        Fireball fireball = (Fireball) caster.getWorld().createEntity(EntityTypes.SNOWBALL,
+            caster.getLocation().getPosition()).get();
         fireball.offer(Keys.FIRE_TICKS, 1000);
         fireball.offer(Keys.INVULNERABILITY, 1000);
         fireball.setShooter(caster);
-        caster.launchProjectile(Fireball.class, caster.getLocation());
-        return null;
+        caster.launchProjectile(Fireball.class, caster.getLocation().getPosition().add(0, 1.8f, 0));
+        return SkillCastResult.SUCCESS;
     }
 }

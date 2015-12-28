@@ -24,9 +24,9 @@
 package com.afterkraft.kraftrpg.api.storage;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
-import com.google.common.base.Optional;
 
 /**
  * A backend for storage of player data. All methods in this class may be assumed to take a long

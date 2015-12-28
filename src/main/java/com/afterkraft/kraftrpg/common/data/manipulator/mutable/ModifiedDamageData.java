@@ -43,7 +43,7 @@ import com.afterkraft.kraftrpg.common.data.manipulator.immutable.ImmutableModifi
  *
  * This can be considered as "fist" damage.
  */
-public class ModifiedDamageData extends
+public final class ModifiedDamageData extends
         AbstractData<ModifiedDamageData, ImmutableModifiedDamageData> {
 
     private double modified;

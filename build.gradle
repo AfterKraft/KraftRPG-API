@@ -46,13 +46,12 @@ repositories {
 }
 
 dependencies {
-    compile 'com.google.guava:guava:18.0'
+    compile 'com.google.guava:guava:17.0'
     compile 'org.spongepowered:spongeapi:2.1-SNAPSHOT'
     testCompile 'junit:junit:4.11'
     testCompile 'org.powermock:powermock-module-junit4:1.5.2'
-    testCompile 'org.powermock:powermock-api-easymock:1.5.2'
     testCompile 'org.powermock:powermock-api-mockito:1.5.2'
-    testCompile 'org.easymock:easymock:3.2'
+    testCompile "org.mockito:mockito-core:1.+"
     testCompile 'commons-io:commons-io:2.4'
 }
 
@@ -60,9 +59,9 @@ dependencies {
 task javadocJar(type: Jar, dependsOn: javadoc) {
     classifier 'javadoc'
     from javadoc.destinationDir
-    javadoc.options.links("http://docs.guava-libraries.googlecode.com/git-history/v18.0/javadoc/",
-            "http://spongepowered.github.io/SpongeAPI/",
-            "http://docs.oracle.com/javase/7/docs/api/")
+    javadoc.options.links("http://docs.guava-libraries.googlecode.com/git-history/v17.0/javadoc/",
+            "https://jd.spongepowered.org/",
+            "http://docs.oracle.com/javase/8/docs/api/")
 }
 // Generates sources.jar
 task sourceJar(type: Jar) {

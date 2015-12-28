@@ -35,6 +35,7 @@ import com.afterkraft.kraftrpg.api.entity.Insentient;
  * ProjectileProperty} effect. Common operations may include: periodic particle display,
  * applicable effects applied to the shooter on launch, etc.
  */
+@FunctionalInterface
 public interface ProjectileApplyOperation extends EffectOperation {
 
     /**

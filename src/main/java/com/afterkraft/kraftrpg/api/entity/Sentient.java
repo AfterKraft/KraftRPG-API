@@ -23,9 +23,10 @@
  */
 package com.afterkraft.kraftrpg.api.entity;
 
+import java.util.Optional;
+
 import org.spongepowered.api.world.Location;
 
-import com.google.common.base.Optional;
 
 import com.afterkraft.kraftrpg.api.role.ExperienceType;
 import com.afterkraft.kraftrpg.api.role.Role;

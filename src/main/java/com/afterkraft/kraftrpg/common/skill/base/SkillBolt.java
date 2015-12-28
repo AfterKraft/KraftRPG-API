@@ -29,12 +29,15 @@ import org.spongepowered.api.item.inventory.ItemStack;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.Texts;
 
+import com.afterkraft.kraftrpg.api.RpgCommon;
 import com.afterkraft.kraftrpg.api.RpgPlugin;
 import com.afterkraft.kraftrpg.api.entity.Being;
 import com.afterkraft.kraftrpg.api.entity.SkillCaster;
+import com.afterkraft.kraftrpg.api.event.damage.SkillDamageSource;
 import com.afterkraft.kraftrpg.api.skill.SkillCastResult;
 import com.afterkraft.kraftrpg.api.skill.SkillSetting;
 import com.afterkraft.kraftrpg.api.skill.SkillType;
+import com.afterkraft.kraftrpg.common.skill.SkillUtils;
 import com.afterkraft.kraftrpg.common.skill.TargetedSkillAbstract;
 
 public class SkillBolt extends TargetedSkillAbstract<Living> {
@@ -55,20 +58,24 @@ public class SkillBolt extends TargetedSkillAbstract<Living> {
     @Override
     public SkillCastResult useSkill(final SkillCaster caster, final Being target,
                                     final Living entity) {
-        double damage = this.plugin.getSkillConfigManager()
+        double damage = RpgCommon.getSkillConfigManager()
                 .getUsedDoubleSetting(caster, this, SkillSetting.DAMAGE);
-        double damageIncrease = this.plugin.getSkillConfigManager()
+        double damageIncrease = RpgCommon.getSkillConfigManager()
                 .getUsedDoubleSetting(caster, this, SkillSetting.DAMAGE.scalingNode());
-        damage += (damageIncrease * caster.getLevel(caster.getPrimaryRole()));
+        damage += (damageIncrease * caster.get(Rolecaster.getPrimaryRole()));
 
-        float volume = (float) this.plugin.getSkillConfigManager()
+        float volume = (float) RpgCommon.getSkillConfigManager()
                 .getUsedDoubleSetting(caster, this, CustomSkillSettings.LIGHTNING_VOLUME);
         target.getWorld().strikeLightning(target.getLocation());
         target.getWorld().playSound(target.getLocation(), Sound.AMBIENCE_THUNDER, volume, 1.0F);
 
         addSkillTarget(entity, caster);
-        damageEntity((Insentient) target, caster, this, ImmutableMap.of(DamageType.MAGICAL,
-                                                                        damage), DamageCause.MAGIC);
-        return SkillCastResult.NORMAL;
+        target.getEntity().ifPresent(entity -> {
+            entity.damage(damage, SkillDamageSource.)
+        });
+        SkillUtils.damageEntity((Insentient) target, caster, this, ImmutableMap.of(DamageType
+                                                                                          .MAGICAL,
+                                                                                   damage), DamageCause.MAGIC);
+        return SkillCastResult.SUCCESS;
     }
 }

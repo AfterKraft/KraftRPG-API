@@ -35,6 +35,7 @@ import com.afterkraft.kraftrpg.api.entity.Insentient;
  * Insentient} who was affected by a {@link ProjectileProperty} effect, has landed on another
  * {@link Insentient} being.
  */
+@FunctionalInterface
 public interface ProjectileDamageOperation extends EffectOperation {
 
     /**

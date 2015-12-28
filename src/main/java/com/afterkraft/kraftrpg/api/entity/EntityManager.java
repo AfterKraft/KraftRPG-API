@@ -23,23 +23,21 @@
  */
 package com.afterkraft.kraftrpg.api.entity;
 
+import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 
 import org.spongepowered.api.entity.Entity;
 import org.spongepowered.api.entity.EntityType;
-import org.spongepowered.api.entity.player.Player;
+import org.spongepowered.api.entity.living.player.Player;
 
-import com.google.common.base.Optional;
-
-import com.afterkraft.kraftrpg.api.service.Service;
 import com.afterkraft.kraftrpg.api.storage.PlayerData;
 
 /**
  * A standard entity manager. Centralized manager to maintain links for the proxy objects known as
  * {@link Being} and it's sub classes to the original objects represented by the Bukkit API.
  */
-public interface EntityManager extends Service {
+public interface EntityManager {
 
     /**
      * Return the {@link Being} for the designated Entity. The IEntity is guaranteed to be affected

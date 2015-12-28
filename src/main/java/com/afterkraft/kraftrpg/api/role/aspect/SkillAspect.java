@@ -24,13 +24,13 @@
 package com.afterkraft.kraftrpg.api.role.aspect;
 
 import java.util.List;
+import java.util.Optional;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import org.spongepowered.api.data.DataView;
 
-import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 
@@ -84,7 +84,7 @@ public final class SkillAspect implements RoleAspect {
                 return Optional.of(roleSkill);
             }
         }
-        return Optional.absent();
+        return Optional.empty();
     }
 
     /**
@@ -113,7 +113,7 @@ public final class SkillAspect implements RoleAspect {
         if (roleSkillOptional.isPresent()) {
             return Optional.of(roleSkillOptional.get().getLevel());
         } else {
-            return Optional.absent();
+            return Optional.empty();
         }
     }
 
@@ -126,8 +126,7 @@ public final class SkillAspect implements RoleAspect {
      *
      * @return a copy of the configuration section
      */
-    public Optional<DataView> getSkillConfigIfAvailable(Skill skill, int
-            level) {
+    public Optional<DataView> getSkillConfigIfAvailable(Skill skill, int level) {
         Optional<RoleSkill> roleSkillOptional = getRoleSkill(skill);
         if (roleSkillOptional.isPresent()) {
             if (roleSkillOptional.get().getLevel() <= level) {
@@ -135,7 +134,7 @@ public final class SkillAspect implements RoleAspect {
                         roleSkillOptional.get().getConfig());
             }
         }
-        return Optional.absent();
+        return Optional.empty();
     }
 
     /**

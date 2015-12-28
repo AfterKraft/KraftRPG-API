@@ -35,6 +35,7 @@ import com.afterkraft.kraftrpg.api.entity.Insentient;
  * Represents an operation to be performed when a {@link Projectile}, shot by an {@link
  * Insentient} who was affected by a {@link ProjectileProperty} effect, has landed on ground.
  */
+@FunctionalInterface
 public interface ProjectileLandOperation extends EffectOperation {
 
     /**

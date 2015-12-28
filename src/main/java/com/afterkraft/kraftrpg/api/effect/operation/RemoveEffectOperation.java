@@ -34,6 +34,7 @@ import com.afterkraft.kraftrpg.api.entity.Insentient;
  * Insentient} being. The removal can be called for any reason whatsoever, including but not
  * limited to: {@link ExpiringProperty} effects, {@link TimedProperty} effects, etc.
  */
+@FunctionalInterface
 public interface RemoveEffectOperation extends EffectOperation {
 
 

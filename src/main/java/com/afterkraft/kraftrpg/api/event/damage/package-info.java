@@ -21,38 +21,4 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.afterkraft.kraftrpg.api.event.skill;
-
-import static com.google.common.base.Preconditions.checkNotNull;
-
-import org.spongepowered.api.event.Event;
-import org.spongepowered.api.event.cause.Cause;
-
-import com.afterkraft.kraftrpg.api.entity.SkillCaster;
-import com.afterkraft.kraftrpg.api.skill.Skill;
-
-public class SkillCastEvent implements Event {
-
-    private final Skill skill;
-    private final Cause cause;
-    private final SkillCaster skillCaster;
-
-    public SkillCastEvent(Skill skill, Cause cause, SkillCaster skillCaster) {
-        this.skill = checkNotNull(skill);
-        this.cause = checkNotNull(cause);
-        this.skillCaster = checkNotNull(skillCaster);
-    }
-
-    public Skill getSkill() {
-        return this.skill;
-    }
-
-    public SkillCaster getSkillCaster() {
-        return this.skillCaster;
-    }
-
-    @Override
-    public Cause getCause() {
-        return this.cause;
-    }
-}
+@org.spongepowered.api.util.annotation.NonnullByDefault package com.afterkraft.kraftrpg.api.event.damage;

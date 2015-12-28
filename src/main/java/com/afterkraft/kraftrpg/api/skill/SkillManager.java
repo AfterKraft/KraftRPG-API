@@ -24,18 +24,17 @@
 package com.afterkraft.kraftrpg.api.skill;
 
 import java.util.Collection;
+import java.util.Optional;
 
 import org.spongepowered.api.entity.Entity;
 
-import com.google.common.base.Optional;
 
 import com.afterkraft.kraftrpg.api.entity.SkillCaster;
-import com.afterkraft.kraftrpg.api.service.Service;
 
 /**
  * Manages skills with both skill loading and skill management.
  */
-public interface SkillManager extends Service {
+public interface SkillManager {
 
     /**
      * Checks if a skill by the skill name exists.

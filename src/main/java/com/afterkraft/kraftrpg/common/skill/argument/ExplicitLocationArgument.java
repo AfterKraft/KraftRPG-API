@@ -31,6 +31,7 @@ import java.util.regex.Matcher;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.Texts;
 import org.spongepowered.api.world.Location;
+import org.spongepowered.api.world.World;
 
 import com.flowpowered.math.vector.Vector3d;
 import com.google.common.collect.ImmutableList;
@@ -43,10 +44,10 @@ import com.afterkraft.kraftrpg.common.skill.AbstractSkillArgument;
  * A SkillArgument that parses, validates, and returns a specific location. This is comparable to
  * CommandBlocks parsing locations.
  */
-public class ExplicitLocationArgument extends AbstractSkillArgument<Location> {
+public class ExplicitLocationArgument extends AbstractSkillArgument<Location<World>> {
     private static final Location nullLocation =
             new Location(null, new Vector3d());
-    private Location location = nullLocation;
+    private Location<World> location = nullLocation;
 
     /**
      * Creates a new location argument.
@@ -57,9 +58,7 @@ public class ExplicitLocationArgument extends AbstractSkillArgument<Location> {
         super(required);
     }
 
-    public void setLocation(
-            @Nullable
-            Location loc) {
+    public void setLocation(@Nullable Location<World> loc) {
         if (loc == null) {
             this.location = nullLocation;
         } else {
@@ -149,7 +148,7 @@ public class ExplicitLocationArgument extends AbstractSkillArgument<Location> {
     }
 
     @Override
-    public Optional<Location> getValue() {
+    public Optional<Location<World>> getValue() {
         return Optional.ofNullable(this.location);
     }
 

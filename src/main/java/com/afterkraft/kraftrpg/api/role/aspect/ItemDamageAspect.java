@@ -24,6 +24,7 @@
 package com.afterkraft.kraftrpg.api.role.aspect;
 
 import java.util.Map;
+import java.util.Optional;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -31,7 +32,6 @@ import static com.google.common.base.Preconditions.checkState;
 
 import org.spongepowered.api.item.ItemType;
 
-import com.google.common.base.Optional;
 import com.google.common.collect.Maps;
 
 import com.afterkraft.kraftrpg.api.role.RoleAspect;
@@ -84,7 +84,7 @@ public final class ItemDamageAspect implements RoleAspect {
             }
             index++;
         }
-        return Optional.absent();
+        return Optional.empty();
     }
 
     /**
@@ -104,7 +104,7 @@ public final class ItemDamageAspect implements RoleAspect {
             }
             index++;
         }
-        return Optional.absent();
+        return Optional.empty();
     }
 
     /**
@@ -122,7 +122,7 @@ public final class ItemDamageAspect implements RoleAspect {
             }
             index++;
         }
-        return Optional.absent();
+        return Optional.empty();
     }
 
 

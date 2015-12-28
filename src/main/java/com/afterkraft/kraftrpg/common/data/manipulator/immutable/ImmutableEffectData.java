@@ -36,7 +36,7 @@ import com.afterkraft.kraftrpg.api.RpgKeys;
 import com.afterkraft.kraftrpg.api.effect.Effect;
 import com.afterkraft.kraftrpg.common.data.manipulator.mutable.EffectData;
 
-public class ImmutableEffectData extends AbstractImmutableSingleSetData<Effect,
+public final class ImmutableEffectData extends AbstractImmutableSingleSetData<Effect,
         ImmutableEffectData, EffectData> {
 
     public ImmutableEffectData(Set<Effect> value) {

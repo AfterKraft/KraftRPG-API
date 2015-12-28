@@ -23,7 +23,8 @@
  */
 package com.afterkraft.kraftrpg.api.role.aspect;
 
-import com.google.common.base.Optional;
+
+import java.util.Optional;
 
 import com.afterkraft.kraftrpg.api.role.RoleAspect;
 

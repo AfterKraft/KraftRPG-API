@@ -33,6 +33,7 @@ import org.spongepowered.api.data.manipulator.immutable.common.AbstractImmutable
 import org.spongepowered.api.data.value.BaseValue;
 import org.spongepowered.api.data.value.immutable.ImmutableValue;
 
+import com.google.common.base.Objects;
 import com.google.common.collect.ComparisonChain;
 
 import com.afterkraft.kraftrpg.api.RpgKeys;
@@ -43,7 +44,7 @@ import com.afterkraft.kraftrpg.common.data.manipulator.mutable.ModifiedDamageDat
  *
  * This can be considered as "fist" damage.
  */
-public class ImmutableModifiedDamageData
+public final class ImmutableModifiedDamageData
         extends AbstractImmutableData<ImmutableModifiedDamageData, ModifiedDamageData> {
 
     private final double baseDamage;
@@ -117,5 +118,15 @@ public class ImmutableModifiedDamageData
         return new MemoryDataContainer()
                 .set(RpgKeys.BASE_DAMAGE, this.baseDamage)
                 .set(RpgKeys.DAMAGE_MODIFIER, this.modifiedDamage);
+    }
+
+    @Override
+    public String toString() {
+        return Objects.toStringHelper(this)
+                .add("baseDamage", this.baseDamage)
+                .add("modifiedDamage", this.modifiedDamage)
+                .add("baseValue", this.baseValue)
+                .add("modifiedValue", this.modifiedValue)
+                .toString();
     }
 }

@@ -26,8 +26,8 @@ package com.afterkraft.kraftrpg.api.entity.component;
 import javax.annotation.Nullable;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
-import com.google.common.base.Optional;
 
 import com.afterkraft.kraftrpg.api.role.Role;
 

@@ -41,7 +41,7 @@ public class TestSkillAbstract extends AbstractActiveSkill {
 
     @Override
     public SkillCastResult useSkill(SkillCaster caster) {
-        return SkillCastResult.NORMAL;
+        return SkillCastResult.SUCCESS;
     }
 
 }

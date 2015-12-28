@@ -24,8 +24,7 @@
 package com.afterkraft.kraftrpg.api.entity;
 
 import java.util.Collection;
-
-import com.google.common.base.Optional;
+import java.util.Optional;
 
 import com.afterkraft.kraftrpg.api.role.Role;
 import com.afterkraft.kraftrpg.api.skill.Skill;

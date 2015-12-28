@@ -23,11 +23,11 @@
  */
 package com.afterkraft.kraftrpg.api.skill;
 
+import java.util.Optional;
 import java.util.Set;
 
 import org.spongepowered.api.data.DataQuery;
 
-import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableSet;
 
 /**
@@ -238,13 +238,13 @@ public class SkillSetting {
 
     /**
      * Gets the 'per-level' string node for this setting if applicable. <p>If the node is not a
-     * scaling node, the this will return {@link Optional#absent()}</p>
+     * scaling node, the this will return {@link Optional#empty()}</p>
      *
      * @return The 'per-level' string node for this setting
      */
     public Optional<DataQuery> scalingNode() {
         if (!this.scaled) {
-            return Optional.absent();
+            return Optional.empty();
         }
         return Optional.of(new DataQuery(this.nodeAsString() + "-per-level"));
     }

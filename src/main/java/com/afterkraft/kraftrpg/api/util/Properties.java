@@ -23,12 +23,13 @@
  */
 package com.afterkraft.kraftrpg.api.util;
 
+import java.util.Optional;
+
 import org.spongepowered.api.entity.EntityType;
 import org.spongepowered.api.entity.living.Living;
 import org.spongepowered.api.item.ItemType;
 import org.spongepowered.api.world.Location;
 
-import com.google.common.base.Optional;
 
 /**
  * Standard properties provided for the API. This can too be used by skills for various

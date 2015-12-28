@@ -25,12 +25,12 @@ package com.afterkraft.kraftrpg.api.listener;
 
 import javax.annotation.Nullable;
 import java.lang.ref.WeakReference;
+import java.util.Optional;
 
 import org.spongepowered.api.entity.ArmorEquipable;
 import org.spongepowered.api.event.cause.Cause;
 import org.spongepowered.api.item.inventory.ItemStack;
 
-import com.google.common.base.Optional;
 
 import com.afterkraft.kraftrpg.api.entity.Insentient;
 
@@ -52,7 +52,7 @@ public class AttackDamageWrapper extends DamageWrapper {
                 instanceof ArmorEquipable) {
             final Optional<ItemStack> optional = ((ArmorEquipable) attackingIEntity.getEntity()
                     .get()).getItemInHand();
-            this.weaponUsed = optional.orNull();
+            this.weaponUsed = optional.orElse(null);
         } else {
             this.weaponUsed = null;
         }
@@ -65,10 +65,10 @@ public class AttackDamageWrapper extends DamageWrapper {
      * @return The instance of the attacking entity, if available
      */
     public Optional<? extends Insentient> getAttackingIEntity() {
-        return Optional.fromNullable(this.attackingIEntity.get());
+        return Optional.ofNullable(this.attackingIEntity.get());
     }
 
     public final Optional<ItemStack> getWeaponUsed() {
-        return Optional.fromNullable(this.weaponUsed);
+        return Optional.ofNullable(this.weaponUsed);
     }
 }

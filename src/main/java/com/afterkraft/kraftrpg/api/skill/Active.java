@@ -24,10 +24,10 @@
 package com.afterkraft.kraftrpg.api.skill;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.spongepowered.api.text.Text;
 
-import com.google.common.base.Optional;
 
 import com.afterkraft.kraftrpg.api.entity.SkillCaster;
 import com.afterkraft.kraftrpg.common.skill.AbstractActiveSkill;
@@ -41,7 +41,7 @@ import com.afterkraft.kraftrpg.common.skill.AbstractActiveSkill;
  * called in the following order: <ol> <li>{@link #checkCustomRestrictions(SkillCaster,
  * boolean)}</li> <li>{@link #parse(SkillCaster, String[])}</li> <li>{@link
  * #checkCustomRestrictions(SkillCaster, boolean)}</li> <li>If checkCustomRestrictions() returns
- * ON_WARMUP, then {@link #onWarmUp(SkillCaster)}. If it returns NORMAL, then {@link
+ * ON_WARMUP, then {@link #onWarmUp(SkillCaster)}. If it returns SUCCESS, then {@link
  * #useSkill(SkillCaster)}.</li> <li>And finally, even if any throw an exception, {@link
  * #cleanState(SkillCaster)}.</li> </ol>
  */

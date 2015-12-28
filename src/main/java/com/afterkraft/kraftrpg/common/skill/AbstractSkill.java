@@ -29,19 +29,31 @@ import java.util.Collection;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Set;
+import java.util.function.Function;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import org.spongepowered.api.Sponge;
 import org.spongepowered.api.data.DataQuery;
 import org.spongepowered.api.data.DataView;
 import org.spongepowered.api.data.MemoryDataContainer;
 import org.spongepowered.api.entity.Entity;
 import org.spongepowered.api.entity.living.Living;
+import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.event.SpongeEventFactory;
+import org.spongepowered.api.event.cause.Cause;
+import org.spongepowered.api.event.cause.NamedCause;
+import org.spongepowered.api.event.cause.entity.damage.DamageModifier;
+import org.spongepowered.api.event.cause.entity.damage.DamageTypes;
+import org.spongepowered.api.event.cause.entity.damage.source.DamageSource;
+import org.spongepowered.api.event.entity.DamageEntityEvent;
 import org.spongepowered.api.item.inventory.ItemStack;
 import org.spongepowered.api.text.Text;
+import org.spongepowered.api.text.Texts;
+import org.spongepowered.api.text.format.TextColors;
+import org.spongepowered.api.util.Tuple;
 
-import com.google.common.base.Function;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Sets;
 
@@ -82,54 +94,6 @@ public abstract class AbstractSkill implements Skill {
         this.name = name;
         this.description = description;
         this.defaultConfig = new MemoryDataContainer();
-    }
-
-    /**
-     * Transform the name of a skill to a normal form. The results of this method should not be
-     * compared with anything other than other results of this method.
-     *
-     * @param skillName skill.getName() to check
-     *
-     * @return normalized name
-     */
-    public static String getNormalizedName(String skillName) {
-        return skillName.toLowerCase().replace("skill", "");
-    }
-
-    public static boolean damageCheck(Insentient attacking, Insentient victim) {
-        return damageCheck(attacking, victim.getEntity().get());
-    }
-
-    /**
-     * Attempts to damage the defending LivingEntity, this allows for various protection plugins to
-     * cancel damage events.
-     *
-     * @param attacking  attempting to deal the damage
-     * @param defenderLE entity being damaged
-     *
-     * @return true if the damage check was successful
-     */
-    public static boolean damageCheck(Insentient attacking, Living defenderLE) {
-        if (attacking.getEntity().equals(defenderLE)) {
-            return false;
-        }
-        /* Replace when Sponge supports calling our own EntityDamageEntityEvents
-        if (defenderLE instanceof Player && attacking instanceof Champion) {
-            if (!attacking.getWorld().()) {
-                attacking.sendMessage(ChatColor.RED + "PVP is disabled!");
-                return false;
-            }
-        }
-        EntityDamageByEntityEvent damageEntityEvent =
-                new EntityDamageByEntityEvent(attacking.getEntity(), defenderLE,
-                        Cause.CUSTOM, new EnumMap<>(
-                        ImmutableMap.of(DamageModifier.BASE, 1.0D)),
-                        new EnumMap<DamageModifier, Function<? super Double, Double>>(
-                                ImmutableMap.of(DamageModifier.BASE, ZERO)));
-        Bukkit.getServer().getPluginManager().callEvent(damageEntityEvent);
-
-         */
-        return false;
     }
 
     /**

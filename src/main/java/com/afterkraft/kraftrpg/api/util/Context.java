@@ -24,8 +24,8 @@
 package com.afterkraft.kraftrpg.api.util;
 
 import java.util.Map;
+import java.util.Optional;
 
-import com.google.common.base.Optional;
 import com.google.common.collect.Maps;
 
 /**
@@ -61,12 +61,9 @@ public class Context {
                     return Optional.of((T) this.data.get(key));
                 }
             }
-            if(obj == null) {
-                //Failed to match any class
-                return Optional.absent();
-            }
+            return Optional.empty();
         }
-        return Optional.fromNullable((T) obj);
+        return Optional.of((T) obj);
     }
 
     /**

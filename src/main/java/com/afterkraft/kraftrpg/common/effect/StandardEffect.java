@@ -24,6 +24,7 @@
 package com.afterkraft.kraftrpg.common.effect;
 
 import java.util.Collection;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -37,7 +38,6 @@ import org.spongepowered.api.text.Texts;
 import org.spongepowered.api.world.Location;
 
 import com.google.common.base.Objects;
-import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 
@@ -142,7 +142,7 @@ public class StandardEffect implements Effect {
                 return Optional.of((T) property);
             }
         }
-        return Optional.absent();
+        return Optional.empty();
     }
 
     @Override

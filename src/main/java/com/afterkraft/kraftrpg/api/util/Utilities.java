@@ -25,17 +25,17 @@ package com.afterkraft.kraftrpg.api.util;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.regex.Pattern;
 
 import org.spongepowered.api.block.BlockType;
+import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.effect.potion.PotionEffect;
 import org.spongepowered.api.item.ItemType;
 import org.spongepowered.api.item.ItemTypes;
 import org.spongepowered.api.item.inventory.ItemStack;
-import org.spongepowered.api.potion.PotionEffect;
-import org.spongepowered.api.util.command.CommandSource;
 
-import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 
@@ -62,11 +62,11 @@ public class Utilities {
 
     @SuppressWarnings("unchecked")
     public static Optional<ItemStack> loadItem(Object root) {
-        return Optional.absent();
+        return Optional.empty();
     }
 
     public static Optional<PotionEffect> loadEffect(Object root) {
-        return Optional.absent();
+        return Optional.empty();
     }
 
     public static boolean isStandardWeapon(ItemType mat) {
@@ -141,13 +141,11 @@ public class Utilities {
         return transparentBlocks;
     }
 
-    public static List<String> findMatches(String partial,
-                                           List<String> candidates) {
+    public static List<String> findMatches(String partial, List<String> candidates) {
         return Lists.newArrayList();
     }
 
-    public static List<String> matchPlayers(String partial,
-                                            CommandSource sender) {
+    public static List<String> matchPlayers(String partial, CommandSource sender) {
 
         return Lists.newArrayList();
     }

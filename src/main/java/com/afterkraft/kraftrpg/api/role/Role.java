@@ -24,6 +24,7 @@
 package com.afterkraft.kraftrpg.api.role;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 import static com.google.common.base.Preconditions.checkArgument;
@@ -31,7 +32,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 
 import com.google.common.base.Objects;
-import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 
@@ -51,6 +51,9 @@ import com.afterkraft.kraftrpg.api.skill.Skill;
  * Builder}
  */
 public final class Role {
+
+    public static final Role DEFAULT_PRIMARY = null;
+    public static final Role DEFAULT_SECONDARY = null;
 
     private final RoleAspect[] aspects;
     private final String name;
@@ -124,7 +127,7 @@ public final class Role {
                 return Optional.of((T) aspect);
             }
         }
-        return Optional.absent();
+        return Optional.empty();
     }
 
     /**

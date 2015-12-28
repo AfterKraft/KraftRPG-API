@@ -39,7 +39,7 @@ import com.google.common.collect.ComparisonChain;
 import com.afterkraft.kraftrpg.api.RpgKeys;
 import com.afterkraft.kraftrpg.common.data.manipulator.immutable.ImmutableManaData;
 
-public class ManaData extends AbstractData<ManaData, ImmutableManaData> {
+public final class ManaData extends AbstractData<ManaData, ImmutableManaData> {
 
     private int mana;
     private int maxMana;

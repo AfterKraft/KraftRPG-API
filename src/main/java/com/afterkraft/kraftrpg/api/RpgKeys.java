@@ -23,16 +23,21 @@
  */
 package com.afterkraft.kraftrpg.api;
 
+import java.util.Optional;
+
 import static org.spongepowered.api.data.DataQuery.of;
 
 import org.spongepowered.api.data.key.Key;
 import org.spongepowered.api.data.key.KeyFactory;
 import org.spongepowered.api.data.value.BaseValue;
+import org.spongepowered.api.data.value.mutable.ListValue;
+import org.spongepowered.api.data.value.mutable.OptionalValue;
 import org.spongepowered.api.data.value.mutable.SetValue;
 import org.spongepowered.api.data.value.mutable.Value;
 
 import com.afterkraft.kraftrpg.api.effect.Effect;
 import com.afterkraft.kraftrpg.api.entity.party.Party;
+import com.afterkraft.kraftrpg.api.role.Role;
 
 @SuppressWarnings("unchecked")
 public final class RpgKeys {
@@ -47,6 +52,9 @@ public final class RpgKeys {
     public static final Key<Value<Double>> DAMAGE_MODIFIER;
     public static final Key<Value<Integer>> MANA;
     public static final Key<Value<Integer>> MAX_MANA;
+    public static final Key<Value<Role>> PRIMARY_ROLE;
+    public static final Key<Value<Role>> SECONDARY_ROLE;
+    public static final Key<ListValue<Role>> ADDITIONAL_ROLES;
 
     static {
         RPG_EFFECTS = KeyFactory.makeSetKey(Effect.class, of("Kraf<tRPG", "Effects"));
@@ -55,6 +63,9 @@ public final class RpgKeys {
         MANA = KeyFactory.makeSingleKey(Integer.class, Value.class, of("Mana"));
         MAX_MANA = KeyFactory.makeSingleKey(Integer.class, Value.class, of("MaxMana"));
         PARTY = KeyFactory.makeSingleKey(Party.class, Value.class, of("Party"));
+        PRIMARY_ROLE = KeyFactory.makeSingleKey(Role.class, Value.class, of("PrimaryRole"));
+        SECONDARY_ROLE = KeyFactory.makeSingleKey(Role.class, Value.class, of("SecondaryRole"));
+        ADDITIONAL_ROLES = KeyFactory.makeListKey(Role.class, of("AdditionalRoles"));
     }
 
 }

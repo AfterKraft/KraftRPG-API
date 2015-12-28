@@ -23,12 +23,11 @@
  */
 package com.afterkraft.kraftrpg.api.effect;
 
+import java.util.Optional;
 import java.util.Set;
 
 import org.spongepowered.api.data.DataSerializable;
 import org.spongepowered.api.text.Text;
-
-import com.google.common.base.Optional;
 
 import com.afterkraft.kraftrpg.api.effect.operation.ApplyEffectOperation;
 import com.afterkraft.kraftrpg.api.entity.Insentient;

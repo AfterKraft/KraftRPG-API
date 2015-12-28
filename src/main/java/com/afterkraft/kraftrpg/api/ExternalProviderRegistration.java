@@ -41,7 +41,7 @@ import com.afterkraft.kraftrpg.api.entity.party.PartyManager;
 import com.afterkraft.kraftrpg.api.skill.Skill;
 import com.afterkraft.kraftrpg.api.storage.StorageBackend;
 import com.afterkraft.kraftrpg.api.storage.StorageFrontendFactory;
-import com.afterkraft.kraftrpg.common.skill.AbstractSkill;
+import com.afterkraft.kraftrpg.common.skill.SkillUtils;
 
 /**
  * On load registration for various external providers of various services to further customize the
@@ -116,7 +116,7 @@ public final class ExternalProviderRegistration {
      */
     public static boolean registerSkill(Skill skill) throws LateRegistrationException {
         check();
-        String name = AbstractSkill.getNormalizedName(skill.getName());
+        String name = SkillUtils.getNormalizedName(skill.getName());
         if (!providedSkillNames.add(name)) {
             new IllegalArgumentException("Duplicate skill registration with name "
                                                  + name).printStackTrace();
@@ -140,13 +140,13 @@ public final class ExternalProviderRegistration {
     public static boolean overrideSkill(Skill skill) throws LateRegistrationException {
         check();
 
-        String name = AbstractSkill.getNormalizedName(skill.getName());
+        String name = SkillUtils.getNormalizedName(skill.getName());
         if (providedSkillNames.contains(name)) {
             // Remove previous definitions
             ListIterator<Skill> iter = providedSkills.listIterator();
             while (iter.hasNext()) {
                 Skill sk = iter.next();
-                if (AbstractSkill.getNormalizedName(sk.getName()).equals(name)) {
+                if (SkillUtils.getNormalizedName(sk.getName()).equals(name)) {
                     iter.remove();
                 }
             }

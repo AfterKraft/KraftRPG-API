@@ -25,19 +25,17 @@ package com.afterkraft.kraftrpg.api.role;
 
 import javax.annotation.Nullable;
 import java.util.List;
-
-import com.google.common.base.Optional;
+import java.util.Optional;
 
 import com.afterkraft.kraftrpg.api.CircularDependencyException;
 import com.afterkraft.kraftrpg.api.role.Role.RoleType;
-import com.afterkraft.kraftrpg.api.service.Service;
 import com.afterkraft.kraftrpg.api.util.FixedPoint;
 
 /**
  * Manages all interactions with roles and entities. Roles can be assigned, created, and swapped
  * with this manager.
  */
-public interface RoleManager extends Service {
+public interface RoleManager {
 
     /**
      * Gets the current default primary role assigned to champions upon initial creation.

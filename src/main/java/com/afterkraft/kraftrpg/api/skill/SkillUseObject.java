@@ -25,8 +25,8 @@ package com.afterkraft.kraftrpg.api.skill;
 
 import java.lang.ref.WeakReference;
 import java.util.List;
+import java.util.Optional;
 
-import com.google.common.base.Optional;
 
 import com.afterkraft.kraftrpg.api.entity.SkillCaster;
 
@@ -49,14 +49,14 @@ public final class SkillUseObject {
     }
 
     public Optional<SkillCaster> getCaster() {
-        return Optional.fromNullable(this.entity.get());
+        return Optional.ofNullable(this.entity.get());
     }
 
     public Optional<Skill> getSkill() {
-        return Optional.fromNullable(this.skill.get());
+        return Optional.ofNullable(this.skill.get());
     }
 
     public Optional<List<SkillArgument<?>>> getArgument() {
-        return Optional.fromNullable(this.argument.get());
+        return Optional.ofNullable(this.argument.get());
     }
 }

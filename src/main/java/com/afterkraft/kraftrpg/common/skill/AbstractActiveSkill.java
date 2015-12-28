@@ -25,13 +25,13 @@ package com.afterkraft.kraftrpg.common.skill;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkState;
 
 import org.spongepowered.api.text.Text;
 
-import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableList;
 
 import com.afterkraft.kraftrpg.api.RpgPlugin;
@@ -69,7 +69,7 @@ public abstract class AbstractActiveSkill extends AbstractSkill implements Activ
     @Override
     public final <T extends SkillArgument<?>> Optional<T> getArgument(int index) {
         checkArgument(index >= 0 && index < this.skillArguments.length);
-        return Optional.fromNullable((T) this.skillArguments[index]);
+        return Optional.ofNullable((T) this.skillArguments[index]);
     }
 
     @Override
@@ -160,7 +160,7 @@ public abstract class AbstractActiveSkill extends AbstractSkill implements Activ
     @Override
     public SkillCastResult checkCustomRestrictions(SkillCaster caster,
                                                    boolean forced) {
-        return SkillCastResult.NORMAL;
+        return SkillCastResult.SUCCESS;
     }
 
     @Override
