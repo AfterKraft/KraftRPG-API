@@ -31,6 +31,7 @@ import org.spongepowered.api.text.Texts;
 
 import com.afterkraft.kraftrpg.api.RpgPlugin;
 import com.afterkraft.kraftrpg.api.entity.SkillCaster;
+import com.afterkraft.kraftrpg.api.skill.SkillCastContext;
 import com.afterkraft.kraftrpg.api.skill.SkillCastResult;
 import com.afterkraft.kraftrpg.api.skill.SkillSetting;
 import com.afterkraft.kraftrpg.common.skill.AbstractActiveSkill;
@@ -57,7 +58,7 @@ public class SkillFireball extends AbstractActiveSkill {
     }
 
     @Override
-    public SkillCastResult useSkill(SkillCaster caster) {
+    public SkillCastResult useSkill(SkillCaster caster, SkillCastContext context) {
         Fireball fireball = (Fireball) caster.getWorld().createEntity(EntityTypes.SNOWBALL,
             caster.getLocation().getPosition()).get();
         fireball.offer(Keys.FIRE_TICKS, 1000);

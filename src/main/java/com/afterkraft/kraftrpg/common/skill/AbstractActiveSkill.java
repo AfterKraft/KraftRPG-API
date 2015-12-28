@@ -30,6 +30,7 @@ import java.util.Optional;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkState;
 
+import org.spongepowered.api.command.args.ChildCommandElementExecutor;
 import org.spongepowered.api.text.Text;
 
 import com.google.common.collect.ImmutableList;
@@ -47,9 +48,11 @@ public abstract class AbstractActiveSkill extends AbstractSkill implements Activ
     SkillArgument<?>[] skillArguments = new SkillArgument<?>[]{};
     private String usage = "";
     private SkillCaster parsedCaster;
+    private final ChildCommandElementExecutor childCommandElementExecutor;
 
     protected AbstractActiveSkill(RpgPlugin plugin, String name, Text description) {
         super(plugin, name, description);
+        this.childCommandElementExecutor = new ChildCommandElementExecutor(null);
     }
 
     @Override
@@ -70,11 +73,6 @@ public abstract class AbstractActiveSkill extends AbstractSkill implements Activ
     public final <T extends SkillArgument<?>> Optional<T> getArgument(int index) {
         checkArgument(index >= 0 && index < this.skillArguments.length);
         return Optional.ofNullable((T) this.skillArguments[index]);
-    }
-
-    @Override
-    public final SkillArgument<?>[] getSkillArguments() {
-        return this.skillArguments;
     }
 
     /**

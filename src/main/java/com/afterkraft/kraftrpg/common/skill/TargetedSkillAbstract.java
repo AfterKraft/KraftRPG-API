@@ -27,7 +27,12 @@ import java.util.Optional;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import org.spongepowered.api.command.CommandCallable;
+import org.spongepowered.api.command.CommandResult;
+import org.spongepowered.api.command.args.GenericArguments;
+import org.spongepowered.api.command.spec.CommandSpec;
 import org.spongepowered.api.entity.Entity;
+import org.spongepowered.api.entity.EntityType;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.Texts;
 import org.spongepowered.api.text.format.TextColors;
@@ -39,8 +44,9 @@ import com.afterkraft.kraftrpg.api.entity.Being;
 import com.afterkraft.kraftrpg.api.entity.Champion;
 import com.afterkraft.kraftrpg.api.entity.Insentient;
 import com.afterkraft.kraftrpg.api.entity.SkillCaster;
+import com.afterkraft.kraftrpg.api.skill.Active;
+import com.afterkraft.kraftrpg.api.skill.SkillCastContext;
 import com.afterkraft.kraftrpg.common.data.manipulator.mutable.PartyData;
-import com.afterkraft.kraftrpg.api.skill.SkillArgument;
 import com.afterkraft.kraftrpg.api.skill.SkillCastResult;
 import com.afterkraft.kraftrpg.api.skill.SkillSetting;
 import com.afterkraft.kraftrpg.api.skill.SkillType;
@@ -51,7 +57,7 @@ import com.afterkraft.kraftrpg.common.skill.argument.EntitySkillArgument;
 /**
  * The default implementation of a {@link Targeted} skill. This implementation handles automatic
  * creation of the required first argument being an {@link EntitySkillArgument} with a default
- * targeting distance of 10. It should be noted that {@link #useSkill(SkillCaster)} is final because
+ * targeting distance of 10. It should be noted that {@link Active#useSkill(SkillCaster, SkillCastContext)} is final because
  * of initial target handling checks, if the target is an {@link Insentient} being and if that being
  * has {@link EffectType}s that prevent it from being damaged, the {@link #useSkill(SkillCaster,
  * Being, org.spongepowered.api.entity.Entity)} is not used.  Only experienced developers wishing to
@@ -89,13 +95,62 @@ public abstract class TargetedSkillAbstract<E extends Entity>
                                     Class<E> entityClass, int maxDistance) {
         super(plugin, name, description);
         checkNotNull(entityClass);
-        this.skillArguments = new SkillArgument<?>[]
-                {new EntitySkillArgument<>(maxDistance, entityClass)};
         setDefault(SkillSetting.MAX_DISTANCE, maxDistance);
     }
 
     @Override
-    public final SkillCastResult useSkill(final SkillCaster caster) {
+    public final CommandCallable getSkillCommand() {
+        return CommandSpec.builder()
+
+                // NOTE TO SELF!!!!
+                /*
+                Ok, so CommandElement can be extended, right? YEah! so, here's the idea:
+                The skill has to provide the CommandElements as necessary in an array, but the
+                first must be a specialized EntityRayTraceCommandElement of sorts, so we can
+                easily meld the EntitySkillArgument into doing exactly that. If it succeeds, then
+                we are successful and can pass into the use skill. However, we do need to retain
+                the refrence, so the useSkill might need some extra info.
+
+                Sadly, this will make skill handling outside of command based systems to work
+                "interestingly" due to the uniqueness of commands, because a) skills should be
+                settable in terms of how they are casted (think runes in Diablo 3) such that
+                there's active "settings" or "toggles" on an item to do certain things. What
+                this also means is that we'd essentially be re-inventing the wheel if we didn't
+                just pass those arguments in as command arguments (i.e. call the command as
+                iff the player is actually using the command, set up al the objects needed etc.).
+
+                This also means that I need to write some sort of SkillCastContext object that
+                contains the array of types as if it's a Cause. To be honest, the
+                SkillCastContext is a perfect data structure for handling the various
+                "information" of what is being parsed and what is being passed into the skill. I
+                do believe this will make things 1000x easier for the skill developer to use,
+                since nothing is relied on existing in the Skill/CommandContext/etc.
+
+                For now, go to sleep, because this was a good idea.
+
+                 */
+                .arguments(GenericArguments.catalogedElement(Texts.of("entityType"), EntityType
+                        .class))
+                .description(Texts.of("Targets a specific entity type"))
+                .permission("kraftrpg.skill." + this.getName().toLowerCase())
+                .executor((src, args) -> {
+                    if (!(src instanceof Entity)) {
+                        return CommandResult.empty();
+                    }
+                    Optional<? extends Being> caster = RpgCommon.getEntityManager().getEntity(
+                            ((Entity) src));
+                    if (!caster.isPresent() || !(caster.get() instanceof SkillCaster)) {
+                        return CommandResult.empty();
+                    }
+                    SkillCaster caster1 = ((SkillCaster) caster.get());
+
+                    return CommandResult.success();
+                })
+                .build();
+    }
+
+    @Override
+    public final SkillCastResult useSkill(final SkillCaster caster, SkillCastContext context) {
         checkNotNull(caster);
         Optional<EffectData> effect = caster.get(EffectData.class);
         if (effect.get().hasEffectType(EffectType.BLIND)) {
@@ -105,8 +160,7 @@ public abstract class TargetedSkillAbstract<E extends Entity>
             }
             return SkillCastResult.INVALID_TARGET;
         }
-        Optional<E> targetOption =
-                this.<EntitySkillArgument<E>>getArgument(0).get().getValue();
+        Optional<E> targetOption = context.get("TargetedEntity");
         if (!targetOption.isPresent()) {
             return SkillCastResult.INVALID_TARGET_NO_MESSAGE;
         }

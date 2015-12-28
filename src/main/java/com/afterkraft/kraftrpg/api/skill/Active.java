@@ -26,6 +26,7 @@ package com.afterkraft.kraftrpg.api.skill;
 import java.util.List;
 import java.util.Optional;
 
+import org.spongepowered.api.command.CommandCallable;
 import org.spongepowered.api.text.Text;
 
 
@@ -42,7 +43,7 @@ import com.afterkraft.kraftrpg.common.skill.AbstractActiveSkill;
  * boolean)}</li> <li>{@link #parse(SkillCaster, String[])}</li> <li>{@link
  * #checkCustomRestrictions(SkillCaster, boolean)}</li> <li>If checkCustomRestrictions() returns
  * ON_WARMUP, then {@link #onWarmUp(SkillCaster)}. If it returns SUCCESS, then {@link
- * #useSkill(SkillCaster)}.</li> <li>And finally, even if any throw an exception, {@link
+ * #useSkill(SkillCaster, SkillCastContext)}.</li> <li>And finally, even if any throw an exception, {@link
  * #cleanState(SkillCaster)}.</li> </ol>
  */
 public interface Active extends Skill {
@@ -60,7 +61,7 @@ public interface Active extends Skill {
      * as it knows what types its arguments are in advance, and they do not move.
      *
      * @param <T>   The type of SkillArgument being requested.
-     * @param index - index into the getSkillArguments() array
+     * @param index - index into the getChildCommandExecutor() array
      *
      * @return a casted SkillArgument
      */
@@ -71,7 +72,7 @@ public interface Active extends Skill {
      *
      * @return array of SkillArguments
      */
-    SkillArgument<?>[] getSkillArguments();
+    CommandCallable getSkillCommand();
 
     /**
      * Any necessary warmup process for an Active Skill should be done here. This is called after
@@ -84,7 +85,7 @@ public interface Active extends Skill {
     /**
      * Try to parse the given arguments into an internally stored state for use with other calls. If
      * this is successful, another method such as {@link #onWarmUp(SkillCaster)} or {@link
-     * #useSkill(SkillCaster)} may be called, but {@link #cleanState(SkillCaster)} will
+     * #useSkill(SkillCaster, SkillCastContext)} may be called, but {@link #cleanState(SkillCaster)} will
      * <b>always</b> be called before another parse() call.
      *
      * @param caster user of the skill
@@ -119,10 +120,10 @@ public interface Active extends Skill {
      * Apply this skill using the previously parse()ed state.
      *
      * @param caster caster of the skill
-     *
+     * @param context The context of the skill cast
      * @return final SkillCastResults
      */
-    SkillCastResult useSkill(SkillCaster caster);
+    SkillCastResult useSkill(SkillCaster caster, SkillCastContext context);
 
     /**
      * Clean any parsed state. In particular, any generated objects should be available for garbage
