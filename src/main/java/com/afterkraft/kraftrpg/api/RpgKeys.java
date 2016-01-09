@@ -31,6 +31,7 @@ import org.spongepowered.api.data.key.Key;
 import org.spongepowered.api.data.key.KeyFactory;
 import org.spongepowered.api.data.value.BaseValue;
 import org.spongepowered.api.data.value.mutable.ListValue;
+import org.spongepowered.api.data.value.mutable.MutableBoundedValue;
 import org.spongepowered.api.data.value.mutable.OptionalValue;
 import org.spongepowered.api.data.value.mutable.SetValue;
 import org.spongepowered.api.data.value.mutable.Value;
@@ -43,10 +44,7 @@ import com.afterkraft.kraftrpg.api.role.Role;
 public final class RpgKeys {
 
     public static final Key<Value<Party>> PARTY;
-
-    private RpgKeys() {
-    }
-
+    public static final Key<MutableBoundedValue<Long>> SUMMON_DURATION;
     public static final Key<SetValue<Effect>> RPG_EFFECTS;
     public static final Key<Value<Double>> BASE_DAMAGE;
     public static final Key<Value<Double>> DAMAGE_MODIFIER;
@@ -55,6 +53,10 @@ public final class RpgKeys {
     public static final Key<Value<Role>> PRIMARY_ROLE;
     public static final Key<Value<Role>> SECONDARY_ROLE;
     public static final Key<ListValue<Role>> ADDITIONAL_ROLES;
+
+
+    private RpgKeys() {
+    }
 
     static {
         RPG_EFFECTS = KeyFactory.makeSetKey(Effect.class, of("Kraf<tRPG", "Effects"));
@@ -66,6 +68,7 @@ public final class RpgKeys {
         PRIMARY_ROLE = KeyFactory.makeSingleKey(Role.class, Value.class, of("PrimaryRole"));
         SECONDARY_ROLE = KeyFactory.makeSingleKey(Role.class, Value.class, of("SecondaryRole"));
         ADDITIONAL_ROLES = KeyFactory.makeListKey(Role.class, of("AdditionalRoles"));
+        SUMMON_DURATION = KeyFactory.makeSingleKey(Long.class, MutableBoundedValue.class, of("SummonDuration"));
     }
 
 }

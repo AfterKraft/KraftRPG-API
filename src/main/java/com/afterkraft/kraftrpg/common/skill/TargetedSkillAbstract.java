@@ -99,57 +99,6 @@ public abstract class TargetedSkillAbstract<E extends Entity>
     }
 
     @Override
-    public final CommandCallable getSkillCommand() {
-        return CommandSpec.builder()
-
-                // NOTE TO SELF!!!!
-                /*
-                Ok, so CommandElement can be extended, right? YEah! so, here's the idea:
-                The skill has to provide the CommandElements as necessary in an array, but the
-                first must be a specialized EntityRayTraceCommandElement of sorts, so we can
-                easily meld the EntitySkillArgument into doing exactly that. If it succeeds, then
-                we are successful and can pass into the use skill. However, we do need to retain
-                the refrence, so the useSkill might need some extra info.
-
-                Sadly, this will make skill handling outside of command based systems to work
-                "interestingly" due to the uniqueness of commands, because a) skills should be
-                settable in terms of how they are casted (think runes in Diablo 3) such that
-                there's active "settings" or "toggles" on an item to do certain things. What
-                this also means is that we'd essentially be re-inventing the wheel if we didn't
-                just pass those arguments in as command arguments (i.e. call the command as
-                iff the player is actually using the command, set up al the objects needed etc.).
-
-                This also means that I need to write some sort of SkillCastContext object that
-                contains the array of types as if it's a Cause. To be honest, the
-                SkillCastContext is a perfect data structure for handling the various
-                "information" of what is being parsed and what is being passed into the skill. I
-                do believe this will make things 1000x easier for the skill developer to use,
-                since nothing is relied on existing in the Skill/CommandContext/etc.
-
-                For now, go to sleep, because this was a good idea.
-
-                 */
-                .arguments(GenericArguments.catalogedElement(Texts.of("entityType"), EntityType
-                        .class))
-                .description(Texts.of("Targets a specific entity type"))
-                .permission("kraftrpg.skill." + this.getName().toLowerCase())
-                .executor((src, args) -> {
-                    if (!(src instanceof Entity)) {
-                        return CommandResult.empty();
-                    }
-                    Optional<? extends Being> caster = RpgCommon.getEntityManager().getEntity(
-                            ((Entity) src));
-                    if (!caster.isPresent() || !(caster.get() instanceof SkillCaster)) {
-                        return CommandResult.empty();
-                    }
-                    SkillCaster caster1 = ((SkillCaster) caster.get());
-
-                    return CommandResult.success();
-                })
-                .build();
-    }
-
-    @Override
     public final SkillCastResult useSkill(final SkillCaster caster, SkillCastContext context) {
         checkNotNull(caster);
         Optional<EffectData> effect = caster.get(EffectData.class);

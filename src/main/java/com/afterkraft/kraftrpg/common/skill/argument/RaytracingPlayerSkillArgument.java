@@ -28,6 +28,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
 
+import org.spongepowered.api.command.args.CommandElement;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.Texts;
@@ -42,7 +43,7 @@ import com.afterkraft.kraftrpg.api.util.Utilities;
  * A SkillArgument that performs raytracing calculations in search for a Player and checks the
  * provided Player name is both visible and valid.
  */
-public class RaytracingPlayerSkillArgument extends EntitySkillArgument<Player> {
+public class RaytracingPlayerSkillArgument extends CommandElement {
 
     public RaytracingPlayerSkillArgument(double maxDistance,
                                          Predicate<Player> condition) {

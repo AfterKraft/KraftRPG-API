@@ -23,27 +23,50 @@
  */
 package com.afterkraft.kraftrpg.api.entity.component;
 
-import com.afterkraft.kraftrpg.api.entity.SkillCaster;
+import java.util.Optional;
 
-public interface SummonableComponent extends Component<SummonableComponent> {
+import org.spongepowered.api.data.DataContainer;
+import org.spongepowered.api.data.DataHolder;
+import org.spongepowered.api.data.manipulator.mutable.common.AbstractBoundedComparableData;
+import org.spongepowered.api.data.merge.MergeFunction;
+import org.spongepowered.api.data.value.mutable.MutableBoundedValue;
+
+import com.afterkraft.kraftrpg.api.RpgKeys;
+
+public class SummonData extends AbstractBoundedComparableData<Long, SummonData,
+        ImmutableSummonData> {
+
+    public SummonData(Long value, Long lowerBound, Long upperBound,
+                      Long defaultValue) {
+        super(value, RpgKeys.SUMMON_DURATION, Long::compare, lowerBound, upperBound, defaultValue);
+    }
 
     /**
      * Gets the time in milliseconds this summon has remaining to live in the world.
      *
      * @return The time left remaining in the world
      */
-    long getTimeLeftAlive();
+    public MutableBoundedValue<Long> getTimeLeftAlive() {
+        return null;
+    }
 
-    /**
-     * Gets the linked summoner that summoned this summon.
-     *
-     * @return The skillcaster that summoned this summon
-     */
-    SkillCaster getSummoner();
+    @Override
+    public Optional<SummonData> fill(DataHolder dataHolder, MergeFunction overlap) {
+        return null;
+    }
 
-    /**
-     * Removes the summon from the world. This is a utility method primarily to reset the summon and
-     * unlink it from any physical contact.
-     */
-    void remove();
+    @Override
+    public Optional<SummonData> from(DataContainer container) {
+        return null;
+    }
+
+    @Override
+    public SummonData copy() {
+        return null;
+    }
+
+    @Override
+    public ImmutableSummonData asImmutable() {
+        return null;
+    }
 }

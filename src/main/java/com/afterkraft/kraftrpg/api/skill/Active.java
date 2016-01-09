@@ -27,6 +27,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.spongepowered.api.command.CommandCallable;
+import org.spongepowered.api.command.args.CommandElement;
 import org.spongepowered.api.text.Text;
 
 
@@ -72,7 +73,7 @@ public interface Active extends Skill {
      *
      * @return array of SkillArguments
      */
-    CommandCallable getSkillCommand();
+    CommandElement[] getCommandElements();
 
     /**
      * Any necessary warmup process for an Active Skill should be done here. This is called after
