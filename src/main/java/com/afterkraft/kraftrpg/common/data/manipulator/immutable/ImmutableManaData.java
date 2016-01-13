@@ -27,7 +27,6 @@ import java.util.Optional;
 
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.data.DataContainer;
-import org.spongepowered.api.data.MemoryDataContainer;
 import org.spongepowered.api.data.key.Key;
 import org.spongepowered.api.data.manipulator.immutable.common.AbstractImmutableData;
 import org.spongepowered.api.data.value.BaseValue;
@@ -114,8 +113,13 @@ public final class ImmutableManaData extends AbstractImmutableData<ImmutableMana
     }
 
     @Override
+    public int getContentVersion() {
+        return 1;
+    }
+
+    @Override
     public DataContainer toContainer() {
-        return new MemoryDataContainer()
+        return super.toContainer()
                 .set(RpgKeys.MAX_MANA, this.maxMana)
                 .set(RpgKeys.MANA, this.mana);
     }
