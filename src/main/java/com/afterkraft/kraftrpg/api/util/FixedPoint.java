@@ -23,10 +23,17 @@
  */
 package com.afterkraft.kraftrpg.api.util;
 
+import org.spongepowered.api.data.DataContainer;
+import org.spongepowered.api.data.DataSerializable;
+import org.spongepowered.api.data.MemoryDataContainer;
+import org.spongepowered.api.data.Queries;
+
+import com.afterkraft.kraftrpg.api.RpgQueries;
+
 /**
  * Represents a fixed point value for Champion experience.
  */
-public final class FixedPoint extends Number implements Cloneable {
+public final class FixedPoint extends Number implements Cloneable, DataSerializable {
     private static final long serialVersionUID = -6313518365999400363L;
 
     private static final int FRAC_SIZE = 16;
@@ -39,7 +46,9 @@ public final class FixedPoint extends Number implements Cloneable {
     public static final double ulp = twoPowNegSize;
     private final long val;
 
-    public FixedPoint() {
+    public static final FixedPoint ZERO = new FixedPoint();
+
+    private FixedPoint() {
         this(0);
     }
 
@@ -281,5 +290,17 @@ public final class FixedPoint extends Number implements Cloneable {
 
     public long rawValue() {
         return this.val;
+    }
+
+    @Override
+    public int getContentVersion() {
+        return 1;
+    }
+
+    @Override
+    public DataContainer toContainer() {
+        return new MemoryDataContainer()
+                .set(Queries.CONTENT_VERSION, getContentVersion())
+                .set(RpgQueries.FIXED_POINT_RAW, this.val);
     }
 }

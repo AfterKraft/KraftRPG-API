@@ -46,7 +46,7 @@ public interface Champion extends SkillCaster {
     Optional<Player> getPlayer();
 
     @Override
-    Optional<? extends Player> getEntity();
+    Optional<Player> getEntity();
 
     /**
      * Create a snapshot of the current PlayerData. The returned object is thread-safe.
@@ -61,7 +61,11 @@ public interface Champion extends SkillCaster {
      *
      * @param message to be sent
      */
-    void sendMessage(Text message);
+    default void sendMessage(Text message) {
+        getPlayer()
+                .orElseThrow(() -> new IllegalStateException("Champion is not linked to a player!"))
+                .sendMessage(message);
+    }
 
     /**
      * Check if this insentient is ignoring messages from the specified {@link Skill}

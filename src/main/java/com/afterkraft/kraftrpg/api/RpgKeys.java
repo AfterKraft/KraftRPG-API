@@ -39,6 +39,7 @@ import org.spongepowered.api.data.value.mutable.Value;
 import com.afterkraft.kraftrpg.api.effect.Effect;
 import com.afterkraft.kraftrpg.api.entity.party.Party;
 import com.afterkraft.kraftrpg.api.role.Role;
+import com.afterkraft.kraftrpg.api.util.FixedPoint;
 
 @SuppressWarnings("unchecked")
 public final class RpgKeys {
@@ -53,6 +54,7 @@ public final class RpgKeys {
     public static final Key<Value<Role>> PRIMARY_ROLE;
     public static final Key<Value<Role>> SECONDARY_ROLE;
     public static final Key<ListValue<Role>> ADDITIONAL_ROLES;
+    public static final Key<Value<FixedPoint>> REWARDING_EXPERIENCE;
 
 
     private RpgKeys() {
@@ -69,6 +71,8 @@ public final class RpgKeys {
         SECONDARY_ROLE = KeyFactory.makeSingleKey(Role.class, Value.class, of("SecondaryRole"));
         ADDITIONAL_ROLES = KeyFactory.makeListKey(Role.class, of("AdditionalRoles"));
         SUMMON_DURATION = KeyFactory.makeSingleKey(Long.class, MutableBoundedValue.class, of("SummonDuration"));
+        REWARDING_EXPERIENCE = KeyFactory.makeSingleKey(FixedPoint.class, Value.class, of
+                ("RewardingExperience"));
     }
 
 }

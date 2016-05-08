@@ -26,6 +26,7 @@ package com.afterkraft.kraftrpg.api.event.damage;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 
+import org.spongepowered.api.Sponge;
 import org.spongepowered.api.event.cause.entity.damage.source.common.AbstractDamageSource;
 import org.spongepowered.api.event.cause.entity.damage.source.common.AbstractDamageSourceBuilder;
 
@@ -42,7 +43,7 @@ public class SkillDamageSource extends AbstractDamageSource {
     }
 
 
-    public SkillDamageSource(AbstractSkillDamageSource<?, ?> builder) {
+    public SkillDamageSource(AbstractSkillDamageSourceBuilder<?, ?> builder) {
         super(builder);
         this.skill = builder.skill;
     }
@@ -66,7 +67,8 @@ public class SkillDamageSource extends AbstractDamageSource {
     }
 
 
-    public static final class Builder extends AbstractSkillDamageSource<SkillDamageSource, Builder> {
+    public static final class Builder extends
+            AbstractSkillDamageSourceBuilder<SkillDamageSource, Builder> {
 
         @Override
         public SkillDamageSource build() throws IllegalStateException {
@@ -76,8 +78,8 @@ public class SkillDamageSource extends AbstractDamageSource {
         }
     }
 
-    public static abstract class AbstractSkillDamageSource<T extends SkillDamageSource, B extends
-            AbstractSkillDamageSource<T, B>> extends AbstractDamageSourceBuilder<T, B> {
+    public static abstract class AbstractSkillDamageSourceBuilder<T extends SkillDamageSource, B extends
+            AbstractSkillDamageSourceBuilder<T, B>> extends AbstractDamageSourceBuilder<T, B> {
 
         protected Skill skill;
 
@@ -86,5 +88,9 @@ public class SkillDamageSource extends AbstractDamageSource {
             return (B) this;
         }
 
+    }
+
+    static {
+        Sponge.getRegistry().registerBuilderSupplier(Builder.class, Builder::new);
     }
 }

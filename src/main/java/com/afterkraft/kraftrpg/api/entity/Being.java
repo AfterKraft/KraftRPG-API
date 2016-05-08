@@ -124,7 +124,7 @@ public interface Being extends DataHolder {
      * @param predicate The predicate
      * @return The collection of nearby beings
      */
-    Collection<Being> getNearbyBeings(Vector3d distanceVector, Predicate<Being> predicate);
+    Collection<Being> getNearbyBeings(Vector3d distanceVector, Predicate<? extends Being> predicate);
 
     /**
      * Shortcut method for getting the entity and then the world.

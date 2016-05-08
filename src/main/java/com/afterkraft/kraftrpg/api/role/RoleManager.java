@@ -69,9 +69,7 @@ public interface RoleManager {
      *
      * @param role The secondary role, can be null
      */
-    void setDefaultSecondaryRole(
-            @Nullable
-            Role role);
+    void setDefaultSecondaryRole(@Nullable Role role);
 
     /**
      * Gets the role by name.

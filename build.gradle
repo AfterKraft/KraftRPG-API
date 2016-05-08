@@ -46,8 +46,7 @@ repositories {
 }
 
 dependencies {
-    compile 'com.google.guava:guava:17.0'
-    compile 'org.spongepowered:spongeapi:4.0.0-SNAPSHOT'
+    compile 'org.spongepowered:spongeapi:4.1.0-SNAPSHOT'
     testCompile 'junit:junit:4.11'
     testCompile 'org.powermock:powermock-module-junit4:1.5.2'
     testCompile 'org.powermock:powermock-api-mockito:1.5.2'
@@ -70,11 +69,11 @@ task sourceJar(type: Jar) {
 }
 
 ext {
-    projectName = 'RpgCommon-API'
+    projectName = 'KraftRPG-API'
     inceptionYear = '2014'
     packaging = 'jar'
     url = 'http://afterkraft.com/'
-    description = "Common API for RpgCommon."
+    description = "API for the KraftRPG plugin."
     organization = 'AfterKraft KraftDev Team'
     pomFile = file("${project.projectDir}/pom.xml")
     buildNumber = project.hasProperty("buildNumber") ? buildNumber : '0'
@@ -94,10 +93,11 @@ artifacts {
 
 idea {
     project {
-        jdkName = '1.7'
-        languageLevel = '1.7'
+        jdkName = '1.8'
+        languageLevel = '1.8'
     }
 }
+
 def sonatypeUser = hasProperty('afterkraftUser') ? sonatypeUser : System.getenv('afterkraftUser')
 def sonatypePassword = hasProperty('afterkraftPassword') ? sonatypePassword : System.getenv('afterkraftPassword')
 // Vault

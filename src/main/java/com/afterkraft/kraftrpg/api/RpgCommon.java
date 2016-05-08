@@ -30,7 +30,7 @@ import org.spongepowered.api.Server;
 import org.spongepowered.api.Sponge;
 
 import com.afterkraft.kraftrpg.api.entity.EntityManager;
-import com.afterkraft.kraftrpg.api.entity.party.PartyManager;
+import com.afterkraft.kraftrpg.api.entity.party.PartyService;
 import com.afterkraft.kraftrpg.api.role.RoleManager;
 import com.afterkraft.kraftrpg.api.skill.SkillConfigManager;
 import com.afterkraft.kraftrpg.api.skill.SkillManager;
@@ -50,7 +50,7 @@ public final class RpgCommon {
     private DamageManager damageManager;
     private SkillManager skillManager;
     private RoleManager roleManager;
-    private PartyManager partyManager;
+    private PartyService partyService;
     private RpgPlugin plugin;
     private Logger logger;
 
@@ -120,12 +120,12 @@ public final class RpgCommon {
     }
 
     /**
-     * Gets the currently used {@link PartyManager}.
+     * Gets the currently used {@link PartyService}.
      *
      * @return The currently used party manager
      */
-    public static PartyManager getPartyManager() {
-        return Holder.INSTANCE.partyManager;
+    public static PartyService getPartyManager() {
+        return Holder.INSTANCE.partyService;
     }
 
     public static Server getServer() {

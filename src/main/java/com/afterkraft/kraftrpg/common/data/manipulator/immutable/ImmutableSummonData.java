@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.afterkraft.kraftrpg.api.entity.component;
+package com.afterkraft.kraftrpg.common.data.manipulator.immutable;
 
 import java.util.Optional;
 
@@ -30,10 +30,9 @@ import org.spongepowered.api.data.key.Key;
 import org.spongepowered.api.data.manipulator.immutable.common.AbstractImmutableBoundedComparableData;
 import org.spongepowered.api.data.value.BaseValue;
 import org.spongepowered.api.data.value.immutable.ImmutableBoundedValue;
-import org.spongepowered.api.data.value.mutable.MutableBoundedValue;
 
 import com.afterkraft.kraftrpg.api.RpgKeys;
-import com.afterkraft.kraftrpg.api.entity.SkillCaster;
+import com.afterkraft.kraftrpg.common.data.manipulator.mutable.SummonData;
 
 public class ImmutableSummonData extends AbstractImmutableBoundedComparableData<Long,
         ImmutableSummonData, SummonData> {

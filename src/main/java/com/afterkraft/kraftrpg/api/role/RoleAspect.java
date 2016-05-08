@@ -23,9 +23,11 @@
  */
 package com.afterkraft.kraftrpg.api.role;
 
+import org.spongepowered.api.data.DataSerializable;
+
 /**
  * Represents an aspect built for a {@link Role}. RoleAspects are encouraged to be immutable once
  * created by a builder, this is to avoid potentially causing problems while the aspect is in use.
  */
-public interface RoleAspect {
+public interface RoleAspect extends DataSerializable {
 }

@@ -31,9 +31,18 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 
+import org.spongepowered.api.text.Text;
+
 import com.google.common.base.Objects;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
+import com.google.common.reflect.TypeToken;
+import ninja.leaping.configurate.ConfigurationNode;
+import ninja.leaping.configurate.objectmapping.ObjectMappingException;
+import ninja.leaping.configurate.objectmapping.Setting;
+import ninja.leaping.configurate.objectmapping.serialize.ConfigSerializable;
+import ninja.leaping.configurate.objectmapping.serialize.TypeSerializer;
+import ninja.leaping.configurate.objectmapping.serialize.TypeSerializers;
 
 import com.afterkraft.kraftrpg.api.RpgCommon;
 import com.afterkraft.kraftrpg.api.RpgPlugin;
@@ -52,6 +61,8 @@ import com.afterkraft.kraftrpg.api.skill.Skill;
  */
 public final class Role {
 
+    private static final TypeSerializer<Role> TYPE_SERIALIZER;
+
     public static final Role DEFAULT_PRIMARY = null;
     public static final Role DEFAULT_SECONDARY = null;
 
@@ -63,7 +74,7 @@ public final class Role {
     private final int advancementLevel;
     private final int maxLevel;
     private final boolean choosable;
-    private final String description;
+    private final Text description;
 
     private Role(Builder builder) {
         this.name = builder.name;
@@ -203,7 +214,7 @@ public final class Role {
      * @return the description of this role
      */
     @SuppressWarnings("unused")
-    public String getDescription() {
+    public Text getDescription() {
         return this.description;
     }
 
@@ -331,7 +342,7 @@ public final class Role {
         int advancementLevel;
         int maxLevel = 1;
         boolean choosable = true;
-        String description;
+        Text description;
 
         Builder() { }
 
@@ -355,9 +366,9 @@ public final class Role {
          *
          * @return This builder for chaining
          */
-        public Builder setDescription(String description) {
+        public Builder setDescription(Text description) {
             checkNotNull(description);
-            checkArgument(!description.isEmpty());
+            checkArgument(!description.isEmpty(), "The description cannot be empty!");
             this.description = description;
             return this;
         }
@@ -535,4 +546,24 @@ public final class Role {
         }
 
     }
+
+    static {
+        TYPE_SERIALIZER = new TypeSerializer<Role>() {
+            @Override
+            public Role deserialize(TypeToken<?> type, ConfigurationNode value) throws
+                    ObjectMappingException {
+                return null; // TODO
+            }
+
+            @Override
+            public void serialize(TypeToken<?> type, Role obj, ConfigurationNode value) throws
+                    ObjectMappingException {
+                // TODO
+
+            }
+        };
+        TypeSerializers.getDefaultSerializers()
+                .registerType(TypeToken.of(Role.class), TYPE_SERIALIZER);
+    }
+
 }

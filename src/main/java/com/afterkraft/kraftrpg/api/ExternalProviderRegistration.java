@@ -37,7 +37,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
-import com.afterkraft.kraftrpg.api.entity.party.PartyManager;
+import com.afterkraft.kraftrpg.api.entity.party.PartyService;
 import com.afterkraft.kraftrpg.api.skill.Skill;
 import com.afterkraft.kraftrpg.api.storage.StorageBackend;
 import com.afterkraft.kraftrpg.api.storage.StorageFrontendFactory;
@@ -56,7 +56,7 @@ public final class ExternalProviderRegistration {
     private static StorageFrontendFactory storageFrontend = null; // todo figure out storage
     private static Set<String> providedSkillNames = Sets.newHashSet();
     private static List<Skill> providedSkills = Lists.newArrayList();
-    private static PartyManager partyManager;
+    private static PartyService partyService;
 
     /**
      * Provide a new storage frontend, or revert from another plugin's override to the default.
@@ -101,9 +101,9 @@ public final class ExternalProviderRegistration {
         return true;
     }
 
-    public static void registerPartyManager(PartyManager manager) {
+    public static void registerPartyManager(PartyService manager) {
         check();
-        partyManager = checkNotNull(manager, "Attempt to register a null PartyManager");
+        partyService = checkNotNull(manager, "Attempt to register a null PartyService");
     }
 
     /**
@@ -191,7 +191,7 @@ public final class ExternalProviderRegistration {
         return storageFrontend;
     }
 
-    public static PartyManager getPartyManager() {
-        return partyManager;
+    public static PartyService getPartyService() {
+        return partyService;
     }
 }

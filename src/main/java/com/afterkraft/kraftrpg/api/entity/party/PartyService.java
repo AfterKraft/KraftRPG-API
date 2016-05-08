@@ -29,7 +29,7 @@ import com.afterkraft.kraftrpg.api.entity.Being;
 /**
  * A basic manager that which manages {@link Party} for various {@link Being}s
  */
-public interface PartyManager extends Manager {
+public interface PartyService extends Manager {
 
     /**
      * Creates a new {@link Party} with the given {@link Being} leader as the leader and
