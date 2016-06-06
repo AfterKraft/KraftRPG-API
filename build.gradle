@@ -111,23 +111,6 @@ ext {
     commit = project.hasProperty("commit") ? commit : 'unknown'
 }
 
-// Compile time code generator for the event factory
-genEventImpl {
-    includeSrc = [
-            'src/main/java/com/afterkraft/kraftrpg/api/event/combat/',
-            'src/main/java/com/afterkraft/kraftrpg/api/event/damage/',
-            'src/main/java/com/afterkraft/kraftrpg/api/event/skill/',
-    ]
-    excludeSrc = []
-    outputDir = 'src/main/java/'
-    outputFactory = 'com.afterkraft.kraftrpg.api.event.KraftRpgEventFactory'
-    eventImplCreateMethod = 'org.spongepowered.api.event.SpongeEventFactoryUtils.createEventImpl'
-    sortPriorityPrefix = 'original'
-    groupingPrefixes = ['from': 'to']
-    validateCode = false
-}
-
-
 configurations {
     pom
 }
@@ -136,13 +119,6 @@ artifacts {
     archives jar
     archives sourceJar
     archives javadocJar
-}
-
-idea {
-    project {
-        jdkName = '1.8'
-        languageLevel = '1.8'
-    }
 }
 
 def sonatypeUser = hasProperty('afterkraftUser') ? sonatypeUser : System.getenv('afterkraftUser')
