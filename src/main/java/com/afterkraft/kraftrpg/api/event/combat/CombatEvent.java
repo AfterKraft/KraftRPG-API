@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2014-2015 Gabriel Harris-Rouquette
+ * Copyright (c) 2014-2016 Gabriel Harris-Rouquette
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,51 +21,29 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.afterkraft.kraftrpg.api.util;
+package com.afterkraft.kraftrpg.api.event.combat;
 
-/**
- * A Connected pair of values. Named here as a key and value.
- *
- * @param <K> the first type
- * @param <V> the second type
- */
-public class Pair<K, V> {
+import org.spongepowered.api.event.Event;
 
-    /**
-     * The first value.
-     */
-    private K key;
-    /**
-     * The second value.
-     */
-    private V value;
+import com.afterkraft.kraftrpg.api.entity.Insentient;
+import com.afterkraft.kraftrpg.api.entity.combat.EnterCombatReason;
+import com.afterkraft.kraftrpg.api.entity.combat.LeaveCombatReason;
 
-    /**
-     * Creates a new part.
-     *
-     * @param k the first value
-     * @param v the second value
-     */
-    public Pair(K k, V v) {
-        this.key = k;
-        this.value = v;
+public interface CombatEvent extends Event {
+
+    Insentient getAttacker();
+
+    Insentient getVictim();
+
+    interface Leave extends CombatEvent {
+
+        LeaveCombatReason getReason();
+
     }
 
-    /**
-     * Returns the first value
-     *
-     * @return the first
-     */
-    public K getKey() {
-        return this.key;
-    }
+    interface Join extends CombatEvent {
 
-    /**
-     * Returns the second value
-     *
-     * @return the second
-     */
-    public V getValue() {
-        return this.value;
+        EnterCombatReason getReason();
+
     }
 }

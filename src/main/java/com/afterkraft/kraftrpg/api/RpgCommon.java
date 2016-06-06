@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2014-2015 Gabriel Harris-Rouquette
+ * Copyright (c) 2014-2016 Gabriel Harris-Rouquette
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -54,7 +54,7 @@ public final class RpgCommon {
     private RpgPlugin plugin;
     private Logger logger;
 
-    private RpgCommon() {}
+    RpgCommon() {}
 
     /**
      * Gets the currently used {@link SkillConfigManager}.
@@ -141,6 +141,6 @@ public final class RpgCommon {
     }
 
     private static final class Holder {
-        private static final RpgCommon INSTANCE = new RpgCommon();
+        static final RpgCommon INSTANCE = new RpgCommon();
     }
 }

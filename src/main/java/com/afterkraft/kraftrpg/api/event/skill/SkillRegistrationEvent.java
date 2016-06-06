@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2014-2015 Gabriel Harris-Rouquette
+ * Copyright (c) 2014-2016 Gabriel Harris-Rouquette
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,30 +23,12 @@
  */
 package com.afterkraft.kraftrpg.api.event.skill;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-
 import org.spongepowered.api.event.Event;
-import org.spongepowered.api.event.cause.Cause;
-import org.spongepowered.api.event.cause.NamedCause;
 
 import com.afterkraft.kraftrpg.api.RpgPlugin;
 
-public class SkillRegistrationEvent implements Event {
+public interface SkillRegistrationEvent extends Event {
 
-    private final RpgPlugin plugin;
-    private final Cause cause;
+    RpgPlugin getPlugin();
 
-    public SkillRegistrationEvent(RpgPlugin plugin) {
-        this.plugin = checkNotNull(plugin);
-        this.cause = Cause.of(NamedCause.source(plugin));
-    }
-
-    public RpgPlugin getPlugin() {
-        return this.plugin;
-    }
-
-    @Override
-    public Cause getCause() {
-        return this.cause;
-    }
 }

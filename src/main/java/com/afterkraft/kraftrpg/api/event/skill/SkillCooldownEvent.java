@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2014-2015 Gabriel Harris-Rouquette
+ * Copyright (c) 2014-2016 Gabriel Harris-Rouquette
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,10 +21,39 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.afterkraft.kraftrpg.api.event.combat;
+package com.afterkraft.kraftrpg.api.event.skill;
 
-import org.spongepowered.api.event.Event;
+import com.afterkraft.kraftrpg.api.entity.SkillCaster;
+import com.afterkraft.kraftrpg.api.skill.Skill;
 
-public interface LeaveCombatEvent extends Event {
+public interface SkillCooldownEvent {
+
+    SkillCaster getCaster();
+
+    Skill getSkill();
+
+    interface Start extends SkillCooldownEvent {
+
+        int getOriginalCooldown();
+
+        int getFinalCooldown();
+
+        void setFinalCooldown(int cooldown);
+
+    }
+
+    interface Tick extends SkillCooldownEvent {
+
+        int getOriginalCooldown();
+
+        int getRemainingCooldown();
+
+        void setRemainingCooldown(int remaining);
+
+    }
+
+    interface End extends SkillCooldownEvent {
+
+    }
 
 }

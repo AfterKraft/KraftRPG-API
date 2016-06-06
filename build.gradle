@@ -4,25 +4,39 @@ buildscript {
         jcenter()
         mavenCentral()
         maven {
+            name = 'gradle-plugins'
+            url = 'https://plugins.gradle.org/m2'
+        }
+        maven {
             url "http://repository.jboss.org/nexus/content/groups/public/"
+        }
+        maven {
+            name = 'sponge'
+            url = 'http://repo.spongepowered.org/maven'
         }
 
     }
     dependencies {
         classpath 'org.hibernate.build.gradle:gradle-maven-publish-auth:2.0.1'
-        classpath 'com.github.jengelman.gradle.plugins:shadow:1.1.1'
+        classpath 'gradle.plugin.net.minecrell:licenser:0.2.1'
+        classpath 'com.github.jengelman.gradle.plugins:shadow:1.2.3'
         classpath 'nl.javadude.gradle.plugins:license-gradle-plugin:0.10.0'
+        classpath 'org.spongepowered:event-impl-gen:2.0.0-SNAPSHOT'
+        classpath 'org.spongepowered:spongegradle:0.5.1'
     }
 }
 
 // Plugins
 apply plugin: 'java'
 apply plugin: 'maven'
-apply plugin: 'license'
 apply plugin: 'checkstyle'
 apply plugin: 'eclipse'
 apply plugin: 'idea'
 apply plugin: 'signing'
+apply plugin: 'org.spongepowered.gradle'
+apply plugin: 'event-impl-gen'
+apply plugin: 'net.minecrell.licenser'
+
 
 defaultTasks 'clean', 'licenseFormat', 'check', 'build'
 
@@ -46,7 +60,7 @@ repositories {
 }
 
 dependencies {
-    compile 'org.spongepowered:spongeapi:4.1.0-SNAPSHOT'
+    compile 'org.spongepowered:spongeapi:4.1.0'
     testCompile 'junit:junit:4.11'
     testCompile 'org.powermock:powermock-module-junit4:1.5.2'
     testCompile 'org.powermock:powermock-api-mockito:1.5.2'
@@ -58,9 +72,25 @@ dependencies {
 task javadocJar(type: Jar, dependsOn: javadoc) {
     classifier 'javadoc'
     from javadoc.destinationDir
-    javadoc.options.links("http://docs.guava-libraries.googlecode.com/git-history/v17.0/javadoc/",
-            "https://jd.spongepowered.org/",
-            "http://docs.oracle.com/javase/8/docs/api/")
+}
+
+javadoc {
+    options.encoding = 'UTF-8'
+    options.charSet = 'UTF-8'
+    options.links(
+            'http://www.slf4j.org/apidocs/',
+            'https://google.github.io/guava/releases/17.0/api/docs/',
+            'https://google.github.io/guice/api-docs/4.0/javadoc/',
+            'https://zml2008.github.io/configurate/configurate-core/apidocs/',
+            'https://zml2008.github.io/configurate/configurate-hocon/apidocs/',
+            'https://flowpowered.com/math/',
+            'https://flowpowered.com/noise/',
+            'http://asm.ow2.org/asm50/javadoc/user/',
+            'https://docs.oracle.com/javase/8/docs/api/'
+    )
+
+    // Disable the crazy super-strict doclint tool in Java 8
+    options.addStringOption('Xdoclint:none', '-quiet')
 }
 // Generates sources.jar
 task sourceJar(type: Jar) {
@@ -80,6 +110,23 @@ ext {
     ciSystem = project.hasProperty("ciSystem") ? ciSystem : 'unknown'
     commit = project.hasProperty("commit") ? commit : 'unknown'
 }
+
+// Compile time code generator for the event factory
+genEventImpl {
+    includeSrc = [
+            'src/main/java/com/afterkraft/kraftrpg/api/event/combat/',
+            'src/main/java/com/afterkraft/kraftrpg/api/event/damage/',
+            'src/main/java/com/afterkraft/kraftrpg/api/event/skill/',
+    ]
+    excludeSrc = []
+    outputDir = 'src/main/java/'
+    outputFactory = 'com.afterkraft.kraftrpg.api.event.KraftRpgEventFactory'
+    eventImplCreateMethod = 'org.spongepowered.api.event.SpongeEventFactoryUtils.createEventImpl'
+    sortPriorityPrefix = 'original'
+    groupingPrefixes = ['from': 'to']
+    validateCode = false
+}
+
 
 configurations {
     pom
@@ -170,10 +217,7 @@ license {
     header file("KRAFTRPG-LICENSE")
     sourceSets = project.sourceSets
     ignoreFailures false
-    strictCheck true
-    mapping {
-        java = 'SLASHSTAR_STYLE'
-    }
+    newLine = false
 }
 
 checkstyle {

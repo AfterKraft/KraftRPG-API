@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2014-2015 Gabriel Harris-Rouquette
+ * Copyright (c) 2014-2016 Gabriel Harris-Rouquette
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -64,7 +64,13 @@ public final class SkillBind implements DataSerializable {
     }
 
     @Override
+    public int getContentVersion() {
+        return 0;
+    }
+
+    @Override
     public DataContainer toContainer() {
+        // TODO update to use proper data queries
         DataContainer container = new MemoryDataContainer();
         container.set(of("ItemType"), this.material.getId());
         container.set(of("SkillName"), this.skillName);

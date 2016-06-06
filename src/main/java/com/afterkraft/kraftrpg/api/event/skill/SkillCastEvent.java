@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2014-2015 Gabriel Harris-Rouquette
+ * Copyright (c) 2014-2016 Gabriel Harris-Rouquette
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,36 +23,15 @@
  */
 package com.afterkraft.kraftrpg.api.event.skill;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-
 import org.spongepowered.api.event.Event;
-import org.spongepowered.api.event.cause.Cause;
 
 import com.afterkraft.kraftrpg.api.entity.SkillCaster;
 import com.afterkraft.kraftrpg.api.skill.Skill;
 
-public class SkillCastEvent implements Event {
+public interface SkillCastEvent extends Event {
 
-    private final Skill skill;
-    private final Cause cause;
-    private final SkillCaster skillCaster;
+    Skill getSkill();
 
-    public SkillCastEvent(Skill skill, Cause cause, SkillCaster skillCaster) {
-        this.skill = checkNotNull(skill);
-        this.cause = checkNotNull(cause);
-        this.skillCaster = checkNotNull(skillCaster);
-    }
+    SkillCaster getSkillCaster();
 
-    public Skill getSkill() {
-        return this.skill;
-    }
-
-    public SkillCaster getSkillCaster() {
-        return this.skillCaster;
-    }
-
-    @Override
-    public Cause getCause() {
-        return this.cause;
-    }
 }
