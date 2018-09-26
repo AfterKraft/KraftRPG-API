@@ -26,9 +26,14 @@ package com.afterkraft.kraftrpg.api.entity;
 import java.util.Collection;
 import java.util.Optional;
 
+import com.afterkraft.kraftrpg.api.RpgKeys;
 import com.afterkraft.kraftrpg.api.role.Role;
 import com.afterkraft.kraftrpg.api.skill.Skill;
 import com.afterkraft.kraftrpg.api.skill.Stalled;
+import org.spongepowered.api.data.manipulator.DataManipulator;
+import org.spongepowered.api.data.value.mutable.ListValue;
+import org.spongepowered.api.data.value.mutable.MapValue;
+import org.spongepowered.api.data.value.mutable.MutableBoundedValue;
 
 /**
  * SkillCaster is the core interface that {@link Skill}s use when casting. A SkillCaster is able to
@@ -36,43 +41,31 @@ import com.afterkraft.kraftrpg.api.skill.Stalled;
  */
 public interface SkillCaster extends Sentient {
 
-    /**
-     * Get the key'ed cooldown. Used by skills to mark individual cooldowns
-     *
-     * @param key name of the cooldown being checked
-     *
-     * @return The time in milliseconds that the cooldown expires
-     * @throws IllegalArgumentException If the key is null
-     */
-    Optional<Long> getCooldown(String key);
+    public interface CooldownData extends DataManipulator<CooldownData, Immutable> {
 
-    /**
-     * Get the global cooldown.  The global cooldown is the cooldown applied for a caster using
-     * skills. A Skill may not be used if the global cooldown has not expired.
-     *
-     * @return The global cooldown if not 0
-     */
-    long getGlobalCooldown();
+        /**
+         * @see RPGKeys#GLOBAL_COOLDOWN
+         * @return
+         */
+        MutableBoundedValue<Long> globalCooldown();
 
-    /**
-     * Sets the global cooldown.  The global cooldown is the cooldown applied for a caster using
-     * skills. A Skill may not be used if the global cooldown has not expired.
-     *
-     * @param duration The duration of the global cooldown
-     *
-     * @throws IllegalArgumentException If the duration is negative
-     */
-    void setGlobalCooldown(long duration);
+        /**
+         * @see RpgKeys#COOLDOWNS
+         * @return
+         */
+        MapValue<String, Long> cooldowns();
 
-    /**
-     * Sets the cooldown for anything of a required key.
-     *
-     * @param key      The name cooldown
-     * @param duration The duration of the cooldown
-     *
-     * @throws IllegalArgumentException If the duration is negative
-     */
-    void setCooldown(String key, long duration);
+        long getCooldown(String key);
+    }
+
+    public interface SkillLevelingData extends DataManipulator<SkillLevelingData, Immutable> {
+
+        ListValue<Skill> usableSkills();
+
+        MapValue<Skill, Integer> skillLevels();
+
+
+    }
 
     /**
      * Fetch the highest level of all active {@link com.afterkraft.kraftrpg.api.role.Role}s that

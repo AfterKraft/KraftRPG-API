@@ -27,18 +27,12 @@ import java.util.Optional;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import org.spongepowered.api.command.CommandCallable;
-import org.spongepowered.api.command.CommandResult;
-import org.spongepowered.api.command.args.GenericArguments;
-import org.spongepowered.api.command.spec.CommandSpec;
 import org.spongepowered.api.entity.Entity;
-import org.spongepowered.api.entity.EntityType;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.Texts;
 import org.spongepowered.api.text.format.TextColors;
 
 import com.afterkraft.kraftrpg.api.RpgCommon;
-import com.afterkraft.kraftrpg.api.RpgPlugin;
 import com.afterkraft.kraftrpg.api.effect.EffectType;
 import com.afterkraft.kraftrpg.api.entity.Being;
 import com.afterkraft.kraftrpg.api.entity.Champion;
@@ -72,28 +66,26 @@ public abstract class TargetedSkillAbstract<E extends Entity>
     /**
      * Creates a new {@link Targeted} skill.
      *
-     * @param plugin      The plugin
      * @param name        The name of the skill
      * @param description The description of this skill
      * @param entityClass The target entity class
      */
-    protected TargetedSkillAbstract(RpgPlugin plugin, String name, Text description,
-                                    Class<E> entityClass) {
-        this(plugin, name, description, entityClass, 10);
+    protected TargetedSkillAbstract(String name, Text description,
+        Class<E> entityClass) {
+        this(name, description, entityClass, 10);
     }
 
     /**
      * Creates a new {@link Targeted} skill with a maximum raytracing targeting distance.
      *
-     * @param plugin      Theplugin
      * @param name        The name of this skill
      * @param description The description of this skill
      * @param entityClass The targeting entity class
      * @param maxDistance The maximum distance
      */
-    protected TargetedSkillAbstract(RpgPlugin plugin, String name, Text description,
-                                    Class<E> entityClass, int maxDistance) {
-        super(plugin, name, description);
+    protected TargetedSkillAbstract(String name, Text description,
+        Class<E> entityClass, int maxDistance) {
+        super(name, description);
         checkNotNull(entityClass);
         setDefault(SkillSetting.MAX_DISTANCE, maxDistance);
     }

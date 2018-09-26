@@ -24,9 +24,12 @@
 package com.afterkraft.kraftrpg.api;
 
 import java.util.Optional;
+import java.util.Set;
 
 import static org.spongepowered.api.data.DataQuery.of;
 
+import com.afterkraft.kraftrpg.api.entity.SkillCaster;
+import com.google.common.reflect.TypeToken;
 import org.spongepowered.api.data.key.Key;
 import org.spongepowered.api.data.key.KeyFactory;
 import org.spongepowered.api.data.value.BaseValue;
@@ -40,13 +43,21 @@ import com.afterkraft.kraftrpg.api.effect.Effect;
 import com.afterkraft.kraftrpg.api.entity.party.Party;
 import com.afterkraft.kraftrpg.api.role.Role;
 import com.afterkraft.kraftrpg.api.util.FixedPoint;
+import org.spongepowered.api.entity.Entity;
 
 @SuppressWarnings("unchecked")
 public final class RpgKeys {
+    public static final TypeToken<SetValue<Effect>> SET_VALUE_TYPE_TOKEN = new TypeToken<SetValue<Effect>>() { };
 
+    // SORTFIELDS:ON
     public static final Key<Value<Party>> PARTY;
     public static final Key<MutableBoundedValue<Long>> SUMMON_DURATION;
+    /**
+     * The standard key to use to retrieve effects, usually from either
+     * {@link Entity Entities}, or {@link SkillCaster SkillCasters}.
+     */
     public static final Key<SetValue<Effect>> RPG_EFFECTS;
+
     public static final Key<Value<Double>> BASE_DAMAGE;
     public static final Key<Value<Double>> DAMAGE_MODIFIER;
     public static final Key<Value<Integer>> MANA;
@@ -55,13 +66,19 @@ public final class RpgKeys {
     public static final Key<Value<Role>> SECONDARY_ROLE;
     public static final Key<ListValue<Role>> ADDITIONAL_ROLES;
     public static final Key<Value<FixedPoint>> REWARDING_EXPERIENCE;
+    // SORTFIELDS:OFF
 
-
+    public static final TypeToken<Set<Effect>> EFFECT_TYPE_TOKEN = new TypeToken<Set<Effect>>() {};
     private RpgKeys() {
     }
 
     static {
-        RPG_EFFECTS = KeyFactory.makeSetKey(Effect.class, of("Kraf<tRPG", "Effects"));
+        RPG_EFFECTS = Key.builder()
+                .type(SET_VALUE_TYPE_TOKEN)
+                .id("kraftrpg:effects")
+                .name("KraftRPG Effects")
+                .query(of("KraftRPG", "Effects"))
+                .build();
         BASE_DAMAGE = KeyFactory.makeSingleKey(Double.class, Value.class, of("BaseDamage"));
         DAMAGE_MODIFIER = KeyFactory.makeSingleKey(Double.class, Value.class, of("DamageModifier"));
         MANA = KeyFactory.makeSingleKey(Integer.class, Value.class, of("Mana"));

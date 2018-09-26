@@ -36,7 +36,7 @@ import com.afterkraft.kraftrpg.common.skill.AbstractActiveSkill;
 public class TestSkillAbstract extends AbstractActiveSkill {
 
     public TestSkillAbstract(RpgPlugin plugin) {
-        super(plugin, "TestSkill", Texts.of("This is a test skill."));
+        super("TestSkill", Texts.of("This is a test skill."));
     }
 
     @Override

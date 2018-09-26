@@ -41,7 +41,7 @@ public class SkillFireball extends AbstractActiveSkill {
     public static final Text DESCRIPTION = Texts.of();
 
     public SkillFireball(RpgPlugin plugin) {
-        super(plugin, "Fireball", DESCRIPTION);
+        super("Fireball", DESCRIPTION);
         setDefault(SkillSetting.COOLDOWN, 10);
         setDefault(SkillSetting.DAMAGE, 3);
         setDefault(SkillSetting.MANA_COST, 4);
@@ -62,7 +62,7 @@ public class SkillFireball extends AbstractActiveSkill {
         Fireball fireball = (Fireball) caster.getWorld().createEntity(EntityTypes.SNOWBALL,
             caster.getLocation().getPosition()).get();
         fireball.offer(Keys.FIRE_TICKS, 1000);
-        fireball.offer(Keys.INVULNERABILITY, 1000);
+        fireball.offer(Keys.INVULNERABILITY_TICKS, 1000);
         fireball.setShooter(caster);
         caster.launchProjectile(Fireball.class, caster.getLocation().getPosition().add(0, 1.8f, 0));
         return SkillCastResult.SUCCESS;
