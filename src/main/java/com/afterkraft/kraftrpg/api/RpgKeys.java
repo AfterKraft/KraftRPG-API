@@ -23,16 +23,16 @@
  */
 package com.afterkraft.kraftrpg.api;
 
-import java.util.Optional;
+
+import java.util.Set;
 
 import static org.spongepowered.api.data.DataQuery.of;
 
+import com.google.common.reflect.TypeToken;
+
 import org.spongepowered.api.data.key.Key;
-import org.spongepowered.api.data.key.KeyFactory;
-import org.spongepowered.api.data.value.BaseValue;
 import org.spongepowered.api.data.value.mutable.ListValue;
 import org.spongepowered.api.data.value.mutable.MutableBoundedValue;
-import org.spongepowered.api.data.value.mutable.OptionalValue;
 import org.spongepowered.api.data.value.mutable.SetValue;
 import org.spongepowered.api.data.value.mutable.Value;
 
@@ -43,6 +43,7 @@ import com.afterkraft.kraftrpg.api.util.FixedPoint;
 
 @SuppressWarnings("unchecked")
 public final class RpgKeys {
+
 
     public static final Key<Value<Party>> PARTY;
     public static final Key<MutableBoundedValue<Long>> SUMMON_DURATION;
@@ -57,22 +58,101 @@ public final class RpgKeys {
     public static final Key<Value<FixedPoint>> REWARDING_EXPERIENCE;
 
 
+    public static final TypeToken<SetValue<Effect>> SET_VALUE_TYPE_TOKEN = new TypeToken<SetValue<Effect>>() { };
+    public static final TypeToken<Value<Double>> BASE_DAMAGE_TYPE_TOKEN = new TypeToken<Value<Double>>() {};
+    public static final TypeToken<Value<Double>> DAMAGE_MODIFIER_TOKEN = new TypeToken<Value<Double>>() {};
+    public static final TypeToken<Value<Integer>> MANA_TOKEN = new TypeToken<Value<Integer>>() {};
+    public static final TypeToken<Value<Integer>> MAX_MANA_TOKEN = new TypeToken<Value<Integer>>() {};
+    public static final TypeToken<Value<Party>> PARTY_TOKEN = new TypeToken<Value<Party>>() {};
+    public static final TypeToken<Value<Role>> PRIMARY_ROLE_TOKEN = new TypeToken<Value<Role>>() {};
+    public static final TypeToken<Value<Role>> SECONDARY_ROLE_TOKEN = new TypeToken<Value<Role>>() {};
+    public static final TypeToken<ListValue<Role>> ADDITIONAL_ROLE_TOKEN = new TypeToken<ListValue<Role>>() {};
+    public static final TypeToken<MutableBoundedValue<Long>> SUMMON_DURATION_TOKEN = new TypeToken<MutableBoundedValue<Long>>() {};
+    public static final TypeToken<Value<FixedPoint>> REWARDING_EXPERIENCE_TOKEN = new TypeToken<Value<FixedPoint>>() {};
+
+
+
     private RpgKeys() {
     }
 
     static {
-        RPG_EFFECTS = KeyFactory.makeSetKey(Effect.class, of("Kraf<tRPG", "Effects"));
-        BASE_DAMAGE = KeyFactory.makeSingleKey(Double.class, Value.class, of("BaseDamage"));
-        DAMAGE_MODIFIER = KeyFactory.makeSingleKey(Double.class, Value.class, of("DamageModifier"));
-        MANA = KeyFactory.makeSingleKey(Integer.class, Value.class, of("Mana"));
-        MAX_MANA = KeyFactory.makeSingleKey(Integer.class, Value.class, of("MaxMana"));
-        PARTY = KeyFactory.makeSingleKey(Party.class, Value.class, of("Party"));
-        PRIMARY_ROLE = KeyFactory.makeSingleKey(Role.class, Value.class, of("PrimaryRole"));
-        SECONDARY_ROLE = KeyFactory.makeSingleKey(Role.class, Value.class, of("SecondaryRole"));
-        ADDITIONAL_ROLES = KeyFactory.makeListKey(Role.class, of("AdditionalRoles"));
-        SUMMON_DURATION = KeyFactory.makeSingleKey(Long.class, MutableBoundedValue.class, of("SummonDuration"));
-        REWARDING_EXPERIENCE = KeyFactory.makeSingleKey(FixedPoint.class, Value.class, of
-                ("RewardingExperience"));
+        RPG_EFFECTS = Key.builder()
+                .type(SET_VALUE_TYPE_TOKEN)
+                .id("kraftrpg:effects")
+                .name("KraftRPG Effects")
+                .query(of("KraftRPG", "Effects"))
+                .build();
+
+        BASE_DAMAGE = Key.builder()
+                .type(BASE_DAMAGE_TYPE_TOKEN)
+                .id("kraftrpg:base_damage")
+                .name("KraftRPG Base Damage")
+                .query(of("KraftRPG", "base_damage"))
+                .build();
+
+
+        DAMAGE_MODIFIER = Key.builder()
+                .type(DAMAGE_MODIFIER_TOKEN)
+                .id("kraftrpg:damage_modifier")
+                .name("KraftRPG Damage Modifier")
+                .query(of("KraftRPG", "damage_modifier"))
+                .build();
+
+        MANA = Key.builder()
+                .type(MANA_TOKEN)
+                .id("kraftrpg:mana")
+                .name("KraftRPG Mana")
+                .query(of("KraftRPG", "mana"))
+                .build();
+
+        MAX_MANA = Key.builder()
+                .type(MAX_MANA_TOKEN)
+                .id("kraftrpg:max_mana")
+                .name("KraftRPG Max Mana")
+                .query(of("KraftRPG", "max_mana"))
+                .build();
+
+        PARTY = Key.builder()
+                .type(PARTY_TOKEN)
+                .id("kraftrpg:party")
+                .name("KraftRPG Party")
+                .query(of("KraftRPG", "party"))
+                .build();
+
+        PRIMARY_ROLE = Key.builder()
+                .type(PRIMARY_ROLE_TOKEN)
+                .id("kraftrpg:primary_role")
+                .name("KraftRPG Primary Role")
+                .query(of("KraftRPG", "primary_role"))
+                .build();
+
+        SECONDARY_ROLE = Key.builder()
+                .type(SECONDARY_ROLE_TOKEN)
+                .id("kraftrpg:secondary_role")
+                .name("KraftRPG Secondary Role")
+                .query(of("KraftRPG", "secondary_role"))
+                .build();
+
+        ADDITIONAL_ROLES = Key.builder()
+                .type(ADDITIONAL_ROLE_TOKEN)
+                .id("kraftrpg:additional_role")
+                .name("KraftRPG Additional_Role")
+                .query(of("KraftRPG", "additional_role"))
+                .build();
+
+        SUMMON_DURATION = Key.builder()
+                .type(SUMMON_DURATION_TOKEN)
+                .id("kraftrpg:summon_duration")
+                .name("KraftRPG Summon Duration")
+                .query(of("KraftRPG", "summon_duration"))
+                .build();
+
+        REWARDING_EXPERIENCE = Key.builder()
+                .type(REWARDING_EXPERIENCE_TOKEN)
+                .id("kraftrpg:rewarding_experience")
+                .name("KraftRPG Rewarding Experience")
+                .query(of("KraftRPG", "rewarding_experience"))
+                .build();
     }
 
 }
