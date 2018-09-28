@@ -76,6 +76,7 @@ public final class RpgKeys {
     }
 
     static {
+        
         RPG_EFFECTS = Key.builder()
                 .type(SET_VALUE_TYPE_TOKEN)
                 .id("kraftrpg:effects")
