@@ -28,6 +28,7 @@ import java.util.Set;
 
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.data.key.Key;
+import org.spongepowered.api.data.manipulator.ImmutableDataManipulator;
 import org.spongepowered.api.data.manipulator.immutable.common.collection.AbstractImmutableSingleSetData;
 import org.spongepowered.api.data.value.BaseValue;
 import org.spongepowered.api.data.value.immutable.ImmutableSetValue;
@@ -37,7 +38,7 @@ import com.afterkraft.kraftrpg.api.effect.Effect;
 import com.afterkraft.kraftrpg.common.data.manipulator.mutable.EffectData;
 
 public final class ImmutableEffectData extends AbstractImmutableSingleSetData<Effect,
-        ImmutableEffectData, EffectData> {
+        ImmutableEffectData, EffectData> implements ImmutableDataManipulator<ImmutableEffectData, EffectData> {
 
     public ImmutableEffectData(Set<Effect> value) {
         super(value, RpgKeys.RPG_EFFECTS);

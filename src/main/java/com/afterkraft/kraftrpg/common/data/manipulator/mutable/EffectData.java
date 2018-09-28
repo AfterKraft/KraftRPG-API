@@ -23,35 +23,39 @@
  */
 package com.afterkraft.kraftrpg.common.data.manipulator.mutable;
 
+import java.util.Collection;
 import java.util.Optional;
 import java.util.Set;
 
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.data.DataContainer;
 import org.spongepowered.api.data.DataHolder;
-import org.spongepowered.api.data.MemoryDataContainer;
-import org.spongepowered.api.data.manipulator.DataManipulator;
-import org.spongepowered.api.data.manipulator.mutable.common.collection.AbstractSingleSetData;
+import org.spongepowered.api.data.manipulator.mutable.common.AbstractSingleData;
 import org.spongepowered.api.data.merge.MergeFunction;
 import org.spongepowered.api.data.value.mutable.SetValue;
 
 import com.google.common.collect.ComparisonChain;
 
-import com.afterkraft.kraftrpg.api.RpgKeys;
+
 import com.afterkraft.kraftrpg.api.effect.Effect;
 import com.afterkraft.kraftrpg.api.effect.EffectType;
 import com.afterkraft.kraftrpg.common.data.manipulator.immutable.ImmutableEffectData;
+import org.spongepowered.api.data.value.mutable.Value;
 
-public final class EffectData extends AbstractSingleSetData<Effect, EffectData, ImmutableEffectData> {
+import static com.afterkraft.kraftrpg.api.RpgKeys.RPG_EFFECTS;
 
 
-    public EffectData(Set<Effect> value) {
-        super(value, RpgKeys.RPG_EFFECTS);
+public final class EffectData extends AbstractSingleData<Effect, EffectData, ImmutableEffectData> {
+
+
+    public EffectData(SetValue<Effect> value) {
+      super(value, RPG_EFFECTS);
+
     }
 
     public SetValue<Effect> effects() {
         return Sponge.getRegistry().getValueFactory()
-                .createSetValue(RpgKeys.RPG_EFFECTS, this.getValue());
+                .createSetValue(RPG_EFFECTS, this.getValue());
     }
 
     public boolean hasEffectType(EffectType effectType) {
@@ -64,15 +68,20 @@ public final class EffectData extends AbstractSingleSetData<Effect, EffectData, 
     }
 
     @Override
-    public ImmutableEffectData asImmutable() {
-        return new ImmutableEffectData(getValue());
+    protected Value<?> getValueGetter() {
+        return null;
     }
 
     @Override
+    public ImmutableEffectData asImmutable() {
+        return new ImmutableEffectData((Set<Effect>) getValue());
+    }
+
+
     public int compareTo(EffectData o) {
         return ComparisonChain.start()
-                .compare(o.effects().containsAll(this.getValue()),
-                         this.getValue().containsAll(o.effects().getAll())).result();
+                .compare(o.effects().containsAll((Collection<Effect>) this.getValue()),
+                         ((Collection<Effect>) this.getValue()).containsAll(o.effects().getAll())).result();
     }
 
     @Override
@@ -87,12 +96,13 @@ public final class EffectData extends AbstractSingleSetData<Effect, EffectData, 
 
     @Override
     public EffectData copy() {
-        return new EffectData(this.getValue());
+        return new EffectData(this.getValue()));
     }
 
     @Override
-    public DataContainer toContainer() {
-        return new MemoryDataContainer()
-                .set(RpgKeys.RPG_EFFECTS, getValue());
+    public int getContentVersion() {
+        return 0;
     }
+
+
 }

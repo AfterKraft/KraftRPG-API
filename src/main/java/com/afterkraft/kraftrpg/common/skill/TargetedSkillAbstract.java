@@ -30,7 +30,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.afterkraft.kraftrpg.api.RpgKeys;
 import org.spongepowered.api.entity.Entity;
 import org.spongepowered.api.text.Text;
-import org.spongepowered.api.text.Texts;
+
 import org.spongepowered.api.text.format.TextColors;
 
 import com.afterkraft.kraftrpg.api.RpgCommon;

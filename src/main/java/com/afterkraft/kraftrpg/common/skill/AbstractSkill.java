@@ -39,10 +39,9 @@ import org.spongepowered.api.data.DataQuery;
 import org.spongepowered.api.data.DataView;
 import org.spongepowered.api.data.MemoryDataContainer;
 import org.spongepowered.api.entity.Entity;
-import org.spongepowered.api.event.cause.NamedCause;
 import org.spongepowered.api.item.inventory.ItemStack;
 import org.spongepowered.api.text.Text;
-import org.spongepowered.api.text.Texts;
+
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Sets;
@@ -111,7 +110,7 @@ public abstract class AbstractSkill implements Skill {
      * @throws IllegalArgumentException If the setting is null
      */
     protected final void setDefault(String node, Object value) {
-        this.defaultConfig.set(new DataQuery(node), value);
+        this.defaultConfig.set(DataQuery.of(node), value);
         this.usedSettings.add(new InnerSkillSetting(node));
     }
 
@@ -146,7 +145,7 @@ public abstract class AbstractSkill implements Skill {
      * @throws IllegalArgumentException If the setting is null
      */
     protected final void setDefault(String node, boolean value) {
-        this.defaultConfig.set(new DataQuery(node), value);
+        this.defaultConfig.set(DataQuery.of(node), value);
         this.usedSettings.add(new InnerSkillSetting(node));
     }
 
@@ -179,7 +178,7 @@ public abstract class AbstractSkill implements Skill {
      * @throws IllegalArgumentException If the setting is null
      */
     protected final void setDefault(String node, double value) {
-        this.defaultConfig.set(new DataQuery(node), value);
+        this.defaultConfig.set(DataQuery.of(node), value);
         this.usedSettings.add(new InnerSkillSetting(node));
     }
 
@@ -218,8 +217,8 @@ public abstract class AbstractSkill implements Skill {
      * @throws IllegalArgumentException If the setting is null
      */
     protected final void setDefault(String node, double value, double valuePerLevel) {
-        this.defaultConfig.set(new DataQuery(node), value);
-        this.defaultConfig.set(new DataQuery(node + "-per-level"), valuePerLevel);
+        this.defaultConfig.set(DataQuery.of(node), value);
+        this.defaultConfig.set(DataQuery.of(node + "-per-level"), valuePerLevel);
         this.usedSettings.add(new InnerSkillSetting(node, true));
     }
 
@@ -255,7 +254,7 @@ public abstract class AbstractSkill implements Skill {
      * @throws IllegalArgumentException If the setting is null
      */
     protected final void setDefault(String node, String value) {
-        this.defaultConfig.set(new DataQuery(node), value);
+        this.defaultConfig.set(DataQuery.of(node), value);
         this.usedSettings.add(new InnerSkillSetting(node));
     }
 
@@ -292,7 +291,7 @@ public abstract class AbstractSkill implements Skill {
      * @throws IllegalArgumentException If the setting is null
      */
     protected final void setDefault(String node, List<?> value) {
-        this.defaultConfig.set(new DataQuery(node), value);
+        this.defaultConfig.set(DataQuery.of(node), value);
         this.usedSettings.add(new InnerSkillSetting(node));
     }
 
@@ -327,7 +326,7 @@ public abstract class AbstractSkill implements Skill {
      * @throws IllegalArgumentException If the setting is null
      */
     protected final void setDefault(String node, ItemStack value) {
-        this.defaultConfig.set(new DataQuery(node), value.copy());
+        this.defaultConfig.set(DataQuery.of(node), value.copy());
         this.usedSettings.add(new InnerSkillSetting(node));
     }
 

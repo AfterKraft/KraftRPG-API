@@ -30,11 +30,12 @@ import org.spongepowered.api.entity.Entity;
 
 
 import com.afterkraft.kraftrpg.api.entity.SkillCaster;
+import org.spongepowered.api.registry.AdditionalCatalogRegistryModule;
 
 /**
  * Manages skills with both skill loading and skill management.
  */
-public interface SkillManager extends AdditionalCatalogTypeRegistryModule<Skill> {
+public interface SkillManager extends AdditionalCatalogRegistryModule<Skill> {
 
     /**
      * Checks if a skill by the skill name exists.

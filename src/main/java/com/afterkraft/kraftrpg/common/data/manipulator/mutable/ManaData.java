@@ -118,12 +118,17 @@ public final class ManaData extends AbstractData<ManaData, ImmutableManaData> {
         return new ImmutableManaData(this.mana, this.maxMana);
     }
 
-    @Override
+
     public int compareTo(ManaData o) {
         return ComparisonChain.start()
                 .compare(o.mana, this.mana)
                 .compare(o.maxMana, this.maxMana)
                 .result();
+    }
+
+    @Override
+    public int getContentVersion() {
+        return 0;
     }
 
     @Override
