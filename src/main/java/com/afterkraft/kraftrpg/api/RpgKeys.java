@@ -37,7 +37,7 @@ import org.spongepowered.api.data.value.mutable.Value;
 import com.afterkraft.kraftrpg.api.effect.Effect;
 import com.afterkraft.kraftrpg.api.entity.party.Party;
 import com.afterkraft.kraftrpg.api.role.Role;
-import com.afterkraft.kraftrfgipg.api.util.FixedPoint;
+import com.afterkraft.kraftrpg.api.util.FixedPoint;
 
 @SuppressWarnings("unchecked")
 public final class RpgKeys {
