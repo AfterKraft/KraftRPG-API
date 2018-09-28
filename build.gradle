@@ -12,7 +12,7 @@ buildscript {
         }
         maven {
             name = 'sponge'
-            url = 'http://repo.spongepowered.org/maven'
+            url = 'https://repo.spongepowered.org/maven'
         }
 
     }
@@ -51,10 +51,7 @@ targetCompatibility = 1.8
 repositories {
     mavenCentral()
     maven {
-        url "http://nexus.afterkraft.com/content/groups/public/"
-    }
-    maven {
-        url "http://repo.spongepowered.org/maven/"
+        url "https://repo.spongepowered.org/maven/"
     }
 }
 

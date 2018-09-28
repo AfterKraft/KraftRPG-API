@@ -34,33 +34,21 @@ import java.util.function.Function;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import org.spongepowered.api.Sponge;
+import org.spongepowered.api.data.DataContainer;
 import org.spongepowered.api.data.DataQuery;
 import org.spongepowered.api.data.DataView;
 import org.spongepowered.api.data.MemoryDataContainer;
 import org.spongepowered.api.entity.Entity;
-import org.spongepowered.api.entity.living.Living;
-import org.spongepowered.api.entity.living.player.Player;
-import org.spongepowered.api.event.SpongeEventFactory;
-import org.spongepowered.api.event.cause.Cause;
 import org.spongepowered.api.event.cause.NamedCause;
-import org.spongepowered.api.event.cause.entity.damage.DamageModifier;
-import org.spongepowered.api.event.cause.entity.damage.DamageTypes;
-import org.spongepowered.api.event.cause.entity.damage.source.DamageSource;
-import org.spongepowered.api.event.entity.DamageEntityEvent;
 import org.spongepowered.api.item.inventory.ItemStack;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.Texts;
-import org.spongepowered.api.text.format.TextColors;
-import org.spongepowered.api.util.Tuple;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Sets;
 
 import com.afterkraft.kraftrpg.api.RpgCommon;
-import com.afterkraft.kraftrpg.api.RpgPlugin;
 import com.afterkraft.kraftrpg.api.entity.Champion;
-import com.afterkraft.kraftrpg.api.entity.Insentient;
 import com.afterkraft.kraftrpg.api.entity.SkillCaster;
 import com.afterkraft.kraftrpg.api.skill.Skill;
 import com.afterkraft.kraftrpg.api.skill.SkillSetting;
@@ -71,7 +59,6 @@ import com.afterkraft.kraftrpg.api.skill.SkillType;
  */
 public abstract class AbstractSkill implements Skill {
 
-    public final RpgPlugin plugin;
     private final Set<SkillType> skillTypes = EnumSet.noneOf(SkillType.class);
     private final String name;
     private final Text description;
@@ -82,15 +69,12 @@ public abstract class AbstractSkill implements Skill {
     /**
      * Creates a new instance of a Skill, the default implementation of {@link Skill}.
      *
-     * @param plugin      The instance of the RpgPlugin
      * @param name        The name of the skill
      * @param description The description of this skill
      */
-    protected AbstractSkill(RpgPlugin plugin, String name, Text description) {
-        checkNotNull(plugin);
+    protected AbstractSkill(String name, Text description) {
         checkNotNull(name);
         checkArgument(!name.isEmpty());
-        this.plugin = plugin;
         this.name = name;
         this.description = description;
         this.defaultConfig = new MemoryDataContainer();
@@ -385,8 +369,8 @@ public abstract class AbstractSkill implements Skill {
 
     @Override
     public final DataView getDefaultConfig() {
-        DataView clone = new MemoryDataContainer();
-        return clone.createView(new DataQuery(), this.defaultConfig.getValues(true));
+        DataView clone = DataContainer.createNew();
+        return clone.createView(DataQuery.of(), this.defaultConfig.getValues(true));
     }
 
     @Override

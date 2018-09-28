@@ -25,6 +25,7 @@ package com.afterkraft.kraftrpg.api.skill;
 
 import java.util.Collection;
 
+import org.spongepowered.api.CatalogType;
 import org.spongepowered.api.data.DataView;
 import org.spongepowered.api.entity.Entity;
 import org.spongepowered.api.text.Text;
@@ -37,7 +38,7 @@ import com.afterkraft.kraftrpg.common.skill.AbstractSkill;
  * Represents a usable Skill for RpgCommon. The recommended use of implementation is
  * {@link AbstractSkill}
  */
-public interface Skill {
+public interface Skill extends CatalogType {
 
     /**
      * Returns the generated permission node as a string for this ISkill.
@@ -46,12 +47,6 @@ public interface Skill {
      */
     String getPermissionNode();
 
-    /**
-     * Return the unique name of this ISkill
-     *
-     * @return the name of this skill
-     */
-    String getName();
 
     /**
      * Returns the default configuration for this skill.

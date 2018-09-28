@@ -43,7 +43,7 @@ public abstract class PassiveSkill extends AbstractSkill implements Passive {
      * @param description The description of this passive skill
      */
     protected PassiveSkill(RpgPlugin plugin, String name, Text description) {
-        super(plugin, name, description);
+        super(name, description);
     }
 
     @Override

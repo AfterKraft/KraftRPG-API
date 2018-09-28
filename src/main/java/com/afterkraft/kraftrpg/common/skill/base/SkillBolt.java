@@ -23,11 +23,18 @@
  */
 package com.afterkraft.kraftrpg.common.skill.base;
 
+import com.afterkraft.kraftrpg.api.RpgKeys;
+import com.afterkraft.kraftrpg.api.skill.Skill;
+import org.spongepowered.api.Sponge;
+import org.spongepowered.api.data.key.Keys;
+import org.spongepowered.api.entity.EntityType;
 import org.spongepowered.api.entity.living.Living;
+import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.event.Listener;
+import org.spongepowered.api.event.game.GameRegistryEvent;
 import org.spongepowered.api.item.ItemTypes;
 import org.spongepowered.api.item.inventory.ItemStack;
 import org.spongepowered.api.text.Text;
-import org.spongepowered.api.text.Texts;
 
 import com.afterkraft.kraftrpg.api.RpgCommon;
 import com.afterkraft.kraftrpg.api.RpgPlugin;
@@ -39,15 +46,16 @@ import com.afterkraft.kraftrpg.api.skill.SkillSetting;
 import com.afterkraft.kraftrpg.api.skill.SkillType;
 import com.afterkraft.kraftrpg.common.skill.SkillUtils;
 import com.afterkraft.kraftrpg.common.skill.TargetedSkillAbstract;
+import org.spongepowered.api.util.generator.dummy.DummyObjectProvider;
 
 public class SkillBolt extends TargetedSkillAbstract<Living> {
 
-    public static final Text DESCRIPTION = Texts.of("Strikes down lightning strikes at the targeted entity dealing "
+    public static final Text DESCRIPTION = Text.of("Strikes down lightning strikes at the targeted entity dealing "
                                                             + "damage and striking down entities near the target.");
     public static final ItemStack REAGENT = ItemStack.of(ItemTypes.GUNPOWDER, 1);
 
     public SkillBolt(RpgPlugin plugin) {
-        super(plugin, "Bolt", DESCRIPTION, Living.class);
+        super("Bolt", DESCRIPTION, Living.class);
         setDefault(SkillSetting.MAX_DISTANCE, 20);
         setDefault(SkillSetting.DAMAGE, 100, 10);
         setDefault(SkillSetting.REAGENT, REAGENT);
@@ -55,9 +63,22 @@ public class SkillBolt extends TargetedSkillAbstract<Living> {
                       SkillType.AREA_OF_EFFECT, SkillType.AGGRESSIVE);
     }
 
+    @Listener
+    public void onSkillRegister(GameRegistryEvent.Register<Skill> event) {
+        event.register(this);
+    }
+
     @Override
     public SkillCastResult useSkill(final SkillCaster caster, final Being target,
                                     final Living entity) {
+
+        final EntityType creeper = Sponge.getRegistry().getType(EntityType.class, "minecraft:creeper")
+                                        .orElseThrow(() -> new IllegalStateException("Creeper is not registered as an entity in minecraft!"));
+        final Skill derp = Sponge.getRegistry().getType(Skill.class, "afterkraft:bolt").get();
+        Player player = DummyObjectProvider.createExtendedFor(Player.class, "derp");
+        player.get(RpgKeys.MANA).get();
+        player.offer(Keys.HEALTH, 100D);
+        player.offer(Keys.HEALTH_SCALE, 20D);
         double damage = RpgCommon.getSkillConfigManager()
                 .getUsedDoubleSetting(caster, this, SkillSetting.DAMAGE);
         double damageIncrease = RpgCommon.getSkillConfigManager()

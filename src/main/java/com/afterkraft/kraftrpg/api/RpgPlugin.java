@@ -28,18 +28,5 @@ package com.afterkraft.kraftrpg.api;
  */
 public interface RpgPlugin {
 
-    /**
-     * Stop the plugin from enabling. This should be used when there is a fatal configuration
-     * error.
-     */
-    void cancelEnable();
 
-
-
-    /**
-     * Checks that the plugin is enabled and ready for everything.
-     *
-     * @return Whether the plugin is enabled or not ready for use
-     */
-    boolean isEnabled();
 }

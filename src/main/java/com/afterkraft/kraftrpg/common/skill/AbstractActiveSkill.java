@@ -50,8 +50,8 @@ public abstract class AbstractActiveSkill extends AbstractSkill implements Activ
     private SkillCaster parsedCaster;
     private final ChildCommandElementExecutor childCommandElementExecutor;
 
-    protected AbstractActiveSkill(RpgPlugin plugin, String name, Text description) {
-        super(plugin, name, description);
+    protected AbstractActiveSkill(String name, Text description) {
+        super(name, description);
         this.childCommandElementExecutor = new ChildCommandElementExecutor(null);
     }
 
@@ -171,9 +171,6 @@ public abstract class AbstractActiveSkill extends AbstractSkill implements Activ
     }
 
     protected final void addSkillArgument(SkillArgument<?> argument) {
-        checkState(!this.plugin.isEnabled(),
-                   "RpgCommon is already enabled! " + "Cannot modify "
-                           + "Skill Arguments after being enabled.");
         SkillArgument<?>[] newArgs = Arrays.copyOf(this.skillArguments,
                                                    this.skillArguments.length
                                                            + 1);

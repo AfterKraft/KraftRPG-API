@@ -34,7 +34,7 @@ import com.afterkraft.kraftrpg.api.entity.SkillCaster;
 /**
  * Manages skills with both skill loading and skill management.
  */
-public interface SkillManager {
+public interface SkillManager extends AdditionalCatalogTypeRegistryModule<Skill> {
 
     /**
      * Checks if a skill by the skill name exists.
