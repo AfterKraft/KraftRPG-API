@@ -27,9 +27,7 @@ package com.afterkraft.kraftrpg.api;
 import java.util.Set;
 
 import static org.spongepowered.api.data.DataQuery.of;
-
 import com.google.common.reflect.TypeToken;
-
 import org.spongepowered.api.data.key.Key;
 import org.spongepowered.api.data.value.mutable.ListValue;
 import org.spongepowered.api.data.value.mutable.MutableBoundedValue;
@@ -39,7 +37,7 @@ import org.spongepowered.api.data.value.mutable.Value;
 import com.afterkraft.kraftrpg.api.effect.Effect;
 import com.afterkraft.kraftrpg.api.entity.party.Party;
 import com.afterkraft.kraftrpg.api.role.Role;
-import com.afterkraft.kraftrpg.api.util.FixedPoint;
+import com.afterkraft.kraftrfgipg.api.util.FixedPoint;
 
 @SuppressWarnings("unchecked")
 public final class RpgKeys {
@@ -76,7 +74,7 @@ public final class RpgKeys {
     }
 
     static {
-        
+
         RPG_EFFECTS = Key.builder()
                 .type(SET_VALUE_TYPE_TOKEN)
                 .id("kraftrpg:effects")
