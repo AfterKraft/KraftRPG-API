@@ -23,6 +23,8 @@
  */
 package com.afterkraft.kraftrpg.api.role.aspect;
 
+import org.spongepowered.api.data.DataContainer;
+
 import java.util.Optional;
 
 import static com.google.common.base.Preconditions.checkArgument;
@@ -77,6 +79,16 @@ public final class ManaAspect implements ResourceAspect<Integer> {
     public Optional<Integer> getResourceAtLevel(int level) {
         checkArgument(level > 0);
         return Optional.of(this.baseMana + (this.manaPerLevel * (level - 1)));
+    }
+
+    @Override
+    public int getContentVersion() {
+        return 0;
+    }
+
+    @Override
+    public DataContainer toContainer() {
+        return null;
     }
 
     /**

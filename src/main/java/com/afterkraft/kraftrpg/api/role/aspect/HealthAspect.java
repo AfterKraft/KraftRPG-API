@@ -29,6 +29,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkState;
 
 import com.afterkraft.kraftrpg.api.role.Role;
+import org.spongepowered.api.data.DataContainer;
 
 /**
  * Represents a {@link ResourceAspect} for a role that involves health at specific levels and
@@ -107,6 +108,16 @@ public final class HealthAspect implements ResourceAspect<Double> {
         checkArgument(level > 1);
         return Optional.of(this.baseHealth
                                    + (this.healthPerLevel * (level - 1)));
+    }
+
+    @Override
+    public int getContentVersion() {
+        return 0;
+    }
+
+    @Override
+    public DataContainer toContainer() {
+        return null;
     }
 
     /**

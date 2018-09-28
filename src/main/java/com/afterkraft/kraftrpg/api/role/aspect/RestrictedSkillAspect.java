@@ -34,6 +34,7 @@ import com.google.common.collect.Lists;
 import com.afterkraft.kraftrpg.api.RpgCommon;
 import com.afterkraft.kraftrpg.api.role.RoleAspect;
 import com.afterkraft.kraftrpg.api.skill.Skill;
+import org.spongepowered.api.data.DataContainer;
 
 /**
  * Represents a {@link RoleAspect} that limits the use of skills.
@@ -86,6 +87,16 @@ public final class RestrictedSkillAspect implements RoleAspect {
             }
         }
         return builder.build();
+    }
+
+    @Override
+    public int getContentVersion() {
+        return 0;
+    }
+
+    @Override
+    public DataContainer toContainer() {
+        return null;
     }
 
     /**

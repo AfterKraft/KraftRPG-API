@@ -25,12 +25,12 @@ package com.afterkraft.kraftrpg.api.util;
 
 import java.io.File;
 
-import com.afterkraft.kraftrpg.api.service.Service;
+
 
 /**
  * A generalized manager for configuration files used by all other Managers
  */
-public interface ConfigManager extends Service {
+public interface ConfigManager {
 
     /**
      * Check for a specific configuration file. Utilized for SkillConfigManager and more. This will

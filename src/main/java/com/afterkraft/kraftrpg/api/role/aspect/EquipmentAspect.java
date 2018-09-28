@@ -27,6 +27,7 @@ import java.util.List;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import org.spongepowered.api.data.DataContainer;
 import org.spongepowered.api.item.ItemType;
 import org.spongepowered.api.item.inventory.ItemStack;
 
@@ -113,6 +114,16 @@ public final class EquipmentAspect implements RoleAspect {
             }
         }
         return false;
+    }
+
+    @Override
+    public int getContentVersion() {
+        return 0;
+    }
+
+    @Override
+    public DataContainer toContainer() {
+        return null;
     }
 
     /**

@@ -30,6 +30,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 
+import org.spongepowered.api.data.DataContainer;
 import org.spongepowered.api.item.ItemType;
 
 import com.google.common.collect.Maps;
@@ -123,6 +124,16 @@ public final class ItemDamageAspect implements RoleAspect {
             index++;
         }
         return Optional.empty();
+    }
+
+    @Override
+    public int getContentVersion() {
+        return 0;
+    }
+
+    @Override
+    public DataContainer toContainer() {
+        return null;
     }
 
 

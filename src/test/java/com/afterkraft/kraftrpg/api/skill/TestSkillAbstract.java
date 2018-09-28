@@ -24,7 +24,9 @@
 package com.afterkraft.kraftrpg.api.skill;
 
 
-import org.spongepowered.api.text.Texts;
+import org.spongepowered.api.command.args.CommandElement;
+import org.spongepowered.api.text.Text;
+
 
 import com.afterkraft.kraftrpg.api.RpgPlugin;
 import com.afterkraft.kraftrpg.api.entity.SkillCaster;
@@ -36,7 +38,12 @@ import com.afterkraft.kraftrpg.common.skill.AbstractActiveSkill;
 public class TestSkillAbstract extends AbstractActiveSkill {
 
     public TestSkillAbstract(RpgPlugin plugin) {
-        super("TestSkill", Texts.of("This is a test skill."));
+        super("TestSkill", Text.of("This is a test skill."));
+    }
+
+    @Override
+    public CommandElement[] getCommandElements() {
+        return new CommandElement[0];
     }
 
     @Override
@@ -44,4 +51,8 @@ public class TestSkillAbstract extends AbstractActiveSkill {
         return SkillCastResult.SUCCESS;
     }
 
+    @Override
+    public String getId() {
+        return null;
+    }
 }

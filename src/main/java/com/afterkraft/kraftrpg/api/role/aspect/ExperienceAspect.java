@@ -32,6 +32,7 @@ import com.google.common.collect.Lists;
 
 import com.afterkraft.kraftrpg.api.role.ExperienceType;
 import com.afterkraft.kraftrpg.api.role.RoleAspect;
+import org.spongepowered.api.data.DataContainer;
 
 /**
  * Represents a {@link RoleAspect} that can determine whether a role may gain specific experience
@@ -69,6 +70,16 @@ public final class ExperienceAspect implements RoleAspect {
     List<ExperienceType> getAcceptedTypes() {
         return ImmutableList.<ExperienceType>builder()
                 .add(this.experienceTypes).build();
+    }
+
+    @Override
+    public int getContentVersion() {
+        return 0;
+    }
+
+    @Override
+    public DataContainer toContainer() {
+        return null;
     }
 
     /**

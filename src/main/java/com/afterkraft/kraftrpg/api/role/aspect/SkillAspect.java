@@ -29,6 +29,7 @@ import java.util.Optional;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import org.spongepowered.api.data.DataContainer;
 import org.spongepowered.api.data.DataView;
 
 import com.google.common.collect.ImmutableList;
@@ -175,6 +176,16 @@ public final class SkillAspect implements RoleAspect {
             }
         }
         return builder.build();
+    }
+
+    @Override
+    public int getContentVersion() {
+        return 0;
+    }
+
+    @Override
+    public DataContainer toContainer() {
+        return null;
     }
 
     /**
