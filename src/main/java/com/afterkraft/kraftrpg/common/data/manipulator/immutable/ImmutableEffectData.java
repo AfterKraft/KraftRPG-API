@@ -36,8 +36,9 @@ import org.spongepowered.api.data.value.immutable.ImmutableSetValue;
 import com.afterkraft.kraftrpg.api.RpgKeys;
 import com.afterkraft.kraftrpg.api.effect.Effect;
 import com.afterkraft.kraftrpg.common.data.manipulator.mutable.EffectData;
+import org.spongepowered.api.data.value.immutable.ImmutableValue;
 
-public final class ImmutableEffectData extends AbstractImmutableSingleSetData<Effect,
+public final class ImmutableEffectData extends ImmutableSetData<Effect,
         ImmutableEffectData, EffectData> implements ImmutableDataManipulator<ImmutableEffectData, EffectData> {
 
     public ImmutableEffectData(Set<Effect> value) {
@@ -61,8 +62,17 @@ public final class ImmutableEffectData extends AbstractImmutableSingleSetData<Ef
     }
 
     @Override
+    protected ImmutableValue<?> getValueGetter() {
+        return getValue();
+    }
+
+    @Override
     public EffectData asMutable() {
         return new EffectData(this.value);
     }
 
+    @Override
+    public int getContentVersion() {
+        return 1;
+    }
 }
