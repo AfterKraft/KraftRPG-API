@@ -29,7 +29,7 @@ import java.util.Set;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.data.key.Key;
 import org.spongepowered.api.data.manipulator.ImmutableDataManipulator;
-import org.spongepowered.api.data.manipulator.immutable.common.collection.AbstractImmutableSingleSetData;
+
 import org.spongepowered.api.data.value.BaseValue;
 import org.spongepowered.api.data.value.immutable.ImmutableSetValue;
 
@@ -63,7 +63,7 @@ public final class ImmutableEffectData extends ImmutableSetData<Effect,
 
     @Override
     protected ImmutableValue<?> getValueGetter() {
-        return getValue();
+        return effects();
     }
 
     @Override
