@@ -66,4 +66,9 @@ public class ImmutableSummonData extends AbstractImmutableBoundedComparableData<
     public SummonData asMutable() {
         return new SummonData(this.value, this.lowerBound, this.upperBound, this.defaultValue);
     }
+
+    @Override
+    public int getContentVersion() {
+        return 1;
+    }
 }

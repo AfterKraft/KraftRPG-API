@@ -25,19 +25,24 @@ package com.afterkraft.kraftrpg.common.data.manipulator.immutable;
 
 import java.util.Optional;
 
+
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.data.DataContainer;
+import org.spongepowered.api.data.DataQuery;
+import org.spongepowered.api.data.DataView;
 import org.spongepowered.api.data.MemoryDataContainer;
 import org.spongepowered.api.data.key.Key;
 import org.spongepowered.api.data.manipulator.immutable.common.AbstractImmutableData;
 import org.spongepowered.api.data.value.BaseValue;
 import org.spongepowered.api.data.value.immutable.ImmutableValue;
 
-import com.google.common.base.Objects;
+import com.google.common.base.MoreObjects;
 import com.google.common.collect.ComparisonChain;
 
 import com.afterkraft.kraftrpg.api.RpgKeys;
 import com.afterkraft.kraftrpg.common.data.manipulator.mutable.ModifiedDamageData;
+
+import javax.xml.crypto.Data;
 
 /**
  * A component that handles base damage not modified by held items, weapons, armor, buffs, etc.
@@ -105,7 +110,7 @@ public final class ImmutableModifiedDamageData
         return new ModifiedDamageData(this.baseDamage, this.modifiedDamage);
     }
 
-    @Override
+
     public int compareTo(ImmutableModifiedDamageData o) {
         return ComparisonChain.start()
                 .compare(o.baseDamage, this.baseDamage)
@@ -114,15 +119,22 @@ public final class ImmutableModifiedDamageData
     }
 
     @Override
+    public int getContentVersion() {
+        return 1;
+    }
+
+    @Override
     public DataContainer toContainer() {
-        return new MemoryDataContainer()
+        DataContainer container = super.toContainer()
                 .set(RpgKeys.BASE_DAMAGE, this.baseDamage)
                 .set(RpgKeys.DAMAGE_MODIFIER, this.modifiedDamage);
+
+        return container;
     }
 
     @Override
     public String toString() {
-        return Objects.toStringHelper(this)
+        return MoreObjects.toStringHelper(this)
                 .add("baseDamage", this.baseDamage)
                 .add("modifiedDamage", this.modifiedDamage)
                 .add("baseValue", this.baseValue)
@@ -130,3 +142,4 @@ public final class ImmutableModifiedDamageData
                 .toString();
     }
 }
+

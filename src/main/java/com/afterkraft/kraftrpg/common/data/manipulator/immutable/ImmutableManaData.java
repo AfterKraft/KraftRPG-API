@@ -25,6 +25,7 @@ package com.afterkraft.kraftrpg.common.data.manipulator.immutable;
 
 import java.util.Optional;
 
+
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.data.DataContainer;
 import org.spongepowered.api.data.key.Key;
@@ -32,7 +33,8 @@ import org.spongepowered.api.data.manipulator.immutable.common.AbstractImmutable
 import org.spongepowered.api.data.value.BaseValue;
 import org.spongepowered.api.data.value.immutable.ImmutableValue;
 
-import com.google.common.base.Objects;
+import com.google.common.base.MoreObjects;
+
 
 import com.afterkraft.kraftrpg.api.RpgKeys;
 import com.afterkraft.kraftrpg.common.data.manipulator.mutable.ManaData;
@@ -94,7 +96,7 @@ public final class ImmutableManaData extends AbstractImmutableData<ImmutableMana
 
     @Override
     public String toString() {
-        return Objects.toStringHelper(this)
+        return MoreObjects.toStringHelper(this)
                 .add("mana", this.mana)
                 .add("maxMana", this.maxMana)
                 .add("manaValue", this.manaValue)
@@ -107,7 +109,7 @@ public final class ImmutableManaData extends AbstractImmutableData<ImmutableMana
         return new ManaData(this.mana, this.maxMana);
     }
 
-    @Override
+
     public int compareTo(ImmutableManaData o) {
         return 0;
     }

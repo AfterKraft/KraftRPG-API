@@ -223,7 +223,7 @@ public class SkillSetting {
      * @param scaled Whether there is a scaling node or not
      */
     protected SkillSetting(String node, boolean scaled) {
-        this.node = new DataQuery(node);
+        this.node = DataQuery.of(node);
         this.scaled = scaled;
     }
 
@@ -246,7 +246,7 @@ public class SkillSetting {
         if (!this.scaled) {
             return Optional.empty();
         }
-        return Optional.of(new DataQuery(this.nodeAsString() + "-per-level"));
+        return Optional.of(DataQuery.of(this.nodeAsString() + "-per-level"));
     }
 
     /**

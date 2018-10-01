@@ -70,4 +70,9 @@ public final class ImmutablePartyData extends AbstractImmutableSingleData<Party,
     public int compareTo(ImmutablePartyData o) {
         return o.party().get().getUniqueId().compareTo(getValue().getUniqueId());
     }
+
+    @Override
+    public int getContentVersion() {
+        return 1;
+    }
 }

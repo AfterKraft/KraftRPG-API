@@ -26,11 +26,12 @@ package com.afterkraft.kraftrpg.api.event.damage;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 
+import com.google.common.base.MoreObjects;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.event.cause.entity.damage.source.common.AbstractDamageSource;
 import org.spongepowered.api.event.cause.entity.damage.source.common.AbstractDamageSourceBuilder;
 
-import com.google.common.base.Objects;
+
 
 import com.afterkraft.kraftrpg.api.skill.Skill;
 
@@ -54,7 +55,7 @@ public class SkillDamageSource extends AbstractDamageSource {
 
     @Override
     public String toString() {
-        return Objects.toStringHelper(this)
+        return MoreObjects.toStringHelper(this)
                 .add("type", this.getType().getId())
                 .add("isAbsolute", this.isAbsolute())
                 .add("BypassesArmor", this.isBypassingArmor())

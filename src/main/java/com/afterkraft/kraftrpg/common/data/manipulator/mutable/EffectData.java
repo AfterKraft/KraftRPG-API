@@ -30,8 +30,10 @@ import java.util.Set;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.data.DataContainer;
 import org.spongepowered.api.data.DataHolder;
+import org.spongepowered.api.data.manipulator.mutable.common.AbstractListData;
 import org.spongepowered.api.data.manipulator.mutable.common.AbstractSingleData;
 import org.spongepowered.api.data.merge.MergeFunction;
+import org.spongepowered.api.data.value.mutable.ListValue;
 import org.spongepowered.api.data.value.mutable.SetValue;
 
 import com.google.common.collect.ComparisonChain;
@@ -45,10 +47,10 @@ import org.spongepowered.api.data.value.mutable.Value;
 import static com.afterkraft.kraftrpg.api.RpgKeys.RPG_EFFECTS;
 
 
-public final class EffectData extends AbstractSingleData<Effect, EffectData, ImmutableEffectData> {
+public final class EffectData extends AbstractSetData<Effect, EffectData, ImmutableEffectData> {
 
 
-    public EffectData(SetValue<Effect> value) {
+    public EffectData(Set<Effect> value) {
       super(value, RPG_EFFECTS);
 
     }
@@ -68,19 +70,14 @@ public final class EffectData extends AbstractSingleData<Effect, EffectData, Imm
     }
 
     @Override
-    protected Value<?> getValueGetter() {
-        return null;
-    }
-
-    @Override
     public ImmutableEffectData asImmutable() {
-        return new ImmutableEffectData((Set<Effect>) getValue());
+        return new ImmutableEffectData(getValue());
     }
 
 
     public int compareTo(EffectData o) {
         return ComparisonChain.start()
-                .compare(o.effects().containsAll((Collection<Effect>) this.getValue()),
+                .compareFalseFirst(o.effects().containsAll(this.getValue()),
                          ((Collection<Effect>) this.getValue()).containsAll(o.effects().getAll())).result();
     }
 
@@ -96,7 +93,7 @@ public final class EffectData extends AbstractSingleData<Effect, EffectData, Imm
 
     @Override
     public EffectData copy() {
-        return new EffectData(this.getValue()));
+        return new EffectData(this.getValue());
     }
 
     @Override
