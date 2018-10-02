@@ -56,6 +56,7 @@ public final class RpgKeys {
     public static final Key<Value<FixedPoint>> REWARDING_EXPERIENCE;
 
 
+
     public static final TypeToken<SetValue<Effect>> SET_VALUE_TYPE_TOKEN = new TypeToken<SetValue<Effect>>() { };
     public static final TypeToken<Value<Double>> BASE_DAMAGE_TYPE_TOKEN = new TypeToken<Value<Double>>() {};
     public static final TypeToken<Value<Double>> DAMAGE_MODIFIER_TOKEN = new TypeToken<Value<Double>>() {};
@@ -67,6 +68,7 @@ public final class RpgKeys {
     public static final TypeToken<ListValue<Role>> ADDITIONAL_ROLE_TOKEN = new TypeToken<ListValue<Role>>() {};
     public static final TypeToken<MutableBoundedValue<Long>> SUMMON_DURATION_TOKEN = new TypeToken<MutableBoundedValue<Long>>() {};
     public static final TypeToken<Value<FixedPoint>> REWARDING_EXPERIENCE_TOKEN = new TypeToken<Value<FixedPoint>>() {};
+    public static final TypeToken<Value<Double>> COOLDOWN_TOKEN = new TypeToken<Value<Double>>() {};
 
 
 

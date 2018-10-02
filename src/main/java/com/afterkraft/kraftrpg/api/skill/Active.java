@@ -124,7 +124,7 @@ public interface Active extends Skill {
      * @param context The context of the skill cast
      * @return final SkillCastResults
      */
-    SkillCastResult useSkill(SkillCaster caster, SkillCastContext context);
+    SkillCastResult useSkill(SkillCaster caster);
 
     /**
      * Clean any parsed state. In particular, any generated objects should be available for garbage

@@ -25,7 +25,7 @@ package com.afterkraft.kraftrpg.api.skill;
 
 import com.afterkraft.kraftrpg.api.entity.Being;
 import com.afterkraft.kraftrpg.api.entity.SkillCaster;
-import com.afterkraft.kraftrpg.common.skill.TargetedSkillAbstract;
+
 
 /**
  * A Targeted skill is an Active skill that requires an {@link Being} target. The skill will usually

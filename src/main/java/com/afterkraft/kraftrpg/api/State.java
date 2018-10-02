@@ -30,5 +30,5 @@ public enum State {
     STARTING_BUILDING,
     STARTING_INITIALIZING,
     RUNNING,
-    STOPPING;
+    STOPPING
 }

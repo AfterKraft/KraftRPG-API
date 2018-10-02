@@ -38,7 +38,7 @@ public final class PlayerData implements DataSerializable {
 
     @Override
     public int getContentVersion() {
-        return 0;
+        return 1;
     }
 
     @Override

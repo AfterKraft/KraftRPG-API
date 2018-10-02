@@ -72,7 +72,7 @@ public class RewardingData extends AbstractSingleData<FixedPoint, RewardingData,
         return null;
     }
 
-    @Override
+
     public int compareTo(RewardingData o) {
         return Long.compare(o.getValue().rawValue(), this.getValue().rawValue());
     }

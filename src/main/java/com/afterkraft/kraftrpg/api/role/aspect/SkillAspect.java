@@ -131,7 +131,7 @@ public final class SkillAspect implements RoleAspect {
         Optional<RoleSkill> roleSkillOptional = getRoleSkill(skill);
         if (roleSkillOptional.isPresent()) {
             if (roleSkillOptional.get().getLevel() <= level) {
-                return Optional.<DataView>of(
+                return Optional.of(
                         roleSkillOptional.get().getConfig());
             }
         }

@@ -69,7 +69,7 @@ public interface DamageManager extends Manager {
 
     double getHighestProjectileDamage(Insentient champion, ProjectileType type);
 
-    public double getDefaultItemDamage(ItemType type, double damage);
+    double getDefaultItemDamage(ItemType type, double damage);
 
     double getDefaultItemDamage(ItemType type);
 

@@ -56,7 +56,7 @@ public class ImmutableRewardingData extends AbstractImmutableSingleData<FixedPoi
         return null;
     }
 
-    @Override
+
     public int compareTo(ImmutableRewardingData o) {
         return 0;
     }

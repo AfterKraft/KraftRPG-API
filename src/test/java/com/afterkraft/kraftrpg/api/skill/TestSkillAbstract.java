@@ -24,13 +24,13 @@
 package com.afterkraft.kraftrpg.api.skill;
 
 
-import org.spongepowered.api.command.args.CommandElement;
-import org.spongepowered.api.text.Text;
+        import org.spongepowered.api.command.args.CommandElement;
+        import org.spongepowered.api.text.Text;
 
 
-import com.afterkraft.kraftrpg.api.RpgPlugin;
-import com.afterkraft.kraftrpg.api.entity.SkillCaster;
-import com.afterkraft.kraftrpg.common.skill.AbstractActiveSkill;
+        import com.afterkraft.kraftrpg.api.RpgPlugin;
+        import com.afterkraft.kraftrpg.api.entity.SkillCaster;
+        import com.afterkraft.kraftrpg.common.skill.AbstractActiveSkill;
 
 /**
  * Default skill for Test Skill
@@ -46,8 +46,9 @@ public class TestSkillAbstract extends AbstractActiveSkill {
         return new CommandElement[0];
     }
 
+
     @Override
-    public SkillCastResult useSkill(SkillCaster caster, SkillCastContext context) {
+    public SkillCastResult useSkill(SkillCaster caster) {
         return SkillCastResult.SUCCESS;
     }
 

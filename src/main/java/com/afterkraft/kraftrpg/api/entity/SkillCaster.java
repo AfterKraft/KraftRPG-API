@@ -30,7 +30,12 @@ import com.afterkraft.kraftrpg.api.RpgKeys;
 import com.afterkraft.kraftrpg.api.role.Role;
 import com.afterkraft.kraftrpg.api.skill.Skill;
 import com.afterkraft.kraftrpg.api.skill.Stalled;
+import com.afterkraft.kraftrpg.common.data.manipulator.immutable.ImmutableEffectData;
+import com.afterkraft.kraftrpg.common.data.manipulator.immutable.ImmutableRewardingData;
+import com.afterkraft.kraftrpg.common.data.manipulator.mutable.EffectData;
+import com.afterkraft.kraftrpg.common.data.manipulator.mutable.RewardingData;
 import org.spongepowered.api.data.manipulator.DataManipulator;
+import org.spongepowered.api.data.manipulator.ImmutableDataManipulator;
 import org.spongepowered.api.data.value.mutable.ListValue;
 import org.spongepowered.api.data.value.mutable.MapValue;
 import org.spongepowered.api.data.value.mutable.MutableBoundedValue;
@@ -41,7 +46,9 @@ import org.spongepowered.api.data.value.mutable.MutableBoundedValue;
  */
 public interface SkillCaster extends Sentient {
 
-    public interface CooldownData extends DataManipulator<CooldownData, Immutable> {
+    //Wrong extensions revisit later
+
+    interface CooldownData extends DataManipulator<EffectData, ImmutableEffectData> {
 
         /**
          * @see RPGKeys#GLOBAL_COOLDOWN
@@ -58,7 +65,9 @@ public interface SkillCaster extends Sentient {
         long getCooldown(String key);
     }
 
-    public interface SkillLevelingData extends DataManipulator<SkillLevelingData, Immutable> {
+    //Wrong Extensions revisit later
+
+    interface SkillLevelingData extends DataManipulator<RewardingData, ImmutableRewardingData> {
 
         ListValue<Skill> usableSkills();
 

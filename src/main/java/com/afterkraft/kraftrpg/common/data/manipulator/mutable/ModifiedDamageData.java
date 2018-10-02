@@ -110,7 +110,7 @@ public final class ModifiedDamageData extends
         return new ImmutableModifiedDamageData(this.base, this.modified);
     }
 
-    @Override
+
     public int compareTo(ModifiedDamageData o) {
         return ComparisonChain.start()
                 .compare(o.base, this.base)
@@ -119,8 +119,13 @@ public final class ModifiedDamageData extends
     }
 
     @Override
+    public int getContentVersion() {
+        return 1;
+    }
+
+    @Override
     public DataContainer toContainer() {
-        return new MemoryDataContainer()
+        return super.toContainer()
                 .set(RpgKeys.BASE_DAMAGE, this.base)
                 .set(RpgKeys.DAMAGE_MODIFIER, this.modified);
     }

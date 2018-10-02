@@ -65,7 +65,7 @@ public final class SkillBind implements DataSerializable {
 
     @Override
     public int getContentVersion() {
-        return 0;
+        return 1;
     }
 
     @Override

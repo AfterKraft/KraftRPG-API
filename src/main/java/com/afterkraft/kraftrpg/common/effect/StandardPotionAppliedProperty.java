@@ -33,7 +33,8 @@ import org.spongepowered.api.data.DataContainer;
 import org.spongepowered.api.data.DataQuery;
 import org.spongepowered.api.data.MemoryDataContainer;
 import org.spongepowered.api.data.key.Keys;
-import org.spongepowered.api.potion.PotionEffect;
+import org.spongepowered.api.effect.potion.PotionEffect;
+
 
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
@@ -80,7 +81,7 @@ public class StandardPotionAppliedProperty implements PotionAppliedProperty {
 
     @Override
     public Set<EffectOperation> getOperations() {
-        return ImmutableSet.<EffectOperation>of(new ApplyEffectOperation() {
+        return ImmutableSet.of(new ApplyEffectOperation() {
             @Override
             public boolean isApplicableTo(Insentient being) {
                 return being.getEntity().isPresent() && !being.getEntity().get().isRemoved();
@@ -117,8 +118,13 @@ public class StandardPotionAppliedProperty implements PotionAppliedProperty {
     }
 
     @Override
+    public int getContentVersion() {
+        return 1;
+    }
+
+    @Override
     public DataContainer toContainer() {
-        return new MemoryDataContainer()
+        return DataContainer.createNew()
             .set(DataQuery.of("PropertyId"), this.id)
             .set(DataQuery.of("PotionEffects"), this.effects);
     }

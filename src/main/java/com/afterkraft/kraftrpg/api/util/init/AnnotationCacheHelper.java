@@ -103,7 +103,7 @@ public class AnnotationCacheHelper {
         for (Method m : target.getMethods()) {
             for (Annotation a : m.getAnnotations()) {
                 if (!anno.containsKey(a.annotationType())) {
-                    anno.put(a.annotationType(), Lists.<Method>newArrayList());
+                    anno.put(a.annotationType(), Lists.newArrayList());
                 }
                 //System.out.println("\t" + a.annotationType().getSimpleName() + " - " + m.toGenericString());
                 anno.get(a.annotationType()).add(m);

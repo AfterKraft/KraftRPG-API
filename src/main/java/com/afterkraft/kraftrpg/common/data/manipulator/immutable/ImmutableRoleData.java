@@ -49,12 +49,17 @@ public final class ImmutableRoleData extends AbstractImmutableData<ImmutableRole
     }
 
     @Override
-    public int compareTo(ImmutableRoleData o) {
-        return 0;
+    public int getContentVersion() {
+        return 1;
     }
 
     @Override
     public DataContainer toContainer() {
         return null;
+    }
+
+
+    public int compareTo(Object o) {
+        return 0;
     }
 }

@@ -304,7 +304,7 @@ public final class Role {
     /**
      * Standard definition of the various types of Roles.
      */
-    public static enum RoleType {
+    public enum RoleType {
 
         /**
          * A Primary role. Usually defined as a combat Role with skill granting and health and mana
@@ -550,14 +550,12 @@ public final class Role {
     static {
         TYPE_SERIALIZER = new TypeSerializer<Role>() {
             @Override
-            public Role deserialize(TypeToken<?> type, ConfigurationNode value) throws
-                    ObjectMappingException {
+            public Role deserialize(TypeToken<?> type, ConfigurationNode value) {
                 return null; // TODO
             }
 
             @Override
-            public void serialize(TypeToken<?> type, Role obj, ConfigurationNode value) throws
-                    ObjectMappingException {
+            public void serialize(TypeToken<?> type, Role obj, ConfigurationNode value) {
                 // TODO
 
             }

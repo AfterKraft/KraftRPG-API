@@ -24,6 +24,7 @@
 package com.afterkraft.kraftrpg.common.effect;
 
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -32,9 +33,11 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import org.spongepowered.api.data.DataContainer;
-import org.spongepowered.api.data.MemoryDataContainer;
 import org.spongepowered.api.text.Text;
-import org.spongepowered.api.text.Texts;
+
+import org.spongepowered.api.text.format.TextFormat;
+import org.spongepowered.api.text.serializer.TextSerializers;
+import org.spongepowered.api.text.transform.TextFormatter;
 import org.spongepowered.api.world.Location;
 
 import com.google.common.base.Objects;
@@ -75,7 +78,7 @@ public class StandardEffect implements Effect {
     public StandardEffect(String name,
                           Set<ApplyEffectOperation> applyOperations,
                           Collection<EffectType> types) {
-        this(name, applyOperations, types, Texts.of(""), Sets.<EffectProperty<?>>newHashSet());
+        this(name, applyOperations, types, Text.of(""), Sets.newHashSet());
     }
 
     /**
@@ -201,6 +204,71 @@ public class StandardEffect implements Effect {
     }
 
     @Override
+    public int size() {
+        return 0;
+    }
+
+    @Override
+    public boolean isEmpty() {
+        return false;
+    }
+
+    @Override
+    public boolean contains(Object o) {
+        return false;
+    }
+
+    @Override
+    public Iterator<Effect> iterator() {
+        return null;
+    }
+
+    @Override
+    public Object[] toArray() {
+        return new Object[0];
+    }
+
+    @Override
+    public <T> T[] toArray(T[] a) {
+        return null;
+    }
+
+    @Override
+    public boolean add(Effect effect) {
+        return false;
+    }
+
+    @Override
+    public boolean remove(Object o) {
+        return false;
+    }
+
+    @Override
+    public boolean containsAll(Collection<?> c) {
+        return false;
+    }
+
+    @Override
+    public boolean addAll(Collection<? extends Effect> c) {
+        return false;
+    }
+
+    @Override
+    public boolean retainAll(Collection<?> c) {
+        return false;
+    }
+
+    @Override
+    public boolean removeAll(Collection<?> c) {
+        return false;
+    }
+
+    @Override
+    public void clear() {
+
+    }
+
+    @Override
     public final boolean equals(Object obj) {
         if (this == obj) {
             return true;
@@ -218,10 +286,15 @@ public class StandardEffect implements Effect {
     }
 
     @Override
+    public int getContentVersion() {
+        return 0;
+    }
+
+    @Override
     public DataContainer toContainer() {
-        return new MemoryDataContainer()
+        return DataContainer.createNew()
             .set(DataQueries.EFFECT_NAME, this.name)
-            .set(DataQueries.APPLICATION_TEXT, Texts.json().to(this.applyText))
+            //.set(DataQueries.APPLICATION_TEXT, TextSerializers.json().to(this.applyText))
             .set(DataQueries.PROPERTIES, this.properties)
             .set(DataQueries.EFFECT_TYPES, this.types.stream().map(EffectType::name).collect(Collectors.toList()))
             .set(DataQueries.APPLY_TIME, this.applyTime);

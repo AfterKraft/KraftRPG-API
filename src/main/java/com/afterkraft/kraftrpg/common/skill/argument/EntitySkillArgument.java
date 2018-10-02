@@ -36,12 +36,10 @@ import org.spongepowered.api.command.args.ArgumentParseException;
 import org.spongepowered.api.command.args.CommandArgs;
 import org.spongepowered.api.command.args.CommandContext;
 import org.spongepowered.api.command.args.CommandElement;
-import org.spongepowered.api.command.source.LocatedSource;
 import org.spongepowered.api.data.property.entity.EyeLocationProperty;
 import org.spongepowered.api.entity.Entity;
 import org.spongepowered.api.entity.living.Living;
 import org.spongepowered.api.text.Text;
-import org.spongepowered.api.text.Texts;
 import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
 
@@ -102,7 +100,7 @@ public class EntitySkillArgument<E extends Entity> extends CommandElement {
     protected Object parseValue(CommandSource source, CommandArgs args) throws
             ArgumentParseException {
         if (!(source instanceof Living)) {
-            throw new ArgumentParseException(Texts.of("The command source is not located!"),
+            throw new ArgumentParseException(Text.of("The command source is not located!"),
                                              source.toString(), 0);
         }
         final Living callingEntity = (Living) source;

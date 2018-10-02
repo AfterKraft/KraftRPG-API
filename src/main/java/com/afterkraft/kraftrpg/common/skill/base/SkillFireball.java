@@ -23,48 +23,47 @@
  */
 package com.afterkraft.kraftrpg.common.skill.base;
 
-import org.spongepowered.api.data.key.Keys;
-import org.spongepowered.api.entity.EntityTypes;
-import org.spongepowered.api.entity.projectile.explosive.fireball.Fireball;
-import org.spongepowered.api.text.Text;
-import org.spongepowered.api.text.Texts;
-
-import com.afterkraft.kraftrpg.api.RpgPlugin;
-import com.afterkraft.kraftrpg.api.entity.SkillCaster;
-import com.afterkraft.kraftrpg.api.skill.SkillCastContext;
-import com.afterkraft.kraftrpg.api.skill.SkillCastResult;
-import com.afterkraft.kraftrpg.api.skill.SkillSetting;
-import com.afterkraft.kraftrpg.common.skill.AbstractActiveSkill;
-
-public class SkillFireball extends AbstractActiveSkill {
-
-    public static final Text DESCRIPTION = Texts.of();
-
-    public SkillFireball(RpgPlugin plugin) {
-        super("Fireball", DESCRIPTION);
-        setDefault(SkillSetting.COOLDOWN, 10);
-        setDefault(SkillSetting.DAMAGE, 3);
-        setDefault(SkillSetting.MANA_COST, 4);
-    }
-
-    @Override
-    public void initialize() {
-
-    }
-
-    @Override
-    public void shutdown() {
-
-    }
-
-    @Override
-    public SkillCastResult useSkill(SkillCaster caster, SkillCastContext context) {
-        Fireball fireball = (Fireball) caster.getWorld().createEntity(EntityTypes.SNOWBALL,
-            caster.getLocation().getPosition()).get();
-        fireball.offer(Keys.FIRE_TICKS, 1000);
-        fireball.offer(Keys.INVULNERABILITY_TICKS, 1000);
-        fireball.setShooter(caster);
-        caster.launchProjectile(Fireball.class, caster.getLocation().getPosition().add(0, 1.8f, 0));
-        return SkillCastResult.SUCCESS;
-    }
-}
+//import org.spongepowered.api.data.key.Keys;
+//import org.spongepowered.api.entity.EntityTypes;
+//import org.spongepowered.api.entity.projectile.explosive.fireball.Fireball;
+//import org.spongepowered.api.text.Text;
+//
+//
+//import com.afterkraft.kraftrpg.api.RpgPlugin;
+//import com.afterkraft.kraftrpg.api.entity.SkillCaster;
+//import com.afterkraft.kraftrpg.api.skill.SkillCastResult;
+//import com.afterkraft.kraftrpg.api.skill.SkillSetting;
+//import com.afterkraft.kraftrpg.common.skill.AbstractActiveSkill;
+//
+//public class SkillFireball extends AbstractActiveSkill {
+//
+//    public static final Text DESCRIPTION = Texts.of();
+//
+//    public SkillFireball(RpgPlugin plugin) {
+//        super("Fireball", DESCRIPTION);
+//        setDefault(SkillSetting.COOLDOWN, 10);
+//        setDefault(SkillSetting.DAMAGE, 3);
+//        setDefault(SkillSetting.MANA_COST, 4);
+//    }
+//
+//    @Override
+//    public void initialize() {
+//
+//    }
+//
+//    @Override
+//    public void shutdown() {
+//
+//    }
+//
+//    @Override
+//    public SkillCastResult useSkill(SkillCaster caster) {
+//        Fireball fireball = (Fireball) caster.getWorld().createEntity(EntityTypes.SNOWBALL,
+//            caster.getLocation().getPosition()).get();
+//        fireball.offer(Keys.FIRE_TICKS, 1000);
+//        fireball.offer(Keys.INVULNERABILITY_TICKS, 1000);
+//        fireball.setShooter(caster);
+//        caster.launchProjectile(Fireball.class, caster.getLocation().getPosition().add(0, 1.8f, 0));
+//        return SkillCastResult.SUCCESS;
+//    }
+//}

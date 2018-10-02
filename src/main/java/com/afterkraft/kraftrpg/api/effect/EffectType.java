@@ -34,8 +34,9 @@ import org.spongepowered.api.data.DataQuery;
 import org.spongepowered.api.data.DataSerializable;
 import org.spongepowered.api.data.DataView;
 import org.spongepowered.api.data.MemoryDataContainer;
-import org.spongepowered.api.service.persistence.DataBuilder;
-import org.spongepowered.api.service.persistence.InvalidDataException;
+import org.spongepowered.api.data.persistence.DataBuilder;
+import org.spongepowered.api.data.persistence.InvalidDataException;
+
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Sets;
@@ -532,17 +533,22 @@ public enum EffectType implements DataSerializable, DataBuilder<EffectType> {
     }
 
     @Override
+    public int getContentVersion() {
+        return 1;
+    }
+
+    @Override
     public DataContainer toContainer() {
         DataContainer container = new MemoryDataContainer();
         ImmutableList.Builder<String> builder = ImmutableList.builder();
         for (EffectType type : this.effectResists) {
             builder.add(type.name());
         }
-        container.set(new DataQuery(this.name()), builder.build());
+        container.set(DataQuery.of(this.name()), builder.build());
         return container;
     }
 
-    @Override
+
     public Optional<EffectType> build(DataView container) throws InvalidDataException {
         Set<DataQuery> keys = container.getKeys(false);
         for (DataQuery key : keys) {

@@ -132,14 +132,19 @@ public final class RoleData extends AbstractData<RoleData, ImmutableRoleData> {
         return null;
     }
 
-    @Override
+
     public int compareTo(RoleData o) {
         return 0;
     }
 
     @Override
+    public int getContentVersion() {
+        return 1;
+    }
+
+    @Override
     public DataContainer toContainer() {
-        return new MemoryDataContainer()
+        return super.toContainer()
                 .set(RpgKeys.PRIMARY_ROLE.getQuery(), this.primary.getName())
                 .set(RpgKeys.SECONDARY_ROLE.getQuery(), this.secondary.getName())
                 .set(RpgKeys.ADDITIONAL_ROLES.getQuery(), this.additional.stream()
@@ -172,7 +177,7 @@ public final class RoleData extends AbstractData<RoleData, ImmutableRoleData> {
 
     @Override
     public String toString() {
-        return com.google.common.base.Objects.toStringHelper(this)
+        return com.google.common.base.MoreObjects.toStringHelper(this)
                 .add("primary", this.primary)
                 .add("secondary", this.secondary)
                 .add("additionals", this.additional)

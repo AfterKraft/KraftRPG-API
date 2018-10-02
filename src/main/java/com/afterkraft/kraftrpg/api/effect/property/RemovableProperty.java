@@ -25,7 +25,7 @@ package com.afterkraft.kraftrpg.api.effect.property;
 
 import java.util.Set;
 
-import org.spongepowered.api.potion.PotionEffect;
+import org.spongepowered.api.effect.potion.PotionEffect;
 import org.spongepowered.api.text.Text;
 
 import com.afterkraft.kraftrpg.api.effect.Effect;

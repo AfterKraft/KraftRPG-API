@@ -71,4 +71,9 @@ public class SummonData extends AbstractBoundedComparableData<Long, SummonData,
         return new ImmutableSummonData(this.getValue(), this.lowerBound, this.upperBound,
                                        this.defaultValue);
     }
+
+    @Override
+    public int getContentVersion() {
+        return 1;
+    }
 }

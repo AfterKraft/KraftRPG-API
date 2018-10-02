@@ -72,14 +72,19 @@ public final class PartyData extends AbstractSingleData<Party, PartyData, Immuta
         return null;
     }
 
-    @Override
+
     public int compareTo(PartyData o) {
         return o.party().get().getUniqueId().compareTo(getValue().getUniqueId());
     }
 
     @Override
+    public int getContentVersion() {
+        return 1;
+    }
+
+    @Override
     public DataContainer toContainer() {
-        return new MemoryDataContainer()
+        return super.toContainer()
                 .set(RpgKeys.PARTY.getQuery(), getValue().getUniqueId().toString());
     }
 }

@@ -30,12 +30,12 @@ import org.spongepowered.api.entity.living.Living;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.SpongeEventFactory;
 import org.spongepowered.api.event.cause.Cause;
-import org.spongepowered.api.event.cause.NamedCause;
+import org.spongepowered.api.event.cause.EventContext;
 import org.spongepowered.api.event.cause.entity.damage.DamageModifier;
 import org.spongepowered.api.event.cause.entity.damage.DamageTypes;
 import org.spongepowered.api.event.cause.entity.damage.source.DamageSource;
 import org.spongepowered.api.event.entity.DamageEntityEvent;
-import org.spongepowered.api.text.Texts;
+import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
 import org.spongepowered.api.util.Tuple;
 
@@ -46,7 +46,8 @@ import com.afterkraft.kraftrpg.api.entity.Insentient;
 
 public final class SkillUtils {
 
-    private SkillUtils() {}
+    private SkillUtils() {
+    }
 
 
     /**
@@ -54,7 +55,6 @@ public final class SkillUtils {
      * compared with anything other than other results of this method.
      *
      * @param skillName skill.getName() to check
-     *
      * @return normalized name
      */
     public static String getNormalizedName(String skillName) {
@@ -71,7 +71,6 @@ public final class SkillUtils {
      *
      * @param attacking  attempting to deal the damage
      * @param defenderLE entity being damaged
-     *
      * @return true if the damage check was successful
      */
     public static boolean damageCheck(Insentient attacking, Living defenderLE) {
@@ -80,16 +79,14 @@ public final class SkillUtils {
         }
         if (defenderLE instanceof Player && attacking instanceof Champion) {
             if (!attacking.getWorld().getProperties().isPVPEnabled()) {
-                ((Champion) attacking).sendMessage(Texts.of(TextColors.RED, "PVP is disabled!"));
+                ((Champion) attacking).sendMessage(Text.of(TextColors.RED, "PVP is disabled!"));
                 return false;
             }
         }
-        DamageEntityEvent event = SpongeEventFactory
-                .createDamageEntityEvent(Cause.of(NamedCause.source(DamageSource.builder().type
-                        (DamageTypes.MAGIC))),
-                                         ImmutableList.<Tuple<DamageModifier, Function<? super Double, Double>>>of(),
-                                         defenderLE, 0);
-        Sponge.getEventManager().post(event);
-        return event.isCancelled();
+////        //DamageEntityEvent event = SpongeEventFactory.createDamageEntityEvent(EventContext.builder().add(DamageSource.builder().type(DamageTypes.MAGIC)).build());
+////        Sponge.getEventManager().post(event);
+////        return event.isCancelled();
+//    }
+        return false;
     }
 }

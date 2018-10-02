@@ -23,12 +23,13 @@
  */
 package com.afterkraft.kraftrpg.api.util;
 
-import org.spongepowered.api.data.DataManipulator;
+
+import org.spongepowered.api.block.BlockType;
 import org.spongepowered.api.data.Property;
 import org.spongepowered.api.item.ItemType;
 import org.spongepowered.api.text.translation.Translation;
 
-import com.google.common.base.Optional;
+import java.util.Optional;
 
 public class TestItemType implements ItemType {
 
@@ -44,6 +45,11 @@ public class TestItemType implements ItemType {
     }
 
     @Override
+    public Optional<BlockType> getBlock() {
+        return Optional.empty();
+    }
+
+    @Override
     public String getName() {
         return this.id;
     }
@@ -55,8 +61,13 @@ public class TestItemType implements ItemType {
 
     @Override
     public <T extends Property<?, ?>> Optional<T> getDefaultProperty(Class<T> propertyClass) {
-        return Optional.absent();
+        return Optional.empty();
     }
+
+//    @Override
+//    public <T extends Property<?, ?>> Optional<T> getDefaultProperty(Class<T> propertyClass) {
+//        return Optional.absent();
+//    }
 
     @Override
     public Translation getTranslation() {
