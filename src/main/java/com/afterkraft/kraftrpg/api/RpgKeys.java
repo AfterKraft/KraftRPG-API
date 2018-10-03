@@ -27,9 +27,14 @@ package com.afterkraft.kraftrpg.api;
 import java.util.Set;
 
 import static org.spongepowered.api.data.DataQuery.of;
+
+import com.afterkraft.kraftrpg.api.role.ExperienceType;
+import com.afterkraft.kraftrpg.api.skill.Skill;
 import com.google.common.reflect.TypeToken;
+import org.spongepowered.api.data.DataView;
 import org.spongepowered.api.data.key.Key;
 import org.spongepowered.api.data.value.mutable.ListValue;
+import org.spongepowered.api.data.value.mutable.MapValue;
 import org.spongepowered.api.data.value.mutable.MutableBoundedValue;
 import org.spongepowered.api.data.value.mutable.SetValue;
 import org.spongepowered.api.data.value.mutable.Value;
@@ -38,6 +43,7 @@ import com.afterkraft.kraftrpg.api.effect.Effect;
 import com.afterkraft.kraftrpg.api.entity.party.Party;
 import com.afterkraft.kraftrpg.api.role.Role;
 import com.afterkraft.kraftrpg.api.util.FixedPoint;
+import org.spongepowered.api.item.ItemType;
 
 @SuppressWarnings("unchecked")
 public final class RpgKeys {
@@ -54,6 +60,19 @@ public final class RpgKeys {
     public static final Key<Value<Role>> SECONDARY_ROLE;
     public static final Key<ListValue<Role>> ADDITIONAL_ROLES;
     public static final Key<Value<FixedPoint>> REWARDING_EXPERIENCE;
+
+    public static final Key<Value<Double>> BASE_HEALTH;
+    public static final Key<Value<Double>> HEALTH_PER_LEVEL; // Basically as above
+    public static final Key<SetValue<ExperienceType>> PERMITTED_EXPERIENCE; // Basically a list of string values of the enum type
+    public static final Key<MapValue<ItemType, Double>> BASE_ITEM_DAMAGE; // Basically, you have to serialize the item type id as a string, then the double as a value
+    public static final Key<MapValue<ItemType, Double>> ITEM_DAMAGE_LEVELING; // Basically, you have to serialize the item type id as a string, and then the double as value
+    public static final Key<SetValue<ItemType>> ACCEPTED_ARMOR; // Basically a list of string id's being serialized
+    public static final Key<SetValue<ItemType>> ACCEPTED_WEAPONS; // Basically a List of string id's being serialized
+    public static final Key<Value<Integer>> BASE_MANA; // Basically like the values from above
+    public static final Key<Value<Integer>> MANA_PER_LEVEL;
+    public static final Key<SetValue<Skill>> PROHIBITED_SKILLS; // Basically, string list
+    public static final Key<MapValue<Skill, DataView>> SKILL_CONFIGURATIONS; // Just like for item type mapping, use the skill id as a string, then the DataView is just another view that is contained in the map.
+
 
 
 
@@ -154,6 +173,8 @@ public final class RpgKeys {
                 .name("KraftRPG Rewarding Experience")
                 .query(of("KraftRPG", "rewarding_experience"))
                 .build();
+
+
     }
 
 }

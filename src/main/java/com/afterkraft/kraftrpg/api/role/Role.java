@@ -23,34 +23,26 @@
  */
 package com.afterkraft.kraftrpg.api.role;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
-
-import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.common.base.Preconditions.checkState;
-
-import org.spongepowered.api.text.Text;
-
-import com.google.common.base.Objects;
-import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Lists;
-import com.google.common.reflect.TypeToken;
-import ninja.leaping.configurate.ConfigurationNode;
-import ninja.leaping.configurate.objectmapping.ObjectMappingException;
-import ninja.leaping.configurate.objectmapping.Setting;
-import ninja.leaping.configurate.objectmapping.serialize.ConfigSerializable;
-import ninja.leaping.configurate.objectmapping.serialize.TypeSerializer;
-import ninja.leaping.configurate.objectmapping.serialize.TypeSerializers;
-
 import com.afterkraft.kraftrpg.api.RpgCommon;
+import com.afterkraft.kraftrpg.api.RpgKeys;
 import com.afterkraft.kraftrpg.api.RpgPlugin;
-import com.afterkraft.kraftrpg.api.role.aspect.HealthAspect;
-import com.afterkraft.kraftrpg.api.role.aspect.ResourceAspect;
-import com.afterkraft.kraftrpg.api.role.aspect.RestrictedSkillAspect;
-import com.afterkraft.kraftrpg.api.role.aspect.SkillAspect;
 import com.afterkraft.kraftrpg.api.skill.Skill;
+import com.google.common.collect.ImmutableSet;
+import com.google.common.primitives.Primitives;
+import ninja.leaping.configurate.ConfigurationNode;
+import org.spongepowered.api.CatalogType;
+import org.spongepowered.api.Sponge;
+import org.spongepowered.api.data.DataSerializable;
+import org.spongepowered.api.data.key.Key;
+import org.spongepowered.api.data.persistence.DataTranslator;
+import org.spongepowered.api.data.value.BaseValue;
+import org.spongepowered.api.data.value.ValueContainer;
+import org.spongepowered.api.text.Text;
+import org.spongepowered.api.util.ResettableBuilder;
+
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * A Role is an Immutable object representing the skill tree and damage values that a {@link
@@ -59,37 +51,7 @@ import com.afterkraft.kraftrpg.api.skill.Skill;
  * com.afterkraft.kraftrpg.api.entity.Sentient}s. To construct a Role, use the linked {@link
  * Builder}
  */
-public final class Role {
-
-    private static final TypeSerializer<Role> TYPE_SERIALIZER;
-
-    public static final Role DEFAULT_PRIMARY = null;
-    public static final Role DEFAULT_SECONDARY = null;
-
-    private final RoleAspect[] aspects;
-    private final String name;
-    private final String[] children;
-    private final String[] parents;
-    private final RoleType type;
-    private final int advancementLevel;
-    private final int maxLevel;
-    private final boolean choosable;
-    private final Text description;
-
-    private Role(Builder builder) {
-        this.name = builder.name;
-        this.type = builder.type;
-        this.choosable = builder.choosable;
-        this.description = builder.description;
-        this.advancementLevel = builder.advancementLevel;
-        this.maxLevel = builder.maxLevel;
-        this.children = builder.children
-                .toArray(new String[builder.children.size()]);
-        this.parents = builder.parents
-                .toArray(new String[builder.parents.size()]);
-        this.aspects = builder.aspects.toArray(new RoleAspect[builder.aspects
-                .size()]);
-    }
+public interface Role extends CatalogType, DataSerializable, ValueContainer<Role> {
 
     /**
      * Construct a Role. It is necessary to provide the link to {@link RpgPlugin} as many of the
@@ -97,8 +59,8 @@ public final class Role {
      *
      * @return This builder
      */
-    public static Builder builder() {
-        return new Builder();
+    static Builder builder() {
+        return Sponge.getRegistry().createBuilder(Builder.class);
     }
 
     /**
@@ -107,67 +69,30 @@ public final class Role {
      * @return The maximum level that can be achieved with this role
      */
     @SuppressWarnings("unused")
-    public int getMaxLevel() {
-        return this.maxLevel;
-    }
+    int getMaxLevel();
 
     /**
      * Get the type of Role this is.
      *
      * @return The {@link RoleType}
      */
-    public final RoleType getType() {
-        return this.type;
-    }
+    RoleType getType();
 
     /**
-     * Gets the desired {@link RoleAspect} of this role if available.
-     *
-     * @param clazz The resource class
-     * @param <T>   The type of resource
-     *
-     * @return The resource aspect, if available
-     */
-    @SuppressWarnings({"unchecked", "unused"})
-    public <T extends RoleAspect> Optional<T> getAspect(Class<T> clazz) {
-        checkNotNull(clazz);
-        checkArgument(!RoleAspect.class.equals(clazz)
-                              && !ResourceAspect.class.equals(clazz));
-        for (RoleAspect aspect : this.aspects) {
-            if (clazz.isInstance(aspect)) {
-                return Optional.of((T) aspect);
-            }
-        }
-        return Optional.empty();
-    }
-
-    /**
-     * Creates an immutable set of Roles that are defined as this Role's parents
+     * Gets an immutable set of Roles that are defined as this Role's parents
      *
      * @return an immutable set of roles that are this role's parents
      */
     @SuppressWarnings("unused")
-    public Set<Role> getParents() {
-        ImmutableSet.Builder<Role> builder = ImmutableSet.builder();
-        for (String roleName : this.parents) {
-            builder.add(RpgCommon.getRoleManager().getRole(roleName).get());
-        }
-        return builder.build();
-    }
+    ImmutableSet<Role> getParents();
 
     /**
-     * Creates an immutable set of Roles that are defined as this Role's children
+     * Gets an immutable set of Roles that are defined as this Role's children
      *
      * @return an immutable set of roles that are this role's children
      */
     @SuppressWarnings("unused")
-    public Set<Role> getChildren() {
-        ImmutableSet.Builder<Role> builder = ImmutableSet.builder();
-        for (String roleName : this.children) {
-            builder.add(RpgCommon.getRoleManager().getRole(roleName).get());
-        }
-        return builder.build();
-    }
+    ImmutableSet<Role> getChildren();
 
     /**
      * Check if this Role is defined as the default Role as configured in RpgCommon.
@@ -175,14 +100,14 @@ public final class Role {
      * @return true if this role is the default role
      */
     @SuppressWarnings("unused")
-    public boolean isDefault() {
-        if (this.type == RoleType.PRIMARY) {
+    default boolean isDefault() {
+        if (this.getType() == RoleType.PRIMARY) {
             return this == RpgCommon.getRoleManager().getDefaultPrimaryRole();
-        } else if (this.type == RoleType.SECONDARY
+        } else if (this.getType() == RoleType.SECONDARY
                 && RpgCommon.getRoleManager()
                 .getDefaultSecondaryRole().isPresent()) {
             return this == RpgCommon.getRoleManager()
-                    .getDefaultSecondaryRole().get();
+                    .getDefaultSecondaryRole().orElse(null);
         }
         return false;
     }
@@ -194,9 +119,7 @@ public final class Role {
      * @return can be chosen
      */
     @SuppressWarnings("unused")
-    public boolean isChoosable() {
-        return this.choosable;
-    }
+    boolean isChoosable();
 
     /**
      * Gets the level at which this Role is considered eligible for advancement.
@@ -204,9 +127,7 @@ public final class Role {
      * @return the level that this role is eligible for advancement to a child role
      */
     @SuppressWarnings("unused")
-    public int getAdvancementLevel() {
-        return this.advancementLevel;
-    }
+    int getAdvancementLevel();
 
     /**
      * Gets the description of this role.
@@ -214,97 +135,12 @@ public final class Role {
      * @return the description of this role
      */
     @SuppressWarnings("unused")
-    public Text getDescription() {
-        return this.description;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(this.name,
-                                this.description,
-                                this.choosable,
-                                this.children,
-                                this.parents,
-                                this.aspects,
-                                this.type,
-                                this.advancementLevel,
-                                this.maxLevel);
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        checkNotNull(obj);
-        if (obj.getClass() != this.getClass()) {
-            return false;
-        }
-        if (this == obj) {
-            return true;
-        }
-        Role role = (Role) obj;
-
-        return Objects.equal(this.name, role.getName())
-                && Objects.equal(this.description, role.description)
-                && Objects.equal(this.maxLevel, role.maxLevel)
-                && Objects.equal(this.type, role.type)
-                && Objects.equal(this.choosable, role.choosable)
-                && Objects.equal(this.advancementLevel, role.advancementLevel)
-                && Objects.equal(this.aspects, role.aspects)
-                && Objects.equal(this.children, role.children)
-                && Objects.equal(this.parents, role.parents);
-    }
-
-    /**
-     * Return the configured name for this Role
-     *
-     * @return The name for this role
-     */
-    public String getName() {
-        return this.name;
-    }
-
-    /**
-     * Creates a copy of this current role with all settings.
-     *
-     * @return A copy of this Role
-     */
-    @SuppressWarnings("unused")
-    public Role asNewCopy() {
-        return copyOf(this).build();
-    }
-
-    /**
-     * Creates a builder using a role as a template for further modification.
-     *
-     * @param role The role to copy
-     *
-     * @return This builder
-     */
-    public static Builder copyOf(Role role) {
-        checkNotNull(role);
-        Builder builder = new Builder()
-                .setName(role.name)
-                .setAdvancementLevel(role.advancementLevel)
-                .setMaxLevel(role.maxLevel)
-                .setChoosable(role.choosable)
-                .setDescription(role.description)
-                .setType(role.type);
-        for (String child : role.children) {
-            builder.addChild(RpgCommon.getRoleManager().getRole(child).get());
-        }
-        for (String parent : role.parents) {
-            builder.addParent(
-                    RpgCommon.getRoleManager().getRole(parent).get());
-        }
-        for (RoleAspect aspect : role.aspects) {
-            builder.addAspect(aspect);
-        }
-        return builder;
-    }
+    Text getDescription();
 
     /**
      * Standard definition of the various types of Roles.
      */
-    public enum RoleType {
+    enum RoleType {
 
         /**
          * A Primary role. Usually defined as a combat Role with skill granting and health and mana
@@ -333,18 +169,7 @@ public final class Role {
     /**
      * This is a builder for Role.
      */
-    public static final class Builder {
-        String name;
-        List<RoleAspect> aspects = Lists.newArrayList();
-        RoleType type = RoleType.PRIMARY;
-        List<String> children = Lists.newArrayList();
-        List<String> parents = Lists.newArrayList();
-        int advancementLevel;
-        int maxLevel = 1;
-        boolean choosable = true;
-        Text description;
-
-        Builder() { }
+    interface Builder extends ResettableBuilder<Role, Builder> {
 
         /**
          * Set the specified RoleType
@@ -353,11 +178,7 @@ public final class Role {
          *
          * @return this builder for chaining
          */
-        public Builder setType(RoleType type) {
-            checkNotNull(type);
-            this.type = type;
-            return this;
-        }
+        Builder type(RoleType type);
 
         /**
          * Sets the description for the role.
@@ -366,12 +187,7 @@ public final class Role {
          *
          * @return This builder for chaining
          */
-        public Builder setDescription(Text description) {
-            checkNotNull(description);
-            checkArgument(!description.isEmpty(), "The description cannot be empty!");
-            this.description = description;
-            return this;
-        }
+        Builder description(Text description);
 
         /**
          * Sets the role to be choosable by players in game. <p>A choosable role means that it can
@@ -382,10 +198,7 @@ public final class Role {
          *
          * @return This builder for chaining
          */
-        public Builder setChoosable(boolean choosable) {
-            this.choosable = choosable;
-            return this;
-        }
+        Builder choosable(boolean choosable);
 
         /**
          * Sets the maximum level of the role.
@@ -394,12 +207,7 @@ public final class Role {
          *
          * @return This builder for chaining
          */
-        public Builder setMaxLevel(int maxLevel) {
-            checkArgument(maxLevel > 0 && maxLevel >= this.advancementLevel,
-                          "Cannot have a max level lower than the advancement level or less than zero!");
-            this.maxLevel = maxLevel;
-            return this;
-        }
+        Builder maxLevel(int maxLevel);
 
         /**
          * Sets the level of which the role qualifies for advancement to a child role.
@@ -408,12 +216,7 @@ public final class Role {
          *
          * @return This builder for chaining
          */
-        public Builder setAdvancementLevel(int advancementLevel) {
-            checkArgument(advancementLevel >= 0,
-                          "Cannot have a less than zero advancement level!");
-            this.advancementLevel = advancementLevel;
-            return this;
-        }
+        Builder advancementLevel(int advancementLevel);
 
         /**
          * Sets the name of the role.
@@ -422,42 +225,33 @@ public final class Role {
          *
          * @return This builder for chaining
          */
-        public Builder setName(String name) {
-            checkNotNull(name);
-            checkArgument(!name.isEmpty(), "Cannot have an empty Role name!");
-            this.name = name;
-            return this;
-        }
+        Builder name(String name);
+
+        Builder id(String id);
 
         /**
-         * Adds the given aspect to the role. <p>Aspects further customize Roles to perform various
-         * tasks and calculations, such as skill granting, skill restriction, item damage, and
-         * health benefits.</p> <p>{@link RoleAspect} is considered immutble, so once created, they
-         * can not be modified.</p>
+         * Grants the provided {@link Key} and respected value to this
+         * role. The requirement for the value type is that it abides by
+         * one of the following:
+         * <ul>
+         *     <li>A {@link Primitives#isWrapperType(Class)} or directly, a primitive type</li>
+         *     <li>A {@link List} or {@link Set} or {@link Map} that contains elements likewise abiding by these requirements</li>
+         *     <li>An object that is registered with a {@link DataTranslator} to support serialization</li>
+         *     <li>A {@link DataSerializable}</li>
+         * </ul>
+         *
+         * <p>Provided the requirements above are met, the type itself can
+         * therefor be serialized for the generated {@link Role}, and likewise
+         * can successfully be used in {@link ConfigurationNode}s.</p>
+         *
+         * <p>Note that the common supported {@link Key Keys} are listed in
+         * {@link RpgKeys}, or otherwise documented.</p>
          *
          * @param aspect The role aspect
          *
          * @return This builder for chaining
          */
-        public Builder addAspect(RoleAspect aspect) {
-            checkNotNull(aspect);
-            if (aspect instanceof HealthAspect) {
-                checkArgument(((HealthAspect) aspect).getBaseHealth() > 0);
-            }
-            if (aspect instanceof RestrictedSkillAspect) {
-                for (RoleAspect roleAspect : this.aspects) {
-                    if (roleAspect instanceof SkillAspect) {
-                        SkillAspect skillAspect = (SkillAspect) roleAspect;
-                        for (Skill skill : skillAspect.getAllSkills()) {
-                            checkArgument(!((RestrictedSkillAspect) aspect)
-                                    .isSkillRestricted(skill));
-                        }
-                    }
-                }
-            }
-            this.aspects.add(aspect);
-            return this;
-        }
+        <E> Builder aspect(Key<? extends BaseValue<E>> aspect, E value);
 
         /**
          * Add a Role as a child to this role. This will not affect the child role being parented.
@@ -467,13 +261,7 @@ public final class Role {
          * @return This builder for chaining
          * @throws IllegalArgumentException if the child was already added as a parent
          */
-        public Builder addChild(Role child) {
-            checkNotNull(child);
-            checkArgument(!this.parents.contains(child.getName()),
-                          "Cannot add a child role when it is already a parent role!");
-            this.children.add(child.getName());
-            return this;
-        }
+        Builder child(Role child);
 
         /**
          * Add a Role as a child to this role. This will not affect the parent being dependend on.
@@ -483,46 +271,7 @@ public final class Role {
          * @return This builder for chaining
          * @throws IllegalArgumentException if the parent was already added as a child
          */
-        public Builder addParent(Role parent) {
-            checkNotNull(parent);
-            checkArgument(!this.children.contains(parent.getName()),
-                          "Cannot add a parent role when it is already a child role!");
-            this.parents.add(parent.getName());
-            return this;
-        }
-
-
-        /**
-         * Removes the child from the dependency list. This will not affect the child Role.
-         *
-         * @param child The child to remove from the dependency list
-         *
-         * @return This builder for chaining
-         */
-        public Builder removeChild(Role child) {
-            checkNotNull(child);
-            checkArgument(!this.parents.contains(child.getName()),
-                          "Cannot remove a child role when it is already a parent role!");
-            this.children.remove(child.getName());
-            return this;
-        }
-
-
-        /**
-         * Removes the parent from the dependency list. This will not affect the parent Role.
-         *
-         * @param parent The parent to remove from the dependency list
-         *
-         * @return This builder for chaining
-         * @throws IllegalArgumentException If the parent is also a child
-         */
-        public Builder removeParent(Role parent) {
-            checkNotNull(parent);
-            checkArgument(!this.children.contains(parent.getName()),
-                          "Cannot remove a parent role when it is already a child role!");
-            this.parents.remove(parent.getName());
-            return this;
-        }
+        Builder parent(Role parent);
 
         /**
          * Gets a Role from the present state of the Builder. There are requirements to generating a
@@ -537,31 +286,8 @@ public final class Role {
          * @throws IllegalStateException If the mana gained per level at max level is less than
          *                               zero
          */
-        public Role build() {
-            checkState(this.advancementLevel > 0,
-                       "Cannot have a zero advancement level!");
-            checkState(this.maxLevel > 0, "Cannot have a zero max level!");
-            checkState(!this.name.isEmpty());
-            return new Role(this);
-        }
+        Role build();
 
-    }
-
-    static {
-        TYPE_SERIALIZER = new TypeSerializer<Role>() {
-            @Override
-            public Role deserialize(TypeToken<?> type, ConfigurationNode value) {
-                return null; // TODO
-            }
-
-            @Override
-            public void serialize(TypeToken<?> type, Role obj, ConfigurationNode value) {
-                // TODO
-
-            }
-        };
-        TypeSerializers.getDefaultSerializers()
-                .registerType(TypeToken.of(Role.class), TYPE_SERIALIZER);
     }
 
 }
