@@ -84,15 +84,16 @@ public final class ImmutableManaData extends AbstractImmutableData<ImmutableMana
         registerKeyValue(RpgKeys.MAX_MANA, this::maxMana);
     }
 
-    @Override
-    public <E> Optional<ImmutableManaData> with(Key<? extends BaseValue<E>> key, E value) {
-        if (key == RpgKeys.MANA) {
-            return Optional.of(new ImmutableManaData((Integer) value, this.maxMana));
-        } else if (key == RpgKeys.MAX_MANA) {
-            return Optional.of(new ImmutableManaData(this.mana, (Integer) value));
-        }
-        return Optional.empty();
-    }
+    //Revisit later
+//    @Override
+//    public <E> Optional<ImmutableManaData> with(Key<? extends BaseValue<E>> key, E value) {
+//        if (key == RpgKeys.MANA) {
+//            return Optional.of(new ImmutableManaData((Integer) value, this.maxMana));
+//        } else if (key == RpgKeys.MAX_MANA) {
+//            return Optional.of(new ImmutableManaData(this.mana, (Integer) value));
+//        }
+//        return Optional.empty();
+//    }
 
     @Override
     public String toString() {

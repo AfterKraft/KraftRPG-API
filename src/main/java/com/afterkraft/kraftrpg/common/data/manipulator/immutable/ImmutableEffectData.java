@@ -51,15 +51,15 @@ public final class ImmutableEffectData extends ImmutableSetData<Effect,
                 .createSetValue(RpgKeys.RPG_EFFECTS, this.value)
                 .asImmutable();
     }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public <E> Optional<ImmutableEffectData> with(Key<? extends BaseValue<E>> key, E value) {
-        if (key == RpgKeys.RPG_EFFECTS) {
-            return Optional.of(new ImmutableEffectData((Set<Effect>) value));
-        }
-        return Optional.empty();
-    }
+//  Commented out revisit later
+//    @SuppressWarnings("unchecked")
+//    @Override
+//    public <E> Optional<ImmutableEffectData> with(Key<? extends BaseValue<E>> key, E value) {
+//        if (key == RpgKeys.RPG_EFFECTS) {
+//            return Optional.of(new ImmutableEffectData((Set<Effect>) value));
+//        }
+//        return Optional.empty();
+//    }
 
     @Override
     protected ImmutableValue<?> getValueGetter() {

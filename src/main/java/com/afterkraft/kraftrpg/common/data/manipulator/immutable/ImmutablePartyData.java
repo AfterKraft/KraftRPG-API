@@ -53,13 +53,13 @@ public final class ImmutablePartyData extends AbstractImmutableSingleData<Party,
         return party();
     }
 
-    @Override
-    public <E> Optional<ImmutablePartyData> with(Key<? extends BaseValue<E>> key, E value) {
-        if (key == RpgKeys.PARTY) {
-            return Optional.of(new ImmutablePartyData((Party) value));
-        }
-        return Optional.empty();
-    }
+//    @Override
+//    public <E> Optional<ImmutablePartyData> with(Key<? extends BaseValue<E>> key, E value) {
+//        if (key == RpgKeys.PARTY) {
+//            return Optional.of(new ImmutablePartyData((Party) value));
+//        }
+//        return Optional.empty();
+//    }
 
     @Override
     public PartyData asMutable() {

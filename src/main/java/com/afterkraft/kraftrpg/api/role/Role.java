@@ -27,14 +27,18 @@ import com.afterkraft.kraftrpg.api.RpgCommon;
 import com.afterkraft.kraftrpg.api.RpgKeys;
 import com.afterkraft.kraftrpg.api.RpgPlugin;
 import com.afterkraft.kraftrpg.api.skill.Skill;
+import com.afterkraft.kraftrpg.common.data.manipulator.mutable.RoleData;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.primitives.Primitives;
 import ninja.leaping.configurate.ConfigurationNode;
 import org.spongepowered.api.CatalogType;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.data.DataSerializable;
+import org.spongepowered.api.data.DataView;
 import org.spongepowered.api.data.key.Key;
+import org.spongepowered.api.data.persistence.DataBuilder;
 import org.spongepowered.api.data.persistence.DataTranslator;
+import org.spongepowered.api.data.persistence.InvalidDataException;
 import org.spongepowered.api.data.value.BaseValue;
 import org.spongepowered.api.data.value.ValueContainer;
 import org.spongepowered.api.text.Text;
@@ -42,6 +46,7 @@ import org.spongepowered.api.util.ResettableBuilder;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 
 /**
@@ -52,6 +57,8 @@ import java.util.Set;
  * Builder}
  */
 public interface Role extends CatalogType, DataSerializable, ValueContainer<Role> {
+
+
 
     /**
      * Construct a Role. It is necessary to provide the link to {@link RpgPlugin} as many of the
@@ -94,8 +101,29 @@ public interface Role extends CatalogType, DataSerializable, ValueContainer<Role
     @SuppressWarnings("unused")
     ImmutableSet<Role> getChildren();
 
+
+    /**
+     * Adds a parent to the Role.
+     * @return this role
+     * @throws IllegalArgumentException if the parent is already a child of this Role.
+     * @throws IllegalArgumentException if this role already has a parent relationship with the provided role.
+     */
+    Role addParent(Role role);
+
+
+    /**
+     * Adds a child to the Role
+     * @return this role
+     * @throws IllegalArgumentException if the child is already a parent of this Role.
+     * @throws IllegalArgumentException if this role already has a child relationship with the provided role.
+     */
+    Role addChildren(Role role);
+
+
+
     /**
      * Check if this Role is defined as the default Role as configured in RpgCommon.
+     *
      *
      * @return true if this role is the default role
      */
@@ -169,7 +197,7 @@ public interface Role extends CatalogType, DataSerializable, ValueContainer<Role
     /**
      * This is a builder for Role.
      */
-    interface Builder extends ResettableBuilder<Role, Builder> {
+    interface Builder extends DataBuilder<Role> {
 
         /**
          * Set the specified RoleType
@@ -226,6 +254,8 @@ public interface Role extends CatalogType, DataSerializable, ValueContainer<Role
          * @return This builder for chaining
          */
         Builder name(String name);
+
+
 
         Builder id(String id);
 
@@ -288,6 +318,18 @@ public interface Role extends CatalogType, DataSerializable, ValueContainer<Role
          */
         Role build();
 
+        @Override
+        Optional<Role> build(DataView container) throws InvalidDataException;
+
+        @Override
+        default Builder reset() {
+            return null;
+        }
+
+        @Override
+        default Builder from(Role value) {
+            return null;
+        }
     }
 
 }

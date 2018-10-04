@@ -95,15 +95,16 @@ public final class ImmutableModifiedDamageData
         registerKeyValue(RpgKeys.DAMAGE_MODIFIER, this::modifiedDamage);
     }
 
-    @Override
-    public <E> Optional<ImmutableModifiedDamageData> with(Key<? extends BaseValue<E>> key, E value) {
-        if (key == RpgKeys.BASE_DAMAGE) {
-            return Optional.of(new ImmutableModifiedDamageData((Double) value, this.modifiedDamage));
-        } else if (key == RpgKeys.DAMAGE_MODIFIER) {
-            return Optional.of(new ImmutableModifiedDamageData(this.baseDamage, (Double) value));
-        }
-        return Optional.empty();
-    }
+    //Commented out revisit later
+//    @Override
+//    public <E> Optional<ImmutableModifiedDamageData> with(Key<? extends BaseValue<E>> key, E value) {
+//        if (key == RpgKeys.BASE_DAMAGE) {
+//            return Optional.of(new ImmutableModifiedDamageData((Double) value, this.modifiedDamage));
+//        } else if (key == RpgKeys.DAMAGE_MODIFIER) {
+//            return Optional.of(new ImmutableModifiedDamageData(this.baseDamage, (Double) value));
+//        }
+//        return Optional.empty();
+//    }
 
     @Override
     public ModifiedDamageData asMutable() {
