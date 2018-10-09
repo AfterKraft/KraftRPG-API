@@ -23,181 +23,70 @@
  */
 package com.afterkraft.kraftrpg.common.data.manipulator.mutable;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.stream.Collectors;
-
-import static com.google.common.base.Preconditions.checkNotNull;
-
-import org.spongepowered.api.Sponge;
+import com.afterkraft.kraftrpg.api.role.Role;
+import com.afterkraft.kraftrpg.common.data.manipulator.immutable.ImmutableRoleData;
 import org.spongepowered.api.data.DataContainer;
 import org.spongepowered.api.data.DataHolder;
-import org.spongepowered.api.data.MemoryDataContainer;
-import org.spongepowered.api.data.manipulator.mutable.common.AbstractData;
+import org.spongepowered.api.data.manipulator.DataManipulator;
+
 import org.spongepowered.api.data.merge.MergeFunction;
 import org.spongepowered.api.data.value.mutable.ListValue;
 import org.spongepowered.api.data.value.mutable.Value;
 
-import com.afterkraft.kraftrpg.api.RpgKeys;
-import com.afterkraft.kraftrpg.api.role.Role;
-import com.afterkraft.kraftrpg.common.data.manipulator.immutable.ImmutableRoleData;
 
-public final class RoleData extends AbstractData<RoleData, ImmutableRoleData> {
+import java.util.List;
+import java.util.Optional;
 
-    private Role primary;
-    private Role secondary;
-    private List<Role> additional;
+public interface RoleData extends DataManipulator<RoleData, ImmutableRoleData> {
 
-    public RoleData() {
-        this(Role.DEFAULT_PRIMARY, Role.DEFAULT_SECONDARY);
-    }
 
-    public RoleData(Role primary, Role secondary) {
-        this(primary, secondary, Collections.EMPTY_LIST);
-    }
 
-    public RoleData(Role primary, Role secondary, List<Role> additional) {
-        this.primary = checkNotNull(primary, "primary");
-        this.secondary = checkNotNull(secondary, "Secondary");
-        this.additional = new ArrayList<>(additional);
-        registerGettersAndSetters();
-    }
+    Value<Role> primary();
 
-    public Value<Role> primary() {
-        return Sponge.getRegistry().getValueFactory().createValue(RpgKeys.PRIMARY_ROLE, this
-                .primary, Role.DEFAULT_PRIMARY);
-    }
+    Value<Role> secondary();
 
-    public Value<Role> secondary() {
-        return Sponge.getRegistry().getValueFactory().createValue(RpgKeys.SECONDARY_ROLE,
-                                                                  this.secondary,
-                                                                  Role.DEFAULT_SECONDARY);
-    }
+    ListValue<Role> additionals();
 
-    public ListValue<Role> additionals() {
-        return Sponge.getRegistry().getValueFactory().createListValue(RpgKeys.ADDITIONAL_ROLES,
-                                                                      this.additional);
-    }
 
-    @Override
-    protected void registerGettersAndSetters() {
-        registerFieldGetter(RpgKeys.PRIMARY_ROLE, this::getPrimary);
-        registerFieldSetter(RpgKeys.PRIMARY_ROLE, this::setPrimary);
-        registerKeyValue(RpgKeys.PRIMARY_ROLE, this::primary);
+    void registerGettersAndSetters();
 
-        registerFieldGetter(RpgKeys.SECONDARY_ROLE, this::getSecondary);
-        registerFieldSetter(RpgKeys.SECONDARY_ROLE, this::setSecondary);
-        registerKeyValue(RpgKeys.SECONDARY_ROLE, this::secondary);
 
-        registerFieldGetter(RpgKeys.ADDITIONAL_ROLES, this::getAdditional);
-        registerFieldSetter(RpgKeys.ADDITIONAL_ROLES, this::setAdditional);
-        registerKeyValue(RpgKeys.ADDITIONAL_ROLES, this::additionals);
-    }
+    Optional<RoleData> fill(DataHolder dataHolder, MergeFunction overlap);
+
+
+    Optional<RoleData> from(DataContainer container);
+
+    RoleData copy();
+
+    ImmutableRoleData asImmutable();
+
+
+    int compareTo(RoleData o);
+
+    int getContentVersion();
+
+
+    DataContainer toContainer();
+
+    Role getPrimary();
+
+    void setPrimary(Role primary);
+
+    Role getSecondary();
+
+    void setSecondary(Role secondary);
+
+    List<Role> getAdditional();
+
+
+    void setAdditional(List<Role> additional);
 
     @Override
-    public Optional<RoleData> fill(DataHolder dataHolder, MergeFunction overlap) {
-        final Optional<RoleData> roleData = dataHolder.get(RoleData.class);
-        if (roleData.isPresent()) {
-            final RoleData holderOne = roleData.get();
-            final RoleData merged = overlap.merge(this, holderOne);
-            setPrimary(checkNotNull(merged.primary));
-            setSecondary(checkNotNull(merged.secondary));
-            setAdditional(checkNotNull(merged.additional));
-            return Optional.of(this);
-        }
-        return Optional.empty();
-    }
+    String toString();
 
     @Override
-    public Optional<RoleData> from(DataContainer container) {
-        if (container.contains(RpgKeys.PRIMARY_ROLE.getQuery(), RpgKeys.SECONDARY_ROLE.getQuery(),
-                               RpgKeys.ADDITIONAL_ROLES.getQuery())) {
-            final String primaryId = container.getString(RpgKeys.PRIMARY_ROLE.getQuery()).get();
-
-
-        }
-        return Optional.empty();
-    }
+    boolean equals(Object o);
 
     @Override
-    public RoleData copy() {
-        return new RoleData();
-    }
-
-    @Override
-    public ImmutableRoleData asImmutable() {
-        return null;
-    }
-
-
-    public int compareTo(RoleData o) {
-        return 0;
-    }
-
-    @Override
-    public int getContentVersion() {
-        return 1;
-    }
-
-    @Override
-    public DataContainer toContainer() {
-        return super.toContainer()
-                .set(RpgKeys.PRIMARY_ROLE.getQuery(), this.primary.getName())
-                .set(RpgKeys.SECONDARY_ROLE.getQuery(), this.secondary.getName())
-                .set(RpgKeys.ADDITIONAL_ROLES.getQuery(), this.additional.stream()
-                    .map(Role::getName).collect(Collectors.toList()));
-    }
-
-    private Role getPrimary() {
-        return this.primary;
-    }
-
-    private void setPrimary(Role primary) {
-        this.primary = checkNotNull(primary, "primary");
-    }
-
-    private Role getSecondary() {
-        return this.secondary;
-    }
-
-    private void setSecondary(Role secondary) {
-        this.secondary = checkNotNull(secondary, "Secondary");
-    }
-
-    private List<Role> getAdditional() {
-        return this.additional;
-    }
-
-    private void setAdditional(List<Role> additional) {
-        this.additional = new ArrayList<>(additional);
-    }
-
-    @Override
-    public String toString() {
-        return com.google.common.base.MoreObjects.toStringHelper(this)
-                .add("primary", this.primary)
-                .add("secondary", this.secondary)
-                .add("additionals", this.additional)
-                .toString();
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        RoleData that = (RoleData) o;
-
-        return Objects.equals(this.primary, that.primary) &&
-                Objects.equals(this.secondary, that.secondary) &&
-                Objects.equals(this.additional, that.additional);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(this.primary, this.secondary, this.additional);
-    }
+    int hashCode();
 }

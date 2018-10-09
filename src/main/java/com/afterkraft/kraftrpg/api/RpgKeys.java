@@ -45,7 +45,6 @@ import com.afterkraft.kraftrpg.api.entity.party.Party;
 import com.afterkraft.kraftrpg.api.role.Role;
 import com.afterkraft.kraftrpg.api.util.FixedPoint;
 import org.spongepowered.api.item.ItemType;
-import sun.security.provider.PolicySpiFile;
 
 @SuppressWarnings("unchecked")
 public final class RpgKeys {
