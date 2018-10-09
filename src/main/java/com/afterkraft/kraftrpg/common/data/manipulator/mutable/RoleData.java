@@ -25,21 +25,11 @@ package com.afterkraft.kraftrpg.common.data.manipulator.mutable;
 
 import com.afterkraft.kraftrpg.api.role.Role;
 import com.afterkraft.kraftrpg.common.data.manipulator.immutable.ImmutableRoleData;
-import org.spongepowered.api.data.DataContainer;
-import org.spongepowered.api.data.DataHolder;
 import org.spongepowered.api.data.manipulator.DataManipulator;
-
-import org.spongepowered.api.data.merge.MergeFunction;
 import org.spongepowered.api.data.value.mutable.ListValue;
 import org.spongepowered.api.data.value.mutable.Value;
 
-
-import java.util.List;
-import java.util.Optional;
-
 public interface RoleData extends DataManipulator<RoleData, ImmutableRoleData> {
-
-
 
     Value<Role> primary();
 
@@ -47,46 +37,4 @@ public interface RoleData extends DataManipulator<RoleData, ImmutableRoleData> {
 
     ListValue<Role> additionals();
 
-
-    void registerGettersAndSetters();
-
-
-    Optional<RoleData> fill(DataHolder dataHolder, MergeFunction overlap);
-
-
-    Optional<RoleData> from(DataContainer container);
-
-    RoleData copy();
-
-    ImmutableRoleData asImmutable();
-
-
-    int compareTo(RoleData o);
-
-    int getContentVersion();
-
-
-    DataContainer toContainer();
-
-    Role getPrimary();
-
-    void setPrimary(Role primary);
-
-    Role getSecondary();
-
-    void setSecondary(Role secondary);
-
-    List<Role> getAdditional();
-
-
-    void setAdditional(List<Role> additional);
-
-    @Override
-    String toString();
-
-    @Override
-    boolean equals(Object o);
-
-    @Override
-    int hashCode();
 }
