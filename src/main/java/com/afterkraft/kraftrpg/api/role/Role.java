@@ -34,6 +34,7 @@ import ninja.leaping.configurate.ConfigurationNode;
 import org.spongepowered.api.CatalogType;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.data.DataSerializable;
+import org.spongepowered.api.data.DataTransactionResult;
 import org.spongepowered.api.data.DataView;
 import org.spongepowered.api.data.key.Key;
 import org.spongepowered.api.data.persistence.DataBuilder;
@@ -41,6 +42,7 @@ import org.spongepowered.api.data.persistence.DataTranslator;
 import org.spongepowered.api.data.persistence.InvalidDataException;
 import org.spongepowered.api.data.value.BaseValue;
 import org.spongepowered.api.data.value.ValueContainer;
+import org.spongepowered.api.data.value.mutable.CompositeValueStore;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.util.ResettableBuilder;
 
@@ -58,8 +60,6 @@ import java.util.Set;
  */
 public interface Role extends CatalogType, DataSerializable, ValueContainer<Role> {
 
-
-
     /**
      * Construct a Role. It is necessary to provide the link to {@link RpgPlugin} as many of the
      * operations performed in a Role use it.
@@ -69,6 +69,61 @@ public interface Role extends CatalogType, DataSerializable, ValueContainer<Role
     static Builder builder() {
         return Sponge.getRegistry().createBuilder(Builder.class);
     }
+
+
+    /**
+     * Offers the given {@code value} as defined by the provided {@link Key}
+     * such that a {@link DataTransactionResult} is returned for any
+     * successful, rejected, and replaced {@link BaseValue}s from this
+     * {@link CompositeValueStore}.
+     *
+     * @param key The key to the value to set
+     * @param value The value to set
+     * @param <E> The type of value
+     * @return The transaction result
+     */
+    <E> Role offer(Key<? extends BaseValue<E>> key, E value);
+
+    /**
+     * Offers the given {@link BaseValue} as defined by the provided
+     * {@link Key} such that a {@link DataTransactionResult} is returned for
+     * any successful, rejected, and replaced {@link BaseValue}s from this
+     * {@link CompositeValueStore}.
+     *
+     * @param value The value to set
+     * @param <E> The type of the element wrapped by the value
+     * @return The transaction result
+     */
+    default <E> Role offer(BaseValue<E> value) {
+        return offer(value.getKey(), value.get());
+    }
+
+
+    /**
+     * Attempts to remove the provided {@link BaseValue}. All values that were
+     * successfully removed will be provided in
+     * {@link DataTransactionResult#getReplacedData()}. If the data can not be
+     * removed, the result will be an expected
+     * {@link org.spongepowered.api.data.DataTransactionResult.Type#FAILURE}.
+     *
+     * @param value The value to remove
+     * @return The transaction result
+     */
+    default Role remove(BaseValue<?> value) {
+        return remove(value.getKey());
+    }
+
+    /**
+     * Attempts to remove the data associated with the provided {@link Key}.
+     * All values that were successfully removed will be provided in
+     * {@link DataTransactionResult#getReplacedData()}. If the data can not be
+     * removed, the result will be an expected
+     * {@link org.spongepowered.api.data.DataTransactionResult.Type#FAILURE}.
+     *
+     * @param key The key of the data
+     * @return The transaction result
+     */
+    Role remove(Key<?> key);
 
     /**
      * Gets the maximum level that can be achieved with this Role.
@@ -128,17 +183,7 @@ public interface Role extends CatalogType, DataSerializable, ValueContainer<Role
      * @return true if this role is the default role
      */
     @SuppressWarnings("unused")
-    default boolean isDefault() {
-        if (this.getType() == RoleType.PRIMARY) {
-            return this == RpgCommon.getRoleManager().getDefaultPrimaryRole();
-        } else if (this.getType() == RoleType.SECONDARY
-                && RpgCommon.getRoleManager()
-                .getDefaultSecondaryRole().isPresent()) {
-            return this == RpgCommon.getRoleManager()
-                    .getDefaultSecondaryRole().orElse(null);
-        }
-        return false;
-    }
+    boolean isDefault();
 
     /**
      * Check if this role can by chosen by players. A non-choosable role must be granted through

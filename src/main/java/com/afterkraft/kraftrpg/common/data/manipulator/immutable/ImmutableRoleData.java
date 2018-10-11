@@ -25,41 +25,44 @@ package com.afterkraft.kraftrpg.common.data.manipulator.immutable;
 
 import java.util.Optional;
 
-import org.spongepowered.api.data.DataContainer;
-import org.spongepowered.api.data.key.Key;
-import org.spongepowered.api.data.manipulator.immutable.common.AbstractImmutableData;
-import org.spongepowered.api.data.value.BaseValue;
+import com.afterkraft.kraftrpg.api.role.Role;
+import org.spongepowered.api.data.DataView;
+import org.spongepowered.api.data.manipulator.ImmutableDataManipulator;
+import org.spongepowered.api.data.persistence.DataBuilder;
+import org.spongepowered.api.data.persistence.InvalidDataException;
 
 import com.afterkraft.kraftrpg.common.data.manipulator.mutable.RoleData;
+import org.spongepowered.api.data.value.immutable.ImmutableListValue;
+import org.spongepowered.api.data.value.immutable.ImmutableOptionalValue;
+import org.spongepowered.api.data.value.immutable.ImmutableValue;
 
-public final class ImmutableRoleData extends AbstractImmutableData<ImmutableRoleData, RoleData> {
-    @Override
-    protected void registerGetters() {
+public interface ImmutableRoleData extends ImmutableDataManipulator<ImmutableRoleData, RoleData> {
 
-    }
+    /**
+     * Gets the {@link ImmutableValue} of the primary {@link Role}
+     * as represented with {@link com.afterkraft.kraftrpg.api.RpgKeys#PRIMARY_ROLE}.
+     *
+     * @return
+     */
+    ImmutableValue<Role> primary();
 
-    @Override
-    public <E> Optional<ImmutableRoleData> with(Key<? extends BaseValue<E>> key, E value) {
-        return null;
-    }
+    ImmutableOptionalValue<Role> secondary();
 
-    @Override
-    public RoleData asMutable() {
-        return null;
-    }
-
-    @Override
-    public int getContentVersion() {
-        return 1;
-    }
-
-    @Override
-    public DataContainer toContainer() {
-        return null;
-    }
+    ImmutableListValue<Role> additionalRoles();
 
 
-    public int compareTo(Object o) {
-        return 0;
+    interface Builder extends DataBuilder<ImmutableRoleData> {
+
+        ImmutableRoleData.Builder primary(ImmutableValue<Role> primary);
+
+        ImmutableRoleData.Builder secondary(ImmutableValue<Role> secondary);
+
+        ImmutableRoleData.Builder additionals(ImmutableListValue<Role> additionals);
+
+        ImmutableRoleData build();
+
+        @Override
+        Optional<ImmutableRoleData> build(DataView container) throws InvalidDataException;
+
     }
 }

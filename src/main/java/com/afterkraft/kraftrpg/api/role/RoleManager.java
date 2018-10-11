@@ -30,12 +30,14 @@ import java.util.Optional;
 import com.afterkraft.kraftrpg.api.CircularDependencyException;
 import com.afterkraft.kraftrpg.api.role.Role.RoleType;
 import com.afterkraft.kraftrpg.api.util.FixedPoint;
+import org.spongepowered.api.data.key.Key;
+import org.spongepowered.api.registry.AdditionalCatalogRegistryModule;
 
 /**
  * Manages all interactions with roles and entities. Roles can be assigned, created, and swapped
  * with this manager.
  */
-public interface RoleManager {
+public interface RoleManager extends AdditionalCatalogRegistryModule<Role> {
 
     /**
      * Gets the current default primary role assigned to champions upon initial creation.
@@ -71,41 +73,6 @@ public interface RoleManager {
      */
     void setDefaultSecondaryRole(@Nullable Role role);
 
-    /**
-     * Gets the role by name.
-     *
-     * @param roleName The role name
-     *
-     * @return The role, if available
-     */
-    Optional<Role> getRole(String roleName);
-
-    /**
-     * Adds the given role to this manager.
-     *
-     * @param role The role to register
-     *
-     * @return True if successful
-     */
-    boolean addRole(Role role);
-
-    /**
-     * Removes the given role from availability. All existing insentient entities and offline player
-     * data may be affected by the removal of the role if assigned. Depending on the implementation,
-     * this process may be fully synchronized with the server.
-     *
-     * @param role The role to remove
-     *
-     * @return True if successful
-     */
-    boolean removeRole(Role role);
-
-    /**
-     * Gets a list of all available roles.
-     *
-     * @return A list of all available roles
-     */
-    List<Role> getRoles();
 
     /**
      * Gets a list of all available roles by the specific {@link RoleType}.
@@ -126,42 +93,7 @@ public interface RoleManager {
      */
     FixedPoint getRoleLevelExperience(Role role, int level);
 
-    /**
-     * Attempts to add a dependency for the two involving roles. This may cause a re-assignment of
-     * roles for all sentient beings with either of the roles being swapped out.
-     *
-     * <p>Note that it is inherently illegal for any instance of a circular dependency to exist with
-     * roles. This is designed to avoid issues of a player attempting to select a role that has a
-     * dependency of other roles that depend on the given role, preventing the player from actually
-     * selecting the given role. </p>
-     *
-     * @param parent The parent role adding the dependency
-     * @param child  The child role adding the parent dependency
-     *
-     * @return True if successful
-     * @throws IllegalArgumentException    If any roles are null
-     * @throws CircularDependencyException If the resulting dependency results in a circular
-     *                                     dependency
-     */
-    boolean addRoleDependency(Role parent, Role child) throws
-            CircularDependencyException;
+    void registerKeySupport(Key<?> key);
 
-    /**
-     * Removes the given role dependencies between the parent {@link Role} and the child {@link
-     * Role}.
-     *
-     * @param parent The role becoming a parent
-     * @param child  The role becoming dependent on the parent
-     *
-     * @return True if successful
-     */
-    boolean removeRoleDependency(Role parent, Role child);
-
-    /**
-     * This is a simple check for all registered Roles. This should not be called often, but it is
-     * used when adding role dependencies.
-     *
-     * @return True if the dependencies are cyclic
-     */
-    boolean areRoleDependenciesCyclic();
+    boolean supportsKey(Key<?> key);
 }

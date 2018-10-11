@@ -21,21 +21,25 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.afterkraft.kraftrpg.common.data.manipulator.mutable;
+package com.afterkraft.kraftrpg.api.event;
 
-import com.afterkraft.kraftrpg.api.role.Role;
-import com.afterkraft.kraftrpg.common.data.manipulator.immutable.ImmutableRoleData;
-import org.spongepowered.api.data.manipulator.DataManipulator;
-import org.spongepowered.api.data.value.mutable.ListValue;
-import org.spongepowered.api.data.value.mutable.OptionalValue;
-import org.spongepowered.api.data.value.mutable.Value;
+import com.afterkraft.kraftrpg.api.RpgKeys;
+import com.afterkraft.kraftrpg.api.role.RoleManager;
+import org.spongepowered.api.data.key.Key;
+import org.spongepowered.api.event.Event;
+import org.spongepowered.api.event.Listener;
 
-public interface RoleData extends DataManipulator<RoleData, ImmutableRoleData> {
+public interface RoleRegistryEvent extends Event {
 
-    Value<Role> primary();
+    RoleManager getManager();
 
-    OptionalValue<Role> secondary();
+    interface KeySupportRegistration extends RoleRegistryEvent {
 
-    ListValue<Role> additionals();
+        default void registerKey(Key<?> key) {
 
+             getManager().registerKeySupport(key);
+
+        }
+
+    }
 }

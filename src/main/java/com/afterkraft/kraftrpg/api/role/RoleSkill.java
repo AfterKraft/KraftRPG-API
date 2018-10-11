@@ -31,7 +31,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import org.spongepowered.api.data.DataContainer;
 import org.spongepowered.api.data.DataSerializable;
 import org.spongepowered.api.data.DataView;
-import org.spongepowered.api.data.MemoryDataContainer;
 import org.spongepowered.api.data.Queries;
 import org.spongepowered.api.data.persistence.AbstractDataBuilder;
 import org.spongepowered.api.data.persistence.InvalidDataException;
@@ -105,7 +104,7 @@ public final class RoleSkill implements DataSerializable {
 
     @Override
     public DataContainer toContainer() {
-        return new MemoryDataContainer()
+        return DataContainer.createNew()
                 .set(Queries.CONTENT_VERSION, this.getContentVersion())
                 .set(RpgQueries.RoleSkill.SKILL_NAME, this.skill)
                 .set(RpgQueries.RoleSkill.SKILL_CONFIGURATION, this.section);

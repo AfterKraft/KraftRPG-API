@@ -29,7 +29,6 @@ import java.util.Optional;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.data.DataContainer;
 import org.spongepowered.api.data.DataHolder;
-import org.spongepowered.api.data.MemoryDataContainer;
 import org.spongepowered.api.data.manipulator.mutable.common.AbstractData;
 import org.spongepowered.api.data.merge.MergeFunction;
 import org.spongepowered.api.data.value.mutable.Value;
@@ -133,7 +132,7 @@ public final class ManaData extends AbstractData<ManaData, ImmutableManaData> {
 
     @Override
     public DataContainer toContainer() {
-        return new MemoryDataContainer()
+        return super.toContainer()
                 .set(RpgKeys.MANA, this.mana)
                 .set(RpgKeys.MAX_MANA, this.maxMana);
     }

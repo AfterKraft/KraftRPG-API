@@ -28,7 +28,7 @@ buildscript {
 // Plugins
 apply plugin: 'java'
 apply plugin: 'maven'
-apply plugin: 'checkstyle'
+//apply plugin: 'checkstyle'
 apply plugin: 'eclipse'
 apply plugin: 'idea'
 apply plugin: 'signing'
@@ -56,7 +56,7 @@ repositories {
 }
 
 dependencies {
-    compile 'org.spongepowered:spongeapi:7.0.0'
+    compile 'org.spongepowered:spongeapi:7.1.0'
     testCompile 'junit:junit:4.12'
     testCompile 'org.powermock:powermock-module-junit4:1.7.4'
     testCompile 'org.powermock:powermock-api-mockito:1.7.4'
@@ -190,16 +190,17 @@ license {
     ignoreFailures false
     newLine = false
 }
-
-checkstyle {
-    configProperties = [
-            "name"        : project.name,
-            "organization": project.organization,
-            "url"         : project.url,
-            "year"        : project.inceptionYear
-    ]
-    configFile = file("checkstyle.xml")
-}
+//
+//checkstyle {
+//    configProperties = [
+//            "name"        : project.name,
+//            "organization": project.organization,
+//            "url"         : project.url,
+//            "year"        : project.inceptionYear
+//    ]
+//    configFile = file("checkstyle.xml")
+//}
+//task checkstyle(dependsOn: tasks.withType(Checkstyle))
 
 
 jar {

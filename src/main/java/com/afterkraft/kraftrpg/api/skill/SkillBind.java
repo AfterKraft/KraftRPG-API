@@ -30,7 +30,6 @@ import static org.spongepowered.api.data.DataQuery.of;
 
 import org.spongepowered.api.data.DataContainer;
 import org.spongepowered.api.data.DataSerializable;
-import org.spongepowered.api.data.MemoryDataContainer;
 import org.spongepowered.api.item.ItemType;
 
 import com.google.common.collect.ImmutableList;
@@ -71,7 +70,7 @@ public final class SkillBind implements DataSerializable {
     @Override
     public DataContainer toContainer() {
         // TODO update to use proper data queries
-        DataContainer container = new MemoryDataContainer();
+        DataContainer container = DataContainer.createNew();
         container.set(of("ItemType"), this.material.getId());
         container.set(of("SkillName"), this.skillName);
         container.set(of("SkillArgs"), this.arguments);
